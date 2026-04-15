@@ -1,0 +1,351 @@
+{
+  "users": [
+    {
+      "id": "f56d35cb8fac18703d7db6b5",
+      "name": "Dhruv",
+      "email": "dp9767604@gmail.com",
+      "medicalCollege": "bj medical college",
+      "contactNumber": "9664552098",
+      "passwordHash": "4bcf4dd3c036b842c5a7774cbc93579b704282a0306df0b1d6dc4a082f6a6a1698b08c58422ca36eb2f1e5230de25a6c85173a5454f3511987d925f60eaf147d",
+      "passwordSalt": "1b1d95344af4057d034d892601a6ec4a",
+      "profileImagePath": "f56d35cb8fac18703d7db6b5-1776011537529.jpg",
+      "createdAt": "2026-03-29T12:55:51.548Z",
+      "rating": 1443,
+      "streak": 1,
+      "correctAnswers": 12,
+      "attemptedQuestions": 25,
+      "passwordIterations": 60000
+    },
+    {
+      "id": "9f09e0ba5307428adba3ebdb",
+      "name": "vraj",
+      "email": "dp3303831@gmail.com",
+      "medicalCollege": "grant medical college",
+      "contactNumber": "123456789",
+      "passwordHash": "aafd2e3b4b023a1acd6ae531d61014973c6ad96d6c601aad58b3ffe0f5ad1169c2742173ced95a109920a051d093bb83385026074327e8fbce0fc9f406cde73c",
+      "passwordSalt": "28e5c6d61b05497d641aacb150e18cb5",
+      "profileImagePath": null,
+      "createdAt": "2026-03-29T13:00:36.561Z",
+      "rating": 1467,
+      "streak": 1,
+      "correctAnswers": 0,
+      "attemptedQuestions": 0,
+      "passwordIterations": 60000
+    },
+    {
+      "id": "a702192a65c051a66d9fa6fe",
+      "name": "dhruvya raval",
+      "email": "dhruvya678@gmail.com",
+      "medicalCollege": "sal medical college",
+      "contactNumber": "9106047169",
+      "rating": 1480,
+      "streak": 1,
+      "correctAnswers": 1,
+      "attemptedQuestions": 4,
+      "passwordHash": "1d31744c071d2c88c3115b9017886f141c98ecf6bbf3eb0fa995c3c21aa614086f014431f1ae32550176a5189c2d7478977e7f7d9e36093d4077681550dde3b1",
+      "passwordSalt": "8644784e6e3ce0aa94c55d9965df8159",
+      "passwordIterations": 60000,
+      "profileImagePath": null,
+      "createdAt": "2026-04-06T10:22:08.378Z"
+    },
+    {
+      "id": "ce7d1f3bb3daeaeddcc8b125",
+      "name": "DM Smoke",
+      "email": "dm-smoke-7038c3e5@test.local",
+      "medicalCollege": "AIIMS Delhi",
+      "contactNumber": "9999999999",
+      "rating": 1480,
+      "streak": 1,
+      "correctAnswers": 0,
+      "attemptedQuestions": 0,
+      "passwordHash": "6b9d8f5cd68aa3599d87a00e7f2d5982ba40697110f88b8b40e9299a861f1763bf3c09e3e89e36684301e28496b7fd5ea9b33a980084ad95aab2f5fba0e15ce2",
+      "passwordSalt": "ba90ebd6c0ea4310210cbcf494004dcb",
+      "passwordIterations": 60000,
+      "profileImagePath": null,
+      "createdAt": "2026-04-12T16:27:20.399Z"
+    },
+    {
+      "id": "49ae86ef0589cde0ac5a6082",
+      "name": "Alice DM",
+      "email": "dm-a-d59eea87@test.local",
+      "medicalCollege": "AIIMS Delhi",
+      "contactNumber": "9999999998",
+      "rating": 1480,
+      "streak": 1,
+      "correctAnswers": 0,
+      "attemptedQuestions": 0,
+      "passwordHash": "de9c3f69bca0c442193e7884a030cf6f3668ac71e13284b1dbba50bda4060a8fc1a63a1ba8f4477c81e18f8c738466350bad11e0f41231bf289d73e543b85109",
+      "passwordSalt": "9f536bab02016fbf8e94caf0e3ca8da3",
+      "passwordIterations": 60000,
+      "profileImagePath": null,
+      "createdAt": "2026-04-12T16:28:01.630Z"
+    },
+    {
+      "id": "6511aa595e612a8b80e64b1c",
+      "name": "Bob Rival",
+      "email": "dm-b-a0e25d4d@test.local",
+      "medicalCollege": "CMC Vellore",
+      "contactNumber": "9999999997",
+      "rating": 1480,
+      "streak": 1,
+      "correctAnswers": 0,
+      "attemptedQuestions": 0,
+      "passwordHash": "b1abb8c5a35d8b2880f9ba71416f4e0ac99bece0910d3777e55bf05a8eb633a41c55cd8a31397c30854ec161798d9bb373a90fe93ef72a67d37c05e94d88ce80",
+      "passwordSalt": "f77f1e91e312d50956386010b8a76f8b",
+      "passwordIterations": 60000,
+      "profileImagePath": null,
+      "createdAt": "2026-04-12T16:28:01.892Z"
+    },
+    {
+      "id": "9d92c400f7a8c61a0f0c8f72",
+      "name": "rajrajai",
+      "email": "rajrajai123@gmail.com",
+      "medicalCollege": "Banaras Hindu University Institute of Medical Sciences",
+      "contactNumber": "412354465",
+      "rating": 1480,
+      "streak": 1,
+      "correctAnswers": 0,
+      "attemptedQuestions": 0,
+      "passwordHash": "00dc461b3a0b19f28ee08c1a86136af4caa87fe5bca4137bc096927c982d9bc6b94d39f34c98620d2e487f8921c01a01ce5c4b9c1e5dff586e793c5f5de8a325",
+      "passwordSalt": "9cc223ffb04bc14966afd33c58085330",
+      "passwordIterations": 60000,
+      "profileImagePath": null,
+      "createdAt": "2026-04-13T15:52:38.390Z"
+    }
+  ],
+  "sessions": {
+    "bce24f3e7c4f93b751fdd2747290b74f3fec48e2f3c44489": "9f09e0ba5307428adba3ebdb",
+    "70fa6ae437154962750492a1af5f61060ad7d23702e1139e": "9f09e0ba5307428adba3ebdb",
+    "f5d6f6ce0f92fb14801f1c337a52b90da22a3dbc45c8643c": "9f09e0ba5307428adba3ebdb",
+    "229faf927e43d8181b052f4b581c2f98add02cac4314a2a5": "9f09e0ba5307428adba3ebdb",
+    "96dadbcc07cf368dc96ad8aece80c1328a8ec65700a52633": "9f09e0ba5307428adba3ebdb",
+    "775c6f41f2704737129e83f1fb6c0e973a1921335c30ba09": "ce7d1f3bb3daeaeddcc8b125",
+    "3151b090eca106478ee559bc44267ea647a2f9fe08dd7966": "49ae86ef0589cde0ac5a6082",
+    "db2befbcb425fccfabf02a14c8cb8009295cdb9c411be3ee": "6511aa595e612a8b80e64b1c",
+    "95908b67fbab13d31abe2cca5b9ddbbdb5eab5254bf89d51": "f56d35cb8fac18703d7db6b5"
+  },
+  "communities": [
+    {
+      "id": "3f9b69f9a9177a40b81a",
+      "name": "music ahemdabad",
+      "description": "axac",
+      "topic": "axa",
+      "adminUserId": "9f09e0ba5307428adba3ebdb",
+      "memberIds": [
+        "9f09e0ba5307428adba3ebdb"
+      ],
+      "messages": [
+        {
+          "id": "27de4ea587aeff7f",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "vraj created this community. Introduce yourself and start the discussion.",
+          "createdAt": "2026-03-29T18:11:08.983Z"
+        },
+        {
+          "id": "2afc19221bbaef59",
+          "userId": "9f09e0ba5307428adba3ebdb",
+          "userName": "vraj",
+          "text": "hii everyone",
+          "createdAt": "2026-03-30T18:27:50.457Z"
+        }
+      ],
+      "createdAt": "2026-03-29T18:11:08.983Z"
+    },
+    {
+      "id": "community-usmle-step-1",
+      "name": "USMLE Step 1",
+      "description": "High-yield foundational review, daily recall prompts, and exam strategy discussions.",
+      "topic": "Foundational review",
+      "adminUserId": null,
+      "memberIds": [
+        "f56d35cb8fac18703d7db6b5",
+        "9f09e0ba5307428adba3ebdb"
+      ],
+      "messages": [
+        {
+          "id": "message-usmle-1",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "Welcome to the USMLE Step 1 group. Share mnemonics, doubts, and daily progress here.",
+          "createdAt": "2026-03-29T13:23:53.346Z"
+        },
+        {
+          "id": "b8db436a7dff0949",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "Dhruv joined the community.",
+          "createdAt": "2026-03-29T13:25:12.601Z"
+        },
+        {
+          "id": "a8f8e520437b7948",
+          "userId": "f56d35cb8fac18703d7db6b5",
+          "userName": "Dhruv",
+          "text": "hii",
+          "createdAt": "2026-03-29T13:25:22.678Z"
+        },
+        {
+          "id": "c6f14dce99d5e5e7",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "vraj joined the community.",
+          "createdAt": "2026-03-29T13:32:04.371Z"
+        },
+        {
+          "id": "1f40610e78edc520",
+          "userId": "f56d35cb8fac18703d7db6b5",
+          "userName": "Dhruv",
+          "text": "hii devv",
+          "createdAt": "2026-03-30T21:11:26.470Z"
+        }
+      ],
+      "createdAt": "2026-03-29T13:23:53.347Z"
+    },
+    {
+      "id": "community-emergency-medicine",
+      "name": "Emergency Medicine",
+      "description": "Rapid-fire acute care cases, trauma pearls, and emergency room learning threads.",
+      "topic": "Acute care",
+      "adminUserId": null,
+      "memberIds": [],
+      "messages": [
+        {
+          "id": "message-emergency-1",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "Use this room like a focused WhatsApp study group for emergency medicine cases.",
+          "createdAt": "2026-03-29T13:23:53.347Z"
+        }
+      ],
+      "createdAt": "2026-03-29T13:23:53.347Z"
+    },
+    {
+      "id": "community-radiology-rounds",
+      "name": "Radiology Rounds",
+      "description": "Image-based practice, interpretation tips, and fast differential diagnosis discussions.",
+      "topic": "Image-based practice",
+      "adminUserId": null,
+      "memberIds": [],
+      "messages": [
+        {
+          "id": "message-radiology-1",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "Drop image interpretation tips, pattern-recognition shortcuts, and tricky radiology cases here.",
+          "createdAt": "2026-03-29T13:23:53.347Z"
+        }
+      ],
+      "createdAt": "2026-03-29T13:23:53.347Z"
+    }
+  ],
+  "directConversations": [
+    {
+      "id": "a5e144b0129b5bce87f3",
+      "participantIds": [
+        "9d92c400f7a8c61a0f0c8f72",
+        "f56d35cb8fac18703d7db6b5"
+      ],
+      "createdAt": "2026-04-13T15:55:41.483Z",
+      "updatedAt": "2026-04-13T15:55:46.149Z",
+      "messages": [
+        {
+          "id": "449673a15347b314",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "Private chat opened between rajrajai and Dhruv.",
+          "type": "system",
+          "createdAt": "2026-04-13T15:55:41.483Z"
+        },
+        {
+          "id": "287fd4c4f24af8f8",
+          "userId": "9d92c400f7a8c61a0f0c8f72",
+          "userName": "rajrajai",
+          "text": "hii",
+          "type": "text",
+          "createdAt": "2026-04-13T15:55:46.149Z"
+        }
+      ]
+    },
+    {
+      "id": "1507ce195c0aacfb271d",
+      "participantIds": [
+        "f56d35cb8fac18703d7db6b5",
+        "9f09e0ba5307428adba3ebdb"
+      ],
+      "createdAt": "2026-04-12T16:38:32.507Z",
+      "updatedAt": "2026-04-12T16:45:05.017Z",
+      "messages": [
+        {
+          "id": "4f4d38a0a3a3d55f",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "Private chat opened between Dhruv and vraj.",
+          "type": "system",
+          "createdAt": "2026-04-12T16:38:32.507Z"
+        },
+        {
+          "id": "285d96cde48a27fa",
+          "userId": "f56d35cb8fac18703d7db6b5",
+          "userName": "Dhruv",
+          "text": "I have challenged you to a 1v1 duel. Join me in Compete and prove your rank.",
+          "type": "challenge",
+          "createdAt": "2026-04-12T16:45:05.017Z"
+        }
+      ]
+    },
+    {
+      "id": "c1d2ae4d0363c815c47e",
+      "participantIds": [
+        "a702192a65c051a66d9fa6fe",
+        "f56d35cb8fac18703d7db6b5"
+      ],
+      "createdAt": "2026-04-12T16:28:47.316Z",
+      "updatedAt": "2026-04-12T16:29:14.429Z",
+      "messages": [
+        {
+          "id": "c550e14d6a591ec8",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "Private chat opened between dhruvya raval and Dhruv.",
+          "type": "system",
+          "createdAt": "2026-04-12T16:28:47.316Z"
+        },
+        {
+          "id": "53e8c67daf0a583d",
+          "userId": "a702192a65c051a66d9fa6fe",
+          "userName": "dhruvya raval",
+          "text": "hii",
+          "type": "text",
+          "createdAt": "2026-04-12T16:29:14.429Z"
+        }
+      ]
+    },
+    {
+      "id": "763a82541fa11c165087",
+      "participantIds": [
+        "49ae86ef0589cde0ac5a6082",
+        "6511aa595e612a8b80e64b1c"
+      ],
+      "createdAt": "2026-04-12T16:28:01.923Z",
+      "updatedAt": "2026-04-12T16:28:01.933Z",
+      "messages": [
+        {
+          "id": "80e21ab0a43f57f5",
+          "userId": null,
+          "userName": "MediComm Bot",
+          "text": "Private chat opened between Alice DM and Bob Rival.",
+          "type": "system",
+          "createdAt": "2026-04-12T16:28:01.923Z"
+        },
+        {
+          "id": "831e18a712a0b0ae",
+          "userId": "49ae86ef0589cde0ac5a6082",
+          "userName": "Alice DM",
+          "text": "hello from smoke test",
+          "type": "text",
+          "createdAt": "2026-04-12T16:28:01.933Z"
+        }
+      ]
+    }
+  ]
+}

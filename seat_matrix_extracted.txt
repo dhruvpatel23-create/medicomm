@@ -1,0 +1,5508 @@
+Sl.No.  State 
+Name and Address of 
+Medical College / Medical 
+Institution 
+District University Name 
+Managem 
+ent of 
+College 
+Year of 
+Inception of 
+College 
+Annual Intake 
+(Seats) 
+1 
+Andaman 
+Nicobar 
+Islands 
+Andaman & Nicobar 
+Islands Institute of 
+Medical Sciences, Port 
+Blair 
+Port Blair Pondicherry University Govt. 2015 114 
+2 Andhra 
+Pradesh 
+Government Medical 
+College, Paderu 
+Alluri 
+Sitharam 
+District 
+Dr. YSR University of 
+Health Sciences, 
+Vijayawada 
+Govt. 2024 50 
+3 Andhra 
+Pradesh 
+Government Medical 
+College, Machilipatnam 
+NTR 
+DISTRICT 
+Dr. YSR University of 
+Health Sciences Govt. 2023 150 
+4 Andhra 
+Pradesh 
+ACSR Government 
+Medical College Nellore Dr. YSR University of 
+Health Sciences Govt. 2014 175 
+5 Andhra 
+Pradesh 
+All India Institute of 
+Medical Sciences, 
+Mangalagiri, Vijayawada 
+Mangalagiri Statutory Autonomous, 
+AIIMS(Mangalagiri) Govt. 2018 125 
+6 Andhra 
+Pradesh 
+Alluri Sitaram Raju 
+Academy of Medical 
+Sciences, Eluru 
+Eluru Dr. YSR University of 
+Health Sciences Trust 2000 250 
+7 
+Andhra 
+Pradesh 
+Andhra Medical College, 
+Visakhapatnam 
+Visakhapatn 
+am 
+Dr. YSR University of 
+Health Sciences Govt. 1923 250 
+8 Andhra 
+Pradesh 
+Apollo Institute of 
+Medical Sciences and 
+Research, Chittoor 
+Chittoor Dr. YSR University of 
+Health Sciences Society 2016 150 
+9 
+Andhra 
+Pradesh 
+Dr. P.S.I. Medical College , 
+Chinoutpalli Chinoutpalli Dr. YSR University of 
+Health Sciences Trust 2002 150 
+10 Andhra 
+Pradesh 
+Fathima Instt. of Medical 
+Sciences, Kadapa Kadapa Dr. YSR University of 
+Health Sciences Trust 2010 100 
+11 Andhra 
+Pradesh 
+Gayathri Vidya Parishad 
+Institute of Health Care & 
+Medical Technology, 
+Visakhapatnam 
+Visakhapatn 
+am 
+Dr. YSR University of 
+Health Sciences Society 2016 200 
+12 Andhra 
+Pradesh 
+GITAM Institute of 
+Medical Sciences and 
+Research, Visakhapatnam 
+Visakhapatn 
+am 
+Gandhi Institute of 
+Technology and 
+Management (GITAM 
+University) Deemed, 
+Visakhapatnam 
+Private 2015 150 
+13 Andhra 
+Pradesh 
+Government Medical 
+College, Ananthapuram 
+Ananthapur 
+am 
+Dr. YSR University of 
+Health Sciences Govt. 2000 200 
+14 Andhra 
+Pradesh 
+Government Medical 
+College, Eluru 
+NTR 
+DISTRICT 
+Dr. YSR University of 
+Health Sciences Govt. 2023 150 
+15 Andhra 
+Pradesh 
+Government Medical 
+College, Nandyal 
+NTR 
+DISTRICT 
+Dr. YSR University of 
+Health Sciences Govt. 2023 150 
+16 Andhra 
+Pradesh 
+Government Medical 
+College, 
+Rajamahendravaram 
+East 
+Godavari 
+Dr. YSR University of 
+Health Sciences Govt. 2023 150 
+17 
+Andhra 
+Pradesh 
+Government medical 
+college, vizianagaram 
+NTR 
+DISTRICT 
+Dr. YSR University of 
+Health Sciences Govt. 2023 150 
+18 Andhra 
+Pradesh 
+Government Siddhartha 
+Medical College, 
+Vijaywada 
+Vijaywada Dr. YSR University of 
+Health Sciences Govt. 1980 175 
+19 Andhra 
+Pradesh 
+Great Eastern Medical 
+School and Hospital, 
+Srikakulam 
+Srikakulam Dr. YSR University of 
+Health Sciences Trust 2010 150 
+20 
+Andhra 
+Pradesh 
+GSL Medical College, 
+Rajahmundry 
+Rajahmundr 
+y 
+Dr. YSR University of 
+Health Sciences Trust 2002 250 
+21 Andhra 
+Pradesh 
+Guntur Medical College, 
+Guntur Guntur Dr. YSR University of 
+Health Sciences Govt. 1946 250 
+22 Andhra 
+Pradesh 
+Katuri Medical College, 
+Guntur Guntur Dr. YSR University of 
+Health Sciences Trust 2002 150 
+23 Andhra 
+Pradesh 
+Konaseema Institute of 
+Medical Sciences & 
+Research Foundation, 
+Amalapuram 
+Amalapura 
+m 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2005 200 
+24 
+Andhra 
+Pradesh 
+Kurnool Medical College, 
+Kurnool Kurnool Dr. YSR University of 
+Health Sciences Govt. 1957 250 
+The State-wise list of MBBS medical colleges (including AIIMS & JIPMER) 
+functioning in the country 
+
+25 Andhra 
+Pradesh 
+Maharajah Institute of 
+Medical Sciences, 
+Vizianagaram 
+Vizianagara 
+m 
+Dr. YSR University of 
+Health Sciences Trust 2002 200 
+26 
+Andhra 
+Pradesh 
+Narayana Medical 
+College, Nellore Nellore Dr. YSR University of 
+Health Sciences Trust 2000 250 
+27 Andhra 
+Pradesh 
+Nimra Institute of Medical 
+Sciences, Krishna Dist. Krishna Dr. YSR University of 
+Health Sciences Society 2016 150 
+28 Andhra 
+Pradesh 
+NRI Institute of Medical 
+Sciences, Visakhapatnam 
+Visakhapatn 
+am 
+Dr. YSR University of 
+Health Sciences Trust 2012 150 
+29 
+Andhra 
+Pradesh 
+NRI Medical College, 
+Guntur Guntur Dr. YSR University of 
+Health Sciences Trust 2003 200 
+30 Andhra 
+Pradesh 
+P E S Institute Of Medical 
+Sciences and Research, 
+Kuppam 
+Kuppam Dr. YSR University of 
+Health Sciences Trust 2001 150 
+31 Andhra 
+Pradesh 
+Rajiv Gandhi Institute of 
+Medical Sciences, Kadapa Kadapa Dr. YSR University of 
+Health Sciences Govt. 2006 175 
+32 Andhra 
+Pradesh 
+Rajiv Gandhi Institute of 
+Medical Sciences, Ongole Ongole Dr. YSR University of 
+Health Sciences Govt. 2011 120 
+33 Andhra 
+Pradesh 
+Rajiv Gandhi Institute of 
+Medical Sciences, 
+Srikakulam 
+Srikakulam Dr. YSR University of 
+Health Sciences Govt. 2008 200 
+34 
+Andhra 
+Pradesh 
+Rangaraya Medical 
+College, Kakinada Kakinada Dr. YSR University of 
+Health Sciences Govt. 1958 250 
+35 Andhra 
+Pradesh 
+S V Medical College, 
+Tirupati Tirupati Dr. YSR University of 
+Health Sciences Govt. 1960 240 
+36 Andhra 
+Pradesh 
+Santhiram Medical 
+College, Nandyal Nandyal Dr. YSR University of 
+Health Sciences Trust 2005 150 
+37 Andhra 
+Pradesh 
+Sri Balaji Medical College, 
+Hospital and Research 
+Instiutute, Chittoor 
+Chittoor Dr. YSR University of 
+Health Sciences Trust 2022 150 
+38 Andhra 
+Pradesh 
+SVIMS - Sri Padmavathi 
+Medical College for 
+Women, Alipiri Road, 
+Tirupati 
+Tirupati 
+Sri Venkateswara 
+Institute of Medical 
+Sciences (SVIMS), 
+Tirupati 
+Govt. 2014 175 
+39 Andhra 
+Pradesh 
+Viswabharathi Medical 
+College Kurnool Dr. YSR University of 
+Health Sciences Society 2014 250 
+40 Arunachal 
+Pradesh 
+Tomo Riba Institute of 
+Health & Medical 
+Sciences, Naharlagun 
+Naharlagun Rajiv Gandhi University, 
+Arunanchal Pradesh Govt. 2018 100 
+41 Assam Tinsukia Medical College - 
+Assam Pin - 786146 Tinsukia 
+Srimanta Sankaradeva 
+University of Health 
+Sciences 
+Govt 2024 100 
+42 Assam Nalbari Medical College, 
+Nalbari Nalbari 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt. 2023 100 
+43 Assam Gauhati Medical College, 
+Guwahati Guwahati 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt. 1960 200 
+44 Assam 
+All India Institute of 
+Medical Sciences (AIIMS), 
+Guwahati 
+Guwahati Govt. 2020 50 
+45 Assam Silchar Medical College, 
+Silchar Silchar 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt. 1968 125 
+46 Assam Jorhat Medical College & 
+Hospital , Jorhat Jorhat 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt. 2010 125 
+47 Assam Assam Medial College, 
+Dibrugarh Dibrugarh 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt. 1947 200 
+48 Assam Lakhimpur Medical College North 
+Lakhimpur 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt. 2021 100 
+49 Assam Diphu Medical College & 
+Hospital, Diphu, Assam Diphu 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt. 2020 100 
+
+50 Assam Tezpur Medical College & 
+Hospital, Tezpur Tezpur 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt. 2014 125 
+51 Assam Nagaon Medical College Nagaon 
+Srimanta Sankaradeva 
+University of Health 
+Sciences 
+Govt. 2023 100 
+52 Assam Kokrajhar Medical College Kokrajhar 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt. 2023 100 
+53 Assam Dhubri Medical College, 
+Dhubri Dhubri 
+Srimanta Sankaradeva 
+University of Health 
+Sciences 
+Govt. 2022 100 
+54 Assam 
+Fakhruddin Ali Ahmed 
+Medical College, Barpeta, 
+Assam 
+Barpeta 
+Srimanta Shankardeva 
+University of Health 
+Sciences 
+Govt- 
+Society 2012 125 
+55 Bihar Himalaya Medical College 
+and Hospital , Patna, Bihar Patna Bihar University of 
+Health Sciences Trust 2024 100 
+56 Bihar 
+Government Medical 
+College, Purnea Purnea Aryabhatta Knowledge 
+University, Patna Govt. 2023 100 
+57 Bihar 
+Mata Gujri Memorial 
+Medical College, 
+Kishanganj 
+Kishanganj B.N. Mandal University Trust 1990 150 
+58 Bihar Patna Medical College, 
+Patna Patna Aryabhatta Knowledge 
+University, Patna Govt. 1925 200 
+59 Bihar Darbhanga Medical 
+College, Lehriasarai Lehriasarai Aryabhatta Knowledge 
+University, Patna Govt. 1946 120 
+60 Bihar Katihar Medical College, 
+Katihar Katihar Al-Karim University, 
+Katihar Trust 1987 150 
+61 Bihar All India Institute of 
+Medical Sciences, Patna Patna Statutory Autonomous, 
+AIIMS(Patna) Govt. 2012 125 
+62 Bihar Nalanda Medical College, 
+Patna Patna Aryabhatta Knowledge 
+University, Patna Govt. 1970 150 
+63 Bihar Shri Krishna Medical 
+College, Muzzafarpur 
+Muzzafarpu 
+r 
+Aryabhatta Knowledge 
+University, Patna Govt. 1970 120 
+64 Bihar Jawaharlal Nehru Medical 
+College, Bhagalpur Bhagalpur Aryabhatta Knowledge 
+University, Patna Govt. 1971 120 
+65 Bihar Anugrah Narayan Magadh 
+Medical College, Gaya Gaya Aryabhatta Knowledge 
+University, Patna Govt. 1970 120 
+66 Bihar 
+Radha Devi Jageshwari 
+Memorial Medical College 
+and Hospital* 
+Turki Aryabhatta Knowledge 
+University, Patna Society 2021 150 
+67 Bihar Shree Narayan Medical 
+Institute and Hospital Rohtas 
+Bhupendra Narayan 
+Mandal University, 
+Madhepura 
+Trust 2021 150 
+68 Bihar 
+Employees State 
+Insurance Corporation 
+Medical College, Patna 
+Patna Aryabhatta Knowledge 
+University, Patna Govt. 2021 100 
+69 Bihar 
+Jannayak Karpoori Thakur 
+Medical College & 
+Hospital, Madhepura, 
+Bihar 
+Madhepura Aryabhatta Knowledge 
+University, Patna Govt. 2020 100 
+70 Bihar 
+Netaji Subhas Medical 
+College & Hospital, 
+Amhara, Bihta, Patna 
+Amhara Aryabhatta Knowledge 
+University, Patna Society 2020 100 
+71 Bihar 
+Lord Buddha Koshi 
+Medical College and 
+Hospital, Saharsa 
+Saharsa B.N. Mandal University Trust 2019 150 
+72 Bihar Madhubani Medical 
+College, Madhubani Madhubani Aryabhatta Knowledge 
+University, Patna Trust 2019 150 
+73 Bihar Government Medical 
+College, Bettiah Bettiah Aryabhatta Knowledge 
+University, Patna Govt. 2013 120 
+74 Bihar 
+Vardhman Institute of 
+Medical Sciences, 
+Pawapuri, Nalanda 
+Nalanda Aryabhatta Knowledge 
+University, Patna Govt. 2013 120 
+75 Bihar 
+Indira Gandhi Institute of 
+Medical Sciences, 
+Sheikhpura, Patna 
+Sheikhpura 
+Indira Gandhi Instt of 
+Medical Sciences 
+(Deemed University), 
+Patna 
+Govt. 2011 150 
+
+76 Bihar Narayan Medical College 
+& Hospital, Sasaram Sasaram Gopal Narayan Singh 
+University Trust 2008 250 
+77 Chandigarh 
+Government Medical 
+College, Chandigarh Chandigarh Punjab University Govt. 1991 150 
+78 Chattisgarh 
+Abhishek Mishra 
+Memorial Medical College 
+& RC Bhiali Distt. Durg CG 
+Bhilai 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Sciences and Ayush 
+University of 
+Chhattisgarh, Raipur 
+Private 2024 100 
+79 Chattisgarh 
+Shri Rawatpura Sarkar 
+Institute of Medical 
+Sciences and Research 
+Atal Nagar, Dist- Raipur 
+(C.G.) 
+Raipur 
+Pandit Deendayal 
+Upadhyay Memorial 
+Health Science & Ayush 
+University of Chattisgarh 
+Private 2024 150 
+80 Chattisgarh 
+Late Shri Baliram Kashyap 
+Memorial NDMC Govt. 
+Medical College, Jagdalpur 
+Jagdalpur 
+Pt.Ravishankar Shukla 
+University (Prev. 
+Ravishankar 
+University),Raipur 
+Govt. 2006 125 
+81 Chattisgarh All India Institute of 
+Medical Sciences, Raipur Raipur Statutory Autonomous, 
+AIIMS(Raipur) Govt. 2012 125 
+82 Chattisgarh Government Medical 
+College, Kanker Kanker 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Sciences and Ayush 
+University, Raipur 
+Govt. 2021 125 
+83 Chattisgarh Pt. J N M Medical College, 
+Raipur Raipur 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Sciences and Ayush 
+University, Raipur 
+Govt. 1963 230 
+84 Chattisgarh Chhattisgarh Institute of 
+Medical Sciences, Bilaspur Bilaspur 
+Ayush and Health 
+Sciences University, 
+Chhattisgarh 
+Govt. 2001 150 
+85 Chattisgarh Shri Balaji Institute of 
+Medical Science Mowa 
+Pandit Deendayal 
+Upadhyay Memorial 
+Health Science & Ayush 
+University of Chattisgarh 
+Society 2021 150 
+86 Chattisgarh 
+Raipur Institute of 
+Medical Sciences (RIMS), 
+Raipur 
+Raipur 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Sciences and Ayush 
+University, Raipur 
+Society 2016 150 
+87 Chattisgarh 
+Shri Shankaracharya 
+Institute of Medical 
+Sciences, Bhilai 
+Bhilai 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Sciences and Ayush 
+University, Raipur 
+Society 2016 150 
+88 Chattisgarh 
+Government Medical 
+College, Ambikapur 
+(Surguja), Chhattisgarh 
+Ambikapur 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Sciences and Ayush 
+University, Raipur 
+Govt. 2016 125 
+89 Chattisgarh Government Medical 
+College, Mahasamund 
+Mahasamund 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Science & Ayush 
+University of 
+Chhattisgarh 
+Govt. 2022 125 
+90 Chattisgarh Government Medical 
+College, Korba Korba 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Science & Ayush 
+University of 
+Chhattisgarh 
+Govt. 2022 125 
+91 Chattisgarh 
+Government Medical 
+College (Bharat Ratna Shri 
+Atal Bihari Vajpyee 
+Memorial Med. Col.), 
+Rajnandgaon 
+Rajnandgao 
+n 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Sciences and Ayush 
+University, Raipur 
+Govt. 2014 125 
+
+92 Chattisgarh 
+Chandulal Chandrakar 
+Memorial Medical 
+College, Durg 
+Durg 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Sciences and Ayush 
+University, Raipur 
+Govt. 2013 200 
+93 Chattisgarh 
+Late Shri Lakhi Ram 
+Agrawal Memorial Govt. 
+Medical College, Raigarh 
+Raigarh 
+Pt. Deendayal Upadhyay 
+Memorial Health 
+Sciences and Ayush 
+University, Raipur 
+Govt. 2013 100 
+94 
+Dadra and 
+Nagar 
+Haveli 
+NAMO Medical Education 
+and Research Institute, 
+Silvassa 
+(Formerly known as Shri 
+Vinoba Bhave Institute of 
+Medical Sciences, (Govt. 
+Medical College) Silvassa, 
+U.T) 
+Silvassa Veer Narmad South 
+Gujarat University Govt. 2019 177 
+95 Delhi 
+Vardhman Mahavir 
+Medical College & 
+Safdarjung Hospital, Delhi 
+Delhi Guru Gobind Singh 
+Indraprastha University Govt. 2002 170 
+96 Delhi Army College of Medical 
+Sciences, New Delhi Delhi Guru Gobind Singh 
+Indraprastha University Trust 2008 100 
+97 Delhi 
+All India Institute of 
+Medical Sciences, New 
+Delhi 
+(125+7 seats are 
+earmarked for Indian 
+Nationals 
+and 07 seats are 
+earmarked for Foreign 
+under Self Finance) 
+Delhi Statutory Autonomous, 
+AIIMS(New Delhi) Govt. 1956 132 
+98 Delhi 
+University College of 
+Medical Sciences & GTB 
+Hospital, New Delhi 
+Delhi Delhi University Govt. 1971 170 
+99 Delhi Lady Hardinge Medical 
+College, New Delhi Delhi Delhi University Govt. 1916 240 
+100 Delhi Maulana Azad Medical 
+College, New Delhi Delhi Delhi University Govt. 1958 250 
+101 Delhi 
+Atal Bihari Vajpayee 
+Institute of Medical 
+Sciences and Dr. RML 
+Hospital, New Delhi 
+Delhi Guru Gobind Singh 
+Indraprastha University Govt. 2008 100 
+102 Delhi 
+Dr. Baba Saheb Ambedkar 
+Medical College, Rohini, 
+Delhi 
+Delhi Guru Gobind Singh 
+Indraprastha University Govt. 2016 125 
+103 Delhi 
+North Delhi Muncipal 
+Corporation Medical 
+College, Delhi 
+Delhi Guru Gobind Singh 
+Indraprastha University Govt. 2013 60 
+104 Delhi 
+Hamdard Institute of 
+Medical Sciences & 
+Research, New Delhi 
+Delhi 
+University of Jamia 
+Hamdard (Hamdard 
+University) 
+Society 2012 150 
+105 Goa Goa Medical College, 
+Panaji Panaji Goa University Govt. 1963 200 
+106 Gujarat Bhagyoday Medical 
+College Mehsana Gujarat University Trust 2024 100 
+107 Gujarat SAL Institute of Medical 
+Sciences, Ahmedabad Gujarat University Trust 2023 150 
+108 Gujarat 
+SWAMIINARAYAN 
+INSTITUTE OF MEDICAL 
+SCIENCES & RESEARCH 
+Gandhinaga 
+r 
+SWAMINARAYAN 
+UNIVERSITY Trust 2023 150 
+109 Gujarat 
+All India Institute of 
+Medical Science, Rajkot Rajkot Govt. 2017 50 
+110 Gujarat 
+Surat Municipal Institute 
+of Medical Education & 
+Research, Surat 
+Surat Veer Narmad South 
+Gujarat University Govt. 1999 250 
+111 Gujarat 
+MP Shah Medical College, 
+Jamnagar Jamnagar Saurashtra University Govt. 1955 250 
+
+112 Gujarat B J Medical College, 
+Ahmedabad Ahmedabad Gujarat University Govt. 1946 250 
+113 Gujarat 
+Pandit Deendayal 
+Upadhyay Medical 
+College, Rajkot 
+Rajkot Saurashtra University Govt. 1995 200 
+114 Gujarat SBKS Medical Instt. & 
+Research Centre, Vadodra Vadodra 
+Sumandeep Vidyapeeth 
+University (Deemed), 
+Vadodra 
+Trust 2002 250 
+115 Gujarat CU Shah Medical College, 
+Surendra Nagar 
+Surendra 
+Nagar Saurashtra University Trust 2000 100 
+116 Gujarat Government Medical 
+College, Bhavnagar Bhavnagar 
+Maharaja 
+Krishnakumarsinghji 
+Bhavnagar University 
+Govt. 1995 200 
+117 Gujarat Medical College, Baroda Baroda MS University of Baroda Govt. 1949 250 
+118 Gujarat 
+Smt. N.H.L.Municipal 
+Medical College, 
+Ahmedabad 
+Ahmedabad Gujarat University Govt. 1963 250 
+119 Gujarat Government Medical 
+College, Surat Surat Veer Narmad South 
+Gujarat University Govt. 1964 250 
+120 Gujarat 
+Dr. Kiran C.Patel Medical 
+College and Research 
+Institute 
+Bharuch Veer Narmad South 
+Gujarat University Trust 2020 200 
+121 Gujarat 
+Shantabaa Medical 
+College, Amreli Amreli Saurashtra University Trust 2019 200 
+122 Gujarat 
+Nootan Medical College 
+and Research Centre, 
+Mehsana 
+Mehsana Sankalchand Patel 
+University Trust 2019 150 
+123 Gujarat 
+Dr. N.D. Desai Faculty of 
+Medical Science and 
+Research, Nadiad 
+Nadiad Dharmsinh Desai 
+University, Nadiad Private 2019 150 
+124 Gujarat Kiran Medical College Surat 
+Veer Narmad South 
+Gujarat University Trust 2023 150 
+125 Gujarat Zydus Medical College & 
+Hospital, Dahod Dahod Shri Govind Guru 
+University, Godhara Trust 2018 200 
+126 Gujarat 
+Banas Medical College 
+and Research Institute, 
+Palanpur, Gujarat 
+Palanpur 
+Hemchandracharya 
+North Gujarat 
+University,Patan 
+Trust 2018 200 
+127 Gujarat GMERS Medical College, 
+Vadnagar, Mehsana Mehsana 
+Hemchandracharya 
+North Gujarat 
+University,Patan 
+Govt- 
+Society 2017 200 
+128 Gujarat 
+Dr. M.K. Shah Medical 
+College & Research 
+Centre, Ahmedabad 
+Ahmedabad Gujarat University Trust 2017 250 
+129 Gujarat 
+Parul Institute of Medical 
+Sciences & Research, 
+Vadodara 
+Vadodara Parul University, 
+Vadodara Private 2016 150 
+130 Gujarat GMERS Medical College, 
+Hadiyol, Himmatnagar 
+Himmatnag 
+ar 
+Hemchandracharya 
+North Gujarat 
+University,Patan 
+Govt- 
+Society 2015 200 
+131 Gujarat GMERS Medical College, 
+Junagadh Junagadh Saurashtra University Govt- 
+Society 2015 200 
+132 Gujarat GMERS Medical College, 
+Valsad Valsad Veer Narmad South 
+Gujarat University 
+Govt- 
+Society 2012 200 
+133 Gujarat GMERS Medical College, 
+Dharpur Patan 
+Dharpur 
+Patan 
+Hemchandracharya 
+North Gujarat 
+University,Patan 
+Govt- 
+Society 2012 200 
+134 Gujarat GMERS Medical College, 
+Gandhinagar 
+Gandhinaga 
+r Gujarat University Govt- 
+Society 2012 200 
+135 Gujarat GCS Medical College, 
+Ahmedabad Ahmedabad Gujarat University Trust 2011 150 
+136 Gujarat GMERS Medical College, 
+Gotri, Vadodara Gotri MS University of Baroda Govt- 
+Society 2011 200 
+137 Gujarat GMERS Medical College, 
+Sola, Ahmedabad Sola Gujarat University Govt- 
+Society 2011 200 
+138 Gujarat Gujarat Adani Institute of 
+Medical Sciences, Bhuj Bhuj KSKV Kachchh 
+University, Bhuj Trust 2009 150 
+139 Gujarat 
+Ahmedabad Municipal 
+Coporation Medical 
+Education Trust Medical 
+College, Ahmedabad 
+Ahmedabad Gujarat University Govt. 2009 200 
+
+140 Gujarat 
+Government Medical 
+College, Morbi Morbi Saurashtra University, 
+Rajkot Govt. 2022 100 
+141 Gujarat Government Medical 
+College, Navsari Navsari Veer Narmad South 
+Gujarat University, Surat Govt. 2022 100 
+142 Gujarat 
+Ananya College of 
+Medicine & Research, 
+Kalol 
+Gandhinagar Gujarat University, 
+Ahmedabad Private 2023 150 
+143 Gujarat 
+Government Medical 
+College, Panchmahal 
+Godhra 
+  
+Panchmahal Godhra Shri Govind Guru 
+University, Godhra Govt. 2022 100 
+144 Gujarat 
+Government Medical 
+College, Porbandar Porbandar Bhakt Kavi Narsinh 
+Mehta University Govt. 2022 100 
+145 Gujarat GMERS Medical College, 
+Rajpipla Rajpipla Veer Narmad South 
+Gujarat University, Surat Govt. 2022 100 
+146 Gujarat 
+Pramukhswami Medical 
+College, Karmsad Karmsad Bhaikaka University Trust 1987 150 
+147 Haryana 
+Maharishi 
+Markandeshwar College 
+of Medical Sciences & 
+Research, Sadopur 
+Sadopur 
+Maharishi 
+Marakandeshwar 
+University (Deemed), 
+Ambala 
+Private 2023 150 
+148 Haryana Amrita School of Medicine Faridabad Amrita Vishwa 
+Vidyapeetham Trust 2023 150 
+149 Haryana Maharaja Agrasen 
+Medical College, Agroha Agroha 
+PT. B.D. Sharma 
+University of Health 
+Sciences, Rohtak 
+Trust 2002 100 
+150 Haryana 
+Faculty of Medicine and 
+Health Sciences, Gurgaon 
+(Formarly SGGST Medical 
+College & R 
+Centre,Gurgaon) 
+Gurgaon SGT University, 
+Gurugram Trust 2010 150 
+151 Haryana 
+Pt. B D Sharma 
+Postgraduate Institute of 
+Medical Sciences, Rohtak 
+(Haryana) 
+Rohtak 
+PT. B.D. Sharma 
+University of Health 
+Sciences, Rohtak 
+Govt. 1960 250 
+152 Haryana 
+Maharishi 
+Markandeshwar Institute 
+Of Medical Sciences & 
+Research, Mullana, 
+Ambala 
+Ambala 
+Maharishi 
+Marakandeshwar 
+University (Deemed), 
+Ambala 
+Trust 2003 200 
+153 Haryana 
+Al Falah School of Medical 
+Sciences & Research 
+Centre, Faridabad 
+Faridabad Al-Falah University Private 2019 150 
+154 Haryana 
+Kalpana Chawala Govt. 
+Medical College, Karnal, 
+Haryana 
+Karnal 
+PT. B.D. Sharma 
+University of Health 
+Sciences, Rohtak 
+Govt. 2017 120 
+155 Haryana 
+Adesh Medical College 
+and Hospital, Shahabad, 
+Kurukshetra, Haryana 
+Kurukshetra 
+PT. B.D. Sharma 
+University of Health 
+Sciences, Rohtak 
+Society 2017 150 
+156 Haryana N.C. Medical College & 
+Hospital, Panipat Panipat 
+PT. B.D. Sharma 
+University of Health 
+Sciences, Rohtak 
+Trust 2016 150 
+157 Haryana 
+World College of Medical 
+Sciences & Researc, 
+Jhajjar, Haryana 
+Jhajjar 
+PT. B.D. Sharma 
+University of Health 
+Sciences, Rohtak 
+Trust 2016 150 
+158 Haryana 
+Employees State 
+Insurance Corporation 
+Medical College, Faridabad 
+Faridabad 
+PT. B.D. Sharma 
+University of Health 
+Sciences, Rohtak 
+Govt. 2015 125 
+159 Haryana 
+Shaheed Hasan Khan 
+Mewati Government 
+Medical College, Nalhar 
+Nalhar 
+PT. B.D. Sharma 
+University of Health 
+Sciences, Rohtak 
+Govt. 2013 120 
+160 Haryana 
+Shri Atal Bihari Vajpayee 
+Government Medical 
+College, Faridabad 
+Faridabad 
+Pt. B.D. Sharma 
+University of Health 
+Science, Rohtak 
+Govt. 2022 100 
+
+161 Haryana 
+BPS Government Medical 
+College for Women, 
+Sonepat 
+Sonepat 
+PT. B.D. Sharma 
+University of Health 
+Sciences, Rohtak 
+Govt. 2012 120 
+162 Himachal 
+Pradesh 
+Indira Gandhi Medical 
+College, Shimla Shimla Himachal Pradesh 
+University Govt. 1966 120 
+163 Himachal 
+Pradesh 
+All India Institute of 
+Medical Sciences, Bilaspur Bilaspur Govt. 2015 50 
+164 Himachal 
+Pradesh 
+Dr. Radhakrishnan 
+Government Medical 
+College, Hamirpur, H.P 
+Hamirpur Himachal Pradesh 
+University Govt. 2018 120 
+165 Himachal 
+Pradesh 
+Pt. Jawahar Lal Nehru 
+Government Medical 
+College, Chamba 
+Chamba Himachal Pradesh 
+University Govt. 2017 120 
+166 Himachal 
+Pradesh 
+Shri Lal Bahadur Shastri 
+Government Medical 
+College, Mandi, HP 
+Mandi Himachal Pradesh 
+University Govt. 2017 120 
+167 Himachal 
+Pradesh 
+Government Medical 
+College, Nahan, Sirmour 
+H.P. 
+Sirmour Himachal Pradesh 
+University Govt. 2016 120 
+168 Himachal 
+Pradesh 
+Maharishi 
+Markandeshwar Medical 
+College & Hospital, Solan 
+Solan 
+Maharishi 
+Marakandeshwar 
+University, Kumarhatti, 
+Solan 
+Trust 2013 150 
+169 Himachal 
+Pradesh 
+Dr. Rajendar Prasad 
+Government Medical 
+College, Tanda, H.P 
+Tanda Himachal Pradesh 
+University Govt. 1996 120 
+170 
+Jammu & 
+Kashmir 
+Government Medical 
+College Udhampur Udhampur Jammu University Govt. 2023 100 
+171 Jammu & 
+Kashmir 
+Government Medical 
+College Handwara Kupwara University of Kashmir Govt. 2023 100 
+172 Jammu & 
+Kashmir 
+All India Institute of 
+Medical Science, Vijaypur Vijaypur Govt. 2015 62 
+173 
+Jammu & 
+Kashmir 
+Government Medical 
+College, Jammu Jammu Jammu University Govt. 1972 172 
+174 Jammu & 
+Kashmir 
+Government Medical 
+College, Srinagar Srinagar Kashmir University Govt. 1959 180 
+175 Jammu & 
+Kashmir 
+Sher-I-Kashmir Instt. Of 
+Medical Sciences, Srinagar Srinagar Deemed University, 
+Jammu & Kashmir Govt. 1988 125 
+176 
+Jammu & 
+Kashmir 
+Govt. Medical College, 
+Doda, Kashmir Doda Kashmir University Govt. 2020 100 
+177 Jammu & 
+Kashmir 
+Government Medical 
+College, Rajouri, J&K Rajouri Jammu University Govt. 2019 100 
+178 Jammu & 
+Kashmir 
+Government Medical 
+College, Kathua Kathua Jammu University Govt. 2019 100 
+179 Jammu & 
+Kashmir 
+Government Medical 
+College, Baramulla Baramulla Kashmir University Govt. 2019 100 
+180 Jammu & 
+Kashmir 
+Government Medical 
+College, Anantnag Anantnag Kashmir University Govt. 2019 100 
+181 Jammu & 
+Kashmir 
+Acharya Shri Chander 
+College of Medical 
+Sciences, Jammu 
+Jammu Jammu University Trust 1995 100 
+182 Jharkhand M G M Medical College, 
+Jamshedpur Jamshedpur Kolhan University, 
+Chaibasa Govt. 1961 100 
+183 Jharkhand All India Institute of 
+Medical Sciences, Deoghar Deoghar Statutory Autonomous, 
+AIIMS(Deoghar) Govt. 2019 125 
+184 Jharkhand 
+Shaheed Nirmal Mahto 
+Medical College & 
+Hospital, Dhanbad 
+(formely known as 
+Patliputra Medical 
+College, Dhanbad) 
+Dhanbad Vinoba Bhave University Govt. 1969 100 
+185 Jharkhand Rajendra Institute of 
+Medical Sciences, Ranchi Ranchi Ranchi University Govt. 1960 180 
+186 Jharkhand Laxmi Chandravansi 
+Medical College & Hospital Bishrampur 
+Ramchandra 
+Chandravansi University, 
+Bishrampur, Palamu 
+Trust 2021 100 
+
+187 Jharkhand 
+Manipal Tata Medical 
+College,Baridih 
+Jameshedpur 
+Jameshedpu 
+r 
+Manipal Academy of 
+Higher Education 
+(Deemed University), 
+Manipal 
+Trust 2020 150 
+188 Jharkhand Palamu Medical College, 
+Palamu Palamu Nilamber-Pitamber 
+University Govt. 2019 100 
+189 Jharkhand Hazaribagh Medical 
+College, Hazaribagh Hazaribagh Vinoba Bhave University Govt. 2019 100 
+190 Jharkhand Dumka Medical College, 
+Dighi Dumka 
+Dighi 
+Dumka 
+Sidho Kanhu Murmu 
+University Govt. 2019 100 
+191 Karnataka 
+BGS Medical College and 
+Hospital Bengaluru, 
+Karnataka 
+Bengaluru Adichunchanagiri 
+University, Karnataka Private 2024 150 
+192 Karnataka 
+PES University Institute of 
+Medical Sciences and 
+Reseach Bangalore 
+Bangalore PES University Private 2024 100 
+193 Karnataka SR Patil Medical College 
+and Hospital Distt Bagalkot Bagalkot 
+Rajiv Gandhi University 
+of Health Sciences, 
+Bengaluru, Karnataka 
+Trust 2024 100 
+194 Karnataka 
+Chitradurga Medical 
+College and Research 
+Institute 
+Chitradurga 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2023 150 
+195 Karnataka 
+Sri Chamundeshwari 
+Medical College Hospital 
+& Research Institute 
+Ramanagara Rajiv Gandhi University 
+of Health Sciences Trust 2023 150 
+196 Karnataka 
+Khaja Bandanawaz 
+University - Faculty of 
+Medical Sciences, 
+Gulbarga 
+Gulbarga Khaja Bandanawaz 
+University Trust 2000 150 
+197 Karnataka St. Johns Medical College, 
+Bangalore Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1963 150 
+198 Karnataka 
+A J Institute of Medical 
+Sciences & Research 
+Centre, Mangalore 
+Mangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2002 200 
+199 Karnataka 
+Raja Rajeswari Medical 
+College & Hospital, 
+Bangalore 
+Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2005 250 
+200 Karnataka Yenepoya Medical 
+College, Mangalore Mangalore 
+Yenepoya University 
+(Deemed to be 
+University) 
+Trust 1999 250 
+201 Karnataka Al-Ameen Medical 
+College, Bijapur Bijapur 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1984 150 
+202 Karnataka Vijaynagar Institute of 
+Medical Sciences, Bellary Bellary 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 1961 200 
+203 Karnataka 
+Vydehi Institute Of 
+Medical Sciences & 
+Research Centre, 
+Bangalore 
+Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2002 250 
+204 Karnataka 
+S S Institute of Medical 
+Sciences& Research 
+Centre, Davangere 
+Davangere 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2006 200 
+205 Karnataka Bidar Institute of Medical 
+Sciences, Bidar Bidar 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2007 150 
+206 Karnataka M S Ramaiah Medical 
+College, Bangalore Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1979 150 
+207 Karnataka Mandya Institute of 
+Medical Sciences, Mandya Mandya 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2006 150 
+208 Karnataka Sri Siddhartha Medical College, Tumkur Tumkur 
+Sri Siddhartha Academy 
+of Higher Education, 
+Tumkur 
+Trust 1988 200 
+209 Karnataka 
+S. Nijalingappa Medical 
+College & HSK Hospital & 
+Research Centre, Bagalkot 
+Bagalkot 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2002 250 
+
+210 Karnataka 
+MVJ Medical College and 
+Research Hospital, 
+Bangalore 
+Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1997 200 
+211 Karnataka K S Hegde Medical 
+Academy, Mangalore Mangalore Nitte University 
+(Deemed), Mangalore Trust 1999 250 
+212 Karnataka Shimoga Institute of 
+Medical Sciences, Shimoga Shimoga 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2007 150 
+213 Karnataka 
+Mysore Medical College 
+and Research Instt. 
+(Prev.name Government 
+Medical College), Mysore 
+Mysore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 1924 200 
+214 Karnataka Raichur Institute of 
+Medical Sciences, Raichur Raichur 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2007 150 
+215 Karnataka Dr BR Ambedkar Medical 
+College, Bangalore Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1980 150 
+216 Karnataka 
+Mahadevappa Rampure 
+Medical College, 
+Kalaburagi, Gulbarga 
+Gulbarga 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1963 150 
+217 Karnataka Karnataka Institute of 
+Medical Sciences, Hubballi Hubballi 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 1957 200 
+218 Karnataka Hassan Institute of 
+Medical Sciences, Hassan Hassan 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2006 150 
+219 Karnataka Belagavi Institute of 
+Medical Sciences, Belagavi Belagavi 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2006 150 
+220 Karnataka JSS Medical College, 
+Mysore Mysore 
+JSS Academy of Higher 
+Education & Research, 
+Mysuru 
+Trust 1984 250 
+221 Karnataka 
+Kempegowda Institute of 
+Medical Sciences, 
+Bangalore 
+Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1980 250 
+222 Karnataka JJM Medical College, 
+Davangere Davangere 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1965 245 
+223 Karnataka Kasturba Medical College, 
+Manipal Manipal 
+Manipal Academy of 
+Higher Education 
+(Deemed University), 
+Manipal 
+Trust 1953 250 
+224 Karnataka Kasturba Medical College, 
+Mangalore Mangalore 
+Manipal Academy of 
+Higher Education 
+(Deemed University), 
+Manipal 
+Trust 1955 250 
+225 Karnataka Sri Devaraj URS Medical 
+College, Kolar Kolar 
+Sri Devaraj Urs Academy 
+of Higher Education and 
+Research (Deemed 
+University), Kolar 
+Trust 1986 200 
+226 Karnataka K V G Medical College, 
+Sullia Sullia 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1999 100 
+227 Karnataka Jawaharlal Nehru Medical 
+College, Belgaum Belgaum 
+KLE Academy of Higher 
+Education & Research 
+(Deemed), Belgaum 
+Trust 1963 200 
+228 Karnataka Adichunchanagiri Institute 
+of Medical Sciences, Bellur Bellur 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1985 250 
+229 Karnataka Father Mullers Medical 
+College, Mangalore Mangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1999 150 
+230 Karnataka 
+Bangalore Medical 
+College and Research 
+Institute, Bangalore 
+Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 1955 250 
+231 Karnataka Chikkaballapura Institute 
+of Medical Sciences 
+Chikkaballa 
+pura 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2021 100 
+
+232 Karnataka 
+G R Medical College 
+Hospital & Research 
+Centre 
+Mangaluru 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2021 150 
+233 Karnataka 
+Jagadguru Gangadhar 
+Mahaswamigalu 
+Moorusavirmath Medical 
+College JGMMMC 
+Hubli 
+KLE Academy of Higher 
+Education & Research 
+(Deemed), Belgaum 
+Trust 2021 150 
+234 Karnataka 
+Sri Madhusudan Sai 
+Institute of Medical 
+Sciences & Research, 
+Chikballapur 
+Chikballapur 
+Sri Sathya Sai University 
+for Human Excellence, 
+Navanihal 
+Trust 2023 50 
+235 Karnataka 
+Dr. Chandramma 
+Dayananda Sagar Instt. of 
+Medical Education & 
+Research, Harohalli, Hubli 
+Hubli Dayananda Sagar 
+University, Bangalore Trust 2020 150 
+236 Karnataka 
+Shri Atal Bihari Vajpayee 
+Medical College & 
+Research Institute 
+Bengaluru 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2019 150 
+237 Karnataka 
+Sri siddhartha Institute of 
+Medical Sciences & 
+Research Centre, 
+Bangalore 
+Bengaluru 
+Sri Siddhartha Academy 
+of Higher Education, 
+Tumkur 
+Trust 2019 150 
+238 Karnataka 
+East Point College of 
+Medical Sciences & 
+Research Centre, 
+Bangalore 
+Bengaluru 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2017 150 
+239 Karnataka 
+Sambharam Institute of 
+Medical Sciences & 
+Research, Kolar 
+Kolar 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2016 0 
+240 Karnataka 
+Akash Institute of Medical 
+Sciences & Research 
+Centre, Devanhalli, 
+Bangalore, Karnataka 
+Bengaluru 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2016 150 
+241 Karnataka 
+Kanachur Institute of 
+Medical Sciences, 
+Mangalore 
+Mangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2016 200 
+242 Karnataka Karwar Institute of 
+Medical Sciences, Karwar Karwar 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2016 150 
+243 Karnataka 
+Chamrajanagar Institute 
+of Medical Sciences, 
+Karnataka 
+Chamarajan 
+agar 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2016 150 
+244 Karnataka Kodagu Institute of 
+Medical Sciences, Kodagu Kodagu 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2016 150 
+245 Karnataka Koppal Institute of 
+Medical Sciences, Koppal Koppal 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2015 150 
+246 Karnataka 
+Gulbarga Institute of 
+Medical Sciences, 
+Gulbarga 
+Gulbarga 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2015 150 
+247 Karnataka 
+Gadag Institute of Medical 
+Sciences, Mallasamudra, 
+Mulgund Road, Gadag 
+Gadag 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2015 150 
+248 Karnataka 
+The Oxford Medical 
+College, Hospital & 
+Research Centre, 
+Bangalore 
+Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Society 2014 200 
+249 Karnataka 
+Employees State 
+Insurance Corporation 
+Medical College, Gulbarga 
+Gulbarga 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2013 150 
+250 Karnataka 
+Shridevi Institute of 
+Medical Sciences & 
+Research Hospital, Tumkur 
+Tumkur 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2013 150 
+
+251 Karnataka 
+BGS Global Institute of 
+Medical Sciences, 
+Bangalore 
+Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2013 150 
+252 Karnataka 
+Subbaiah Institute of 
+Medical Sciences, 
+Shimoga, Karnataka 
+Shimoga 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2012 200 
+253 Karnataka 
+Employees State 
+Insurance Corporation 
+Medical College, 
+Bangalore 
+Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Govt. 2012 150 
+254 Karnataka 
+Srinivas Institute of 
+Medical Research Centre, 
+Srinivasnagar, Mangalore 
+Mangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2011 200 
+255 Karnataka 
+Sapthagiri Institute of 
+Medical Sciences & 
+Research Centre, 
+Bangalore 
+Bangalore 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2011 250 
+256 Karnataka 
+SDM College of Medical 
+Sciences & Hospital, 
+Sattur, Dharwad 
+Dharwad 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2003 150 
+257 Karnataka Navodaya Medical 
+College, Raichur Raichur 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 2002 200 
+258 Karnataka 
+Basaveswara Medical 
+College and Hospital, 
+Chitradurga 
+Chitradurga 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1999 150 
+259 Karnataka 
+Siddaganga Medical 
+College and Research 
+Institute, Tumakuru 
+Tumakuru 
+Rajiv Gandhi University 
+of Health Sciences,  
+Bengaluru 
+Trust 2022 150 
+260 Karnataka Yadgiri Institute of 
+Medical Sciences,  Yadgiri Yadgiri 
+Rajiv Gandhi University 
+of Health Sciences,  
+Bengaluru 
+Govt. 2022 150 
+261 Karnataka Haveri Institute of 
+Medical Sciences, Haveri Haveri 
+Rajiv Gandhi University 
+of Health Sciences,  
+Bengaluru 
+Govt. 2022 150 
+262 Karnataka 
+Chikkamagaluru Institute 
+of Medical Sciences, 
+Chikkamagaluru 
+Chikkamagaluru 
+Rajiv Gandhi University 
+of Health Sciences,  
+Bengaluru 
+Govt. 2022 150 
+263 Karnataka 
+Shri B M Patil Medical 
+College, Hospital & 
+Research Centre, 
+Vijayapura (Bijapur 
+Vijayapura 
+Rajiv Gandhi University 
+of Health Sciences, 
+Karnataka 
+Trust 1986 200 
+264 Kerala 
+VN Public Health and 
+Educational  Trust, 
+Palakkad- Kerala 
+Palakkad Kerala University of 
+Health Sciences (KUHS) Trust 2024 150 
+265 Kerala 
+Jubilee Mission Medical 
+College & Research 
+Institute, Thrissur 
+Thrissur Kerala University of 
+Health Sciences, Thrissur Trust 2002 100 
+266 Kerala Amala Institute of Medical 
+Sciences, Thrissur Thrissur Kerala University of 
+Health Sciences, Thrissur Trust 2002 100 
+267 Kerala Government Medical 
+College, Ernakulam Ernakulam Kerala University of 
+Health Sciences, Thrissur Govt. 2000 110 
+268 Kerala Government Medical 
+College, Kottayam Kottayam Kerala University of 
+Health Sciences, Thrissur Govt. 1960 175 
+269 Kerala Government Medical 
+College, Thrissur Thrissur Kerala University of 
+Health Sciences, Thrissur Govt. 1981 175 
+270 Kerala 
+M E S Medical College , 
+Perintalmanna 
+Malappuram Distt.Kerala 
+Perintalman 
+na 
+Kerala University of 
+Health Sciences, Thrissur Trust 2002 150 
+271 Kerala 
+Govt. Medical 
+College,Pariyaram, Kannur 
+(Prev. Known as Academy 
+of Medical Sciences) 
+Kannur Kerala University of 
+Health Sciences, Thrissur Govt. 1995 100 
+
+272 Kerala 
+Sree Gokulam Medical 
+College Trust & Research 
+Foundation, Trivandrum 
+Trivandrum Kerala University of 
+Health Sciences, Thrissur Trust 2005 150 
+273 Kerala Travancore Medical 
+College, Kollam Kollam Kerala University of 
+Health Sciences, Thrissur Trust 2009 150 
+274 Kerala 
+Sree Narayana Instt. of 
+Medical Sciences, 
+Chalakka, Ernakulam 
+Ernakulam Mahatma Gandhi 
+University, Kerala Trust 2009 150 
+275 Kerala Government Medical 
+College, Kozhikode, Calicut Calicut Kerala University of 
+Health Sciences, Thrissur Govt. 1957 250 
+276 Kerala 
+Azeezia Instt of Medical 
+Science,Meeyannoor, 
+Kollam 
+Kollam Kerala University of 
+Health Sciences, Thrissur Trust 2008 100 
+277 Kerala T D Medical College, 
+Alleppey (Allappuzha) Alleppey Kerala University of 
+Health Sciences, Thrissur Govt. 1963 175 
+278 Kerala Kannur Medical College, 
+Kannur Kannur Kerala University of 
+Health Sciences, Thrissur Trust 2006 150 
+279 Kerala 
+Karuna Medical College, 
+Palakkad Palakkad Calicut University Trust 2006 100 
+280 Kerala 
+Sree Uthradom Thiurnal 
+Academy of Medical 
+Sciences, Trivandrum 
+Trivandrum Kerala University of 
+Health Sciences, Thrissur Trust 2006 150 
+281 Kerala Medical College, 
+Thiruvananthapuram 
+Thiruvanant 
+hapuram 
+Kerala University of 
+Health Sciences, Thrissur Govt. 1951 250 
+282 Kerala Amrita School of 
+Medicine, Elamkara, Kochi Kochi 
+Amrita Vishwa 
+Vidyapeetham 
+University (Deemed), 
+Coimbatore 
+Trust 2000 150 
+283 Kerala Government Medical 
+College, Parippally, Kollam Kollam Kerala University of 
+Health Sciences, Thrissur Govt. 2017 110 
+284 Kerala 
+Believers Church Medical 
+College Hospital, 
+Thiruvalla, Kerala 
+Thiruvalla Kerala University of 
+Health Sciences, Thrissur Trust 2016 100 
+285 Kerala 
+Government Medical 
+College (Institute of 
+Integrated Medical 
+Sciences), Yakkara, 
+Palakkad 
+Yakkara Kerala University of 
+Health Sciences, Thrissur Govt. 2014 100 
+286 Kerala 
+Al-Azhar Medical College 
+and Super Speciality 
+Hospital, Thodupuzha 
+Thodupuzha Kerala University of 
+Health Sciences, Thrissur Trust 2014 150 
+287 Kerala 
+P K Das Institute of 
+Medical Sciences, 
+Palakkad, Kerala 
+Palakkad Kerala University of 
+Health Sciences, Thrissur Trust 2014 200 
+288 Kerala 
+Mount Zion Medical 
+College, Chayalode, 
+Ezhamkulam Adoor, 
+Pathanamthitta 
+Pathanamth 
+itta 
+Kerala University of 
+Health Sciences, Thrissur Society 2014 150 
+289 Kerala 
+DM Wayanad Institute of 
+Medical Sciences, 
+Wayanad, Kerala 
+Wayanad Kerala University of 
+Health Sciences, Thrissur Trust 2013 150 
+290 Kerala 
+Government Medical 
+College, Manjeri, 
+Malapuram Dist. 
+Malapuram Kerala University of 
+Health Sciences, Thrissur Govt. 2013 110 
+291 Kerala Malabar Medical College, 
+Kozhikode, Calicut Calicut Kerala University of 
+Health Sciences, Thrissur Trust 2010 200 
+292 Kerala KMCT Medical College, 
+Kozhikode, Calicut Calicut Kerala University of 
+Health Sciences, Thrissur Trust 2008 250 
+293 Kerala 
+Dr. Somervel Memorial 
+CSI Hospital & Medical 
+College, Karakonam, 
+Thiruvananthapuram 
+Thiruvanant 
+hapuram 
+Kerala University of 
+Health Sciences, Thrissur Trust 2001 150 
+
+294 Kerala 
+Malankara Orthodox 
+Syrian Church Medical 
+College, Kolenchery 
+Kolenchery Kerala University of 
+Health Sciences, Thrissur Trust 2001 100 
+295 Kerala Government Medical 
+College, Konni Konni 
+Kerala University of 
+Health Sciences, 
+Thrissur, Kerala 
+Govt. 2022 100 
+296 Kerala Government Medical 
+College, Idukki Idukki Kerala University of 
+Health Sciences Govt. 2022 100 
+297 Kerala 
+Pushpagiri Institute Of 
+Medical Sciences and 
+Research Centre, Tiruvalla 
+Tiruvalla Kerala University of 
+Health Sciences, Thrissur Trust 2002 100 
+298 
+Madhya Pradesh Government Medical 
+College, Seoni Seoni 
+Madhya Pradesh 
+Medical Science 
+University 
+Govt 2024 100 
+299 Madhya Pradesh 
+School of Medical 
+Sciences, Sri Satya Sai 
+University of Technology 
+and Medical Sciences, 
+Sehore (MP) 
+Sehore 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur, 
+M.P. 
+Society 2024 100 
+300 
+Madhya Pradesh Sundarlal Patwa Govt. 
+Medical College Mandsaur 
+Madhya Pradesh 
+Medical Science 
+University 
+Govt 2024 100 
+301 Madhya Pradesh 
+Virendra Kumar Sakhlecha 
+Government Medical 
+College 
+Neemuch 
+Madhya Pradesh 
+Medical Science 
+University 
+Govt. 2024 100 
+302 Madhya 
+Pradesh 
+Ram Krishna College 
+Hospital & Research 
+Centre, Bhopal 
+Bhopal 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Trust 2023 150 
+303 Madhya 
+Pradesh 
+Government Medical 
+College, Satna Satna 
+MADHYA PRADESH 
+MEDICAL SCIENCE 
+UNIVERSITY 
+Govt. 2023 150 
+304 Madhya 
+Pradesh 
+L.N. Medical College and 
+Research Centre, Bhopal Bhopal LNCT University, Bhopal Trust 2009 250 
+305 
+Madhya 
+Pradesh 
+Gajra Raja Medical 
+College, Gwalior Gwalior Jiwaji University Govt. 1946 200 
+306 Madhya 
+Pradesh 
+Gandhi Medical College, 
+Bhopal Bhopal 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 1955 250 
+307 Madhya 
+Pradesh 
+Index Medical College 
+Hospital & Research 
+Centre, Indore 
+Indore 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Trust 2007 250 
+308 Madhya 
+Pradesh 
+Shyam Shah Medical 
+College, Rewa Rewa 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 1963 150 
+309 Madhya 
+Pradesh 
+Sri Aurobindo Medical 
+College and Post 
+Graduate Institute , Indore 
+Indore Sri Aurobindo University Trust 2003 250 
+310 Madhya 
+Pradesh 
+Netaji Subhash Chandra 
+Bose Medical College, 
+Jabalpur 
+Jabalpur 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 1955 250 
+311 Madhya 
+Pradesh 
+All India Institute of 
+Medical Sciences, Bhopal Bhopal Statutory Autonomous, 
+AIIMS(Bhopal) Govt. 2012 125 
+312 Madhya 
+Pradesh 
+M G M Medical College, 
+Indore Indore 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 1948 250 
+313 Madhya 
+Pradesh 
+Ruxmaniben Deepchand 
+Gardi Medical College, 
+Ujjain 
+Ujjain 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Trust 2001 150 
+314 Madhya 
+Pradesh 
+LNCT Medical College & 
+Sewakunj Hospital, Indore Indore 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Society 2021 150 
+315 Madhya 
+Pradesh 
+Sukh Sagar Medical 
+College & Hospital, 
+Jabalpur ^ 
+Jabalpur 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Trust 2021 150 
+316 Madhya 
+Pradesh 
+Mahaveer Institute of 
+Medical Sciences & 
+Research, Bhopal# 
+Bhopal 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Society 2020 150 
+
+317 Madhya 
+Pradesh 
+Government Medical 
+College, Chhindwara, MP Chhindwara 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 2019 100 
+318 Madhya 
+Pradesh 
+Government Medical 
+College, Shahdol, MP Shahdol 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 2019 100 
+319 Madhya 
+Pradesh 
+Government Medical 
+College, Shivpuri, MP Shivpuri 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 2019 100 
+320 Madhya 
+Pradesh 
+Government Medical 
+College, Ratlam Ratlam 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 2018 180 
+321 Madhya 
+Pradesh 
+Government Medical 
+College, Vidisha, MP Vidisha 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 2018 180 
+322 Madhya 
+Pradesh 
+Government Medical 
+College, Khandwa, MP Khandwa 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 2018 120 
+323 Madhya 
+Pradesh 
+Government Medical 
+College, Datia, MP Datia 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Govt. 2018 120 
+324 Madhya 
+Pradesh 
+Amaltas Institute of 
+Medical Sciences, Dewas Dewas 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Society 2016 250 
+325 Madhya 
+Pradesh 
+RKDF Medical College 
+Hospital & Research 
+Centre, Jatkhedi, Bhopal 
+Bhopal 
+Sarvepalli 
+Radhakrishnan 
+University, Bhopal 
+Society 2014 150 
+326 Madhya 
+Pradesh 
+Chirayu Medical College 
+and Hospital, Bairagarh, 
+Bhopal 
+Bairagarh 
+Madhya Pradesh 
+Medical Science 
+University, Jabalpur 
+Trust 2011 250 
+327 Madhya 
+Pradesh 
+Bundelkhand Medical 
+College, Sagar Sagar Dr. Harising Gour 
+University,Sagar Govt. 2009 125 
+328 Madhya 
+Pradesh 
+Peoples College of 
+Medical Sciences & 
+Research Centre, 
+Bhanpur, Bhopal 
+Bhopal Peoples University, 
+Bhopal Trust 2005 250 
+329 
+Maharashtra 
+Government Medical 
+College L.T. Marg, Near 
+L.T. Marg Police Station, 
+Mumbai - 400001 
+Mumbai Maharashtra University 
+of Health Sciences Govt. 2024 50 
+330 
+Maharashtra Government Medical 
+College,Nashik Nashik 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt 2024 50 
+331 Maharashtra 
+Mahatma Gandhi 
+Missions Medical College, 
+Navi Mumbai 
+ Navi Mumbai MGM Institute of Health 
+Sciences Private 2024 50 
+332 Maharasht 
+ra 
+Shri Ramchandra Institute 
+of Medical Sciences Aurangabad 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Private 2024 50 
+333 Maharasht 
+ra 
+Government Medical 
+College, Jalna Jalna 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2024 100 
+334 Maharasht 
+ra 
+Government Medical 
+College, Gadchiroli Gadchiroli 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2024 100 
+335 Maharasht 
+ra 
+Government Medical 
+College, Buldhana Buldhana 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2024 100 
+336 Maharasht 
+ra 
+Government Medical 
+College, Bhandara Bhandara 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2024 100 
+337 Maharasht 
+ra 
+Government Medical 
+College, Hingoli Hingoli 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2024 100 
+338 Maharasht 
+ra 
+Government Medical 
+College, Washim Washim 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2024 100 
+339 Maharasht 
+ra 
+Government Medical 
+College, Ambernath Ambernath 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2024 100 
+340 Maharasht 
+ra 
+Government Medical 
+College, Amravati Amravati 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2024 100 
+
+341 Maharasht 
+ra 
+Government Medical 
+college and District 
+Hospital, Ratnagiri 
+Ratnagiri 
+Maharashtra University 
+of Health Sciences, 
+Nashik. 
+Govt. 2023 100 
+342 Maharasht 
+ra 
+Mahatma Gandhi Mission 
+Medical College, Vashi Vashi 
+Maharashtra University 
+of Health Sciences, 
+Nashik. 
+Trust 2023 100 
+343 Maharasht 
+ra 
+Government Medical 
+College, Parbhani Parbhani 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2023 100 
+344 Maharasht 
+ra Parbhani Medical College Parbhani 
+Maharashtra University 
+of Health Sciences, 
+Nashik. 
+Society 2023 150 
+345 Maharasht 
+ra 
+Indira Gandhi Medical 
+College & Hospital, Nagpur Nagpur 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1968 200 
+346 Maharasht 
+ra 
+Rajiv Gandhi Medical 
+College and Chhatrapati 
+Shivaji Maharaj Hospital, 
+Thane 
+Thane 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1992 100 
+347 Maharasht 
+ra 
+Dr Vaishampayan 
+Memorial Medical 
+College, Solapur 
+Solapur 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1963 200 
+348 Maharasht 
+ra 
+ACPM Medical College, 
+Dhule Dhule 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 1990 100 
+349 Maharasht 
+ra 
+Sri Bhausaheb Hire 
+Government Medical 
+College, Dhule 
+Dhule 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1988 150 
+350 Maharasht 
+ra 
+Dr. D Y Patil Medical 
+College, Hospital and 
+Research Centre, Pimpri, 
+Pune 
+Pune Dr. D Y Patil University 
+(Deemed), Pimpri, Pune Trust 1995 250 
+351 Maharasht 
+ra 
+Grant Medical College, 
+Mumbai Mumbai 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1845 250 
+352 Maharasht 
+ra 
+Krishna Institute of 
+Medical Sciences, Karad Karad 
+Krishna Institute of 
+Medical Sciences 
+University (Deemed), 
+Karad 
+Trust 1984 250 
+353 Maharasht 
+ra 
+Government Medical 
+College, Nagpur Nagpur 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1947 250 
+354 Maharasht 
+ra 
+All India Institute of 
+Medical Sciences, Nagpur Nagpur Statutory Autonomous, 
+AIIMS(Nagpur) Govt. 2018 125 
+355 Maharasht 
+ra 
+Mahatma Gandhi Institute 
+of Medical Sciences, 
+Sevagram, Wardha 
+Wardha 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 1969 100 
+356 Maharasht 
+ra 
+Bharati Vidyapeeth 
+Deemed University 
+Medical College & 
+Hospital, Sangli 
+Sangli 
+Bharati Vidyapeeth 
+University (Deemed), 
+Pune 
+Trust 2005 150 
+357 Maharasht 
+ra 
+Seth GS Medical College, 
+Mumbai Mumbai 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1925 250 
+358 Maharasht 
+ra 
+Dr. D Y Patil Medical 
+College, Kolhapur Kolhapur 
+D.Y. Patil Education 
+Society (Deemed 
+University), Kolhapur 
+Trust 1989 150 
+359 Maharasht 
+ra 
+Maharashtra Institute of 
+Medical Sciences & 
+Research, Latur 
+Latur 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 1990 150 
+360 Maharasht 
+ra 
+Shri Vasant Rao Naik 
+Govt. Medical College, 
+Yavatmal 
+Yavatmal 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1989 200 
+361 Maharasht 
+ra 
+Rajashree Chatrapati 
+Shahu Maharaj 
+Government Medical 
+College, Kolhapur 
+Kolhapur 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2001 150 
+362 Maharasht 
+ra 
+Government Medical 
+College, Latur Latur 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2002 150 
+
+363 Maharasht 
+ra 
+Lokmanya Tilak Municipal 
+Medical College, Sion, 
+Mumbai 
+Mumbai 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1964 200 
+364 Maharasht 
+ra 
+Terna Medical College, 
+Navi Mumbai 
+Navi 
+Mumbai 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 1991 150 
+365 Maharasht 
+ra 
+Mahatma Gandhi 
+Missions Medical College, 
+Aurangabad 
+Aurangabad 
+MGM Institute of Health 
+Sciences (Deemed 
+University), Navi Mumbai 
+Trust 1989 200 
+366 Maharasht 
+ra 
+Armed Forces Medical 
+College, Pune Pune 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1962 150 
+367 Maharasht 
+ra 
+Government Medical 
+College, Akola Akola 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2002 200 
+368 Maharasht 
+ra Rural Medical College, Loni Loni 
+Pravara Institute of 
+Medical Sciences 
+(Deemed University), 
+Ahmednagar 
+Trust 1984 200 
+369 Maharasht 
+ra 
+Dr. Shankarrao Chavan 
+Govt. Medical College, 
+Nanded 
+Nanded 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1988 150 
+370 Maharasht 
+ra 
+Government Medical 
+College, Aurangabad Aurangabad 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1956 200 
+371 Maharasht 
+ra 
+Maharashtra Institute of 
+Medical Education & 
+Research, Talegaon, Pune 
+Pune 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 1994 150 
+372 Maharasht 
+ra 
+Smt. Kashibai Navale 
+Medical College and 
+General Hospital, Pune 
+Pune 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2007 150 
+373 Maharasht 
+ra 
+KJ Somaiyya Medical 
+College & Research 
+Centre, Mumbai 
+Mumbai 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 1991 100 
+374 Maharasht 
+ra 
+N. K. P. Salve Instt. of 
+Medical Sciences and 
+Research Centre and Lata 
+Mangeshkar Hospital, 
+Nagpur 
+Nagpur 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 1990 200 
+375 Maharasht 
+ra 
+Dr. Vithalrao Vikhe Patil 
+Foundations Medical 
+College & Hospital, 
+Ahmednagar 
+Ahmednaga 
+r 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2003 200 
+376 Maharasht 
+ra 
+Padmashree Dr. D.Y.Patil 
+Medical College, Navi 
+Mumbai 
+Navi 
+Mumbai 
+Padmashree Dr. D Y Patil 
+University (Deemed), 
+Navi Mumbai 
+Trust 1989 250 
+377 Maharasht 
+ra 
+Government Medical 
+College, Miraj Miraj 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1962 200 
+378 Maharasht 
+ra 
+Topiwala National 
+Medical College, Mumbai Mumbai 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1964 150 
+379 Maharasht 
+ra 
+SRTR Medical College, 
+Ambajogai Ambajogai 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1974 150 
+380 Maharasht 
+ra 
+Dr. Panjabrao Alias 
+Bhausaheb Deshmukh 
+Memorial Medical 
+College, Amravati 
+Amravati 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 1984 150 
+381 Maharasht 
+ra 
+B. J. Govt. Medical 
+College, Pune Pune 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 1964 250 
+382 Maharasht 
+ra 
+Dr. Ulhas Patil Medical 
+College & Hospital, Jalgaon Jalgaon 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2008 200 
+383 Maharasht 
+ra 
+Jawaharlal Nehru Medical 
+College, Sawangi (Meghe), 
+Wardha 
+Wardha 
+Datta Meghe Instt. of 
+Medical Sciences 
+(Deemed University), 
+Nagpur 
+Trust 1990 250 
+
+384 Maharasht 
+ra 
+Dr. Vasantrao Pawar Med. 
+Col. Hosp. & Research 
+Centre, Nasik (Prev. 
+NDMVP Samaj Medical 
+College) 
+Nasik 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 1990 120 
+385 Maharasht 
+ra 
+Bharatratna Atal Bihari 
+Vajpayee Medical College, 
+Pune 
+Pune 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2022 100 
+386 Maharasht 
+ra 
+Government Medical 
+College, Sindhudurg Sindhudurg 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2021 100 
+387 Maharasht 
+ra 
+Dr. N Y Tasgaonkar 
+Institute of Medical 
+Science 
+Karjat 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2021 100 
+388 Maharasht 
+ra 
+Government Medical 
+College, Satara Satara 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2021 100 
+389 Maharasht 
+ra 
+Government Medical 
+College, Alibag Alibag 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2021 100 
+390 Maharasht 
+ra 
+Government Medical 
+College, Nandurbar Nandurbar 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2020 100 
+391 Maharasht 
+ra 
+Datta Meghe Medical 
+College, Nagpur Nagpur 
+Datta Meghe Instt. of 
+Medical Sciences 
+(Deemed University), 
+Nagpur 
+Private 2020 150 
+392 Maharasht 
+ra 
+Sindhudurg Shikshan 
+Prasarak Mandal (SSPM) 
+Medical College & 
+Lifetime Hospital, Padave, 
+Sindhudurg 
+Sindhudurg 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2020 151 
+393 Maharasht 
+ra 
+Symbiosis Medical College 
+for Women, Pune Pune 
+Symbiosis International 
+(Deemed) University, 
+pune 
+Society 2020 150 
+394 Maharasht 
+ra 
+Government Medical 
+College & Hospital, 
+Baramati 
+Baramati 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2019 100 
+395 Maharasht 
+ra 
+Government Medical 
+College, Jalgaon Jalgaon 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2018 150 
+396 Maharasht 
+ra 
+Vedantaa Institute of 
+Medical Sciences, Palghar, 
+Maharashtra 
+Palghar 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Private 2017 150 
+397 Maharasht 
+ra 
+Government Medical 
+College, Gondia Gondia 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2016 150 
+398 Maharasht 
+ra 
+Prakash Institute of 
+Medical Sciences & 
+Research, Sangli 
+Sangli 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2016 150 
+399 Maharasht 
+ra 
+Government Medical 
+College, Chandrapur Chandrapur 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2015 150 
+400 Maharasht 
+ra 
+H.B.T. Medical College & 
+Dr. R.N. Cooper Municipal 
+General Hospital, Juhu, 
+Mumbai 
+Juhu 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2015 200 
+401 Maharasht 
+ra 
+B.K.L. Walawalkar Rural 
+Medical College, Ratnagiri Ratnagiri 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2015 150 
+402 Maharasht 
+ra 
+SMBT Institute of Medical 
+Sciences & Research 
+Centre, Nandihills, Nashik 
+Nashik 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2014 150 
+403 Maharasht 
+ra 
+Indian Institute of Medical 
+Science & Research, Jalna Jalna 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2013 150 
+404 Maharasht 
+ra 
+Ashwini Rural Medical 
+College, Hospital & 
+Research Centre, Solapur 
+Solapur 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2012 100 
+
+405 Maharasht 
+ra 
+Mahatma Gandhi 
+Missions Medical College, 
+Navi Mumbai 
+Navi 
+Mumbai 
+MGM Institute of Health 
+Sciences (Deemed 
+University), Navi Mumbai 
+Trust 1989 200 
+406 Maharasht 
+ra 
+Government Medical 
+College, Osmanabad Osmanabad 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Govt. 2022 100 
+407 Maharasht 
+ra 
+Dr. Rajendra Gode 
+Medical College, Amravati Amravati 
+Maharashtra University 
+of Health Sciences, 
+Nashik 
+Trust 2023 150 
+408 Maharasht 
+ra 
+Bharati Vidyapeeth 
+University Medical 
+College, Pune 
+Pune 
+Bharati Vidyapeeth 
+University (Deemed), 
+Pune 
+Trust 1989 150 
+409 Manipur Regional Institute of 
+Medical Sciences, Imphal Imphal Manipur University Govt. 1972 125 
+410 Manipur 
+Shija Academy of Health 
+Sciences Imphal Manipur University Private 2021 150 
+411 Manipur Government Medical 
+College, Churachandpur Churachandpur Manipur University Govt. 2022 100 
+412 Manipur 
+Jawaharlal Nehru Institute 
+of Medical Sciences, 
+Porompet, Imphal 
+Prormpet Manipur University Govt. 2010 150 
+413 Meghalaya 
+PA Sangama International 
+Medical College and 
+Hospital 
+RI-Bhoi District 
+University of Science 
+and Technology, 
+Meghalaya 
+Trust 2024 150 
+414 Meghalaya 
+North Eastern Indira 
+Gandhi Regional Instt. of 
+Health and Medical 
+Sciences, Shillong 
+Shillong North Eastern Hill 
+University, Shillong Govt. 2008 50 
+415 Mizoram 
+Zoram Medical College, 
+Mizoram Mizoram Mizoram University Govt. 2018 100 
+416 Nagaland 
+Nagaland Institute of 
+Medical Sciences & 
+Research 
+Kohima Nagaland University Society 2023 100 
+417 Orissa 
+Government Medical 
+College and Hospital, 
+Jajpur Odhisha 
+Jajpur 
+The Orissa University Of 
+Health Sciences, 
+Bhubaneswar, Orissa 
+Govt. 2024 50 
+418 Orissa 
+Institute of Medical 
+Sciences & SUM Hospital, 
+Campus, Bhubaneswar, 
+Odhisha 
+Bhubaneswar Siksha O Anusandhan 
+University,Bhubaneswar Trust 2024 150 
+419 Orissa 
+Government Medical 
+College, Bhawanipatna Kalahandi Kalahandi University Govt. 2023 100 
+420 Orissa SCB Medical College, 
+Cuttack Cuttack Utkal University Govt. 1944 250 
+421 Orissa MKCG Medical College, 
+Berhampur Berhampur Berhampur University Govt. 1962 250 
+422 Orissa 
+Veer Surendra Sai 
+Institute of Medical 
+Sciences and Research, 
+Burla 
+Burla Sambalpur University Govt. 1959 200 
+423 Orissa 
+All India Institute of 
+Medical Sciences, 
+Bhubaneswar 
+Bhubanesw 
+ar 
+Statutory Autonomous, 
+AIIMS(Bhubaneswar) Govt. 2012 125 
+424 Orissa 
+Sri Jagannath Medical 
+College & Hospital, Puri Puri Utkal University Govt. 2021 100 
+425 Orissa 
+Government Medical 
+College & Hospital 
+(Renamed as Fakir Mohan 
+Medical College & 
+Hospital), Balasore 
+Balasore Fakir Mohan Univeristy, 
+Balasore Govt. 2018 100 
+426 Orissa 
+Government Medical 
+College & Hospital 
+(Renamed as Bhima Bhoi 
+Medical College & 
+Hospital), Balangir 
+Balangir Sambalpur University Govt. 2018 100 
+427 Orissa 
+Pt. Raghunath Murmu 
+Medical College and 
+Hospital, Baripada, Odisha 
+Baripada North Odisha University, 
+Baripada, Odisha Govt. 2017 125 
+
+428 Orissa 
+Saheed Laxman Nayak 
+Medical College & 
+Hospital, Koraput 
+Koraput Berhampur University Govt. 2017 125 
+429 Orissa Hi-Tech Medical College & 
+Hospital, Rourkela Rourkela Sambalpur University Trust 2012 100 
+430 Orissa 
+Instt. Of Medical Sciences 
+& SUM Hospital, 
+Bhubaneswar 
+Bhubanesw 
+ar 
+Siksha O Anusandhan 
+University,Bhubaneswar Trust 2007 250 
+431 Orissa 
+Government Medical 
+College, Sundargarh Sundargarh Sambalpur University, 
+Burla Govt. 2022 100 
+432 Orissa Government Medical 
+College, Keonjhar Keonjhar MSCBD University, 
+Baripada Govt. 2022 100 
+433 Orissa 
+Kalinga Institute of 
+Medical Sciences, 
+Bhubaneswar 
+Bhubanesw 
+ar 
+KIIT University 
+(Deemed), Bhubaneswar Trust 2007 250 
+434 Orissa Hi-Tech Medical College & 
+Hospital, Bhubaneswar 
+Bhubanesw 
+ar Utkal University Trust 2005 150 
+435 Orissa 
+DRIEMS Institute of 
+Health Sciences and 
+Hospital, Kairapari 
+Kairapari Utkal University Society 2023 100 
+436 Pondicherr 
+y 
+Sri Manakula Vinayagar 
+Medical College & 
+Hospital, Pondicherry 
+Pondicherry Pondicherry University Trust 2006 250 
+437 Pondicherr 
+y 
+Puducherry Institute of 
+Medical Sciences & 
+Research, Pondicherry 
+Pondicherry Pondicherry University Trust 2000 150 
+438 Pondicherr 
+y 
+Aarupadai Veedu Medical 
+College, Pondicherry Pondicherry 
+Vinayaka Missions 
+University (Deemed), 
+Salem 
+Trust 1999 150 
+439 Pondicherr 
+y 
+Vinayaka Missions 
+Medical College, Karaikal, 
+Pondicherry 
+Pondicherry 
+Vinayaka Missions 
+University (Deemed), 
+Salem 
+Trust 1997 150 
+440 Pondicherr 
+y 
+Jawaharlal Institute of 
+Postgraduate Medical 
+Education & Research, 
+Puducherry 
+Pondicherry Statutory Autonomous, 
+Puducherry Govt. 1956 200 
+441 Pondicherr 
+y 
+Sri Venkateswaraa 
+Medical College, Hospital 
+& Research Centre, 
+Pondicherry 
+Pondicherry Pondicherry University Trust 2007 250 
+442 Pondicherr 
+y 
+Mahatma Gandhi Medical 
+College & Research 
+Institute, Pondicherry 
+Pondicherry 
+Sri Balaji Vidyapeeth 
+(Deemed University), 
+Pondicherry 
+Trust 2002 250 
+443 Pondicherr 
+y 
+Sri Lakshmi Narayana 
+Institute of Medical 
+Sciences, Pondicherry 
+Pondicherry 
+Bharath Institute of 
+Higher Education & 
+Research (Deemed 
+Univ.), Chennai 
+Trust 2006 250 
+444 Pondicherr 
+y 
+Indira Gandhi Medical 
+College & Research 
+Institute, Puducherry 
+Puducherry Pondicherry University Govt. 2010 180 
+445 Punjab RIMT Medical College and 
+Hospital Fatehgarh Sahib RIMT University Trust 2024 50 
+446 Punjab Guru Govind Singh 
+Medical College, Faridkot Faridkot Baba Farid University of 
+Health Sciences,Faridkot Govt. 1973 150 
+447 Punjab Christian Medical College, 
+Ludhiana Ludhiana Baba Farid University of 
+Health Sciences,Faridkot Trust 1953 100 
+448 Punjab Dayanand Medical College 
+& Hospital, Ludhiana Ludhiana Baba Farid University of 
+Health Sciences,Faridkot Trust 1963 100 
+449 Punjab 
+Sri Guru Ram Das Institute 
+of Medical Sciences and 
+Research, Sri Amritsar 
+Amritsar 
+Sri Guru Ram Das 
+University of Health 
+Sciences, Sri Amritsar 
+Trust 1997 150 
+450 Punjab Gian Sagar Medical 
+College & Hospital, Patiala Patiala Baba Farid University of 
+Health Sciences,Faridkot Trust 2020 150 
+
+451 Punjab 
+All India Institute of 
+Medical Sciences, 
+Bhatinda 
+Bhatinda Statutory Autonomous, 
+AIIMS(Bhatinda) Govt. 2019 100 
+452 Punjab Government Medical 
+College, Patiala Patiala Baba Farid University of 
+Health Sciences,Faridkot Govt. 1953 250 
+453 Punjab Government Medical 
+College, Amritsar Amritsar Baba Farid University of 
+Health Sciences,Faridkot Govt. 1943 250 
+454 Punjab 
+Adesh Institute of Medical 
+Sciences & Research, 
+Bhatinda 
+Bhatinda Adesh University, 
+Bathinda Trust 2006 150 
+455 Punjab 
+Dr B R Ambedkar State 
+Institute of Medical 
+Sciences, SAS Nagar , 
+Mohali 
+Mohali Baba Farid University of 
+Health Sciences,Faridkot Govt. 2021 100 
+456 Punjab 
+Chintpurni Medical 
+College, Pathankot, 
+Gurdaspur 
+Pathankot Baba Farid University of 
+Health Sciences,Faridkot Trust 2011 150 
+457 Punjab 
+Punjab Institute of 
+Medical Sciences, 
+Jalandhar 
+Jalandhar Baba Farid University of 
+Health Sciences,Faridkot Trust 2011 150 
+458 Rajasthan 
+Government Medical 
+College, Jhunjhunu Jhunjhunu Rajasthan University of 
+Medical Sciences Govt 2024 100 
+459 Rajasthan Sudha Medical College, 
+Kota, Rajasthan Kota Rajasthan University of 
+Health Sciences Society 2024 100 
+460 Rajasthan 
+Vyas Medical College & 
+Hospital Jodhpur, 
+Rajasthan 
+Jodhpur Rajasthan University of 
+Health Sciences, Jaipur Private 2024 100 
+461 Rajasthan Government Medical 
+College, Baran Baran Rajasthan University of 
+Health Sciences, Jaipur Govt. 2024 100 
+462 Rajasthan Government Medical 
+College, Nagaur Nagaur Rajasthan University of 
+Health Sciences, Jaipur Govt. 2024 100 
+463 Rajasthan Government Medical 
+College, Banswara Banswara Rajasthan University of 
+Health Sciences, Jaipur 
+Govt. Society 2024 100 
+464 Rajasthan JIET Medical College and 
+Hospital Jodhpur Rajasthan University of 
+Health Sciences, Jaipur Trust 2024 50 
+465 Rajasthan 
+Government Medical 
+College, Bundi Bundi Rajasthan University of 
+Health Sciences Govt. 2023 100 
+466 Rajasthan Government Medical 
+College, Hanumangarh 
+Hanumanga 
+rh 
+Rajasthan University of 
+Health Sciences Govt. 2023 100 
+467 Rajasthan Government Medical 
+College, Dausa Dausa Rajasthan University of 
+Health Sciences Govt. 2023 100 
+468 Rajasthan Government Medical 
+College, Alwar Alwar Rajasthan University of 
+Health Sciences Govt. 2023 100 
+469 Rajasthan Government Medical 
+College, Karauli Karauli Rajasthan University of 
+Health Sciences Govt. 2023 100 
+470 Rajasthan Government Medical 
+College, Kota Kota Rajasthan University of 
+Health Sciences Govt. 1992 250 
+471 Rajasthan Sardar Patel Medical 
+College, Bikaner Bikaner Rajasthan University of 
+Health Sciences Govt. 1959 250 
+472 Rajasthan Jawaharlal Nehru Medical 
+College, Ajmer Ajmer Rajasthan University of 
+Health Sciences Govt. 1965 250 
+473 Rajasthan 
+Mahatma Gandhi Medical 
+College and Hospital, 
+Sitapur, Jaipur 
+Sitapur 
+Mahatma Gandhi 
+University of Medical 
+Science & Technology, 
+Jaipur 
+Trust 2001 250 
+474 Rajasthan 
+National Institute of 
+Medical Science & 
+Research, Jaipur 
+Jaipur NIMS University 
+(Deemed), Jaipur Trust 2004 250 
+475 Rajasthan 
+SMS Medical College, 
+Jaipur Jaipur Rajasthan University of 
+Health Sciences Govt. 1947 250 
+476 Rajasthan All India Institute of 
+Medical Sciences, Jodhpur Jodhpur Statutory Autonomous, 
+AIIMS(Jodhpur) Govt. 2012 125 
+477 Rajasthan 
+Dr SN Medical College, 
+Jodhpur Jodhpur Rajasthan University of 
+Health Sciences Govt. 1965 250 
+478 Rajasthan R N T Medical College, 
+Udaipur Udaipur Rajasthan University of 
+Health Sciences Govt. 1961 250 
+
+479 Rajasthan 
+Dr S S Tantia Medical 
+College Hospital & 
+Research Centre 
+Sri 
+Ganganagar Tantia University Private 2021 150 
+480 Rajasthan 
+Employees State 
+Insurance Corporation 
+Medical College,Alwar 
+Alwar Rajasthan University of 
+Health Sciences Govt. 2021 100 
+481 Rajasthan Shri Kalyan Govt. Medical 
+College, Sikar, Rajasthan Sikar Rajasthan University of 
+Health Sciences Govt. 2020 100 
+482 Rajasthan 
+Government Medical 
+College, Barmer Barmer Rajasthan University of 
+Health Sciences Govt. 2019 100 
+483 Rajasthan 
+Government Medical 
+College, Bhilwara, 
+Rajasthan 
+Bhilwara Rajasthan University of 
+Health Sciences Govt. 2018 150 
+484 Rajasthan 
+Government Medical 
+College, Churu Churu Rajasthan University of 
+Health Sciences Govt. 2018 150 
+485 Rajasthan Government Medical 
+College, Pali, Rajasthan Pali Rajasthan University of 
+Health Sciences Govt. 2018 150 
+486 Rajasthan 
+Government Medical 
+College, Bharatpur, 
+Rajasthan 
+Bharatpur Rajasthan University of 
+Health Sciences Govt. 2018 150 
+487 Rajasthan 
+Government Medical 
+College, Dungarpur Dungarpur Rajasthan University of 
+Health Sciences Govt. 2018 150 
+488 Rajasthan 
+Ananta Institute of 
+Medical Sciences & 
+Research Centre, 
+Rajsamand* 
+Rajsamand Rajasthan University of 
+Health Sciences Society 2016 150 
+489 Rajasthan 
+Jaipur National University 
+Institute of Medical 
+Sciences and Resarch 
+Centre, Jagatpura, Jaipur 
+Jagatpura Jaipur National 
+University (Private Univ.) Private 2016 250 
+490 Rajasthan 
+Pacific Institute of Medical 
+Sciences, Umarda, 
+Udaipur* 
+Udaipur Sai Tirupati University, 
+Udaipur Society 2015 200 
+491 Rajasthan 
+Geetanjali Institute of 
+Medical Sciences, 
+Udaipur* 
+Udaipur Rajasthan University of 
+Health Sciences Trust 2008 250 
+492 Rajasthan 
+American International 
+Institute of Medical 
+Sciences, Bedwas* 
+Bedwas Rajasthan University of 
+Health Sciences Private 2016 150 
+493 Rajasthan 
+RUHS College of Medical 
+Sciences, Jaipur Jaipur Rajasthan University of 
+Health Sciences Govt. 2014 150 
+494 Rajasthan Government Medical 
+College, Dholpur Dholpur Rajasthan University of 
+Health Sciences Govt. 2022 100 
+495 Rajasthan Government Medical 
+College, Sirohi Sirohi Rajasthan University of 
+Health Sciences Govt. 2022 101 
+496 Rajasthan Government Medical 
+College, Sri Ganganagar  Sri Ganganagar Rajasthan University of 
+Health Sciences Govt. 2022 100 
+497 Rajasthan Government Medical 
+College, Chittorgarh Chittorgarh Rajasthan University of 
+Health Sciences Govt. 2022 100 
+498 Rajasthan 
+Pacific Medical College & 
+Hospital, Bhilo Ka Bedla, 
+Udaipur* 
+Udaipur Pacific Medical 
+University, Udaipur Trust 2014 150 
+499 Rajasthan 
+Jhalawar Medical College, 
+Jhalawar Jhalawar Rajasthan University Govt. 2008 200 
+500 Rajasthan Government Medical 
+College, Sawai Madhopur 
+Sawai 
+Madhopur 
+Rajasthan University of 
+Health Sciences, Jaipur Govt. 2024 100 
+501 Sikkim 
+Sikkim Manipal Institute 
+of Medical Sciences, 
+Gangtok 
+Gangtok 
+Sikkim Manipal Univ. of 
+Health,Medical & Tech. 
+Scs 
+Trust 2000 150 
+502 Tamil Nadu 
+Annaii Medical College 
+sand Rajalakshmi Health 
+City, Kancheepuram 
+District 
+Kancheepuram 
+Dr. M.G.R. University of 
+Health Sciences, 
+Tamilnadu 
+Govt. 2024 100 
+503 Tamil Nadu 
+J R Medical College and 
+Hospital Villupuram 
+District, Tamilnadu 
+Villupuram 
+Bharath Institute of 
+Higher Education & 
+Research (Deemed 
+Univ.), Chennai 
+Society 2024 150 
+
+504 Tamil Nadu 
+Kanyakumari Medical 
+Mission Research Centre, 
+Kanyakumari District 
+Kanyakumari St. Joseph's University Trust 2024 100 
+505 Tamil Nadu Nandha Medical College 
+& Hospital Erode Erode 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2023 150 
+506 Tamil Nadu 
+Dhanalakshmi Srinivasan 
+Institute of Medical 
+Sciences and Hospital - 
+Thuraiyur Road, 
+Perambalur 
+Perambalur 
+Dhanalakshmi Srinivasan 
+Institute of Science and 
+Research (Deemed to be 
+University) 
+Trust 2023 150 
+507 Tamil Nadu All India Institute of 
+Medical Science, Madurai Madurai Govt. 2015 50 
+508 Tamil Nadu 
+Sree Balaji Medical 
+College and Hospital, 
+Chennai 
+Chennai 
+Bharath Institute of 
+Higher Education & 
+Research (Deemed 
+Univ.), Chennai 
+Trust 2003 250 
+509 Tamil Nadu 
+PSP Medical College 
+Hospital and Research 
+Institute, Chennai 
+Chennai 
+The Tamilnadu Dr. MGR 
+Medical University, 
+Chennai 
+Trust 2023 150 
+510 Tamil Nadu Rajah Muthiah Medical 
+College, Annamalainagar 
+Annamalain 
+agar Annamalai University Govt. 1985 150 
+511 Tamil Nadu 
+Govt. Mohan 
+Kumaramangalam 
+Medical College, Salem 
+Salem 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1986 100 
+512 Tamil Nadu 
+Karpaga Vinayaga 
+Institute of Medical 
+Sciences, Maduranthagam 
+Madurantha 
+gam 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2009 150 
+513 Tamil Nadu 
+Shri Sathya Sai Medical 
+College and Research 
+Institute, Kancheepuram 
+Kancheepur 
+am 
+Sri Balaji Vidyapeeth 
+(Deemed University), 
+Pondicherry 
+Trust 2008 250 
+514 Tamil Nadu PSG Institute of Medical 
+Sciences, Coimbatore Coimbatore 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 1985 250 
+515 Tamil Nadu 
+Government Erode 
+Medical College & 
+Hospital, Perundurai 
+(Formerly IRT Perundurai 
+Medical College) 
+Perundurai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1992 100 
+516 Tamil Nadu Christian Medical College, 
+Vellore Vellore 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 1942 100 
+517 Tamil Nadu Madras Medical College, 
+Chennai Chennai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1835 250 
+518 Tamil Nadu Coimbatore Medical 
+College, Coimbatore Coimbatore 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1966 200 
+519 Tamil Nadu Kilpauk Medical College, 
+Chennai Chennai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1960 150 
+520 Tamil Nadu Thanjavur Medical 
+College, Thanjavur Thanjavur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1959 150 
+521 Tamil Nadu Stanley Medical College, 
+Chennai Chennai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1838 250 
+522 Tamil Nadu Madurai Medical College, 
+Madurai Madurai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1954 250 
+523 Tamil Nadu 
+Chettinad Hospital & 
+Research Institute, 
+Kanchipuram 
+Kanchipura 
+m 
+Chettinad Academy of 
+Research and Education 
+(Deemed University), 
+Chettinad 
+Trust 2006 250 
+524 Tamil Nadu 
+Sree Mookambika 
+Institute of Medical 
+Sciences, Kanyakumari 
+Kanyakumar 
+i 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2006 150 
+
+525 Tamil Nadu 
+K A P Viswanathan 
+Government Medical 
+College, Trichy 
+Trichy 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1998 150 
+526 Tamil Nadu 
+Sri Ramachandra Medical 
+College & Research 
+Institute, Chennai 
+Chennai 
+Sri Ramachandra 
+Institute of Higher 
+Education & 
+Research(Deemed to be 
+University), Chennai 
+Trust 1985 250 
+527 Tamil Nadu 
+KanyaKumari Government 
+Medical College, 
+Asaripallam 
+Asaripallam 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2003 150 
+528 Tamil Nadu 
+Vinayaka Missions 
+Kirupananda Variyar 
+Medical College, Salem 
+Salem 
+Vinayaka Missions 
+University (Deemed), 
+Salem 
+Trust 1996 150 
+529 Tamil Nadu Thoothukudi Medical 
+College, Thoothukudi 
+Thoothukud 
+i 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2000 150 
+530 Tamil Nadu 
+Meenakshi Medical 
+College and Research 
+Institute, Enathur 
+Enathur Meenakshi University 
+(Deemed), Chennai Trust 2003 250 
+531 Tamil Nadu Tagore Medical College 
+and Hospital, Chennai Chennai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2010 150 
+532 Tamil Nadu Theni Government 
+Medical College, Theni Theni 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2006 100 
+533 Tamil Nadu Chengalpattu Medical 
+College, Chengalpattu 
+Chengalpatt 
+u 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1965 100 
+534 Tamil Nadu Government Vellore 
+Medical College, Vellore Vellore 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2005 100 
+535 Tamil Nadu Tirunelveli Medical 
+College, Tirunelveli Tirunelveli 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 1965 250 
+536 Tamil Nadu 
+Government Dharmapuri 
+Medical College, 
+Dharmapuri 
+Dharmapuri 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2008 100 
+537 Tamil Nadu Saveetha Medical College 
+and Hospital, Kanchipuram 
+Kanchipura 
+m 
+Saveetha University 
+(Deemed), Chennai Trust 2008 250 
+538 Tamil Nadu Government Medical 
+College, Namakkal Namakkal 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 100 
+539 Tamil Nadu Government Medical 
+College, Ramanathapuram 
+Ramanatha 
+puram 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 100 
+540 Tamil Nadu 
+Swamy Vivekanandha 
+Medical College Hospital 
+And Research Institute 
+Namakkal 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2021 150 
+541 Tamil Nadu Government Medical 
+College, Thiruvallur Thiruvallur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 100 
+542 Tamil Nadu Arunai Medical College 
+And Hospital 
+Tiruvannam 
+alai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2021 150 
+543 Tamil Nadu Government Medical 
+College, Tiruppur Tiruppur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 100 
+544 Tamil Nadu Government Medical 
+College, Kallakurichi Kallakurichi 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 150 
+545 Tamil Nadu Government Medical 
+College, Virudhunagar 
+Virudhunag 
+ar 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 150 
+546 Tamil Nadu Government Medical 
+College, The Nilgiris The Nilgiris 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 150 
+547 Tamil Nadu Srinivasan Medical 
+College and Hospital 
+Tiruchirapp 
+alli 
+Dhanalakshmi Srinivasan 
+University Trust 2021 150 
+
+548 Tamil Nadu 
+Faculty of Medicine , Sri 
+Lalithambigai Medical 
+College and Hospital 
+Chennai 
+Dr. MGR Educational 
+and Research Institute 
+(Deemed University), 
+Chennai 
+Trust 2021 150 
+549 Tamil Nadu VELS Medical College & 
+Hospital* Tiruvallur 
+Vels Institute Of Science, 
+Technology & Advanced 
+Studies( VISTAS) ( 
+Deemed to be 
+University) 
+Trust 2021 150 
+550 Tamil Nadu Government Medical 
+College, Dindigul Dindigul 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 150 
+551 Tamil Nadu Government Medical 
+College, Krishnagiri Krishnagiri 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 150 
+552 Tamil Nadu Government Medical 
+College, Nagapattinam 
+Nagapattina 
+m 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 150 
+553 Tamil Nadu Government Medical 
+College, Ariyalur Ariyalur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2021 150 
+554 Tamil Nadu 
+ST Peters Medical College, 
+Hospital & Research 
+Institute 
+Hosur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2021 150 
+555 Tamil Nadu Indira Medical College & 
+Hospitals, Thiruvallur Thiruvallur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Private 2020 150 
+556 Tamil Nadu Bhaarat Medical College 
+& Hospital Chennai 
+Bharath Institute of 
+Higher Education & 
+Research (Deemed 
+Univ.), Chennai 
+Trust 2020 150 
+557 Tamil Nadu 
+Panimalar Medical College 
+Hospital & Research 
+Institute, Chennai,Tamil 
+Nadu 
+Chennai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2020 150 
+558 Tamil Nadu 
+KMCH Institute of Health 
+Sciences and Research, 
+Coimbatore 
+Coimbatore 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Private 2019 150 
+559 Tamil Nadu Government Medical 
+College, Karur Karur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2019 150 
+560 Tamil Nadu 
+Government Medical 
+College, Pudukottai, Tamil 
+Nadu 
+Padukottai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2017 150 
+561 Tamil Nadu 
+Government Medical 
+College & ESIC Hospital, 
+Coimbatore, TamilNadu 
+Coimbatore 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2016 100 
+562 Tamil Nadu Government Medical 
+College, Omandurar Omandurar 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2015 100 
+563 Tamil Nadu 
+ESIC Medical College & 
+PGIMSR, K.K Nagar, 
+Chennai 
+Chennai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2013 150 
+564 Tamil Nadu 
+Velammal Medical College 
+Hospital and Research 
+Institute, Madurai 
+Madurai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2013 150 
+565 Tamil Nadu 
+Government 
+Thiruvannamalai Medical 
+College, Thiruvannamalai 
+Thiruvanna 
+malai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2013 100 
+566 Tamil Nadu Government Sivagangai 
+Medical College, Sivaganga Sivaganga 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2012 100 
+567 Tamil Nadu 
+Karpagam Faculty of 
+Medical Sciences & 
+Research, Coimbatore 
+Coimbatore 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2012 150 
+568 Tamil Nadu 
+Madha Medical College 
+and Hospital, Thandalam, 
+Chennai 
+Chennai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2011 150 
+
+569 Tamil Nadu Annapoorna Medical 
+College & Hospital, Salem Salem 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2011 150 
+570 Tamil Nadu 
+Dhanalakshmi Srinivasan 
+Medical College and 
+Hospital, Perambalur 
+Perambalur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2011 250 
+571 Tamil Nadu 
+Government Villupuram 
+Medical College, 
+Villupuram 
+Villupuram 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2010 100 
+572 Tamil Nadu Thiruvarur Govt. Medical 
+College, Thiruvarur Thiruvarur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Govt. 2010 100 
+573 Tamil Nadu Sri Muthukumaran 
+Medical College,Chennai Chennai 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2010 150 
+574 Tamil Nadu 
+Trichy SRM Medical 
+College Hospital & 
+Research Centre, Trichy 
+Trichy 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2009 250 
+575 Tamil Nadu ACS Medical College and 
+Hospital, Chennai Chennai 
+Dr. MGR Educational 
+and Research Institute 
+(Deemed University), 
+Chennai 
+Trust 2008 250 
+576 Tamil Nadu 
+Sri Venkateswaraa 
+Medical College Hospital 
+and Research Institute, 
+Chennai 
+Chennai Sri Venkateswaraa 
+University, Chennai Trust 2022 150 
+577 Tamil Nadu 
+Melmaruvathur 
+Adiparasakthi Instt. 
+Medical Sciences and 
+Research 
+Melmaruvat 
+hur 
+The Tamilnadu Dr. MGR 
+Medical 
+University,Chennai 
+Trust 2008 150 
+578 Tamil Nadu 
+SRM Medical College 
+Hospital & Research 
+Centre, Kancheepuram 
+Kancheepur 
+am 
+SRM Institute of Science 
+& Technology Trust 2005 250 
+579 Telangana 
+Government Medical 
+College, Jogulumba 
+Gadwal 
+ Jogulumba 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt 2024 50 
+580 Telangana Government Medical 
+College, Mulugu Mulugu 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt 2024 50 
+581 Telangana Government Medical 
+College, Narayanpet Narayanpet 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt 2024 50 
+582 Telangana Government Medical 
+College, Narsampet Narsampet 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt 2024 50 
+583 Telangana Government medical 
+College, Quthbullapur 
+Quthbullapur 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2024 50 
+584 Telangana Government Medical 
+College Medak Medak 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2024 50 
+585 Telangana 
+Autonomous State 
+Medical College and 
+Hospital Yadadri 
+Yadadri 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2024 50 
+586 Telangana Government Medical 
+College, Maheshwaram 
+Maheshwaram 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2024 50 
+587 Telangana 
+Nova Institute of Medical 
+Sciences and Research 
+Centre 
+Ranga Reddy District 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Society 2024 150 
+588 Telangana 
+Government Medical 
+College, Jayashankar 
+Bhupalpally 
+Jayashankar 
+ Bhupalpally 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2023 100 
+589 Telangana Government Medical 
+College, Rajanna Sircilla 
+ Rajanna 
+Sircilla 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2023 100 
+590 Telangana Government Medical 
+College, Nirmal Nirmal 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2023 100 
+
+591 Telangana Government Medical 
+College, Karimnagar Karimnagar 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2023 100 
+592 Telangana GOVERNMENT MEDICAL 
+COLLEGE VIKARABAD Vikarabad 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2023 100 
+593 Telangana GOVERNMENT MEDICAL 
+COLLEGE KHAMMAM Khammam 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2023 100 
+594 Telangana NEELIMA INSTITUTE OF 
+MEDICAL SCIENCES Medchal ANURAG UNIVERSITY Trust 2023 150 
+595 Telangana Government Medical 
+College, Kamareddy Kamareddy 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2023 100 
+596 Telangana 
+GOVERNMENT MEDICAL 
+COLLEGE KUMURAM 
+BHEEM ASIFAFABAD 
+Kumaram 
+Bheem 
+Asifabad 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2023 100 
+597 Telangana GOVERNMENT MEDICAL 
+COLLEGE JANGAON Jangaon 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2023 100 
+598 Telangana 
+Chalmeda Anand Rao 
+Insttitute Of Medical 
+Sciences, Karimnagar 
+Karimnagar 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2003 200 
+599 Telangana 
+All India Institute of 
+Medical Sciences, 
+Bibinagar 
+Bibinagar Statutory Autonomous, 
+AIIMS(Bibinagar) Govt. 2019 100 
+600 Telangana Arundathi Institute of 
+Medical Sciences, Medchal Medchal 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2023 150 
+601 Telangana CMR Institute of Medical 
+Science 
+Medchal 
+Malkajgiri 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2023 150 
+602 Telangana 
+Father Colombo Institute 
+of Medical Sciences, 
+Warangal 
+Warangal 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2023 150 
+603 Telangana S V S Medical College, 
+Mehboobnagar 
+Mehboobna 
+gar 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 1999 150 
+604 Telangana Osmania Medical College, 
+Hyderabad Hyderabad 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 1946 250 
+605 Telangana Kakatiya Medical College, 
+Warangal Warangal 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 1959 250 
+606 Telangana Deccan College of Medical 
+Sciences, Hyderabad Hyderabad 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 1985 150 
+607 Telangana MNR Medical College & 
+Hospital, Sangareddy* Sangareddy 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2002 150 
+608 Telangana 
+Kamineni Institute of 
+Medical Sciences, 
+Narketpally 
+Narketpally NTR University of Health 
+Sciences, VijayWada Trust 1999 200 
+609 Telangana Gandhi Medical College, 
+Secunderabad 
+Secunderab 
+ad 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 1954 250 
+610 Telangana Bhaskar Medical College, 
+Yenkapally Yenkapally 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2005 150 
+611 Telangana TRR Institute of Medical 
+Sciences, patancheru* Patancheru 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Society 2020 150 
+612 Telangana Government Medical 
+College, Ramagundam 
+Ramagunda 
+m 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2022 150 
+613 Telangana Government Medical 
+College, Nalgonda Nalgonda 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2019 150 
+614 Telangana Government Medical 
+College, Suryapet Suryapet 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2019 150 
+
+615 Telangana 
+Surabhi Institute of 
+Medical Sciences, 
+Siddipet, Telangana 
+Telangana 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Society 2019 150 
+616 Telangana 
+Mamata Academy of 
+Medical Sciences, 
+Bachupally 
+Bachupally 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Society 2019 150 
+617 Telangana 
+Dr. Patnam Mahender 
+Reddy Institute of Medical 
+Sciences, Chevella, 
+Rangareddy 
+Rangareddy 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Society 2019 150 
+618 Telangana Government Medical 
+College, Siddipet Siddipet 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2018 175 
+619 Telangana 
+Ayaan Institute of Medical 
+Sciences, Teaching 
+Hospital & Research 
+Centre, Kanaka Mamidi, 
+R.R. Dist 
+Rangareddy 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Society 2018 150 
+620 Telangana 
+Maheshwara Medical 
+College, Chitkul, 
+Patancheru, Medak 
+Medak 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Society 2016 150 
+621 Telangana 
+Mahavir Institute of 
+Medical Sciences, 
+Vikarabad, Telengana* 
+Vikarabad 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2016 150 
+622 Telangana 
+R.V.M. Institute of 
+Medical Sciences and 
+Research Centre, Siddipet 
+Siddipet 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2016 250 
+623 Telangana 
+Employees State 
+Insurance Coporation 
+Medical College, Sanath 
+Nagar, Hyderabad 
+Sanath 
+Nagar 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2016 100 
+624 Telangana Government Medical 
+College, Mahabubnagar 
+Mahabubna 
+gar 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2016 175 
+625 Telangana 
+Mallareddy Medical 
+College for Women, 
+Hyderabad 
+Hyderabad NTR University of Health 
+Sciences, VijayWada Society 2013 200 
+626 Telangana Government Medical 
+College, Nizamabad Nizamabad 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2013 120 
+627 Telangana 
+Kamineni Academy of 
+Medical Sciences & 
+Research Center, 
+Hyderabad 
+Hyderabad 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Private 2013 150 
+628 Telangana 
+Apollo Institute of 
+Medical Sciences and 
+Research, Hyderabad 
+Hyderabad NTR University of Health 
+Sciences, VijayWada Trust 2012 150 
+629 Telangana 
+Malla Reddy Institute of 
+Medical Sciences, 
+Hyderabad 
+Hyderabad NTR University of Health 
+Sciences, VijayWada Society 2012 200 
+630 Telangana Dr. VRK Womens Medical 
+College, Aziznagar Aziznagar 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2010 100 
+631 Telangana Rajiv Gandhi Institute of 
+Medical Sciences, adilabad adilabad NTR University of Health 
+Sciences, VijayWada Govt. 2008 120 
+632 Telangana 
+Shadan Institute of 
+Medical 
+Sciences,Research Centre 
+and Teaching Hospital, 
+Peerancheru 
+Peerancher 
+u 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Society 2005 150 
+633 Telangana 
+Prathima Institute Of 
+Medical Sciences, 
+Karimnagar 
+Karimnagar NTR University of Health 
+Sciences, VijayWada Trust 2001 250 
+634 Telangana 
+Prathima Relief Institute 
+of Medical Sciences, 
+Warangal 
+Warangal 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 2022 150 
+635 Telangana Government Medical 
+College, Nagarkurnool 
+Nagarkurnool 
+Kaloji Narayan Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2022 150 
+
+636 Telangana Government Medical 
+College, Sangareddy Sangareddy 
+Kaloji Narayan Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2022 150 
+637 Telangana Government Medical 
+College, Wanaparthy Wanaparthy 
+Kaloji Narayan Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2022 150 
+638 Telangana 
+Government Medical 
+College, Bhadradri 
+Kothagudem 
+Bhadradri Kothagudem 
+Kaloji Narayan Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2022 150 
+639 Telangana Government Medical 
+College, Mancherial Mancherial 
+Kaloji Narayan Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2022 100 
+640 Telangana Government Medical 
+College, Mahabubabad 
+Mahabubabad 
+Kaloji Narayan Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2022 150 
+641 Telangana Government Medical 
+College, Jagtial Jagtial 
+Kaloji Narayan Rao 
+University of Health 
+Sciences, Warangal 
+Govt. 2022 150 
+642 Telangana Mediciti Institute Of 
+Medical Sciences, Ghanpur Ghanpur NTR University of Health 
+Sciences, VijayWada Trust 2001 150 
+643 Telangana Mamata Medical College, 
+Khammam Khammam 
+Kaloji Narayana Rao 
+University of Health 
+Sciences, Warangal 
+Trust 1998 200 
+644 Tripura 
+Tripura Santiniketan 
+Medical College, Dist- 
+West Tripura 
+West Tripura Tripura University Trust 2024 150 
+645 Tripura Agartala Government 
+Medical College,Agartala Agartala Tripura University Govt. 2005 175 
+646 Tripura 
+Tripura Medical College 
+and Dr. B R A M Teaching 
+Hospital, Agartala 
+Agartala Tripura University Trust 2006 100 
+647 
+Uttar Pradesh 
+KMC Medical College & 
+Hospital, Maharajganj, 
+Uttar Pradesh 
+Maharajganj 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Trust 2024 150 
+648 
+Uttar Pradesh 
+Ajay Sangaal Institute of 
+Medical Sciences and 
+Ayushman Hospital 
+Shamli (UP) 
+Shamli 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2024 150 
+649 
+Uttar Pradesh Autonomous State 
+Medical College  Sultanpur Sultanpur 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt 2024 100 
+650 
+Uttar Pradesh 
+Autonomous State 
+Medical College, 
+Akbarpur, Kanpur 
+Kanpur 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt 2024 100 
+651 
+Uttar Pradesh 
+Autonomous State 
+Medical College 
+Kushinagar 
+Kushinagar 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt 2024 100 
+652 
+Uttar Pradesh Autonomous State 
+Medical College Lalitpur Lalitpur 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt 2024 100 
+653 
+Uttar Pradesh Autonomous State 
+Medical College Pilibhit Pilibhit 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt 2024 100 
+654 
+Uttar Pradesh Kalyan Singh Government 
+Medical College Bulandshahr 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt 2024 100 
+655 
+Uttar Pradesh 
+Mahatma Vidur 
+Autonomous State 
+Medical College 
+Bijnor 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2024 100 
+
+656 Uttar Pradesh 
+Shri Gorakshnath Medical 
+College Hospital & Arogya 
+Dham Gorakhpur (UP) 
+Gorakhpur 
+Mahayogi Gorakhnath 
+University Gorakhpur, 
+Uttar Pradesh 
+Society 2024 100 
+657 
+Uttar Pradesh 
+Shri Siddhi Vinayak 
+Medical College & 
+Hospital Sambhal (UP) 
+244302 
+Sambhal 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Private 2024 50 
+658 
+Uttar Pradesh 
+Autonomous State 
+Medical College and 
+Hospital Auraiya 
+Auraiya 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Society 2024 100 
+659 
+Uttar Pradesh 
+Autonomous State 
+Medical College and 
+Hospital Gonda 
+Gonda 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Society 2024 100 
+660 
+Uttar Pradesh 
+Autonomous State 
+Medical College and 
+Hospital Lakhimpuri kheri 
+Lakhimpuri kheri 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Society 2024 100 
+661 
+Uttar Pradesh 
+Baba Kina Ram 
+Autonomous State 
+Medical College and 
+Hospital Chandauli 
+Chandauli 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. Society 2024 100 
+662 Uttar Pradesh 
+ Autonomous State 
+Medical College and 
+Hospital Kaushambi 
+Kaushambi 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2024 100 
+663 
+Uttar Pradesh 
+Autonomous State 
+Medical College, 
+Sonebhadra 
+Sonebhadra 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2024 100 
+664 
+Uttar Pradesh Dr. B.S. Kushwah Medical 
+College, Kanpur Kanpur Private 2024 150 
+665 Uttar 
+Pradesh 
+SKS Hospital Medical 
+College & Research Centre Mathura 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Private 2023 150 
+666 
+Uttar 
+Pradesh S N Medical College, Agra Agra Dr B R Ambedkar 
+University,Agra, U.P. Govt. 1939 200 
+667 Uttar 
+Pradesh 
+Major S D Singh Medical 
+College and Hospital, 
+Fathehgarh, Farrukhabad 
+Farrukhaba 
+d 
+C.S.J.M. University, 
+Kanpur Trust 2011 0 
+668 
+Uttar 
+Pradesh 
+Moti Lal Nehru Medical 
+College, Allahabad Allahabad King Georges Medical 
+University,Lucknow Govt. 1961 200 
+669 Uttar 
+Pradesh 
+BRD Medical College, 
+Gorakhpur Gorakhpur 
+Deen Dayal Upadhyay 
+Gorakhpur University, 
+Gorakhpur 
+Govt. 1972 150 
+670 Uttar 
+Pradesh 
+All India Institute of 
+Medical Sciences, Rae 
+Bareli 
+Rae Bareli Statutory Autonomous, 
+AIIMS(RaeBareli) Govt. 2019 100 
+671 Uttar 
+Pradesh 
+Teerthanker Mahaveer 
+Medical College, 
+Moradabad 
+Moradabad Teerthanker Mahaveer 
+University, Moradabad Trust 2008 250 
+672 
+Uttar 
+Pradesh 
+King George Medical 
+University, Lucknow Lucknow King Georges Medical 
+University,Lucknow Govt. 1911 250 
+673 Uttar 
+Pradesh 
+Muzaffarnagar Medical 
+College, Muzaffarnagar 
+Muzaffarna 
+gar 
+Ch. Charan Singh 
+Universitiy, Meerut Trust 2006 200 
+674 Uttar 
+Pradesh 
+Santosh Medical College, 
+Ghaziabad Ghaziabad Santosh University Trust 1996 150 
+675 Uttar 
+Pradesh 
+All India Institute of 
+Medical Sciences, 
+Gorakhpur 
+Gorakhpur Statutory Autonomous, 
+AIIMS(Gorakhpur) Govt. 2019 125 
+676 Uttar 
+Pradesh 
+Uttar Pradesh University 
+of Medical Sciences, 
+(Prev. UP Rural Inst.of 
+Med.Sc&R) Etawah 
+Etawah 
+Uttar Pradesh University 
+of Medical Sciences, 
+Etawah 
+Govt. 2006 200 
+677 Uttar 
+Pradesh 
+Mahamaya Rajkiya 
+Allopathic Medical 
+College, Ambedkarnagar 
+Ambedkarn 
+agar 
+Dr. Ram Manohar Lohia 
+Avadh University, 
+Faizabad 
+Govt. 2011 100 
+
+678 Uttar 
+Pradesh 
+Institute of Medical 
+Sciences, BHU, Varansi Varansi Banaras Hindu University Govt. 1960 100 
+679 Uttar 
+Pradesh 
+Era Lucknow Medical 
+College , Lucknow Lucknow Era University, Lucknow Trust 1997 200 
+680 Uttar 
+Pradesh 
+Maharani Laxmi Bai 
+Medical College, Jhansi Jhansi Bundelkhand University Govt. 1968 150 
+681 Uttar 
+Pradesh 
+LLRM Medical College, 
+Meerut Meerut Ch. Charan Singh 
+Universitiy, Meerut Govt. 1966 150 
+682 Uttar 
+Pradesh 
+Rohilkhand Medical 
+College & Hospital, Bareilly Bareilly Bareilly International 
+University, Bareilly Trust 2006 250 
+683 Uttar 
+Pradesh 
+Subharti Medical College, 
+Meerut Meerut 
+Swami Vivekanand 
+Subharti University, 
+Meerut 
+Trust 1996 200 
+684 Uttar 
+Pradesh 
+Jawaharlal Nehru Medical 
+College, Aligarh Aligarh Aligarh Muslim 
+University Govt. 1961 150 
+685 Uttar 
+Pradesh 
+Hind Institute of Medical 
+Sciences , Barabanki Barabanki 
+Dr. Ram Manohar Lohia 
+Avadh University, 
+Faizabad 
+Trust 2009 100 
+686 Uttar 
+Pradesh 
+GSVM Medical College, 
+Kanpur Kanpur C.S.J.M. University, 
+Kanpur Govt. 1955 250 
+687 Uttar 
+Pradesh 
+Autonomous State 
+Medical College 
+Pratapgarh 
+Pratapgarh 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2021 100 
+688 Uttar 
+Pradesh 
+Uma Nath Singh 
+Autonomous State 
+Medical College Society 
+Jaunpur 
+Jaunpur 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2021 100 
+689 Uttar 
+Pradesh 
+Autonomous State 
+Medical College, 
+Siddharthnagar 
+Siddharthna 
+gar 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2021 100 
+690 Uttar 
+Pradesh 
+Maharshi Devraha Baba 
+Autonomous State 
+Medical College, Deoria 
+Deoria 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2021 100 
+691 Uttar 
+Pradesh 
+Autonomous State 
+Medical College Society 
+Ghazipur 
+Ghazipur 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2021 100 
+692 Uttar 
+Pradesh 
+Autonomous State 
+Medical College Society, 
+Etah, Uttar Pradesh 
+Etah 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2021 100 
+693 Uttar 
+Pradesh 
+Autonomous State 
+Medical College Society, 
+Hardoi 
+Hardoi 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2021 100 
+694 Uttar 
+Pradesh 
+Autonomous State Society 
+Medical College Mirzapur Mirzapur 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2021 100 
+695 Uttar 
+Pradesh 
+Autonomous State 
+Medical College Society, 
+Fatehpur 
+Fatehpur 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Govt. 2021 100 
+696 Uttar 
+Pradesh 
+Naraina Medical College 
+& Research Centre Kanpur 
+Atal Bihari Vajpayee 
+Medical University, 
+Lucknow, Uttar Pradesh 
+Society 2021 150 
+697 Uttar 
+Pradesh 
+Noida International 
+Institute Of Medical 
+Sciences 
+Noida Noida International 
+University Trust 2020 150 
+698 Uttar 
+Pradesh 
+United Institute of 
+Medical Sciences, 
+Allahabad 
+Allahabad 
+Prof. Rajendra Singh 
+(Rajju Bhaiya) 
+University, Prayagraj 
+Society 2020 150 
+699 Uttar 
+Pradesh 
+Government Medical 
+College, Rampur, Basti Rampur King Georges Medical 
+University,Lucknow Govt. 2019 100 
+700 Uttar 
+Pradesh 
+Government Medical 
+College, Badaun, U.P. Badaun Mahatma Jyotiba Phule 
+Rohilkhand University Govt. 2019 100 
+
+701 Uttar 
+Pradesh 
+Government Medical 
+College, Faizabad Faizabad King Georges Medical 
+University,Lucknow Govt. 2019 100 
+702 Uttar 
+Pradesh 
+Rajkiya Allopathic Medical 
+College, Bahraich, UP Bahraich King Georges Medical 
+University,Lucknow Govt. 2019 100 
+703 Uttar 
+Pradesh 
+Government Medical 
+College, Shahjahanpur, UP 
+Shahjahanp 
+ur 
+King Georges Medical 
+University,Lucknow Govt. 2019 100 
+704 
+Uttar 
+Pradesh 
+Government Medical 
+College, Firozabad Firozabad King Georges Medical 
+University,Lucknow Govt. 2019 100 
+705 Uttar 
+Pradesh 
+Government Institute of 
+Medical Sciences, Kasna, 
+Greater Noida 
+Greater 
+Noida 
+King Georges Medical 
+University,Lucknow 
+Govt- 
+Society 2019 100 
+706 Uttar 
+Pradesh 
+National Capital Region 
+Institute of Medical 
+Sciences, Meerut 
+Meerut Ch. Charan Singh 
+Universitiy, Meerut Society 2018 150 
+707 
+Uttar 
+Pradesh 
+G.S. Medical College & 
+Hospital, Hapur, UP Hapur Ch. Charan Singh 
+Universitiy, Meerut Trust 2017 250 
+708 Uttar 
+Pradesh 
+Dr. Ram Manohar Lohia 
+Institute of Medical 
+Sciences,Lucknow 
+Lucknow 
+Dr. Ram Manohar Lohia 
+Institute of Medical 
+Sciences, Lucknow 
+(deemed) 
+Govt. 2017 200 
+709 Uttar 
+Pradesh 
+Varun Arjun Medical 
+College, Banthra, 
+Shahjahanpur 
+Shahjahanp 
+ur 
+Mahatma Jyotiba Phule 
+Rohilkhand University Trust 2016 250 
+710 
+Uttar 
+Pradesh 
+Saraswati Medical 
+College, Unnao, U.P. Unnao CSJM University Kanpur Trust 2016 150 
+711 Uttar 
+Pradesh 
+Krishna Mohan Medical 
+College & Hospital, 
+Mathura 
+Mathura Dr B R Ambedkar 
+University,Agra, U.P. Society 2016 150 
+712 Uttar 
+Pradesh 
+Venkateshwara Institute 
+of Medical Sciences, 
+Gajraula 
+Gajraula Shri Venkateshwara 
+University, Gajraula Trust 2016 250 
+713 Uttar 
+Pradesh 
+Prasad Institute of 
+Medical Sciences, Lucknow Lucknow 
+Dr. Ram Manohar Lohia 
+Avadh University, 
+Faizabad 
+Trust 2016 150 
+714 Uttar 
+Pradesh 
+T S Misra Medical College 
+& Hospital, Amusi, 
+Lucknow 
+Lucknow T.S. Misra University Private 2016 250 
+715 Uttar 
+Pradesh 
+Government Allopathic 
+Medical College, Banda, 
+UP 
+Banda King Georges Medical 
+University,Lucknow Govt. 2016 100 
+716 Uttar 
+Pradesh 
+K.D. Medical College 
+Hospital & Research 
+Centre, Mathura 
+Mathura Dr B R Ambedkar 
+University,Agra, U.P. Society 2015 250 
+717 Uttar 
+Pradesh 
+Shaikh-UL-Hind Maulana 
+Mahmood Hasan Medical 
+College, Saharanpur 
+Sharanpur Ch. Charan Singh 
+Universitiy, Meerut Govt. 2015 100 
+718 Uttar 
+Pradesh 
+Heritage Institute of 
+Medical Sciences, Varanasi Varanasi Mahatma Gandhi Kashi 
+Vidyapith, Varanasi Private 2015 200 
+719 Uttar 
+Pradesh 
+Hind Institute of Medical 
+Sciences, Sitapur Sitapur King Georges Medical 
+University,Lucknow Trust 2015 150 
+720 Uttar 
+Pradesh 
+F.H. Medical College & 
+Hospital, Etamdapur, Agra Agra Dr B R Ambedkar 
+University,Agra, U.P. Trust 2014 150 
+721 Uttar 
+Pradesh 
+Rajshree Medical 
+Research Institute, Bareilly Bareilly M J P Rohilkhand 
+University Trust 2014 250 
+722 Uttar 
+Pradesh 
+Rajkiya Medical College 
+Jalaun, Orai, Uttar Pradesh Orai King Georges Medical 
+University,Lucknow Govt. 2013 100 
+723 Uttar 
+Pradesh 
+Integral Institute of 
+Medical Sciences & 
+Research, Lucknow 
+Lucknow Integral University, 
+Lucknow Private 2013 150 
+724 Uttar 
+Pradesh 
+Government Medical 
+College & Super facility 
+Hospital, Azamgarh 
+Azamgarh King Georges Medical 
+University,Lucknow Govt. 2013 100 
+725 Uttar 
+Pradesh 
+Mayo Institute of Medical 
+Sciences, Barabanki Barabanki 
+Dr. Ram Manohar Lohia 
+Avadh University, 
+Faizabad 
+Trust 2012 250 
+
+726 Uttar 
+Pradesh 
+Government Medical 
+College, Kannauj Kannauj King Georges Medical 
+University,Lucknow Govt. 2012 100 
+727 Uttar 
+Pradesh 
+Rama Medical College 
+Hospital and Research 
+Centre, Hapur 
+Hapur Dr B R Ambedkar 
+University,Agra, U.P. Trust 2011 250 
+728 Uttar 
+Pradesh 
+Career Instt. Of Medical 
+Sciences & Hospital, 
+Lucknow 
+Lucknow 
+Dr. Ram Manohar Lohia 
+Avadh University, 
+Faizabad 
+Trust 2011 150 
+729 Uttar 
+Pradesh 
+School of Medical 
+Sciences & 
+Research,Greater Noida 
+Noida Sharda University, 
+Greater Noida Trust 2009 250 
+730 
+Uttar 
+Pradesh 
+Rama Medical College and 
+Hospital , Kanpur Kanpur Dr B R Ambedkar 
+University,Agra, U.P. Trust 2008 150 
+731 Uttar 
+Pradesh 
+Saraswati Institute of 
+Medical Sciences, Hapur Hapur Ch. Charan Singh 
+Universitiy, Meerut Trust 2008 250 
+732 Uttar 
+Pradesh 
+Shri Ram Murti Smarak 
+Institute of Medical 
+Sciences, Bareilly 
+Bareilly M J P Rohilkhand 
+University Trust 2005 150 
+733 
+Uttarakhand 
+Graphic Era Institute of 
+Medical Sciences 
+Dehradun, Uttrakhand 
+Dehradun 
+Graphic Era Institute of 
+Medical Sciences 
+Dehradun, Uttrakhand 
+Society 2024 150 
+734 Uttarakhand Government Medical 
+College, Haridwar Haridwar H.N.B. Uttarakhand 
+Medical University Govt. 2024 100 
+735 Uttarakhan 
+d 
+Himalayan Institute of 
+Medical Sciences, 
+Dehradun 
+Dehradun Swami Rama Himalayan 
+University, Dehradun Trust 1995 150 
+736 Uttarakhan 
+d 
+Shri Guru Ram Rai 
+Institute of Medical & 
+Health Sciences, Dehradun 
+Dehradun Shri Guru Ram Rai 
+University Society 2006 150 
+737 Uttarakhan 
+d 
+All India Institute of 
+Medical Sciences, 
+Rishikesh 
+Rishikesh Statutory Autonomous, 
+AIIMS(Rishikesh) Govt. 2012 125 
+738 Uttarakhan 
+d 
+Government Medical 
+College (Prev.Uttarakhand 
+Forest Hospital Trust 
+Med.Col.), Haldwani 
+Haldwani 
+Hemwati Nandan 
+Bahuguna Uttarakhand 
+Medical Education 
+University, Dehradun 
+Govt. 2001 125 
+739 Uttarakhan 
+d 
+Gautam Buddha Chikitsa 
+Mahavidyalaya, Dehradum Dehradum Ras Bihari Bose Subharti 
+University, Dehradun Trust 2022 150 
+740 Uttarakhan 
+d 
+Soban Singh jeena 
+Government institute of 
+Medical science & 
+Research, Almora 
+Almora 
+HNB Uttarakhand 
+Medical Education 
+University, Dehradun 
+Govt. 2021 100 
+741 Uttarakhan 
+d 
+Doon Medical College, 
+Dehradun, Uttarakhand Dehradun 
+Hemwati Nandan 
+Bahuguna Uttarakhand 
+Medical Education 
+University, Dehradun 
+Govt. 2016 175 
+742 Uttarakhan 
+d 
+Veer Chandra Singh 
+Garhwali Govt. Medical 
+Sc. & Research Instt, 
+Srinagar, Pauri Garhwal 
+Pauri 
+Garhwal 
+Uttrakhand Technical 
+University, Dehradun Govt. 2008 175 
+743 
+West Bengal 
+Krishnanagar Institute of 
+Medical Sciences Pvt. Ltd 
+Krishnanagar, Nadia (WB) 
+Nadia 
+The West Bengal 
+University of Health 
+Sciences 
+Private 2024 100 
+744 West 
+Bengal 
+East West Institute of 
+Medical Sciences and 
+Research, Burdwan 
+Burdwan 
+The West Bengal 
+University of Health 
+Sciences 
+Private 2024 50 
+745 West Bengal Jakir Hossain Medical 
+College, Burdwan Burdwan 
+The West Bengal 
+University of Health 
+Sciences 
+Trust 2024 50 
+746 West 
+Bengal 
+Institute of Postgraduate 
+Medical Education & 
+Research, Kolkata 
+Kolkata 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 1957 200 
+747 West 
+Bengal 
+JMN Medical College, 
+Nadia Nadia 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Trust 2023 150 
+
+748 West 
+Bengal 
+JIS School of Medical 
+Science & Research, 
+Howrah 
+Howrah JIS University, Kolkata Society 2023 150 
+749 West 
+Bengal 
+All India Institute of 
+Medical Sciences, Kalyani, 
+Nadia 
+Kalyani Statutory Autonomous, 
+AIIMS(Kalyani) Govt. 2019 125 
+750 West 
+Bengal 
+Burdwan Medical College, 
+Burdwan Burdwan 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 1969 200 
+751 West 
+Bengal 
+North Bengal Medical 
+College, Darjeeling Darjeeling 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 1968 200 
+752 West 
+Bengal 
+Govt. Medical College, 
+Kolkata Kolkata 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 1838 250 
+753 West 
+Bengal 
+Nilratan Sircar Medical 
+College, Kolkata Kolkata 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 1948 250 
+754 West 
+Bengal 
+RG Kar Medical College, 
+Kolkata Kolkata 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 1916 251 
+755 West 
+Bengal 
+Bankura Sammilani 
+Medical College, Bankura Bankura 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 1956 200 
+756 West 
+Bengal 
+Calcutta National Medical 
+College, Kolkata Kolkata 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 1948 250 
+757 West 
+Bengal 
+Santiniketan Medical Colle 
+ge, Bolpur, West Bengal West Bengal 
+The West Bengal 
+University of Health 
+Sciences 
+Trust 2021 150 
+758 West 
+Bengal 
+Purulia Government 
+Medical College & Hospital Purulia 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2020 100 
+759 West 
+Bengal 
+Raiganj Government 
+Medical College & 
+Hospital, Raiganj 
+Raiganj 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2019 100 
+760 West 
+Bengal 
+Diamond Harbour 
+Government Medical 
+College and Hospital, 
+West Bengal 
+West Bengal 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2019 100 
+761 West 
+Bengal 
+Coochbehar Government 
+Medical College & 
+Hospital, Coochbehar, WB 
+Coochbehar 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2019 100 
+762 West 
+Bengal 
+Rampurhat Government 
+Medical College & 
+Hospital, Rampurhat 
+Rampurhat 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2019 100 
+763 West 
+Bengal 
+Shri Ramkrishna Institute 
+of Medical Sciences & 
+Sanaka Hospitals, 
+Durgapur 
+Durgapur 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Trust 2019 200 
+764 West 
+Bengal 
+Jagannath Gupta Institute 
+of Medical Sciences & 
+Hospital, Kolkata 
+Kolkata 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Trust 2018 200 
+765 West 
+Bengal 
+Gouri Devi Institute of 
+Medical Sciences and 
+Hospital, Durgapur 
+Durgapur 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Society 2016 200 
+766 West 
+Bengal 
+IQ-City Medical College, 
+Burdwan Burdwan 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Trust 2013 250 
+767 West 
+Bengal 
+Employees State 
+Insurance Corporation 
+Medical College, Joka, 
+Kolkata 
+Joka 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2013 100 
+768 West 
+Bengal 
+Murshidabad Medical 
+College & Hospitals, 
+Murshidabad 
+Murshidaba 
+d 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2012 125 
+769 West 
+Bengal 
+College of Medicine and 
+Sagore Dutta Hospital, 
+Kolkata 
+Kamarhati 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2011 125 
+
+770 West 
+Bengal 
+Malda Medical College & 
+Hospital, Malda Malda 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2011 125 
+771 West 
+Bengal 
+ICARE Institute of Medical 
+Sciences & Research, 
+Haldia, Purba Midanpore 
+Purba 
+Midanpore 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Trust 2011 150 
+772 West 
+Bengal 
+College of Medicine and 
+JNM Hospital, Kalyani, 
+Nadia 
+Kalyani 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2010 125 
+773 West 
+Bengal 
+Jalpaiguri Government 
+Medical College Jalpaiguri West Bengal University 
+of Health Sciences Govt. 2022 100 
+774 West 
+Bengal 
+Tamralipto Government 
+Medical College & Hospital 
+Purba Medinipur West Bengal University 
+of Health Sciences Govt. 2022 100 
+775 West 
+Bengal 
+Prafulla Chandra Sen 
+Government Medical 
+College & Hospital 
+Hooghly West Bengal University 
+of Health Sciences Govt. 2022 100 
+776 West 
+Bengal 
+Barasat Government 
+Medical College & Hospital 
+North 
+Twenty 
+Four 
+Parganas 
+West Bengal University 
+of Health Sciences Govt. 2022 100 
+777 West 
+Bengal 
+Jhargram Government 
+Medical College & 
+Hospital, Jhargram 
+Jhargram West Bengal University 
+of Health Sciences Govt. 2022 100 
+778 West 
+Bengal 
+Sarat Chandra 
+Chattopadhyay 
+Government Medical 
+College & Hospital, 
+Howrah West Bengal University 
+of Health Sciences Govt. 2022 100 
+779 West 
+Bengal 
+KPC Medical College, 
+Jadavpur, Kolkata Jadavpur 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Private 2008 200 
+780 West 
+Bengal 
+Midnapore Medical 
+College, Midnapore Midnapore 
+West Bengal University 
+of Health 
+Sciences,Kolkata 
+Govt. 2001 200 
+118190 
