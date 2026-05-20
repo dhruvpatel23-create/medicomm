@@ -15,8 +15,9 @@ const uploadsDir = path.join(runtimeDataDir, "uploads");
 const legacyDatabasePath = path.join(dataDir, "users.json");
 const databasePath = path.join(runtimeDataDir, "users.json");
 const practiceQuestionBankPath = path.join(dataDir, "practice-question-bank.json");
-const host = "127.0.0.1";
-const port = 4174;
+const distDir = path.join(__dirname, "dist");
+const host = process.env.HOST ?? "0.0.0.0";
+const port = Number(process.env.PORT ?? 4174);
 const DEFAULT_USER_RATING = 1480;
 const DEFAULT_USER_STREAK = 1;
 const DEFAULT_CORRECT_ANSWERS = 0;
@@ -141,6 +142,49 @@ function sendJson(response, statusCode, payload) {
     "Content-Type": "application/json; charset=utf-8",
   });
   response.end(JSON.stringify(payload));
+}
+
+const staticMimeTypes = {
+  ".css": "text/css; charset=utf-8",
+  ".gif": "image/gif",
+  ".html": "text/html; charset=utf-8",
+  ".ico": "image/x-icon",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".js": "text/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".png": "image/png",
+  ".svg": "image/svg+xml",
+  ".txt": "text/plain; charset=utf-8",
+  ".webp": "image/webp",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2",
+};
+
+async function serveStaticFile(response, requestPath) {
+  if (!existsSync(distDir)) {
+    sendJson(response, 404, { message: "Frontend build not found. Run npm run build before starting the server." });
+    return;
+  }
+
+  const decodedPath = decodeURIComponent(requestPath);
+  const normalizedPath = path.normalize(decodedPath).replace(/^(\.\.[/\\])+/, "");
+  const requestedPath = path.join(distDir, normalizedPath);
+  const resolvedPath = requestedPath.startsWith(distDir) ? requestedPath : path.join(distDir, "index.html");
+  const filePath = existsSync(resolvedPath) ? resolvedPath : path.join(distDir, "index.html");
+
+  try {
+    const file = await fs.readFile(filePath);
+    const extension = path.extname(filePath).toLowerCase();
+    response.writeHead(200, {
+      "Content-Type": staticMimeTypes[extension] ?? "application/octet-stream",
+      "Cache-Control": filePath.endsWith("index.html") ? "no-cache" : "public, max-age=31536000, immutable",
+    });
+    response.end(file);
+  } catch {
+    response.writeHead(404);
+    response.end("Not found");
+  }
 }
 
 function hashPassword(password, salt = randomBytes(16).toString("hex")) {
@@ -924,7 +968,8 @@ async function handleRequest(request, response) {
     return;
   }
 
-  const url = new URL(request.url, `http://${host}:${port}`);
+  const requestHost = request.headers.host ?? `${host}:${port}`;
+  const url = new URL(request.url, `http://${requestHost}`);
 
   if (request.method === "GET" && url.pathname.startsWith("/uploads/")) {
     const requestedFile = path.basename(url.pathname);
@@ -994,6 +1039,15 @@ async function handleRequest(request, response) {
       return await handleSendDirectMessage(request, response, directMessageMatch[1]);
     }
 
+    if (url.pathname.startsWith("/api/")) {
+      sendJson(response, 404, { message: "Route not found." });
+      return;
+    }
+
+    if (request.method === "GET" || request.method === "HEAD") {
+      return await serveStaticFile(response, url.pathname === "/" ? "/index.html" : url.pathname);
+    }
+
     sendJson(response, 404, { message: "Route not found." });
   } catch (error) {
     sendJson(response, 500, { message: error instanceof Error ? error.message : "Unexpected server error." });
@@ -1001,5 +1055,5 @@ async function handleRequest(request, response) {
 }
 
 createServer(handleRequest).listen(port, host, () => {
-  console.log(`MediComm API listening on http://${host}:${port}`);
+  console.log(`MediComm listening on http://${host}:${port}`);
 });
