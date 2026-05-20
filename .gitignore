@@ -1,3 +1,8 @@
+node_modules/
+.vite/
+.codex-git-backup/
+runtime-data/
+*.log
 data/uploads/*
 !data/uploads/.gitkeep
 vite.out.log
