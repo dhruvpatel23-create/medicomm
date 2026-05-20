@@ -27,62 +27,7 @@ const LEGACY_PASSWORD_HASH_ITERATIONS = 120000;
 
 ensureStorage();
 
-const seedCommunities = [
-  {
-    id: "community-usmle-step-1",
-    name: "USMLE Step 1",
-    description: "High-yield foundational review, daily recall prompts, and exam strategy discussions.",
-    topic: "Foundational review",
-    adminUserId: null,
-    memberIds: [],
-    messages: [
-      {
-        id: "message-usmle-1",
-        userId: null,
-        userName: "MediComm Bot",
-        text: "Welcome to the USMLE Step 1 group. Share mnemonics, doubts, and daily progress here.",
-        createdAt: new Date().toISOString(),
-      },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "community-emergency-medicine",
-    name: "Emergency Medicine",
-    description: "Rapid-fire acute care cases, trauma pearls, and emergency room learning threads.",
-    topic: "Acute care",
-    adminUserId: null,
-    memberIds: [],
-    messages: [
-      {
-        id: "message-emergency-1",
-        userId: null,
-        userName: "MediComm Bot",
-        text: "Use this room like a focused WhatsApp study group for emergency medicine cases.",
-        createdAt: new Date().toISOString(),
-      },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "community-radiology-rounds",
-    name: "Radiology Rounds",
-    description: "Image-based practice, interpretation tips, and fast differential diagnosis discussions.",
-    topic: "Image-based practice",
-    adminUserId: null,
-    memberIds: [],
-    messages: [
-      {
-        id: "message-radiology-1",
-        userId: null,
-        userName: "MediComm Bot",
-        text: "Drop image interpretation tips, pattern-recognition shortcuts, and tricky radiology cases here.",
-        createdAt: new Date().toISOString(),
-      },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-];
+const seedCommunityIds = new Set(["community-usmle-step-1", "community-emergency-medicine", "community-radiology-rounds"]);
 
 function ensureStorage() {
   if (!existsSync(dataDir)) mkdirSync(dataDir, { recursive: true });
@@ -100,7 +45,9 @@ function ensureStorage() {
 function readDatabase() {
   const raw = readFileSync(databasePath, "utf8");
   const parsed = JSON.parse(raw);
-  const communities = Array.isArray(parsed.communities) && parsed.communities.length ? parsed.communities : seedCommunities;
+  const communities = Array.isArray(parsed.communities)
+    ? parsed.communities.filter((community) => !(seedCommunityIds.has(community.id) && !community.adminUserId))
+    : [];
   const users = (parsed.users ?? []).map((user) => ({
     ...user,
     rating: Number.isFinite(user.rating) ? user.rating : DEFAULT_USER_RATING,
@@ -120,6 +67,10 @@ function writeDatabase(data) {
   writeFileSync(databasePath, JSON.stringify(data, null, 2));
 }
 
+function normalizeContactNumber(value) {
+  return String(value ?? "").replace(/\D/g, "");
+}
+
 function readPracticeQuestionBank() {
   if (!existsSync(practiceQuestionBankPath)) {
     return {
@@ -135,6 +86,22 @@ function readPracticeQuestionBank() {
   }
 
   return JSON.parse(readFileSync(practiceQuestionBankPath, "utf8"));
+}
+
+function countPracticeQuestions(library) {
+  const countedFromSubjects = (library.subjects ?? []).reduce(
+    (total, subject) => total + (subject.questions?.length ?? subject.questionCount ?? 0),
+    0,
+  );
+  if (countedFromSubjects) return countedFromSubjects;
+  if (Number.isFinite(library.exam?.questionCount)) return library.exam.questionCount;
+
+  return (library.years ?? []).reduce(
+    (total, year) =>
+      total +
+      (year.subjects ?? []).reduce((subjectTotal, subject) => subjectTotal + (subject.questions?.length ?? 0), 0),
+    0,
+  );
 }
 
 function sendJson(response, statusCode, payload) {
@@ -395,6 +362,7 @@ function validateSignupPayload(payload) {
   }
 
   if (!/^\S+@\S+\.\S+$/.test(payload.email)) return "Enter a valid email address.";
+  if (normalizeContactNumber(payload.contactNumber).length < 8) return "Enter a valid mobile number.";
   if (String(payload.password).length < 6) return "Password must be at least 6 characters.";
   return null;
 }
@@ -454,8 +422,12 @@ async function handleSignup(request, response) {
   }
 
   const email = String(payload.email).trim().toLowerCase();
+  const contactNumber = normalizeContactNumber(payload.contactNumber);
   if (database.users.some((user) => user.email.toLowerCase() === email)) {
     return sendJson(response, 409, { message: "An account with this email already exists." });
+  }
+  if (database.users.some((user) => normalizeContactNumber(user.contactNumber) === contactNumber)) {
+    return sendJson(response, 409, { message: "An account with this mobile number already exists." });
   }
 
   const { hash, salt, iterations } = hashPassword(String(payload.password));
@@ -464,7 +436,7 @@ async function handleSignup(request, response) {
     name: String(payload.name).trim(),
     email,
     medicalCollege: String(payload.medicalCollege).trim(),
-    contactNumber: String(payload.contactNumber).trim(),
+    contactNumber,
     rating: DEFAULT_USER_RATING,
     streak: DEFAULT_USER_STREAK,
     correctAnswers: DEFAULT_CORRECT_ANSWERS,
@@ -559,17 +531,28 @@ async function handleProfileUpdate(request, response) {
   const name = String(payload.name ?? "").trim();
   const medicalCollege = String(payload.medicalCollege ?? "").trim();
   const contactNumber = String(payload.contactNumber ?? "").trim();
+  const normalizedContactNumber = normalizeContactNumber(contactNumber);
 
-  if (!name || !medicalCollege || !contactNumber) {
+  if (!name || !medicalCollege || !normalizedContactNumber) {
     return sendJson(response, 400, { message: "Name, medical college, and contact number are required." });
+  }
+  if (normalizedContactNumber.length < 8) {
+    return sendJson(response, 400, { message: "Enter a valid mobile number." });
   }
 
   const userIndex = database.users.findIndex((user) => user.id === sessionUser.id);
+  if (
+    database.users.some(
+      (user) => user.id !== sessionUser.id && normalizeContactNumber(user.contactNumber) === normalizedContactNumber,
+    )
+  ) {
+    return sendJson(response, 409, { message: "Another account already uses this mobile number." });
+  }
   const updatedUser = {
     ...database.users[userIndex],
     name,
     medicalCollege,
-    contactNumber,
+    contactNumber: normalizedContactNumber,
   };
 
   if (payload.profileImageDataUrl) {
@@ -802,6 +785,27 @@ function handleLeaderboard(request, response) {
   return sendJson(response, 200, { players });
 }
 
+function handleSummary(response) {
+  const database = readDatabase();
+  const practiceLibrary = readPracticeQuestionBank();
+  const attemptedQuestions = database.users.reduce(
+    (total, user) => total + (Number.isFinite(user.attemptedQuestions) ? user.attemptedQuestions : 0),
+    0,
+  );
+  const correctAnswers = database.users.reduce(
+    (total, user) => total + (Number.isFinite(user.correctAnswers) ? user.correctAnswers : 0),
+    0,
+  );
+
+  return sendJson(response, 200, {
+    users: database.users.length,
+    communities: database.communities.length,
+    practiceQuestions: countPracticeQuestions(practiceLibrary),
+    attemptedQuestions,
+    correctAnswers,
+  });
+}
+
 function handlePracticeQuestionBank(response) {
   return sendJson(response, 200, readPracticeQuestionBank());
 }
@@ -1006,6 +1010,7 @@ async function handleRequest(request, response) {
     if (request.method === "PATCH" && url.pathname === "/api/profile") return await handleProfileUpdate(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile/stats") return await handleProfileStatsUpdate(request, response);
     if (request.method === "GET" && url.pathname === "/api/leaderboard") return handleLeaderboard(request, response);
+    if (request.method === "GET" && url.pathname === "/api/summary") return handleSummary(response);
     if (request.method === "GET" && url.pathname === "/api/practice") return handlePracticeQuestionBank(response);
     if (request.method === "GET" && url.pathname === "/api/users/search") return handleUserSearch(request, response, url);
     if (request.method === "GET" && url.pathname === "/api/direct-messages") return handleDirectConversationsList(request, response);

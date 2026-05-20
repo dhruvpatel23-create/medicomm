@@ -278,6 +278,29 @@ button {
   color: #64748b;
 }
 
+.password-input-wrap {
+  position: relative;
+}
+
+.password-input-wrap input {
+  padding-right: 78px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .college-search {
   position: relative;
 }
@@ -1155,6 +1178,28 @@ main {
   margin-bottom: 18px;
 }
 
+.community-invite-box {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid #dbe3f0;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+
+.community-invite-box span {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.community-invite-box code {
+  overflow-wrap: anywhere;
+  color: #1f2937;
+}
+
 .community-chat-shell-body,
 .community-chat-body {
   display: grid;
@@ -1551,6 +1596,7 @@ main {
 :root[data-theme="dark"] .button-secondary,
 :root[data-theme="dark"] .auth-tab,
 :root[data-theme="dark"] .field input,
+:root[data-theme="dark"] .password-toggle,
 :root[data-theme="dark"] .state-search-input,
 :root[data-theme="dark"] .community-chat-form input,
 :root[data-theme="dark"] .community-chat-form textarea,
@@ -1564,6 +1610,15 @@ main {
 :root[data-theme="dark"] .field input:disabled {
   background: #111c2e;
   color: #89a0bf;
+}
+
+:root[data-theme="dark"] .community-invite-box {
+  background: #101a2c;
+  border-color: rgba(100, 116, 139, 0.45);
+}
+
+:root[data-theme="dark"] .community-invite-box code {
+  color: #e5eefc;
 }
 
 :root[data-theme="dark"] .stack-row,

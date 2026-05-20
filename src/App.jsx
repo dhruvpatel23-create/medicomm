@@ -5,12 +5,6 @@ const THEME_STORAGE_KEY = "medicomm-theme";
 const PRACTICE_LIBRARY_URL = "/practice-question-bank.json";
 const PERFORMANCE_STATS_KEY_PREFIX = "medicomm-performance-";
 
-const stats = [
-  { icon: "MCQ", value: "5,000+", label: "Medical MCQs", tint: "blue" },
-  { icon: "ACT", value: "15,000+", label: "Active Learners", tint: "green" },
-  { icon: "HUB", value: "50+", label: "Communities", tint: "purple" },
-];
-
 const features = [
   {
     icon: "STK",
@@ -52,12 +46,6 @@ const features = [
 
 const navItems = ["Home", "Dashboard", "Practice", "Leaderboard", "Communities", "Compete", "Profile"];
 
-const activityFeed = [
-  { title: "Completed Cardiology Sprint", detail: "18/20 correct answers", time: "2h ago" },
-  { title: "Joined Emergency Medicine Hub", detail: "214 members online", time: "5h ago" },
-  { title: "Moved up on leaderboard", detail: "Gained 7 positions", time: "Today" },
-];
-
 const medicalCollegeSuggestions = [
   "AIIMS Delhi",
   "Armed Forces Medical College, Pune",
@@ -89,53 +77,11 @@ const medicalCollegeSuggestions = [
   "VMMC and Safdarjung Hospital, New Delhi",
 ].sort((left, right) => left.localeCompare(right));
 
-const leaderboardAccounts = [
-  { name: "Ava Patel", state: "Maharashtra", college: "Grant Medical College, Mumbai", score: 2480, streak: 31 },
-  { name: "Noah Chen", state: "Karnataka", college: "Bangalore Medical College", score: 2415, streak: 22 },
-  { name: "Liam Carter", state: "Delhi", college: "Maulana Azad Medical College", score: 2360, streak: 18 },
-  { name: "Riya Sharma", state: "Maharashtra", college: "BJ Government Medical College, Pune", score: 2298, streak: 20 },
-  { name: "Arjun Mehta", state: "Tamil Nadu", college: "Madras Medical College", score: 2264, streak: 16 },
-  { name: "Sana Iqbal", state: "Karnataka", college: "Mysore Medical College", score: 2236, streak: 14 },
-  { name: "Kabir Nair", state: "Delhi", college: "VMMC & Safdarjung Hospital", score: 2192, streak: 12 },
-  { name: "Neha Joshi", state: "Tamil Nadu", college: "Stanley Medical College", score: 2170, streak: 13 },
-  { name: "Ananya Das", state: "Andhra Pradesh", college: "Andhra Medical College, Visakhapatnam", score: 2148, streak: 11 },
-  { name: "Tsering Norbu", state: "Arunachal Pradesh", college: "TRIHMS, Naharlagun", score: 2086, streak: 9 },
-  { name: "Priyam Bora", state: "Assam", college: "Assam Medical College, Dibrugarh", score: 2135, streak: 10 },
-  { name: "Rohit Anand", state: "Bihar", college: "Patna Medical College", score: 2122, streak: 10 },
-  { name: "Simran Kaur", state: "Chhattisgarh", college: "Pt. JNM Medical College, Raipur", score: 2098, streak: 8 },
-  { name: "Aarav Verma", state: "Goa", college: "Goa Medical College", score: 2072, streak: 7 },
-  { name: "Devanshi Shah", state: "Gujarat", college: "B.J. Medical College, Ahmedabad", score: 2168, streak: 12 },
-  { name: "Harsh Dahiya", state: "Haryana", college: "Pt. B.D. Sharma PGIMS, Rohtak", score: 2115, streak: 9 },
-  { name: "Ishita Rana", state: "Himachal Pradesh", college: "Indira Gandhi Medical College, Shimla", score: 2068, streak: 7 },
-  { name: "Faizan Mir", state: "Jammu and Kashmir", college: "Government Medical College, Srinagar", score: 2102, streak: 8 },
-  { name: "Nikita Toppo", state: "Jharkhand", college: "RIMS, Ranchi", score: 2088, streak: 8 },
-  { name: "Aditi Singh", state: "Kerala", college: "Government Medical College, Thiruvananthapuram", score: 2186, streak: 13 },
-  { name: "Yuvraj Chauhan", state: "Madhya Pradesh", college: "Gandhi Medical College, Bhopal", score: 2128, streak: 10 },
-  { name: "Merina Chanu", state: "Manipur", college: "JNIMS, Imphal", score: 2056, streak: 6 },
-  { name: "Banri Khongwir", state: "Meghalaya", college: "NEIGRIHMS, Shillong", score: 2048, streak: 6 },
-  { name: "Lalhmangaihi", state: "Mizoram", college: "Zoram Medical College, Falkawn", score: 2036, streak: 5 },
-  { name: "Imnatoshi Jamir", state: "Nagaland", college: "Naga Hospital Authority, Kohima", score: 2028, streak: 5 },
-  { name: "Sourav Mishra", state: "Odisha", college: "SCB Medical College, Cuttack", score: 2132, streak: 11 },
-  { name: "Gurleen Brar", state: "Punjab", college: "Government Medical College, Amritsar", score: 2142, streak: 11 },
-  { name: "Aqib Lone", state: "Sikkim", college: "Sikkim Manipal Institute of Medical Sciences", score: 2019, streak: 4 },
-  { name: "Pranav Reddy", state: "Telangana", college: "Osmania Medical College, Hyderabad", score: 2178, streak: 12 },
-  { name: "Debajit Saha", state: "Tripura", college: "Agartala Government Medical College", score: 2042, streak: 6 },
-  { name: "Sneha Rawat", state: "Uttarakhand", college: "Government Doon Medical College, Dehradun", score: 2079, streak: 7 },
-  { name: "Vivek Tiwari", state: "Uttar Pradesh", college: "King George's Medical University, Lucknow", score: 2208, streak: 14 },
-  { name: "Madhurima Sen", state: "West Bengal", college: "Medical College, Kolkata", score: 2214, streak: 14 },
-];
-
 const duelOpponents = [
   { name: "Ava Patel", rating: 1538, specialty: "Cardiology" },
   { name: "Noah Chen", rating: 1464, specialty: "Emergency Medicine" },
   { name: "Maya Singh", rating: 1506, specialty: "Neurology" },
   { name: "Liam Carter", rating: 1588, specialty: "Surgery" },
-];
-
-const competeEvents = [
-  { title: "Weekend Neuro Blitz", players: 128, mode: "20 questions / 15 min" },
-  { title: "Pharma Speed Run", players: 84, mode: "Head-to-head elimination" },
-  { title: "Surgery Finals Mock", players: 212, mode: "50 mixed questions" },
 ];
 
 const emptyPracticeLibrary = {
@@ -239,6 +185,17 @@ function createProfileState(user) {
 function calculateAccuracy(correctAnswers, attemptedQuestions) {
   if (!attemptedQuestions) return 0;
   return Math.round((correctAnswers / attemptedQuestions) * 100);
+}
+
+function formatStatValue(value) {
+  return Number.isFinite(value) ? value.toLocaleString("en-IN") : "0";
+}
+
+function getCommunityInviteUrl(communityId) {
+  if (typeof window === "undefined" || !communityId) return "";
+  const url = new URL(window.location.origin);
+  url.searchParams.set("community", communityId);
+  return url.toString();
 }
 
 function getPerformanceStatsKey(userId) {
@@ -370,6 +327,7 @@ function App() {
   const [authMode, setAuthMode] = useState("login");
   const [authBusy, setAuthBusy] = useState(false);
   const [authMessage, setAuthMessage] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [user, setUser] = useState(null);
   const [profileState, setProfileState] = useState(createProfileState(null));
   const [profileBusy, setProfileBusy] = useState(false);
@@ -379,6 +337,13 @@ function App() {
   const [publicProfileMessage, setPublicProfileMessage] = useState("");
   const [publicProfileReturnView, setPublicProfileReturnView] = useState("Communities");
   const [leaderboardPlayers, setLeaderboardPlayers] = useState([]);
+  const [platformSummary, setPlatformSummary] = useState({
+    users: 0,
+    communities: 0,
+    practiceQuestions: 0,
+    attemptedQuestions: 0,
+    correctAnswers: 0,
+  });
   const [communities, setCommunities] = useState([]);
   const [communitiesBusy, setCommunitiesBusy] = useState(false);
   const [communitiesMessage, setCommunitiesMessage] = useState("");
@@ -447,8 +412,38 @@ function App() {
     [attemptedQuestions, correctAnswers],
   );
 
+  const homeStats = useMemo(
+    () => [
+      { icon: "MCQ", value: formatStatValue(platformSummary.practiceQuestions), label: "Medical MCQs", tint: "blue" },
+      { icon: "ACT", value: formatStatValue(platformSummary.users), label: "Registered learners", tint: "green" },
+      { icon: "HUB", value: formatStatValue(platformSummary.communities), label: "Communities", tint: "purple" },
+    ],
+    [platformSummary],
+  );
+
+  const activityFeed = useMemo(
+    () => [
+      {
+        title: "Questions attempted",
+        detail: `${formatStatValue(platformSummary.attemptedQuestions)} total attempts across learners`,
+        time: "Live",
+      },
+      {
+        title: "Correct answers",
+        detail: `${formatStatValue(platformSummary.correctAnswers)} answers solved correctly`,
+        time: "Live",
+      },
+      {
+        title: "Community rooms",
+        detail: `${formatStatValue(platformSummary.communities)} active user-created groups`,
+        time: "Live",
+      },
+    ],
+    [platformSummary],
+  );
+
   const liveLeaderboard = useMemo(() => {
-    return [...leaderboardAccounts, ...leaderboardPlayers]
+    return [...leaderboardPlayers]
       .sort((left, right) => right.score - left.score)
       .map((player, index) => ({ ...player, rank: index + 1 }));
   }, [leaderboardPlayers]);
@@ -520,6 +515,21 @@ function App() {
       setLeaderboardPlayers(data.players ?? []);
     } catch {
       setLeaderboardPlayers([]);
+    }
+  }
+
+  async function fetchPlatformSummary() {
+    try {
+      const data = await apiRequest("/api/summary");
+      setPlatformSummary({
+        users: data.users ?? 0,
+        communities: data.communities ?? 0,
+        practiceQuestions: data.practiceQuestions ?? 0,
+        attemptedQuestions: data.attemptedQuestions ?? 0,
+        correctAnswers: data.correctAnswers ?? 0,
+      });
+    } catch {
+      setPlatformSummary((current) => current);
     }
   }
 
@@ -597,6 +607,7 @@ function App() {
 
   useEffect(() => {
     fetchLeaderboard();
+    fetchPlatformSummary();
   }, [authStatus]);
 
   useEffect(() => {
@@ -616,6 +627,7 @@ function App() {
         return data.communities[0]?.id ?? "";
       });
       setCommunitiesMessage("");
+      await fetchPlatformSummary();
     } catch (error) {
       setCommunitiesMessage(error instanceof Error ? error.message : "Could not load communities.");
     } finally {
@@ -646,6 +658,15 @@ function App() {
     if (authStatus !== "authenticated") return;
     fetchCommunities();
     fetchDirectConversations();
+  }, [authStatus]);
+
+  useEffect(() => {
+    if (authStatus !== "authenticated") return;
+    const communityId = new URLSearchParams(window.location.search).get("community");
+    if (!communityId) return;
+    setSelectedCommunityId(communityId);
+    setCommunityStage("detail");
+    setActiveView("Communities");
   }, [authStatus]);
 
   useEffect(() => {
@@ -872,7 +893,8 @@ function App() {
       setCommunities((current) => [data.community, ...current]);
       setSelectedCommunityId(data.community.id);
       setCommunityStage("detail");
-      setCommunitiesMessage("Community created. You are the admin and can moderate members.");
+      setCommunitiesMessage("Community created. You are the admin and can share the invite link.");
+      await fetchPlatformSummary();
     } catch (error) {
       setCommunitiesMessage(error instanceof Error ? error.message : "Could not create community.");
     }
@@ -891,6 +913,7 @@ function App() {
       setSelectedCommunityId(communityId);
       setCommunityStage("detail");
       setCommunitiesMessage("Joined community successfully.");
+      await fetchPlatformSummary();
     } catch (error) {
       setCommunitiesMessage(error instanceof Error ? error.message : "Could not join community.");
     }
@@ -953,6 +976,18 @@ function App() {
       setDirectSearchResults([]);
     } catch (error) {
       setDirectMessagesMessage(error instanceof Error ? error.message : "Could not open private chat.");
+    }
+  }
+
+  async function handleCopyCommunityInvite(communityId) {
+    const inviteUrl = getCommunityInviteUrl(communityId);
+    if (!inviteUrl) return;
+
+    try {
+      await navigator.clipboard.writeText(inviteUrl);
+      setCommunitiesMessage("Invite link copied. Share it with learners you want in this community.");
+    } catch {
+      setCommunitiesMessage(inviteUrl);
     }
   }
 
@@ -1149,6 +1184,7 @@ function App() {
       );
       setUserRating(mergedUser.rating ?? nextRating);
       await fetchLeaderboard();
+      await fetchPlatformSummary();
     } catch {
       // Keep the local score even if persistence fails.
     }
@@ -1341,13 +1377,24 @@ function App() {
 
             <label className="field">
               <span>Password</span>
-              <input
-                type="password"
-                autoComplete="new-password"
-                value={authForm.password}
-                onChange={(event) => updateAuthField("password", event.target.value)}
-                placeholder="At least 6 characters"
-              />
+              <div className="password-input-wrap">
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  autoComplete={isSignup ? "new-password" : "current-password"}
+                  value={authForm.password}
+                  onChange={(event) => updateAuthField("password", event.target.value)}
+                  placeholder="At least 6 characters"
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setPasswordVisible((current) => !current)}
+                  aria-label={passwordVisible ? "Hide password" : "Show password"}
+                  title={passwordVisible ? "Hide password" : "Show password"}
+                >
+                  {passwordVisible ? "Hide" : "Show"}
+                </button>
+              </div>
             </label>
 
             {authMessage ? <p className="form-message">{authMessage}</p> : null}
@@ -1370,9 +1417,8 @@ function App() {
             <span>Gamified Learning</span>
           </h1>
           <p>
-            Practice medical MCQs, build your streak, compete with peers, and track your progress on
-            the leaderboard. Join thousands of medical professionals improving their knowledge every
-            day.
+            Practice medical MCQs, build your streak, compete with real registered learners, and
+            track progress from live account and practice activity.
           </p>
           <div className="hero-actions">
             <button className="button button-primary" onClick={() => setActiveView("Practice")}>
@@ -1385,7 +1431,7 @@ function App() {
         </section>
 
         <section className="stats">
-          {stats.map((stat) => (
+          {homeStats.map((stat) => (
             <article className="card stat-card" key={stat.label}>
               <div className={`icon-badge ${stat.tint}`}>{stat.icon}</div>
               <strong>{stat.value}</strong>
@@ -1413,7 +1459,7 @@ function App() {
 
         <section className="cta-banner">
           <h2>Ready to Level Up Your Medical Knowledge?</h2>
-          <p>Join thousands of medical professionals who are already practicing daily</p>
+          <p>Join the current live learner base and help grow the community from real usage.</p>
           <button className="button cta-button" onClick={() => setActiveView("Dashboard")}>
             Get Started for Free
           </button>
@@ -1726,23 +1772,30 @@ function App() {
           <article className="card panel">
             <h3>National rankings</h3>
             <div className="leaderboard-list">
-              {liveLeaderboard.map((player) => (
-                <div
-                  className={`leaderboard-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
-                  key={`${player.rank}-${player.name}`}
-                >
-                  <div className="leaderboard-user">
-                    <span className="rank-pill">#{player.rank}</span>
-                    <div>
-                      <strong>{player.isCurrentUser ? "You" : player.name}</strong>
-                      <p>
-                        {player.state} | {player.streak} day streak
-                      </p>
+              {liveLeaderboard.length ? (
+                liveLeaderboard.map((player) => (
+                  <div
+                    className={`leaderboard-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
+                    key={`${player.rank}-${player.name}`}
+                  >
+                    <div className="leaderboard-user">
+                      <span className="rank-pill">#{player.rank}</span>
+                      <div>
+                        <strong>{player.isCurrentUser ? "You" : player.name}</strong>
+                        <p>
+                          {player.state} | {player.streak} day streak
+                        </p>
+                      </div>
                     </div>
+                    <strong>{player.score} pts</strong>
                   </div>
-                  <strong>{player.score} pts</strong>
+                ))
+              ) : (
+                <div className="empty-community-state empty-community-state-compact">
+                  <h3>No ranked learners yet</h3>
+                  <p className="panel-copy">The leaderboard will fill from real signed-up users.</p>
                 </div>
-              ))}
+              )}
             </div>
           </article>
 
@@ -1972,6 +2025,15 @@ function App() {
               </div>
               <div className="community-header-actions">
                 <span className="rank-pill">{selectedCommunity.memberCount} members</span>
+                {selectedCommunity.isAdmin ? (
+                  <button
+                    className="button button-secondary"
+                    type="button"
+                    onClick={() => handleCopyCommunityInvite(selectedCommunity.id)}
+                  >
+                    Copy invite link
+                  </button>
+                ) : null}
                 {!selectedCommunity.isMember ? (
                   <button className="button button-primary" onClick={() => handleJoinCommunity(selectedCommunity.id)}>
                     Join community
@@ -1979,6 +2041,13 @@ function App() {
                 ) : null}
               </div>
             </div>
+
+            {selectedCommunity.isAdmin ? (
+              <div className="community-invite-box">
+                <span>Invite link</span>
+                <code>{getCommunityInviteUrl(selectedCommunity.id)}</code>
+              </div>
+            ) : null}
 
             <div className="community-chat-meta">
               <span>Topic: {selectedCommunity.topic}</span>
@@ -2303,6 +2372,15 @@ function App() {
                     <span className={`community-status-pill${community.isMember ? " community-status-pill-joined" : ""}`}>
                       {community.isAdmin ? "Admin" : community.isMember ? "Joined" : "Open"}
                     </span>
+                    {community.isAdmin ? (
+                      <button
+                        className="button button-secondary"
+                        type="button"
+                        onClick={() => handleCopyCommunityInvite(community.id)}
+                      >
+                        Copy invite
+                      </button>
+                    ) : null}
                     <button className="button button-secondary" onClick={() => openCommunityChat(community.id)}>
                       Open room
                     </button>
@@ -2341,19 +2419,28 @@ function App() {
 
         {duelStatus === "idle" ? (
           <div className="community-grid extra-top-gap">
-            {competeEvents.map((event) => (
-              <article className="card community-card" key={event.title}>
-                <div className="community-top">
-                  <div className="icon-badge purple">VS</div>
-                  <span>{event.players} players queued</span>
-                </div>
-                <h3>{event.title}</h3>
-                <p>{event.mode}</p>
-                <button className="button button-primary" onClick={() => setActiveView("Leaderboard")}>
-                  Enter queue
-                </button>
-              </article>
-            ))}
+            <article className="card community-card">
+              <div className="community-top">
+                <div className="icon-badge purple">VS</div>
+                <span>{formatStatValue(platformSummary.users)} registered learners</span>
+              </div>
+              <h3>Real-user rated duels</h3>
+              <p>Your rating, rank, attempts, and accuracy update from completed practice and duel activity.</p>
+              <button className="button button-primary" onClick={() => setActiveView("Leaderboard")}>
+                View live ranks
+              </button>
+            </article>
+            <article className="card community-card">
+              <div className="community-top">
+                <div className="icon-badge cyan">MCQ</div>
+                <span>{formatStatValue(platformSummary.attemptedQuestions)} attempts</span>
+              </div>
+              <h3>Practice activity</h3>
+              <p>The challenge surface now reflects real attempts saved from user activity.</p>
+              <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
+                Practice questions
+              </button>
+            </article>
           </div>
         ) : null}
       </section>
