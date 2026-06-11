@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
+import { AppShell } from "./components/AppShell";
+import { apiRequest } from "./lib/api";
+import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
-const SESSION_TOKEN_KEY = "medicomm-session-token";
-const THEME_STORAGE_KEY = "medicomm-theme";
-const PRACTICE_LIBRARY_URL = "/practice-question-bank.json";
-const PERFORMANCE_STATS_KEY_PREFIX = "medicomm-performance-";
+const PRACTICE_LIBRARY_URL = "/api/practice";
 
 const features = [
   {
@@ -198,46 +198,8 @@ function getCommunityInviteUrl(communityId) {
   return url.toString();
 }
 
-function getPerformanceStatsKey(userId) {
-  return `${PERFORMANCE_STATS_KEY_PREFIX}${userId}`;
-}
-
-function readStoredPerformanceStats(userId) {
-  if (!userId) return { correctAnswers: 0, attemptedQuestions: 0 };
-
-  try {
-    const raw = localStorage.getItem(getPerformanceStatsKey(userId));
-    const parsed = raw ? JSON.parse(raw) : {};
-    return {
-      correctAnswers: Number.isFinite(parsed.correctAnswers) ? parsed.correctAnswers : 0,
-      attemptedQuestions: Number.isFinite(parsed.attemptedQuestions) ? parsed.attemptedQuestions : 0,
-    };
-  } catch {
-    return { correctAnswers: 0, attemptedQuestions: 0 };
-  }
-}
-
 function mergeUserPerformance(user) {
-  if (!user) return user;
-
-  const stored = readStoredPerformanceStats(user.id);
-  return {
-    ...user,
-    correctAnswers: Math.max(user.correctAnswers ?? 0, stored.correctAnswers),
-    attemptedQuestions: Math.max(user.attemptedQuestions ?? 0, stored.attemptedQuestions),
-  };
-}
-
-function persistPerformanceStats(userId, correctAnswers, attemptedQuestions) {
-  if (!userId) return;
-
-  localStorage.setItem(
-    getPerformanceStatsKey(userId),
-    JSON.stringify({
-      correctAnswers: Math.max(0, correctAnswers),
-      attemptedQuestions: Math.max(0, attemptedQuestions),
-    }),
-  );
+  return user;
 }
 
 function formatCommunityTimestamp(value) {
@@ -249,44 +211,6 @@ function formatCommunityTimestamp(value) {
     hour: "numeric",
     minute: "2-digit",
   });
-}
-
-async function apiRequest(path, options = {}) {
-  const token = localStorage.getItem(SESSION_TOKEN_KEY);
-  const headers = {
-    "Content-Type": "application/json",
-    ...(options.headers ?? {}),
-  };
-  const controller = new AbortController();
-  const timeoutMs = options.timeoutMs ?? 8000;
-  const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  try {
-    const response = await fetch(path, {
-      ...options,
-      headers,
-      signal: controller.signal,
-    });
-
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) {
-      throw new Error(data.message ?? "Request failed.");
-    }
-
-    return data;
-  } catch (error) {
-    if (error instanceof DOMException && error.name === "AbortError") {
-      throw new Error("The local server took too long to respond.");
-    }
-
-    throw error;
-  } finally {
-    window.clearTimeout(timeoutId);
-  }
 }
 
 function getInitialTheme() {
@@ -308,7 +232,11 @@ function App() {
   const [practiceLibrary, setPracticeLibrary] = useState(emptyPracticeLibrary);
   const [practiceLibraryStatus, setPracticeLibraryStatus] = useState("idle");
   const [practiceLibraryMessage, setPracticeLibraryMessage] = useState("");
+  const [aiPracticeBusy, setAiPracticeBusy] = useState(false);
+  const [aiPracticeMessage, setAiPracticeMessage] = useState("");
   const [selectedPracticeSubjectId, setSelectedPracticeSubjectId] = useState("");
+  const [selectedPracticeMode, setSelectedPracticeMode] = useState("pyq");
+  const [practiceChoiceSubjectId, setPracticeChoiceSubjectId] = useState("");
   const [practiceQuestionIndex, setPracticeQuestionIndex] = useState(0);
   const [practiceStage, setPracticeStage] = useState("catalog");
   const [userRating, setUserRating] = useState(1480);
@@ -372,10 +300,19 @@ function App() {
   });
 
   const practiceSubjects = practiceLibrary.subjects ?? [];
+  const aiPracticeSubjects = practiceLibrary.aiSubjects ?? [];
   const practiceYears = practiceLibrary.years ?? [];
+  const activePracticeSubjects = selectedPracticeMode === "ai" ? aiPracticeSubjects : practiceSubjects;
   const currentPracticeSubject =
-    practiceSubjects.find((subject) => subject.id === selectedPracticeSubjectId) ?? practiceSubjects[0] ?? null;
+    activePracticeSubjects.find((subject) => subject.id === selectedPracticeSubjectId) ??
+    activePracticeSubjects[0] ??
+    null;
   const currentPracticeQuestion = currentPracticeSubject?.questions?.[practiceQuestionIndex] ?? null;
+  const practiceChoiceSubject =
+    practiceSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
+    aiPracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
+    null;
+  const currentAiPracticeSubject = aiPracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ?? null;
   const groupedPracticeYears = practiceYears.map((year) => ({
     ...year,
     subjects: year.subjectIds
@@ -552,6 +489,7 @@ function App() {
         exam: data.exam ?? emptyPracticeLibrary.exam,
         years: data.years ?? [],
         subjects: data.subjects ?? [],
+        aiSubjects: data.aiSubjects ?? [],
       };
       setPracticeLibrary(nextLibrary);
       setSelectedPracticeSubjectId((current) => {
@@ -824,7 +762,6 @@ function App() {
     const nextCorrectAnswers = (user.correctAnswers ?? 0) + (wasCorrect ? 1 : 0);
     const nextAttemptedQuestions = (user.attemptedQuestions ?? 0) + 1;
 
-    persistPerformanceStats(user.id, nextCorrectAnswers, nextAttemptedQuestions);
     setUser((current) =>
       current
         ? {
@@ -842,15 +779,26 @@ function App() {
   }
 
   function handleSelectPracticeSubject(subjectId) {
+    setPracticeChoiceSubjectId(subjectId);
+  }
+
+  function closePracticeChoice() {
+    setPracticeChoiceSubjectId("");
+  }
+
+  function startPracticeSession(subjectId, mode) {
     setSelectedPracticeSubjectId(subjectId);
+    setSelectedPracticeMode(mode);
     setPracticeQuestionIndex(0);
     setSelectedOption("");
     setSubmitted(false);
     setPracticeStage("subject");
+    setPracticeChoiceSubjectId("");
   }
 
   function handleBackToPracticeDirectory() {
     setPracticeStage("catalog");
+    setSelectedPracticeMode("pyq");
     setSelectedOption("");
     setSubmitted(false);
   }
@@ -878,6 +826,40 @@ function App() {
     setPracticeQuestionIndex((current) => current + 1);
     setSelectedOption("");
     setSubmitted(false);
+  }
+
+  async function handleStartAiPractice(subjectId) {
+    const subject = practiceSubjects.find((entry) => entry.id === subjectId);
+    if (!subject) return;
+
+    try {
+      setAiPracticeBusy(true);
+      setAiPracticeMessage("");
+      await apiRequest("/api/generate-questions", {
+        method: "POST",
+        timeoutMs: 120000,
+        body: JSON.stringify({
+          examId: practiceLibrary.exam?.id ?? "neet-pg-pyqs",
+          subjectId,
+          count: 20,
+          topic: subject.questions?.[0]?.topic ?? "High-yield review",
+          difficulty: "exam",
+        }),
+      });
+      await fetchPracticeLibrary();
+      setSelectedPracticeSubjectId(subjectId);
+      setSelectedPracticeMode("ai");
+      setPracticeStage("subject");
+      setPracticeChoiceSubjectId("");
+      setPracticeQuestionIndex(0);
+      setSelectedOption("");
+      setSubmitted(false);
+      setAiPracticeMessage(`${subject.title} AI practice is ready with 20 supplemental questions.`);
+    } catch (error) {
+      setAiPracticeMessage(error instanceof Error ? error.message : "Could not generate supplemental practice.");
+    } finally {
+      setAiPracticeBusy(false);
+    }
   }
 
   async function handleCreateCommunity(event) {
@@ -1066,7 +1048,6 @@ function App() {
     const nextCorrectAnswers = (user.correctAnswers ?? 0) + (wasCorrect ? 1 : 0);
     const nextAttemptedQuestions = (user.attemptedQuestions ?? 0) + 1;
 
-    persistPerformanceStats(user.id, nextCorrectAnswers, nextAttemptedQuestions);
     setUser((current) =>
       current
         ? {
@@ -1177,11 +1158,6 @@ function App() {
 
       const mergedUser = mergeUserPerformance(data.user);
       setUser(mergedUser);
-      persistPerformanceStats(
-        mergedUser.id,
-        mergedUser.correctAnswers ?? nextStats.correctAnswers ?? 0,
-        mergedUser.attemptedQuestions ?? nextStats.attemptedQuestions ?? 0,
-      );
       setUserRating(mergedUser.rating ?? nextRating);
       await fetchLeaderboard();
       await fetchPlatformSummary();
@@ -1440,6 +1416,26 @@ function App() {
           ))}
         </section>
 
+        <section className="practice-upgrade-band">
+          <article className="card panel practice-upgrade-panel">
+            <div>
+              <p className="eyebrow">Practice engine</p>
+              <h2>Official PYQs stay trusted. AI questions stay supplemental.</h2>
+              <p className="panel-copy">
+                The practice library now loads from the backend, keeps NEET PG PYQs as the core bank, and labels
+                Gemini-generated MCQs separately so they never look like official exam material.
+              </p>
+            </div>
+            <div className="practice-upgrade-actions">
+              <span className="rank-pill source-official">Official PYQ bank</span>
+              <span className="rank-pill source-ai">Supplemental AI</span>
+              <button className="button button-primary" onClick={() => setActiveView("Practice")}>
+                Open practice library
+              </button>
+            </div>
+          </article>
+        </section>
+
         <section className="features-section">
           <div className="section-heading">
             <h2>Why Choose MediComm?</h2>
@@ -1531,6 +1527,33 @@ function App() {
             </div>
           </article>
 
+          <article className="card panel practice-status-panel">
+            <div className="panel-heading-split">
+              <div>
+                <h3>Practice storage</h3>
+                <p className="panel-copy">Backend question bank with official and supplemental sources separated.</p>
+              </div>
+              <span className="rank-pill source-ai">AI ready</span>
+            </div>
+            <div className="stack-list">
+              <div className="stack-row">
+                <span>Core source</span>
+                <strong>NEET PG PYQs</strong>
+              </div>
+              <div className="stack-row">
+                <span>Extra practice</span>
+                <strong>Gemini JSON validated</strong>
+              </div>
+              <div className="stack-row">
+                <span>Local storage</span>
+                <strong>Session + theme only</strong>
+              </div>
+            </div>
+            <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
+              Review subjects
+            </button>
+          </article>
+
           <article className="card panel">
             <h3>Recent activity</h3>
             <div className="feed-list">
@@ -1600,7 +1623,7 @@ function App() {
       );
     }
 
-    if (!currentPracticeSubject || !currentPracticeQuestion) {
+    if (!practiceSubjects.length) {
       return (
         <section className="app-view">
           <div className="view-header">
@@ -1618,6 +1641,31 @@ function App() {
       );
     }
 
+    if (practiceStage === "subject" && (!currentPracticeSubject || !currentPracticeQuestion)) {
+      return (
+        <section className="app-view">
+          <div className="view-header">
+            <div>
+              <p className="eyebrow">Practice</p>
+              <h2>{selectedPracticeMode === "ai" ? "AI practice is not ready yet" : "No questions found"}</h2>
+            </div>
+            <button className="button button-secondary" onClick={handleBackToPracticeDirectory}>
+              Back to subjects
+            </button>
+          </div>
+
+          <article className="card panel">
+            <h3>{selectedPracticeMode === "ai" ? "Generate a 20-question set first" : "No practice questions yet"}</h3>
+            <p className="panel-copy">
+              {selectedPracticeMode === "ai"
+                ? "Open the subject again and choose AI Practice so MediComm can create the separate supplemental set."
+                : "The PYQ database does not have questions for this subject yet."}
+            </p>
+          </article>
+        </section>
+      );
+    }
+
     const totalQuestions = currentPracticeSubject.questions.length;
 
     if (practiceStage === "subject") {
@@ -1626,7 +1674,7 @@ function App() {
           <div className="view-header">
             <div>
               <p className="eyebrow">Practice</p>
-              <h2>{currentPracticeSubject.title} PYQ session</h2>
+              <h2>{currentPracticeSubject.title} {selectedPracticeMode === "ai" ? "AI practice" : "PYQ session"}</h2>
             </div>
             <button className="button button-secondary" onClick={handleBackToPracticeDirectory}>
               Back to subjects
@@ -1636,12 +1684,19 @@ function App() {
           <article className="card quiz-card practice-focus-card">
             <div className="practice-focus-topbar">
               <span className="practice-year-tag">{activePracticeYear?.title ?? "Practice"}</span>
+              <span className={`rank-pill ${selectedPracticeMode === "ai" ? "source-ai" : "source-official"}`}>
+                {selectedPracticeMode === "ai" ? "Supplemental AI" : "Official PYQ"}
+              </span>
               <span className="rank-pill">
                 Question {practiceQuestionIndex + 1} of {totalQuestions}
               </span>
             </div>
             <div className="quiz-meta">
-              <span>{currentPracticeQuestion.examTitle ?? `${currentPracticeQuestion.year} PYQ`}</span>
+              <span>
+                {selectedPracticeMode === "ai"
+                  ? "Supplemental topic-wise practice"
+                  : currentPracticeQuestion.examTitle ?? `${currentPracticeQuestion.year} PYQ`}
+              </span>
               <span>{currentPracticeQuestion.topic}</span>
             </div>
             <h3>{currentPracticeQuestion.prompt}</h3>
@@ -1724,6 +1779,48 @@ function App() {
           </button>
         </div>
 
+        {aiPracticeMessage ? <p className="form-message practice-ai-message">{aiPracticeMessage}</p> : null}
+
+        {practiceChoiceSubject ? (
+          <div className="practice-choice-backdrop" role="dialog" aria-modal="true" aria-labelledby="practice-choice-title">
+            <article className="practice-choice-modal">
+              <button className="practice-choice-close" type="button" onClick={closePracticeChoice} aria-label="Close practice chooser">
+                x
+              </button>
+              <div className="practice-choice-heading">
+                <div className="icon-badge green">MCQ</div>
+                <div>
+                  <h3 id="practice-choice-title">Practice {practiceChoiceSubject.title}</h3>
+                  <p>Choose how you want to practice this subject.</p>
+                </div>
+              </div>
+              <div className="practice-choice-grid">
+                <button className="practice-choice-card" type="button" onClick={() => startPracticeSession(practiceChoiceSubject.id, "pyq")}>
+                  <span className="practice-choice-icon">PYQ</span>
+                  <strong>PYQs</strong>
+                  <p>Previous Year Questions</p>
+                  <small>{practiceChoiceSubject.questions.length} official questions</small>
+                </button>
+                <button
+                  className="practice-choice-card practice-choice-card-ai"
+                  type="button"
+                  disabled={aiPracticeBusy}
+                  onClick={() => handleStartAiPractice(practiceChoiceSubject.id)}
+                >
+                  <span className="practice-choice-icon">AI</span>
+                  <strong>AI Practice</strong>
+                  <p>Supplemental topic-wise questions</p>
+                  <small>
+                    {aiPracticeBusy
+                      ? "Generating 20..."
+                      : `${Math.min(currentAiPracticeSubject?.questions?.length ?? 0, 20)} / 20 ready`}
+                  </small>
+                </button>
+              </div>
+            </article>
+          </div>
+        ) : null}
+
         <div className="practice-year-stack">
           {groupedPracticeYears.map((year) => (
             <section className="card panel practice-year-section" key={year.id}>
@@ -1743,8 +1840,8 @@ function App() {
                     onClick={() => handleSelectPracticeSubject(subject.id)}
                   >
                     <span className="practice-subject-label">{subject.title}</span>
-                    <p className="practice-subject-copy">Open a focused PYQ session with one question at a time.</p>
-                    <strong>{subject.questions.length} questions</strong>
+                    <p className="practice-subject-copy">Choose PYQs or a separate 20-question AI practice set.</p>
+                    <strong>{subject.questions.length} PYQs</strong>
                   </button>
                 ))}
               </div>
@@ -2825,56 +2922,18 @@ function App() {
   }
 
   return (
-    <div className="page-shell">
-      <header className="topbar">
-        <button className="brand brand-button" onClick={() => setActiveView("Home")}>
-          <div className="brand-mark">MQ</div>
-          <span>MediComm</span>
-        </button>
-
-        <nav className="nav">
-          {navItems.map((item) => (
-            <button
-              className={`nav-link${activeView === item ? " nav-link-active" : ""}`}
-              key={item}
-              onClick={() => setActiveView(item)}
-            >
-              {item}
-            </button>
-          ))}
-        </nav>
-
-        <div className="topbar-actions">
-          <button
-            className="theme-toggle"
-            type="button"
-            onClick={() => setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"))}
-            aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-            title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-          >
-            <span className="theme-toggle-icon" aria-hidden="true">
-              {isDarkMode ? "☀" : "☾"}
-            </span>
-          </button>
-          <div className="score score-fire">15</div>
-          <div className="score score-bolt">{userRating}</div>
-          <button className="user-chip" onClick={() => setActiveView("Profile")}>
-            <div className="avatar">{renderAvatar()}</div>
-            <div className="user-chip-copy">
-              <strong>{user?.name}</strong>
-              <span>{user?.medicalCollege}</span>
-            </div>
-          </button>
-        </div>
-      </header>
-
-      <main>{renderView()}</main>
-
-      <div className="preview-pill">
-        <span>Your account is now stored locally with login, profile editing, and profile photo support.</span>
-        <button onClick={() => setActiveView("Profile")}>Open profile</button>
-      </div>
-    </div>
+    <AppShell
+      activeView={activeView}
+      isDarkMode={isDarkMode}
+      navItems={navItems}
+      onNavigate={setActiveView}
+      onToggleTheme={() => setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"))}
+      renderAvatar={renderAvatar}
+      user={user}
+      userRating={userRating}
+    >
+      {renderView()}
+    </AppShell>
   );
 }
 

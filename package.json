@@ -11,6 +11,7 @@
     "client": "vite",
     "server": "node server.mjs",
     "start": "node server.mjs",
+    "seed:supabase": "node scripts/seed-supabase.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },
