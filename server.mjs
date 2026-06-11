@@ -698,6 +698,17 @@ function sanitizeSearchableUser(user, currentUserId = null) {
   };
 }
 
+function sanitizeDuelOpponent(user, currentUserId = null) {
+  return {
+    id: user.id,
+    name: user.name,
+    rating: Number.isFinite(user.rating) ? user.rating : DEFAULT_USER_RATING,
+    specialty: getLeaderboardRegion(user.medicalCollege),
+    profileImageUrl: user.profileImagePath ? `/uploads/${user.profileImagePath}` : null,
+    isCurrentUser: currentUserId ? user.id === currentUserId : false,
+  };
+}
+
 function sanitizeCommunity(community, users, currentUserId = null) {
   const members = community.memberIds
     .map((memberId) => users.find((user) => user.id === memberId))
@@ -1245,6 +1256,129 @@ function handleLeaderboard(request, response) {
   return sendJson(response, 200, { players });
 }
 
+function findActiveRatedDuel(database, userId) {
+  return (database.duels ?? []).find((duel) => duel.status === "matched" && (duel.playerIds ?? []).includes(userId)) ?? null;
+}
+
+function buildRatedDuelPayload(duel, currentUser, database) {
+  const opponentId = (duel.playerIds ?? []).find((playerId) => playerId !== currentUser.id);
+  const opponent = database.users.find((user) => user.id === opponentId) ?? null;
+
+  return {
+    status: "matched",
+    duel: {
+      id: duel.id,
+      createdAt: duel.createdAt,
+      startedAt: duel.startedAt,
+      playerIds: duel.playerIds,
+    },
+    opponent: opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : null,
+  };
+}
+
+async function handleJoinRatedDuelQueue(request, response) {
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return null;
+
+  const activeDuel = findActiveRatedDuel(database, currentUser.id);
+  if (activeDuel) {
+    return sendJson(response, 200, buildRatedDuelPayload(activeDuel, currentUser, database));
+  }
+
+  const existingQueueEntry = (database.duelQueue ?? []).find((entry) => entry.userId === currentUser.id);
+  if (existingQueueEntry) {
+    return sendJson(response, 200, {
+      status: "waiting",
+      ticketId: existingQueueEntry.id,
+      queuedAt: existingQueueEntry.createdAt,
+      waitingCount: database.duelQueue.length,
+    });
+  }
+
+  const queuedOpponent = (database.duelQueue ?? [])
+    .map((entry) => ({
+      entry,
+      user: database.users.find((user) => user.id === entry.userId),
+    }))
+    .filter(({ user }) => user && user.id !== currentUser.id)
+    .sort(
+      (left, right) =>
+        Math.abs((left.user.rating ?? DEFAULT_USER_RATING) - (currentUser.rating ?? DEFAULT_USER_RATING)) -
+        Math.abs((right.user.rating ?? DEFAULT_USER_RATING) - (currentUser.rating ?? DEFAULT_USER_RATING)),
+    )[0];
+
+  if (queuedOpponent?.user) {
+    const now = new Date().toISOString();
+    const duel = {
+      id: randomBytes(10).toString("hex"),
+      type: "rated",
+      status: "matched",
+      playerIds: [queuedOpponent.user.id, currentUser.id],
+      createdAt: now,
+      startedAt: now,
+    };
+    database.duelQueue = (database.duelQueue ?? []).filter((entry) => entry.id !== queuedOpponent.entry.id);
+    database.duels = [duel, ...(database.duels ?? []).slice(0, 99)];
+    await writeDatabase(database);
+    return sendJson(response, 201, buildRatedDuelPayload(duel, currentUser, database));
+  }
+
+  const now = new Date().toISOString();
+  const ticket = {
+    id: randomBytes(10).toString("hex"),
+    userId: currentUser.id,
+    rating: Number.isFinite(currentUser.rating) ? currentUser.rating : DEFAULT_USER_RATING,
+    createdAt: now,
+  };
+  database.duelQueue = [ticket, ...(database.duelQueue ?? [])];
+  await writeDatabase(database);
+
+  return sendJson(response, 202, {
+    status: "waiting",
+    ticketId: ticket.id,
+    queuedAt: ticket.createdAt,
+    waitingCount: database.duelQueue.length,
+  });
+}
+
+function handleRatedDuelQueueStatus(request, response) {
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return null;
+
+  const activeDuel = findActiveRatedDuel(database, currentUser.id);
+  if (activeDuel) {
+    return sendJson(response, 200, buildRatedDuelPayload(activeDuel, currentUser, database));
+  }
+
+  const queuedEntry = (database.duelQueue ?? []).find((entry) => entry.userId === currentUser.id);
+  return sendJson(response, 200, {
+    status: queuedEntry ? "waiting" : "idle",
+    ticketId: queuedEntry?.id ?? null,
+    queuedAt: queuedEntry?.createdAt ?? null,
+    waitingCount: database.duelQueue?.length ?? 0,
+  });
+}
+
+async function handleLeaveRatedDuelQueue(request, response) {
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return null;
+
+  const previousLength = database.duelQueue?.length ?? 0;
+  const previousDuelLength = database.duels?.length ?? 0;
+  database.duelQueue = (database.duelQueue ?? []).filter((entry) => entry.userId !== currentUser.id);
+  database.duels = (database.duels ?? []).filter(
+    (duel) => duel.status !== "matched" || !(duel.playerIds ?? []).includes(currentUser.id),
+  );
+  if (database.duelQueue.length !== previousLength || database.duels.length !== previousDuelLength) {
+    await writeDatabase(database);
+  }
+
+  return sendJson(response, 200, { success: true });
+}
+
 function handleSummary(response) {
   const database = readDatabase();
   const practiceLibrary = readPracticeQuestionBank();
@@ -1610,6 +1744,9 @@ async function handleRequest(request, response) {
     if (request.method === "PATCH" && url.pathname === "/api/profile") return await handleProfileUpdate(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile/stats") return await handleProfileStatsUpdate(request, response);
     if (request.method === "GET" && url.pathname === "/api/leaderboard") return handleLeaderboard(request, response);
+    if (request.method === "POST" && url.pathname === "/api/duels/rated/queue") return await handleJoinRatedDuelQueue(request, response);
+    if (request.method === "GET" && url.pathname === "/api/duels/rated/queue") return handleRatedDuelQueueStatus(request, response);
+    if (request.method === "DELETE" && url.pathname === "/api/duels/rated/queue") return await handleLeaveRatedDuelQueue(request, response);
     if (request.method === "GET" && url.pathname === "/api/summary") return handleSummary(response);
     if (request.method === "GET" && url.pathname === "/api/storage/status") return handleStorageStatus(response);
     if (request.method === "GET" && url.pathname === "/api/practice") return handlePracticeQuestionBank(request, response, url);

@@ -249,6 +249,8 @@ function App() {
   const [duelOpponentTimeline, setDuelOpponentTimeline] = useState([]);
   const [duelOpponentProgress, setDuelOpponentProgress] = useState({ answered: 0, correct: 0 });
   const [duelResult, setDuelResult] = useState(null);
+  const [duelQueueInfo, setDuelQueueInfo] = useState(null);
+  const [duelMessage, setDuelMessage] = useState("");
   const [selectedLeaderboardState, setSelectedLeaderboardState] = useState("");
   const [stateSearchTerm, setStateSearchTerm] = useState("");
   const [authStatus, setAuthStatus] = useState("loading");
@@ -692,6 +694,46 @@ function App() {
   }, [duelStatus]);
 
   useEffect(() => {
+    if (duelStatus !== "matchmaking" || !duelQueueInfo?.ticketId) return undefined;
+
+    let cancelled = false;
+    const pollQueue = async () => {
+      try {
+        const data = await apiRequest("/api/duels/rated/queue");
+        if (cancelled) return;
+
+        if (data.status === "matched" && data.opponent) {
+          beginLiveDuel(data.opponent);
+          return;
+        }
+
+        if (data.status === "idle") {
+          setDuelStatus("idle");
+          setDuelQueueInfo(null);
+          setDuelMessage("You are no longer in the rated duel queue.");
+          return;
+        }
+
+        setDuelQueueInfo({
+          ticketId: data.ticketId,
+          queuedAt: data.queuedAt,
+          waitingCount: data.waitingCount ?? 1,
+        });
+      } catch (error) {
+        if (!cancelled) {
+          setDuelMessage(error instanceof Error ? error.message : "Could not check the duel queue.");
+        }
+      }
+    };
+
+    const intervalId = window.setInterval(pollQueue, 2500);
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+    };
+  }, [duelQueueInfo?.ticketId, duelStatus]);
+
+  useEffect(() => {
     if (duelStatus !== "live") return;
 
     const elapsed = DUEL_DURATION_SECONDS - duelTimeLeft;
@@ -1023,8 +1065,7 @@ function App() {
     });
   }
 
-  function startDuel(preferredOpponent = null) {
-    const opponent = preferredOpponent ?? pickOpponent(userRating);
+  function beginLiveDuel(opponent) {
     setActiveView("Compete");
     setDuelOpponent(opponent);
     setDuelOpponentTimeline(createOpponentTimeline(opponent.rating));
@@ -1034,11 +1075,66 @@ function App() {
     setDuelSubmitted({});
     setDuelOpponentProgress({ answered: 0, correct: 0 });
     setDuelResult(null);
+    setDuelQueueInfo(null);
+    setDuelMessage("");
+    setDuelStatus("live");
+  }
+
+  async function startDuel(preferredOpponent = null) {
+    if (preferredOpponent) {
+      beginLiveDuel(preferredOpponent);
+      return;
+    }
+
+    if (!user) {
+      setAuthMode("login");
+      setActiveView("Profile");
+      return;
+    }
+
+    setActiveView("Compete");
+    setDuelOpponent(null);
+    setDuelOpponentTimeline([]);
+    setDuelTimeLeft(DUEL_DURATION_SECONDS);
+    setDuelIndex(0);
+    setDuelSelections({});
+    setDuelSubmitted({});
+    setDuelOpponentProgress({ answered: 0, correct: 0 });
+    setDuelResult(null);
+    setDuelMessage("");
     setDuelStatus("matchmaking");
 
-    window.setTimeout(() => {
-      setDuelStatus("live");
-    }, 1200);
+    try {
+      const data = await apiRequest("/api/duels/rated/queue", {
+        method: "POST",
+      });
+
+      if (data.status === "matched" && data.opponent) {
+        beginLiveDuel(data.opponent);
+        return;
+      }
+
+      setDuelQueueInfo({
+        ticketId: data.ticketId,
+        queuedAt: data.queuedAt,
+        waitingCount: data.waitingCount ?? 1,
+      });
+    } catch (error) {
+      setDuelStatus("idle");
+      setDuelMessage(error instanceof Error ? error.message : "Could not join the rated duel queue.");
+    }
+  }
+
+  async function leaveDuelQueue() {
+    try {
+      await apiRequest("/api/duels/rated/queue", {
+        method: "DELETE",
+      });
+    } catch (error) {
+      setDuelMessage(error instanceof Error ? error.message : "Could not leave the duel queue.");
+    } finally {
+      resetDuel(false);
+    }
   }
 
   function submitDuelAnswer() {
@@ -1072,7 +1168,12 @@ function App() {
     setDuelIndex((current) => current + 1);
   }
 
-  function resetDuel() {
+  function resetDuel(syncServer = true) {
+    if (syncServer && (duelStatus === "matchmaking" || duelStatus === "live" || duelStatus === "finished")) {
+      void apiRequest("/api/duels/rated/queue", {
+        method: "DELETE",
+      }).catch(() => undefined);
+    }
     setDuelStatus("idle");
     setDuelOpponent(null);
     setDuelTimeLeft(DUEL_DURATION_SECONDS);
@@ -1082,6 +1183,8 @@ function App() {
     setDuelOpponentTimeline([]);
     setDuelOpponentProgress({ answered: 0, correct: 0 });
     setDuelResult(null);
+    setDuelQueueInfo(null);
+    setDuelMessage("");
   }
 
   function updateAuthField(field, value) {
@@ -2513,6 +2616,7 @@ function App() {
         {duelStatus === "matchmaking" ? renderMatchmaking() : null}
         {duelStatus === "live" ? renderLiveDuel() : null}
         {duelStatus === "finished" ? renderDuelResult() : null}
+        {duelMessage ? <p className="form-message duel-message">{duelMessage}</p> : null}
 
         {duelStatus === "idle" ? (
           <div className="community-grid extra-top-gap">
@@ -2571,7 +2675,7 @@ function App() {
         </div>
 
         <div className="quiz-actions">
-          <button className="button button-primary" onClick={startDuel}>
+          <button className="button button-primary" onClick={() => startDuel()}>
             Start rated duel
           </button>
           <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
@@ -2584,11 +2688,42 @@ function App() {
 
   function renderMatchmaking() {
     return (
-      <article className="card panel duel-matchmaking">
-        <p className="eyebrow">Matchmaking</p>
-        <div className="duel-loader" />
-        <h3>Finding your opponent</h3>
-        <p className="panel-copy">We are pairing you with someone close to your rating for a fair live challenge.</p>
+      <article className="card panel duel-matchmaking duel-waiting-room">
+        <div className="duel-radar" aria-hidden="true">
+          <span />
+          <span />
+          <div className="duel-radar-core">VS</div>
+        </div>
+        <p className="eyebrow">Rated queue</p>
+        <h3>Waiting for another challenger</h3>
+        <p className="panel-copy">
+          You are locked into the live waiting list. The duel will start automatically as soon as one more learner presses
+          Start rated duel.
+        </p>
+        <div className="duel-waiting-grid">
+          <div>
+            <span>Queue status</span>
+            <strong>{duelQueueInfo?.ticketId ? "Ready" : "Joining..."}</strong>
+          </div>
+          <div>
+            <span>Waiting now</span>
+            <strong>{duelQueueInfo?.waitingCount ?? 1}</strong>
+          </div>
+          <div>
+            <span>Your rating</span>
+            <strong>{userRating}</strong>
+          </div>
+        </div>
+        <div className="duel-waiting-pulse">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="quiz-actions centered-actions">
+          <button className="button button-secondary" onClick={leaveDuelQueue}>
+            Leave queue
+          </button>
+        </div>
       </article>
     );
   }
