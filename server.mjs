@@ -24,7 +24,6 @@ const supabaseServiceRoleKey =
 const supabaseStateTable = process.env.SUPABASE_STATE_TABLE ?? "app_state";
 const supabaseStateKey = process.env.SUPABASE_STATE_KEY ?? "medicomm";
 const isSupabaseEnabled = Boolean(supabaseUrl && supabaseServiceRoleKey);
-const isModernSupabaseApiKey = supabaseServiceRoleKey.startsWith("sb_");
 const DEFAULT_USER_RATING = 1480;
 const DEFAULT_USER_STREAK = 1;
 const DEFAULT_CORRECT_ANSWERS = 0;
@@ -135,12 +134,11 @@ function readLocalDatabaseFile() {
 
 async function requestSupabaseState(method, payload = null) {
   const url = `${supabaseUrl}/rest/v1/${encodeURIComponent(supabaseStateTable)}?key=eq.${encodeURIComponent(supabaseStateKey)}`;
-  const authHeaders = isModernSupabaseApiKey ? {} : { Authorization: `Bearer ${supabaseServiceRoleKey}` };
   const response = await fetch(url, {
     method,
     headers: {
       apikey: supabaseServiceRoleKey,
-      ...authHeaders,
+      Authorization: `Bearer ${supabaseServiceRoleKey}`,
       "Content-Type": "application/json",
       ...(method === "GET" ? {} : { Prefer: "return=minimal" }),
     },
@@ -169,12 +167,11 @@ async function writeSupabaseDatabase(data) {
     updated_at: new Date().toISOString(),
   };
   const url = `${supabaseUrl}/rest/v1/${encodeURIComponent(supabaseStateTable)}?on_conflict=key`;
-  const authHeaders = isModernSupabaseApiKey ? {} : { Authorization: `Bearer ${supabaseServiceRoleKey}` };
   const response = await fetch(url, {
     method: "POST",
     headers: {
       apikey: supabaseServiceRoleKey,
-      ...authHeaders,
+      Authorization: `Bearer ${supabaseServiceRoleKey}`,
       "Content-Type": "application/json",
       Prefer: "resolution=merge-duplicates,return=minimal",
     },

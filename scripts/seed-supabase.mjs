@@ -13,7 +13,6 @@ const serviceRoleKey =
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_KEY ?? "";
 const tableName = process.env.SUPABASE_STATE_TABLE ?? "app_state";
 const stateKey = process.env.SUPABASE_STATE_KEY ?? "medicomm";
-const isModernSupabaseApiKey = serviceRoleKey.startsWith("sb_");
 
 if (!supabaseUrl || !serviceRoleKey) {
   console.error("Set SUPABASE_URL and SUPABASE_SECRET_KEY before running this script.");
@@ -27,12 +26,11 @@ if (!existsSync(databasePath)) {
 }
 
 const data = JSON.parse(readFileSync(databasePath, "utf8"));
-const authHeaders = isModernSupabaseApiKey ? {} : { Authorization: `Bearer ${serviceRoleKey}` };
 const response = await fetch(`${supabaseUrl}/rest/v1/${encodeURIComponent(tableName)}?on_conflict=key`, {
   method: "POST",
   headers: {
     apikey: serviceRoleKey,
-    ...authHeaders,
+    Authorization: `Bearer ${serviceRoleKey}`,
     "Content-Type": "application/json",
     Prefer: "resolution=merge-duplicates,return=minimal",
   },
