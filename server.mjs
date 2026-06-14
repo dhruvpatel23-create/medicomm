@@ -31,7 +31,9 @@ const DEFAULT_ATTEMPTED_QUESTIONS = 0;
 const PASSWORD_HASH_ITERATIONS = 60000;
 const LEGACY_PASSWORD_HASH_ITERATIONS = 120000;
 const DUEL_DURATION_SECONDS = 180;
-const DUEL_QUESTIONS = [
+const DUEL_QUESTION_COUNT = 5;
+const DUEL_ELO_K_FACTOR = 32;
+const DUEL_FALLBACK_QUESTIONS = [
   {
     prompt: "Which cranial nerve is primarily responsible for lateral eye movement?",
     options: ["Oculomotor", "Trochlear", "Abducens", "Optic"],
@@ -95,6 +97,7 @@ function getEmptyDatabase() {
     directConversations: [],
     duelQueue: [],
     duels: [],
+    duelResults: [],
     questions: [],
     practiceResults: [],
   };
@@ -118,6 +121,7 @@ function normalizeDatabase(parsed = {}) {
     directConversations: Array.isArray(parsed.directConversations) ? parsed.directConversations : [],
     duelQueue: Array.isArray(parsed.duelQueue) ? parsed.duelQueue : [],
     duels: Array.isArray(parsed.duels) ? parsed.duels : [],
+    duelResults: Array.isArray(parsed.duelResults) ? parsed.duelResults : [],
     questions: Array.isArray(parsed.questions) ? parsed.questions : [],
     practiceResults: Array.isArray(parsed.practiceResults) ? parsed.practiceResults : [],
   };
@@ -355,6 +359,81 @@ function buildPracticeLibrary(library, storedQuestions = []) {
       };
     }),
   };
+}
+
+function sanitizeDuelQuestion(question) {
+  const options = Array.isArray(question.options) ? question.options.map((option) => String(option).trim()).filter(Boolean) : [];
+  const answerIndex = Number.isInteger(question.answerIndex) ? question.answerIndex : options.indexOf(question.answer);
+  return {
+    id: String(question.id ?? randomBytes(8).toString("hex")),
+    prompt: String(question.prompt ?? "").trim(),
+    options,
+    answerIndex,
+    answer: String(options[answerIndex] ?? question.answer ?? ""),
+    explanation: String(question.explanation ?? "").trim(),
+    subjectId: String(question.subjectId ?? "").trim(),
+    subjectTitle: String(question.subjectTitle ?? "").trim(),
+    source: question.source === "ai" ? "ai" : "official",
+  };
+}
+
+function sanitizeDuelQuestionForClient(question) {
+  const sanitized = sanitizeDuelQuestion(question);
+  return {
+    id: sanitized.id,
+    prompt: sanitized.prompt,
+    options: sanitized.options,
+    explanation: sanitized.explanation,
+    subjectId: sanitized.subjectId,
+    subjectTitle: sanitized.subjectTitle,
+    source: sanitized.source,
+  };
+}
+
+function getDuelQuestionPool() {
+  const officialQuestions = getOfficialPracticeQuestions(readPracticeQuestionBank())
+    .map((question) => sanitizeDuelQuestion(question))
+    .filter(
+      (question) =>
+        question.prompt &&
+        question.options.length === 4 &&
+        question.answer &&
+        question.answerIndex >= 0 &&
+        question.answerIndex < question.options.length &&
+        question.options.includes(question.answer),
+    );
+
+  if (officialQuestions.length >= DUEL_QUESTION_COUNT) return officialQuestions;
+  return DUEL_FALLBACK_QUESTIONS.map((question, index) =>
+    sanitizeDuelQuestion({
+      ...question,
+      id: `clinical-fallback-${index + 1}`,
+      source: "official",
+      subjectTitle: "Clinical basics",
+    }),
+  );
+}
+
+function pickDuelQuestions(count = DUEL_QUESTION_COUNT) {
+  const pool = getDuelQuestionPool();
+  const selected = [];
+  const usedIndexes = new Set();
+  const targetCount = Math.min(Math.max(1, count), pool.length);
+
+  while (selected.length < targetCount) {
+    const index = randomBytes(4).readUInt32BE(0) % pool.length;
+    if (usedIndexes.has(index)) continue;
+    usedIndexes.add(index);
+    selected.push(pool[index]);
+  }
+
+  return selected;
+}
+
+function getQuestionAnswerMap(questionIds = []) {
+  const pool = getDuelQuestionPool();
+  const byId = new Map(pool.map((question) => [question.id, question]));
+  return questionIds.map((questionId) => byId.get(String(questionId))).filter(Boolean);
 }
 
 function getValidSubjectIds(library) {
@@ -1056,9 +1135,9 @@ async function handleProfileStatsUpdate(request, response) {
     return sendJson(response, 404, { message: "User not found." });
   }
 
-  const nextRating = Number.isFinite(payload.rating)
-    ? Math.max(0, Math.round(payload.rating))
-    : database.users[userIndex].rating;
+  const nextRating = Number.isFinite(database.users[userIndex].rating)
+    ? database.users[userIndex].rating
+    : DEFAULT_USER_RATING;
   const nextStreak = Number.isFinite(payload.streak)
     ? Math.max(1, Math.round(payload.streak))
     : database.users[userIndex].streak;
@@ -1274,6 +1353,163 @@ function buildRatedDuelPayload(duel, currentUser, database) {
     },
     opponent: opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : null,
   };
+}
+
+function calculateExpectedScore(playerRating, opponentRating) {
+  return 1 / (1 + 10 ** ((opponentRating - playerRating) / 400));
+}
+
+function calculateEloDelta(playerRating, opponentRating, actualScore) {
+  const expectedScore = calculateExpectedScore(playerRating, opponentRating);
+  return Math.round(DUEL_ELO_K_FACTOR * (actualScore - expectedScore));
+}
+
+function getActualScore(userScore, opponentScore) {
+  if (userScore > opponentScore) return { actualScore: 1, verdict: "win" };
+  if (userScore < opponentScore) return { actualScore: 0, verdict: "loss" };
+  return { actualScore: 0.5, verdict: "draw" };
+}
+
+function scoreDuelAnswers(payload) {
+  const answers = payload.answers && typeof payload.answers === "object" ? payload.answers : {};
+  const questionIds = Array.isArray(payload.questionIds) ? payload.questionIds.map((id) => String(id)) : [];
+  const questions = getQuestionAnswerMap(questionIds);
+
+  if (!questions.length || questions.length !== questionIds.length) {
+    return { error: "Duel questions could not be verified. Start a fresh duel and try again." };
+  }
+
+  const correct = questions.reduce((total, question) => {
+    const selected = String(answers[question.id] ?? "").trim();
+    return total + (selected && selected === question.answer ? 1 : 0);
+  }, 0);
+
+  return {
+    questions,
+    correct,
+    attempted: questions.length,
+  };
+}
+
+function sanitizeDuelResult(result) {
+  return {
+    id: result.id,
+    duelId: result.duelId,
+    mode: result.mode,
+    verdict: result.verdict,
+    delta: result.delta,
+    previousRating: result.previousRating,
+    nextRating: result.nextRating,
+    userScore: result.userScore,
+    opponentScore: result.opponentScore,
+    attemptedQuestions: result.attemptedQuestions,
+    correctAnswers: result.correctAnswers,
+    ratingAffected: result.ratingAffected,
+    completedAt: result.completedAt,
+  };
+}
+
+function handleDuelQuestions(request, response, url) {
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return null;
+
+  const count = Number(url.searchParams.get("count") ?? DUEL_QUESTION_COUNT);
+  const questions = pickDuelQuestions(Number.isFinite(count) ? Math.round(count) : DUEL_QUESTION_COUNT).map(
+    sanitizeDuelQuestionForClient,
+  );
+  return sendJson(response, 200, {
+    durationSeconds: DUEL_DURATION_SECONDS,
+    questions,
+  });
+}
+
+async function handleCompleteDuel(request, response) {
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return null;
+
+  const payload = await parseRequestBody(request);
+  const mode = payload.mode === "bot" ? "bot" : "rated";
+  const duelId = String(payload.duelId ?? "").trim() || (mode === "bot" ? `bot-${currentUser.id}-${String(payload.sessionId ?? "")}` : "");
+  const resultKey = duelId ? `${duelId}:${currentUser.id}` : "";
+
+  if (resultKey) {
+    const previousResult = (database.duelResults ?? []).find((result) => result.resultKey === resultKey);
+    if (previousResult) {
+      return sendJson(response, 200, { result: sanitizeDuelResult(previousResult), user: sanitizeUser(currentUser) });
+    }
+  }
+
+  const scored = scoreDuelAnswers(payload);
+  if (scored.error) {
+    return sendJson(response, 422, { message: scored.error });
+  }
+
+  const userIndex = database.users.findIndex((user) => user.id === currentUser.id);
+  if (userIndex === -1) {
+    return sendJson(response, 404, { message: "User not found." });
+  }
+
+  const opponentScore = Math.max(0, Math.min(scored.attempted, Math.round(Number(payload.opponentScore ?? 0))));
+  const { actualScore, verdict } = getActualScore(scored.correct, opponentScore);
+  const previousRating = Number.isFinite(database.users[userIndex].rating)
+    ? database.users[userIndex].rating
+    : DEFAULT_USER_RATING;
+  const opponentRating = Number.isFinite(payload.opponentRating) ? Math.max(0, Math.round(payload.opponentRating)) : previousRating;
+  const delta = mode === "bot" ? 0 : calculateEloDelta(previousRating, opponentRating, actualScore);
+  const nextRating = Math.max(0, previousRating + delta);
+
+  const updatedUser = {
+    ...database.users[userIndex],
+    rating: nextRating,
+    correctAnswers: Math.max(
+      0,
+      Math.round((database.users[userIndex].correctAnswers ?? DEFAULT_CORRECT_ANSWERS) + scored.correct),
+    ),
+    attemptedQuestions: Math.max(
+      0,
+      Math.round((database.users[userIndex].attemptedQuestions ?? DEFAULT_ATTEMPTED_QUESTIONS) + scored.attempted),
+    ),
+  };
+
+  const completedAt = new Date().toISOString();
+  const result = {
+    id: randomBytes(10).toString("hex"),
+    resultKey,
+    duelId: duelId || null,
+    mode,
+    userId: currentUser.id,
+    opponentId: mode === "bot" ? null : String(payload.opponentId ?? "").trim() || null,
+    verdict,
+    delta,
+    previousRating,
+    nextRating,
+    userScore: scored.correct,
+    opponentScore,
+    attemptedQuestions: scored.attempted,
+    correctAnswers: scored.correct,
+    ratingAffected: mode !== "bot",
+    completedAt,
+  };
+
+  database.users[userIndex] = updatedUser;
+  database.duelResults = [result, ...(database.duelResults ?? []).slice(0, 499)];
+
+  const duelIndex = (database.duels ?? []).findIndex((duel) => duel.id === duelId);
+  if (duelIndex !== -1) {
+    const duel = database.duels[duelIndex];
+    const completedBy = new Set([...(duel.completedBy ?? []), currentUser.id]);
+    database.duels[duelIndex] = {
+      ...duel,
+      completedBy: [...completedBy],
+      lastCompletedAt: completedAt,
+      status: completedBy.size >= (duel.playerIds ?? []).length ? "completed" : duel.status,
+    };
+  }
+
+  await writeDatabase(database);
+  return sendJson(response, 200, { result: sanitizeDuelResult(result), user: sanitizeUser(updatedUser) });
 }
 
 async function handleJoinRatedDuelQueue(request, response) {
@@ -1744,6 +1980,8 @@ async function handleRequest(request, response) {
     if (request.method === "PATCH" && url.pathname === "/api/profile") return await handleProfileUpdate(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile/stats") return await handleProfileStatsUpdate(request, response);
     if (request.method === "GET" && url.pathname === "/api/leaderboard") return handleLeaderboard(request, response);
+    if (request.method === "GET" && url.pathname === "/api/duels/questions") return handleDuelQuestions(request, response, url);
+    if (request.method === "POST" && url.pathname === "/api/duels/complete") return await handleCompleteDuel(request, response);
     if (request.method === "POST" && url.pathname === "/api/duels/rated/queue") return await handleJoinRatedDuelQueue(request, response);
     if (request.method === "GET" && url.pathname === "/api/duels/rated/queue") return handleRatedDuelQueueStatus(request, response);
     if (request.method === "DELETE" && url.pathname === "/api/duels/rated/queue") return await handleLeaveRatedDuelQueue(request, response);

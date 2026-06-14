@@ -94,31 +94,31 @@ const emptyPracticeLibrary = {
   subjects: [],
 };
 
-const duelQuestions = [
+const fallbackDuelQuestions = [
   {
+    id: "clinical-fallback-1",
     prompt: "Which cranial nerve is primarily responsible for lateral eye movement?",
     options: ["Oculomotor", "Trochlear", "Abducens", "Optic"],
-    answer: "Abducens",
   },
   {
+    id: "clinical-fallback-2",
     prompt: "A patient with diabetic ketoacidosis is expected to have which acid-base disturbance?",
     options: ["Metabolic acidosis", "Metabolic alkalosis", "Respiratory acidosis", "Respiratory alkalosis"],
-    answer: "Metabolic acidosis",
   },
   {
+    id: "clinical-fallback-3",
     prompt: "Which valve is most commonly affected in infective endocarditis among IV drug users?",
     options: ["Mitral", "Aortic", "Pulmonic", "Tricuspid"],
-    answer: "Tricuspid",
   },
   {
+    id: "clinical-fallback-4",
     prompt: "The antidote for acetaminophen overdose is:",
     options: ["Naloxone", "Atropine", "N-acetylcysteine", "Flumazenil"],
-    answer: "N-acetylcysteine",
   },
   {
+    id: "clinical-fallback-5",
     prompt: "Which nephron segment is primarily responsible for fine sodium regulation under aldosterone?",
     options: ["Proximal tubule", "Loop of Henle", "Distal convoluted tubule", "Collecting duct"],
-    answer: "Collecting duct",
   },
 ];
 
@@ -130,17 +130,8 @@ function formatTime(totalSeconds) {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
-function calculateExpectedScore(playerRating, opponentRating) {
-  return 1 / (1 + 10 ** ((opponentRating - playerRating) / 400));
-}
-
-function calculateEloDelta(playerRating, opponentRating, actualScore, kFactor = 24) {
-  const expectedScore = calculateExpectedScore(playerRating, opponentRating);
-  return Math.round(kFactor * (actualScore - expectedScore));
-}
-
-function createOpponentTimeline(opponentRating) {
-  return duelQuestions.map((question, index) => {
+function createOpponentTimeline(opponentRating, questions = fallbackDuelQuestions) {
+  return questions.map((question, index) => {
     const progressSeconds = 24 + index * 26 + (opponentRating % 11);
     const skillGate = (opponentRating + index * 37) % 100;
     const targetAccuracy = Math.min(86, Math.max(52, 58 + Math.round((opponentRating - 1400) / 6)));
@@ -241,6 +232,9 @@ function App() {
   const [practiceStage, setPracticeStage] = useState("catalog");
   const [userRating, setUserRating] = useState(1480);
   const [duelStatus, setDuelStatus] = useState("idle");
+  const [duelQuestions, setDuelQuestions] = useState(fallbackDuelQuestions);
+  const [duelMode, setDuelMode] = useState("rated");
+  const [duelSessionId, setDuelSessionId] = useState("");
   const [duelOpponent, setDuelOpponent] = useState(null);
   const [duelTimeLeft, setDuelTimeLeft] = useState(DUEL_DURATION_SECONDS);
   const [duelIndex, setDuelIndex] = useState(0);
@@ -337,6 +331,7 @@ function App() {
       }, 0),
     [duelSelections, duelSubmitted],
   );
+  const userDuelAnswered = Object.keys(duelSubmitted).length;
 
   const attemptedQuestions = user?.attemptedQuestions ?? 0;
   const correctAnswers = user?.correctAnswers ?? 0;
@@ -703,7 +698,12 @@ function App() {
         if (cancelled) return;
 
         if (data.status === "matched" && data.opponent) {
-          beginLiveDuel(data.opponent);
+          const questions = duelQuestions.length ? duelQuestions : await loadDuelQuestions();
+          beginLiveDuel(data.opponent, {
+            mode: "rated",
+            questions,
+            sessionId: data.duel?.id ?? `rated-${Date.now()}`,
+          });
           return;
         }
 
@@ -731,7 +731,7 @@ function App() {
       cancelled = true;
       window.clearInterval(intervalId);
     };
-  }, [duelQueueInfo?.ticketId, duelStatus]);
+  }, [duelQueueInfo?.ticketId, duelQuestions, duelStatus]);
 
   useEffect(() => {
     if (duelStatus !== "live") return;
@@ -768,34 +768,93 @@ function App() {
       verdict = "loss";
     }
 
-    const delta = calculateEloDelta(userRating, duelOpponent.rating, actualScore);
-    const nextRating = userRating + delta;
-    setUserRating(nextRating);
-    setUser((current) => (current ? { ...current, rating: nextRating } : current));
-    setLeaderboardPlayers((current) =>
-      current.map((player) =>
-        player.id === user?.id
-          ? {
-              ...player,
-              score: nextRating,
-              isCurrentUser: true,
-            }
-          : player,
-      ),
-    );
     setDuelOpponentProgress({ answered: opponentAnswered, correct: opponentCorrect });
-    setDuelResult({
-      verdict,
-      delta,
-      previousRating: userRating,
-      nextRating,
-      userScore: userDuelScore,
-      opponentScore: opponentCorrect,
-      userAnswered,
-      opponentAnswered,
-    });
-    void saveUserStats(nextRating);
-  }, [duelStatus, duelOpponent, duelOpponentTimeline, duelResult, duelSubmitted, duelTimeLeft, saveUserStats, user, userDuelScore, userRating]);
+
+    const completeDuel = async () => {
+      try {
+        const data = await apiRequest("/api/duels/complete", {
+          method: "POST",
+          body: JSON.stringify({
+            mode: duelMode,
+            duelId: duelMode === "rated" ? duelSessionId : "",
+            sessionId: duelSessionId,
+            opponentId: duelOpponent.id,
+            opponentRating: duelOpponent.rating,
+            opponentScore: opponentCorrect,
+            questionIds: duelQuestions.map((question) => question.id),
+            answers: duelQuestions.reduce(
+              (answers, question, index) => ({
+                ...answers,
+                [question.id]: duelSelections[index] ?? "",
+              }),
+              {},
+            ),
+          }),
+        });
+
+        const result = data.result ?? {};
+        const mergedUser = mergeUserPerformance(data.user);
+        const nextRating = mergedUser.rating ?? result.nextRating ?? userRating;
+        setUser(mergedUser);
+        setUserRating(nextRating);
+        setLeaderboardPlayers((current) =>
+          current.map((player) =>
+            player.id === user?.id
+              ? {
+                  ...player,
+                  score: nextRating,
+                  isCurrentUser: true,
+                }
+              : player,
+          ),
+        );
+        setDuelResult({
+          verdict: result.verdict ?? verdict,
+          delta: result.delta ?? 0,
+          previousRating: result.previousRating ?? userRating,
+          nextRating,
+          userScore: result.userScore ?? userDuelScore,
+          opponentScore: result.opponentScore ?? opponentCorrect,
+          userAnswered,
+          opponentAnswered,
+          ratingAffected: result.ratingAffected ?? duelMode !== "bot",
+        });
+        await fetchLeaderboard();
+        await fetchPlatformSummary();
+      } catch (error) {
+        setDuelMessage(error instanceof Error ? error.message : "Could not save the duel result.");
+        setDuelResult({
+          verdict,
+          delta: 0,
+          previousRating: userRating,
+          nextRating: userRating,
+          userScore: userDuelScore,
+          opponentScore: opponentCorrect,
+          userAnswered,
+          opponentAnswered,
+          ratingAffected: false,
+        });
+      }
+    };
+
+    void completeDuel();
+  }, [
+    duelMode,
+    duelOpponent,
+    duelOpponentTimeline,
+    duelQuestions,
+    duelResult,
+    duelSelections,
+    duelSessionId,
+    duelStatus,
+    duelSubmitted,
+    duelTimeLeft,
+    fetchLeaderboard,
+    fetchPlatformSummary,
+    user,
+    userDuelScore,
+    userRating,
+  ]);
 
   function handleSubmitAnswer() {
     if (!selectedOption || submitted || !currentPracticeQuestion || !user) return;
@@ -1065,10 +1124,23 @@ function App() {
     });
   }
 
-  function beginLiveDuel(opponent) {
+  async function loadDuelQuestions() {
+    try {
+      const data = await apiRequest(`/api/duels/questions?count=${fallbackDuelQuestions.length}`);
+      return Array.isArray(data.questions) && data.questions.length ? data.questions : fallbackDuelQuestions;
+    } catch {
+      return fallbackDuelQuestions;
+    }
+  }
+
+  function beginLiveDuel(opponent, options = {}) {
+    const questions = Array.isArray(options.questions) && options.questions.length ? options.questions : fallbackDuelQuestions;
     setActiveView("Compete");
+    setDuelQuestions(questions);
+    setDuelMode(options.mode ?? "rated");
+    setDuelSessionId(options.sessionId ?? "");
     setDuelOpponent(opponent);
-    setDuelOpponentTimeline(createOpponentTimeline(opponent.rating));
+    setDuelOpponentTimeline(createOpponentTimeline(opponent.rating ?? userRating, questions));
     setDuelTimeLeft(DUEL_DURATION_SECONDS);
     setDuelIndex(0);
     setDuelSelections({});
@@ -1082,7 +1154,12 @@ function App() {
 
   async function startDuel(preferredOpponent = null) {
     if (preferredOpponent) {
-      beginLiveDuel(preferredOpponent);
+      const questions = await loadDuelQuestions();
+      beginLiveDuel(preferredOpponent, {
+        mode: "rated",
+        questions,
+        sessionId: `challenge-${Date.now()}`,
+      });
       return;
     }
 
@@ -1105,12 +1182,17 @@ function App() {
     setDuelStatus("matchmaking");
 
     try {
+      const questions = await loadDuelQuestions();
       const data = await apiRequest("/api/duels/rated/queue", {
         method: "POST",
       });
 
       if (data.status === "matched" && data.opponent) {
-        beginLiveDuel(data.opponent);
+        beginLiveDuel(data.opponent, {
+          mode: "rated",
+          questions,
+          sessionId: data.duel?.id ?? `rated-${Date.now()}`,
+        });
         return;
       }
 
@@ -1123,6 +1205,32 @@ function App() {
       setDuelStatus("idle");
       setDuelMessage(error instanceof Error ? error.message : "Could not join the rated duel queue.");
     }
+  }
+
+  async function startBotDuel() {
+    if (!user) {
+      setAuthMode("login");
+      setActiveView("Profile");
+      return;
+    }
+
+    setActiveView("Compete");
+    setDuelMessage("");
+    const questions = await loadDuelQuestions();
+    beginLiveDuel(
+      {
+        id: "medicomm-clinical-bot",
+        name: "Clinical Bot",
+        rating: userRating,
+        specialty: "Ratingless PYQ sparring",
+        ratingless: true,
+      },
+      {
+        mode: "bot",
+        questions,
+        sessionId: `bot-${Date.now()}`,
+      },
+    );
   }
 
   async function leaveDuelQueue() {
@@ -1139,25 +1247,7 @@ function App() {
 
   function submitDuelAnswer() {
     if (!currentDuelSelection || currentDuelSubmitted || !currentDuelQuestion || !user) return;
-
-    const wasCorrect = currentDuelSelection === currentDuelQuestion.answer;
-    const nextCorrectAnswers = (user.correctAnswers ?? 0) + (wasCorrect ? 1 : 0);
-    const nextAttemptedQuestions = (user.attemptedQuestions ?? 0) + 1;
-
-    setUser((current) =>
-      current
-        ? {
-            ...current,
-            correctAnswers: nextCorrectAnswers,
-            attemptedQuestions: nextAttemptedQuestions,
-          }
-        : current,
-    );
     setDuelSubmitted((current) => ({ ...current, [duelIndex]: true }));
-    void saveUserStats(userRating, user?.streak ?? 1, {
-      correctAnswers: nextCorrectAnswers,
-      attemptedQuestions: nextAttemptedQuestions,
-    });
   }
 
   function nextDuelQuestion() {
@@ -1175,6 +1265,9 @@ function App() {
       }).catch(() => undefined);
     }
     setDuelStatus("idle");
+    setDuelQuestions(fallbackDuelQuestions);
+    setDuelMode("rated");
+    setDuelSessionId("");
     setDuelOpponent(null);
     setDuelTimeLeft(DUEL_DURATION_SECONDS);
     setDuelIndex(0);
@@ -2670,13 +2763,16 @@ function App() {
           </div>
           <div className="duel-stat">
             <span>Scoring</span>
-            <strong>Live rating update</strong>
+            <strong>Server Elo update</strong>
           </div>
         </div>
 
         <div className="quiz-actions">
           <button className="button button-primary" onClick={() => startDuel()}>
             Start rated duel
+          </button>
+          <button className="button button-secondary" onClick={startBotDuel}>
+            Compete with bot
           </button>
           <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
             Practice first
@@ -2735,7 +2831,7 @@ function App() {
           <div className="duel-player">
             <p>You</p>
             <strong>{user?.name ?? "Player"}</strong>
-            <span className="panel-copy">{userDuelScore} correct</span>
+            <span className="panel-copy">{userDuelAnswered} locked</span>
           </div>
           <div className="duel-timer">
             <p>Time left</p>
@@ -2744,7 +2840,9 @@ function App() {
           <div className="duel-player">
             <p>Opponent</p>
             <strong>{duelOpponent?.name ?? "Matching..."}</strong>
-            <span className="panel-copy">{duelOpponentProgress.correct} correct</span>
+            <span className="panel-copy">
+              {duelOpponent?.ratingless ? "Ratingless" : `${duelOpponentProgress.correct} correct`}
+            </span>
           </div>
         </div>
 
@@ -2756,22 +2854,18 @@ function App() {
                 Question {duelIndex + 1} of {duelQuestions.length}
               </p>
             </div>
-            <span className="rank-pill">Rated</span>
+            <span className="rank-pill">{duelMode === "bot" ? "Bot practice" : "Rated"}</span>
           </div>
 
           <div className="options-grid">
             {currentDuelQuestion.options.map((option) => {
               const isActive = currentDuelSelection === option;
-              const isAnswer = currentDuelSubmitted && option === currentDuelQuestion.answer;
-              const isWrong = currentDuelSubmitted && isActive && option !== currentDuelQuestion.answer;
               return (
                 <button
                   key={option}
                   className={
                     "option-card" +
-                    (isActive ? " option-active" : "") +
-                    (isAnswer ? " option-correct" : "") +
-                    (isWrong ? " option-wrong" : "")
+                    (isActive ? " option-active" : "")
                   }
                   onClick={() => {
                     if (currentDuelSubmitted) return;
@@ -2794,13 +2888,9 @@ function App() {
           </div>
 
           {currentDuelSubmitted ? (
-            <div className={"feedback-box " + (currentDuelSelection === currentDuelQuestion.answer ? "feedback-good" : "feedback-bad")}>
-              <strong>
-                {currentDuelSelection === currentDuelQuestion.answer
-                  ? "Correct answer locked in."
-                  : "Correct answer: " + currentDuelQuestion.answer}
-              </strong>
-              <p>{currentDuelQuestion.explanation}</p>
+            <div className="feedback-box feedback-good">
+              <strong>Answer locked in.</strong>
+              <p>Final score is verified by the server after the duel.</p>
             </div>
           ) : null}
         </article>
@@ -2823,7 +2913,11 @@ function App() {
             </h3>
           </div>
           <span className="rank-pill">
-            {duelResult ? `${duelResult.delta > 0 ? "+" : ""}${duelResult.delta} rating` : "Rated"}
+            {duelResult?.ratingAffected === false
+              ? "Ratingless"
+              : duelResult
+                ? `${duelResult.delta > 0 ? "+" : ""}${duelResult.delta} rating`
+                : "Rated"}
           </span>
         </div>
 
