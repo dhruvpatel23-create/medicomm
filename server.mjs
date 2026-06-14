@@ -416,18 +416,15 @@ function getDuelQuestionPool() {
 
 function pickDuelQuestions(count = DUEL_QUESTION_COUNT) {
   const pool = getDuelQuestionPool();
-  const selected = [];
-  const usedIndexes = new Set();
   const targetCount = Math.min(Math.max(1, count), pool.length);
+  const shuffled = [...pool];
 
-  while (selected.length < targetCount) {
-    const index = randomBytes(4).readUInt32BE(0) % pool.length;
-    if (usedIndexes.has(index)) continue;
-    usedIndexes.add(index);
-    selected.push(pool[index]);
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = randomBytes(4).readUInt32BE(0) % (index + 1);
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
   }
 
-  return selected;
+  return shuffled.slice(0, targetCount);
 }
 
 function getQuestionAnswerMap(questionIds = []) {
@@ -646,6 +643,7 @@ function countPracticeQuestions(library) {
 function sendJson(response, statusCode, payload) {
   response.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store",
   });
   response.end(JSON.stringify(payload));
 }
@@ -1405,6 +1403,7 @@ function sanitizeDuelResult(result) {
     attemptedQuestions: result.attemptedQuestions,
     correctAnswers: result.correctAnswers,
     ratingAffected: result.ratingAffected,
+    forfeited: Boolean(result.forfeited),
     completedAt: result.completedAt,
   };
 }
@@ -1431,6 +1430,7 @@ async function handleCompleteDuel(request, response) {
 
   const payload = await parseRequestBody(request);
   const mode = payload.mode === "bot" ? "bot" : "rated";
+  const forfeited = Boolean(payload.forfeit);
   const duelId = String(payload.duelId ?? "").trim() || (mode === "bot" ? `bot-${currentUser.id}-${String(payload.sessionId ?? "")}` : "");
   const resultKey = duelId ? `${duelId}:${currentUser.id}` : "";
 
@@ -1451,8 +1451,11 @@ async function handleCompleteDuel(request, response) {
     return sendJson(response, 404, { message: "User not found." });
   }
 
-  const opponentScore = Math.max(0, Math.min(scored.attempted, Math.round(Number(payload.opponentScore ?? 0))));
-  const { actualScore, verdict } = getActualScore(scored.correct, opponentScore);
+  const submittedOpponentScore = Math.max(0, Math.min(scored.attempted, Math.round(Number(payload.opponentScore ?? 0))));
+  const opponentScore = forfeited ? Math.min(scored.attempted, Math.max(submittedOpponentScore, scored.correct + 1)) : submittedOpponentScore;
+  const scoredOutcome = getActualScore(scored.correct, opponentScore);
+  const actualScore = forfeited ? 0 : scoredOutcome.actualScore;
+  const verdict = forfeited ? "loss" : scoredOutcome.verdict;
   const previousRating = Number.isFinite(database.users[userIndex].rating)
     ? database.users[userIndex].rating
     : DEFAULT_USER_RATING;
@@ -1490,6 +1493,7 @@ async function handleCompleteDuel(request, response) {
     attemptedQuestions: scored.attempted,
     correctAnswers: scored.correct,
     ratingAffected: mode !== "bot",
+    forfeited,
     completedAt,
   };
 

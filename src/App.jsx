@@ -245,6 +245,7 @@ function App() {
   const [duelResult, setDuelResult] = useState(null);
   const [duelQueueInfo, setDuelQueueInfo] = useState(null);
   const [duelMessage, setDuelMessage] = useState("");
+  const [duelForfeited, setDuelForfeited] = useState(false);
   const [selectedLeaderboardState, setSelectedLeaderboardState] = useState("");
   const [stateSearchTerm, setStateSearchTerm] = useState("");
   const [authStatus, setAuthStatus] = useState("loading");
@@ -751,20 +752,15 @@ function App() {
     const userCompletedEarlier = userAnswered === duelQuestions.length && duelTimeLeft > 0;
     const opponentCompletedEarlier = duelOpponentTimeline.every((step) => step.revealAt < DUEL_DURATION_SECONDS - duelTimeLeft);
 
-    let actualScore = 0.5;
-    let verdict = "draw";
+    let verdict = duelForfeited ? "loss" : "draw";
 
-    if (userDuelScore > opponentCorrect) {
-      actualScore = 1;
+    if (!duelForfeited && userDuelScore > opponentCorrect) {
       verdict = "win";
-    } else if (userDuelScore < opponentCorrect) {
-      actualScore = 0;
+    } else if (!duelForfeited && userDuelScore < opponentCorrect) {
       verdict = "loss";
-    } else if (userCompletedEarlier && !opponentCompletedEarlier) {
-      actualScore = 1;
+    } else if (!duelForfeited && userCompletedEarlier && !opponentCompletedEarlier) {
       verdict = "win";
-    } else if (!userCompletedEarlier && opponentCompletedEarlier) {
-      actualScore = 0;
+    } else if (!duelForfeited && !userCompletedEarlier && opponentCompletedEarlier) {
       verdict = "loss";
     }
 
@@ -781,6 +777,7 @@ function App() {
             opponentId: duelOpponent.id,
             opponentRating: duelOpponent.rating,
             opponentScore: opponentCorrect,
+            forfeit: duelForfeited,
             questionIds: duelQuestions.map((question) => question.id),
             answers: duelQuestions.reduce(
               (answers, question, index) => ({
@@ -818,6 +815,7 @@ function App() {
           userAnswered,
           opponentAnswered,
           ratingAffected: result.ratingAffected ?? duelMode !== "bot",
+          forfeited: result.forfeited ?? duelForfeited,
         });
         await fetchLeaderboard();
         await fetchPlatformSummary();
@@ -833,6 +831,7 @@ function App() {
           userAnswered,
           opponentAnswered,
           ratingAffected: false,
+          forfeited: duelForfeited,
         });
       }
     };
@@ -842,6 +841,7 @@ function App() {
     duelMode,
     duelOpponent,
     duelOpponentTimeline,
+    duelForfeited,
     duelQuestions,
     duelResult,
     duelSelections,
@@ -1126,7 +1126,9 @@ function App() {
 
   async function loadDuelQuestions() {
     try {
-      const data = await apiRequest(`/api/duels/questions?count=${fallbackDuelQuestions.length}`);
+      const data = await apiRequest(`/api/duels/questions?count=${fallbackDuelQuestions.length}&session=${Date.now()}`, {
+        cache: "no-store",
+      });
       return Array.isArray(data.questions) && data.questions.length ? data.questions : fallbackDuelQuestions;
     } catch {
       return fallbackDuelQuestions;
@@ -1149,6 +1151,7 @@ function App() {
     setDuelResult(null);
     setDuelQueueInfo(null);
     setDuelMessage("");
+    setDuelForfeited(false);
     setDuelStatus("live");
   }
 
@@ -1258,6 +1261,12 @@ function App() {
     setDuelIndex((current) => current + 1);
   }
 
+  function forfeitDuel() {
+    if (duelStatus !== "live") return;
+    setDuelForfeited(true);
+    setDuelStatus("finished");
+  }
+
   function resetDuel(syncServer = true) {
     if (syncServer && (duelStatus === "matchmaking" || duelStatus === "live" || duelStatus === "finished")) {
       void apiRequest("/api/duels/rated/queue", {
@@ -1278,6 +1287,7 @@ function App() {
     setDuelResult(null);
     setDuelQueueInfo(null);
     setDuelMessage("");
+    setDuelForfeited(false);
   }
 
   function updateAuthField(field, value) {
@@ -2885,6 +2895,9 @@ function App() {
             <button className="button button-secondary" onClick={nextDuelQuestion} disabled={!currentDuelSubmitted}>
               {duelIndex === duelQuestions.length - 1 ? "Finish duel" : "Next question"}
             </button>
+            <button className="button button-secondary" onClick={forfeitDuel}>
+              End match
+            </button>
           </div>
 
           {currentDuelSubmitted ? (
@@ -2905,7 +2918,9 @@ function App() {
           <div>
             <p className="eyebrow">Result</p>
             <h3>
-              {duelResult?.verdict === "win"
+              {duelResult?.forfeited
+                ? "You forfeited the duel"
+                : duelResult?.verdict === "win"
                 ? "You won the duel"
                 : duelResult?.verdict === "loss"
                   ? "You lost the duel"
