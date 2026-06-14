@@ -1,5 +1,5 @@
 import { createServer } from "node:http";
-import { randomBytes, pbkdf2Sync, timingSafeEqual } from "node:crypto";
+import { createHash, randomBytes, pbkdf2Sync, timingSafeEqual } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync, unlinkSync } from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
@@ -414,9 +414,22 @@ function getDuelQuestionPool() {
   );
 }
 
-function pickDuelQuestions(count = DUEL_QUESTION_COUNT) {
+function getSeededQuestionRank(question, seed) {
+  return createHash("sha256")
+    .update(`${seed}:${question.id}`)
+    .digest("hex");
+}
+
+function pickDuelQuestions(count = DUEL_QUESTION_COUNT, seed = "") {
   const pool = getDuelQuestionPool();
   const targetCount = Math.min(Math.max(1, count), pool.length);
+
+  if (seed) {
+    return [...pool]
+      .sort((left, right) => getSeededQuestionRank(left, seed).localeCompare(getSeededQuestionRank(right, seed)))
+      .slice(0, targetCount);
+  }
+
   const shuffled = [...pool];
 
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
@@ -1414,7 +1427,8 @@ function handleDuelQuestions(request, response, url) {
   if (!currentUser) return null;
 
   const count = Number(url.searchParams.get("count") ?? DUEL_QUESTION_COUNT);
-  const questions = pickDuelQuestions(Number.isFinite(count) ? Math.round(count) : DUEL_QUESTION_COUNT).map(
+  const seed = String(url.searchParams.get("session") ?? "").trim();
+  const questions = pickDuelQuestions(Number.isFinite(count) ? Math.round(count) : DUEL_QUESTION_COUNT, seed).map(
     sanitizeDuelQuestionForClient,
   );
   return sendJson(response, 200, {

@@ -699,11 +699,12 @@ function App() {
         if (cancelled) return;
 
         if (data.status === "matched" && data.opponent) {
-          const questions = duelQuestions.length ? duelQuestions : await loadDuelQuestions();
+          const sessionId = data.duel?.id ?? createDuelSessionId("rated");
+          const questions = await loadDuelQuestions(sessionId);
           beginLiveDuel(data.opponent, {
             mode: "rated",
             questions,
-            sessionId: data.duel?.id ?? `rated-${Date.now()}`,
+            sessionId,
           });
           return;
         }
@@ -1124,15 +1125,27 @@ function App() {
     });
   }
 
-  async function loadDuelQuestions() {
-    try {
-      const data = await apiRequest(`/api/duels/questions?count=${fallbackDuelQuestions.length}&session=${Date.now()}`, {
+  function createDuelSessionId(prefix = "duel") {
+    const randomId =
+      typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    return `${prefix}-${randomId}`;
+  }
+
+  async function loadDuelQuestions(sessionId) {
+    const data = await apiRequest(
+      `/api/duels/questions?count=${fallbackDuelQuestions.length}&session=${encodeURIComponent(sessionId)}`,
+      {
         cache: "no-store",
-      });
-      return Array.isArray(data.questions) && data.questions.length ? data.questions : fallbackDuelQuestions;
-    } catch {
-      return fallbackDuelQuestions;
+      },
+    );
+
+    if (!Array.isArray(data.questions) || !data.questions.length) {
+      throw new Error("Could not load fresh compete questions.");
     }
+
+    return data.questions;
   }
 
   function beginLiveDuel(opponent, options = {}) {
@@ -1157,12 +1170,19 @@ function App() {
 
   async function startDuel(preferredOpponent = null) {
     if (preferredOpponent) {
-      const questions = await loadDuelQuestions();
-      beginLiveDuel(preferredOpponent, {
-        mode: "rated",
-        questions,
-        sessionId: `challenge-${Date.now()}`,
-      });
+      try {
+        const sessionId = createDuelSessionId("challenge");
+        const questions = await loadDuelQuestions(sessionId);
+        beginLiveDuel(preferredOpponent, {
+          mode: "rated",
+          questions,
+          sessionId,
+        });
+      } catch (error) {
+        setActiveView("Compete");
+        setDuelStatus("idle");
+        setDuelMessage(error instanceof Error ? error.message : "Could not load fresh duel questions.");
+      }
       return;
     }
 
@@ -1185,16 +1205,17 @@ function App() {
     setDuelStatus("matchmaking");
 
     try {
-      const questions = await loadDuelQuestions();
       const data = await apiRequest("/api/duels/rated/queue", {
         method: "POST",
       });
 
       if (data.status === "matched" && data.opponent) {
+        const sessionId = data.duel?.id ?? createDuelSessionId("rated");
+        const questions = await loadDuelQuestions(sessionId);
         beginLiveDuel(data.opponent, {
           mode: "rated",
           questions,
-          sessionId: data.duel?.id ?? `rated-${Date.now()}`,
+          sessionId,
         });
         return;
       }
@@ -1219,21 +1240,27 @@ function App() {
 
     setActiveView("Compete");
     setDuelMessage("");
-    const questions = await loadDuelQuestions();
-    beginLiveDuel(
-      {
-        id: "medicomm-clinical-bot",
-        name: "Clinical Bot",
-        rating: userRating,
-        specialty: "Ratingless PYQ sparring",
-        ratingless: true,
-      },
-      {
-        mode: "bot",
-        questions,
-        sessionId: `bot-${Date.now()}`,
-      },
-    );
+    try {
+      const sessionId = createDuelSessionId("bot");
+      const questions = await loadDuelQuestions(sessionId);
+      beginLiveDuel(
+        {
+          id: "medicomm-clinical-bot",
+          name: "Clinical Bot",
+          rating: userRating,
+          specialty: "Ratingless PYQ sparring",
+          ratingless: true,
+        },
+        {
+          mode: "bot",
+          questions,
+          sessionId,
+        },
+      );
+    } catch (error) {
+      setDuelStatus("idle");
+      setDuelMessage(error instanceof Error ? error.message : "Could not load fresh bot questions.");
+    }
   }
 
   async function leaveDuelQueue() {
