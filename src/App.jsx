@@ -143,6 +143,15 @@ function createOpponentTimeline(opponentRating, questions = fallbackDuelQuestion
   });
 }
 
+function getSeededClientRank(value) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
 function formatDuration(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
@@ -1134,12 +1143,31 @@ function App() {
   }
 
   async function loadDuelQuestions(sessionId) {
-    const data = await apiRequest(
-      `/api/duels/questions?count=${fallbackDuelQuestions.length}&session=${encodeURIComponent(sessionId)}`,
-      {
+    let data;
+
+    try {
+      data = await apiRequest(`/api/duels/questions?count=${fallbackDuelQuestions.length}&session=${encodeURIComponent(sessionId)}`, {
         cache: "no-store",
-      },
-    );
+      });
+    } catch (error) {
+      if (!(error instanceof Error) || !/route not found/i.test(error.message)) {
+        throw error;
+      }
+
+      const practiceData = await apiRequest(`/api/practice?source=official&session=${encodeURIComponent(sessionId)}`, {
+        cache: "no-store",
+      });
+      const practiceQuestions = Array.isArray(practiceData.questions) ? practiceData.questions : [];
+      data = {
+        questions: practiceQuestions
+          .filter((question) => question?.id && question?.prompt && Array.isArray(question.options) && question.options.length === 4)
+          .sort(
+            (left, right) =>
+              getSeededClientRank(`${sessionId}:${left.id}`) - getSeededClientRank(`${sessionId}:${right.id}`),
+          )
+          .slice(0, fallbackDuelQuestions.length),
+      };
+    }
 
     if (!Array.isArray(data.questions) || !data.questions.length) {
       throw new Error("Could not load fresh compete questions.");
