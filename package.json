@@ -11,6 +11,7 @@
     "client": "vite",
     "server": "node server.mjs",
     "start": "node server.mjs",
+    "import:yellowfool": "python scripts/import_yellowfool_pyqs.py",
     "seed:supabase": "node scripts/seed-supabase.mjs",
     "build": "vite build",
     "preview": "vite preview"

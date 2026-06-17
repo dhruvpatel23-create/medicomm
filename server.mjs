@@ -279,11 +279,15 @@ function normalizeQuestion(question, subject, exam = {}) {
   const options = Array.isArray(question.options) ? question.options.map((option) => String(option).trim()) : [];
   const answerIndex = Number.isInteger(question.answerIndex) ? question.answerIndex : options.indexOf(question.answer);
   const answer = options[answerIndex] ?? question.answer ?? "";
+  const imageUrls = Array.isArray(question.imageUrls) ? question.imageUrls : [];
+  const images = Array.isArray(question.images) ? question.images : imageUrls;
 
   return {
     id: String(question.id ?? randomBytes(8).toString("hex")),
     examId: String(question.examId ?? exam.id ?? "neet-pg-pyqs"),
+    examTitle: String(question.examTitle ?? exam.title ?? ""),
     year: Number.isFinite(question.year) ? question.year : exam.year ?? null,
+    questionNumber: Number.isFinite(question.questionNumber) ? question.questionNumber : null,
     subjectId: String(question.subjectId ?? subject?.id ?? ""),
     subjectTitle: String(subject?.title ?? question.subjectTitle ?? ""),
     topic: String(question.topic ?? "General").trim() || "General",
@@ -294,7 +298,16 @@ function normalizeQuestion(question, subject, exam = {}) {
     explanation: String(question.explanation ?? (answer ? `Correct answer: ${answer}` : "")).trim(),
     difficulty: String(question.difficulty ?? "exam").trim(),
     source: question.source === "ai" ? "ai" : "official",
-    images: Array.isArray(question.images) ? question.images : [],
+    sourceExam: String(question.sourceExam ?? question.examTitle ?? exam.title ?? "").trim(),
+    sourceExamGroup: String(question.sourceExamGroup ?? "").trim(),
+    chapterTitle: String(question.chapterTitle ?? question.sourceChapterTitle ?? "").trim(),
+    sourcePdf: String(question.sourcePdf ?? "").trim(),
+    sourcePdfPageStart: Number.isFinite(question.sourcePdfPageStart) ? question.sourcePdfPageStart : null,
+    sourcePdfPageEnd: Number.isFinite(question.sourcePdfPageEnd) ? question.sourcePdfPageEnd : null,
+    sourceQuestionNumber: Number.isFinite(question.sourceQuestionNumber) ? question.sourceQuestionNumber : null,
+    tags: Array.isArray(question.tags) ? question.tags.map((tag) => String(tag).trim()).filter(Boolean) : [],
+    imageUrls,
+    images,
     createdAt: question.createdAt ?? null,
   };
 }
