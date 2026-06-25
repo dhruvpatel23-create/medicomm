@@ -12,10 +12,12 @@ const dataDir = path.join(__dirname, "data");
 const runtimeDataDir = path.join(__dirname, "runtime-data");
 const legacyUploadsDir = path.join(dataDir, "uploads");
 const uploadsDir = path.join(runtimeDataDir, "uploads");
+const publicUploadsDir = path.join(__dirname, "public", "uploads");
 const legacyDatabasePath = path.join(dataDir, "users.json");
 const databasePath = path.join(runtimeDataDir, "users.json");
 const practiceQuestionBankPath = path.join(dataDir, "practice-question-bank.json");
 const distDir = path.join(__dirname, "dist");
+const distUploadsDir = path.join(distDir, "uploads");
 const host = process.env.HOST ?? "0.0.0.0";
 const port = Number(process.env.PORT ?? 4174);
 const supabaseUrl = (process.env.SUPABASE_URL ?? "").replace(/\/$/, "");
@@ -679,6 +681,7 @@ const staticMimeTypes = {
   ".gif": "image/gif",
   ".html": "text/html; charset=utf-8",
   ".ico": "image/x-icon",
+  ".jp2": "image/jp2",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".js": "text/javascript; charset=utf-8",
@@ -690,6 +693,10 @@ const staticMimeTypes = {
   ".woff": "font/woff",
   ".woff2": "font/woff2",
 };
+
+function getStaticMimeType(filePath) {
+  return staticMimeTypes[path.extname(filePath).toLowerCase()] ?? "application/octet-stream";
+}
 
 async function serveStaticFile(response, requestPath) {
   if (!existsSync(distDir)) {
@@ -705,9 +712,8 @@ async function serveStaticFile(response, requestPath) {
 
   try {
     const file = await fs.readFile(filePath);
-    const extension = path.extname(filePath).toLowerCase();
     response.writeHead(200, {
-      "Content-Type": staticMimeTypes[extension] ?? "application/octet-stream",
+      "Content-Type": getStaticMimeType(filePath),
       "Cache-Control": filePath.endsWith("index.html") ? "no-cache" : "public, max-age=31536000, immutable",
     });
     response.end(file);
@@ -1978,27 +1984,24 @@ async function handleRequest(request, response) {
 
   if (request.method === "GET" && url.pathname.startsWith("/uploads/")) {
     const requestedFile = path.basename(url.pathname);
-    const filePath = path.join(uploadsDir, requestedFile);
+    const uploadFileCandidates = [
+      path.join(uploadsDir, requestedFile),
+      path.join(distUploadsDir, requestedFile),
+      path.join(publicUploadsDir, requestedFile),
+      path.join(legacyUploadsDir, requestedFile),
+    ];
+    const filePath = uploadFileCandidates.find((candidate) => existsSync(candidate));
 
-    if (!existsSync(filePath)) {
+    if (!filePath) {
       response.writeHead(404);
       response.end("Not found");
       return;
     }
 
-    const extension = path.extname(filePath).toLowerCase();
-    const mimeType =
-      extension === ".png"
-        ? "image/png"
-        : extension === ".jpg" || extension === ".jpeg"
-          ? "image/jpeg"
-          : extension === ".webp"
-            ? "image/webp"
-            : extension === ".gif"
-              ? "image/gif"
-              : "application/octet-stream";
-
-    response.writeHead(200, { "Content-Type": mimeType });
+    response.writeHead(200, {
+      "Content-Type": getStaticMimeType(filePath),
+      "Cache-Control": filePath.startsWith(uploadsDir) ? "no-store" : "public, max-age=31536000, immutable",
+    });
     response.end(readFileSync(filePath));
     return;
   }
