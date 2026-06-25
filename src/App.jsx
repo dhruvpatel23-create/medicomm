@@ -4,6 +4,7 @@ import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
+const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 
 const features = [
   {
@@ -191,6 +192,91 @@ function formatStatValue(value) {
   return Number.isFinite(value) ? value.toLocaleString("en-IN") : "0";
 }
 
+function getPracticeProgressStorageKey(user) {
+  const userKey = user?.id ?? user?.email ?? "guest";
+  return `${PRACTICE_PROGRESS_STORAGE_KEY}:${userKey}`;
+}
+
+function readPracticeProgress(user) {
+  if (typeof window === "undefined") return {};
+
+  try {
+    const rawProgress = localStorage.getItem(getPracticeProgressStorageKey(user));
+    const parsedProgress = rawProgress ? JSON.parse(rawProgress) : {};
+    return parsedProgress && typeof parsedProgress === "object" && !Array.isArray(parsedProgress) ? parsedProgress : {};
+  } catch {
+    return {};
+  }
+}
+
+function writePracticeProgress(user, progress) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(getPracticeProgressStorageKey(user), JSON.stringify(progress));
+}
+
+function getQuestionYearKey(question) {
+  return Number.isFinite(question?.year) ? String(question.year) : "unknown";
+}
+
+function getYearSetTitle(yearKey) {
+  return yearKey === "unknown" ? "Unsorted PYQs" : `${yearKey} PYQs`;
+}
+
+function formatExplanationText(value) {
+  const text = String(value ?? "").trim();
+  if (!text) return "";
+
+  const letters = text.match(/[A-Za-z]/g) ?? [];
+  if (!letters.length) return text;
+
+  const uppercaseLetters = letters.filter((letter) => letter === letter.toUpperCase()).length;
+  if (uppercaseLetters / letters.length < 0.82) return text;
+
+  return text
+    .toLowerCase()
+    .replace(/(^|[.!?]\s+)([a-z])/g, (match, prefix, letter) => `${prefix}${letter.toUpperCase()}`)
+    .replace(/\b(mcq|neet|pg|aiims|inicet|ini-cet|dna|rna|ct|mri|ecg|hiv|hbv|hcv|tb|cns|csf|iv|im|igg|igm|ige|iga)\b/gi, (match) =>
+      match.toUpperCase(),
+    );
+}
+
+function buildSubjectYearSets(subject, progress = {}) {
+  const groups = new Map();
+
+  for (const question of subject?.questions ?? []) {
+    const yearKey = getQuestionYearKey(question);
+    const group = groups.get(yearKey) ?? {
+      id: yearKey,
+      year: Number.isFinite(question.year) ? question.year : null,
+      title: getYearSetTitle(yearKey),
+      examTitles: new Set(),
+      questions: [],
+    };
+    if (question.examTitle) group.examTitles.add(question.examTitle);
+    group.questions.push(question);
+    groups.set(yearKey, group);
+  }
+
+  return [...groups.values()]
+    .map((group) => {
+      const answered = group.questions.filter((question) => progress[question.id]).length;
+      const total = group.questions.length;
+      return {
+        ...group,
+        examTitles: [...group.examTitles],
+        answered,
+        total,
+        progressPercent: total ? Math.round((answered / total) * 100) : 0,
+      };
+    })
+    .sort((left, right) => {
+      if (left.year === null && right.year === null) return left.title.localeCompare(right.title);
+      if (left.year === null) return 1;
+      if (right.year === null) return -1;
+      return right.year - left.year;
+    });
+}
+
 function getCommunityInviteUrl(communityId) {
   if (typeof window === "undefined" || !communityId) return "";
   const url = new URL(window.location.origin);
@@ -236,9 +322,11 @@ function App() {
   const [aiPracticeMessage, setAiPracticeMessage] = useState("");
   const [selectedPracticeSubjectId, setSelectedPracticeSubjectId] = useState("");
   const [selectedPracticeMode, setSelectedPracticeMode] = useState("pyq");
+  const [selectedPracticeExamYear, setSelectedPracticeExamYear] = useState("");
   const [practiceChoiceSubjectId, setPracticeChoiceSubjectId] = useState("");
   const [practiceQuestionIndex, setPracticeQuestionIndex] = useState(0);
   const [practiceStage, setPracticeStage] = useState("catalog");
+  const [practiceProgress, setPracticeProgress] = useState({});
   const [userRating, setUserRating] = useState(1480);
   const [duelStatus, setDuelStatus] = useState("idle");
   const [duelQuestions, setDuelQuestions] = useState(fallbackDuelQuestions);
@@ -313,11 +401,25 @@ function App() {
     activePracticeSubjects.find((subject) => subject.id === selectedPracticeSubjectId) ??
     activePracticeSubjects[0] ??
     null;
-  const currentPracticeQuestion = currentPracticeSubject?.questions?.[practiceQuestionIndex] ?? null;
+  const currentPracticeYearSets = useMemo(
+    () => buildSubjectYearSets(currentPracticeSubject, practiceProgress),
+    [currentPracticeSubject, practiceProgress],
+  );
+  const currentPracticeQuestionSet =
+    selectedPracticeMode === "pyq" && selectedPracticeExamYear
+      ? currentPracticeYearSets.find((yearSet) => yearSet.id === selectedPracticeExamYear) ?? null
+      : null;
+  const currentPracticeQuestions =
+    currentPracticeQuestionSet?.questions ?? currentPracticeSubject?.questions ?? [];
+  const currentPracticeQuestion = currentPracticeQuestions[practiceQuestionIndex] ?? null;
   const practiceChoiceSubject =
     practiceSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
     aiPracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
     null;
+  const practiceChoiceYearSets = useMemo(
+    () => buildSubjectYearSets(practiceChoiceSubject, practiceProgress),
+    [practiceChoiceSubject, practiceProgress],
+  );
   const currentAiPracticeSubject = aiPracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ?? null;
   const groupedPracticeYears = practiceYears.map((year) => ({
     ...year,
@@ -549,6 +651,10 @@ function App() {
     document.documentElement.style.colorScheme = theme;
     localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
+
+  useEffect(() => {
+    setPracticeProgress(readPracticeProgress(user));
+  }, [user?.id, user?.email]);
 
   useEffect(() => {
     fetchLeaderboard();
@@ -883,6 +989,19 @@ function App() {
         : current,
     );
     setSubmitted(true);
+    setPracticeProgress((current) => {
+      const nextProgress = {
+        ...current,
+        [currentPracticeQuestion.id]: {
+          answeredAt: new Date().toISOString(),
+          correct: wasCorrect,
+          subjectId: currentPracticeQuestion.subjectId,
+          year: currentPracticeQuestion.year,
+        },
+      };
+      writePracticeProgress(user, nextProgress);
+      return nextProgress;
+    });
     void saveUserStats(userRating, user?.streak ?? 1, {
       correctAnswers: nextCorrectAnswers,
       attemptedQuestions: nextAttemptedQuestions,
@@ -897,9 +1016,10 @@ function App() {
     setPracticeChoiceSubjectId("");
   }
 
-  function startPracticeSession(subjectId, mode) {
+  function startPracticeSession(subjectId, mode, examYear = "") {
     setSelectedPracticeSubjectId(subjectId);
     setSelectedPracticeMode(mode);
+    setSelectedPracticeExamYear(mode === "pyq" ? examYear : "");
     setPracticeQuestionIndex(0);
     setSelectedOption("");
     setSubmitted(false);
@@ -910,6 +1030,7 @@ function App() {
   function handleBackToPracticeDirectory() {
     setPracticeStage("catalog");
     setSelectedPracticeMode("pyq");
+    setSelectedPracticeExamYear("");
     setSelectedOption("");
     setSubmitted(false);
   }
@@ -933,7 +1054,7 @@ function App() {
 
   function handleNextPracticeQuestion() {
     if (!currentPracticeSubject) return;
-    if (practiceQuestionIndex >= currentPracticeSubject.questions.length - 1) return;
+    if (practiceQuestionIndex >= currentPracticeQuestions.length - 1) return;
     setPracticeQuestionIndex((current) => current + 1);
     setSelectedOption("");
     setSubmitted(false);
@@ -960,6 +1081,7 @@ function App() {
       await fetchPracticeLibrary();
       setSelectedPracticeSubjectId(subjectId);
       setSelectedPracticeMode("ai");
+      setSelectedPracticeExamYear("");
       setPracticeStage("subject");
       setPracticeChoiceSubjectId("");
       setPracticeQuestionIndex(0);
@@ -1927,7 +2049,10 @@ function App() {
       );
     }
 
-    const totalQuestions = currentPracticeSubject.questions.length;
+    const totalQuestions = currentPracticeQuestions.length;
+    const explanationText = formatExplanationText(
+      currentPracticeQuestion.explanation || "Answer saved in the NEET PG question bank.",
+    );
 
     if (practiceStage === "subject") {
       return (
@@ -1935,7 +2060,10 @@ function App() {
           <div className="view-header">
             <div>
               <p className="eyebrow">Practice</p>
-              <h2>{currentPracticeSubject.title} {selectedPracticeMode === "ai" ? "AI practice" : "PYQ session"}</h2>
+              <h2>
+                {currentPracticeSubject.title}{" "}
+                {selectedPracticeMode === "ai" ? "AI practice" : currentPracticeQuestionSet?.title ?? "PYQ session"}
+              </h2>
             </div>
             <button className="button button-secondary" onClick={handleBackToPracticeDirectory}>
               Back to subjects
@@ -1944,7 +2072,11 @@ function App() {
 
           <article className="card quiz-card practice-focus-card">
             <div className="practice-focus-topbar">
-              <span className="practice-year-tag">{activePracticeYear?.title ?? "Practice"}</span>
+              <span className="practice-year-tag">
+                {selectedPracticeMode === "ai"
+                  ? activePracticeYear?.title ?? "Practice"
+                  : currentPracticeQuestionSet?.title ?? "PYQ session"}
+              </span>
               <span className={`rank-pill ${selectedPracticeMode === "ai" ? "source-ai" : "source-official"}`}>
                 {selectedPracticeMode === "ai" ? "Supplemental AI" : "Official PYQ"}
               </span>
@@ -1952,11 +2084,51 @@ function App() {
                 Question {practiceQuestionIndex + 1} of {totalQuestions}
               </span>
             </div>
+            <div className="practice-question-status-strip" aria-label="Question progress">
+              {currentPracticeQuestions.map((question, index) => {
+                const questionProgress = practiceProgress[question.id];
+                const isCurrent = index === practiceQuestionIndex;
+                const isAnswered = Boolean(questionProgress);
+                const wasCorrectLastTime = questionProgress?.correct === true;
+                return (
+                  <button
+                    key={question.id}
+                    type="button"
+                    className={
+                      "practice-question-status" +
+                      (isCurrent ? " practice-question-status-current" : "") +
+                      (isAnswered
+                        ? wasCorrectLastTime
+                          ? " practice-question-status-correct"
+                          : " practice-question-status-wrong"
+                        : "")
+                    }
+                    onClick={() => {
+                      setPracticeQuestionIndex(index);
+                      setSelectedOption("");
+                      setSubmitted(false);
+                    }}
+                    aria-label={
+                      isAnswered
+                        ? `Question ${index + 1}, last attempt ${wasCorrectLastTime ? "correct" : "wrong"}`
+                        : `Question ${index + 1}, not attempted`
+                    }
+                    title={
+                      isAnswered
+                        ? `Question ${index + 1}: last attempt ${wasCorrectLastTime ? "correct" : "wrong"}`
+                        : `Question ${index + 1}`
+                    }
+                  >
+                    {isAnswered ? "✓" : index + 1}
+                  </button>
+                );
+              })}
+            </div>
             <div className="quiz-meta">
               <span>
                 {selectedPracticeMode === "ai"
                   ? "Supplemental topic-wise practice"
-                  : currentPracticeQuestion.examTitle ?? `${currentPracticeQuestion.year} PYQ`}
+                  : currentPracticeQuestion.examTitle ?? currentPracticeQuestionSet?.title ?? `${currentPracticeQuestion.year} PYQ`}
               </span>
               <span>{currentPracticeQuestion.topic}</span>
             </div>
@@ -2020,7 +2192,7 @@ function App() {
                 <strong>
                   {isCorrect ? "Correct." : "Not quite. Correct answer: " + currentPracticeQuestion.answer + "."}
                 </strong>
-                <p>{currentPracticeQuestion.explanation || "Answer saved in the NEET PG question bank."}</p>
+                <p>{explanationText}</p>
               </div>
             ) : null}
           </article>
@@ -2052,16 +2224,40 @@ function App() {
                 <div className="icon-badge green">MCQ</div>
                 <div>
                   <h3 id="practice-choice-title">Practice {practiceChoiceSubject.title}</h3>
-                  <p>Choose how you want to practice this subject.</p>
+                  <p>Choose PYQs by exam year or create an AI practice set.</p>
                 </div>
               </div>
-              <div className="practice-choice-grid">
-                <button className="practice-choice-card" type="button" onClick={() => startPracticeSession(practiceChoiceSubject.id, "pyq")}>
-                  <span className="practice-choice-icon">PYQ</span>
-                  <strong>PYQs</strong>
-                  <p>Previous Year Questions</p>
-                  <small>{practiceChoiceSubject.questions.length} official questions</small>
-                </button>
+              <div className="practice-year-picker">
+                <div className="practice-choice-section-heading">
+                  <strong>Previous Year Questions</strong>
+                  <span>{practiceChoiceSubject.questions.length} official questions</span>
+                </div>
+                <div className="practice-year-choice-grid">
+                  {practiceChoiceYearSets.map((yearSet) => (
+                    <button
+                      className="practice-year-choice-card"
+                      type="button"
+                      key={yearSet.id}
+                      onClick={() => startPracticeSession(practiceChoiceSubject.id, "pyq", yearSet.id)}
+                    >
+                      <span className="practice-year-choice-topline">
+                        <strong>{yearSet.title}</strong>
+                        <small>{yearSet.total} Qs</small>
+                      </span>
+                      <span className="practice-year-choice-exams">
+                        {yearSet.examTitles.slice(0, 2).join(" + ") || "Official PYQs"}
+                      </span>
+                      <span className="practice-progress-track" aria-hidden="true">
+                        <span style={{ width: `${yearSet.progressPercent}%` }} />
+                      </span>
+                      <span className="practice-progress-copy">
+                        {yearSet.answered} / {yearSet.total} answered
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="practice-choice-grid practice-choice-grid-single">
                 <button
                   className="practice-choice-card practice-choice-card-ai"
                   type="button"

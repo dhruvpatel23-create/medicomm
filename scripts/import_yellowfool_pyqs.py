@@ -11,6 +11,11 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PDF_PATH = Path(r"F:\pyqs\Pyqs neet inict the yellowfool.pdf")
 CHAPTER_COUNTS_PATH = ROOT / "pdf_question_stats" / "chapter_counts.csv"
+OUTPUT_IMAGE_DIRS = [
+    ROOT / "runtime-data" / "uploads",
+    ROOT / "data" / "uploads",
+    ROOT / "public" / "uploads",
+]
 TARGET_FILES = [
     ROOT / "data" / "practice-question-bank.json",
     ROOT / "public" / "practice-question-bank.json",
@@ -55,6 +60,11 @@ SOLUTION_HEADING = re.compile(r"(?m)^Solution to Question\s+(\d+):\s*$")
 OPTION_HEADING = re.compile(r"(?m)^([a-d])\)\s*")
 ANSWER_KEY_LINE = re.compile(r"(?m)^\s*(\d{1,3})\s+([a-d])\s*$")
 PAGE_NUMBER_LINE = re.compile(r"(?m)^\s*\d{1,5}\s*$")
+IMAGE_PROMPT_PATTERN = re.compile(
+    r"\b(image|shown|marked|identify|depict|visual|histology|photograph|specimen|x-ray|radiograph|ct|mri|spotter)\b",
+    re.IGNORECASE,
+)
+OPTION_LABEL_PATTERN = re.compile(r"^[A-D1-9]$", re.IGNORECASE)
 
 
 def normalize_space(value: str) -> str:
@@ -176,7 +186,273 @@ def parse_question_block(block: str) -> tuple[str, list[str]]:
     return normalize_space(prompt), options
 
 
-def parse_chapter(chapter: dict, page_texts: list[str]) -> list[dict]:
+def get_page_images(reader: PdfReader, page_number: int) -> list[dict]:
+    page = reader.pages[page_number - 1]
+    images = []
+    for image_index, image in enumerate(page.images, start=1):
+        size = getattr(image.image, "size", None)
+        if not size:
+            continue
+
+        width, height = size
+        if width >= 1800 and height <= 600:
+            continue
+
+        extension = Path(image.name).suffix.lower() or ".png"
+        if extension == ".jpe":
+            extension = ".jpg"
+
+        images.append(
+            {
+                "index": image_index,
+                "name": Path(image.name).stem,
+                "bytes": image.data,
+                "extension": extension,
+            }
+        )
+    return images
+
+
+def has_compact_visual_options(question: dict) -> bool:
+    options = [normalize_space(option) for option in question.get("options", [])]
+    return len(options) == 4 and all(OPTION_LABEL_PATTERN.match(option) or "■" in option for option in options)
+
+
+def is_visual_question(question: dict) -> bool:
+    searchable_text = " ".join([question.get("prompt", ""), *question.get("options", [])])
+    return bool(IMAGE_PROMPT_PATTERN.search(searchable_text) or has_compact_visual_options(question))
+
+
+def chapter_question_images(reader: PdfReader, chapter: dict, page_texts: list[str]) -> list[dict]:
+    images = []
+
+    for page_number in range(chapter["startPage"], chapter["endPage"] + 1):
+        text = normalize_space(page_texts[page_number - 1])
+        if SOLUTION_HEADING.search(text) or re.search(r"(?m)^Detailed Explanations\s*$", text):
+            break
+
+        for image in get_page_images(reader, page_number):
+            images.append({**image, "pageNumber": page_number})
+
+    return images
+
+
+def page_layout_items(reader: PdfReader, page_number: int) -> list[dict]:
+    page = reader.pages[page_number - 1]
+    images_by_name = defaultdict(list)
+    for image in get_page_images(reader, page_number):
+        images_by_name[image["name"]].append(image)
+
+    items = []
+
+    def add_item(item: dict) -> None:
+        items.append({**item, "order": len(items)})
+
+    def visitor_text(text, _cm, tm, _font_dict, _font_size):
+        match = re.search(r"Question\s+(\d+):", text.strip())
+        if match:
+            add_item(
+                {
+                    "type": "question",
+                    "questionNumber": int(match.group(1)),
+                    "pageNumber": page_number,
+                    "y": float(tm[5]),
+                }
+            )
+
+    def visitor_operand_before(operator, args, cm, _tm):
+        if operator != b"Do" or not args:
+            return
+
+        image_name = str(args[0]).lstrip("/")
+        image_bucket = images_by_name.get(image_name)
+        if not image_bucket:
+            return
+
+        image = image_bucket.pop(0)
+        add_item(
+            {
+                **image,
+                "type": "image",
+                "pageNumber": page_number,
+                "y": float(cm[5]),
+            }
+        )
+
+    page.extract_text(visitor_text=visitor_text, visitor_operand_before=visitor_operand_before)
+    return items
+
+
+def chapter_layout(reader: PdfReader, chapter: dict, page_texts: list[str]) -> tuple[dict[int, dict], list[dict]]:
+    question_positions = {}
+    images = []
+
+    for page_number in range(chapter["startPage"], chapter["endPage"] + 1):
+        text = normalize_space(page_texts[page_number - 1])
+        if SOLUTION_HEADING.search(text) or re.search(r"(?m)^Detailed Explanations\s*$", text):
+            break
+
+        for item in page_layout_items(reader, page_number):
+            if item["type"] == "question":
+                question_positions.setdefault(item["questionNumber"], item)
+            elif item["type"] == "image":
+                images.append(item)
+
+    images.sort(key=lambda item: (item["pageNumber"], -item["y"], item["index"]))
+    return question_positions, images
+
+
+def image_is_after_question_before_next(image: dict, current_position: dict, next_position: dict | None) -> bool:
+    if image["pageNumber"] < current_position["pageNumber"]:
+        return False
+    if image["pageNumber"] == current_position["pageNumber"] and image["y"] >= current_position["y"]:
+        return False
+
+    if next_position is None:
+        return True
+
+    if image["pageNumber"] > next_position["pageNumber"]:
+        return False
+    if image["pageNumber"] == next_position["pageNumber"] and image["y"] <= next_position["y"]:
+        return False
+
+    return True
+
+
+def image_is_after_question_by_order(image: dict, current_position: dict, next_position: dict | None) -> bool:
+    if image["pageNumber"] < current_position["pageNumber"]:
+        return False
+    if image["pageNumber"] == current_position["pageNumber"] and image["order"] <= current_position["order"]:
+        return False
+
+    if next_position is None:
+        return True
+
+    if image["pageNumber"] > next_position["pageNumber"]:
+        return False
+    if image["pageNumber"] == next_position["pageNumber"] and image["order"] >= next_position["order"]:
+        return False
+
+    return True
+
+
+def question_pages_for_chapter(chapter: dict, page_texts: list[str]) -> dict[int, set[int]]:
+    pages_by_question = defaultdict(set)
+    active_question = None
+
+    for page_number in range(chapter["startPage"], chapter["endPage"] + 1):
+        text = normalize_space(page_texts[page_number - 1])
+        if not text:
+            continue
+
+        solution_match = SOLUTION_HEADING.search(text)
+        detail_match = re.search(r"(?m)^Detailed Explanations\s*$", text)
+        question_matches = list(QUESTION_HEADING.finditer(text))
+        page_stop = min(
+            [match.start() for match in (solution_match, detail_match) if match],
+            default=len(text),
+        )
+
+        if active_question is not None and page_stop > 0:
+            pages_by_question[active_question].add(page_number)
+
+        for index, match in enumerate(question_matches):
+            if match.start() >= page_stop:
+                continue
+            active_question = int(match.group(1))
+            pages_by_question[active_question].add(page_number)
+
+        if solution_match or detail_match:
+            break
+
+    return pages_by_question
+
+
+def write_question_image(file_name: str, image_bytes: bytes) -> str:
+    for directory in OUTPUT_IMAGE_DIRS:
+        directory.mkdir(parents=True, exist_ok=True)
+        (directory / file_name).write_bytes(image_bytes)
+    return f"/uploads/{file_name}"
+
+
+def medicomm_atlas_image_url(question: dict, image_slot: int = 1) -> str:
+    suffix = f"-i{image_slot}" if image_slot > 1 else ""
+    return f"/uploads/medicomm-atlas-{question['id']}{suffix}.png"
+
+
+def attach_images_to_questions(
+    reader: PdfReader,
+    chapter: dict,
+    questions: list[dict],
+    page_texts: list[str],
+    write_images: bool,
+) -> None:
+    if not questions:
+        return
+
+    question_positions, available_images = chapter_layout(reader, chapter, page_texts)
+    used_images = set()
+
+    for question_index, question in enumerate(questions):
+        if not is_visual_question(question):
+            continue
+
+        current_position = question_positions.get(question["questionNumber"])
+        if not current_position:
+            continue
+
+        next_question = questions[question_index + 1] if question_index + 1 < len(questions) else None
+        next_position = question_positions.get(next_question["questionNumber"]) if next_question else None
+        image = next(
+            (
+                candidate
+                for candidate in available_images
+                if (candidate["pageNumber"], candidate["index"]) not in used_images
+                and image_is_after_question_before_next(candidate, current_position, next_position)
+            ),
+            None,
+        )
+        if not image:
+            image = next(
+                (
+                    candidate
+                    for candidate in available_images
+                    if (candidate["pageNumber"], candidate["index"]) not in used_images
+                    and image_is_after_question_by_order(candidate, current_position, next_position)
+                ),
+                None,
+            )
+        if not image:
+            continue
+
+        used_images.add((image["pageNumber"], image["index"]))
+        file_name = (
+            f"yellowfool-{question['examId']}-{question['subjectId']}"
+            f"-q{question['questionNumber']:03d}-p{image['pageNumber']}-i{image['index']}{image['extension']}"
+        )
+        image_url = write_question_image(file_name, image["bytes"]) if write_images else f"/uploads/{file_name}"
+        question["imageUrls"] = [image_url]
+        question["images"] = [image_url]
+        question["sourceImageUrls"] = [image_url]
+        question["atlasImageTargetUrls"] = [medicomm_atlas_image_url(question)]
+        question["assetNote"] = (
+            "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+        )
+
+
+def cleanup_subject_images(subject_ids: set[str]) -> None:
+    for directory in OUTPUT_IMAGE_DIRS:
+        if not directory.exists():
+            continue
+        for subject_id in subject_ids:
+            for image_path in directory.glob(f"yellowfool-*-{subject_id}-q*"):
+                try:
+                    image_path.unlink()
+                except PermissionError:
+                    continue
+
+
+def parse_chapter(chapter: dict, page_texts: list[str], reader: PdfReader, write_images: bool) -> list[dict]:
     text = "\n".join(page_texts[chapter["startPage"] - 1 : chapter["endPage"]])
     text = normalize_space(text)
 
@@ -252,6 +528,7 @@ def parse_chapter(chapter: dict, page_texts: list[str]) -> list[dict]:
     if missing_explanations:
         raise ValueError(f"{chapter['title']}: missing explanations for questions {missing_explanations}.")
 
+    attach_images_to_questions(reader, chapter, parsed, page_texts, write_images)
     return parsed
 
 
@@ -359,13 +636,17 @@ def main() -> None:
     chapters = load_chapters(selected_subject_ids)
     if not chapters:
         raise SystemExit("No chapters matched the requested subject filter.")
+    selected_chapter_subject_ids = {chapter["subjectMeta"]["id"] for chapter in chapters}
+
+    if not args.dry_run:
+        cleanup_subject_images(selected_chapter_subject_ids)
 
     reader = PdfReader(str(args.pdf))
     page_texts = [clean_page_text(page.extract_text() or "") for page in reader.pages]
 
     questions = []
     for chapter in chapters:
-        questions.extend(parse_chapter(chapter, page_texts))
+        questions.extend(parse_chapter(chapter, page_texts, reader, not args.dry_run))
 
     selected_ids = {question["subjectId"] for question in questions}
     summary = defaultdict(int)
@@ -373,6 +654,7 @@ def main() -> None:
         summary[(question["subjectTitle"], question["sourceExam"], question["year"])] += 1
 
     print(f"Parsed {len(questions)} questions from {len(chapters)} chapters.")
+    print(f"Attached images to {sum(1 for question in questions if question['imageUrls'])} questions.")
     for (subject, exam, year), count in sorted(summary.items()):
         print(f"  {subject} | {exam} {year}: {count}")
 

@@ -7,3 +7,6 @@ data/uploads/*
 !data/uploads/.gitkeep
 vite.out.log
 vite.err.log
+tmp/
+__pycache__/
+scripts/__pycache__/
