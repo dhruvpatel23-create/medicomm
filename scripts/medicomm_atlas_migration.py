@@ -39,7 +39,8 @@ spatial relationship, arrow, pointer line, and diagnostically important detail. 
 or reposition anatomy. Render crisp, high-contrast, publication-quality textbook artwork.
 
 If numbered labels exist, convert the numbers to Roman numerals inside teal circular markers while
-retaining the original pointer lines. Preserve letter labels. If arrows exist without numbered labels,
+retaining the original pointer lines. Marker text must be high contrast: use white or bright yellow
+numerals inside dark green/teal markers, never dark numerals on dark markers. Preserve letter labels. If arrows exist without numbered labels,
 preserve them and add no labels. If no arrows or labels exist, add none. Remove unrelated watermarks
 and non-anatomical clutter. Preserve anatomically important text only when necessary. Add a small,
 subtle light-gray "medicomm" watermark at about 20% opacity in the bottom-left corner.

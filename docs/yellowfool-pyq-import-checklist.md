@@ -36,6 +36,6 @@ Total audited questions: 5,007
 - Validate every batch for total count, answer keys, and non-empty explanations.
 - The importer preserves source exam, year, chapter title, PDF page range, tags, and explanation text.
 - The atlas-image follow-up pass is tracked separately in `docs/medicomm-atlas-image-migration.csv`.
-- Current atlas checkpoint (2026-06-25): 147 of 274 complete; Anatomy has 133 complete and Anesthesia has 14 complete.
+- Current atlas checkpoint (2026-06-26): 184 of 311 complete; Anatomy has 133 complete, Anesthesia has 14 complete, Physiology has 18 complete, and Biochemistry has 19 complete.
 - Anesthesia atlas-image pass complete. The saved method is in `docs/medicomm-atlas-image-standard.md`.
 - Website sync verified: the latest ten atlas URLs and PNGs are present in both `public/` and `dist/`.

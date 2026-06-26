@@ -5,6 +5,9 @@ import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
+// Atlas artwork was replaced in place, so use a versioned URL to ensure clients
+// don't keep showing a previously cached source image.
+const ATLAS_IMAGE_VERSION = "20260626";
 
 const features = [
   {
@@ -142,6 +145,12 @@ function createOpponentTimeline(opponentRating, questions = fallbackDuelQuestion
       answer: question.answer,
     };
   });
+}
+
+function getPracticeImageUrl(imageUrl) {
+  if (!imageUrl?.includes("/medicomm-atlas-")) return imageUrl;
+  const separator = imageUrl.includes("?") ? "&" : "?";
+  return `${imageUrl}${separator}v=${ATLAS_IMAGE_VERSION}`;
 }
 
 function getSeededClientRank(value) {
@@ -586,6 +595,7 @@ function App() {
     try {
       setPracticeLibraryStatus("loading");
       const response = await fetch(PRACTICE_LIBRARY_URL, {
+        cache: "no-store",
         signal: controller.signal,
       });
 
@@ -2142,7 +2152,7 @@ function App() {
                   <img
                     key={`${currentPracticeQuestion.questionNumber}-${imageUrl}`}
                     className="practice-question-image"
-                    src={imageUrl}
+                    src={getPracticeImageUrl(imageUrl)}
                     alt={`Question ${currentPracticeQuestion.questionNumber} visual ${index + 1}`}
                   />
                 ))}

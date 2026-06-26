@@ -12735,10 +12735,10 @@
             "Physiology NEET 2019"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2019-physiology-q012-p493-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2019-physiology-q012.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2019-physiology-q012-p493-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2019-physiology-q012.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2019-physiology-q012-p493-i1.jpg"
@@ -12746,7 +12746,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2019-physiology-q012.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "neet-pg-2019-physiology-q013",
@@ -15066,10 +15066,10 @@
             "Physiology INI-CET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2022-physiology-q007-p548-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-physiology-q007.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2022-physiology-q007-p548-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-physiology-q007.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2022-physiology-q007-p548-i1.jpg"
@@ -15077,7 +15077,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2022-physiology-q007.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2022-physiology-q008",
@@ -15517,10 +15517,10 @@
             "Physiology INI-CET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2022-physiology-q018-p551-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-physiology-q018.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2022-physiology-q018-p551-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-physiology-q018.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2022-physiology-q018-p551-i1.jpg"
@@ -15528,7 +15528,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2022-physiology-q018.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2022-physiology-q019",
@@ -15608,10 +15608,10 @@
             "Physiology INI-CET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2022-physiology-q020-p552-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-physiology-q020.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2022-physiology-q020-p552-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-physiology-q020.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2022-physiology-q020-p552-i1.jpg"
@@ -15619,7 +15619,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2022-physiology-q020.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2022-physiology-q021",
@@ -16179,10 +16179,10 @@
             "Physiology NEET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2022-physiology-q003-p580-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2022-physiology-q003.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2022-physiology-q003-p580-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2022-physiology-q003.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2022-physiology-q003-p580-i1.jpg"
@@ -16190,7 +16190,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2022-physiology-q003.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "neet-pg-2022-physiology-q004",
@@ -16270,10 +16270,10 @@
             "Physiology NEET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2022-physiology-q005-p581-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2022-physiology-q005.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2022-physiology-q005-p581-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2022-physiology-q005.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2022-physiology-q005-p581-i1.jpg"
@@ -16281,7 +16281,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2022-physiology-q005.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "neet-pg-2022-physiology-q006",
@@ -17041,10 +17041,10 @@
             "Physiology INI-CET 2023"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2023-physiology-q018-p608-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2023-physiology-q018.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2023-physiology-q018-p608-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2023-physiology-q018.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2023-physiology-q018-p608-i1.jpg"
@@ -17052,7 +17052,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2023-physiology-q018.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2023-physiology-q019",
@@ -17132,10 +17132,10 @@
             "Physiology INI-CET 2023"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2023-physiology-q020-p609-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2023-physiology-q020.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2023-physiology-q020-p609-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2023-physiology-q020.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2023-physiology-q020-p609-i1.jpg"
@@ -17143,7 +17143,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2023-physiology-q020.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2023-physiology-q021",
@@ -17303,10 +17303,10 @@
             "Physiology NEET 2023"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2023-physiology-q001-p589-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2023-physiology-q001.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2023-physiology-q001-p589-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2023-physiology-q001.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2023-physiology-q001-p589-i1.jpg"
@@ -17314,7 +17314,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2023-physiology-q001.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "neet-pg-2023-physiology-q002",
@@ -17394,10 +17394,10 @@
             "Physiology NEET 2023"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2023-physiology-q003-p590-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2023-physiology-q003.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2023-physiology-q003-p590-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2023-physiology-q003.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2023-physiology-q003-p590-i1.jpg"
@@ -17405,7 +17405,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2023-physiology-q003.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "neet-pg-2023-physiology-q004",
@@ -17445,10 +17445,10 @@
             "Physiology NEET 2023"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2023-physiology-q004-p591-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2023-physiology-q004.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2023-physiology-q004-p591-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2023-physiology-q004.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2023-physiology-q004-p591-i1.jpg"
@@ -17456,7 +17456,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2023-physiology-q004.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "neet-pg-2023-physiology-q005",
@@ -17816,10 +17816,10 @@
             "Physiology INI-CET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q004-p630-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q004.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q004-p630-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q004.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2024-physiology-q004-p630-i1.jpg"
@@ -17827,7 +17827,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2024-physiology-q004.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2024-physiology-q005",
@@ -17907,10 +17907,10 @@
             "Physiology INI-CET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q006-p631-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q006.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q006-p631-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q006.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2024-physiology-q006-p631-i1.jpg"
@@ -17918,7 +17918,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2024-physiology-q006.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2024-physiology-q007",
@@ -17998,10 +17998,10 @@
             "Physiology INI-CET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q008-p632-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q008.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q008-p632-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q008.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2024-physiology-q008-p632-i1.jpg"
@@ -18009,7 +18009,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2024-physiology-q008.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2024-physiology-q009",
@@ -18089,10 +18089,10 @@
             "Physiology INI-CET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q010-p633-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q010.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q010-p633-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q010.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2024-physiology-q010-p633-i1.jpg"
@@ -18100,7 +18100,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2024-physiology-q010.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2024-physiology-q011",
@@ -18220,10 +18220,10 @@
             "Physiology INI-CET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q013-p634-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q013.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q013-p634-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q013.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2024-physiology-q013-p634-i1.jpg"
@@ -18231,7 +18231,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2024-physiology-q013.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2024-physiology-q014",
@@ -18551,10 +18551,10 @@
             "Physiology INI-CET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q021-p637-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q021.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q021-p637-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q021.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2024-physiology-q021-p637-i1.jpg"
@@ -18562,7 +18562,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2024-physiology-q021.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2024-physiology-q022",
@@ -18922,10 +18922,10 @@
             "Physiology INI-CET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q030-p640-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q030.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2024-physiology-q030-p640-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-physiology-q030.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2024-physiology-q030-p640-i1.jpg"
@@ -18933,7 +18933,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2024-physiology-q030.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style physiology image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/markers preserved."
         },
         {
           "id": "ini-cet-2024-physiology-q031",
@@ -19941,10 +19941,10 @@
             "Biochemistry AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2017-biochemistry-q010-p682-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2017-biochemistry-q010.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2017-biochemistry-q010-p682-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2017-biochemistry-q010.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-biochemistry-q010-p682-i1.jpg"
@@ -19952,7 +19952,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-aiims-2017-biochemistry-q010.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "aiims-2017-biochemistry-q011",
@@ -20792,10 +20792,10 @@
             "Biochemistry AIIMS 2018"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2018-biochemistry-q012-p698-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2018-biochemistry-q012.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2018-biochemistry-q012-p698-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2018-biochemistry-q012.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2018-biochemistry-q012-p698-i1.jpg"
@@ -20803,7 +20803,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-aiims-2018-biochemistry-q012.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "aiims-2018-biochemistry-q013",
@@ -21323,10 +21323,10 @@
             "Biochemistry NEET 2018"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2018-biochemistry-q004-p747-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2018-biochemistry-q004.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2018-biochemistry-q004-p747-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2018-biochemistry-q004.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2018-biochemistry-q004-p747-i1.jpg"
@@ -21334,7 +21334,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2018-biochemistry-q004.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "neet-pg-2018-biochemistry-q005",
@@ -22094,10 +22094,10 @@
             "Biochemistry AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2019-biochemistry-q007-p713-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2019-biochemistry-q007.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2019-biochemistry-q007-p713-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2019-biochemistry-q007.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-biochemistry-q007-p713-i1.jpg"
@@ -22105,7 +22105,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-aiims-2019-biochemistry-q007.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "aiims-2019-biochemistry-q008",
@@ -22305,10 +22305,10 @@
             "Biochemistry AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2019-biochemistry-q012-p714-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2019-biochemistry-q012.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2019-biochemistry-q012-p714-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2019-biochemistry-q012.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-biochemistry-q012-p714-i1.jpg"
@@ -22316,7 +22316,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-aiims-2019-biochemistry-q012.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "aiims-2019-biochemistry-q013",
@@ -23556,10 +23556,10 @@
             "Biochemistry AIIMS 2020 (May & Nov INI-CET)"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2020-biochemistry-q013-p730-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2020-biochemistry-q013.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2020-biochemistry-q013-p730-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2020-biochemistry-q013.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2020-biochemistry-q013-p730-i1.jpg"
@@ -23567,7 +23567,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-aiims-2020-biochemistry-q013.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "aiims-2020-biochemistry-q014",
@@ -23607,10 +23607,10 @@
             "Biochemistry AIIMS 2020 (May & Nov INI-CET)"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2020-biochemistry-q014-p731-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2020-biochemistry-q014.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2020-biochemistry-q014-p731-i1.jpg"
+            "/uploads/medicomm-atlas-aiims-2020-biochemistry-q014.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2020-biochemistry-q014-p731-i1.jpg"
@@ -23618,7 +23618,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-aiims-2020-biochemistry-q014.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "aiims-2020-biochemistry-q015",
@@ -24298,10 +24298,10 @@
             "Biochemistry NEET 2020"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2020-biochemistry-q011-p769-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2020-biochemistry-q011.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2020-biochemistry-q011-p769-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2020-biochemistry-q011.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2020-biochemistry-q011-p769-i1.jpg"
@@ -24309,7 +24309,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2020-biochemistry-q011.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "neet-pg-2020-biochemistry-q012",
@@ -24909,10 +24909,10 @@
             "Biochemistry INI-CET 2021"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2021-biochemistry-q012-p782-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2021-biochemistry-q012.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2021-biochemistry-q012-p782-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2021-biochemistry-q012.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2021-biochemistry-q012-p782-i1.jpg"
@@ -24920,7 +24920,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2021-biochemistry-q012.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "ini-cet-2021-biochemistry-q013",
@@ -25480,10 +25480,10 @@
             "Biochemistry NEET 2021"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2021-biochemistry-q001-p810-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2021-biochemistry-q001.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2021-biochemistry-q001-p810-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2021-biochemistry-q001.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2021-biochemistry-q001-p810-i1.jpg"
@@ -25491,7 +25491,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2021-biochemistry-q001.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "neet-pg-2021-biochemistry-q002",
@@ -25771,10 +25771,10 @@
             "Biochemistry NEET 2021"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2021-biochemistry-q008-p812-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2021-biochemistry-q008.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2021-biochemistry-q008-p812-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2021-biochemistry-q008.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2021-biochemistry-q008-p812-i1.jpg"
@@ -25782,7 +25782,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2021-biochemistry-q008.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "neet-pg-2021-biochemistry-q009",
@@ -26062,10 +26062,10 @@
             "Biochemistry INI-CET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2022-biochemistry-q003-p834-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-biochemistry-q003.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2022-biochemistry-q003-p834-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-biochemistry-q003.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2022-biochemistry-q003-p834-i1.jpg"
@@ -26073,7 +26073,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2022-biochemistry-q003.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "ini-cet-2022-biochemistry-q004",
@@ -26673,10 +26673,10 @@
             "Biochemistry INI-CET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2022-biochemistry-q018-p838-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-biochemistry-q018.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2022-biochemistry-q018-p838-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-biochemistry-q018.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2022-biochemistry-q018-p838-i1.jpg"
@@ -26684,7 +26684,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2022-biochemistry-q018.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "ini-cet-2022-biochemistry-q019",
@@ -26724,10 +26724,10 @@
             "Biochemistry INI-CET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2022-biochemistry-q019-p839-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-biochemistry-q019.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2022-biochemistry-q019-p839-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2022-biochemistry-q019.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2022-biochemistry-q019-p839-i1.jpg"
@@ -26735,7 +26735,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2022-biochemistry-q019.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "ini-cet-2022-biochemistry-q020",
@@ -27535,10 +27535,10 @@
             "Biochemistry INI-CET 2023"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2023-biochemistry-q002-p891-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2023-biochemistry-q002.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2023-biochemistry-q002-p891-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2023-biochemistry-q002.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2023-biochemistry-q002-p891-i1.jpg"
@@ -27546,7 +27546,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2023-biochemistry-q002.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "ini-cet-2023-biochemistry-q003",
@@ -28786,10 +28786,10 @@
             "Biochemistry INI-CET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2024-biochemistry-q001-p912-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-biochemistry-q001.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2024-biochemistry-q001-p912-i1.jpg"
+            "/uploads/medicomm-atlas-ini-cet-2024-biochemistry-q001.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2024-biochemistry-q001-p912-i1.jpg"
@@ -28797,7 +28797,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-ini-cet-2024-biochemistry-q001.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "ini-cet-2024-biochemistry-q002",
@@ -29772,7 +29772,7 @@
           "yearId": "first-year",
           "topic": "Biochemistry NEET 2024",
           "subtopic": "",
-          "prompt": "YOU RECEIVED A TEXT MESSAGE FROM YOUR FRIEND JOHN DOE ABOUT OCCUPATIONAL EXPOSURE AFTER\nHE VISITED HIS DOCTOR AS SHOWN BELOW. WHAT IS THE TEST USED TO DIAGNOSE?",
+          "prompt": "YOU RECEIVED A TEXT MESSAGE FROM YOUR FRIEND JOHN DOE ABOUT OCCUPATIONAL EXPOSURE AFTER HE VISITED HIS DOCTOR AS SHOWN BELOW. \"Hey, i visited the doctor. i understood all the tests done except this urine coporphyrine, what is it for.\" WHAT IS THE TEST USED TO DIAGNOSE?",
           "options": [
             "ANTHRACOSIS",
             "LEAD POISONING",
@@ -29796,19 +29796,9 @@
             "Biochemistry",
             "Biochemistry NEET 2024"
           ],
-          "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2024-biochemistry-q007-p936-i1.jpg"
-          ],
-          "images": [
-            "/uploads/yellowfool-neet-pg-2024-biochemistry-q007-p936-i1.jpg"
-          ],
-          "sourceImageUrls": [
-            "/uploads/yellowfool-neet-pg-2024-biochemistry-q007-p936-i1.jpg"
-          ],
-          "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q007.png"
-          ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "imageUrls": [],
+          "images": [],
+          "sourceImageUrls": []
         },
         {
           "id": "neet-pg-2024-biochemistry-q008",
@@ -29928,10 +29918,10 @@
             "Biochemistry NEET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2024-biochemistry-q010-p937-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q010.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2024-biochemistry-q010-p937-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q010.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2024-biochemistry-q010-p937-i1.jpg"
@@ -29939,7 +29929,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q010.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "neet-pg-2024-biochemistry-q011",
@@ -30099,10 +30089,10 @@
             "Biochemistry NEET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2024-biochemistry-q014-p939-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q014.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2024-biochemistry-q014-p939-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q014.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2024-biochemistry-q014-p939-i1.jpg"
@@ -30110,7 +30100,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q014.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         },
         {
           "id": "neet-pg-2024-biochemistry-q015",
@@ -30390,10 +30380,10 @@
             "Biochemistry NEET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2024-biochemistry-q021-p942-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q021.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2024-biochemistry-q021-p942-i1.jpg"
+            "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q021.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2024-biochemistry-q021-p942-i1.jpg"
@@ -30401,7 +30391,7 @@
           "atlasImageTargetUrls": [
             "/uploads/medicomm-atlas-neet-pg-2024-biochemistry-q021.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+          "assetNote": "Medicomm atlas-style biochemistry image generated from the original source image; black atlas background, anatomy-style lower-left medicomm watermark, and original labels/diagnostic features preserved."
         }
       ]
     },

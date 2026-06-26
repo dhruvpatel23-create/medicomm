@@ -20,7 +20,7 @@ Create a professional 4K medical atlas vector illustration from the provided ima
 
 Labels / arrows:
 
-- If numbered labels exist, convert numbers to Roman numerals with teal circular markers and keep original pointer lines/arrows.
+- If numbered labels exist, convert numbers to Roman numerals with teal circular markers and keep original pointer lines/arrows. Marker text must be high contrast: use white or bright yellow numerals inside dark green/teal markers, never dark numerals on dark markers.
 - If arrows exist without numbered labels, preserve them exactly and add no labels or markers.
 - If no arrows or labels exist, add none.
 
@@ -62,10 +62,10 @@ medicomm-atlas-aiims-2017-anatomy-q001.png
 
 ## Resume Point
 
-Last checkpoint: 2026-06-25
+Last checkpoint: 2026-06-26
 
-- Tracker total: 274 images
-- Completed: 147 images
+- Tracker total: 311 images
+- Completed: 184 images
 - Remaining: 127 images
 - Anatomy total: 133 images
 - Anatomy completed: 133 images
@@ -73,11 +73,14 @@ Last checkpoint: 2026-06-25
 - Anesthesia total: 14 images
 - Anesthesia completed: 14 images
 - Anesthesia remaining: 0 images
+- Physiology completed: 18 images
+- Physiology remaining in Yellowfool physiology pass: 0 images; 2 older physiology tracker rows remain pending because their source files are missing.
+- Biochemistry completed: 19 images
 
 Latest saved batch:
 
-- Completed `neet-pg-2024-anesthesia-q008`, `neet-pg-2024-anesthesia-q010`, `neet-pg-2024-anesthesia-q011`, and `neet-pg-2024-anesthesia-q013`.
-- Verified each generated URL and PNG in both `public/` and the production `dist/` website output.
+- Completed 19 active biochemistry atlas images with conservative quality improvement, anatomy-style lower-left `medicomm` watermark, and source labels/diagnostic details preserved. The NEET PG 2024 John Doe/coproporphyrin item was changed to a text-only prompt.
+- Verified each generated URL and PNG in `public/`, `dist/`, `data/`, and `runtime-data/` upload directories.
 - Realistic dissection sources may trigger image safety filtering; retry them as clean, non-graphic textbook cutaways while preserving the original marker endpoint.
 - The tracker CSV is authoritative. Start the next session by running the status and next commands below before generating anything.
 
