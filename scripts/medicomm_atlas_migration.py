@@ -71,6 +71,54 @@ def tracker_status() -> None:
         print(f"{status}: {count}")
 
 
+def rebuild_subject(subject_id: str) -> None:
+    bank = json.loads(BANK_FILES[0].read_text(encoding="utf-8"))
+    subject = next((item for item in bank.get("subjects", []) if item.get("id") == subject_id), None)
+    if subject is None:
+        raise SystemExit(f"Subject not found: {subject_id}")
+
+    rows = read_tracker()
+    existing = {
+        (row["questionId"], row["imageSlot"]): row
+        for row in rows
+        if row["subjectId"] == subject_id
+    }
+    rebuilt: list[dict] = []
+    for question in subject.get("questions", []):
+        image_urls = list(question.get("imageUrls") or question.get("images") or [])
+        source_urls = list(question.get("sourceImageUrls") or image_urls)
+        while len(source_urls) < len(image_urls):
+            source_urls.append(image_urls[len(source_urls)])
+        for index, current_url in enumerate(image_urls):
+            slot = str(index + 1)
+            prior = existing.get((question["id"], slot))
+            source_url = source_urls[index]
+            suffix = f"-i{slot}" if len(image_urls) > 1 else ""
+            target_url = f"/uploads/medicomm-atlas-{question['id']}{suffix}.png"
+            already_done = current_url == target_url
+            rebuilt.append(
+                {
+                    "status": "done" if already_done else (prior or {}).get("status", "pending"),
+                    "subjectId": subject_id,
+                    "questionId": question["id"],
+                    "questionNumber": str(question.get("questionNumber") or question.get("number") or ""),
+                    "imageSlot": slot,
+                    "sourceUrl": (prior or {}).get("sourceUrl", source_url),
+                    "targetUrl": (prior or {}).get("targetUrl", target_url),
+                    "note": (prior or {}).get(
+                        "note",
+                        "convert from original Yellowfool source image; preserve diagnostic morphology and image order",
+                    ),
+                }
+            )
+
+    first = next((index for index, row in enumerate(rows) if row["subjectId"] == subject_id), len(rows))
+    retained = [row for row in rows if row["subjectId"] != subject_id]
+    retained[first:first] = rebuilt
+    write_tracker(retained)
+    print(f"Rebuilt {subject_id}: {len(rebuilt)} image(s)")
+
+
 def print_next(limit: int) -> None:
     rows = [row for row in read_tracker() if row["status"] != "done"]
     for row in rows[:limit]:
@@ -317,6 +365,9 @@ def main() -> None:
     apply_parser.add_argument("--generated-path", required=True)
     apply_parser.add_argument("--note", default="")
 
+    rebuild_parser = subparsers.add_parser("rebuild-subject")
+    rebuild_parser.add_argument("--subject", required=True)
+
     batch_parser = subparsers.add_parser("batch", help="Generate and apply pending images with OpenAI")
     batch_parser.add_argument("--limit", type=int, default=0, help="Maximum images; 0 means all")
     batch_parser.add_argument("--subject", default="", help="Optional subject id filter")
@@ -332,6 +383,8 @@ def main() -> None:
         print_next(args.limit)
     elif args.command == "apply":
         apply_generated(args)
+    elif args.command == "rebuild-subject":
+        rebuild_subject(args.subject)
     elif args.command == "batch":
         batch_generate(args)
 

@@ -62,11 +62,11 @@ medicomm-atlas-aiims-2017-anatomy-q001.png
 
 ## Resume Point
 
-Last checkpoint: 2026-06-26
+Last checkpoint: 2026-06-28
 
-- Tracker total: 311 images
-- Completed: 184 images
-- Remaining: 127 images
+- Tracker total: 384 images
+- Completed: 244 images
+- Remaining: 140 images
 - Anatomy total: 133 images
 - Anatomy completed: 133 images
 - Anatomy remaining: 0 images
@@ -76,9 +76,16 @@ Last checkpoint: 2026-06-26
 - Physiology completed: 18 images
 - Physiology remaining in Yellowfool physiology pass: 0 images; 2 older physiology tracker rows remain pending because their source files are missing.
 - Biochemistry completed: 19 images
+- Pathology total: 84 images
+- Pathology completed: 60 images
+- Pathology remaining: 24 images
 
 Latest saved batch:
 
+- Completed a 20-image pathology batch spanning H&E microscopy, blood smears, a nerve electron micrograph, a three-panel IHC plate, two instruments, and an autosomal-dominant pedigree; preserved diagnostic morphology, pointer endpoints, panel order, pale smear fields, and exact pedigree topology.
+- Completed a 20-image pathology batch covering clinical photos, smears, labeled histology, gross specimens, pedigree/cascade diagrams, a 47,XXY karyotype, and lung ultrastructure; retained the larger, darker lower-left `medicomm` watermark.
+- Completed the second 10-image pathology batch with a larger, darker, contrast-adjusted lower-left `medicomm` watermark. Explicitly preserved the CD19/CD40 axes in the Hyper-IgM flow-cytometry plate.
+- Completed the first 10 pathology atlas images with conservative microscopy restoration and a visible lower-left `medicomm` watermark; rebuilt the stale pathology tracker from 11 legacy rows to all 84 Yellowfool source images.
 - Completed 19 active biochemistry atlas images with conservative quality improvement, anatomy-style lower-left `medicomm` watermark, and source labels/diagnostic details preserved. The NEET PG 2024 John Doe/coproporphyrin item was changed to a text-only prompt.
 - Verified each generated URL and PNG in `public/`, `dist/`, `data/`, and `runtime-data/` upload directories.
 - Realistic dissection sources may trigger image safety filtering; retry them as clean, non-graphic textbook cutaways while preserving the original marker endpoint.

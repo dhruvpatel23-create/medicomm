@@ -642,7 +642,17 @@ def main() -> None:
         cleanup_subject_images(selected_chapter_subject_ids)
 
     reader = PdfReader(str(args.pdf))
-    page_texts = [clean_page_text(page.extract_text() or "") for page in reader.pages]
+    # Extract only the pages needed for the selected subject. Loading text from
+    # the entire Yellowfool PDF at once needlessly consumes a large amount of
+    # memory for subject-wise imports.
+    page_texts = [""] * len(reader.pages)
+    selected_page_numbers = {
+        page_number
+        for chapter in chapters
+        for page_number in range(chapter["startPage"], chapter["endPage"] + 1)
+    }
+    for page_number in sorted(selected_page_numbers):
+        page_texts[page_number - 1] = clean_page_text(reader.pages[page_number - 1].extract_text() or "")
 
     questions = []
     for chapter in chapters:
