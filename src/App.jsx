@@ -1,13 +1,63 @@
 import { useEffect, useMemo, useState } from "react";
-import { AppShell } from "./components/AppShell";
+import { AppShell } from "./components/AppShellV2";
 import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
+const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
+const COMMUNITY_THREAD_WORD_LIMIT = 300;
+const COMMUNITY_THREAD_IMAGE_LIMIT_BYTES = 5 * 1024 * 1024;
 // Atlas artwork was replaced in place, so use a versioned URL to ensure clients
 // don't keep showing a previously cached source image.
 const ATLAS_IMAGE_VERSION = "20260626";
+
+const directoryOrder = (value) => Number.isFinite(Number(value)) ? Number(value) : Number.MAX_SAFE_INTEGER;
+
+const PATHOLOGY_CHAPTER_ORDER = new Map([
+  "The Cell as a Unit of Health and Disease",
+  "Cell Injury, Cell Death, and Adaptations",
+  "Inflammation and Repair",
+  "Hemodynamic Disorders, Thromboembolic Disease, and Shock",
+  "Genetic Disorders",
+  "Diseases of the Immune System",
+  "Neoplasia",
+  "Infectious Diseases",
+  "Environmental and Nutritional Diseases",
+  "Diseases of Infancy and Childhood",
+  "Blood Vessels",
+  "The Heart",
+  "Diseases of White Blood Cells, Lymph Nodes, Spleen, and Thymus",
+  "Red Blood Cell and Bleeding Disorders",
+  "The Lung",
+  "Head and Neck",
+  "The Gastrointestinal Tract",
+  "Liver and Gallbladder",
+  "The Pancreas",
+  "The Kidney",
+  "The Lower Urinary Tract and Male Genital System",
+  "The Female Genital Tract",
+  "The Breast",
+  "The Endocrine System",
+  "The Skin",
+  "Bones, Joints, and Soft Tissue Tumors",
+  "Peripheral Nerves and Skeletal Muscles",
+  "The Central Nervous System",
+  "The Eye",
+].map((title, index) => [title, index + 1]));
+
+function getPracticeChapterOrder(question, subjectId) {
+  if (subjectId === "pathology") {
+    return PATHOLOGY_CHAPTER_ORDER.get(question.chapterTitle) ?? directoryOrder(question.chapterOrder);
+  }
+  return directoryOrder(question.chapterOrder);
+}
+
+const comparePracticeDirectoryEntries = (left, right) => {
+  const orderDifference = directoryOrder(left.order) - directoryOrder(right.order);
+  if (orderDifference !== 0) return orderDifference;
+  return String(left.title ?? left.topic ?? "").localeCompare(String(right.title ?? right.topic ?? ""));
+};
 
 const features = [
   {
@@ -48,7 +98,7 @@ const features = [
   },
 ];
 
-const navItems = ["Home", "Dashboard", "Practice", "Leaderboard", "Communities", "Compete", "Profile"];
+const navItems = ["Home", "Dashboard", "Practice", "Analytics", "Leaderboard", "Communities", "Compete", "Pricing", "Profile", "Settings"];
 
 const medicalCollegeSuggestions = [
   "AIIMS Delhi",
@@ -197,6 +247,11 @@ function calculateAccuracy(correctAnswers, attemptedQuestions) {
   return Math.round((correctAnswers / attemptedQuestions) * 100);
 }
 
+function countWords(value) {
+  const normalized = String(value ?? "").trim();
+  return normalized ? normalized.split(/\s+/).length : 0;
+}
+
 function formatStatValue(value) {
   return Number.isFinite(value) ? value.toLocaleString("en-IN") : "0";
 }
@@ -221,6 +276,44 @@ function readPracticeProgress(user) {
 function writePracticeProgress(user, progress) {
   if (typeof window === "undefined") return;
   localStorage.setItem(getPracticeProgressStorageKey(user), JSON.stringify(progress));
+}
+
+function scrollPracticeViewToTop() {
+  if (typeof window === "undefined") return;
+  window.requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.getElementById("main-content")?.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+  });
+}
+
+function getAnalyticsStorageKey(user) {
+  const userKey = user?.id ?? user?.email ?? "guest";
+  return `${ANALYTICS_EVENTS_STORAGE_KEY}:${userKey}`;
+}
+
+function readAnalyticsEvents(user, progress = {}) {
+  if (typeof window === "undefined") return [];
+  try {
+    const parsed = JSON.parse(localStorage.getItem(getAnalyticsStorageKey(user)) || "[]");
+    if (Array.isArray(parsed) && parsed.length) return parsed;
+  } catch {
+    // Fall through to the legacy progress migration below.
+  }
+  return Object.entries(progress).map(([questionId, item]) => ({
+    id: `legacy-${questionId}`,
+    questionId,
+    answeredAt: item.answeredAt,
+    correct: item.correct === true,
+    subjectId: item.subjectId || "unknown",
+    topic: "General review",
+    activity: "pyq",
+    durationSeconds: 0,
+  }));
+}
+
+function writeAnalyticsEvents(user, events) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(getAnalyticsStorageKey(user), JSON.stringify(events.slice(-2000)));
 }
 
 function getQuestionYearKey(question) {
@@ -324,6 +417,8 @@ function App() {
   const [activeView, setActiveView] = useState("Home");
   const [selectedOption, setSelectedOption] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [answerConfidence, setAnswerConfidence] = useState("");
+  const [flaggedQuestions, setFlaggedQuestions] = useState({});
   const [practiceLibrary, setPracticeLibrary] = useState(emptyPracticeLibrary);
   const [practiceLibraryStatus, setPracticeLibraryStatus] = useState("idle");
   const [practiceLibraryMessage, setPracticeLibraryMessage] = useState("");
@@ -332,10 +427,15 @@ function App() {
   const [selectedPracticeSubjectId, setSelectedPracticeSubjectId] = useState("");
   const [selectedPracticeMode, setSelectedPracticeMode] = useState("pyq");
   const [selectedPracticeExamYear, setSelectedPracticeExamYear] = useState("");
+  const [selectedPracticeTopic, setSelectedPracticeTopic] = useState("");
+  const [selectedPracticeChapter, setSelectedPracticeChapter] = useState("");
   const [practiceChoiceSubjectId, setPracticeChoiceSubjectId] = useState("");
   const [practiceQuestionIndex, setPracticeQuestionIndex] = useState(0);
   const [practiceStage, setPracticeStage] = useState("catalog");
   const [practiceProgress, setPracticeProgress] = useState({});
+  const [analyticsEvents, setAnalyticsEvents] = useState([]);
+  const [analyticsPeriod, setAnalyticsPeriod] = useState(30);
+  const [practiceQuestionStartedAt, setPracticeQuestionStartedAt] = useState(Date.now());
   const [userRating, setUserRating] = useState(1480);
   const [duelStatus, setDuelStatus] = useState("idle");
   const [duelQuestions, setDuelQuestions] = useState(fallbackDuelQuestions);
@@ -381,6 +481,9 @@ function App() {
   const [selectedCommunityId, setSelectedCommunityId] = useState("");
   const [communityStage, setCommunityStage] = useState("hub");
   const [communityMessageDraft, setCommunityMessageDraft] = useState("");
+  const [communityThreadImage, setCommunityThreadImage] = useState(null);
+  const [communityReplyDrafts, setCommunityReplyDrafts] = useState({});
+  const [expandedCommunityThreads, setExpandedCommunityThreads] = useState({});
   const [directConversations, setDirectConversations] = useState([]);
   const [directMessagesBusy, setDirectMessagesBusy] = useState(false);
   const [directMessagesMessage, setDirectMessagesMessage] = useState("");
@@ -404,6 +507,13 @@ function App() {
 
   const practiceSubjects = practiceLibrary.subjects ?? [];
   const aiPracticeSubjects = practiceLibrary.aiSubjects ?? [];
+  const aiPracticeQuestionCountsBySubject = useMemo(
+    () =>
+      Object.fromEntries(
+        aiPracticeSubjects.map((subject) => [subject.id, subject.questions?.length ?? 0]),
+      ),
+    [aiPracticeSubjects],
+  );
   const practiceYears = practiceLibrary.years ?? [];
   const activePracticeSubjects = selectedPracticeMode === "ai" ? aiPracticeSubjects : practiceSubjects;
   const currentPracticeSubject =
@@ -419,7 +529,9 @@ function App() {
       ? currentPracticeYearSets.find((yearSet) => yearSet.id === selectedPracticeExamYear) ?? null
       : null;
   const currentPracticeQuestions =
-    currentPracticeQuestionSet?.questions ?? currentPracticeSubject?.questions ?? [];
+    selectedPracticeMode === "ai" && selectedPracticeTopic
+      ? (currentPracticeSubject?.questions ?? []).filter((question) => question.topic === selectedPracticeTopic)
+      : currentPracticeQuestionSet?.questions ?? currentPracticeSubject?.questions ?? [];
   const currentPracticeQuestion = currentPracticeQuestions[practiceQuestionIndex] ?? null;
   const practiceChoiceSubject =
     practiceSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
@@ -430,6 +542,7 @@ function App() {
     [practiceChoiceSubject, practiceProgress],
   );
   const currentAiPracticeSubject = aiPracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ?? null;
+  const practiceChoiceAiQuestionCount = currentAiPracticeSubject?.questions?.length ?? 0;
   const groupedPracticeYears = practiceYears.map((year) => ({
     ...year,
     subjects: year.subjectIds
@@ -663,7 +776,9 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
-    setPracticeProgress(readPracticeProgress(user));
+    const nextProgress = readPracticeProgress(user);
+    setPracticeProgress(nextProgress);
+    setAnalyticsEvents(readAnalyticsEvents(user, nextProgress));
   }, [user?.id, user?.email]);
 
   useEffect(() => {
@@ -675,6 +790,27 @@ function App() {
     if (activeView !== "Practice" || practiceLibraryStatus !== "idle") return;
     fetchPracticeLibrary();
   }, [activeView, practiceLibraryStatus]);
+
+  useEffect(() => {
+    if (activeView !== "Practice" || practiceStage !== "subject") return undefined;
+    const handlePracticeKeyboard = (event) => {
+      if (["INPUT", "TEXTAREA", "SELECT"].includes(event.target?.tagName)) return;
+      const optionIndex = Number(event.key) - 1;
+      if (optionIndex >= 0 && optionIndex < (currentPracticeQuestion?.options?.length ?? 0) && !submitted) {
+        setSelectedOption(currentPracticeQuestion.options[optionIndex]);
+      }
+      if (event.key.toLowerCase() === "f" && currentPracticeQuestion) {
+        setFlaggedQuestions((current) => ({ ...current, [currentPracticeQuestion.id]: !current[currentPracticeQuestion.id] }));
+      }
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (submitted) handleNextPracticeQuestion();
+        else if (selectedOption) handleSubmitAnswer();
+      }
+    };
+    window.addEventListener("keydown", handlePracticeKeyboard);
+    return () => window.removeEventListener("keydown", handlePracticeKeyboard);
+  }, [activeView, currentPracticeQuestion, practiceStage, selectedOption, submitted]);
 
   async function fetchCommunities() {
     if (authStatus !== "authenticated") return;
@@ -920,6 +1056,24 @@ function App() {
         const nextRating = mergedUser.rating ?? result.nextRating ?? userRating;
         setUser(mergedUser);
         setUserRating(nextRating);
+        setAnalyticsEvents((current) => {
+          const completedAt = new Date().toISOString();
+          const secondsPerAnswer = userAnswered ? Math.max(1, Math.round((DUEL_DURATION_SECONDS - duelTimeLeft) / userAnswered)) : 0;
+          const duelEvents = duelQuestions.flatMap((question, index) => duelSubmitted[index] ? [{
+            id: `${duelSessionId || completedAt}-${question.id}`,
+            questionId: question.id,
+            answeredAt: completedAt,
+            correct: duelSelections[index] === question.answer,
+            subjectId: question.subjectId || "mixed-duel",
+            subject: question.subject || "Mixed battle",
+            topic: question.topic || "Battle review",
+            activity: "battle",
+            durationSeconds: secondsPerAnswer,
+          }] : []);
+          const nextEvents = [...current, ...duelEvents];
+          writeAnalyticsEvents(user, nextEvents);
+          return nextEvents;
+        });
         setLeaderboardPlayers((current) =>
           current.map((player) =>
             player.id === user?.id
@@ -999,6 +1153,21 @@ function App() {
         : current,
     );
     setSubmitted(true);
+    setAnalyticsEvents((current) => {
+      const nextEvents = [...current, {
+        id: `${Date.now()}-${currentPracticeQuestion.id}`,
+        questionId: currentPracticeQuestion.id,
+        answeredAt: new Date().toISOString(),
+        correct: wasCorrect,
+        subjectId: currentPracticeQuestion.subjectId || currentPracticeSubject?.id || "unknown",
+        subject: currentPracticeSubject?.title || "Other",
+        topic: currentPracticeQuestion.topic || currentPracticeQuestion.subtopic || "General review",
+        activity: selectedPracticeMode === "ai" ? "revision" : "pyq",
+        durationSeconds: Math.max(1, Math.min(1800, Math.round((Date.now() - practiceQuestionStartedAt) / 1000))),
+      }];
+      writeAnalyticsEvents(user, nextEvents);
+      return nextEvents;
+    });
     setPracticeProgress((current) => {
       const nextProgress = {
         ...current,
@@ -1034,6 +1203,7 @@ function App() {
     setSelectedOption("");
     setSubmitted(false);
     setPracticeStage("subject");
+    setPracticeQuestionStartedAt(Date.now());
     setPracticeChoiceSubjectId("");
   }
 
@@ -1059,6 +1229,7 @@ function App() {
   function handleBackToCommunityHub() {
     setCommunityStage("hub");
     setCommunityMessageDraft("");
+    setCommunityThreadImage(null);
     setDirectMessageDraft("");
   }
 
@@ -1068,43 +1239,42 @@ function App() {
     setPracticeQuestionIndex((current) => current + 1);
     setSelectedOption("");
     setSubmitted(false);
+    setAnswerConfidence("");
+    setPracticeQuestionStartedAt(Date.now());
   }
 
-  async function handleStartAiPractice(subjectId) {
+  function handleStartAiPractice(subjectId) {
     const subject = practiceSubjects.find((entry) => entry.id === subjectId);
     if (!subject) return;
 
-    try {
-      setAiPracticeBusy(true);
-      setAiPracticeMessage("");
-      await apiRequest("/api/generate-questions", {
-        method: "POST",
-        timeoutMs: 120000,
-        body: JSON.stringify({
-          examId: practiceLibrary.exam?.id ?? "neet-pg-pyqs",
-          subjectId,
-          count: 20,
-          topic: subject.questions?.[0]?.topic ?? "High-yield review",
-          difficulty: "exam",
-        }),
-      });
-      await fetchPracticeLibrary();
-      setSelectedPracticeSubjectId(subjectId);
-      setSelectedPracticeMode("ai");
-      setSelectedPracticeExamYear("");
-      setPracticeStage("subject");
-      setPracticeChoiceSubjectId("");
-      setPracticeQuestionIndex(0);
-      setSelectedOption("");
-      setSubmitted(false);
-      setAiPracticeMessage(`${subject.title} AI practice is ready with 20 supplemental questions.`);
-    } catch (error) {
-      setAiPracticeMessage(error instanceof Error ? error.message : "Could not generate supplemental practice.");
-    } finally {
-      setAiPracticeBusy(false);
-    }
+    setAiPracticeMessage("");
+    setSelectedPracticeSubjectId(subjectId);
+    setSelectedPracticeMode("ai");
+    setSelectedPracticeExamYear("");
+    setSelectedPracticeTopic("");
+    setSelectedPracticeChapter("");
+    setPracticeStage("chapters");
+    setPracticeChoiceSubjectId("");
+    setPracticeQuestionIndex(0);
+    setSelectedOption("");
+    setSubmitted(false);
+    scrollPracticeViewToTop();
   }
 
+  function openPracticeChapter(chapterTitle) {
+    setSelectedPracticeChapter(chapterTitle);
+    setPracticeStage("topics");
+    scrollPracticeViewToTop();
+  }
+  function startTopicPractice(topic) {
+    setSelectedPracticeTopic(topic);
+    setPracticeQuestionIndex(0);
+    setSelectedOption("");
+    setSubmitted(false);
+    setPracticeStage("subject");
+    setPracticeQuestionStartedAt(Date.now());
+    scrollPracticeViewToTop();
+  }
   async function handleCreateCommunity(event) {
     event.preventDefault();
     setCommunitiesMessage("");
@@ -1144,24 +1314,66 @@ function App() {
     }
   }
 
-  async function handleSendCommunityMessage(event) {
+  async function handleSendCommunityMessage(event, parentMessageId = null) {
     event.preventDefault();
-    if (!selectedCommunity || !communityMessageDraft.trim()) return;
+    const draft = parentMessageId ? communityReplyDrafts[parentMessageId] ?? "" : communityMessageDraft;
+    const imageDataUrl = parentMessageId ? null : communityThreadImage?.dataUrl ?? null;
+    if (!selectedCommunity || (!draft.trim() && !imageDataUrl)) return;
+    if (countWords(draft) > COMMUNITY_THREAD_WORD_LIMIT) {
+      setCommunitiesMessage("Threads can contain at most " + COMMUNITY_THREAD_WORD_LIMIT + " words.");
+      return;
+    }
 
     setCommunitiesMessage("");
 
     try {
       const data = await apiRequest(`/api/communities/${selectedCommunity.id}/messages`, {
         method: "POST",
-        body: JSON.stringify({ text: communityMessageDraft }),
+        body: JSON.stringify({ text: draft, parentMessageId, imageDataUrl }),
       });
       setCommunities((current) =>
         current.map((community) => (community.id === selectedCommunity.id ? data.community : community)),
       );
-      setCommunityMessageDraft("");
+      if (parentMessageId) {
+        setCommunityReplyDrafts((current) => ({ ...current, [parentMessageId]: "" }));
+        setExpandedCommunityThreads((current) => ({ ...current, [parentMessageId]: true }));
+      } else {
+        setCommunityMessageDraft("");
+        setCommunityThreadImage(null);
+      }
     } catch (error) {
-      setCommunitiesMessage(error instanceof Error ? error.message : "Could not send message.");
+      setCommunitiesMessage(error instanceof Error ? error.message : "Could not publish your post.");
     }
+  }
+
+  async function handleCommunityThreadImageChange(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    if (!(["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.type))) {
+      setCommunitiesMessage("Choose a PNG, JPG, WEBP, or GIF image.");
+      return;
+    }
+    if (file.size > COMMUNITY_THREAD_IMAGE_LIMIT_BYTES) {
+      setCommunitiesMessage("Thread images must be 5 MB or smaller.");
+      return;
+    }
+
+    try {
+      const dataUrl = await convertFileToDataUrl(file);
+      setCommunityThreadImage({ dataUrl, name: file.name });
+      setCommunitiesMessage("");
+    } catch (error) {
+      setCommunitiesMessage(error instanceof Error ? error.message : "Could not load that image.");
+    }
+  }
+
+  function toggleCommunityThread(messageId, forceOpen = false) {
+    setExpandedCommunityThreads((current) => ({
+      ...current,
+      [messageId]: forceOpen ? true : !current[messageId],
+    }));
   }
 
   async function handleRemoveCommunityMember(communityId, memberId) {
@@ -1602,6 +1814,26 @@ function App() {
     }
   }
 
+  function handleGuestLogin() {
+    const guestUser = {
+      id: "guest",
+      name: "Guest learner",
+      email: "guest@medicomm.local",
+      medicalCollege: "Explore mode",
+      contactNumber: "",
+      rating: 1200,
+      streak: 1,
+      attemptedQuestions: 0,
+      correctAnswers: 0,
+    };
+    setUser(guestUser);
+    setUserRating(1200);
+    setProfileState(createProfileState(guestUser));
+    setAuthStatus("guest");
+    setActiveView("Dashboard");
+    setAuthMessage("");
+  }
+
   async function handleLogout() {
     try {
       await apiRequest("/api/auth/logout", { method: "POST" });
@@ -1620,6 +1852,10 @@ function App() {
 
   async function handleProfileSave(event) {
     event.preventDefault();
+    if (authStatus === "guest") {
+      setProfileMessage("Create a free account to save profile changes across devices.");
+      return;
+    }
     setProfileBusy(true);
     setProfileMessage("");
 
@@ -1656,17 +1892,31 @@ function App() {
     return (
       <div className="auth-shell">
         <section className="auth-hero">
-          <p className="eyebrow">Secure access</p>
-          <h1>Log in to your MediComm profile</h1>
+          <div className="auth-brand"><span className="brand-mark">M</span><strong><span className="brand-medi">Medi</span><span className="brand-comm">Comm</span></strong></div>
+          <p className="eyebrow">Built for serious medical preparation</p>
+          <h1>Study with clarity.<br /><span>Perform with confidence.</span></h1>
           <p>
-            Create an account with your name, email, medical college, contact number, and password.
-            Your information is stored in this project&apos;s local database and shown inside the app
-            after login.
+            A focused workspace for PYQs, intelligent revision, performance analytics, and peer learning—designed around the way MBBS students actually study.
           </p>
+          <div className="auth-proof-grid">
+            <div><strong>{formatStatValue(platformSummary.practiceQuestions) || "5,000+"}</strong><span>curated questions</span></div>
+            <div><strong>19</strong><span>medical subjects</span></div>
+            <div><strong>24/7</strong><span>focused practice</span></div>
+          </div>
+          <div className="auth-preview-card" aria-hidden="true">
+            <div className="auth-preview-header"><span>Today&apos;s focus</span><strong>72% complete</strong></div>
+            <div className="auth-preview-track"><span /></div>
+            <div className="auth-preview-row"><span>Pathology · PYQs</span><strong>Continue →</strong></div>
+          </div>
         </section>
 
         <section className="card auth-card">
-          <div className="auth-tabs">
+          <div className="auth-card-heading">
+            <p className="eyebrow">Welcome to MediComm</p>
+            <h2>{isSignup ? "Create your study account" : "Continue your learning"}</h2>
+            <p>{isSignup ? "Set up your profile in under a minute." : "Sign in to sync progress across devices."}</p>
+          </div>
+          <div className="auth-tabs" role="tablist" aria-label="Authentication mode">
             <button
               className={`auth-tab${authMode === "login" ? " auth-tab-active" : ""}`}
               type="button"
@@ -1766,12 +2016,17 @@ function App() {
               </div>
             </label>
 
-            {authMessage ? <p className="form-message">{authMessage}</p> : null}
+            {authMessage ? <p className="form-message" role="alert">{authMessage}</p> : null}
 
             <button className="button button-primary auth-submit" type="submit" disabled={authBusy}>
               {authBusy ? "Please wait..." : isSignup ? "Create account" : "Login"}
             </button>
           </form>
+          <div className="auth-divider"><span>or</span></div>
+          <button className="button button-secondary guest-button" type="button" onClick={handleGuestLogin}>
+            Explore as guest
+          </button>
+          <p className="auth-fine-print">Guest progress stays on this device. Create an account anytime to sync it.</p>
         </section>
       </div>
     );
@@ -1813,7 +2068,7 @@ function App() {
           <article className="card panel practice-upgrade-panel">
             <div>
               <p className="eyebrow">Practice engine</p>
-              <h2>Official PYQs stay trusted. AI questions stay supplemental.</h2>
+              <h2>Official PYQs and topic-wise questions, together.</h2>
               <p className="panel-copy">
                 The practice library now loads from the backend, keeps NEET PG PYQs as the core bank, and labels
                 Gemini-generated MCQs separately so they never look like official exam material.
@@ -1821,7 +2076,7 @@ function App() {
             </div>
             <div className="practice-upgrade-actions">
               <span className="rank-pill source-official">Official PYQ bank</span>
-              <span className="rank-pill source-ai">Supplemental AI</span>
+              <span className="rank-pill source-ai">Topic Wise Questions</span>
               <button className="button button-primary" onClick={() => setActiveView("Practice")}>
                 Open practice library
               </button>
@@ -1878,6 +2133,52 @@ function App() {
               <strong>{card.value}</strong>
             </article>
           ))}
+        </div>
+
+        <div className="dashboard-priority-grid">
+          <article className="card panel continue-card">
+            <div className="panel-heading-split">
+              <div><p className="eyebrow">Continue learning</p><h3>Pathology · Previous year questions</h3><p className="panel-copy">Pick up where you left off. Your local progress is saved automatically.</p></div>
+              <span className="rank-pill source-official">12 min left</span>
+            </div>
+            <div className="continue-progress"><span style={{ width: "68%" }} /></div>
+            <div className="continue-footer"><span>34 of 50 questions</span><button className="button button-primary" onClick={() => setActiveView("Practice")}>Resume session</button></div>
+          </article>
+
+          <article className="card panel exam-countdown-card">
+            <p className="eyebrow">Upcoming exam</p><h3>NEET PG</h3><strong className="countdown-number">42</strong><span>days remaining</span>
+            <div className="countdown-footer"><span>Weekly target</span><strong>4h 12m / 6h</strong></div>
+          </article>
+        </div>
+
+        <div className="dashboard-insight-grid">
+          <article className="card panel weekly-chart-card">
+            <div className="panel-heading-split"><div><h3>Weekly progress</h3><p className="panel-copy">Questions completed per day</p></div><span className="trend-positive">↑ 18% this week</span></div>
+            <div className="weekly-bars" aria-label="Weekly questions: Monday 18, Tuesday 26, Wednesday 20, Thursday 34, Friday 42, Saturday 30, Sunday 24">
+              {[18, 26, 20, 34, 42, 30, 24].map((value, index) => <div key={index}><span style={{ height: `${Math.max(18, value * 2)}px` }} /><small>{["M", "T", "W", "T", "F", "S", "S"][index]}</small></div>)}
+            </div>
+          </article>
+
+          <article className="card panel heatmap-card">
+            <div className="panel-heading-split"><div><h3>Study consistency</h3><p className="panel-copy">Last 8 weeks</p></div><strong>24 day streak</strong></div>
+            <div className="study-heatmap" aria-label="Study activity heatmap for the last eight weeks">
+              {Array.from({ length: 56 }, (_, index) => <span key={index} data-level={(index * 7 + index % 5) % 4} title={`Day ${index + 1}`} />)}
+            </div>
+            <div className="heatmap-legend"><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><span>More</span></div>
+          </article>
+        </div>
+
+        <div className="dashboard-action-grid">
+          <article className="card panel recommendation-card">
+            <div className="panel-heading-split"><div><h3>Recommended next</h3><p className="panel-copy">Based on recent accuracy</p></div><button className="text-button" onClick={() => setActiveView("Analytics")}>View analytics</button></div>
+            <div className="recommendation-list">
+              {[{title:"Glomerular disorders",subject:"Pathology",score:"54% mastery"},{title:"Autonomic pharmacology",subject:"Pharmacology",score:"61% mastery"},{title:"Cardiac murmurs",subject:"Medicine",score:"66% mastery"}].map((topic, index) => <button key={topic.title} type="button" onClick={() => setActiveView("Practice")}><span className="recommendation-index">0{index + 1}</span><span><strong>{topic.title}</strong><small>{topic.subject}</small></span><em>{topic.score}</em></button>)}
+            </div>
+          </article>
+          <article className="card panel recent-battles-card">
+            <div className="panel-heading-split"><div><h3>Recent battles</h3><p className="panel-copy">Your latest 1v1 sessions</p></div><button className="text-button" onClick={() => setActiveView("Compete")}>Battle now</button></div>
+            <div className="battle-list"><div><span className="battle-result win">W</span><span><strong>Ava Patel</strong><small>8–6 · 2h ago</small></span><em>+18 XP</em></div><div><span className="battle-result loss">L</span><span><strong>Noah Chen</strong><small>7–8 · Yesterday</small></span><em>−9 XP</em></div></div>
+          </article>
         </div>
 
         <div className="content-grid">
@@ -1988,8 +2289,10 @@ function App() {
             </div>
           </div>
 
-          <article className="card panel">
-            <p className="panel-copy">Loading the NEET PG question bank...</p>
+          <article className="card panel practice-skeleton" aria-label="Loading practice library" aria-busy="true">
+            <div className="skeleton-line skeleton-title" />
+            <div className="skeleton-line" />
+            <div className="skeleton-card-grid">{Array.from({ length: 6 }, (_, index) => <div className="skeleton-block" key={index} />)}</div>
           </article>
         </section>
       );
@@ -2034,16 +2337,59 @@ function App() {
       );
     }
 
+    if (practiceStage === "chapters" || practiceStage === "topics") {
+      const topicQuestions = currentPracticeSubject?.questions ?? [];
+      const chapters = Object.values(topicQuestions.reduce((groups, question) => {
+        const chapterTitle = question.chapterTitle || "General Pathology";
+        const chapterOrder = getPracticeChapterOrder({ ...question, chapterTitle }, currentPracticeSubject?.id);
+        groups[chapterTitle] ??= { title: chapterTitle, order: chapterOrder, questions: [], topics: {} };
+        groups[chapterTitle].order = Math.min(groups[chapterTitle].order, chapterOrder);
+        groups[chapterTitle].questions.push(question);
+        groups[chapterTitle].topics[question.topic] ??= { topic: question.topic, order: directoryOrder(question.topicOrder), questions: [] };
+        groups[chapterTitle].topics[question.topic].order = Math.min(groups[chapterTitle].topics[question.topic].order, directoryOrder(question.topicOrder));
+        groups[chapterTitle].topics[question.topic].questions.push(question);
+        return groups;
+      }, {})).sort(comparePracticeDirectoryEntries);
+
+      if (practiceStage === "chapters") {
+        return (
+          <section className="app-view topic-wise-directory">
+            <div className="view-header"><div><p className="eyebrow">Pathology · Topic Wise</p><h2>Choose a chapter</h2><p className="view-subtitle">Build mastery chapter by chapter. Your progress is saved automatically.</p></div><button className="button button-secondary" onClick={handleBackToPracticeDirectory}>Back to subjects</button></div>
+            <div className="topic-directory-list">
+              {chapters.map((chapter, index) => {
+                const answered = chapter.questions.filter((question) => practiceProgress[question.id]).length;
+                const percent = chapter.questions.length ? Math.round((answered / chapter.questions.length) * 100) : 0;
+                return <button type="button" className="topic-directory-row chapter-directory-row" key={chapter.title} onClick={() => openPracticeChapter(chapter.title)}><span className="directory-index">{String(index + 1).padStart(2, "0")}</span><span className="directory-main"><span className="directory-kicker">Chapter {index + 1}</span><strong>{chapter.title}</strong><span className="directory-meta">{Object.keys(chapter.topics).length} topics · {chapter.questions.length} questions</span><span className="practice-progress-track"><span style={{ width: `${percent}%` }} /></span><span className="directory-progress-copy">{answered} of {chapter.questions.length} answered · {percent}% complete</span></span><span className="directory-arrow" aria-hidden="true">→</span></button>;
+              })}
+            </div>
+          </section>
+        );
+      }
+
+      const chapter = chapters.find((entry) => entry.title === selectedPracticeChapter);
+      return (
+        <section className="app-view topic-wise-directory">
+          <div className="view-header"><div><p className="eyebrow">Chapter topics</p><h2>{chapter?.title ?? "Choose a topic"}</h2><p className="view-subtitle">Each topic contains a focused five-question competitive exam set.</p></div><button className="button button-secondary" onClick={() => setPracticeStage("chapters")}>Back to chapters</button></div>
+          <div className="topic-directory-list">
+            {Object.values(chapter?.topics ?? {}).sort(comparePracticeDirectoryEntries).map(({ topic, questions }, index) => {
+              const answered = questions.filter((question) => practiceProgress[question.id]).length;
+              const percent = questions.length ? Math.round((answered / questions.length) * 100) : 0;
+              return <button type="button" className="topic-directory-row" key={topic} onClick={() => startTopicPractice(topic)}><span className="directory-index">{String(index + 1).padStart(2, "0")}</span><span className="directory-main"><span className="directory-kicker">Topic {index + 1}</span><strong>{topic}</strong><span className="directory-meta">{questions.length} questions · {answered} answered</span><span className="practice-progress-track"><span style={{ width: `${percent}%` }} /></span></span><span className="directory-arrow" aria-hidden="true">→</span></button>;
+            })}
+          </div>
+        </section>
+      );
+    }
     if (practiceStage === "subject" && (!currentPracticeSubject || !currentPracticeQuestion)) {
       return (
         <section className="app-view">
           <div className="view-header">
             <div>
               <p className="eyebrow">Practice</p>
-              <h2>{selectedPracticeMode === "ai" ? "AI practice is not ready yet" : "No questions found"}</h2>
+              <h2>{selectedPracticeMode === "ai" ? "Topic-wise questions are not ready yet" : "No questions found"}</h2>
             </div>
-            <button className="button button-secondary" onClick={handleBackToPracticeDirectory}>
-              Back to subjects
+            <button className="button button-secondary" onClick={() => selectedPracticeMode === "ai" ? setPracticeStage("topics") : handleBackToPracticeDirectory()}>
+              {selectedPracticeMode === "ai" ? "Back to topics" : "Back to subjects"}
             </button>
           </div>
 
@@ -2051,7 +2397,7 @@ function App() {
             <h3>{selectedPracticeMode === "ai" ? "Generate a 20-question set first" : "No practice questions yet"}</h3>
             <p className="panel-copy">
               {selectedPracticeMode === "ai"
-                ? "Open the subject again and choose AI Practice so MediComm can create the separate supplemental set."
+                ? "Open the subject again and choose Topic Wise Questions."
                 : "The PYQ database does not have questions for this subject yet."}
             </p>
           </article>
@@ -2072,11 +2418,11 @@ function App() {
               <p className="eyebrow">Practice</p>
               <h2>
                 {currentPracticeSubject.title}{" "}
-                {selectedPracticeMode === "ai" ? "AI practice" : currentPracticeQuestionSet?.title ?? "PYQ session"}
+                {selectedPracticeMode === "ai" ? "Topic Wise Questions" : currentPracticeQuestionSet?.title ?? "PYQ session"}
               </h2>
             </div>
-            <button className="button button-secondary" onClick={handleBackToPracticeDirectory}>
-              Back to subjects
+            <button className="button button-secondary" onClick={() => selectedPracticeMode === "ai" ? setPracticeStage("topics") : handleBackToPracticeDirectory()}>
+              {selectedPracticeMode === "ai" ? "Back to topics" : "Back to subjects"}
             </button>
           </div>
 
@@ -2088,7 +2434,7 @@ function App() {
                   : currentPracticeQuestionSet?.title ?? "PYQ session"}
               </span>
               <span className={`rank-pill ${selectedPracticeMode === "ai" ? "source-ai" : "source-official"}`}>
-                {selectedPracticeMode === "ai" ? "Supplemental AI" : "Official PYQ"}
+                {selectedPracticeMode === "ai" ? "Topic Wise Questions" : "Official PYQ"}
               </span>
               <span className="rank-pill">
                 Question {practiceQuestionIndex + 1} of {totalQuestions}
@@ -2117,6 +2463,7 @@ function App() {
                       setPracticeQuestionIndex(index);
                       setSelectedOption("");
                       setSubmitted(false);
+                      setPracticeQuestionStartedAt(Date.now());
                     }}
                     aria-label={
                       isAnswered
@@ -2154,6 +2501,8 @@ function App() {
                     className="practice-question-image"
                     src={getPracticeImageUrl(imageUrl)}
                     alt={`Question ${currentPracticeQuestion.questionNumber} visual ${index + 1}`}
+                    loading="lazy"
+                    decoding="async"
                   />
                 ))}
               </div>
@@ -2177,6 +2526,7 @@ function App() {
                       setSelectedOption(option);
                       setSubmitted(false);
                     }}
+                    aria-pressed={isActive}
                   >
                     {option}
                   </button>
@@ -2184,9 +2534,21 @@ function App() {
               })}
             </div>
 
-            <div className="quiz-actions">
+            <div className="practice-decision-row">
+              <div className="confidence-selector" aria-label="Answer confidence">
+                <span>Confidence</span>
+                {["Low", "Medium", "High"].map((level) => (
+                  <button key={level} type="button" className={answerConfidence === level ? "active" : ""} onClick={() => setAnswerConfidence(level)}>{level}</button>
+                ))}
+              </div>
+              <button className={`flag-button${flaggedQuestions[currentPracticeQuestion.id] ? " active" : ""}`} type="button" onClick={() => setFlaggedQuestions((current) => ({ ...current, [currentPracticeQuestion.id]: !current[currentPracticeQuestion.id] }))}>
+                {flaggedQuestions[currentPracticeQuestion.id] ? "Flagged for review" : "Flag for review"} <kbd>F</kbd>
+              </button>
+            </div>
+
+            <div className="quiz-actions practice-sticky-actions">
               <button className="button button-primary" onClick={handleSubmitAnswer} disabled={!selectedOption}>
-                Check answer
+                Check answer <kbd>Enter</kbd>
               </button>
               <button
                 className="button button-secondary"
@@ -2202,7 +2564,7 @@ function App() {
                 <strong>
                   {isCorrect ? "Correct." : "Not quite. Correct answer: " + currentPracticeQuestion.answer + "."}
                 </strong>
-                <p>{explanationText}</p>
+                <details open><summary>Explanation</summary><p>{explanationText}</p></details>
               </div>
             ) : null}
           </article>
@@ -2234,7 +2596,7 @@ function App() {
                 <div className="icon-badge green">MCQ</div>
                 <div>
                   <h3 id="practice-choice-title">Practice {practiceChoiceSubject.title}</h3>
-                  <p>Choose PYQs by exam year or create an AI practice set.</p>
+                  <p>Choose PYQs by exam year or practise topic-wise questions.</p>
                 </div>
               </div>
               <div className="practice-year-picker">
@@ -2274,14 +2636,10 @@ function App() {
                   disabled={aiPracticeBusy}
                   onClick={() => handleStartAiPractice(practiceChoiceSubject.id)}
                 >
-                  <span className="practice-choice-icon">AI</span>
-                  <strong>AI Practice</strong>
+                  <span className="practice-choice-icon">TQ</span>
+                  <strong>Topic Wise Questions</strong>
                   <p>Supplemental topic-wise questions</p>
-                  <small>
-                    {aiPracticeBusy
-                      ? "Generating 20..."
-                      : `${Math.min(currentAiPracticeSubject?.questions?.length ?? 0, 20)} / 20 ready`}
-                  </small>
+                  <small>{practiceChoiceAiQuestionCount} questions</small>
                 </button>
               </div>
             </article>
@@ -2300,17 +2658,23 @@ function App() {
               </div>
 
               <div className="practice-subject-grid">
-                {year.subjects.map((subject) => (
-                  <button
-                    key={subject.id}
-                    className="practice-subject-card"
-                    onClick={() => handleSelectPracticeSubject(subject.id)}
-                  >
-                    <span className="practice-subject-label">{subject.title}</span>
-                    <p className="practice-subject-copy">Choose PYQs or a separate 20-question AI practice set.</p>
-                    <strong>{subject.questions.length} PYQs</strong>
-                  </button>
-                ))}
+                {year.subjects.map((subject) => {
+                  const aiQuestionCount = aiPracticeQuestionCountsBySubject[subject.id] ?? 0;
+                  return (
+                    <button
+                      key={subject.id}
+                      className="practice-subject-card"
+                      onClick={() => handleSelectPracticeSubject(subject.id)}
+                    >
+                      <span className="practice-subject-label">{subject.title}</span>
+                      <p className="practice-subject-copy">Choose PYQs or practise topic-wise questions.</p>
+                      <span className="practice-subject-counts">
+                        <strong>{subject.questions.length} PYQs</strong>
+                        <strong>{aiQuestionCount} Topic Wise</strong>
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </section>
           ))}
@@ -2332,6 +2696,19 @@ function App() {
           </button>
         </div>
 
+        {liveLeaderboard.length >= 3 ? (
+          <div className="leaderboard-podium" aria-label="Top three learners">
+            {[liveLeaderboard[1], liveLeaderboard[0], liveLeaderboard[2]].map((player, index) => {
+              const place = [2, 1, 3][index];
+              return <article className={`card podium-card podium-${place}`} key={player.id || player.name}><span className="podium-medal">{place}</span><div className="podium-avatar">{getInitials(player.name)}</div><strong>{player.isCurrentUser ? "You" : player.name}</strong><small>{player.state}</small><em>{player.score} XP</em><div className="podium-level">Level {Math.max(1, Math.floor(player.score / 250))}</div></article>;
+            })}
+          </div>
+        ) : null}
+
+        <div className="leaderboard-filterbar" aria-label="Leaderboard filters">
+          <button className="filter-chip filter-chip-active" type="button">This week</button><button className="filter-chip" type="button">This month</button><button className="filter-chip" type="button">All time</button><span /><select aria-label="Leaderboard scope"><option>All colleges</option><option>My college</option></select>
+        </div>
+
         <div className="content-grid leaderboard-layout">
           <article className="card panel">
             <h3>National rankings</h3>
@@ -2344,7 +2721,7 @@ function App() {
                   >
                     <div className="leaderboard-user">
                       <span className="rank-pill">#{player.rank}</span>
-                      <div>
+                      <div className="community-thread-composer-footer">
                         <strong>{player.isCurrentUser ? "You" : player.name}</strong>
                         <p>
                           {player.state} | {player.streak} day streak
@@ -2565,13 +2942,24 @@ function App() {
     }
 
     if (communityStage === "detail" && selectedCommunity) {
+      const communityMessageIds = new Set(selectedCommunity.messages.map((message) => message.id));
+      const communityThreadPosts = selectedCommunity.messages.filter(
+        (message) => !message.parentMessageId || !communityMessageIds.has(message.parentMessageId),
+      );
+      const repliesByParent = selectedCommunity.messages.reduce((threads, message) => {
+        if (!message.parentMessageId) return threads;
+        threads[message.parentMessageId] = [...(threads[message.parentMessageId] ?? []), message];
+        return threads;
+      }, {});
+      const communityThreadWordCount = countWords(communityMessageDraft);
+
       return (
         <section className="app-view community-detail-view">
           <div className="view-header">
             <div>
               <p className="eyebrow">Communities</p>
               <h2>{selectedCommunity.name}</h2>
-              <p className="panel-copy">A focused study room with live chat, members, and admin controls.</p>
+              <p className="panel-copy">A focused feed of questions, clinical takes, and threaded replies.</p>
             </div>
             <button className="button button-secondary" onClick={handleBackToCommunityHub}>
               Back to community hub
@@ -2583,7 +2971,7 @@ function App() {
           <article className="card panel community-chat-shell">
             <div className="community-chat-header">
               <div>
-                <p className="eyebrow">Live study room</p>
+                <p className="eyebrow">Community threads</p>
                 <h3>{selectedCommunity.name}</h3>
                 <p className="panel-copy">{selectedCommunity.description}</p>
               </div>
@@ -2616,53 +3004,137 @@ function App() {
             <div className="community-chat-meta">
               <span>Topic: {selectedCommunity.topic}</span>
               <span>Admin: {selectedCommunity.adminName}</span>
+              <span>{communityThreadPosts.length} threads</span>
             </div>
 
             <div className="community-chat-body community-chat-shell-body">
-              <div className="community-messages-panel">
-                <div className="community-messages">
-                  {selectedCommunity.messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`community-message${message.isOwnMessage ? " community-message-own" : ""}`}
-                    >
-                      <div className="community-message-bubble">
-                        {message.userId ? (
-                          <button
-                            type="button"
-                            className="community-message-profile-button"
-                            onClick={() => openPublicProfile(message.userId, "Communities")}
-                          >
-                            {message.userName}
-                          </button>
-                        ) : (
-                          <strong>{message.userName}</strong>
-                        )}
-                        <p>{message.text}</p>
-                        <span>{formatCommunityTimestamp(message.createdAt)}</span>
+              <div className="community-messages-panel community-thread-panel">
+                {selectedCommunity.isMember ? (
+                  <form className="community-thread-composer" onSubmit={(event) => handleSendCommunityMessage(event)}>
+                    <div className="avatar community-thread-avatar">
+                      {user?.profileImageUrl ? <img className="avatar-image" src={user.profileImageUrl} alt="" /> : <span>{getInitials(user?.name)}</span>}
+                    </div>
+                    <div className="community-thread-composer-main">
+                      <textarea
+                        rows="3"
+                        value={communityMessageDraft}
+                        onChange={(event) => setCommunityMessageDraft(event.target.value)}
+                        placeholder="Share a question, clinical pearl, or study update..."
+                      />
+                      {communityThreadImage ? (
+                        <div className="community-thread-image-preview">
+                          <img src={communityThreadImage.dataUrl} alt="Thread attachment preview" />
+                          <button type="button" onClick={() => setCommunityThreadImage(null)} aria-label="Remove attached image">×</button>
+                          <span>{communityThreadImage.name}</span>
+                        </div>
+                      ) : null}
+                      <div>
+                        <div className="community-thread-composer-tools">
+                          <label className="community-thread-image-button">
+                            <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handleCommunityThreadImageChange} />
+                            <span aria-hidden="true">▧</span> Add image
+                          </label>
+                          <span className={communityThreadWordCount > COMMUNITY_THREAD_WORD_LIMIT ? "community-word-count-over" : ""}>
+                            {communityThreadWordCount}/{COMMUNITY_THREAD_WORD_LIMIT} words
+                          </span>
+                        </div>
+                        <button
+                          className="button button-primary"
+                          type="submit"
+                          disabled={(!communityMessageDraft.trim() && !communityThreadImage) || communityThreadWordCount > COMMUNITY_THREAD_WORD_LIMIT}
+                        >
+                          Post thread
+                        </button>
                       </div>
                     </div>
-                  ))}
-                </div>
-
-                {selectedCommunity.isMember ? (
-                  <form className="community-chat-form" onSubmit={handleSendCommunityMessage}>
-                    <input
-                      type="text"
-                      value={communityMessageDraft}
-                      onChange={(event) => setCommunityMessageDraft(event.target.value)}
-                      placeholder="Write a message to the group..."
-                    />
-                    <button className="button button-primary" type="submit">
-                      Send
-                    </button>
                   </form>
                 ) : (
                   <div className="feedback-box feedback-bad">
-                    <strong>Join this group to take part in the chat.</strong>
-                    <p>You can still preview the community, its members, and the discussion style before joining.</p>
+                    <strong>Join this group to publish and reply.</strong>
+                    <p>You can still preview its threads, members, and discussion style before joining.</p>
                   </div>
                 )}
+
+                <div className="community-thread-feed-heading">
+                  <div><h4>Latest threads</h4><span>Newest conversations first</span></div>
+                  <span>{communityThreadPosts.length}</span>
+                </div>
+
+                <div className="community-thread-feed">
+                  {[...communityThreadPosts].reverse().map((message) => {
+                    const replies = repliesByParent[message.id] ?? [];
+                    const isExpanded = Boolean(expandedCommunityThreads[message.id]);
+                    return (
+                      <article className="community-thread-card" key={message.id}>
+                        <div className="avatar community-thread-avatar"><span>{getInitials(message.userName)}</span></div>
+                        <div className="community-thread-content">
+                          <div className="community-thread-author">
+                            {message.userId ? (
+                              <button type="button" onClick={() => openPublicProfile(message.userId, "Communities")}>{message.userName}</button>
+                            ) : <strong>{message.userName}</strong>}
+                            {message.isOwnMessage ? <span>You</span> : null}
+                            <time>{formatCommunityTimestamp(message.createdAt)}</time>
+                          </div>
+                          {message.text ? <p>{message.text}</p> : null}
+                          {message.imageUrl ? (
+                            <a className="community-thread-image" href={message.imageUrl} target="_blank" rel="noreferrer">
+                              <img src={message.imageUrl} alt={"Attached to " + message.userName + "'s thread"} />
+                            </a>
+                          ) : null}
+                          <div className="community-thread-actions">
+                            <button
+                              type="button"
+                              onClick={() => toggleCommunityThread(message.id, true)}
+                              disabled={!selectedCommunity.isMember}
+                              title={selectedCommunity.isMember ? "Reply to this thread" : "Join the community to reply"}
+                            >
+                              <span aria-hidden="true">↩</span> Reply
+                            </button>
+                            <button type="button" onClick={() => toggleCommunityThread(message.id)} disabled={!replies.length}>
+                              <span aria-hidden="true">◯</span> {replies.length} {replies.length === 1 ? "reply" : "replies"}
+                            </button>
+                          </div>
+
+                          {isExpanded ? (
+                            <div className="community-thread-replies">
+                              {replies.map((reply) => (
+                                <div className="community-thread-reply" key={reply.id}>
+                                  <div className="avatar community-thread-reply-avatar"><span>{getInitials(reply.userName)}</span></div>
+                                  <div>
+                                    <div className="community-thread-author">
+                                      {reply.userId ? <button type="button" onClick={() => openPublicProfile(reply.userId, "Communities")}>{reply.userName}</button> : <strong>{reply.userName}</strong>}
+                                      {reply.isOwnMessage ? <span>You</span> : null}
+                                      <time>{formatCommunityTimestamp(reply.createdAt)}</time>
+                                    </div>
+                                    <p>{reply.text}</p>
+                                  </div>
+                                </div>
+                              ))}
+                              {selectedCommunity.isMember ? (
+                                <form className="community-thread-reply-form" onSubmit={(event) => handleSendCommunityMessage(event, message.id)}>
+                                  <div className="avatar community-thread-reply-avatar"><span>{getInitials(user?.name)}</span></div>
+                                  <input
+                                    type="text"
+                                    value={communityReplyDrafts[message.id] ?? ""}
+                                    onChange={(event) => setCommunityReplyDrafts((current) => ({ ...current, [message.id]: event.target.value }))}
+                                    placeholder={`Reply to ${message.userName}...`}
+                                  />
+                                  <button className="button button-primary" type="submit" disabled={!(communityReplyDrafts[message.id] ?? "").trim()}>Reply</button>
+                                </form>
+                              ) : null}
+                            </div>
+                          ) : null}
+                        </div>
+                      </article>
+                    );
+                  })}
+                  {!communityThreadPosts.length ? (
+                    <div className="empty-community-state empty-community-state-compact">
+                      <h3>No threads yet</h3>
+                      <p className="panel-copy">Start the first conversation in this room.</p>
+                    </div>
+                  ) : null}
+                </div>
               </div>
 
               <aside className="community-members-panel community-sidecard">
@@ -2727,210 +3199,82 @@ function App() {
       );
     }
 
+    const joinedCommunities = communities.filter((community) => community.isMember);
+    const totalCommunityMembers = communities.reduce((total, community) => total + (community.memberCount ?? 0), 0);
+    const totalCommunityMessages = communities.reduce((total, community) => total + (community.messages?.length ?? 0), 0);
+
     return (
       <section className="app-view community-hub-view">
-        <div className="view-header">
-          <div>
-            <p className="eyebrow">Communities</p>
-            <h2>Discover study groups and open focused chats</h2>
+        <header className="community-landing-hero">
+          <div className="community-hero-orb community-hero-orb-large" aria-hidden="true" />
+          <div className="community-hero-orb community-hero-orb-small" aria-hidden="true" />
+          <div className="community-hero-content">
+            <p className="community-hero-kicker"><span /> MediComm community</p>
+            <h2>Study together.<br />Get better, faster.</h2>
+            <p>Find focused rooms, trade clinical insights, and keep your closest study partners one message away.</p>
+            <div className="community-hero-actions">
+              <button
+                className="button community-hero-primary"
+                onClick={() => document.getElementById("community-groups")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Explore study rooms
+              </button>
+              <button
+                className="button community-hero-secondary"
+                onClick={() => document.getElementById("community-create")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Start a community
+              </button>
+            </div>
           </div>
-          <button className="button button-secondary" onClick={fetchCommunities}>
-            Refresh chats
-          </button>
-        </div>
+          <div className="community-hero-note" aria-label="Community status">
+            <span className="community-live-dot" />
+            <div><strong>Peer learning is live</strong><small>{joinedCommunities.length} of your rooms are ready</small></div>
+          </div>
+        </header>
 
         {communitiesMessage ? <p className="form-message community-message-banner">{communitiesMessage}</p> : null}
         {directMessagesMessage ? <p className="form-message community-message-banner">{directMessagesMessage}</p> : null}
 
-        <article className="card panel community-overview-panel community-overview-top">
-          <div className="panel-heading-split">
-            <div>
-              <h3>Community flow</h3>
-              <p className="panel-copy">Move from study groups to personal chats without leaving the community section.</p>
-            </div>
-            <span className="community-info-pill">Organized hub</span>
-          </div>
-          <div className="community-overview-list community-overview-list-wide">
-            <div className="community-overview-step">
-              <strong>Create or browse</strong>
-              <p>Find a focused study room by topic, year, or exam vibe.</p>
-            </div>
-            <div className="community-overview-step">
-              <strong>Open the chat room</strong>
-              <p>Enter a dedicated chat view instead of reading messages in a crowded dashboard.</p>
-            </div>
-            <div className="community-overview-step">
-              <strong>Message and challenge</strong>
-              <p>Search any learner, open a private thread, and send a direct 1v1 invite.</p>
-            </div>
-            <div className="community-overview-step">
-              <strong>Moderate if you are admin</strong>
-              <p>Keep the group useful by removing unwanted members directly from the room.</p>
-            </div>
-          </div>
-        </article>
-
-        <div className="community-hub-main">
-          <article className="card panel community-create-panel">
-            <div className="panel-heading-split">
-              <div>
-                <h3>Create a community</h3>
-                <p className="panel-copy">
-                  Start a clean WhatsApp-style study room. The creator becomes admin and can moderate members.
-                </p>
-              </div>
-              <span className="community-info-pill">Admin controls included</span>
-            </div>
-            <form className="profile-form community-create-form" onSubmit={handleCreateCommunity}>
-              <label className="field">
-                <span>Community name</span>
-                <input
-                  type="text"
-                  value={createCommunityForm.name}
-                  onChange={(event) => updateCreateCommunityField("name", event.target.value)}
-                  placeholder="Ex: Final Year Surgery Prep"
-                />
-              </label>
-              <div className="community-create-row">
-                <label className="field">
-                  <span>Topic</span>
-                  <input
-                    type="text"
-                    value={createCommunityForm.topic}
-                    onChange={(event) => updateCreateCommunityField("topic", event.target.value)}
-                    placeholder="Ex: Case discussions"
-                  />
-                </label>
-                <label className="field">
-                  <span>Description</span>
-                  <input
-                    type="text"
-                    value={createCommunityForm.description}
-                    onChange={(event) => updateCreateCommunityField("description", event.target.value)}
-                    placeholder="What should people expect in this community?"
-                  />
-                </label>
-              </div>
-              <button className="button button-primary" type="submit">
-                Create community
-              </button>
-            </form>
-          </article>
-
-          <article className="card panel community-directory-panel community-dm-panel">
-          <div className="panel-heading-split">
-            <div>
-              <h3>Private messages</h3>
-              <p className="panel-copy">Search for any user, open a direct thread, and challenge them to a duel.</p>
-            </div>
-            <span className="rank-pill">{directConversations.length} chats</span>
-          </div>
-
-          <div className="community-chat-body community-chat-shell-body">
-            <div className="community-messages-panel">
-              <label className="field">
-                <span>Search users</span>
-                <input
-                  type="text"
-                  value={directSearchTerm}
-                  onChange={(event) => setDirectSearchTerm(event.target.value)}
-                  placeholder="Search by name, college, or state"
-                />
-              </label>
-              {directSearchBusy ? <p className="panel-copy">Searching learners...</p> : null}
-              {directSearchTerm.trim().length > 0 && directSearchTerm.trim().length < 2 ? (
-                <p className="panel-copy">Type at least 2 characters to search.</p>
-              ) : null}
-              <div className="community-member-list">
-                {directSearchResults.map((result) => (
-                  <div className="community-member-row" key={result.id}>
-                    <button type="button" className="community-member-trigger" onClick={() => handleOpenDirectChat(result.id)}>
-                      <div className="community-member-main">
-                        <div className="avatar community-member-avatar">
-                          {result.profileImageUrl ? (
-                            <img className="avatar-image" src={result.profileImageUrl} alt={`${result.name} profile`} />
-                          ) : (
-                            <span>{getInitials(result.name)}</span>
-                          )}
-                        </div>
-                        <div>
-                          <strong>{result.name}</strong>
-                          <p>{result.medicalCollege}</p>
-                        </div>
-                      </div>
-                    </button>
-                    <button className="button button-secondary community-remove-button" onClick={() => handleOpenDirectChat(result.id)}>
-                      Message
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <aside className="community-members-panel community-sidecard">
-              <div className="panel-heading-split">
-                <div>
-                  <h4>Inbox</h4>
-                </div>
-                <span className="rank-pill">{directConversations.length}</span>
-              </div>
-              {directMessagesBusy ? <p className="panel-copy">Loading messages...</p> : null}
-              <div className="community-member-list">
-                {directConversations.length ? (
-                  directConversations.map((conversation) => (
-                    <button
-                      type="button"
-                      key={conversation.id}
-                      className={`community-list-item community-inbox-item${selectedDirectConversation?.id === conversation.id ? " community-list-item-active" : ""}`}
-                      onClick={() => openDirectConversation(conversation.id)}
-                    >
-                      <div className="community-top">
-                        <div className="icon-badge cyan">DM</div>
-                        <span>{conversation.messages.length} messages</span>
-                      </div>
-                      <strong>{conversation.otherParticipant?.name ?? "Private chat"}</strong>
-                      <p>{conversation.messages.at(-1)?.text ?? "No messages yet."}</p>
-                    </button>
-                  ))
-                ) : (
-                  <div className="empty-community-state empty-community-state-compact">
-                    <h3>No private chats yet</h3>
-                    <p className="panel-copy">Search for a user to start your first direct conversation.</p>
-                  </div>
-                )}
-              </div>
-            </aside>
-          </div>
-          </article>
+        <div className="community-stat-grid" aria-label="Community overview">
+          <div><span>Members across rooms</span><strong>{formatStatValue(totalCommunityMembers)}</strong><small>learning together</small></div>
+          <div><span>Study rooms</span><strong>{communities.length}</strong><small>{joinedCommunities.length} joined by you</small></div>
+          <div><span>Discussion posts</span><strong>{formatStatValue(totalCommunityMessages)}</strong><small>shared insights</small></div>
+          <div><span>Personal chats</span><strong>{directConversations.length}</strong><small>private and focused</small></div>
         </div>
 
-        <article className="card panel community-directory-panel">
-          <div className="panel-heading-split">
-            <div>
-              <h3>Available groups</h3>
-              <p className="panel-copy">Open a community card to see its dedicated chat room and member space.</p>
+        <div className="community-landing-grid">
+          <article className="community-directory-panel community-groups-panel" id="community-groups">
+            <div className="panel-heading-split">
+              <div>
+                <p className="community-section-kicker">Discover</p>
+                <h3>Study rooms worth joining</h3>
+                <p className="panel-copy">Subject-led groups for questions, cases, resources, and the occasional pre-exam rescue mission.</p>
+              </div>
+              <button className="community-text-button" type="button" onClick={fetchCommunities}>Refresh rooms <span aria-hidden="true">↻</span></button>
             </div>
-            <span className="rank-pill">{communities.length} groups</span>
-          </div>
+            {communitiesBusy ? <p className="panel-copy">Loading communities...</p> : null}
 
-          {communitiesBusy ? <p className="panel-copy">Loading communities...</p> : null}
-
-          {communities.length ? (
-            <div className="community-directory-grid">
+            {communities.length ? (
+              <div className="community-directory-grid">
               {communities.map((community) => (
                 <article
                   key={community.id}
                   className={`community-directory-card${selectedCommunity?.id === community.id ? " community-directory-card-active" : ""}`}
                 >
                   <div className="community-top">
-                    <div className="icon-badge green">HUB</div>
-                    <span>{community.memberCount} members</span>
+                    <div className="community-room-avatar">{getInitials(community.name)}</div>
+                    <div className="community-room-presence"><span /> {community.memberCount} members</div>
+                  </div>
+                  <div className="community-room-tags">
+                    <span>{community.topic}</span>
+                    {community.isMember ? <span className="community-room-tag-joined">Joined</span> : null}
                   </div>
                   <strong>{community.name}</strong>
                   <p>{community.description}</p>
                   <div className="community-list-meta">
-                    <span>Admin: {community.adminName}</span>
-                    <span>{community.topic}</span>
+                    <span>Hosted by <b>{community.adminName}</b></span>
+                    <span>{community.messages?.length ?? 0} posts</span>
                   </div>
                   <div className="community-directory-actions">
                     <span className={`community-status-pill${community.isMember ? " community-status-pill-joined" : ""}`}>
@@ -2945,8 +3289,8 @@ function App() {
                         Copy invite
                       </button>
                     ) : null}
-                    <button className="button button-secondary" onClick={() => openCommunityChat(community.id)}>
-                      Open room
+                    <button className="button community-room-button" onClick={() => openCommunityChat(community.id)}>
+                      View room <span aria-hidden="true">→</span>
                     </button>
                   </div>
                 </article>
@@ -2958,7 +3302,100 @@ function App() {
               <p className="panel-copy">Create the first community to start group discussion and member-led study chats.</p>
             </div>
           )}
-        </article>
+          </article>
+
+          <aside className="community-landing-sidebar">
+            <article className="community-inbox-panel" id="personal-inbox">
+              <div className="community-inbox-heading">
+                <div>
+                  <p className="community-section-kicker">Personal</p>
+                  <h3>Your inbox</h3>
+                  <p>Study partners, without the group-chat noise.</p>
+                </div>
+                <span>{directConversations.length}</span>
+              </div>
+
+              <label className="community-user-search">
+                <span className="sr-only">Search users</span>
+                <span aria-hidden="true">⌕</span>
+                <input
+                  type="text"
+                  value={directSearchTerm}
+                  onChange={(event) => setDirectSearchTerm(event.target.value)}
+                  placeholder="Find a learner to message"
+                />
+              </label>
+              {directSearchBusy ? <p className="community-search-hint">Searching learners...</p> : null}
+              {directSearchTerm.trim().length > 0 && directSearchTerm.trim().length < 2 ? (
+                <p className="community-search-hint">Type at least 2 characters to search.</p>
+              ) : null}
+
+              {directSearchResults.length ? (
+                <div className="community-search-results">
+                  <p>People</p>
+                  {directSearchResults.map((result) => (
+                    <button type="button" key={result.id} onClick={() => handleOpenDirectChat(result.id)}>
+                      <div className="avatar community-member-avatar">
+                        {result.profileImageUrl ? <img className="avatar-image" src={result.profileImageUrl} alt="" /> : <span>{getInitials(result.name)}</span>}
+                      </div>
+                      <span><strong>{result.name}</strong><small>{result.medicalCollege}</small></span>
+                      <b>Message</b>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+
+              <div className="community-inbox-list">
+                {directMessagesBusy ? <p className="community-search-hint">Loading messages...</p> : null}
+                {directConversations.length ? directConversations.map((conversation) => {
+                  const participant = conversation.otherParticipant;
+                  const latestMessage = conversation.messages.at(-1);
+                  return (
+                    <button type="button" key={conversation.id} onClick={() => openDirectConversation(conversation.id)}>
+                      <div className="avatar community-inbox-avatar">
+                        {participant?.profileImageUrl ? <img className="avatar-image" src={participant.profileImageUrl} alt="" /> : <span>{getInitials(participant?.name)}</span>}
+                        <i aria-hidden="true" />
+                      </div>
+                      <span className="community-inbox-copy">
+                        <span><strong>{participant?.name ?? "Private chat"}</strong><time>{formatCommunityTimestamp(latestMessage?.createdAt)}</time></span>
+                        <small>{latestMessage?.text ?? "Start the conversation"}</small>
+                      </span>
+                      <span className="community-inbox-arrow" aria-hidden="true">›</span>
+                    </button>
+                  );
+                }) : (
+                  <div className="empty-community-state empty-community-state-compact">
+                    <h3>Your inbox is ready</h3>
+                    <p className="panel-copy">Search for a learner above and start a focused study chat.</p>
+                  </div>
+                )}
+              </div>
+            </article>
+
+            <article className="community-create-panel" id="community-create">
+              <div className="community-create-heading">
+                <div className="community-create-icon">+</div>
+                <div><p className="community-section-kicker">Lead a room</p><h3>Create a community</h3></div>
+              </div>
+              <p className="panel-copy">Build the study space you wish already existed. You’ll be its admin.</p>
+              <form className="profile-form community-create-form" onSubmit={handleCreateCommunity}>
+                <label className="field">
+                  <span>Community name</span>
+                  <input type="text" value={createCommunityForm.name} onChange={(event) => updateCreateCommunityField("name", event.target.value)} placeholder="Ex: Final Year Surgery Prep" />
+                </label>
+                <label className="field">
+                  <span>Topic</span>
+                  <input type="text" value={createCommunityForm.topic} onChange={(event) => updateCreateCommunityField("topic", event.target.value)} placeholder="Ex: Case discussions" />
+                </label>
+                <label className="field">
+                  <span>Description</span>
+                  <input type="text" value={createCommunityForm.description} onChange={(event) => updateCreateCommunityField("description", event.target.value)} placeholder="What should members expect?" />
+                </label>
+                <button className="button button-primary" type="submit">Create my community <span aria-hidden="true">→</span></button>
+              </form>
+            </article>
+          </aside>
+        </div>
       </section>
     );
   }
@@ -3389,20 +3826,129 @@ function App() {
     );
   }
 
+  function renderAnalyticsFunctional() {
+    const cutoff = Date.now() - analyticsPeriod * 86400000;
+    const events = analyticsEvents.filter((item) => new Date(item.answeredAt).getTime() >= cutoff);
+    const correct = events.filter((item) => item.correct).length;
+    const periodAccuracy = calculateAccuracy(correct, events.length);
+    const seconds = events.reduce((sum, item) => sum + (Number(item.durationSeconds) || 0), 0);
+    const subjects = [...events.reduce((map, item) => {
+      const id = item.subjectId || "unknown";
+      const value = map.get(id) || { id, name: item.subject || practiceSubjects.find((subject) => subject.id === id)?.title || "Other", attempts: 0, correct: 0, topics: {} };
+      value.attempts += 1;
+      value.correct += item.correct ? 1 : 0;
+      if (!item.correct) value.topics[item.topic || "General review"] = (value.topics[item.topic || "General review"] || 0) + 1;
+      map.set(id, value);
+      return map;
+    }, new Map()).values()].map((item) => ({ ...item, accuracy: calculateAccuracy(item.correct, item.attempts) })).sort((a, b) => b.attempts - a.attempts);
+    const attention = subjects.flatMap((subject) => Object.entries(subject.topics).map(([topic, count]) => ({ ...subject, topic, count }))).sort((a, b) => b.count - a.count).slice(0, 3);
+    const activity = events.reduce((sum, item) => ({ ...sum, [item.activity || "pyq"]: (sum[item.activity || "pyq"] || 0) + (Number(item.durationSeconds) || 0) }), { pyq: 0, revision: 0, battle: 0 });
+    const share = (value) => seconds ? Math.round(value / seconds * 100) : 0;
+    const pyqShare = share(activity.pyq);
+    const revisionShare = share(activity.revision);
+    const battleShare = Math.max(0, 100 - pyqShare - revisionShare);
+    const days = events.sort((a, b) => new Date(a.answeredAt) - new Date(b.answeredAt)).reduce((list, item) => {
+      const key = item.answeredAt.slice(0, 10);
+      const current = list[list.length - 1];
+      if (current?.key === key) { current.attempts += 1; current.correct += item.correct ? 1 : 0; }
+      else list.push({ key, attempts: 1, correct: item.correct ? 1 : 0 });
+      return list;
+    }, []).slice(-8);
+    const chartData = days.map((day, index) => ({
+      ...day,
+      accuracy: calculateAccuracy(day.correct, day.attempts),
+      x: days.length === 1 ? 315 : 50 + index * 530 / (days.length - 1),
+      y: 165 - calculateAccuracy(day.correct, day.attempts) * 1.35,
+    }));
+    const points = chartData.map((day) => `${day.x},${day.y}`).join(" ");
+    const areaPoints = chartData.length ? `50,165 ${points} 580,165` : "";
+    const timeLabel = seconds >= 3600 ? `${(seconds / 3600).toFixed(1)}h` : `${Math.round(seconds / 60)}m`;
+    const pace = events.length ? Math.round(seconds / events.length) : 0;
+    const review = (id) => { setActiveView("Practice"); setPracticeChoiceSubjectId(id); };
+    return <section className="app-view">
+      <div className="view-header"><div><p className="eyebrow">Learning intelligence</p><h2>Performance analytics</h2><p className="view-subtitle">Live insights from your completed practice.</p></div><button className="button button-primary" onClick={() => attention[0] ? review(attention[0].id) : setActiveView("Practice")}>Practice weak topics</button></div>
+      <div className="analytics-kpi-grid"><article className="card panel"><span>Accuracy</span><strong>{periodAccuracy}%</strong><small>{correct} correct in this period</small></article><article className="card panel"><span>Questions solved</span><strong>{events.length}</strong><small>In the selected period</small></article><article className="card panel"><span>Average pace</span><strong>{pace < 60 ? `${pace}s` : `${Math.floor(pace / 60)}m ${pace % 60}s`}</strong><small>Per question</small></article><article className="card panel"><span>Study time</span><strong>{timeLabel}</strong><small>Measured active time</small></article></div>
+      <div className="analytics-main-grid"><article className="card panel accuracy-trend-card"><div className="panel-heading-split"><div><h3>Accuracy trend</h3><p className="panel-copy">Daily accuracy across your recent study days</p></div><select aria-label="Analytics period" value={analyticsPeriod} onChange={(event) => setAnalyticsPeriod(Number(event.target.value))}><option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></div>{days.length ? <div className="line-chart"><div className="chart-summary"><span><strong>{periodAccuracy}%</strong> average accuracy</span><span>{events.length} questions</span></div><svg viewBox="0 0 600 205" role="img" aria-label="Accuracy trend"><defs><linearGradient id="analyticsArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2563eb" stopOpacity=".22"/><stop offset="100%" stopColor="#2563eb" stopOpacity=".01"/></linearGradient></defs>{[25, 50, 75, 100].map((value) => { const y = 165 - value * 1.35; return <g key={value}><line className="chart-gridline" x1="50" x2="580" y1={y} y2={y}/><text className="chart-y-label" x="42" y={y + 4} textAnchor="end">{value}%</text></g>; })}<polygon className="chart-area" points={areaPoints}/><polyline className="chart-line" points={points}/>{chartData.map((day) => <g className="chart-marker" key={day.key}><circle className="chart-point-halo" cx={day.x} cy={day.y} r="9"/><circle className="chart-point" cx={day.x} cy={day.y} r="5"/><text className="chart-value" x={day.x} y={day.y - 14} textAnchor="middle">{day.accuracy}%</text><title>{day.accuracy}% · {day.attempts} questions · {day.key}</title></g>)}</svg><div className="chart-axis">{chartData.map((day) => <span key={day.key}>{new Date(`${day.key}T00:00:00`).toLocaleDateString([], { month: "short", day: "numeric" })}</span>)}</div></div> : <div className="analytics-empty"><span className="analytics-empty-icon">↗</span><strong>Your progress graph starts here</strong><small>Complete a practice question to plot your first result.</small><button className="text-button" onClick={() => setActiveView("Practice")}>Start practice</button></div>}</article>
+      <article className="card panel mastery-card"><div className="panel-heading-split"><div><h3>Subject mastery</h3><p className="panel-copy">Accuracy in this period</p></div><button className="text-button" onClick={() => setActiveView("Practice")}>View all</button></div>{subjects.length ? <div className="mastery-list">{subjects.map((subject) => <div key={subject.id}><span><strong>{subject.name}</strong><small>{subject.accuracy}% · {subject.attempts} attempted</small></span><div><i style={{ width: `${subject.accuracy}%` }}/></div></div>)}</div> : <p className="analytics-empty">No subject activity in this period.</p>}</article></div>
+      <div className="analytics-bottom-grid"><article className="card panel"><h3>Time by activity</h3><div className="donut-layout"><div className="donut-chart" style={{ background: `conic-gradient(var(--ui-brand) 0 ${pyqShare}%,#10b981 ${pyqShare}% ${pyqShare + revisionShare}%,#8b5cf6 ${pyqShare + revisionShare}% 100%)` }}><span>{timeLabel}<small>total</small></span></div><div className="donut-legend"><span><i className="dot-blue"/>PYQs <strong>{pyqShare}%</strong></span><span><i className="dot-emerald"/>AI revision <strong>{revisionShare}%</strong></span><span><i className="dot-violet"/>Battles <strong>{battleShare}%</strong></span></div></div></article><article className="card panel"><h3>Needs attention</h3>{attention.length ? <div className="attention-list">{attention.map((item) => <button key={`${item.id}-${item.topic}`} onClick={() => review(item.id)}><span>{item.topic}<small>{item.count} incorrect · {item.name}</small></span><strong>Review →</strong></button>)}</div> : <p className="analytics-empty">Incorrect answers will appear here for targeted review.</p>}</article></div>
+    </section>;
+  }
+
+  function renderAnalytics() {
+    const subjectMastery = [
+      ["Anatomy", 82], ["Physiology", 74], ["Pathology", 61], ["Pharmacology", 68], ["Microbiology", 77],
+    ];
+    return (
+      <section className="app-view">
+        <div className="view-header"><div><p className="eyebrow">Learning intelligence</p><h2>Performance analytics</h2><p className="view-subtitle">Understand what is improving, what needs revision, and where your study time pays off.</p></div><button className="button button-primary" onClick={() => setActiveView("Practice")}>Practice weak topics</button></div>
+        <div className="analytics-kpi-grid">
+          <article className="card panel"><span>Accuracy</span><strong>{accuracyRate}%</strong><small className="trend-positive">↑ 4.2% vs last week</small></article>
+          <article className="card panel"><span>Questions solved</span><strong>{formatStatValue(attemptedQuestions)}</strong><small>Across all subjects</small></article>
+          <article className="card panel"><span>Average pace</span><strong>48s</strong><small>Per question</small></article>
+          <article className="card panel"><span>Study time</span><strong>8.4h</strong><small className="trend-positive">↑ 1.3h this week</small></article>
+        </div>
+        <div className="analytics-main-grid">
+          <article className="card panel accuracy-trend-card"><div className="panel-heading-split"><div><h3>Accuracy trend</h3><p className="panel-copy">Last 8 study sessions</p></div><select aria-label="Analytics period"><option>Last 30 days</option><option>Last 90 days</option></select></div><div className="line-chart" aria-label="Accuracy improved from 58 to 78 percent"><svg viewBox="0 0 600 190" role="img"><defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2563eb" stopOpacity=".25"/><stop offset="100%" stopColor="#2563eb" stopOpacity="0"/></linearGradient></defs><path className="chart-area" d="M10 155 C80 142,90 130,160 134 S240 112,300 118 S380 88,440 92 S520 54,590 64 L590 185 L10 185 Z"/><path className="chart-line" d="M10 155 C80 142,90 130,160 134 S240 112,300 118 S380 88,440 92 S520 54,590 64"/></svg><div className="chart-axis"><span>May 1</span><span>May 8</span><span>May 15</span><span>May 22</span><span>Today</span></div></div></article>
+          <article className="card panel mastery-card"><div className="panel-heading-split"><div><h3>Subject mastery</h3><p className="panel-copy">Accuracy weighted by recency</p></div><button className="text-button" onClick={() => setActiveView("Practice")}>View all</button></div><div className="mastery-list">{subjectMastery.map(([subject, value]) => <div key={subject}><span><strong>{subject}</strong><small>{value}%</small></span><div><i style={{ width: `${value}%` }} /></div></div>)}</div></article>
+        </div>
+        <div className="analytics-bottom-grid"><article className="card panel"><h3>Time by activity</h3><div className="donut-layout"><div className="donut-chart"><span>8.4h<small>total</small></span></div><div className="donut-legend"><span><i className="dot-blue"/>PYQs <strong>52%</strong></span><span><i className="dot-emerald"/>Revision <strong>28%</strong></span><span><i className="dot-violet"/>Battles <strong>20%</strong></span></div></div></article><article className="card panel"><h3>Needs attention</h3><div className="attention-list"><button onClick={() => setActiveView("Practice")}><span>Renal pathology<small>7 incorrect answers</small></span><strong>Review →</strong></button><button onClick={() => setActiveView("Practice")}><span>Antimicrobials<small>Accuracy below 60%</small></span><strong>Review →</strong></button><button onClick={() => setActiveView("Practice")}><span>Cardiac physiology<small>Not revised in 18 days</small></span><strong>Review →</strong></button></div></article></div>
+      </section>
+    );
+  }
+
+  function renderPricing() {
+    const plans = [
+      { name: "Free", price: "₹0", copy: "Build a strong daily practice habit.", features: ["Daily PYQ practice", "Basic progress tracking", "Community access"], action: "Current plan" },
+      { name: "Pro", price: "₹299", copy: "For students preparing with intent.", features: ["Unlimited practice", "Advanced analytics", "Custom revision sets", "Priority battle matching"], action: "Choose Pro", featured: true },
+      { name: "Pro Annual", price: "₹2,499", copy: "The best value for exam-year preparation.", features: ["Everything in Pro", "Two months free", "Exam readiness reports", "Early feature access"], action: "Choose annual" },
+    ];
+    return (
+      <section className="app-view pricing-page">
+        <div className="pricing-hero"><p className="eyebrow">Simple, student-friendly pricing</p><h2>Invest in focused preparation,<br/>not feature clutter.</h2><p>Start free. Upgrade when deeper analytics and unlimited practice become useful.</p><div className="billing-toggle"><button className="active">Monthly</button><button>Annual <span>Save 30%</span></button></div></div>
+        <div className="pricing-grid">{plans.map((plan) => <article className={`card pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong>{plan.price !== "₹0" ? <span>/ month</span> : null}</div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} disabled={plan.action === "Current plan"} onClick={() => document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" })}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul></article>)}</div>
+        <article className="card panel payment-gateway-section" id="payment-gateway">
+          <div className="payment-copy"><p className="eyebrow">Payment gateway · future ready</p><h3>Secure checkout boundary</h3><p className="panel-copy">The interface is prepared for a PCI-compliant provider such as Razorpay or Stripe. MediComm will create orders and store payment status only—raw card or UPI credentials will never touch the application server.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
+          <div className="payment-summary"><div><span>Selected plan</span><strong>MediComm Pro</strong></div><div><span>Billing</span><strong>Monthly</strong></div><div><span>Amount</span><strong>₹299</strong></div><button className="button button-primary" disabled>Checkout coming soon</button><small>No payment will be collected yet.</small></div>
+        </article>
+        <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using MediComm for free?</summary><p>Yes. Core daily practice and community features remain available on the free plan.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Sensitive payment collection will be hosted by a compliant payment provider; MediComm will retain only order and entitlement status.</p></details></div>
+      </section>
+    );
+  }
+
+  function renderSettings() {
+    return (
+      <section className="app-view settings-page">
+        <div className="view-header"><div><p className="eyebrow">Preferences</p><h2>Settings</h2><p className="view-subtitle">Tune your study environment, notifications, privacy, and accessibility.</p></div></div>
+        <div className="settings-layout"><aside className="settings-index"><button className="active">Study preferences</button><button>Notifications</button><button>Appearance</button><button>Privacy & security</button><button>Billing</button></aside><div className="settings-content">
+          <article className="card panel"><div className="settings-heading"><h3>Study preferences</h3><p>Personalize recommendations and exam planning.</p></div><label className="setting-field"><span>Target exam<small>Used for relevant PYQs and countdowns.</small></span><select defaultValue="neet"><option value="neet">NEET PG</option><option value="ini">INI-CET</option><option value="fmge">FMGE</option></select></label><label className="setting-field"><span>Daily question goal<small>A gentle target, never a punishment.</small></span><select defaultValue="40"><option>20</option><option>40</option><option>60</option><option>100</option></select></label></article>
+          <article className="card panel"><div className="settings-heading"><h3>Notifications</h3><p>Choose the nudges that are genuinely useful.</p></div><label className="setting-toggle"><span>Daily study reminder<small>One reminder at your preferred time.</small></span><input type="checkbox" defaultChecked /></label><label className="setting-toggle"><span>Battle invitations<small>Know when a peer challenges you.</small></span><input type="checkbox" defaultChecked /></label><label className="setting-toggle"><span>Community replies<small>Mentions and replies to your discussions.</small></span><input type="checkbox" /></label></article>
+          <article className="card panel"><div className="settings-heading"><h3>Appearance & accessibility</h3><p>Comfortable in every study environment.</p></div><div className="theme-choice"><button className={!isDarkMode ? "active" : ""} onClick={() => isDarkMode && setTheme("light")}>Light</button><button className={isDarkMode ? "active" : ""} onClick={() => !isDarkMode && setTheme("dark")}>Dark</button><button onClick={() => setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")}>System</button></div><label className="setting-toggle"><span>Reduce motion<small>Minimize nonessential interface animation.</small></span><input type="checkbox" /></label></article>
+          <article className="card panel danger-zone"><div><h3>Sign out of this device</h3><p className="panel-copy">Your synced progress remains safe in your account.</p></div><button className="button button-secondary" onClick={handleLogout}>Sign out</button></article>
+        </div></div>
+      </section>
+    );
+  }
+
   function renderView() {
     switch (activeView) {
       case "Dashboard":
         return renderDashboard();
       case "Practice":
         return renderPractice();
+      case "Analytics":
+        return renderAnalytics();
       case "Leaderboard":
         return renderLeaderboard();
       case "Communities":
         return renderCommunities();
       case "Compete":
         return renderCompete();
+      case "Pricing":
+        return renderPricing();
       case "Profile":
         return renderProfile();
+      case "Settings":
+        return renderSettings();
       case "PublicProfile":
         return renderPublicProfile();
       default:
@@ -3422,7 +3968,7 @@ function App() {
     );
   }
 
-  if (authStatus !== "authenticated") {
+  if (authStatus !== "authenticated" && authStatus !== "guest") {
     return renderAuthPage();
   }
 

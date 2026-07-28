@@ -10,7 +10,7 @@ from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PDF_PATH = Path(r"F:\pyqs\Pyqs neet inict the yellowfool.pdf")
-CHAPTER_COUNTS_PATH = ROOT / "pdf_question_stats" / "chapter_counts.csv"
+CHAPTER_COUNTS_PATH = ROOT / "pdf_question_stats" / "chapter_counts_exact.csv"
 OUTPUT_IMAGE_DIRS = [
     ROOT / "runtime-data" / "uploads",
     ROOT / "data" / "uploads",
@@ -397,12 +397,16 @@ def attach_images_to_questions(
         if not is_visual_question(question):
             continue
 
-        current_position = question_positions.get(question["questionNumber"])
+        current_position = question_positions.get(question.get("sourceQuestionNumber", question["questionNumber"]))
         if not current_position:
             continue
 
         next_question = questions[question_index + 1] if question_index + 1 < len(questions) else None
-        next_position = question_positions.get(next_question["questionNumber"]) if next_question else None
+        next_position = (
+            question_positions.get(next_question.get("sourceQuestionNumber", next_question["questionNumber"]))
+            if next_question
+            else None
+        )
         image = next(
             (
                 candidate
@@ -452,7 +456,13 @@ def cleanup_subject_images(subject_ids: set[str]) -> None:
                     continue
 
 
-def parse_chapter(chapter: dict, page_texts: list[str], reader: PdfReader, write_images: bool) -> list[dict]:
+def parse_chapter(
+    chapter: dict,
+    page_texts: list[str],
+    reader: PdfReader,
+    write_images: bool,
+    question_number_offset: int = 0,
+) -> list[dict]:
     text = "\n".join(page_texts[chapter["startPage"] - 1 : chapter["endPage"]])
     text = normalize_space(text)
 
@@ -477,6 +487,7 @@ def parse_chapter(chapter: dict, page_texts: list[str], reader: PdfReader, write
     current_exam_title = exam_title(chapter["exam"], chapter["year"])
 
     for question_number in sorted(question_blocks):
+        global_question_number = question_number_offset + question_number
         prompt, options = parse_question_block(question_blocks[question_number])
         answer_letter = answer_key.get(question_number)
         answer_index = "abcd".index(answer_letter) if answer_letter in "abcd" else -1
@@ -485,8 +496,8 @@ def parse_chapter(chapter: dict, page_texts: list[str], reader: PdfReader, write
 
         parsed.append(
             {
-                "id": f"{current_exam_id}-{meta['id']}-q{question_number:03d}",
-                "questionNumber": question_number,
+                "id": f"{current_exam_id}-{meta['id']}-q{global_question_number:03d}",
+                "questionNumber": global_question_number,
                 "sourceQuestionNumber": question_number,
                 "year": chapter["year"],
                 "examId": current_exam_id,
@@ -530,6 +541,26 @@ def parse_chapter(chapter: dict, page_texts: list[str], reader: PdfReader, write
 
     attach_images_to_questions(reader, chapter, parsed, page_texts, write_images)
     return parsed
+
+
+def split_chapter_sessions(chapter: dict, page_texts: list[str]) -> list[dict]:
+    """Split combined May/November-style chapters whose numbering restarts at 1."""
+    starts = [chapter["startPage"]]
+    saw_explanations = False
+
+    for page_number in range(chapter["startPage"], chapter["endPage"] + 1):
+        text = page_texts[page_number - 1]
+        if saw_explanations and re.search(r"(?m)^Question\s+1:\s*$", text):
+            starts.append(page_number)
+            saw_explanations = False
+        if re.search(r"(?m)^Detailed Explanations\s*$", text):
+            saw_explanations = True
+
+    sessions = []
+    for index, start_page in enumerate(starts):
+        end_page = starts[index + 1] - 1 if index + 1 < len(starts) else chapter["endPage"]
+        sessions.append({**chapter, "startPage": start_page, "endPage": end_page, "expectedQuestions": 0})
+    return sessions
 
 
 def build_exam_entries(questions: list[dict]) -> list[dict]:
@@ -656,7 +687,25 @@ def main() -> None:
 
     questions = []
     for chapter in chapters:
-        questions.extend(parse_chapter(chapter, page_texts, reader, not args.dry_run))
+        chapter_questions = []
+        question_number_offset = 0
+        for session in split_chapter_sessions(chapter, page_texts):
+            session_questions = parse_chapter(
+                session,
+                page_texts,
+                reader,
+                not args.dry_run,
+                question_number_offset,
+            )
+            chapter_questions.extend(session_questions)
+            question_number_offset += len(session_questions)
+
+        if chapter["expectedQuestions"] and len(chapter_questions) != chapter["expectedQuestions"]:
+            raise ValueError(
+                f"{chapter['title']}: expected {chapter['expectedQuestions']} questions, "
+                f"parsed {len(chapter_questions)} across {len(split_chapter_sessions(chapter, page_texts))} session(s)."
+            )
+        questions.extend(chapter_questions)
 
     selected_ids = {question["subjectId"] for question in questions}
     summary = defaultdict(int)

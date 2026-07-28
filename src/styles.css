@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: "Inter", sans-serif;
   color: #1f2937;
@@ -2566,12 +2570,28 @@ main {
   line-height: 1.6;
 }
 
-.practice-subject-card strong {
+.practice-subject-counts {
   margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.practice-subject-card strong {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  padding: 6px 9px;
   color: #2563eb;
   font-size: 12px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.practice-subject-card strong + strong {
+  background: rgba(20, 184, 166, 0.1);
+  color: #0f766e;
 }
 
 .practice-detail-view {
@@ -2717,3 +2737,18 @@ main {
     grid-template-columns: 1fr;
   }
 }
+
+/* Topic-wise chapter and topic directory */
+.topic-wise-directory { max-width: 1040px; margin: 0 auto; }
+.topic-directory-list { display: grid; gap: 16px; }
+.topic-directory-row { width: 100%; display: grid; grid-template-columns: 58px minmax(0, 1fr) 36px; gap: 20px; align-items: center; padding: 22px 24px; border: 1px solid var(--border); border-radius: 20px; background: var(--card-bg); color: inherit; text-align: left; box-shadow: 0 10px 30px rgba(15, 23, 42, .06); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.topic-directory-row:hover, .topic-directory-row:focus-visible { transform: translateY(-2px); border-color: var(--primary); box-shadow: 0 16px 38px rgba(15, 23, 42, .11); outline: none; }
+.directory-index { width: 50px; height: 50px; display: grid; place-items: center; border-radius: 15px; background: rgba(16, 185, 129, .12); color: var(--primary); font-weight: 800; font-size: .92rem; }
+.directory-main { min-width: 0; display: grid; gap: 7px; }
+.directory-main strong { font-size: 1.08rem; line-height: 1.35; }
+.directory-kicker { color: var(--primary); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.directory-meta, .directory-progress-copy { color: var(--muted); font-size: .86rem; }
+.directory-arrow { color: var(--primary); font-size: 1.45rem; font-weight: 700; transition: transform .2s ease; }
+.topic-directory-row:hover .directory-arrow { transform: translateX(4px); }
+.topic-directory-row .practice-progress-track { margin-top: 4px; width: 100%; }
+@media (max-width: 640px) { .topic-directory-row { grid-template-columns: 44px minmax(0, 1fr) 24px; gap: 12px; padding: 18px 16px; border-radius: 16px; } .directory-index { width: 42px; height: 42px; border-radius: 12px; } }

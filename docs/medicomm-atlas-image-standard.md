@@ -62,11 +62,11 @@ medicomm-atlas-aiims-2017-anatomy-q001.png
 
 ## Resume Point
 
-Last checkpoint: 2026-06-28
+Last checkpoint: 2026-07-06
 
-- Tracker total: 384 images
-- Completed: 244 images
-- Remaining: 140 images
+- Tracker total: 487 images
+- Completed: 392 images
+- Remaining: 112 images
 - Anatomy total: 133 images
 - Anatomy completed: 133 images
 - Anatomy remaining: 0 images
@@ -77,11 +77,22 @@ Last checkpoint: 2026-06-28
 - Physiology remaining in Yellowfool physiology pass: 0 images; 2 older physiology tracker rows remain pending because their source files are missing.
 - Biochemistry completed: 19 images
 - Pathology total: 84 images
-- Pathology completed: 60 images
-- Pathology remaining: 24 images
+- Pathology completed: 84 images
+- Pathology remaining: 0 images
+- Microbiology total: 104 tracker rows
+- Microbiology completed: 104 images
+- Microbiology remaining: 0 images
 
 Latest saved batch:
 
+- Completed the first 10-image ENT batch with the darker lower-left `medicomm` watermark (10 of 44 ENT images complete). Preserved Ohngren-line geometry, mastoid and nasal anatomy markers, leukoplakia morphology, nasal vascular topology, tracheoesophageal prosthesis airflow, mastoid-retractor geometry, posterior-rhinoscopy setup, Caldwell projection, inferior-turbinate arrow endpoint, and auricular-hematoma distribution.
+- Completed the first 10-image pharmacology batch; 12 of 21 pharmacology rows are now done and 9 remain. Preserved endoscopic/radiographic findings, dose-response and blood-pressure curves, angiographic anatomy, peptidoglycan and viral-cycle topology, and mycobacterial wall labels. Removed the two retained legacy Marrow watermarks before import.
+- Completed the final seven microbiology images; all 104 microbiology tracker rows are now done. Preserved Sporothrix conidial rosettes, Echinococcus hooklets, Enterobius cervical alae and planoconvex egg, fruit-bat anatomy, Histoplasma tuberculate macroconidia, and intracellular gonococci. Replaced the safety-blocked gonococcal clinical source with a clean non-graphic urethritis cutaway.
+- Completed the seventh 10-image microbiology batch with the darker lower-left `medicomm` watermark. Preserved arthropod anatomy, bacterial-envelope and toxin/superantigen diagram topology, amoebic ultrastructure, scrub-typhus eschar morphology, and diagnostic Gram, Kinyoun, and India-ink microscopy features. The safety-blocked `neet-pg-2021-microbiology-q004` source remains pending.
+- Completed the sixth 10-image microbiology batch with the darker lower-left `medicomm` watermark. Preserved answer-critical arrows and numerals, sporotrichoid and eschar lesion patterns, fungal culture pigment, and diagnostically distinct Aspergillus versus Mucorales branching morphology.
+- Completed the fifth 10-image microbiology batch with a slightly darker but unobtrusive lower-left `medicomm` watermark. Preserved microscopy stain identity and morphology, CT laterality and panel order, and answer-critical labels/numerals in the microorganism, cestode, and HPV diagrams. `neet-pg-2021-microbiology-q004` remains pending after both clinical-source and non-graphic schematic image-generation attempts were safety-blocked; `ini-cet-2022-microbiology-q023` was completed in its place.
+- Completed the first 20-image microbiology pass; converted life-cycle diagrams, stained and dark-field microscopy, helminth/protozoal structures, culture media, a microscope, an electron micrograph, and an immunology schematic. All 20 assets and question-bank references are synchronized across `public/`, `dist/`, `data/`, and `runtime-data/`.
+- Completed the final 24-image pathology pass; all 84 pathology images are now converted and synchronized. The final 13 use a darker, more visible lower-left `medicomm` watermark while preserving diagnostic morphology, labels, arrows, graphs, and image order.
 - Completed a 20-image pathology batch spanning H&E microscopy, blood smears, a nerve electron micrograph, a three-panel IHC plate, two instruments, and an autosomal-dominant pedigree; preserved diagnostic morphology, pointer endpoints, panel order, pale smear fields, and exact pedigree topology.
 - Completed a 20-image pathology batch covering clinical photos, smears, labeled histology, gross specimens, pedigree/cascade diagrams, a 47,XXY karyotype, and lung ultrastructure; retained the larger, darker lower-left `medicomm` watermark.
 - Completed the second 10-image pathology batch with a larger, darker, contrast-adjusted lower-left `medicomm` watermark. Explicitly preserved the CD19/CD40 axes in the Hyper-IgM flow-cytometry plate.

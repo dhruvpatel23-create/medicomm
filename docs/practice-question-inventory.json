@@ -1,0 +1,3202 @@
+{
+  "generatedFrom": "runtime-data/users.json",
+  "comparedWith": "data/users.json",
+  "totalQuestions": 6955,
+  "storeMismatches": [],
+  "subjects": [
+    {
+      "subjectTitle": "Anatomy",
+      "count": 880,
+      "chapters": [
+        {
+          "chapterTitle": "Abdomen",
+          "count": 135,
+          "topics": [
+            {
+              "topicTitle": "Diaphragm, Surface Marking and Clinical Anatomy",
+              "count": 15
+            },
+            {
+              "topicTitle": "Introduction and Anterior Abdominal Wall",
+              "count": 15
+            },
+            {
+              "topicTitle": "Kidneys, Suprarenal Glands and Ureters",
+              "count": 15
+            },
+            {
+              "topicTitle": "Liver, Gallbladder and Biliary Apparatus",
+              "count": 15
+            },
+            {
+              "topicTitle": "Pancreas and Spleen",
+              "count": 15
+            },
+            {
+              "topicTitle": "Peritoneum, Mesentery and Peritoneal Cavity",
+              "count": 15
+            },
+            {
+              "topicTitle": "Posterior Abdominal Wall, Vessels and Nerves",
+              "count": 15
+            },
+            {
+              "topicTitle": "Small Intestine, Large Intestine and Appendix",
+              "count": 15
+            },
+            {
+              "topicTitle": "Stomach and Duodenum",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Brain",
+          "count": 90,
+          "topics": [
+            {
+              "topicTitle": "Basal Ganglia and Diencephalon",
+              "count": 15
+            },
+            {
+              "topicTitle": "Blood Supply and Functional Pathways",
+              "count": 15
+            },
+            {
+              "topicTitle": "Brainstem and Cranial Nerve Nuclei",
+              "count": 15
+            },
+            {
+              "topicTitle": "Cerebellum",
+              "count": 15
+            },
+            {
+              "topicTitle": "Cerebrum and Cerebral Cortex",
+              "count": 15
+            },
+            {
+              "topicTitle": "Meninges, CSF and Ventricles",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "General Anatomy",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Cardiovascular System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Connective Tissue, Ligaments and Raphe",
+              "count": 10
+            },
+            {
+              "topicTitle": "Introduction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Joints",
+              "count": 10
+            },
+            {
+              "topicTitle": "Lymphatic System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Muscles",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nervous System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Principles of Radiography",
+              "count": 10
+            },
+            {
+              "topicTitle": "Skeleton",
+              "count": 10
+            },
+            {
+              "topicTitle": "Skin and Fasciae",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Head and Neck",
+          "count": 90,
+          "topics": [
+            {
+              "topicTitle": "Larynx and Neck",
+              "count": 15
+            },
+            {
+              "topicTitle": "Nose, Oral Cavity and Pharynx",
+              "count": 15
+            },
+            {
+              "topicTitle": "Orbit and Eye",
+              "count": 15
+            },
+            {
+              "topicTitle": "Scalp, Face and Parotid Region",
+              "count": 15
+            },
+            {
+              "topicTitle": "Temporal and Infratemporal Fossae",
+              "count": 15
+            },
+            {
+              "topicTitle": "Vessels, Lymphatics and Development",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Lower Limb",
+          "count": 150,
+          "topics": [
+            {
+              "topicTitle": "Arteries, Veins and Lymphatics",
+              "count": 15
+            },
+            {
+              "topicTitle": "Back of Thigh and Popliteal Fossa",
+              "count": 15
+            },
+            {
+              "topicTitle": "Bones of Lower Limb",
+              "count": 15
+            },
+            {
+              "topicTitle": "Front and Medial Side of Thigh",
+              "count": 15
+            },
+            {
+              "topicTitle": "Gluteal Region",
+              "count": 15
+            },
+            {
+              "topicTitle": "Introduction and Comparison",
+              "count": 15
+            },
+            {
+              "topicTitle": "Joints of Lower Limb",
+              "count": 15
+            },
+            {
+              "topicTitle": "Leg and Dorsum of Foot",
+              "count": 15
+            },
+            {
+              "topicTitle": "Sole of Foot",
+              "count": 15
+            },
+            {
+              "topicTitle": "Surface Marking and Radiological Anatomy",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Thorax",
+          "count": 150,
+          "topics": [
+            {
+              "topicTitle": "Bones and Joints of Thorax",
+              "count": 15
+            },
+            {
+              "topicTitle": "Introduction",
+              "count": 15
+            },
+            {
+              "topicTitle": "Lungs",
+              "count": 15
+            },
+            {
+              "topicTitle": "Mediastinum",
+              "count": 15
+            },
+            {
+              "topicTitle": "Pericardium and Heart",
+              "count": 15
+            },
+            {
+              "topicTitle": "Superior Vena Cava, Aorta and Pulmonary Trunk",
+              "count": 15
+            },
+            {
+              "topicTitle": "Surface Marking and Radiological Anatomy of Thorax",
+              "count": 15
+            },
+            {
+              "topicTitle": "Thoracic Cavity and Pleurae",
+              "count": 15
+            },
+            {
+              "topicTitle": "Trachea, Oesophagus and Thoracic Duct",
+              "count": 15
+            },
+            {
+              "topicTitle": "Wall of Thorax",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Upper Limb",
+          "count": 165,
+          "topics": [
+            {
+              "topicTitle": "Arm",
+              "count": 15
+            },
+            {
+              "topicTitle": "Axilla",
+              "count": 15
+            },
+            {
+              "topicTitle": "Back",
+              "count": 15
+            },
+            {
+              "topicTitle": "Bones of Upper Limb",
+              "count": 15
+            },
+            {
+              "topicTitle": "Cutaneous Nerves, Superficial Veins and Lymphatic Drainage",
+              "count": 15
+            },
+            {
+              "topicTitle": "Forearm and Hand",
+              "count": 15
+            },
+            {
+              "topicTitle": "Introduction",
+              "count": 15
+            },
+            {
+              "topicTitle": "Joints of Upper Limb",
+              "count": 15
+            },
+            {
+              "topicTitle": "Pectoral Region",
+              "count": 15
+            },
+            {
+              "topicTitle": "Scapular Region",
+              "count": 15
+            },
+            {
+              "topicTitle": "Surface Marking, Radiological Anatomy and Comparison of Upper and Lower Limbs",
+              "count": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "Biochemistry",
+      "count": 495,
+      "chapters": [
+        {
+          "chapterTitle": "Chemical Basis of Life",
+          "count": 105,
+          "topics": [
+            {
+              "topicTitle": "Biomolecules and Metabolism",
+              "count": 15
+            },
+            {
+              "topicTitle": "Donnan Membrane Equilibrium",
+              "count": 15
+            },
+            {
+              "topicTitle": "History of Biochemistry",
+              "count": 15
+            },
+            {
+              "topicTitle": "Hydrogen Bonding",
+              "count": 15
+            },
+            {
+              "topicTitle": "Hydrophobic Interactions",
+              "count": 15
+            },
+            {
+              "topicTitle": "Ionic Bonds",
+              "count": 15
+            },
+            {
+              "topicTitle": "Principles of Thermodynamics",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Clinical and Applied Biochemistry",
+          "count": 150,
+          "topics": [
+            {
+              "topicTitle": "Acid-Base Balance and pH",
+              "count": 15
+            },
+            {
+              "topicTitle": "Blood Glucose, Insulin and Diabetes Mellitus",
+              "count": 15
+            },
+            {
+              "topicTitle": "Body Fluids: Milk, CSF and Amniotic Fluid",
+              "count": 15
+            },
+            {
+              "topicTitle": "Cardiovascular Diseases and Hyperlipidemias",
+              "count": 15
+            },
+            {
+              "topicTitle": "Clinical Enzymology and Biomarkers",
+              "count": 15
+            },
+            {
+              "topicTitle": "Clinical Laboratory Screening and Quality Control",
+              "count": 15
+            },
+            {
+              "topicTitle": "Electrolyte and Water Balance",
+              "count": 15
+            },
+            {
+              "topicTitle": "Kidney Function Tests",
+              "count": 15
+            },
+            {
+              "topicTitle": "Liver and Gastric Function Tests",
+              "count": 15
+            },
+            {
+              "topicTitle": "Plasma Proteins",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "General Metabolism",
+          "count": 75,
+          "topics": [
+            {
+              "topicTitle": "Importance of Blood Glucose Homeostasis",
+              "count": 15
+            },
+            {
+              "topicTitle": "Metabolic Adaptations During Starvation",
+              "count": 15
+            },
+            {
+              "topicTitle": "Metabolic Pathways and Control Mechanisms",
+              "count": 15
+            },
+            {
+              "topicTitle": "Metabolic Profile of Organs",
+              "count": 15
+            },
+            {
+              "topicTitle": "Study on Six Levels of Organizations",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Molecular Biology",
+          "count": 75,
+          "topics": [
+            {
+              "topicTitle": "DNA Structure and Replication",
+              "count": 15
+            },
+            {
+              "topicTitle": "Inheritance, Mutations and Control of Gene Expression",
+              "count": 15
+            },
+            {
+              "topicTitle": "Nucleotides: Chemistry and Metabolism",
+              "count": 15
+            },
+            {
+              "topicTitle": "Recombinant DNA Technology and Gene Therapy",
+              "count": 15
+            },
+            {
+              "topicTitle": "Transcription and Translation",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Nutrition",
+          "count": 90,
+          "topics": [
+            {
+              "topicTitle": "Detoxification and Biotransformation of Xenobiotics",
+              "count": 15
+            },
+            {
+              "topicTitle": "Energy Metabolism and Nutrition",
+              "count": 15
+            },
+            {
+              "topicTitle": "Environmental Pollution and Heavy Metal Poisons",
+              "count": 15
+            },
+            {
+              "topicTitle": "Fat Soluble Vitamins (A, D, E, K)",
+              "count": 15
+            },
+            {
+              "topicTitle": "Mineral Metabolism and Abnormalities",
+              "count": 15
+            },
+            {
+              "topicTitle": "Water Soluble Vitamins",
+              "count": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "Community Medicine",
+      "count": 410,
+      "chapters": [
+        {
+          "chapterTitle": "Demography and Family Planning",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Demographic Indicators and Population Dynamics",
+              "count": 10
+            },
+            {
+              "topicTitle": "Family Planning Methods and Contraceptive Technology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Family Welfare Programme, Counselling and Unmet Need",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fertility, Mortality, Migration and Population Transition",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Environment and Health",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Air, Noise and Radiation Pollution",
+              "count": 10
+            },
+            {
+              "topicTitle": "Climate Change, Disasters and Environmental Health Protection",
+              "count": 10
+            },
+            {
+              "topicTitle": "Waste Disposal, Sanitation and Housing",
+              "count": 10
+            },
+            {
+              "topicTitle": "Water and Health",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Epidemiology of Chronic Non-Communicable Diseases and Conditions",
+          "count": 50,
+          "topics": [
+            {
+              "topicTitle": "Cancer Epidemiology and Prevention",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cardiovascular Diseases, Hypertension and Diabetes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Chronic Respiratory, Mental and Neurological Conditions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Concepts, Risk Factors and Prevention of NCDs",
+              "count": 10
+            },
+            {
+              "topicTitle": "Injuries, Disabilities, Obesity and Other Chronic Conditions",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Epidemiology of Communicable Diseases",
+          "count": 70,
+          "topics": [
+            {
+              "topicTitle": "Arthropod-borne infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Emerging and re-emerging infectious diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hospital acquired infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Intestinal infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Respiratory infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Surface infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Zoonoses",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Health Programmes in India",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Communicable Disease Control Programmes",
+              "count": 10
+            },
+            {
+              "topicTitle": "National Health Mission and Supportive Health Programmes",
+              "count": 10
+            },
+            {
+              "topicTitle": "NCD, Nutrition and Health Promotion Programmes",
+              "count": 10
+            },
+            {
+              "topicTitle": "RMNCH+A and Universal Immunization Programmes",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Medicine and Social Sciences",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Culture, Behaviour and Health",
+              "count": 10
+            },
+            {
+              "topicTitle": "Family, Community and Social Problems in Health",
+              "count": 10
+            },
+            {
+              "topicTitle": "Health Education and Communication",
+              "count": 10
+            },
+            {
+              "topicTitle": "Social Medicine and Social Determinants of Health",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Nutrition and Health",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Micronutrient Deficiencies and Public Health Control",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nutrients, Balanced Diet and Nutritional Assessment",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nutrition Programmes, Food Safety and Diet-Related Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Protein Energy Malnutrition and Childhood Undernutrition",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Preventive Medicine in Obstetrics, Paediatrics and Geriatrics",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Geriatric Preventive Medicine",
+              "count": 10
+            },
+            {
+              "topicTitle": "Preventive Obstetrics and Antenatal Care",
+              "count": 10
+            },
+            {
+              "topicTitle": "Preventive Paediatrics and Child Health",
+              "count": 10
+            },
+            {
+              "topicTitle": "School and Adolescent Health",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Principles of Epidemiology and Epidemiological Methods",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Basic Concepts and Measures in Epidemiology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Bias, Causation, Screening and Investigation of Epidemics",
+              "count": 10
+            },
+            {
+              "topicTitle": "Epidemiological Study Designs and Methods",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Screening for Disease",
+          "count": 20,
+          "topics": [
+            {
+              "topicTitle": "Screening for Disease",
+              "count": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "Microbiology",
+      "count": 810,
+      "chapters": [
+        {
+          "chapterTitle": "Bloodstream and Cardiovascular System Infections",
+          "count": 110,
+          "topics": [
+            {
+              "topicTitle": "Bloodstream Infections (Including Infections Causing Anemia)",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cardiovascular System Infections: Infective Endocarditis and Acute Rheumatic Fever",
+              "count": 10
+            },
+            {
+              "topicTitle": "Enteric Fever (Salmonella Typhi and Salmonella Paratyphi)",
+              "count": 10
+            },
+            {
+              "topicTitle": "HIV/AIDS",
+              "count": 10
+            },
+            {
+              "topicTitle": "Lymphatic Filariasis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Malaria and Babesiosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Miscellaneous Bacterial Bloodstream Infections: Brucellosis, Leptospirosis and Borreliosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Rickettsial Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Systemic Candidiasis and Systemic Mycoses",
+              "count": 10
+            },
+            {
+              "topicTitle": "Viral Hemorrhagic Fever (VHF) Arboviral VHF, Filoviral VHF, Hantaviral and Other Agents of VHF",
+              "count": 10
+            },
+            {
+              "topicTitle": "Visceral Leishmaniasis and Trypanosomiasis",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Central Nervous System Infections",
+          "count": 60,
+          "topics": [
+            {
+              "topicTitle": "Bacterial Meningitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Infective Syndromes of Central Nervous System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Parasitic and Fungal Infections of Central Nervous System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tetanus",
+              "count": 10
+            },
+            {
+              "topicTitle": "Viral Encephalitis and Encephalopathy",
+              "count": 10
+            },
+            {
+              "topicTitle": "Viral Meningitis and Myelitis: Poliomyelitis, Coxsackievirus Infections, and Others",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Gastrointestinal (GI) Infections",
+          "count": 80,
+          "topics": [
+            {
+              "topicTitle": "Cholera, Halophilic Vibrio and Aeromonas Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Food Poisoning: S. aureus, Bacillus cereus, Clostridium botulinum and Others",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gastrointestinal Infections due to Enterobacteriaceae: Diarrheagenic Escherichia coli, Shigellosis, Nontyphoidal Salmonellosis and Yersiniosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gastrointestinal Infective Syndromes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Intestinal Helminthic Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Intestinal Protozoan Infections: Intestinal Amoebiasis, Giardiasis, Coccidian Parasitic Infections, Balantidiasis, Blastocystosis, and Others",
+              "count": 10
+            },
+            {
+              "topicTitle": "Miscellaneous Bacterial Infections of Gastrointestinal System: Helicobacter, Campylobacter and Clostridioides difficile Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Viral Gastroenteritis: Rotaviruses and Others",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "General Microbiology",
+          "count": 80,
+          "topics": [
+            {
+              "topicTitle": "Epidemiology of Infectious Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Bacteriology",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Mycology and Overview of Fungal Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Parasitology and Overview of Parasitic Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Virology and Overview of Viral Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Introduction and History",
+              "count": 10
+            },
+            {
+              "topicTitle": "Microscopy",
+              "count": 10
+            },
+            {
+              "topicTitle": "Normal Human Microbiota",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Hepatobiliary System Infections",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Infective Syndromes of Hepatobiliary System and Abdomen",
+              "count": 10
+            },
+            {
+              "topicTitle": "Parasitic Infections of Hepatobiliary System: Amoebic Liver Abscess, Hydatid Disease, Trematode Infections and Others",
+              "count": 10
+            },
+            {
+              "topicTitle": "Viruses Causing Hepatitis: Hepatitis Viruses, Yellow Fever and Others",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Hospital Infection Control",
+          "count": 70,
+          "topics": [
+            {
+              "topicTitle": "Antimicrobial Stewardship",
+              "count": 10
+            },
+            {
+              "topicTitle": "Biomedical Waste Management",
+              "count": 10
+            },
+            {
+              "topicTitle": "Environmental Surveillance (Bacteriology of Water, Air and Surface)",
+              "count": 10
+            },
+            {
+              "topicTitle": "Healthcare-associated Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Major Healthcare-associated Infection Types",
+              "count": 10
+            },
+            {
+              "topicTitle": "Needle Stick Injury",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sterilization and Disinfection",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Immunology",
+          "count": 120,
+          "topics": [
+            {
+              "topicTitle": "Antibody",
+              "count": 10
+            },
+            {
+              "topicTitle": "Antigen",
+              "count": 10
+            },
+            {
+              "topicTitle": "Antigen-antibody Reaction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Autoimmunity",
+              "count": 10
+            },
+            {
+              "topicTitle": "Complement",
+              "count": 10
+            },
+            {
+              "topicTitle": "Components of Immune System: Organs, Cells and Products",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hypersensitivity",
+              "count": 10
+            },
+            {
+              "topicTitle": "Immune Responses: Cell-mediated and Antibody-mediated",
+              "count": 10
+            },
+            {
+              "topicTitle": "Immunity (Innate and Acquired)",
+              "count": 10
+            },
+            {
+              "topicTitle": "Immunodeficiency Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Immunoprophylaxis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Transplant and Cancer Immunology",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Miscellaneous Infective Syndromes",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Congenital Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ocular and Ear Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Organisms with Oncogenic Potential",
+              "count": 10
+            },
+            {
+              "topicTitle": "Zoonotic Infections: Plague, Tularemia and Bite Wound Infections",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Respiratory Tract Infections",
+          "count": 110,
+          "topics": [
+            {
+              "topicTitle": "Bacterial Atypical (Interstitial) Pneumonia: Mycoplasma, Chlamydia, Legionella and Others",
+              "count": 10
+            },
+            {
+              "topicTitle": "Bacterial Lobar Pneumonia: Pneumococcal Pneumonia, Haemophilus influenzae Pneumonia and Others",
+              "count": 10
+            },
+            {
+              "topicTitle": "Bacterial Pharyngitis: Streptococcus pyogenes Pharyngitis, Diphtheria and Others",
+              "count": 10
+            },
+            {
+              "topicTitle": "Coronavirus Infections Including COVID-19",
+              "count": 10
+            },
+            {
+              "topicTitle": "Infections due to Non-fermenting Gram-negative Bacilli: Pseudomonas, Acinetobacter, Burkholderia and Others",
+              "count": 10
+            },
+            {
+              "topicTitle": "Infective Syndromes of Respiratory Tract",
+              "count": 10
+            },
+            {
+              "topicTitle": "Miscellaneous Viral Infections of Respiratory Tract: Rhinovirus, Adenovirus and Infectious Mononucleosis (Epstein-Barr Virus)",
+              "count": 10
+            },
+            {
+              "topicTitle": "Myxovirus Infections of Respiratory Tract: Influenza, Parainfluenza, Mumps, Respiratory Syncytial Virus and Others",
+              "count": 10
+            },
+            {
+              "topicTitle": "Parasitic and Fungal Infections of Respiratory Tract",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pertussis (Bordetella pertussis)",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tuberculosis and Nontuberculous Mycobacteria Infections",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Skin, Soft Tissue and Musculoskeletal System Infections",
+          "count": 90,
+          "topics": [
+            {
+              "topicTitle": "Beta-hemolytic Streptococcal Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fungal Infections of Skin, Soft Tissue and Musculoskeletal System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gas Gangrene (Clostridium perfringens) and Infections due to Non-sporing Anaerobes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Infective Syndromes of Skin, Soft Tissue and Musculoskeletal Systems",
+              "count": 10
+            },
+            {
+              "topicTitle": "Leprosy (Mycobacterium leprae)",
+              "count": 10
+            },
+            {
+              "topicTitle": "Miscellaneous Bacterial Infections of Skin and Soft Tissues: Anthrax, Actinomycosis, Nocardiosis, Nonvenereal Treponematoses and Others",
+              "count": 10
+            },
+            {
+              "topicTitle": "Parasitic Infections of Skin, Soft Tissue and Musculoskeletal System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Staphylococcal Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Viral Exanthems and Other Cutaneous Viral Infections",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Urogenital Tract Infections",
+          "count": 20,
+          "topics": [
+            {
+              "topicTitle": "Infective Syndromes of Genital Tract and Sexually-transmitted Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Infective Syndromes of Urinary Tract",
+              "count": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "Pathology",
+      "count": 2835,
+      "chapters": [
+        {
+          "chapterTitle": "Blood Vessels",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Aneurysms and Aortic Dissection",
+              "count": 10
+            },
+            {
+              "topicTitle": "Atherosclerosis: Risk Factors and Pathogenesis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hypertension and Hypertensive Vascular Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Large-Vessel Vasculitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Medium-Vessel Vasculitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Raynaud Phenomenon, Fibromuscular Dysplasia, and Other Noninflammatory Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Small-Vessel Vasculitis and ANCA-Associated Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Vascular Tumors and Malformations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Vascular Wall, Endothelial Cells, and Smooth Muscle Cells",
+              "count": 10
+            },
+            {
+              "topicTitle": "Veins, Varices, Thrombophlebitis, and Lymphatics",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Bones, Joints, and Soft Tissue Tumors",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Benign Soft Tissue Tumors and Tumor-Like Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Bone Formation, Remodeling, and Metabolic Bone Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Bone-Forming Tumors: Osteoma, Osteoid Osteoma, and Osteosarcoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cartilage Tumors, Giant Cell Tumor, and Ewing Sarcoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Crystal Arthropathies and Synovial Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fracture Healing, Osteonecrosis, and Osteomyelitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Genetic and Developmental Bone Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Malignant Soft Tissue Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Osteoarthritis and Degenerative Joint Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Rheumatoid Arthritis, Spondyloarthritis, and Septic Arthritis",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Cell Injury, Cell Death, and Adaptations",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Apoptosis and Other Regulated Cell-Death Pathways",
+              "count": 10
+            },
+            {
+              "topicTitle": "Causes and Progression of Cell Injury",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cellular Adaptations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cellular Aging",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Mechanisms of Cell Injury",
+              "count": 10
+            },
+            {
+              "topicTitle": "Intracellular Accumulations and Pigments",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ischemic, Reperfusion, and Toxic Injury",
+              "count": 10
+            },
+            {
+              "topicTitle": "Necrosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pathologic Calcification",
+              "count": 10
+            },
+            {
+              "topicTitle": "Reversible Cell Injury",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Diseases of Infancy and Childhood",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Congenital Anomalies: Definitions and Patterns",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fetal Hydrops and Hemolytic Disease of the Newborn",
+              "count": 10
+            },
+            {
+              "topicTitle": "Necrotizing Enterocolitis and Complications of Prematurity",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neonatal Respiratory Distress Syndrome and Pulmonary Complications",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neuroblastoma and Neural Crest Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Perinatal and Congenital Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Prematurity and Fetal Growth Restriction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sudden Infant Death and Unexpected Infant Death",
+              "count": 10
+            },
+            {
+              "topicTitle": "Teratogens, Timing, and Multifactorial Inheritance",
+              "count": 10
+            },
+            {
+              "topicTitle": "Wilms Tumor and Other Childhood Tumors",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Diseases of White Blood Cells, Lymph Nodes, Spleen, and Thymus",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Acute Leukemias: ALL and AML",
+              "count": 10
+            },
+            {
+              "topicTitle": "Aggressive B-Cell and T-Cell Lymphomas",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hodgkin Lymphoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Mature Leukemias: CLL/SLL and Hairy Cell Leukemia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Myeloproliferative Neoplasms and Myelodysplastic Syndromes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nonneoplastic Leukocyte Disorders and Leukopenia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Normal Leukocyte Responses and Reactive Lymphadenitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Plasma Cell Neoplasms and Related Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Small B-Cell Non-Hodgkin Lymphomas",
+              "count": 10
+            },
+            {
+              "topicTitle": "Spleen and Thymus Disorders",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Diseases of the Immune System",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Adaptive Immunity and Antigen Presentation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Amyloidosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "HIV Infection and AIDS",
+              "count": 10
+            },
+            {
+              "topicTitle": "Innate Immunity",
+              "count": 10
+            },
+            {
+              "topicTitle": "Primary and Secondary Immunodeficiency Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Systemic Autoimmune Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "T-Cell and B-Cell Effector Responses",
+              "count": 10
+            },
+            {
+              "topicTitle": "Transplantation Immunology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Type I and Type II Hypersensitivity",
+              "count": 10
+            },
+            {
+              "topicTitle": "Type III and Type IV Hypersensitivity",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Environmental and Nutritional Diseases",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Air Pollution, Indoor Pollutants, and Carbon Monoxide",
+              "count": 10
+            },
+            {
+              "topicTitle": "Alcohol, Therapeutic Drugs, and Drugs of Abuse",
+              "count": 10
+            },
+            {
+              "topicTitle": "Climate Change and Environmental Disease Principles",
+              "count": 10
+            },
+            {
+              "topicTitle": "Diet, Cancer Risk, and Trace Elements",
+              "count": 10
+            },
+            {
+              "topicTitle": "Heavy Metal Toxicity",
+              "count": 10
+            },
+            {
+              "topicTitle": "Obesity, Leptin, and Metabolic Syndrome",
+              "count": 10
+            },
+            {
+              "topicTitle": "Occupational Exposures and Tobacco",
+              "count": 10
+            },
+            {
+              "topicTitle": "Protein-Energy Malnutrition and Eating Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Vitamin Deficiencies and Toxicities",
+              "count": 10
+            },
+            {
+              "topicTitle": "Xenobiotic Metabolism and Toxic Injury",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Genetic Disorders",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Autosomal Chromosomal Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Biochemical and Molecular Basis of Single-Gene Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Complex Multigenic Disorders and Cytogenetic Principles",
+              "count": 10
+            },
+            {
+              "topicTitle": "Enzyme Defects and Storage Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Genes, Human Disease, and Mutations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nonclassic Inheritance and Molecular Genetic Diagnosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Receptor and Transport Protein Disorders: Familial Hypercholesterolemia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sex Chromosome Disorders and Disorders of Sex Development",
+              "count": 10
+            },
+            {
+              "topicTitle": "Structural Protein Disorders: Marfan Syndrome and Ehlers-Danlos Syndromes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Transmission Patterns of Single-Gene Disorders",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Head and Neck",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Ear and Temporal Bone Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Larynx and Upper Airway Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Malignant Salivary Gland Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nasal Cavity, Paranasal Sinuses, and Nasopharynx",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neck Cysts and Developmental Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Odontogenic Cysts and Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oral Cavity and Oropharyngeal Squamous Cell Carcinoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oral Cavity: Reactive, Inflammatory, and Premalignant Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Salivary Glands: Inflammation and Benign Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tonsils, Pharynx, and Lymphoid Lesions",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Hemodynamic Disorders, Thromboembolic Disease, and Shock",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Edema and Effusions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Embolism",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fate and Clinical Consequences of Thrombi, including DIC",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hemorrhagic Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hyperemia, Congestion, and Hemorrhage",
+              "count": 10
+            },
+            {
+              "topicTitle": "Infarction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Normal Hemostasis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Platelets, Coagulation Factors, and Anticoagulant Mechanisms",
+              "count": 10
+            },
+            {
+              "topicTitle": "Shock",
+              "count": 10
+            },
+            {
+              "topicTitle": "Thrombosis and Virchow Triad",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Infectious Diseases",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Fungal Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Principles, Routes of Entry, and Transmission",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gram-Positive and Gram-Negative Bacterial Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Host-Pathogen Interactions, Immune Evasion, and Microbial Damage",
+              "count": 10
+            },
+            {
+              "topicTitle": "Metazoal, Sexually Transmitted, and Emerging Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Mycobacteria, Spirochetes, Anaerobes, and Intracellular Bacteria",
+              "count": 10
+            },
+            {
+              "topicTitle": "Patterns of Tissue Response to Infection",
+              "count": 10
+            },
+            {
+              "topicTitle": "Protozoal Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Special Techniques and Diagnostic Approach to Infection",
+              "count": 10
+            },
+            {
+              "topicTitle": "Viral Infections",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Chemical Mediators of Inflammation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Chronic Inflammation, Macrophages, and Granulomas",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cutaneous Wound Healing and Pathologic Repair",
+              "count": 10
+            },
+            {
+              "topicTitle": "Introduction, Causes, and Recognition of Inflammation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Leukocyte Recruitment and Activation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Morphologic Patterns and Outcomes of Acute Inflammation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Phagocytosis, Microbial Killing, and Leukocyte-Mediated Injury",
+              "count": 10
+            },
+            {
+              "topicTitle": "Systemic Effects of Inflammation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tissue Regeneration and Scar Formation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Vascular Reactions in Acute Inflammation",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Liver and Gallbladder",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Alcoholic and Metabolic Fatty Liver Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Autoimmune and Cholestatic Liver Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cirrhosis, Portal Hypertension, and Hepatic Failure",
+              "count": 10
+            },
+            {
+              "topicTitle": "Drug-Induced and Toxic Liver Injury",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gallbladder and Biliary Tract Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Genetic and Metabolic Liver Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Liver Injury Patterns, Jaundice, and Cholestasis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Liver Tumors and Nodules",
+              "count": 10
+            },
+            {
+              "topicTitle": "Vascular Disorders of the Liver",
+              "count": 10
+            },
+            {
+              "topicTitle": "Viral Hepatitis: Acute, Chronic, and Fulminant",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Neoplasia",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Characteristics of Benign and Malignant Neoplasms",
+              "count": 10
+            },
+            {
+              "topicTitle": "Clinical Features, Grading, Staging, and Laboratory Diagnosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "DNA Repair Defects and Genomic Instability",
+              "count": 10
+            },
+            {
+              "topicTitle": "Invasion and Metastasis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Molecular Basis and Hallmarks of Cancer",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nomenclature and Tumor Components",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oncogenes and Growth-Promoting Pathways",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tumor Immunity and Carcinogenic Agents",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tumor Metabolism, Evasion of Death, Immortality, and Angiogenesis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tumor Suppressor Genes and Cell-Cycle Control",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Peripheral Nerves and Skeletal Muscles",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Acquired Inflammatory and Toxic Neuropathies",
+              "count": 10
+            },
+            {
+              "topicTitle": "Inflammatory Myopathies",
+              "count": 10
+            },
+            {
+              "topicTitle": "Inherited and Metabolic Peripheral Neuropathies",
+              "count": 10
+            },
+            {
+              "topicTitle": "Metabolic, Mitochondrial, and Toxic Myopathies",
+              "count": 10
+            },
+            {
+              "topicTitle": "Muscular Dystrophies and Inherited Myopathies",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neuromuscular Junction Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Peripheral Nerve Sheath Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Peripheral Nerve Structure, Injury, and Regeneration",
+              "count": 10
+            },
+            {
+              "topicTitle": "Skeletal Muscle Structure and Patterns of Injury",
+              "count": 10
+            },
+            {
+              "topicTitle": "Skeletal Muscle Tumors and Soft Tissue Mimics",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Red Blood Cell and Bleeding Disorders",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Anemia: Classification, Reticulocytes, and Morphology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Coagulation Disorders, von Willebrand Disease, and Hemophilia",
+              "count": 10
+            },
+            {
+              "topicTitle": "DIC, Thrombotic Microangiopathy, and Anticoagulant Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Enzyme Defects, Immune Hemolysis, and PNH",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hemolytic Anemias and Red Cell Membrane Defects",
+              "count": 10
+            },
+            {
+              "topicTitle": "Iron Deficiency and Anemia of Chronic Inflammation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Marrow Failure, Aplastic Anemia, and Polycythemia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Megaloblastic Anemias: Vitamin B12 and Folate",
+              "count": 10
+            },
+            {
+              "topicTitle": "Platelet Disorders and Immune Thrombocytopenia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sickle Cell Disease and Thalassemias",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Breast",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Atypical Hyperplasia, DCIS, and LCIS",
+              "count": 10
+            },
+            {
+              "topicTitle": "Breast Cancer Risk Factors and Molecular Subtypes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Breast Carcinoma Clinical Features, Spread, and Staging",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fibroadenoma, Phyllodes Tumor, and Stromal Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fibrocystic Change and Nonproliferative Breast Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Invasive Breast Carcinoma: Major Histologic Types",
+              "count": 10
+            },
+            {
+              "topicTitle": "Male Breast, Gynecomastia, and Special Populations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Normal Breast, Mastitis, and Inflammatory Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Predictive Markers, Biopsy Interpretation, and Treatment Correlations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Proliferative Breast Disease Without Atypia",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Cell as a Unit of Health and Disease",
+          "count": 35,
+          "topics": [
+            {
+              "topicTitle": "Cellular Activation",
+              "count": 5
+            },
+            {
+              "topicTitle": "Cellular Housekeeping",
+              "count": 5
+            },
+            {
+              "topicTitle": "Cellular Metabolism and Mitochondrial Function",
+              "count": 5
+            },
+            {
+              "topicTitle": "Extracellular Matrix",
+              "count": 5
+            },
+            {
+              "topicTitle": "Growth Factors and Receptors",
+              "count": 5
+            },
+            {
+              "topicTitle": "Maintaining Cell Populations",
+              "count": 5
+            },
+            {
+              "topicTitle": "The Genome",
+              "count": 5
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Central Nervous System",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Cerebral Edema, Raised ICP, and Herniation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cerebrovascular Disease and Intracranial Hemorrhage",
+              "count": 10
+            },
+            {
+              "topicTitle": "CNS Trauma and Traumatic Hemorrhage",
+              "count": 10
+            },
+            {
+              "topicTitle": "Demyelinating and Dysmyelinating Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gliomas and Other Primary Brain Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Meningeal, Sellar, and Metastatic CNS Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Meningitis, Encephalitis, and Brain Abscess",
+              "count": 10
+            },
+            {
+              "topicTitle": "Metabolic, Toxic, and Nutritional CNS Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Motor Neuron Disease, Prion Disease, and Ataxias",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neurodegenerative Diseases and Dementia",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Endocrine System",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Adrenal Cortical Hyperfunction and Insufficiency",
+              "count": 10
+            },
+            {
+              "topicTitle": "Diabetes Mellitus and Endocrine Complications",
+              "count": 10
+            },
+            {
+              "topicTitle": "Endocrine Pancreas and Islet Cell Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hyperthyroidism and Graves Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hypopituitarism, Diabetes Insipidus, and Sellar Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hypothyroidism and Thyroiditis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Parathyroid Disease and Calcium Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pheochromocytoma, Paraganglioma, and MEN Syndromes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pituitary Adenomas and Hyperpituitarism",
+              "count": 10
+            },
+            {
+              "topicTitle": "Thyroid Nodules and Thyroid Tumors",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Eye",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Cornea, Sclera, and Anterior Segment Inflammation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Eyelid, Conjunctiva, and Ocular Surface Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Glaucoma and Optic Nerve Cupping",
+              "count": 10
+            },
+            {
+              "topicTitle": "Lens Disease and Cataract",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ocular Infections and Opportunistic Retinitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ocular Tumors: Retinoblastoma, Uveal Melanoma, and Metastases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Optic Nerve, Papilledema, and Inherited Optic Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Retinal Degeneration, Detachment, and Macular Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Uveitis, Choroid, and Intraocular Inflammation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Vascular Retinopathies and Retinal Ischemia",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Female Genital Tract",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Cervicitis, HPV Infection, and Cervical Intraepithelial Neoplasia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Endometrial Carcinoma and Precursors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Endometriosis and Extrauterine Endometrial Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Endometrium: Abnormal Bleeding, Hyperplasia, and Polyps",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fallopian Tube Disease, Ectopic Pregnancy, and Gestational Trophoblastic Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Invasive Cervical Carcinoma and Screening",
+              "count": 10
+            },
+            {
+              "topicTitle": "Myometrium: Leiomyoma, Leiomyosarcoma, and Adenomyosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ovarian Germ Cell and Sex Cord-Stromal Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ovarian Surface Epithelial Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Vulva and Vagina: Inflammation, Cysts, and Neoplasia",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Gastrointestinal Tract",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Appendix, Peritoneum, and GI Neuroendocrine Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Colorectal Carcinoma and Molecular Pathways",
+              "count": 10
+            },
+            {
+              "topicTitle": "Congenital and Mechanical Intestinal Obstruction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Esophagus: Reflux, Barrett Esophagus, and Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gastric Polyps and Gastric Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Infectious Enterocolitis and Pseudomembranous Colitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Inflammatory Bowel Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Intestinal Polyps and Polyposis Syndromes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Malabsorption, Celiac Disease, and Tropical Sprue",
+              "count": 10
+            },
+            {
+              "topicTitle": "Stomach: Gastritis, Gastropathy, and Peptic Ulcer Disease",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Heart",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Cardiac Adaptation, Hypertrophy, and Heart Failure",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cardiomyopathies and Myocarditis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Complications of Myocardial Infarction and Chronic IHD",
+              "count": 10
+            },
+            {
+              "topicTitle": "Congenital Heart Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hypertensive, Valvular, and Calcific Heart Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Infective and Noninfective Endocarditis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ischemic Heart Disease and Angina",
+              "count": 10
+            },
+            {
+              "topicTitle": "Myocardial Infarction: Pathogenesis, Morphology, and Markers",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pericardial Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Rheumatic Fever and Rheumatic Heart Disease",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Kidney",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Cystic Kidney Disease, Stones, and Obstruction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Lower Urinary Tract, Urothelial Tumors, and Obstructive Uropathy",
+              "count": 10
+            },
+            {
+              "topicTitle": "MPGN, Lupus Nephritis, and Hereditary Glomerular Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nephritic Glomerulonephritis and Rapidly Progressive GN",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nephrotic Syndrome: Minimal Change, FSGS, and Membranous Nephropathy",
+              "count": 10
+            },
+            {
+              "topicTitle": "Renal Anatomy, Injury Responses, and Clinical Syndromes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Renal Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Renal Vascular Disease and Hypertension",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tubular Injury, Acute Kidney Injury, and Chronic Kidney Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tubulointerstitial Nephritis, Pyelonephritis, and Papillary Necrosis",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Lower Urinary Tract and Male Genital System",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Cystitis, Obstruction, and Bladder Injury Patterns",
+              "count": 10
+            },
+            {
+              "topicTitle": "Epididymis, Seminal Vesicles, Infertility, and Miscellaneous Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Penis, Scrotum, and Sexually Transmitted Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Prostatic Adenocarcinoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Prostatitis and Benign Prostatic Hyperplasia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sex Cord-Stromal Tumors and Testicular Lymphoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Squamous, Glandular, and Variant Bladder Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Testicular Developmental, Vascular, and Inflammatory Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Testicular Germ Cell Tumors: Seminoma and Nonseminoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Urothelial Neoplasia and Bladder Carcinoma",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Lung",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Asthma, Cystic Fibrosis, and Small Airway Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Atelectasis, Pulmonary Edema, and Acute Lung Injury",
+              "count": 10
+            },
+            {
+              "topicTitle": "Lung Tumors and Carcinogenesis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neonatal, Pediatric, Occupational, and Environmental Lung Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Obstructive Lung Disease: Emphysema, Chronic Bronchitis, Asthma, Bronchiectasis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pleural Disease, Pneumothorax, and Mesothelioma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pneumonia and Acute Pulmonary Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pulmonary Vascular Disease and Pulmonary Hypertension",
+              "count": 10
+            },
+            {
+              "topicTitle": "Restrictive and Interstitial Lung Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tuberculosis, Lung Abscess, and Opportunistic Infections",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Pancreas",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Acinar Cell Carcinoma, Pancreatoblastoma, and Rare Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Acute Pancreatitis: Causes, Morphology, and Complications",
+              "count": 10
+            },
+            {
+              "topicTitle": "Autoimmune, Hereditary, and Systemic Pancreatic Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Chronic Pancreatitis and Exocrine Pancreatic Insufficiency",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cystic Neoplasms of the Pancreas",
+              "count": 10
+            },
+            {
+              "topicTitle": "Diabetes Mellitus and Islet Pathology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Normal Pancreas, Developmental Anomalies, and Cystic Fibrosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pancreatic Cancer Clinical Features, Spread, and Prognosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pancreatic Ductal Adenocarcinoma: Risks and Morphology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pancreatic Neuroendocrine Tumors",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Skin",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Actinic Keratosis, Squamous Cell Carcinoma, and Basal Cell Carcinoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Benign Epidermal and Adnexal Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Blistering Disorders and Autoimmune Bullous Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cutaneous Infections and Infestations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cutaneous Lymphoid, Histiocytic, and Systemic Skin Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Dermal, Vascular, and Subcutaneous Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Eczematous Dermatitis, Psoriasis, and Lichenoid Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Melanoma and Malignant Melanocytic Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pigmentary Disorders and Benign Melanocytic Nevi",
+              "count": 10
+            },
+            {
+              "topicTitle": "Skin Structure and Basic Reaction Patterns",
+              "count": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "Pharmacology",
+      "count": 705,
+      "chapters": [
+        {
+          "chapterTitle": "Chemotherapy of Infectious Diseases",
+          "count": 130,
+          "topics": [
+            {
+              "topicTitle": "Antifungal Agents",
+              "count": 10
+            },
+            {
+              "topicTitle": "Antiretroviral Agents and Treatment of HIV Infection",
+              "count": 10
+            },
+            {
+              "topicTitle": "Antiviral Agents (Nonretroviral)",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+              "count": 10
+            },
+            {
+              "topicTitle": "Chemotherapy of Helminth Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Chemotherapy of Malaria",
+              "count": 10
+            },
+            {
+              "topicTitle": "Chemotherapy of Protozoal Infections: Amebiasis, Giardiasis, Trichomoniasis, Trypanosomiasis, Leishmaniasis, and Other Protozoal Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Chemotherapy of Tuberculosis and Nontuberculous Mycobacteria, Including Leprosy",
+              "count": 10
+            },
+            {
+              "topicTitle": "DNA Disruptors: Sulfonamides, Quinolones, and Nitroimidazoles",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Principles of Antimicrobial Therapy",
+              "count": 10
+            },
+            {
+              "topicTitle": "Miscellaneous Antibacterials: Aminoglycosides, Polymyxins, Urinary Antiseptics, Bacteriophages",
+              "count": 10
+            },
+            {
+              "topicTitle": "Protein Synthesis Inhibitors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Treatment of Viral Hepatitis (HBV/HCV)",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Endocrine Pharmacology",
+          "count": 70,
+          "topics": [
+            {
+              "topicTitle": "Adrenocorticotropic Hormone, Adrenal Steroids, and the Adrenal Cortex",
+              "count": 10
+            },
+            {
+              "topicTitle": "Agents Affecting Mineral Ion Homeostasis and Bone Turnover",
+              "count": 10
+            },
+            {
+              "topicTitle": "Androgens and the Male Reproductive Tract",
+              "count": 10
+            },
+            {
+              "topicTitle": "Endocrine Pancreas and Pharmacotherapy of Diabetes Mellitus and Hypoglycemia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Estrogens, Progestins, and the Female Reproductive Tract",
+              "count": 10
+            },
+            {
+              "topicTitle": "Introduction to Endocrinology: The Hypothalamic-Pituitary Axis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Thyroid and Antithyroid Drugs",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Gastrointestinal Pharmacology",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Gastrointestinal Motility and Water Flux, Emesis, and Biliary and Pancreatic Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pharmacotherapy for Gastric Acidity, Peptic Ulcers, and Gastroesophageal Reflux Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pharmacotherapy of Inflammatory Bowel Disease",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "General Principles",
+          "count": 45,
+          "topics": [
+            {
+              "topicTitle": "Drug Discovery: From Medicinal Plants to Computer-Aided Drug Design",
+              "count": 5
+            },
+            {
+              "topicTitle": "Drug Metabolism",
+              "count": 5
+            },
+            {
+              "topicTitle": "Membrane Transporters and Drug Response",
+              "count": 5
+            },
+            {
+              "topicTitle": "Pharmacodynamics: Molecular Mechanisms of Drug Action",
+              "count": 5
+            },
+            {
+              "topicTitle": "Pharmacogenetics and Pharmacogenomics",
+              "count": 5
+            },
+            {
+              "topicTitle": "Pharmacokinetics: Absorption, Distribution, Metabolism, and Elimination",
+              "count": 5
+            },
+            {
+              "topicTitle": "Postmarketing Drug Safety",
+              "count": 5
+            },
+            {
+              "topicTitle": "Principles of Clinical Toxicology",
+              "count": 5
+            },
+            {
+              "topicTitle": "The Gastrointestinal Microbiome and Drug Response",
+              "count": 5
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Inflammation, Immunomodulation, and Hematopoiesis",
+          "count": 80,
+          "topics": [
+            {
+              "topicTitle": "Hematopoietic Agents: Growth Factors, Minerals, and Vitamins",
+              "count": 10
+            },
+            {
+              "topicTitle": "Histamine, Bradykinin, and Their Antagonists",
+              "count": 10
+            },
+            {
+              "topicTitle": "Immune Globulins and Vaccines",
+              "count": 10
+            },
+            {
+              "topicTitle": "Immunosuppressants, Immunomodulation, and Tolerance",
+              "count": 10
+            },
+            {
+              "topicTitle": "Introduction to Immunity and Inflammation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Lipid-Derived Autacoids: Eicosanoids and Platelet-Activating Factor",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pharmacotherapy of Inflammation, Fever, Pain, and Gout",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pulmonary Pharmacology",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Modulation of Pulmonary, Renal, and Cardiovascular",
+          "count": 90,
+          "topics": [
+            {
+              "topicTitle": "Antiarrhythmic Drugs",
+              "count": 10
+            },
+            {
+              "topicTitle": "Blood Coagulation and Anticoagulant, Fibrinolytic, and Antiplatelet Drugs",
+              "count": 10
+            },
+            {
+              "topicTitle": "Drug Therapy for Dyslipidemias",
+              "count": 10
+            },
+            {
+              "topicTitle": "Drugs Affecting Renal Excretory Function",
+              "count": 10
+            },
+            {
+              "topicTitle": "Renin and Angiotensin",
+              "count": 10
+            },
+            {
+              "topicTitle": "Therapy of Heart Failure",
+              "count": 10
+            },
+            {
+              "topicTitle": "Treatment of Hypertension",
+              "count": 10
+            },
+            {
+              "topicTitle": "Treatment of Ischemic Heart Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Treatment of Pulmonary Arterial Hypertension",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Neuropharmacology",
+          "count": 180,
+          "topics": [
+            {
+              "topicTitle": "5-Hydroxytryptamine (Serotonin) and Dopamine",
+              "count": 10
+            },
+            {
+              "topicTitle": "Adrenergic Agonists and Antagonists",
+              "count": 10
+            },
+            {
+              "topicTitle": "Anticholinesterase Inhibitors and Reactivators",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cannabinoids",
+              "count": 10
+            },
+            {
+              "topicTitle": "Drug Therapy of Depression and Anxiety Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ethanol, Drug Use Disorders, and Addiction",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Anesthetics and Therapeutic Gases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hypnotics and Sedatives",
+              "count": 10
+            },
+            {
+              "topicTitle": "Local Anesthetics",
+              "count": 10
+            },
+            {
+              "topicTitle": "Muscarinic Receptor Agonists and Antagonists",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neuromuscular Junction and Autonomic Ganglia; Nicotine, Muscle Relaxants, and Spasmolytics",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neurotransmission in the Central Nervous System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neurotransmission: The Autonomic and Somatic Motor Nervous Systems",
+              "count": 10
+            },
+            {
+              "topicTitle": "Opioid Analgesics",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pharmacotherapy of Psychosis and Mania",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pharmacotherapy of the Epilepsies",
+              "count": 10
+            },
+            {
+              "topicTitle": "The Blood-Brain Barrier and Its Influence on Drug Transport to the Brain",
+              "count": 10
+            },
+            {
+              "topicTitle": "Treatment of Central Nervous System Degenerative Disorders",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Pharmacotherapy of Neoplastic Disease",
+          "count": 50,
+          "topics": [
+            {
+              "topicTitle": "Antibodies, CAR T Cells, and Proteins to Treat Cancer",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cytotoxics and Antimetabolites",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Principles in the Pharmacotherapy of Cancer",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hormones, Hormone Receptor Antagonists, and Related Agents in the Therapy of Cancer",
+              "count": 10
+            },
+            {
+              "topicTitle": "Protein Kinase Inhibitors and Pathway-Targeted Small Molecules",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Special Systems Pharmacology",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Dermatological Pharmacology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Environmental Toxicology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ocular Pharmacology",
+              "count": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "Physiology",
+      "count": 820,
+      "chapters": [
+        {
+          "chapterTitle": "Blood and Immune System",
+          "count": 60,
+          "topics": [
+            {
+              "topicTitle": "Blood Groups and Blood Transfusion",
+              "count": 10
+            },
+            {
+              "topicTitle": "Immune Mechanisms",
+              "count": 10
+            },
+            {
+              "topicTitle": "Plasma and Plasma Proteins",
+              "count": 10
+            },
+            {
+              "topicTitle": "Platelets, Haemostasis and Blood Coagulation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Red Blood Cells and Anaemias",
+              "count": 10
+            },
+            {
+              "topicTitle": "White Blood Cells",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Cardiovascular System",
+          "count": 70,
+          "topics": [
+            {
+              "topicTitle": "Cardiovascular Homeostasis in Health and Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cardiovascular Regulation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Dynamics of Circulation: Pressure and Flow of Blood and Lymph",
+              "count": 10
+            },
+            {
+              "topicTitle": "Functional Anatomy of Heart and Physiology of Cardiac Muscle",
+              "count": 10
+            },
+            {
+              "topicTitle": "Heart as a Pump: Cardiac Cycle, Cardiac Output and Venous Return",
+              "count": 10
+            },
+            {
+              "topicTitle": "Origin and Spread of Cardiac Impulse and Electrocardiography",
+              "count": 10
+            },
+            {
+              "topicTitle": "Regional Circulation",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Endocrinal System",
+          "count": 70,
+          "topics": [
+            {
+              "topicTitle": "Adrenal Glands",
+              "count": 10
+            },
+            {
+              "topicTitle": "Endocrinal Control of Calcium Metabolism and Bone Physiology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Endocrinal Functions of Hypothalamus and Pituitary Gland",
+              "count": 10
+            },
+            {
+              "topicTitle": "Endocrinal Functions of Other Organs and Local Hormones",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Principles of Endocrinal System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pancreatic and Gastrointestinal Hormones",
+              "count": 10
+            },
+            {
+              "topicTitle": "Thyroid Gland",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Excretory System",
+          "count": 70,
+          "topics": [
+            {
+              "topicTitle": "Applied Renal Physiology Including Renal Function Tests",
+              "count": 10
+            },
+            {
+              "topicTitle": "Concentration, Dilution and Acidification of Urine",
+              "count": 10
+            },
+            {
+              "topicTitle": "Kidneys: Functional Anatomy and Blood Flow",
+              "count": 10
+            },
+            {
+              "topicTitle": "Mechanism of Urine Formation: Glomerular Filtration and Tubular Transport",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiology of Acid-Base Balance",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiology of Micturition",
+              "count": 10
+            },
+            {
+              "topicTitle": "Regulation of Body Fluid Osmolality, Composition and Volume",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Gastrointestinal System",
+          "count": 70,
+          "topics": [
+            {
+              "topicTitle": "Digestion and Absorption",
+              "count": 10
+            },
+            {
+              "topicTitle": "Functional Anatomy and General Principles of Functions of Gastrointestinal System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pancreas, Liver and Gall Bladder",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiological Activities in Large Intestine",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiological Activities in Mouth, Pharynx and Oesophagus",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiological Activities in Small Intestine",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiological Activities in Stomach",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Genetics",
+          "count": 20,
+          "topics": [
+            {
+              "topicTitle": "APPLIED GENETICS",
+              "count": 10
+            },
+            {
+              "topicTitle": "STRUCTURAL AND FUNCTIONAL CHARACTERISTICS OF SUBSTRATE FOR GENETICS",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Membrane Potential",
+          "count": 20,
+          "topics": [
+            {
+              "topicTitle": "Membrane Potential genesis and recording",
+              "count": 20
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Nerve Muscle Physiology",
+          "count": 50,
+          "topics": [
+            {
+              "topicTitle": "Cardiac Muscle",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neuromuscular Junction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Skeletal Muscle",
+              "count": 10
+            },
+            {
+              "topicTitle": "Smooth Muscle",
+              "count": 10
+            },
+            {
+              "topicTitle": "The Nerve",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Nervous System",
+          "count": 120,
+          "topics": [
+            {
+              "topicTitle": "Autonomic Nervous System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Limbic System and Physiology of Emotional, Behavioural and Motivational Mechanisms",
+              "count": 10
+            },
+            {
+              "topicTitle": "Meninges, Cerebrospinal Fluid, Blood-Brain Barrier and Cerebral Blood Flow",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiological Anatomy and Functions of Cerebral Cortex and White Matter of Cerebrum",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiological Anatomy, Functions and Lesions of Cerebellum and Basal Ganglia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiological Anatomy, Functions and Lesions of Spinal Cord",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiological Anatomy, Functions and Lesions of Thalamus and Hypothalamus",
+              "count": 10
+            },
+            {
+              "topicTitle": "Reticular Formation, Electrical Activity of the Brain, and Alert Behaviour and Sleep",
+              "count": 10
+            },
+            {
+              "topicTitle": "Somatic Motor System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Somatosensory System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Some Higher Functions of Nervous System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Synaptic Transmission",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Reproductive System",
+          "count": 60,
+          "topics": [
+            {
+              "topicTitle": "Female Reproductive Physiology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Male Reproductive Physiology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiology of Coitus, Pregnancy and Parturition",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiology of Contraception",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiology of Lactation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sexual Growth and Development",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Respiratory System",
+          "count": 80,
+          "topics": [
+            {
+              "topicTitle": "Physiology of Exercise",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pulmonary Circulation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pulmonary Diffusion",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pulmonary Ventilation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Regulation of Respiration",
+              "count": 10
+            },
+            {
+              "topicTitle": "Respiration: Applied Aspects",
+              "count": 10
+            },
+            {
+              "topicTitle": "Respiratory Tract: Structure and Functions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Transport of Gases",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Special Senses",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Chemical Senses: Smell and Taste",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sense of Hearing",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sense of Vision",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Specialised Integrative Physiology",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Geriatric Physiology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiology of Body Temperature Regulation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiology of Fetus, Neonate and Childhood",
+              "count": 10
+            },
+            {
+              "topicTitle": "Physiology of Growth and Behavioural Development",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "The Cell Physiology",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "CELL STRUCTURE",
+              "count": 10
+            },
+            {
+              "topicTitle": "INTERCELLULAR JUNCTIONS",
+              "count": 10
+            },
+            {
+              "topicTitle": "THE CELL MEMBRANE",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Transport Through Cell Membrane",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "ACTIVE TRANSPORT",
+              "count": 10
+            },
+            {
+              "topicTitle": "PASSIVE TRANSPORT",
+              "count": 10
+            },
+            {
+              "topicTitle": "VESICULAR TRANSPORT",
+              "count": 10
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

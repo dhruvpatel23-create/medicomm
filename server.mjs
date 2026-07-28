@@ -16,6 +16,7 @@ const publicUploadsDir = path.join(__dirname, "public", "uploads");
 const legacyDatabasePath = path.join(dataDir, "users.json");
 const databasePath = path.join(runtimeDataDir, "users.json");
 const practiceQuestionBankPath = path.join(dataDir, "practice-question-bank.json");
+const topicWiseQuestionBankPath = path.join(dataDir, "topic-wise-question-bank.json");
 const distDir = path.join(__dirname, "dist");
 const distUploadsDir = path.join(distDir, "uploads");
 const host = process.env.HOST ?? "0.0.0.0";
@@ -35,6 +36,8 @@ const LEGACY_PASSWORD_HASH_ITERATIONS = 120000;
 const DUEL_DURATION_SECONDS = 180;
 const DUEL_QUESTION_COUNT = 5;
 const DUEL_ELO_K_FACTOR = 32;
+const COMMUNITY_THREAD_WORD_LIMIT = 300;
+const COMMUNITY_THREAD_IMAGE_LIMIT_BYTES = 5 * 1024 * 1024;
 const DUEL_FALLBACK_QUESTIONS = [
   {
     prompt: "Which cranial nerve is primarily responsible for lateral eye movement?",
@@ -276,6 +279,11 @@ function readPracticeQuestionBank() {
   return JSON.parse(readFileSync(practiceQuestionBankPath, "utf8"));
 }
 
+function readTopicWiseQuestionBank() {
+  if (!existsSync(topicWiseQuestionBankPath)) return { chapters: [], questions: [] };
+  return JSON.parse(readFileSync(topicWiseQuestionBankPath, "utf8"));
+}
+
 function normalizeQuestion(question, subject, exam = {}) {
   const prompt = [question.subtopic, question.prompt].filter(Boolean).join(" ").trim();
   const options = Array.isArray(question.options) ? question.options.map((option) => String(option).trim()) : [];
@@ -299,7 +307,7 @@ function normalizeQuestion(question, subject, exam = {}) {
     answer: String(answer ?? ""),
     explanation: String(question.explanation ?? (answer ? `Correct answer: ${answer}` : "")).trim(),
     difficulty: String(question.difficulty ?? "exam").trim(),
-    source: question.source === "ai" ? "ai" : "official",
+    source: question.source === "topic-wise" ? "topic-wise" : question.source === "ai" ? "ai" : "official",
     sourceExam: String(question.sourceExam ?? question.examTitle ?? exam.title ?? "").trim(),
     sourceExamGroup: String(question.sourceExamGroup ?? "").trim(),
     chapterTitle: String(question.chapterTitle ?? question.sourceChapterTitle ?? "").trim(),
@@ -307,6 +315,8 @@ function normalizeQuestion(question, subject, exam = {}) {
     sourcePdfPageStart: Number.isFinite(question.sourcePdfPageStart) ? question.sourcePdfPageStart : null,
     sourcePdfPageEnd: Number.isFinite(question.sourcePdfPageEnd) ? question.sourcePdfPageEnd : null,
     sourceQuestionNumber: Number.isFinite(question.sourceQuestionNumber) ? question.sourceQuestionNumber : null,
+    chapterOrder: Number.isFinite(Number(question.chapterOrder)) ? Number(question.chapterOrder) : null,
+    topicOrder: Number.isFinite(Number(question.topicOrder)) ? Number(question.topicOrder) : null,
     tags: Array.isArray(question.tags) ? question.tags.map((tag) => String(tag).trim()).filter(Boolean) : [],
     imageUrls,
     images,
@@ -388,7 +398,7 @@ function sanitizeDuelQuestion(question) {
     explanation: String(question.explanation ?? "").trim(),
     subjectId: String(question.subjectId ?? "").trim(),
     subjectTitle: String(question.subjectTitle ?? "").trim(),
-    source: question.source === "ai" ? "ai" : "official",
+    source: question.source === "topic-wise" ? "topic-wise" : question.source === "ai" ? "ai" : "official",
   };
 }
 
@@ -492,7 +502,7 @@ function validateGeneratedQuestion(question, library) {
 async function requestGeminiQuestion(payload, library) {
   const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_AI_STUDIO_API_KEY;
   if (!apiKey) {
-    throw new Error("Set GEMINI_API_KEY to enable AI-generated supplemental practice.");
+    throw new Error("Topic-wise questions are not available yet.");
   }
 
   const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
@@ -569,7 +579,7 @@ async function requestGeminiQuestion(payload, library) {
 async function requestGeminiQuestionBatch(payload, library, count) {
   const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_AI_STUDIO_API_KEY;
   if (!apiKey) {
-    throw new Error("Set GEMINI_API_KEY to enable AI-generated supplemental practice.");
+    throw new Error("Topic-wise questions are not available yet.");
   }
 
   const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
@@ -846,6 +856,8 @@ function sanitizeCommunity(community, users, currentUserId = null) {
       userId: message.userId,
       userName: message.userName,
       text: message.text,
+      parentMessageId: message.parentMessageId ?? null,
+      imageUrl: message.imagePath ? "/uploads/" + message.imagePath : null,
       createdAt: message.createdAt,
       isOwnMessage: currentUserId ? message.userId === currentUserId : false,
     })),
@@ -1365,6 +1377,29 @@ function handleLeaderboard(request, response) {
   return sendJson(response, 200, { players });
 }
 
+async function saveCommunityThreadImage(messageId, dataUrl) {
+  const matches = String(dataUrl).match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+  if (!matches) throw new Error("Thread attachment must be a valid image.");
+
+  const supportedTypes = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/webp": "webp",
+    "image/gif": "gif",
+  };
+  const extension = supportedTypes[matches[1]];
+  if (!extension) throw new Error("Only PNG, JPG, WEBP, or GIF thread images are supported.");
+
+  const imageBuffer = Buffer.from(matches[2], "base64");
+  if (!imageBuffer.length || imageBuffer.length > COMMUNITY_THREAD_IMAGE_LIMIT_BYTES) {
+    throw new Error("Thread images must be 5 MB or smaller.");
+  }
+
+  const fileName = "community-thread-" + messageId + "-" + Date.now() + "." + extension;
+  await fs.writeFile(path.join(uploadsDir, fileName), imageBuffer);
+  return fileName;
+}
+
 function findActiveRatedDuel(database, userId) {
   return (database.duels ?? []).find((duel) => duel.status === "matched" && (duel.playerIds ?? []).includes(userId)) ?? null;
 }
@@ -1655,6 +1690,9 @@ async function handleLeaveRatedDuelQueue(request, response) {
 function handleSummary(response) {
   const database = readDatabase();
   const practiceLibrary = readPracticeQuestionBank();
+  const officialQuestionCount = countPracticeQuestions(practiceLibrary);
+  const officialQuestionIds = new Set(getOfficialPracticeQuestions(practiceLibrary).map((question) => question.id));
+  const supplementalQuestionCount = database.questions.filter((question) => !officialQuestionIds.has(question.id)).length;
   const attemptedQuestions = database.users.reduce(
     (total, user) => total + (Number.isFinite(user.attemptedQuestions) ? user.attemptedQuestions : 0),
     0,
@@ -1667,7 +1705,7 @@ function handleSummary(response) {
   return sendJson(response, 200, {
     users: database.users.length,
     communities: database.communities.length,
-    practiceQuestions: countPracticeQuestions(practiceLibrary),
+    practiceQuestions: officialQuestionCount + supplementalQuestionCount,
     attemptedQuestions,
     correctAnswers,
   });
@@ -1908,15 +1946,45 @@ async function handleSendCommunityMessage(request, response, communityId) {
 
   const payload = await parseRequestBody(request);
   const text = String(payload.text ?? "").trim();
-  if (!text) {
-    return sendJson(response, 400, { message: "Message cannot be empty." });
+  const parentMessageId = String(payload.parentMessageId ?? "").trim() || null;
+  const imageDataUrl = String(payload.imageDataUrl ?? "").trim() || null;
+  const wordCount = text ? text.split(/\s+/).length : 0;
+  if (!text && !imageDataUrl) {
+    return sendJson(response, 400, { message: "Add text or an image before publishing." });
+  }
+  if (wordCount > COMMUNITY_THREAD_WORD_LIMIT) {
+    return sendJson(response, 400, { message: "Threads can contain at most " + COMMUNITY_THREAD_WORD_LIMIT + " words." });
   }
 
+  if (parentMessageId) {
+    const parentMessage = community.messages.find((message) => message.id === parentMessageId);
+    if (!parentMessage) {
+      return sendJson(response, 404, { message: "That thread could not be found." });
+    }
+    if (parentMessage.parentMessageId) {
+      return sendJson(response, 400, { message: "Replies can only be added to the main post." });
+    }
+    if (imageDataUrl) {
+      return sendJson(response, 400, { message: "Images can only be attached to the main thread." });
+    }
+  }
+
+  const messageId = randomBytes(8).toString("hex");
+  let imagePath = null;
+  if (imageDataUrl) {
+    try {
+      imagePath = await saveCommunityThreadImage(messageId, imageDataUrl);
+    } catch (error) {
+      return sendJson(response, 400, { message: error instanceof Error ? error.message : "Could not save that image." });
+    }
+  }
   community.messages.push({
-    id: randomBytes(8).toString("hex"),
+    id: messageId,
     userId: currentUser.id,
     userName: currentUser.name,
     text,
+    parentMessageId,
+    imagePath,
     createdAt: new Date().toISOString(),
   });
 
