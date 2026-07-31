@@ -812,11 +812,11 @@ function App() {
     return () => window.removeEventListener("keydown", handlePracticeKeyboard);
   }, [activeView, currentPracticeQuestion, practiceStage, selectedOption, submitted]);
 
-  async function fetchCommunities() {
+  async function fetchCommunities({ silent = false } = {}) {
     if (authStatus !== "authenticated") return;
 
     try {
-      setCommunitiesBusy(true);
+      if (!silent) setCommunitiesBusy(true);
       const data = await apiRequest("/api/communities");
       setCommunities(data.communities);
       setSelectedCommunityId((current) => {
@@ -828,15 +828,15 @@ function App() {
     } catch (error) {
       setCommunitiesMessage(error instanceof Error ? error.message : "Could not load communities.");
     } finally {
-      setCommunitiesBusy(false);
+      if (!silent) setCommunitiesBusy(false);
     }
   }
 
-  async function fetchDirectConversations() {
+  async function fetchDirectConversations({ silent = false } = {}) {
     if (authStatus !== "authenticated") return;
 
     try {
-      setDirectMessagesBusy(true);
+      if (!silent) setDirectMessagesBusy(true);
       const data = await apiRequest("/api/direct-messages");
       setDirectConversations(data.conversations ?? []);
       setSelectedDirectConversationId((current) => {
@@ -847,14 +847,16 @@ function App() {
     } catch (error) {
       setDirectMessagesMessage(error instanceof Error ? error.message : "Could not load messages.");
     } finally {
-      setDirectMessagesBusy(false);
+      if (!silent) setDirectMessagesBusy(false);
     }
   }
 
   useEffect(() => {
-    if (authStatus !== "authenticated") return;
+    if (authStatus !== "authenticated") return undefined;
     fetchCommunities();
     fetchDirectConversations();
+    const messageInterval = window.setInterval(() => fetchDirectConversations({ silent: true }), 15000);
+    return () => window.clearInterval(messageInterval);
   }, [authStatus]);
 
   useEffect(() => {
@@ -869,12 +871,10 @@ function App() {
   useEffect(() => {
     if (authStatus !== "authenticated" || activeView !== "Communities") return undefined;
 
-    fetchCommunities();
-    fetchDirectConversations();
+    fetchCommunities({ silent: true });
 
     const interval = window.setInterval(() => {
-      fetchCommunities();
-      fetchDirectConversations();
+      fetchCommunities({ silent: true });
     }, 5000);
 
     return () => window.clearInterval(interval);
@@ -2436,9 +2436,6 @@ function App() {
               <span className={`rank-pill ${selectedPracticeMode === "ai" ? "source-ai" : "source-official"}`}>
                 {selectedPracticeMode === "ai" ? "Topic Wise Questions" : "Official PYQ"}
               </span>
-              <span className="rank-pill">
-                Question {practiceQuestionIndex + 1} of {totalQuestions}
-              </span>
             </div>
             <div className="practice-question-status-strip" aria-label="Question progress">
               {currentPracticeQuestions.map((question, index) => {
@@ -2684,12 +2681,15 @@ function App() {
   }
 
   function renderLeaderboard() {
+    const selectedStatePlayers = selectedStateEntry?.players ?? [];
+
     return (
       <section className="app-view">
         <div className="view-header">
           <div>
             <p className="eyebrow">Leaderboard</p>
             <h2>Weekly rankings</h2>
+            <p className="panel-copy">National ranks and state ranks, sorted by score.</p>
           </div>
           <button className="button button-secondary" onClick={() => setActiveView("Compete")}>
             Join a challenge
@@ -2700,35 +2700,47 @@ function App() {
           <div className="leaderboard-podium" aria-label="Top three learners">
             {[liveLeaderboard[1], liveLeaderboard[0], liveLeaderboard[2]].map((player, index) => {
               const place = [2, 1, 3][index];
-              return <article className={`card podium-card podium-${place}`} key={player.id || player.name}><span className="podium-medal">{place}</span><div className="podium-avatar">{getInitials(player.name)}</div><strong>{player.isCurrentUser ? "You" : player.name}</strong><small>{player.state}</small><em>{player.score} XP</em><div className="podium-level">Level {Math.max(1, Math.floor(player.score / 250))}</div></article>;
+              return (
+                <article className={`podium-card podium-${place}`} key={player.id || player.name}>
+                  <span className="podium-medal" aria-label={`Rank ${place}`}>{place}</span>
+                  <div className="podium-avatar">{getInitials(player.name)}</div>
+                  <strong title={player.name}>{player.isCurrentUser ? "You" : player.name}</strong>
+                  <small title={`${player.state}, ${player.college}`}>{player.state}</small>
+                  <em>{player.score} pts</em>
+                  <div className="podium-level">Level {Math.max(1, Math.floor(player.score / 250))}</div>
+                </article>
+              );
             })}
           </div>
         ) : null}
 
-        <div className="leaderboard-filterbar" aria-label="Leaderboard filters">
-          <button className="filter-chip filter-chip-active" type="button">This week</button><button className="filter-chip" type="button">This month</button><button className="filter-chip" type="button">All time</button><span /><select aria-label="Leaderboard scope"><option>All colleges</option><option>My college</option></select>
-        </div>
-
-        <div className="content-grid leaderboard-layout">
-          <article className="card panel">
-            <h3>National rankings</h3>
-            <div className="leaderboard-list">
+        <div className="leaderboard-shell">
+          <article className="card panel leaderboard-panel leaderboard-national-panel">
+            <div className="leaderboard-panel-head">
+              <div>
+                <h3>National</h3>
+                <p className="panel-copy">{liveLeaderboard.length} ranked learners</p>
+              </div>
+              <span className="rank-pill">This week</span>
+            </div>
+            <div className="leaderboard-table" role="table" aria-label="National leaderboard">
               {liveLeaderboard.length ? (
-                liveLeaderboard.map((player) => (
+                liveLeaderboard.slice(liveLeaderboard.length >= 3 ? 3 : 0).map((player) => (
                   <div
-                    className={`leaderboard-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
+                    className={`leaderboard-table-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
                     key={`${player.rank}-${player.name}`}
+                    role="row"
                   >
-                    <div className="leaderboard-user">
-                      <span className="rank-pill">#{player.rank}</span>
-                      <div className="community-thread-composer-footer">
+                    <span className="leaderboard-rank" role="cell">#{player.rank}</span>
+                    <div className="leaderboard-person" role="cell">
+                      <div className="leaderboard-avatar">{getInitials(player.name)}</div>
+                      <div>
                         <strong>{player.isCurrentUser ? "You" : player.name}</strong>
-                        <p>
-                          {player.state} | {player.streak} day streak
-                        </p>
+                        <p title={`${player.state}, ${player.college}`}>{player.state} | {player.college}</p>
                       </div>
                     </div>
-                    <strong>{player.score} pts</strong>
+                    <span className="leaderboard-streak" role="cell">{player.streak}d</span>
+                    <strong className="leaderboard-score" role="cell">{player.score}</strong>
                   </div>
                 ))
               ) : (
@@ -2737,15 +2749,19 @@ function App() {
                   <p className="panel-copy">The leaderboard will fill from real signed-up users.</p>
                 </div>
               )}
+              {liveLeaderboard.length > 0 && liveLeaderboard.length <= 3 ? (
+                <p className="leaderboard-all-on-podium">All ranked learners are on the podium.</p>
+              ) : null}
             </div>
           </article>
 
-          <article className="card panel">
-            <div className="panel-heading-split">
+          <article className="card panel leaderboard-panel leaderboard-state-panel">
+            <div className="leaderboard-panel-head">
               <div>
-                <h3>State-wise rankings</h3>
-                <p className="panel-copy">Click a state to view players and colleges from account profiles.</p>
+                <h3>State</h3>
+                <p className="panel-copy">Click a state to rank its users.</p>
               </div>
+              <span className="rank-pill">{selectedStatePlayers.length} players</span>
             </div>
 
             <div className="state-search-block">
@@ -2756,62 +2772,49 @@ function App() {
                 value={stateSearchTerm}
                 onChange={(event) => setStateSearchTerm(event.target.value)}
               />
-              <p className="state-search-helper">
-                {stateSearchTerm.trim()
-                  ? filteredStateLeaderboard.length
-                    ? `Showing state match for "${stateSearchTerm}". Refine further if needed.`
-                    : "No state matched that search."
-                  : "Type a state name to jump directly to its leaderboard."}
-              </p>
             </div>
 
             {filteredStateLeaderboard.length ? (
-              <div className="leaderboard-list">
+              <div className="state-chip-list" aria-label="States">
                 {filteredStateLeaderboard.map((entry) => (
                   <button
                     type="button"
                     key={entry.state}
-                    className={`community-list-item${selectedStateEntry?.state === entry.state ? " community-list-item-active" : ""}`}
+                    className={`state-rank-chip${selectedStateEntry?.state === entry.state ? " state-rank-chip-active" : ""}`}
                     onClick={() => setSelectedLeaderboardState(entry.state)}
                   >
-                    <div className="community-top">
-                      <div className="icon-badge blue">ST</div>
-                      <span>{entry.players.length} players</span>
-                    </div>
                     <strong>{entry.state}</strong>
-                    <p>Top score {entry.players[0]?.score ?? 0} pts</p>
+                    <span>{entry.players.length} players | top {entry.players[0]?.score ?? 0}</span>
                   </button>
                 ))}
               </div>
-            ) : null}
+            ) : (
+              <div className="empty-community-state empty-community-state-compact">
+                <h3>No state found</h3>
+                <p className="panel-copy">Try a different state name.</p>
+              </div>
+            )}
 
             {selectedStateEntry ? (
-              <div className="state-detail-card">
-                <div className="state-detail-header">
-                  <div>
-                    <strong>{selectedStateEntry.state}</strong>
-                    <p>Players ranked by score with college pulled from account information</p>
-                  </div>
-                  <span className="rank-pill">{selectedStateEntry.players.length} players</span>
-                </div>
-
-                <div className="state-player-list">
-                  {selectedStateEntry.players.map((player, index) => (
+              <div className="state-ranking-block">
+                <h4>{selectedStateEntry.state}</h4>
+                <div className="leaderboard-table leaderboard-table-compact" role="table" aria-label={`${selectedStateEntry.state} leaderboard`}>
+                  {selectedStatePlayers.map((player, index) => (
                     <div
-                      className={`state-player-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
+                      className={`leaderboard-table-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
                       key={`${selectedStateEntry.state}-${player.name}`}
+                      role="row"
                     >
-                      <div className="state-player-main">
-                        <span className="rank-pill">#{index + 1}</span>
+                      <span className="leaderboard-rank" role="cell">#{index + 1}</span>
+                      <div className="leaderboard-person" role="cell">
+                        <div className="leaderboard-avatar">{getInitials(player.name)}</div>
                         <div>
                           <strong>{player.isCurrentUser ? "You" : player.name}</strong>
                           <p>{player.college}</p>
                         </div>
                       </div>
-                      <div className="state-player-meta">
-                        <strong>{player.score} pts</strong>
-                        <span>{player.streak} day streak</span>
-                      </div>
+                      <span className="leaderboard-streak" role="cell">{player.streak}d</span>
+                      <strong className="leaderboard-score" role="cell">{player.score}</strong>
                     </div>
                   ))}
                 </div>
@@ -2993,13 +2996,6 @@ function App() {
                 ) : null}
               </div>
             </div>
-
-            {selectedCommunity.isAdmin ? (
-              <div className="community-invite-box">
-                <span>Invite link</span>
-                <code>{getCommunityInviteUrl(selectedCommunity.id)}</code>
-              </div>
-            ) : null}
 
             <div className="community-chat-meta">
               <span>Topic: {selectedCommunity.topic}</span>
@@ -3251,7 +3247,7 @@ function App() {
                 <h3>Study rooms worth joining</h3>
                 <p className="panel-copy">Subject-led groups for questions, cases, resources, and the occasional pre-exam rescue mission.</p>
               </div>
-              <button className="community-text-button" type="button" onClick={fetchCommunities}>Refresh rooms <span aria-hidden="true">↻</span></button>
+              <button className="community-text-button" type="button" onClick={() => fetchCommunities()}>Refresh rooms <span aria-hidden="true">↻</span></button>
             </div>
             {communitiesBusy ? <p className="panel-copy">Loading communities...</p> : null}
 
@@ -3898,17 +3894,24 @@ function App() {
 
   function renderPricing() {
     const plans = [
-      { name: "Free", price: "₹0", copy: "Build a strong daily practice habit.", features: ["Daily PYQ practice", "Basic progress tracking", "Community access"], action: "Current plan" },
-      { name: "Pro", price: "₹299", copy: "For students preparing with intent.", features: ["Unlimited practice", "Advanced analytics", "Custom revision sets", "Priority battle matching"], action: "Choose Pro", featured: true },
-      { name: "Pro Annual", price: "₹2,499", copy: "The best value for exam-year preparation.", features: ["Everything in Pro", "Two months free", "Exam readiness reports", "Early feature access"], action: "Choose annual" },
+      { name: "Lite", price: "₹299", cadence: "/ year", copy: "Perfect for students who want daily practice without spending much.", features: ["5 Battle Points every day", "Performance Analytics", "Daily Practice Access", "Community Access", "Perfect for casual learners"], action: "Get Lite" },
+      { name: "Ultra", price: "₹999", cadence: "/ year", copy: "For MBBS students preparing consistently throughout the year.", features: ["Unlimited Battle Points", "Create Communities", "Custom Battles", "Detailed Analytics", "Explanation Access", "Unlock Any 3 Subjects"], action: "Choose Ultra", featured: true },
+      { name: "Premium", price: "₹1499", cadence: "/ month", copy: "Built for serious NEET PG aspirants.", features: ["All Subjects Unlocked", "Custom Modules", "Custom Practice", "NEET PG Exam Mode", "Clinical Cases", "Everything in Ultra"], action: "Go Premium" },
+    ];
+    const assurances = [
+      ["◇", "Secure & Trusted", "Your data is safe with us."],
+      ["↻", "Cancel Anytime", "No questions asked."],
+      ["☏", "24/7 Support", "We're here to help."],
+      ["✪", "Loved by Medicos", "Join thousands of students."],
     ];
     return (
       <section className="app-view pricing-page">
-        <div className="pricing-hero"><p className="eyebrow">Simple, student-friendly pricing</p><h2>Invest in focused preparation,<br/>not feature clutter.</h2><p>Start free. Upgrade when deeper analytics and unlimited practice become useful.</p><div className="billing-toggle"><button className="active">Monthly</button><button>Annual <span>Save 30%</span></button></div></div>
-        <div className="pricing-grid">{plans.map((plan) => <article className={`card pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong>{plan.price !== "₹0" ? <span>/ month</span> : null}</div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} disabled={plan.action === "Current plan"} onClick={() => document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" })}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul></article>)}</div>
+        <div className="pricing-hero"><p className="eyebrow">Simple, affordable pricing</p><h2>Master Medicine,<br/>One Question at a Time<span>.</span></h2><p>Practice consistently, compete with friends, analyze your weaknesses, and prepare confidently for university exams and NEET PG.</p><div className="billing-toggle"><button>Monthly</button><button className="active">Annual</button><span>Save up to 30%</span></div></div>
+        <div className="pricing-grid">{plans.map((plan) => <article className={`pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">★ Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} onClick={() => document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" })}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul></article>)}</div>
+        <div className="pricing-assurance-strip">{assurances.map(([icon, title, copy]) => <div key={title}><span>{icon}</span><strong>{title}</strong><small>{copy}</small></div>)}</div>
         <article className="card panel payment-gateway-section" id="payment-gateway">
-          <div className="payment-copy"><p className="eyebrow">Payment gateway · future ready</p><h3>Secure checkout boundary</h3><p className="panel-copy">The interface is prepared for a PCI-compliant provider such as Razorpay or Stripe. MediComm will create orders and store payment status only—raw card or UPI credentials will never touch the application server.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
-          <div className="payment-summary"><div><span>Selected plan</span><strong>MediComm Pro</strong></div><div><span>Billing</span><strong>Monthly</strong></div><div><span>Amount</span><strong>₹299</strong></div><button className="button button-primary" disabled>Checkout coming soon</button><small>No payment will be collected yet.</small></div>
+          <div className="payment-copy"><p className="eyebrow">Payment gateway · future ready</p><h3>Secure checkout boundary</h3><p className="panel-copy">The interface is prepared for a PCI-compliant provider such as Razorpay or Stripe. MediComm will create orders and store payment status only. Raw card or UPI credentials will never touch the application server.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
+          <div className="payment-summary"><div><span>Selected plan</span><strong>MediComm Ultra</strong></div><div><span>Billing</span><strong>Annual</strong></div><div><span>Amount</span><strong>₹999</strong></div><button className="button button-primary" disabled>Checkout coming soon</button><small>No payment will be collected yet.</small></div>
         </article>
         <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using MediComm for free?</summary><p>Yes. Core daily practice and community features remain available on the free plan.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Sensitive payment collection will be hosted by a compliant payment provider; MediComm will retain only order and entitlement status.</p></details></div>
       </section>
@@ -3982,6 +3985,7 @@ function App() {
       renderAvatar={renderAvatar}
       user={user}
       userRating={userRating}
+      directConversations={directConversations}
     >
       {renderView()}
     </AppShell>

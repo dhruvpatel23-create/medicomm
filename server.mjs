@@ -359,22 +359,38 @@ function applyPracticeFilters(questions, url) {
 function buildPracticeLibrary(library, storedQuestions = []) {
   const aiQuestions = storedQuestions.filter((question) => question.source === "ai").map((question) => normalizeQuestion(question));
   const questionsBySubjectId = new Map();
+  const aiSubjectTitlesById = new Map();
 
   for (const question of aiQuestions) {
     const bucket = questionsBySubjectId.get(question.subjectId) ?? [];
     bucket.push(question);
     questionsBySubjectId.set(question.subjectId, bucket);
+    if (question.subjectId && question.subjectTitle && !aiSubjectTitlesById.has(question.subjectId)) {
+      aiSubjectTitlesById.set(question.subjectId, question.subjectTitle);
+    }
   }
+
+  const librarySubjects = library.subjects ?? [];
+  const librarySubjectIds = new Set(librarySubjects.map((subject) => subject.id));
+  const supplementalSubjects = [...questionsBySubjectId.keys()]
+    .filter((subjectId) => !librarySubjectIds.has(subjectId))
+    .sort((a, b) => String(aiSubjectTitlesById.get(a) ?? a).localeCompare(String(aiSubjectTitlesById.get(b) ?? b)))
+    .map((subjectId) => ({
+      id: subjectId,
+      title: aiSubjectTitlesById.get(subjectId) ?? subjectId,
+      questions: [],
+    }));
+  const allSubjects = [...librarySubjects, ...supplementalSubjects];
 
   return {
     ...library,
-    subjects: (library.subjects ?? []).map((subject) => {
+    subjects: allSubjects.map((subject) => {
       return {
         ...subject,
         questions: (subject.questions ?? []).map((question) => normalizeQuestion(question, subject, library.exam)),
       };
     }),
-    aiSubjects: (library.subjects ?? []).map((subject) => {
+    aiSubjects: allSubjects.map((subject) => {
       const questions = questionsBySubjectId.get(subject.id) ?? [];
       return {
         id: subject.id,
