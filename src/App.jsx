@@ -227,10 +227,48 @@ function createOpponentTimeline(opponentRating, questions = fallbackDuelQuestion
   });
 }
 
+function normalizeAnswerValue(value) {
+  return String(value ?? "").trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function isAnswerCorrect(question, selectedAnswer) {
+  if (!question || !selectedAnswer) return false;
+  const selected = normalizeAnswerValue(selectedAnswer);
+  const answer = normalizeAnswerValue(question.answer);
+  if (selected && answer && selected === answer) return true;
+
+  const answerIndex = Number(question.answerIndex);
+  if (Number.isInteger(answerIndex) && answerIndex >= 0) {
+    return selected === normalizeAnswerValue(question.options?.[answerIndex]);
+  }
+
+  return false;
+}
+
+function getDuelOpponentSnapshot(timeline, elapsedSeconds) {
+  const answeredSteps = timeline.filter((step) => step.revealAt <= elapsedSeconds);
+  return {
+    answered: answeredSteps.length,
+    correct: answeredSteps.filter((step) => step.correct).length,
+  };
+}
+
 function getPracticeImageUrl(imageUrl) {
   if (!imageUrl?.includes("/medicomm-atlas-")) return imageUrl;
   const separator = imageUrl.includes("?") ? "&" : "?";
   return `${imageUrl}${separator}v=${ATLAS_IMAGE_VERSION}`;
+}
+
+function getQuestionImageUrls(question) {
+  return [
+    ...(Array.isArray(question?.imageUrls) ? question.imageUrls : []),
+    ...(Array.isArray(question?.images) ? question.images : []),
+    question?.imageUrl,
+    question?.image,
+  ]
+    .map((imageUrl) => String(imageUrl ?? "").trim())
+    .filter(Boolean)
+    .filter((imageUrl, index, list) => list.indexOf(imageUrl) === index);
 }
 
 function getSeededClientRank(value) {
@@ -595,9 +633,9 @@ function App() {
     () =>
       duelQuestions.reduce((total, question, index) => {
         if (!duelSubmitted[index]) return total;
-        return total + (duelSelections[index] === question.answer ? 1 : 0);
+        return total + (isAnswerCorrect(question, duelSelections[index]) ? 1 : 0);
       }, 0),
-    [duelSelections, duelSubmitted],
+    [duelQuestions, duelSelections, duelSubmitted],
   );
   const userDuelAnswered = Object.keys(duelSubmitted).length;
 
@@ -1069,19 +1107,21 @@ async function fetchPracticeLibrary() {
     if (duelStatus !== "live") return;
 
     const elapsed = DUEL_DURATION_SECONDS - duelTimeLeft;
-    const answered = duelOpponentTimeline.filter((step) => step.revealAt <= elapsed).length;
-    const correct = duelOpponentTimeline.filter((step) => step.revealAt <= elapsed && step.correct).length;
-    setDuelOpponentProgress({ answered, correct });
+    setDuelOpponentProgress(getDuelOpponentSnapshot(duelOpponentTimeline, elapsed));
   }, [duelStatus, duelTimeLeft, duelOpponentTimeline]);
 
   useEffect(() => {
     if (duelStatus !== "finished" || !duelOpponent || duelResult) return;
 
-    const opponentCorrect = duelOpponentTimeline.filter((step) => step.correct).length;
-    const opponentAnswered = duelOpponentTimeline.length;
+    const elapsed = DUEL_DURATION_SECONDS - duelTimeLeft;
+    const opponentSnapshot = getDuelOpponentSnapshot(duelOpponentTimeline, elapsed);
+    const opponentCorrect = opponentSnapshot.correct;
+    const opponentAnswered = opponentSnapshot.answered;
     const userAnswered = Object.keys(duelSubmitted).length;
     const userCompletedEarlier = userAnswered === duelQuestions.length && duelTimeLeft > 0;
-    const opponentCompletedEarlier = duelOpponentTimeline.every((step) => step.revealAt < DUEL_DURATION_SECONDS - duelTimeLeft);
+    const opponentCompletedEarlier =
+      opponentAnswered === duelQuestions.length &&
+      duelOpponentTimeline.every((step) => step.revealAt <= elapsed);
 
     let verdict = duelForfeited ? "loss" : "draw";
 
@@ -1095,7 +1135,7 @@ async function fetchPracticeLibrary() {
       verdict = "loss";
     }
 
-    setDuelOpponentProgress({ answered: opponentAnswered, correct: opponentCorrect });
+    setDuelOpponentProgress(opponentSnapshot);
 
     const completeDuel = async () => {
       try {
@@ -1132,7 +1172,7 @@ async function fetchPracticeLibrary() {
             id: `${duelSessionId || completedAt}-${question.id}`,
             questionId: question.id,
             answeredAt: completedAt,
-            correct: duelSelections[index] === question.answer,
+            correct: isAnswerCorrect(question, duelSelections[index]),
             subjectId: question.subjectId || "mixed-duel",
             subject: question.subject || "Mixed battle",
             topic: question.topic || "Battle review",
@@ -3628,6 +3668,8 @@ async function fetchPracticeLibrary() {
   }
 
   function renderLiveDuel() {
+    const currentDuelImageUrls = getQuestionImageUrls(currentDuelQuestion);
+
     return (
       <section className="duel-live">
         <div className="duel-scoreboard">
@@ -3659,6 +3701,19 @@ async function fetchPracticeLibrary() {
             </div>
             <span className="rank-pill">{duelMode === "bot" ? "Bot practice" : "Rated"}</span>
           </div>
+
+          {currentDuelImageUrls.length ? (
+            <div className="practice-question-images duel-question-images">
+              {currentDuelImageUrls.map((imageUrl, index) => (
+                <img
+                  key={`${currentDuelQuestion.id}-${imageUrl}`}
+                  className="practice-question-image duel-question-image"
+                  src={getPracticeImageUrl(imageUrl)}
+                  alt={`Compete question ${duelIndex + 1} visual ${index + 1}`}
+                />
+              ))}
+            </div>
+          ) : null}
 
           <div className="options-grid">
             {currentDuelQuestion.options.map((option) => {

@@ -413,9 +413,24 @@ function buildPracticeLibrary(library, storedQuestions = []) {
   };
 }
 
+function collectQuestionImageUrls(question) {
+  return [
+    ...(Array.isArray(question.imageUrls) ? question.imageUrls : []),
+    ...(Array.isArray(question.images) ? question.images : []),
+    ...(Array.isArray(question.sourceImageUrls) ? question.sourceImageUrls : []),
+    question.imageUrl,
+    question.image,
+    question.sourceImageUrl,
+  ]
+    .map((imageUrl) => String(imageUrl ?? "").trim())
+    .filter(Boolean)
+    .filter((imageUrl, index, list) => list.indexOf(imageUrl) === index);
+}
+
 function sanitizeDuelQuestion(question) {
   const options = Array.isArray(question.options) ? question.options.map((option) => String(option).trim()).filter(Boolean) : [];
   const answerIndex = Number.isInteger(question.answerIndex) ? question.answerIndex : options.indexOf(question.answer);
+  const imageUrls = collectQuestionImageUrls(question);
   return {
     id: String(question.id ?? randomBytes(8).toString("hex")),
     prompt: String(question.prompt ?? "").trim(),
@@ -425,6 +440,8 @@ function sanitizeDuelQuestion(question) {
     explanation: String(question.explanation ?? "").trim(),
     subjectId: String(question.subjectId ?? "").trim(),
     subjectTitle: String(question.subjectTitle ?? "").trim(),
+    imageUrls,
+    images: imageUrls,
     source: question.source === "topic-wise" ? "topic-wise" : question.source === "ai" ? "ai" : "official",
   };
 }
@@ -438,6 +455,8 @@ function sanitizeDuelQuestionForClient(question) {
     explanation: sanitized.explanation,
     subjectId: sanitized.subjectId,
     subjectTitle: sanitized.subjectTitle,
+    imageUrls: sanitized.imageUrls,
+    images: sanitized.images,
     source: sanitized.source,
   };
 }
@@ -1465,6 +1484,24 @@ function getActualScore(userScore, opponentScore) {
   return { actualScore: 0.5, verdict: "draw" };
 }
 
+function normalizeAnswerValue(value) {
+  return String(value ?? "").trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function isSubmittedAnswerCorrect(question, submittedAnswer) {
+  const selected = normalizeAnswerValue(submittedAnswer);
+  if (!selected) return false;
+
+  if (selected === normalizeAnswerValue(question.answer)) return true;
+
+  const answerIndex = Number(question.answerIndex);
+  if (Number.isInteger(answerIndex) && answerIndex >= 0) {
+    return selected === normalizeAnswerValue(question.options?.[answerIndex]);
+  }
+
+  return false;
+}
+
 function scoreDuelAnswers(payload) {
   const answers = payload.answers && typeof payload.answers === "object" ? payload.answers : {};
   const questionIds = Array.isArray(payload.questionIds) ? payload.questionIds.map((id) => String(id)) : [];
@@ -1475,14 +1512,14 @@ function scoreDuelAnswers(payload) {
   }
 
   const correct = questions.reduce((total, question) => {
-    const selected = String(answers[question.id] ?? "").trim();
-    return total + (selected && selected === question.answer ? 1 : 0);
+    return total + (isSubmittedAnswerCorrect(question, answers[question.id]) ? 1 : 0);
   }, 0);
 
   return {
     questions,
     correct,
-    attempted: questions.length,
+    attempted: questions.filter((question) => String(answers[question.id] ?? "").trim()).length,
+    total: questions.length,
   };
 }
 
@@ -1549,8 +1586,9 @@ async function handleCompleteDuel(request, response) {
     return sendJson(response, 404, { message: "User not found." });
   }
 
-  const submittedOpponentScore = Math.max(0, Math.min(scored.attempted, Math.round(Number(payload.opponentScore ?? 0))));
-  const opponentScore = forfeited ? Math.min(scored.attempted, Math.max(submittedOpponentScore, scored.correct + 1)) : submittedOpponentScore;
+  const totalQuestions = Number.isFinite(scored.total) ? scored.total : scored.questions.length;
+  const submittedOpponentScore = Math.max(0, Math.min(totalQuestions, Math.round(Number(payload.opponentScore ?? 0))));
+  const opponentScore = forfeited ? Math.min(totalQuestions, Math.max(submittedOpponentScore, scored.correct + 1)) : submittedOpponentScore;
   const scoredOutcome = getActualScore(scored.correct, opponentScore);
   const actualScore = forfeited ? 0 : scoredOutcome.actualScore;
   const verdict = forfeited ? "loss" : scoredOutcome.verdict;
