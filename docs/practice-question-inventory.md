@@ -1,10 +1,33 @@
 # Practice Question Inventory
 
-Total questions: 6955
+Total questions: 9480
 
 Source: `runtime-data/users.json`
 
-Store mismatch check: `runtime-data/users.json` and `data/users.json` match topic-wise.
+## Store Mismatches
+
+| Subject | Chapter | Topic | runtime-data | data |
+|---|---|---|---:|---:|
+| General Medicine | Cardinal Manifestations and Presentation of Diseases | Chest Pain, Dyspnea and Palpitations | 0 | 10 |
+| General Medicine | Cardinal Manifestations and Presentation of Diseases | Cough, Hemoptysis and Respiratory Presentations | 0 | 10 |
+| General Medicine | Cardinal Manifestations and Presentation of Diseases | Fatigue, Weight Change and Edema | 0 | 10 |
+| General Medicine | Cardinal Manifestations and Presentation of Diseases | Fever, Hyperthermia and Hypothermia | 0 | 10 |
+| General Medicine | Cardinal Manifestations and Presentation of Diseases | Gastrointestinal and Hepatobiliary Presentations | 0 | 10 |
+| General Medicine | Cardinal Manifestations and Presentation of Diseases | Hematologic, Immune and Skin Presentations | 0 | 10 |
+| General Medicine | Cardinal Manifestations and Presentation of Diseases | Pain and Headache Syndromes | 0 | 10 |
+| General Medicine | Cardinal Manifestations and Presentation of Diseases | Renal, Urinary and Fluid-Electrolyte Presentations | 0 | 10 |
+| General Medicine | Cardinal Manifestations and Presentation of Diseases | Syncope, Dizziness and Weakness | 0 | 10 |
+| General Medicine | Oncology and Hematology | Disorders of Hemostasis | 0 | 15 |
+| General Medicine | Oncology and Hematology | Hematopoietic Disorders | 0 | 15 |
+| General Medicine | Oncology and Hematology | Neoplastic Disorders | 0 | 15 |
+| General Medicine | Pharmacology | Pharmacodynamics, Adverse Effects and Interactions | 0 | 10 |
+| General Medicine | Pharmacology | Pharmacokinetics and Dose Individualization | 0 | 10 |
+| General Medicine | Pharmacology | Rational Prescribing and Special Populations | 0 | 10 |
+| General Medicine | The Profession of Medicine | Diagnostic Reasoning and Evidence | 0 | 10 |
+| General Medicine | The Profession of Medicine | Ethics, Consent and Confidentiality | 0 | 10 |
+| General Medicine | The Profession of Medicine | Patient-Centered Clinical Method | 0 | 10 |
+| General Medicine | The Profession of Medicine | Professionalism, Learning and Society | 0 | 10 |
+| General Medicine | The Profession of Medicine | Quality, Safety and Systems of Care | 0 | 10 |
 
 ## Anatomy (880)
 
@@ -165,7 +188,16 @@ Store mismatch check: `runtime-data/users.json` and `data/users.json` match topi
 | Mineral Metabolism and Abnormalities | 15 |
 | Water Soluble Vitamins | 15 |
 
-## Community Medicine (410)
+## Community Medicine (770)
+
+### Communication for Health Education (40)
+
+| Topic | Questions |
+|---|---:|
+| Communication Process and Barriers | 10 |
+| Health Education Principles | 10 |
+| Methods and Media | 10 |
+| Planning and Evaluation | 10 |
 
 ### Demography and Family Planning (40)
 
@@ -175,6 +207,15 @@ Store mismatch check: `runtime-data/users.json` and `data/users.json` match topi
 | Family Planning Methods and Contraceptive Technology | 10 |
 | Family Welfare Programme, Counselling and Unmet Need | 10 |
 | Fertility, Mortality, Migration and Population Transition | 10 |
+
+### Disaster Management (40)
+
+| Topic | Questions |
+|---|---:|
+| Concepts and Disaster Cycle | 10 |
+| Planning and Rehabilitation | 10 |
+| Public Health Priorities | 10 |
+| Response, Triage and Relief | 10 |
 
 ### Environment and Health (40)
 
@@ -207,6 +248,42 @@ Store mismatch check: `runtime-data/users.json` and `data/users.json` match topi
 | Surface infections | 10 |
 | Zoonoses | 10 |
 
+### Genetics and Health (40)
+
+| Topic | Questions |
+|---|---:|
+| Basic Genetics and Inheritance | 10 |
+| Community Genetics and Public Health | 10 |
+| Genetic Diseases and Chromosomal Disorders | 10 |
+| Prevention, Screening and Counselling | 10 |
+
+### Health Care of the Community (40)
+
+| Topic | Questions |
+|---|---:|
+| Community Diagnosis and Services | 10 |
+| Health Infrastructure and Workers | 10 |
+| Levels of Health Care and Referral | 10 |
+| Primary Health Care | 10 |
+
+### Health Information and Basic Medical Statistics (40)
+
+| Topic | Questions |
+|---|---:|
+| Averages and Variation | 10 |
+| Data, Tables and Diagrams | 10 |
+| Health Information System | 10 |
+| Probability and Tests of Significance | 10 |
+
+### Health Planning and Management (40)
+
+| Topic | Questions |
+|---|---:|
+| Health Planning Principles | 10 |
+| Implementation and Evaluation | 10 |
+| Management Functions | 10 |
+| Resources and Logistics | 10 |
+
 ### Health Programmes in India (40)
 
 | Topic | Questions |
@@ -215,6 +292,15 @@ Store mismatch check: `runtime-data/users.json` and `data/users.json` match topi
 | National Health Mission and Supportive Health Programmes | 10 |
 | NCD, Nutrition and Health Promotion Programmes | 10 |
 | RMNCH+A and Universal Immunization Programmes | 10 |
+
+### Hospital Waste Management (40)
+
+| Topic | Questions |
+|---|---:|
+| Principles and Classification | 10 |
+| Segregation and Colour Coding | 10 |
+| Sharps and Infection Safety | 10 |
+| Treatment, Disposal and Rules | 10 |
 
 ### Medicine and Social Sciences (40)
 
@@ -225,6 +311,15 @@ Store mismatch check: `runtime-data/users.json` and `data/users.json` match topi
 | Health Education and Communication | 10 |
 | Social Medicine and Social Determinants of Health | 10 |
 
+### Mental Health (40)
+
+| Topic | Questions |
+|---|---:|
+| Community Mental Health Services | 10 |
+| Concepts and Burden of Mental Health | 10 |
+| Prevention and Mental Health Promotion | 10 |
+| Special Groups and Substance Use | 10 |
+
 ### Nutrition and Health (40)
 
 | Topic | Questions |
@@ -233,6 +328,15 @@ Store mismatch check: `runtime-data/users.json` and `data/users.json` match topi
 | Nutrients, Balanced Diet and Nutritional Assessment | 10 |
 | Nutrition Programmes, Food Safety and Diet-Related Disorders | 10 |
 | Protein Energy Malnutrition and Childhood Undernutrition | 10 |
+
+### Occupational Health (40)
+
+| Topic | Questions |
+|---|---:|
+| Chemical and Physical Hazards | 10 |
+| Concepts and Occupational Hazards | 10 |
+| Dust and Occupational Lung Diseases | 10 |
+| Prevention, Legislation and Services | 10 |
 
 ### Preventive Medicine in Obstetrics, Paediatrics and Geriatrics (40)
 
@@ -256,6 +360,337 @@ Store mismatch check: `runtime-data/users.json` and `data/users.json` match topi
 | Topic | Questions |
 |---|---:|
 | Screening for Disease | 20 |
+
+## ENT (900)
+
+### Diseases of Ear (100)
+
+| Topic | Questions |
+|---|---:|
+| Acute Otitis Media and Otitis Media with Effusion | 10 |
+| Anatomy, Physiology and Examination of Ear | 10 |
+| Chronic Otitis Media and Cholesteatoma | 10 |
+| Complications of Otitis Media and Mastoiditis | 10 |
+| External Ear Disorders and Otitis Externa | 10 |
+| Facial Nerve, Trauma and Temporal Bone | 10 |
+| Hearing Loss, Audiology and Rehabilitation | 10 |
+| Inner Ear Disorders, Vertigo and Tinnitus | 10 |
+| Otosclerosis and Ossicular Disorders | 10 |
+| Tumors, Cysts and Miscellaneous Ear Conditions | 10 |
+
+### Diseases of Larynx and Trachea (100)
+
+| Topic | Questions |
+|---|---:|
+| Acute and Chronic Laryngitis | 10 |
+| Benign Vocal Fold Lesions and Voice Disorders | 10 |
+| Laryngeal Anatomy, Physiology and Examination | 10 |
+| Laryngeal Cancer and Premalignant Laryngeal Lesions | 10 |
+| Laryngeal Trauma, Burns and Airway Stenosis | 10 |
+| Pediatric Laryngeal and Tracheal Disorders | 10 |
+| Stridor and Acute Upper Airway Obstruction | 10 |
+| Tracheal Disease, Aspiration and Lower Airway Interface | 10 |
+| Tracheostomy, Intubation and Airway Procedures | 10 |
+| Vocal Cord Paralysis and Neurogenic Laryngeal Disease | 10 |
+
+### Diseases of Nose and Paranasal Sinuses (100)
+
+| Topic | Questions |
+|---|---:|
+| Acute and Chronic Rhinosinusitis | 10 |
+| Allergic, Vasomotor and Other Rhinitis | 10 |
+| Benign and Malignant Sinonasal Tumors | 10 |
+| Complications of Sinusitis and Mucoceles | 10 |
+| Congenital and Developmental Nasal Conditions | 10 |
+| Epistaxis and Nasal Vascular Disorders | 10 |
+| Fungal, Granulomatous and Destructive Nasal Disease | 10 |
+| Nasal Anatomy, Physiology and Examination | 10 |
+| Nasal Polyps and Polypoid Disorders | 10 |
+| Nasal Trauma, Septum and Structural Obstruction | 10 |
+
+### Diseases of Oesophagus (100)
+
+| Topic | Questions |
+|---|---:|
+| Benign Oesophageal Lesions, Webs and Rings | 10 |
+| Caustic Injury and Oesophageal Strictures | 10 |
+| Dysphagia, Odynophagia and Globus | 10 |
+| Foreign Bodies and Food Bolus Impaction | 10 |
+| Gastro-Oesophageal Reflux and Barrett Oesophagus | 10 |
+| Motility Disorders and Diverticula | 10 |
+| Oesophageal Anatomy, Physiology and Evaluation | 10 |
+| Oesophageal Carcinoma and Premalignant Disease | 10 |
+| Oesophageal Perforation and Fistulae | 10 |
+| Paediatric Oesophageal Disorders | 10 |
+
+### Diseases of Oral Cavity and Salivary Glands (100)
+
+| Topic | Questions |
+|---|---:|
+| Benign Oral Cavity Lesions and Cysts | 10 |
+| Benign Salivary Gland Tumors | 10 |
+| Inflammatory, Viral and Autoimmune Salivary Disease | 10 |
+| Malignant Salivary Gland Tumors and Management | 10 |
+| Oral Cavity Anatomy, Examination and Common Symptoms | 10 |
+| Oral Infections and Deep Neck Spread from Oral Sepsis | 10 |
+| Premalignant Disease and Oral Cavity Carcinoma | 10 |
+| Salivary Gland Anatomy, Physiology and Investigation | 10 |
+| Sialolithiasis and Obstructive Salivary Disease | 10 |
+| Ulcers, Stomatitis and Oral Mucosal Lesions | 10 |
+
+### Diseases of Pharynx (100)
+
+| Topic | Questions |
+|---|---:|
+| Acute Pharyngitis, Tonsillitis and Membranous Infections | 10 |
+| Adenoid Disease and Adenoidectomy | 10 |
+| Chronic Tonsillitis and Indications for Tonsillectomy | 10 |
+| Hypopharyngeal Disorders, Dysphagia and Foreign Bodies | 10 |
+| Nasopharyngeal Disorders and Nasopharyngeal Carcinoma | 10 |
+| Oropharyngeal and Hypopharyngeal Tumors | 10 |
+| Peritonsillar, Parapharyngeal and Retropharyngeal Abscess | 10 |
+| Pharyngeal Anatomy, Waldeyer Ring and Examination | 10 |
+| Pharyngeal Trauma, Burns and Caustic Injuries | 10 |
+| Sleep-Disordered Breathing and Pharyngeal Obstruction | 10 |
+
+### Operative Surgery (100)
+
+| Topic | Questions |
+|---|---:|
+| Endoscopic Sinus and Skull Base Surgery | 10 |
+| Laryngeal Microlaryngoscopy and Laser Surgery | 10 |
+| Nasal Septal, Turbinate and Epistaxis Surgery | 10 |
+| Neck Dissection and Head-Neck Oncosurgery | 10 |
+| Oesophagoscopy, Bronchoscopy and Foreign Body Surgery | 10 |
+| Oral Cavity, Salivary and Pharyngeal Operations | 10 |
+| Otologic Surgery and Mastoid Procedures | 10 |
+| Principles, Consent and Anaesthesia in ENT Surgery | 10 |
+| Thyroid and Parathyroid Surgery | 10 |
+| Tracheostomy and Airway Procedures | 10 |
+
+### Recent Diseases (100)
+
+| Topic | Questions |
+|---|---:|
+| Air Pollution, Allergy and Occupational ENT Disease | 10 |
+| Allergic Fungal Rhinosinusitis and Eosinophilic Disease | 10 |
+| Antimicrobial Resistance and Recurrent ENT Infection | 10 |
+| Autoimmune and Systemic ENT Disorders | 10 |
+| COVID-19 and Post-Viral ENT Manifestations | 10 |
+| ENT Manifestations of Emerging and Zoonotic Infections | 10 |
+| HIV, Immunosuppression and ENT Infections | 10 |
+| HPV-Related Head and Neck Disease | 10 |
+| Newer Diagnostics, Biologics and Technology in ENT | 10 |
+| Rhino-Orbito-Cerebral Mucormycosis | 10 |
+
+### Thyroid Gland and Its Disorders (100)
+
+| Topic | Questions |
+|---|---:|
+| Clinical Evaluation, Thyroid Function Tests and Imaging | 10 |
+| Differentiated Thyroid Cancer: Papillary and Follicular | 10 |
+| Goiter, Iodine Deficiency and Benign Thyroid Enlargement | 10 |
+| Hyperthyroidism, Graves Disease and Thyroid Storm | 10 |
+| Hypothyroidism and Thyroiditis | 10 |
+| Medullary, Anaplastic and Thyroid Lymphoma | 10 |
+| Special Thyroid Conditions and Neck Mass Differentials | 10 |
+| Thyroid Anatomy, Embryology and Physiology | 10 |
+| Thyroid Nodules, FNAC and Risk Stratification | 10 |
+| Thyroid Surgery, Complications and Postoperative Care | 10 |
+
+## Forensic Medicine (400)
+
+### Section 1: Legal Medicine, Identification and Thanatology (100)
+
+| Topic | Questions |
+|---|---:|
+| Courts, Legal Procedure and Medical Evidence | 10 |
+| Death, Brain Death and Early Postmortem Changes | 10 |
+| Fingerprints, Footprints and DNA Profiling | 10 |
+| Identification: Age, Sex, Stature and Race | 10 |
+| Late Postmortem Changes and Time Since Death | 10 |
+| Mechanical Injuries: General Principles | 10 |
+| Medical Ethics, Consent and Professional Negligence | 10 |
+| Medico-Legal Autopsy and Exhumation | 10 |
+| Regional Injuries and Road-Traffic Trauma | 10 |
+| Sharp-Force and Firearm Injuries | 10 |
+
+### Section 1: Postmortem Changes, Injuries, Asphyxia and Toxicology (100)
+
+| Topic | Questions |
+|---|---:|
+| Asphyxial Deaths: General Features | 10 |
+| Burns, Scalds and Heat-Related Deaths | 10 |
+| Cold Injury, Electrocution and Lightning | 10 |
+| Corrosive and Irritant Poisons | 10 |
+| Drowning and Immersion Deaths | 10 |
+| General Toxicology and Poisoning Duties | 10 |
+| Hanging, Ligature Strangulation and Manual Strangulation | 10 |
+| Neurotoxic and Asphyxiant Poisons | 10 |
+| Sexual Offences: Examination and Evidence | 10 |
+| Starvation, Neglect and Torture-Related Injuries | 10 |
+
+### Section 2: Organic, Drug, Agricultural and Animal Poisons (100)
+
+| Topic | Questions |
+|---|---:|
+| Anticholinergic and Deliriant Poisons | 10 |
+| Cannabis, Cocaine and Stimulants | 10 |
+| Drug Abuse, Dependence and Medico-Legal Testing | 10 |
+| Food Poisoning and Bacterial Toxins | 10 |
+| Occupational and Environmental Poisoning | 10 |
+| Opioids and Sedative-Hypnotic Poisons | 10 |
+| Organochlorines, Pyrethroids and Herbicides | 10 |
+| Organophosphorus and Carbamate Insecticides | 10 |
+| Plant Poisons: Cardiac and Irritant Plants | 10 |
+| Snakebite and Animal Poisons | 10 |
+
+### Section 2: Toxicology Principles, Corrosives and Inorganic Poisons (100)
+
+| Topic | Questions |
+|---|---:|
+| Alkalis, Phenol and Household Corrosives | 10 |
+| Arsenic and Irritant Metallic Poisons | 10 |
+| Cyanide, Carbon Monoxide and Asphyxiant Gases | 10 |
+| Decontamination, Elimination and Antidote Principles | 10 |
+| Ethyl Alcohol and Toxic Alcohols | 10 |
+| General Toxicology: Duties, Samples and Diagnosis | 10 |
+| Lead Poisoning | 10 |
+| Mercury Poisoning | 10 |
+| Mineral Acids and Corrosive Acid Poisoning | 10 |
+| Phosphorus and Related Irritant Poisons | 10 |
+
+## General Medicine (555)
+
+### Aging (15)
+
+| Topic | Questions |
+|---|---:|
+| Aging | 15 |
+
+### Consultative Medicine (15)
+
+| Topic | Questions |
+|---|---:|
+| Consultative Medicine | 15 |
+
+### Critical Care Medicine (30)
+
+| Topic | Questions |
+|---|---:|
+| Approach to Critical Illness and ICU Care | 10 |
+| ARDS and Mechanical Ventilatory Support | 10 |
+| Shock, Sepsis and Cardiac Arrest | 10 |
+
+### Disorders Associated with Environmental Exposures (15)
+
+| Topic | Questions |
+|---|---:|
+| Disorders Associated with Environmental Exposures | 15 |
+
+### Disorders of the Cardiovascular System (70)
+
+| Topic | Questions |
+|---|---:|
+| Coronary and Peripheral Vascular Disease | 14 |
+| Diagnosis of Cardiovascular Disorders | 14 |
+| Disorders of Rhythm | 14 |
+| Disorders of the Heart | 14 |
+| Introduction to Cardiovascular Disorders | 14 |
+
+### Disorders of the Gastrointestinal System (40)
+
+| Topic | Questions |
+|---|---:|
+| Approach, Endoscopy and Esophageal Disease | 10 |
+| Intestinal, Colorectal and Acute Abdominal Disorders | 10 |
+| Liver, Biliary and Pancreatic Disorders | 10 |
+| Peptic Ulcer, Malabsorption and Inflammatory Bowel Disease | 10 |
+
+### Disorders of the Kidney and Urinary Tract (30)
+
+| Topic | Questions |
+|---|---:|
+| Chronic Kidney Disease, Dialysis and Glomerular Disease | 10 |
+| Cystic Kidney Disease, Nephrolithiasis and Urinary Obstruction | 10 |
+| Renal Physiology and Acute Kidney Injury | 10 |
+
+### Disorders of the Respiratory System (30)
+
+| Topic | Questions |
+|---|---:|
+| Asthma and COPD | 10 |
+| Diagnosis of Respiratory Disorders | 10 |
+| Interstitial, Pleural, Ventilatory and Sleep Disorders | 10 |
+
+### Endocrinology and Metabolism (50)
+
+| Topic | Questions |
+|---|---:|
+| Bone, Mineral and Intermediary Metabolism | 10 |
+| Endocrine Principles and Pituitary Disorders | 10 |
+| Neurohypophysis, Thyroid and Adrenal Disorders | 10 |
+| Obesity, Diabetes, Lipids and Metabolic Syndrome | 10 |
+| Reproductive, Sex and Gender-Based Medicine | 10 |
+
+### Frontiers (20)
+
+| Topic | Questions |
+|---|---:|
+| Frontiers | 20 |
+
+### Genes, the Environment, and Disease (15)
+
+| Topic | Questions |
+|---|---:|
+| Genes, the Environment, and Disease | 15 |
+
+### Global Medicine (15)
+
+| Topic | Questions |
+|---|---:|
+| Global Medicine | 15 |
+
+### Immune-Mediated, Inflammatory, and Rheumatologic Disorders (30)
+
+| Topic | Questions |
+|---|---:|
+| Immune System, Immunodeficiency and Allergy | 10 |
+| Musculoskeletal, Joint and Crystal Disorders | 10 |
+| Systemic Autoimmune and Vasculitic Disorders | 10 |
+
+### Infectious Diseases (100)
+
+| Topic | Questions |
+|---|---:|
+| Antimicrobial Principles and Stewardship | 10 |
+| Approach to Fever and Sepsis | 10 |
+| Emerging, Viral and Travel-Related Infections | 10 |
+| Gastrointestinal and Hepatobiliary Infections | 10 |
+| Healthcare-Associated and Device-Related Infections | 10 |
+| HIV and Opportunistic Infections | 10 |
+| Respiratory and CNS Infections | 10 |
+| Tuberculosis and Mycobacterial Disease | 10 |
+| Urinary, Skin and Soft Tissue Infections | 10 |
+| Vector-Borne and Zoonotic Infections | 10 |
+
+### Neurologic Disorders (50)
+
+| Topic | Questions |
+|---|---:|
+| Dementia, Movement and Ataxic Disorders | 10 |
+| Neurologic Diagnosis, Localization and Imaging | 10 |
+| Peripheral Nerve, Neuromuscular Junction and Muscle Disorders | 10 |
+| Seizures, Stroke and Headache Disorders | 10 |
+| Spinal Cord and Demyelinating Disorders | 10 |
+
+### Poisoning, Drug Overdose, and Envenomation (30)
+
+| Topic | Questions |
+|---|---:|
+| Heavy Metal Poisoning | 10 |
+| Poisoning and Drug Overdose Management | 10 |
+| Snakebite, Marine and Arthropod Envenomation | 10 |
 
 ## Microbiology (810)
 
@@ -394,6 +829,57 @@ Store mismatch check: `runtime-data/users.json` and `data/users.json` match topi
 |---|---:|
 | Infective Syndromes of Genital Tract and Sexually-transmitted Infections | 10 |
 | Infective Syndromes of Urinary Tract | 10 |
+
+## Ophthalmology (310)
+
+### Anatomy and Physiology of Eye (40)
+
+| Topic | Questions |
+|---|---:|
+| Anatomy and Development of Eye | 20 |
+| Physiology of Eye and Vision | 20 |
+
+### Diseases of Eye and Ocular Adnexa (100)
+
+| Topic | Questions |
+|---|---:|
+| Conjunctival Disorders | 10 |
+| Corneal Diseases | 10 |
+| Diseases of Eyelids and Lacrimal Apparatus | 10 |
+| Glaucoma | 10 |
+| Lens and Cataract | 10 |
+| Ocular Infections, Inflammation and Emergencies | 10 |
+| Optic Nerve and Neuro-Ophthalmic Disorders | 10 |
+| Orbital Disorders and Ocular Trauma | 10 |
+| Retinal and Vitreous Disorders | 10 |
+| Sclera, Episclera and Uveal Tract | 10 |
+
+### Ocular Therapeutics (40)
+
+| Topic | Questions |
+|---|---:|
+| Lasers and Cryotherapy in Ophthalmology | 20 |
+| Ocular Pharmacology | 20 |
+
+### Optics and Refraction (40)
+
+| Topic | Questions |
+|---|---:|
+| Elementary and Physiological Optics | 20 |
+| Errors of Refraction and Accommodation | 20 |
+
+### Practical Ophthalmology (50)
+
+| Topic | Questions |
+|---|---:|
+| Practical Ophthalmology | 50 |
+
+### Systemic and Community Ophthalmology (40)
+
+| Topic | Questions |
+|---|---:|
+| Community Opthalmology | 20 |
+| Systemic Ophthalmology | 20 |
 
 ## Pathology (2835)
 

@@ -1,8 +1,149 @@
 {
   "generatedFrom": "runtime-data/users.json",
   "comparedWith": "data/users.json",
-  "totalQuestions": 6955,
-  "storeMismatches": [],
+  "totalQuestions": 9480,
+  "storeMismatches": [
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+      "topicTitle": "Chest Pain, Dyspnea and Palpitations",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+      "topicTitle": "Cough, Hemoptysis and Respiratory Presentations",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+      "topicTitle": "Fatigue, Weight Change and Edema",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+      "topicTitle": "Fever, Hyperthermia and Hypothermia",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+      "topicTitle": "Gastrointestinal and Hepatobiliary Presentations",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+      "topicTitle": "Hematologic, Immune and Skin Presentations",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+      "topicTitle": "Pain and Headache Syndromes",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+      "topicTitle": "Renal, Urinary and Fluid-Electrolyte Presentations",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+      "topicTitle": "Syncope, Dizziness and Weakness",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Oncology and Hematology",
+      "topicTitle": "Disorders of Hemostasis",
+      "runtimeCount": 0,
+      "dataCount": 15
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Oncology and Hematology",
+      "topicTitle": "Hematopoietic Disorders",
+      "runtimeCount": 0,
+      "dataCount": 15
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Oncology and Hematology",
+      "topicTitle": "Neoplastic Disorders",
+      "runtimeCount": 0,
+      "dataCount": 15
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Pharmacology",
+      "topicTitle": "Pharmacodynamics, Adverse Effects and Interactions",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Pharmacology",
+      "topicTitle": "Pharmacokinetics and Dose Individualization",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "Pharmacology",
+      "topicTitle": "Rational Prescribing and Special Populations",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "The Profession of Medicine",
+      "topicTitle": "Diagnostic Reasoning and Evidence",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "The Profession of Medicine",
+      "topicTitle": "Ethics, Consent and Confidentiality",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "The Profession of Medicine",
+      "topicTitle": "Patient-Centered Clinical Method",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "The Profession of Medicine",
+      "topicTitle": "Professionalism, Learning and Society",
+      "runtimeCount": 0,
+      "dataCount": 10
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "chapterTitle": "The Profession of Medicine",
+      "topicTitle": "Quality, Safety and Systems of Care",
+      "runtimeCount": 0,
+      "dataCount": 10
+    }
+  ],
   "subjects": [
     {
       "subjectTitle": "Anatomy",
@@ -470,8 +611,30 @@
     },
     {
       "subjectTitle": "Community Medicine",
-      "count": 410,
+      "count": 770,
       "chapters": [
+        {
+          "chapterTitle": "Communication for Health Education",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Communication Process and Barriers",
+              "count": 10
+            },
+            {
+              "topicTitle": "Health Education Principles",
+              "count": 10
+            },
+            {
+              "topicTitle": "Methods and Media",
+              "count": 10
+            },
+            {
+              "topicTitle": "Planning and Evaluation",
+              "count": 10
+            }
+          ]
+        },
         {
           "chapterTitle": "Demography and Family Planning",
           "count": 40,
@@ -490,6 +653,28 @@
             },
             {
               "topicTitle": "Fertility, Mortality, Migration and Population Transition",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Disaster Management",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Concepts and Disaster Cycle",
+              "count": 10
+            },
+            {
+              "topicTitle": "Planning and Rehabilitation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Public Health Priorities",
+              "count": 10
+            },
+            {
+              "topicTitle": "Response, Triage and Relief",
               "count": 10
             }
           ]
@@ -577,6 +762,94 @@
           ]
         },
         {
+          "chapterTitle": "Genetics and Health",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Basic Genetics and Inheritance",
+              "count": 10
+            },
+            {
+              "topicTitle": "Community Genetics and Public Health",
+              "count": 10
+            },
+            {
+              "topicTitle": "Genetic Diseases and Chromosomal Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Prevention, Screening and Counselling",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Health Care of the Community",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Community Diagnosis and Services",
+              "count": 10
+            },
+            {
+              "topicTitle": "Health Infrastructure and Workers",
+              "count": 10
+            },
+            {
+              "topicTitle": "Levels of Health Care and Referral",
+              "count": 10
+            },
+            {
+              "topicTitle": "Primary Health Care",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Health Information and Basic Medical Statistics",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Averages and Variation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Data, Tables and Diagrams",
+              "count": 10
+            },
+            {
+              "topicTitle": "Health Information System",
+              "count": 10
+            },
+            {
+              "topicTitle": "Probability and Tests of Significance",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Health Planning and Management",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Health Planning Principles",
+              "count": 10
+            },
+            {
+              "topicTitle": "Implementation and Evaluation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Management Functions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Resources and Logistics",
+              "count": 10
+            }
+          ]
+        },
+        {
           "chapterTitle": "Health Programmes in India",
           "count": 40,
           "topics": [
@@ -594,6 +867,28 @@
             },
             {
               "topicTitle": "RMNCH+A and Universal Immunization Programmes",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Hospital Waste Management",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Principles and Classification",
+              "count": 10
+            },
+            {
+              "topicTitle": "Segregation and Colour Coding",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sharps and Infection Safety",
+              "count": 10
+            },
+            {
+              "topicTitle": "Treatment, Disposal and Rules",
               "count": 10
             }
           ]
@@ -621,6 +916,28 @@
           ]
         },
         {
+          "chapterTitle": "Mental Health",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Community Mental Health Services",
+              "count": 10
+            },
+            {
+              "topicTitle": "Concepts and Burden of Mental Health",
+              "count": 10
+            },
+            {
+              "topicTitle": "Prevention and Mental Health Promotion",
+              "count": 10
+            },
+            {
+              "topicTitle": "Special Groups and Substance Use",
+              "count": 10
+            }
+          ]
+        },
+        {
           "chapterTitle": "Nutrition and Health",
           "count": 40,
           "topics": [
@@ -638,6 +955,28 @@
             },
             {
               "topicTitle": "Protein Energy Malnutrition and Childhood Undernutrition",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Occupational Health",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Chemical and Physical Hazards",
+              "count": 10
+            },
+            {
+              "topicTitle": "Concepts and Occupational Hazards",
+              "count": 10
+            },
+            {
+              "topicTitle": "Dust and Occupational Lung Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Prevention, Legislation and Services",
               "count": 10
             }
           ]
@@ -689,6 +1028,918 @@
             {
               "topicTitle": "Screening for Disease",
               "count": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "ENT",
+      "count": 900,
+      "chapters": [
+        {
+          "chapterTitle": "Diseases of Ear",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Acute Otitis Media and Otitis Media with Effusion",
+              "count": 10
+            },
+            {
+              "topicTitle": "Anatomy, Physiology and Examination of Ear",
+              "count": 10
+            },
+            {
+              "topicTitle": "Chronic Otitis Media and Cholesteatoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Complications of Otitis Media and Mastoiditis",
+              "count": 10
+            },
+            {
+              "topicTitle": "External Ear Disorders and Otitis Externa",
+              "count": 10
+            },
+            {
+              "topicTitle": "Facial Nerve, Trauma and Temporal Bone",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hearing Loss, Audiology and Rehabilitation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Inner Ear Disorders, Vertigo and Tinnitus",
+              "count": 10
+            },
+            {
+              "topicTitle": "Otosclerosis and Ossicular Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tumors, Cysts and Miscellaneous Ear Conditions",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Diseases of Larynx and Trachea",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Acute and Chronic Laryngitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Benign Vocal Fold Lesions and Voice Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Laryngeal Anatomy, Physiology and Examination",
+              "count": 10
+            },
+            {
+              "topicTitle": "Laryngeal Cancer and Premalignant Laryngeal Lesions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Laryngeal Trauma, Burns and Airway Stenosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pediatric Laryngeal and Tracheal Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Stridor and Acute Upper Airway Obstruction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tracheal Disease, Aspiration and Lower Airway Interface",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tracheostomy, Intubation and Airway Procedures",
+              "count": 10
+            },
+            {
+              "topicTitle": "Vocal Cord Paralysis and Neurogenic Laryngeal Disease",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Diseases of Nose and Paranasal Sinuses",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Acute and Chronic Rhinosinusitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Allergic, Vasomotor and Other Rhinitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Benign and Malignant Sinonasal Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Complications of Sinusitis and Mucoceles",
+              "count": 10
+            },
+            {
+              "topicTitle": "Congenital and Developmental Nasal Conditions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Epistaxis and Nasal Vascular Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fungal, Granulomatous and Destructive Nasal Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nasal Anatomy, Physiology and Examination",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nasal Polyps and Polypoid Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nasal Trauma, Septum and Structural Obstruction",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Diseases of Oesophagus",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Benign Oesophageal Lesions, Webs and Rings",
+              "count": 10
+            },
+            {
+              "topicTitle": "Caustic Injury and Oesophageal Strictures",
+              "count": 10
+            },
+            {
+              "topicTitle": "Dysphagia, Odynophagia and Globus",
+              "count": 10
+            },
+            {
+              "topicTitle": "Foreign Bodies and Food Bolus Impaction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gastro-Oesophageal Reflux and Barrett Oesophagus",
+              "count": 10
+            },
+            {
+              "topicTitle": "Motility Disorders and Diverticula",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oesophageal Anatomy, Physiology and Evaluation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oesophageal Carcinoma and Premalignant Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oesophageal Perforation and Fistulae",
+              "count": 10
+            },
+            {
+              "topicTitle": "Paediatric Oesophageal Disorders",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Diseases of Oral Cavity and Salivary Glands",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Benign Oral Cavity Lesions and Cysts",
+              "count": 10
+            },
+            {
+              "topicTitle": "Benign Salivary Gland Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Inflammatory, Viral and Autoimmune Salivary Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Malignant Salivary Gland Tumors and Management",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oral Cavity Anatomy, Examination and Common Symptoms",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oral Infections and Deep Neck Spread from Oral Sepsis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Premalignant Disease and Oral Cavity Carcinoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Salivary Gland Anatomy, Physiology and Investigation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sialolithiasis and Obstructive Salivary Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ulcers, Stomatitis and Oral Mucosal Lesions",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Diseases of Pharynx",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Acute Pharyngitis, Tonsillitis and Membranous Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Adenoid Disease and Adenoidectomy",
+              "count": 10
+            },
+            {
+              "topicTitle": "Chronic Tonsillitis and Indications for Tonsillectomy",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hypopharyngeal Disorders, Dysphagia and Foreign Bodies",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nasopharyngeal Disorders and Nasopharyngeal Carcinoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oropharyngeal and Hypopharyngeal Tumors",
+              "count": 10
+            },
+            {
+              "topicTitle": "Peritonsillar, Parapharyngeal and Retropharyngeal Abscess",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pharyngeal Anatomy, Waldeyer Ring and Examination",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pharyngeal Trauma, Burns and Caustic Injuries",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sleep-Disordered Breathing and Pharyngeal Obstruction",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Operative Surgery",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Endoscopic Sinus and Skull Base Surgery",
+              "count": 10
+            },
+            {
+              "topicTitle": "Laryngeal Microlaryngoscopy and Laser Surgery",
+              "count": 10
+            },
+            {
+              "topicTitle": "Nasal Septal, Turbinate and Epistaxis Surgery",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neck Dissection and Head-Neck Oncosurgery",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oesophagoscopy, Bronchoscopy and Foreign Body Surgery",
+              "count": 10
+            },
+            {
+              "topicTitle": "Oral Cavity, Salivary and Pharyngeal Operations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Otologic Surgery and Mastoid Procedures",
+              "count": 10
+            },
+            {
+              "topicTitle": "Principles, Consent and Anaesthesia in ENT Surgery",
+              "count": 10
+            },
+            {
+              "topicTitle": "Thyroid and Parathyroid Surgery",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tracheostomy and Airway Procedures",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Recent Diseases",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Air Pollution, Allergy and Occupational ENT Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Allergic Fungal Rhinosinusitis and Eosinophilic Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Antimicrobial Resistance and Recurrent ENT Infection",
+              "count": 10
+            },
+            {
+              "topicTitle": "Autoimmune and Systemic ENT Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "COVID-19 and Post-Viral ENT Manifestations",
+              "count": 10
+            },
+            {
+              "topicTitle": "ENT Manifestations of Emerging and Zoonotic Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "HIV, Immunosuppression and ENT Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "HPV-Related Head and Neck Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Newer Diagnostics, Biologics and Technology in ENT",
+              "count": 10
+            },
+            {
+              "topicTitle": "Rhino-Orbito-Cerebral Mucormycosis",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Thyroid Gland and Its Disorders",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Clinical Evaluation, Thyroid Function Tests and Imaging",
+              "count": 10
+            },
+            {
+              "topicTitle": "Differentiated Thyroid Cancer: Papillary and Follicular",
+              "count": 10
+            },
+            {
+              "topicTitle": "Goiter, Iodine Deficiency and Benign Thyroid Enlargement",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hyperthyroidism, Graves Disease and Thyroid Storm",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hypothyroidism and Thyroiditis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Medullary, Anaplastic and Thyroid Lymphoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Special Thyroid Conditions and Neck Mass Differentials",
+              "count": 10
+            },
+            {
+              "topicTitle": "Thyroid Anatomy, Embryology and Physiology",
+              "count": 10
+            },
+            {
+              "topicTitle": "Thyroid Nodules, FNAC and Risk Stratification",
+              "count": 10
+            },
+            {
+              "topicTitle": "Thyroid Surgery, Complications and Postoperative Care",
+              "count": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "Forensic Medicine",
+      "count": 400,
+      "chapters": [
+        {
+          "chapterTitle": "Section 1: Legal Medicine, Identification and Thanatology",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Courts, Legal Procedure and Medical Evidence",
+              "count": 10
+            },
+            {
+              "topicTitle": "Death, Brain Death and Early Postmortem Changes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fingerprints, Footprints and DNA Profiling",
+              "count": 10
+            },
+            {
+              "topicTitle": "Identification: Age, Sex, Stature and Race",
+              "count": 10
+            },
+            {
+              "topicTitle": "Late Postmortem Changes and Time Since Death",
+              "count": 10
+            },
+            {
+              "topicTitle": "Mechanical Injuries: General Principles",
+              "count": 10
+            },
+            {
+              "topicTitle": "Medical Ethics, Consent and Professional Negligence",
+              "count": 10
+            },
+            {
+              "topicTitle": "Medico-Legal Autopsy and Exhumation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Regional Injuries and Road-Traffic Trauma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sharp-Force and Firearm Injuries",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Section 1: Postmortem Changes, Injuries, Asphyxia and Toxicology",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Asphyxial Deaths: General Features",
+              "count": 10
+            },
+            {
+              "topicTitle": "Burns, Scalds and Heat-Related Deaths",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cold Injury, Electrocution and Lightning",
+              "count": 10
+            },
+            {
+              "topicTitle": "Corrosive and Irritant Poisons",
+              "count": 10
+            },
+            {
+              "topicTitle": "Drowning and Immersion Deaths",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Toxicology and Poisoning Duties",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hanging, Ligature Strangulation and Manual Strangulation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neurotoxic and Asphyxiant Poisons",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sexual Offences: Examination and Evidence",
+              "count": 10
+            },
+            {
+              "topicTitle": "Starvation, Neglect and Torture-Related Injuries",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Section 2: Organic, Drug, Agricultural and Animal Poisons",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Anticholinergic and Deliriant Poisons",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cannabis, Cocaine and Stimulants",
+              "count": 10
+            },
+            {
+              "topicTitle": "Drug Abuse, Dependence and Medico-Legal Testing",
+              "count": 10
+            },
+            {
+              "topicTitle": "Food Poisoning and Bacterial Toxins",
+              "count": 10
+            },
+            {
+              "topicTitle": "Occupational and Environmental Poisoning",
+              "count": 10
+            },
+            {
+              "topicTitle": "Opioids and Sedative-Hypnotic Poisons",
+              "count": 10
+            },
+            {
+              "topicTitle": "Organochlorines, Pyrethroids and Herbicides",
+              "count": 10
+            },
+            {
+              "topicTitle": "Organophosphorus and Carbamate Insecticides",
+              "count": 10
+            },
+            {
+              "topicTitle": "Plant Poisons: Cardiac and Irritant Plants",
+              "count": 10
+            },
+            {
+              "topicTitle": "Snakebite and Animal Poisons",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Section 2: Toxicology Principles, Corrosives and Inorganic Poisons",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Alkalis, Phenol and Household Corrosives",
+              "count": 10
+            },
+            {
+              "topicTitle": "Arsenic and Irritant Metallic Poisons",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cyanide, Carbon Monoxide and Asphyxiant Gases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Decontamination, Elimination and Antidote Principles",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ethyl Alcohol and Toxic Alcohols",
+              "count": 10
+            },
+            {
+              "topicTitle": "General Toxicology: Duties, Samples and Diagnosis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Lead Poisoning",
+              "count": 10
+            },
+            {
+              "topicTitle": "Mercury Poisoning",
+              "count": 10
+            },
+            {
+              "topicTitle": "Mineral Acids and Corrosive Acid Poisoning",
+              "count": 10
+            },
+            {
+              "topicTitle": "Phosphorus and Related Irritant Poisons",
+              "count": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "General Medicine",
+      "count": 555,
+      "chapters": [
+        {
+          "chapterTitle": "Aging",
+          "count": 15,
+          "topics": [
+            {
+              "topicTitle": "Aging",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Consultative Medicine",
+          "count": 15,
+          "topics": [
+            {
+              "topicTitle": "Consultative Medicine",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Critical Care Medicine",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Approach to Critical Illness and ICU Care",
+              "count": 10
+            },
+            {
+              "topicTitle": "ARDS and Mechanical Ventilatory Support",
+              "count": 10
+            },
+            {
+              "topicTitle": "Shock, Sepsis and Cardiac Arrest",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Disorders Associated with Environmental Exposures",
+          "count": 15,
+          "topics": [
+            {
+              "topicTitle": "Disorders Associated with Environmental Exposures",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Disorders of the Cardiovascular System",
+          "count": 70,
+          "topics": [
+            {
+              "topicTitle": "Coronary and Peripheral Vascular Disease",
+              "count": 14
+            },
+            {
+              "topicTitle": "Diagnosis of Cardiovascular Disorders",
+              "count": 14
+            },
+            {
+              "topicTitle": "Disorders of Rhythm",
+              "count": 14
+            },
+            {
+              "topicTitle": "Disorders of the Heart",
+              "count": 14
+            },
+            {
+              "topicTitle": "Introduction to Cardiovascular Disorders",
+              "count": 14
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Disorders of the Gastrointestinal System",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Approach, Endoscopy and Esophageal Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Intestinal, Colorectal and Acute Abdominal Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Liver, Biliary and Pancreatic Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Peptic Ulcer, Malabsorption and Inflammatory Bowel Disease",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Disorders of the Kidney and Urinary Tract",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Chronic Kidney Disease, Dialysis and Glomerular Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cystic Kidney Disease, Nephrolithiasis and Urinary Obstruction",
+              "count": 10
+            },
+            {
+              "topicTitle": "Renal Physiology and Acute Kidney Injury",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Disorders of the Respiratory System",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Asthma and COPD",
+              "count": 10
+            },
+            {
+              "topicTitle": "Diagnosis of Respiratory Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Interstitial, Pleural, Ventilatory and Sleep Disorders",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Endocrinology and Metabolism",
+          "count": 50,
+          "topics": [
+            {
+              "topicTitle": "Bone, Mineral and Intermediary Metabolism",
+              "count": 10
+            },
+            {
+              "topicTitle": "Endocrine Principles and Pituitary Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neurohypophysis, Thyroid and Adrenal Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Obesity, Diabetes, Lipids and Metabolic Syndrome",
+              "count": 10
+            },
+            {
+              "topicTitle": "Reproductive, Sex and Gender-Based Medicine",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Frontiers",
+          "count": 20,
+          "topics": [
+            {
+              "topicTitle": "Frontiers",
+              "count": 20
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Genes, the Environment, and Disease",
+          "count": 15,
+          "topics": [
+            {
+              "topicTitle": "Genes, the Environment, and Disease",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Global Medicine",
+          "count": 15,
+          "topics": [
+            {
+              "topicTitle": "Global Medicine",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Immune-Mediated, Inflammatory, and Rheumatologic Disorders",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Immune System, Immunodeficiency and Allergy",
+              "count": 10
+            },
+            {
+              "topicTitle": "Musculoskeletal, Joint and Crystal Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Systemic Autoimmune and Vasculitic Disorders",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Infectious Diseases",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Antimicrobial Principles and Stewardship",
+              "count": 10
+            },
+            {
+              "topicTitle": "Approach to Fever and Sepsis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Emerging, Viral and Travel-Related Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gastrointestinal and Hepatobiliary Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Healthcare-Associated and Device-Related Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "HIV and Opportunistic Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Respiratory and CNS Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Tuberculosis and Mycobacterial Disease",
+              "count": 10
+            },
+            {
+              "topicTitle": "Urinary, Skin and Soft Tissue Infections",
+              "count": 10
+            },
+            {
+              "topicTitle": "Vector-Borne and Zoonotic Infections",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Neurologic Disorders",
+          "count": 50,
+          "topics": [
+            {
+              "topicTitle": "Dementia, Movement and Ataxic Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Neurologic Diagnosis, Localization and Imaging",
+              "count": 10
+            },
+            {
+              "topicTitle": "Peripheral Nerve, Neuromuscular Junction and Muscle Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Seizures, Stroke and Headache Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Spinal Cord and Demyelinating Disorders",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Poisoning, Drug Overdose, and Envenomation",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Heavy Metal Poisoning",
+              "count": 10
+            },
+            {
+              "topicTitle": "Poisoning and Drug Overdose Management",
+              "count": 10
+            },
+            {
+              "topicTitle": "Snakebite, Marine and Arthropod Envenomation",
+              "count": 10
             }
           ]
         }
@@ -1085,6 +2336,124 @@
             {
               "topicTitle": "Infective Syndromes of Urinary Tract",
               "count": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "Ophthalmology",
+      "count": 310,
+      "chapters": [
+        {
+          "chapterTitle": "Anatomy and Physiology of Eye",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Anatomy and Development of Eye",
+              "count": 20
+            },
+            {
+              "topicTitle": "Physiology of Eye and Vision",
+              "count": 20
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Diseases of Eye and Ocular Adnexa",
+          "count": 100,
+          "topics": [
+            {
+              "topicTitle": "Conjunctival Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Corneal Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Diseases of Eyelids and Lacrimal Apparatus",
+              "count": 10
+            },
+            {
+              "topicTitle": "Glaucoma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Lens and Cataract",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ocular Infections, Inflammation and Emergencies",
+              "count": 10
+            },
+            {
+              "topicTitle": "Optic Nerve and Neuro-Ophthalmic Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Orbital Disorders and Ocular Trauma",
+              "count": 10
+            },
+            {
+              "topicTitle": "Retinal and Vitreous Disorders",
+              "count": 10
+            },
+            {
+              "topicTitle": "Sclera, Episclera and Uveal Tract",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Ocular Therapeutics",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Lasers and Cryotherapy in Ophthalmology",
+              "count": 20
+            },
+            {
+              "topicTitle": "Ocular Pharmacology",
+              "count": 20
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Optics and Refraction",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Elementary and Physiological Optics",
+              "count": 20
+            },
+            {
+              "topicTitle": "Errors of Refraction and Accommodation",
+              "count": 20
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Practical Ophthalmology",
+          "count": 50,
+          "topics": [
+            {
+              "topicTitle": "Practical Ophthalmology",
+              "count": 50
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Systemic and Community Ophthalmology",
+          "count": 40,
+          "topics": [
+            {
+              "topicTitle": "Community Opthalmology",
+              "count": 20
+            },
+            {
+              "topicTitle": "Systemic Ophthalmology",
+              "count": 20
             }
           ]
         }
