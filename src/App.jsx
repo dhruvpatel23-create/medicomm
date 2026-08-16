@@ -4,6 +4,7 @@ import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const COMMUNITY_THREAD_WORD_LIMIT = 300;
@@ -147,6 +148,35 @@ const emptyPracticeLibrary = {
   years: [],
   subjects: [],
 };
+
+function normalizePracticeLibrary(data) {
+  return {
+    exam: data?.exam ?? emptyPracticeLibrary.exam,
+    years: data?.years ?? [],
+    subjects: data?.subjects ?? [],
+    aiSubjects: data?.aiSubjects ?? [],
+  };
+}
+
+function readCachedPracticeLibrary() {
+  if (typeof window === "undefined") return null;
+  try {
+    const cached = JSON.parse(localStorage.getItem(PRACTICE_LIBRARY_CACHE_KEY) || "null");
+    if (!cached || !Array.isArray(cached.subjects)) return null;
+    return normalizePracticeLibrary(cached);
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedPracticeLibrary(library) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(PRACTICE_LIBRARY_CACHE_KEY, JSON.stringify(library));
+  } catch {
+    // The live response is still usable when browser storage is full or unavailable.
+  }
+}
 
 const fallbackDuelQuestions = [
   {
@@ -549,6 +579,10 @@ function App() {
       .map((subjectId) => practiceSubjects.find((subject) => subject.id === subjectId))
       .filter(Boolean),
   }));
+  const groupedPracticeSubjectIds = new Set(groupedPracticeYears.flatMap((year) => year.subjects.map((subject) => subject.id)));
+  const supplementalAiPracticeSubjects = aiPracticeSubjects
+    .filter((subject) => !groupedPracticeSubjectIds.has(subject.id))
+    .sort((a, b) => a.title.localeCompare(b.title));
   const activePracticeYear =
     groupedPracticeYears.find((year) => year.subjects.some((subject) => subject.id === selectedPracticeSubjectId)) ?? null;
   const isCorrect = submitted && currentPracticeQuestion ? selectedOption === currentPracticeQuestion.answer : false;
@@ -701,14 +735,31 @@ function App() {
     }
   }
 
-  async function fetchPracticeLibrary() {
-    const controller = new AbortController();
-    const timeoutId = window.setTimeout(() => controller.abort(), 8000);
+async function fetchPracticeLibrary() {
+  const cachedLibrary = readCachedPracticeLibrary();
+  if (cachedLibrary?.subjects?.length) {
+    setPracticeLibrary(cachedLibrary);
+    setSelectedPracticeSubjectId((current) => {
+      const hasCurrentSubject = [...cachedLibrary.subjects, ...(cachedLibrary.aiSubjects ?? [])].some((subject) => subject.id === current);
+      return hasCurrentSubject ? current : cachedLibrary.subjects[0]?.id ?? cachedLibrary.aiSubjects?.[0]?.id ?? "";
+    });
+    setPracticeLibraryStatus("ready");
+    setPracticeLibraryMessage("Showing saved questions while refreshing the library.");
+  } else {
+    setPracticeLibraryStatus("loading");
+  }
 
+  let lastError = null;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 45000);
     try {
-      setPracticeLibraryStatus("loading");
+      if (attempt > 0) {
+        await new Promise((resolve) => window.setTimeout(resolve, 900 * attempt));
+      }
+
       const response = await fetch(PRACTICE_LIBRARY_URL, {
-        cache: "no-store",
+        cache: "default",
         signal: controller.signal,
       });
 
@@ -716,29 +767,36 @@ function App() {
         throw new Error("Could not load practice questions.");
       }
 
-      const data = await response.json();
-      const nextLibrary = {
-        exam: data.exam ?? emptyPracticeLibrary.exam,
-        years: data.years ?? [],
-        subjects: data.subjects ?? [],
-        aiSubjects: data.aiSubjects ?? [],
-      };
+      const nextLibrary = normalizePracticeLibrary(await response.json());
       setPracticeLibrary(nextLibrary);
+      writeCachedPracticeLibrary(nextLibrary);
       setSelectedPracticeSubjectId((current) => {
-        if (current && nextLibrary.subjects.some((subject) => subject.id === current)) return current;
-        return nextLibrary.subjects[0]?.id ?? "";
+        const hasCurrentSubject = [...nextLibrary.subjects, ...(nextLibrary.aiSubjects ?? [])].some((subject) => subject.id === current);
+        if (hasCurrentSubject) return current;
+        return nextLibrary.subjects[0]?.id ?? nextLibrary.aiSubjects?.[0]?.id ?? "";
       });
       setPracticeLibraryMessage("");
       setPracticeLibraryStatus("ready");
+      window.clearTimeout(timeoutId);
+      return;
     } catch (error) {
-      setPracticeLibrary(emptyPracticeLibrary);
-      setSelectedPracticeSubjectId("");
-      setPracticeLibraryMessage(error instanceof Error ? error.message : "Could not load practice questions.");
-      setPracticeLibraryStatus("error");
+      lastError = error;
     } finally {
       window.clearTimeout(timeoutId);
     }
   }
+
+  if (cachedLibrary?.subjects?.length) {
+    setPracticeLibraryMessage("You are offline or the connection is slow. Saved questions are available.");
+    setPracticeLibraryStatus("ready");
+    return;
+  }
+
+  setPracticeLibrary(emptyPracticeLibrary);
+  setSelectedPracticeSubjectId("");
+  setPracticeLibraryMessage(lastError instanceof Error ? lastError.message : "Could not load practice questions.");
+  setPracticeLibraryStatus("error");
+}
 
   useEffect(() => {
     const token = localStorage.getItem(SESSION_TOKEN_KEY);
@@ -774,6 +832,17 @@ function App() {
     document.documentElement.style.colorScheme = theme;
     localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
+
+  useEffect(() => {
+    if (!practiceChoiceSubject) return undefined;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [practiceChoiceSubject]);
 
   useEffect(() => {
     const nextProgress = readPracticeProgress(user);
@@ -2675,6 +2744,36 @@ function App() {
               </div>
             </section>
           ))}
+          {supplementalAiPracticeSubjects.length ? (
+            <section className="card panel practice-year-section">
+              <div className="panel-heading-split">
+                <div>
+                  <h3>Topic-wise question banks</h3>
+                  <p className="panel-copy">Supplemental subject-wise practice sets.</p>
+                </div>
+                <span className="rank-pill">{supplementalAiPracticeSubjects.length} subjects</span>
+              </div>
+
+              <div className="practice-subject-grid">
+                {supplementalAiPracticeSubjects.map((subject) => {
+                  const aiQuestionCount = subject.questions?.length ?? 0;
+                  return (
+                    <button
+                      key={subject.id}
+                      className="practice-subject-card"
+                      onClick={() => handleSelectPracticeSubject(subject.id)}
+                    >
+                      <span className="practice-subject-label">{subject.title}</span>
+                      <p className="practice-subject-copy">Practise topic-wise questions.</p>
+                      <span className="practice-subject-counts">
+                        <strong>{aiQuestionCount} Topic Wise</strong>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          ) : null}
         </div>
       </section>
     );

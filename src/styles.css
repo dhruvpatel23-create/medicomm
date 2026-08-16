@@ -2707,6 +2707,7 @@ main {
   padding: 24px;
   background: rgba(2, 6, 23, 0.64);
   backdrop-filter: blur(8px);
+  overscroll-behavior: contain;
 }
 
 .practice-choice-modal {
@@ -2714,6 +2715,9 @@ main {
   width: min(720px, 100%);
   max-height: min(90vh, 760px);
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   border: 1px solid rgba(148, 163, 184, 0.32);
   border-radius: 16px;
   background: #101216;
@@ -3081,6 +3085,15 @@ main {
 }
 
 @media (max-width: 720px) {
+  .practice-choice-backdrop {
+    align-items: end;
+    padding: 12px;
+  }
+
+  .practice-choice-modal {
+    max-height: calc(100dvh - 24px);
+  }
+
   .practice-year-section {
     padding: 18px;
     border-radius: 22px;

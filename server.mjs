@@ -4,6 +4,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync, unlinkSync } from "
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { gzipSync } from "node:zlib";
 import { resolveCollegeState } from "./collegeStateLookup.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -327,7 +328,7 @@ function normalizeQuestion(question, subject, exam = {}) {
 function getOfficialPracticeQuestions(library) {
   const examsById = new Map((library.exams ?? []).map((exam) => [exam.id, exam]));
   return (library.subjects ?? []).flatMap((subject) =>
-    (subject.questions ?? []).map((question) => {
+    (subject.questions ?? []).filter((question) => question.source !== "ai").map((question) => {
       const exam = examsById.get(question.examId) ?? library.exam ?? {};
       return normalizeQuestion(question, subject, exam);
     }),
@@ -357,7 +358,15 @@ function applyPracticeFilters(questions, url) {
 }
 
 function buildPracticeLibrary(library, storedQuestions = []) {
-  const aiQuestions = storedQuestions.filter((question) => question.source === "ai").map((question) => normalizeQuestion(question));
+  const embeddedAiQuestions = (library.subjects ?? []).flatMap((subject) =>
+    (subject.questions ?? []).filter((question) => question.source === "ai").map((question) => normalizeQuestion(question, subject, library.exam)),
+  );
+  const storedAiQuestions = storedQuestions.filter((question) => question.source === "ai").map((question) => normalizeQuestion(question));
+  const aiQuestionsById = new Map();
+  for (const question of [...embeddedAiQuestions, ...storedAiQuestions]) {
+    aiQuestionsById.set(question.id, question);
+  }
+  const aiQuestions = [...aiQuestionsById.values()];
   const questionsBySubjectId = new Map();
   const aiSubjectTitlesById = new Map();
 
@@ -387,7 +396,9 @@ function buildPracticeLibrary(library, storedQuestions = []) {
     subjects: allSubjects.map((subject) => {
       return {
         ...subject,
-        questions: (subject.questions ?? []).map((question) => normalizeQuestion(question, subject, library.exam)),
+        questions: (subject.questions ?? [])
+          .filter((question) => question.source !== "ai")
+          .map((question) => normalizeQuestion(question, subject, library.exam)),
       };
     }),
     aiSubjects: allSubjects.map((subject) => {
@@ -694,12 +705,15 @@ function countPracticeQuestions(library) {
   );
 }
 
-function sendJson(response, statusCode, payload) {
+function sendJson(response, statusCode, payload, headers = {}) {
+  const body = gzipSync(JSON.stringify(payload));
   response.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
+    "Content-Encoding": "gzip",
+    ...headers,
   });
-  response.end(JSON.stringify(payload));
+  response.end(body);
 }
 
 const staticMimeTypes = {
@@ -1740,10 +1754,12 @@ function handleStorageStatus(response) {
 
 function handlePracticeQuestionBank(request, response, url) {
   const database = readDatabase();
-  const library = buildPracticeLibrary(readPracticeQuestionBank(), database.questions);
+  const rawLibrary = readPracticeQuestionBank();
+  const library = buildPracticeLibrary(rawLibrary, database.questions);
+  const hasQuestionFilters = ["examId", "year", "subjectId", "topic", "source"].some((filter) => url.searchParams.has(filter));
   const allQuestions = [
-    ...getOfficialPracticeQuestions(readPracticeQuestionBank()),
-    ...database.questions.filter((question) => question.source === "ai").map((question) => normalizeQuestion(question)),
+    ...getOfficialPracticeQuestions(rawLibrary),
+    ...(library.aiSubjects ?? []).flatMap((subject) => subject.questions ?? []),
   ];
 
   return sendJson(response, 200, {
@@ -1754,7 +1770,9 @@ function handlePracticeQuestionBank(request, response, url) {
       topics: [...new Set(allQuestions.map((question) => question.topic).filter(Boolean))].sort(),
       sources: ["official", "ai"],
     },
-    questions: applyPracticeFilters(allQuestions, url),
+    questions: hasQuestionFilters ? applyPracticeFilters(allQuestions, url) : [],
+  }, {
+    "Cache-Control": hasQuestionFilters ? "no-store" : "private, max-age=300, stale-while-revalidate=86400",
   });
 }
 
