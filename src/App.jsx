@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "./components/AppShellV2";
+import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
 import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
@@ -60,6 +61,17 @@ const comparePracticeDirectoryEntries = (left, right) => {
   return String(left.title ?? left.topic ?? "").localeCompare(String(right.title ?? right.topic ?? ""));
 };
 
+function shuffleQuestionIds(questions = []) {
+  const ids = questions.map((question) => question.id);
+
+  for (let index = ids.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [ids[index], ids[randomIndex]] = [ids[randomIndex], ids[index]];
+  }
+
+  return ids;
+}
+
 const features = [
   {
     icon: "STK",
@@ -101,37 +113,6 @@ const features = [
 
 const navItems = ["Home", "Dashboard", "Practice", "Analytics", "Leaderboard", "Communities", "Compete", "Pricing", "Profile", "Settings"];
 
-const medicalCollegeSuggestions = [
-  "AIIMS Delhi",
-  "Armed Forces Medical College, Pune",
-  "B. J. Medical College, Ahmedabad",
-  "Bangalore Medical College and Research Institute",
-  "Banaras Hindu University Institute of Medical Sciences",
-  "Christian Medical College, Vellore",
-  "Government Medical College, Amritsar",
-  "Government Medical College, Srinagar",
-  "Grant Medical College, Mumbai",
-  "Indira Gandhi Medical College, Shimla",
-  "Jawaharlal Institute of Postgraduate Medical Education and Research",
-  "JNIMS, Imphal",
-  "King George's Medical University, Lucknow",
-  "Lady Hardinge Medical College, New Delhi",
-  "Madras Medical College, Chennai",
-  "Maulana Azad Medical College, New Delhi",
-  "Mysore Medical College and Research Institute",
-  "NEIGRIHMS, Shillong",
-  "Osmania Medical College, Hyderabad",
-  "Patna Medical College",
-  "Pt. B. D. Sharma PGIMS, Rohtak",
-  "RIMS, Ranchi",
-  "SCB Medical College, Cuttack",
-  "SMS Medical College, Jaipur",
-  "Sikkim Manipal Institute of Medical Sciences",
-  "Stanley Medical College, Chennai",
-  "Topiwala National Medical College, Mumbai",
-  "VMMC and Safdarjung Hospital, New Delhi",
-].sort((left, right) => left.localeCompare(right));
-
 const duelOpponents = [
   { name: "Ava Patel", rating: 1538, specialty: "Cardiology" },
   { name: "Noah Chen", rating: 1464, specialty: "Emergency Medicine" },
@@ -147,6 +128,8 @@ const emptyPracticeLibrary = {
   },
   years: [],
   subjects: [],
+  aiSubjects: [],
+  usmleSubjects: [],
 };
 
 function normalizePracticeLibrary(data) {
@@ -155,6 +138,7 @@ function normalizePracticeLibrary(data) {
     years: data?.years ?? [],
     subjects: data?.subjects ?? [],
     aiSubjects: data?.aiSubjects ?? [],
+    usmleSubjects: data?.usmleSubjects ?? [],
   };
 }
 
@@ -176,6 +160,30 @@ function writeCachedPracticeLibrary(library) {
   } catch {
     // The live response is still usable when browser storage is full or unavailable.
   }
+}
+
+function QuestionLaboratoryTable({ findings = [], compact = false }) {
+  if (!Array.isArray(findings) || !findings.length) return null;
+
+  return (
+    <div className={`question-laboratory-panel${compact ? " question-laboratory-panel-compact" : ""}`}>
+      <table className="question-laboratory-table">
+        <caption>Laboratory studies</caption>
+        <thead>
+          <tr><th>Test</th><th>Patient</th><th>Reference range</th></tr>
+        </thead>
+        <tbody>
+          {findings.map((finding) => (
+            <tr key={`${finding.test}-${finding.value}`}>
+              <th scope="row">{finding.test}</th>
+              <td>{finding.value}</td>
+              <td>{finding.reference || "—"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 const fallbackDuelQuestions = [
@@ -257,6 +265,10 @@ function getPracticeImageUrl(imageUrl) {
   if (!imageUrl?.includes("/medicomm-atlas-")) return imageUrl;
   const separator = imageUrl.includes("?") ? "&" : "?";
   return `${imageUrl}${separator}v=${ATLAS_IMAGE_VERSION}`;
+}
+
+function isWatermarkedUsmleImage(imageUrl) {
+  return String(imageUrl ?? "").includes("/usmle-pathology-robbins-q");
 }
 
 function getQuestionImageUrls(question) {
@@ -499,6 +511,7 @@ function App() {
   const [selectedPracticeChapter, setSelectedPracticeChapter] = useState("");
   const [practiceChoiceSubjectId, setPracticeChoiceSubjectId] = useState("");
   const [practiceQuestionIndex, setPracticeQuestionIndex] = useState(0);
+  const [usmlePracticeQuestionIds, setUsmlePracticeQuestionIds] = useState([]);
   const [practiceStage, setPracticeStage] = useState("catalog");
   const [practiceProgress, setPracticeProgress] = useState({});
   const [analyticsEvents, setAnalyticsEvents] = useState([]);
@@ -521,6 +534,7 @@ function App() {
   const [duelMessage, setDuelMessage] = useState("");
   const [duelForfeited, setDuelForfeited] = useState(false);
   const [selectedLeaderboardState, setSelectedLeaderboardState] = useState("");
+  const [selectedLeaderboardCollege, setSelectedLeaderboardCollege] = useState("");
   const [stateSearchTerm, setStateSearchTerm] = useState("");
   const [authStatus, setAuthStatus] = useState("loading");
   const [authMode, setAuthMode] = useState("login");
@@ -568,6 +582,7 @@ function App() {
   const [authForm, setAuthForm] = useState({
     name: "",
     email: "",
+    medicalState: "",
     medicalCollege: "",
     contactNumber: "",
     password: "",
@@ -575,6 +590,7 @@ function App() {
 
   const practiceSubjects = practiceLibrary.subjects ?? [];
   const aiPracticeSubjects = practiceLibrary.aiSubjects ?? [];
+  const usmlePracticeSubjects = practiceLibrary.usmleSubjects ?? [];
   const aiPracticeQuestionCountsBySubject = useMemo(
     () =>
       Object.fromEntries(
@@ -583,7 +599,12 @@ function App() {
     [aiPracticeSubjects],
   );
   const practiceYears = practiceLibrary.years ?? [];
-  const activePracticeSubjects = selectedPracticeMode === "ai" ? aiPracticeSubjects : practiceSubjects;
+  const activePracticeSubjects =
+    selectedPracticeMode === "ai"
+      ? aiPracticeSubjects
+      : selectedPracticeMode === "usmle"
+        ? usmlePracticeSubjects
+        : practiceSubjects;
   const currentPracticeSubject =
     activePracticeSubjects.find((subject) => subject.id === selectedPracticeSubjectId) ??
     activePracticeSubjects[0] ??
@@ -596,14 +617,21 @@ function App() {
     selectedPracticeMode === "pyq" && selectedPracticeExamYear
       ? currentPracticeYearSets.find((yearSet) => yearSet.id === selectedPracticeExamYear) ?? null
       : null;
-  const currentPracticeQuestions =
-    selectedPracticeMode === "ai" && selectedPracticeTopic
+  const basePracticeQuestions =
+    selectedPracticeMode !== "pyq" && selectedPracticeTopic
       ? (currentPracticeSubject?.questions ?? []).filter((question) => question.topic === selectedPracticeTopic)
       : currentPracticeQuestionSet?.questions ?? currentPracticeSubject?.questions ?? [];
+  const currentPracticeQuestions =
+    selectedPracticeMode === "usmle" && usmlePracticeQuestionIds.length
+      ? usmlePracticeQuestionIds
+          .map((questionId) => basePracticeQuestions.find((question) => question.id === questionId))
+          .filter(Boolean)
+      : basePracticeQuestions;
   const currentPracticeQuestion = currentPracticeQuestions[practiceQuestionIndex] ?? null;
   const practiceChoiceSubject =
     practiceSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
     aiPracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
+    usmlePracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
     null;
   const practiceChoiceYearSets = useMemo(
     () => buildSubjectYearSets(practiceChoiceSubject, practiceProgress),
@@ -611,6 +639,8 @@ function App() {
   );
   const currentAiPracticeSubject = aiPracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ?? null;
   const practiceChoiceAiQuestionCount = currentAiPracticeSubject?.questions?.length ?? 0;
+  const currentUsmlePracticeSubject = usmlePracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ?? null;
+  const practiceChoiceUsmleQuestionCount = currentUsmlePracticeSubject?.questions?.length ?? 0;
   const groupedPracticeYears = practiceYears.map((year) => ({
     ...year,
     subjects: year.subjectIds
@@ -638,6 +668,9 @@ function App() {
     [duelQuestions, duelSelections, duelSubmitted],
   );
   const userDuelAnswered = Object.keys(duelSubmitted).length;
+  const signupCollegeOptions = authForm.medicalState && authForm.medicalState !== ABROAD_STATE
+    ? medicalCollegesByState[authForm.medicalState] ?? []
+    : [];
 
   const attemptedQuestions = user?.attemptedQuestions ?? 0;
   const correctAnswers = user?.correctAnswers ?? 0;
@@ -703,14 +736,44 @@ function App() {
       .sort((left, right) => right.players[0].score - left.players[0].score);
   }, [liveLeaderboard]);
 
+  const stateLeaderboardByName = useMemo(
+    () => new Map(stateLeaderboard.map((entry) => [entry.state, entry])),
+    [stateLeaderboard],
+  );
+
+  const leaderboardStateOptions = useMemo(() => {
+    const rankedStates = new Set(stateLeaderboard.map((entry) => entry.state));
+    return signupStateOptions
+      .filter((state) => state !== ABROAD_STATE || rankedStates.has(state))
+      .map((state) => ({
+        state,
+        players: stateLeaderboardByName.get(state)?.players ?? [],
+      }))
+      .sort((left, right) => {
+        const playerDifference = right.players.length - left.players.length;
+        if (playerDifference !== 0) return playerDifference;
+        return left.state.localeCompare(right.state);
+      });
+  }, [stateLeaderboard, stateLeaderboardByName]);
+
   const selectedStateEntry =
-    stateLeaderboard.find((entry) => entry.state === selectedLeaderboardState) ?? stateLeaderboard[0];
+    leaderboardStateOptions.find((entry) => entry.state === selectedLeaderboardState) ?? leaderboardStateOptions[0];
 
   const filteredStateLeaderboard = useMemo(() => {
     const normalizedQuery = stateSearchTerm.trim().toLowerCase();
-    if (!normalizedQuery) return stateLeaderboard;
-    return stateLeaderboard.filter((entry) => entry.state.toLowerCase().includes(normalizedQuery));
-  }, [stateLeaderboard, stateSearchTerm]);
+    if (!normalizedQuery) return leaderboardStateOptions;
+    return leaderboardStateOptions.filter((entry) => entry.state.toLowerCase().includes(normalizedQuery));
+  }, [leaderboardStateOptions, stateSearchTerm]);
+
+  const selectedLeaderboardCollegeOptions = selectedStateEntry?.state && selectedStateEntry.state !== ABROAD_STATE
+    ? medicalCollegesByState[selectedStateEntry.state] ?? []
+    : [];
+
+  const selectedStatePlayers = useMemo(() => {
+    const players = selectedStateEntry?.players ?? [];
+    if (!selectedLeaderboardCollege) return players;
+    return players.filter((player) => player.college === selectedLeaderboardCollege);
+  }, [selectedLeaderboardCollege, selectedStateEntry]);
 
   const currentUserLeaderboardEntry = useMemo(
     () => liveLeaderboard.find((entry) => entry.isCurrentUser) ?? null,
@@ -778,8 +841,8 @@ async function fetchPracticeLibrary() {
   if (cachedLibrary?.subjects?.length) {
     setPracticeLibrary(cachedLibrary);
     setSelectedPracticeSubjectId((current) => {
-      const hasCurrentSubject = [...cachedLibrary.subjects, ...(cachedLibrary.aiSubjects ?? [])].some((subject) => subject.id === current);
-      return hasCurrentSubject ? current : cachedLibrary.subjects[0]?.id ?? cachedLibrary.aiSubjects?.[0]?.id ?? "";
+      const hasCurrentSubject = [...cachedLibrary.subjects, ...(cachedLibrary.aiSubjects ?? []), ...(cachedLibrary.usmleSubjects ?? [])].some((subject) => subject.id === current);
+      return hasCurrentSubject ? current : cachedLibrary.subjects[0]?.id ?? cachedLibrary.aiSubjects?.[0]?.id ?? cachedLibrary.usmleSubjects?.[0]?.id ?? "";
     });
     setPracticeLibraryStatus("ready");
     setPracticeLibraryMessage("Showing saved questions while refreshing the library.");
@@ -809,9 +872,9 @@ async function fetchPracticeLibrary() {
       setPracticeLibrary(nextLibrary);
       writeCachedPracticeLibrary(nextLibrary);
       setSelectedPracticeSubjectId((current) => {
-        const hasCurrentSubject = [...nextLibrary.subjects, ...(nextLibrary.aiSubjects ?? [])].some((subject) => subject.id === current);
+        const hasCurrentSubject = [...nextLibrary.subjects, ...(nextLibrary.aiSubjects ?? []), ...(nextLibrary.usmleSubjects ?? [])].some((subject) => subject.id === current);
         if (hasCurrentSubject) return current;
-        return nextLibrary.subjects[0]?.id ?? nextLibrary.aiSubjects?.[0]?.id ?? "";
+        return nextLibrary.subjects[0]?.id ?? nextLibrary.aiSubjects?.[0]?.id ?? nextLibrary.usmleSubjects?.[0]?.id ?? "";
       });
       setPracticeLibraryMessage("");
       setPracticeLibraryStatus("ready");
@@ -1026,12 +1089,14 @@ async function fetchPracticeLibrary() {
     if (!stateSearchTerm.trim()) return;
     if (filteredStateLeaderboard.length === 1) {
       setSelectedLeaderboardState(filteredStateLeaderboard[0].state);
+      setSelectedLeaderboardCollege("");
     }
   }, [filteredStateLeaderboard, stateSearchTerm]);
 
   useEffect(() => {
     if (!selectedStateEntry && filteredStateLeaderboard.length) {
       setSelectedLeaderboardState(filteredStateLeaderboard[0].state);
+      setSelectedLeaderboardCollege("");
       return;
     }
 
@@ -1039,6 +1104,13 @@ async function fetchPracticeLibrary() {
       setSelectedLeaderboardState(currentUserLeaderboardEntry.state);
     }
   }, [currentUserLeaderboardEntry, filteredStateLeaderboard, selectedLeaderboardState, selectedStateEntry]);
+
+  useEffect(() => {
+    if (!selectedLeaderboardCollege) return;
+    if (!selectedLeaderboardCollegeOptions.includes(selectedLeaderboardCollege)) {
+      setSelectedLeaderboardCollege("");
+    }
+  }, [selectedLeaderboardCollege, selectedLeaderboardCollegeOptions]);
 
   useEffect(() => {
     if (duelStatus !== "live") return undefined;
@@ -1311,6 +1383,7 @@ async function fetchPracticeLibrary() {
     setPracticeQuestionIndex(0);
     setSelectedOption("");
     setSubmitted(false);
+    setUsmlePracticeQuestionIds([]);
     setPracticeStage("subject");
     setPracticeQuestionStartedAt(Date.now());
     setPracticeChoiceSubjectId("");
@@ -1322,6 +1395,7 @@ async function fetchPracticeLibrary() {
     setSelectedPracticeExamYear("");
     setSelectedOption("");
     setSubmitted(false);
+    setUsmlePracticeQuestionIds([]);
   }
 
   function openCommunityChat(communityId) {
@@ -1367,6 +1441,27 @@ async function fetchPracticeLibrary() {
     setPracticeQuestionIndex(0);
     setSelectedOption("");
     setSubmitted(false);
+    setUsmlePracticeQuestionIds([]);
+    scrollPracticeViewToTop();
+  }
+
+  function handleStartUsmlePractice(subjectId) {
+    const catalogSubject = practiceSubjects.find((entry) => entry.id === subjectId);
+    if (!catalogSubject) return;
+    const subject = usmlePracticeSubjects.find((entry) => entry.id === subjectId);
+
+    setSelectedPracticeSubjectId(subjectId);
+    setSelectedPracticeMode("usmle");
+    setSelectedPracticeExamYear("");
+    setSelectedPracticeTopic("");
+    setSelectedPracticeChapter("");
+    setUsmlePracticeQuestionIds(shuffleQuestionIds(subject?.questions ?? []));
+    setPracticeStage("subject");
+    setPracticeChoiceSubjectId("");
+    setPracticeQuestionIndex(0);
+    setSelectedOption("");
+    setSubmitted(false);
+    setPracticeQuestionStartedAt(Date.now());
     scrollPracticeViewToTop();
   }
 
@@ -1802,6 +1897,14 @@ async function fetchPracticeLibrary() {
     setAuthForm((current) => ({ ...current, [field]: value }));
   }
 
+  function updateSignupState(value) {
+    setAuthForm((current) => ({
+      ...current,
+      medicalState: value,
+      medicalCollege: value === ABROAD_STATE ? ABROAD_STATE : "",
+    }));
+  }
+
   function updateProfileField(field, value) {
     setProfileState((current) => ({ ...current, [field]: value }));
   }
@@ -1888,7 +1991,10 @@ async function fetchPracticeLibrary() {
     const endpoint = authMode === "signup" ? "/api/auth/signup" : "/api/auth/login";
     const payload =
       authMode === "signup"
-        ? authForm
+        ? {
+            ...authForm,
+            medicalCollege: authForm.medicalState === ABROAD_STATE ? ABROAD_STATE : authForm.medicalCollege,
+          }
         : {
             email: authForm.email,
             password: authForm.password,
@@ -1912,6 +2018,7 @@ async function fetchPracticeLibrary() {
       setAuthForm({
         name: "",
         email: "",
+        medicalState: "",
         medicalCollege: "",
         contactNumber: "",
         password: "",
@@ -2061,24 +2168,37 @@ async function fetchPracticeLibrary() {
                     placeholder="Enter your full name"
                   />
                 </label>
-                <label className="field">
-                  <span>Medical college</span>
-                  <div className="college-search">
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      list="medical-college-options"
-                      value={authForm.medicalCollege}
-                      onChange={(event) => updateAuthField("medicalCollege", event.target.value)}
-                      placeholder="Type your college name or initials like AIIMS, MAMC, SMS"
-                    />
-                    <datalist id="medical-college-options">
-                      {medicalCollegeSuggestions.map((college) => (
-                        <option key={college} value={college} />
+                <div className="auth-location-fields">
+                  <label className="field">
+                    <span>State</span>
+                    <select
+                      value={authForm.medicalState}
+                      onChange={(event) => updateSignupState(event.target.value)}
+                    >
+                      <option value="">Select your state</option>
+                      {signupStateOptions.map((state) => (
+                        <option key={state} value={state}>{state}</option>
                       ))}
-                    </datalist>
-                  </div>
-                </label>
+                    </select>
+                  </label>
+                  {authForm.medicalState && authForm.medicalState !== ABROAD_STATE ? (
+                    <label className="field">
+                      <span>Medical college</span>
+                      <select
+                        value={authForm.medicalCollege}
+                        onChange={(event) => updateAuthField("medicalCollege", event.target.value)}
+                      >
+                        <option value="">Select from {signupCollegeOptions.length} colleges</option>
+                        {signupCollegeOptions.map((college) => (
+                          <option key={college} value={college}>{college}</option>
+                        ))}
+                      </select>
+                    </label>
+                  ) : null}
+                  {authForm.medicalState === ABROAD_STATE ? (
+                    <p className="auth-location-note">Foreign students can continue without selecting an Indian college.</p>
+                  ) : null}
+                </div>
                 <label className="field">
                   <span>Contact number</span>
                   <input
@@ -2446,6 +2566,11 @@ async function fetchPracticeLibrary() {
       );
     }
 
+    const isUsmlePractice = selectedPracticeMode === "usmle";
+    const isSupplementalPractice = selectedPracticeMode === "ai" || isUsmlePractice;
+    const isDirectoryPractice = selectedPracticeMode === "ai";
+    const directoryModeTitle = isUsmlePractice ? "USMLE Step-1 Format Questions" : "Topic Wise Questions";
+
     if (practiceStage === "chapters" || practiceStage === "topics") {
       const topicQuestions = currentPracticeSubject?.questions ?? [];
       const chapters = Object.values(topicQuestions.reduce((groups, question) => {
@@ -2460,10 +2585,33 @@ async function fetchPracticeLibrary() {
         return groups;
       }, {})).sort(comparePracticeDirectoryEntries);
 
+      if (!chapters.length) {
+        return (
+          <section className="app-view topic-wise-directory">
+            <div className="view-header">
+              <div>
+                <p className="eyebrow">{currentPracticeSubject?.title ?? "Practice"} · {isUsmlePractice ? "USMLE Step 1" : "Topic Wise"}</p>
+                <h2>{isUsmlePractice ? "USMLE Step-1 format questions are not ready yet" : "Topic-wise questions are not ready yet"}</h2>
+                <p className="view-subtitle">
+                  {isUsmlePractice
+                    ? "USMLE-style questions will appear here after they are added to this subject."
+                    : "Topic-wise questions will appear here after they are added to this subject."}
+                </p>
+              </div>
+              <button className="button button-secondary" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
+            </div>
+            <article className="card panel">
+              <h3>No {directoryModeTitle.toLowerCase()} yet</h3>
+              <p className="panel-copy">This category is kept separate so its questions do not mix with PYQs or other supplemental practice.</p>
+            </article>
+          </section>
+        );
+      }
+
       if (practiceStage === "chapters") {
         return (
           <section className="app-view topic-wise-directory">
-            <div className="view-header"><div><p className="eyebrow">Pathology · Topic Wise</p><h2>Choose a chapter</h2><p className="view-subtitle">Build mastery chapter by chapter. Your progress is saved automatically.</p></div><button className="button button-secondary" onClick={handleBackToPracticeDirectory}>Back to subjects</button></div>
+            <div className="view-header"><div><p className="eyebrow">{currentPracticeSubject?.title} · {isUsmlePractice ? "USMLE Step 1" : "Topic Wise"}</p><h2>Choose a chapter</h2><p className="view-subtitle">{isUsmlePractice ? "Practise clinically framed, one-best-answer questions chapter by chapter." : "Build mastery chapter by chapter. Your progress is saved automatically."}</p></div><button className="button button-secondary" onClick={handleBackToPracticeDirectory}>Back to subjects</button></div>
             <div className="topic-directory-list">
               {chapters.map((chapter, index) => {
                 const answered = chapter.questions.filter((question) => practiceProgress[question.id]).length;
@@ -2478,7 +2626,7 @@ async function fetchPracticeLibrary() {
       const chapter = chapters.find((entry) => entry.title === selectedPracticeChapter);
       return (
         <section className="app-view topic-wise-directory">
-          <div className="view-header"><div><p className="eyebrow">Chapter topics</p><h2>{chapter?.title ?? "Choose a topic"}</h2><p className="view-subtitle">Each topic contains a focused five-question competitive exam set.</p></div><button className="button button-secondary" onClick={() => setPracticeStage("chapters")}>Back to chapters</button></div>
+          <div className="view-header"><div><p className="eyebrow">{isUsmlePractice ? "USMLE Step 1 · Chapter topics" : "Chapter topics"}</p><h2>{chapter?.title ?? "Choose a topic"}</h2><p className="view-subtitle">{isUsmlePractice ? "Each topic contains clinically framed Step 1-style questions." : "Each topic contains a focused five-question competitive exam set."}</p></div><button className="button button-secondary" onClick={() => setPracticeStage("chapters")}>Back to chapters</button></div>
           <div className="topic-directory-list">
             {Object.values(chapter?.topics ?? {}).sort(comparePracticeDirectoryEntries).map(({ topic, questions }, index) => {
               const answered = questions.filter((question) => practiceProgress[question.id]).length;
@@ -2495,17 +2643,19 @@ async function fetchPracticeLibrary() {
           <div className="view-header">
             <div>
               <p className="eyebrow">Practice</p>
-              <h2>{selectedPracticeMode === "ai" ? "Topic-wise questions are not ready yet" : "No questions found"}</h2>
+              <h2>{isSupplementalPractice ? `${directoryModeTitle} are not ready yet` : "No questions found"}</h2>
             </div>
-            <button className="button button-secondary" onClick={() => selectedPracticeMode === "ai" ? setPracticeStage("topics") : handleBackToPracticeDirectory()}>
-              {selectedPracticeMode === "ai" ? "Back to topics" : "Back to subjects"}
+            <button className="button button-secondary" onClick={() => isDirectoryPractice ? setPracticeStage("topics") : handleBackToPracticeDirectory()}>
+              {isDirectoryPractice ? "Back to topics" : "Back to subjects"}
             </button>
           </div>
 
           <article className="card panel">
-            <h3>{selectedPracticeMode === "ai" ? "Generate a 20-question set first" : "No practice questions yet"}</h3>
+            <h3>{isUsmlePractice ? "No USMLE Step-1 format questions in this subject" : selectedPracticeMode === "ai" ? "Generate a 20-question set first" : "No practice questions yet"}</h3>
             <p className="panel-copy">
-              {selectedPracticeMode === "ai"
+              {isUsmlePractice
+                ? "Choose another subject or add USMLE Step-1 format questions to this subject."
+                : selectedPracticeMode === "ai"
                 ? "Open the subject again and choose Topic Wise Questions."
                 : "The PYQ database does not have questions for this subject yet."}
             </p>
@@ -2527,23 +2677,25 @@ async function fetchPracticeLibrary() {
               <p className="eyebrow">Practice</p>
               <h2>
                 {currentPracticeSubject.title}{" "}
-                {selectedPracticeMode === "ai" ? "Topic Wise Questions" : currentPracticeQuestionSet?.title ?? "PYQ session"}
+                {isSupplementalPractice ? directoryModeTitle : currentPracticeQuestionSet?.title ?? "PYQ session"}
               </h2>
             </div>
-            <button className="button button-secondary" onClick={() => selectedPracticeMode === "ai" ? setPracticeStage("topics") : handleBackToPracticeDirectory()}>
-              {selectedPracticeMode === "ai" ? "Back to topics" : "Back to subjects"}
+            <button className="button button-secondary" onClick={() => isDirectoryPractice ? setPracticeStage("topics") : handleBackToPracticeDirectory()}>
+              {isDirectoryPractice ? "Back to topics" : "Back to subjects"}
             </button>
           </div>
 
           <article className="card quiz-card practice-focus-card">
             <div className="practice-focus-topbar">
               <span className="practice-year-tag">
-                {selectedPracticeMode === "ai"
-                  ? activePracticeYear?.title ?? "Practice"
+                {isUsmlePractice
+                  ? `Mixed ${totalQuestions}-question set`
+                  : isDirectoryPractice
+                    ? activePracticeYear?.title ?? "Practice"
                   : currentPracticeQuestionSet?.title ?? "PYQ session"}
               </span>
-              <span className={`rank-pill ${selectedPracticeMode === "ai" ? "source-ai" : "source-official"}`}>
-                {selectedPracticeMode === "ai" ? "Topic Wise Questions" : "Official PYQ"}
+              <span className={`rank-pill ${isUsmlePractice ? "source-usmle" : selectedPracticeMode === "ai" ? "source-ai" : "source-official"}`}>
+                {isSupplementalPractice ? directoryModeTitle : "Official PYQ"}
               </span>
             </div>
             <div className="practice-question-status-strip" aria-label="Question progress">
@@ -2589,7 +2741,9 @@ async function fetchPracticeLibrary() {
             </div>
             <div className="quiz-meta">
               <span>
-                {selectedPracticeMode === "ai"
+                {isUsmlePractice
+                  ? "USMLE Step 1-style practice"
+                  : selectedPracticeMode === "ai"
                   ? "Supplemental topic-wise practice"
                   : currentPracticeQuestion.examTitle ?? currentPracticeQuestionSet?.title ?? `${currentPracticeQuestion.year} PYQ`}
               </span>
@@ -2599,20 +2753,32 @@ async function fetchPracticeLibrary() {
 
             {currentPracticeQuestion.subtopic ? <p className="panel-copy">{currentPracticeQuestion.subtopic}</p> : null}
 
+            <QuestionLaboratoryTable findings={currentPracticeQuestion.laboratoryFindings} />
+
             {currentPracticeQuestion.imageUrls?.length ? (
               <div className="practice-question-images">
-                {currentPracticeQuestion.imageUrls.map((imageUrl, index) => (
-                  <img
-                    key={`${currentPracticeQuestion.questionNumber}-${imageUrl}`}
-                    className="practice-question-image"
-                    src={getPracticeImageUrl(imageUrl)}
-                    alt={`Question ${currentPracticeQuestion.questionNumber} visual ${index + 1}`}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ))}
+                {currentPracticeQuestion.imageUrls.map((imageUrl, index) => {
+                  const showWatermark = isWatermarkedUsmleImage(imageUrl);
+                  return (
+                    <span
+                      className={`practice-question-image-frame${showWatermark ? " practice-question-image-frame-usmle" : ""}`}
+                      key={`${currentPracticeQuestion.questionNumber}-${imageUrl}`}
+                    >
+                      <img
+                        className="practice-question-image"
+                        src={getPracticeImageUrl(imageUrl)}
+                        alt={`Question ${currentPracticeQuestion.questionNumber} visual ${index + 1}`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      {showWatermark ? <span className="practice-question-image-watermark" aria-hidden="true">medicomm</span> : null}
+                    </span>
+                  );
+                })}
               </div>
             ) : null}
+
+            {currentPracticeQuestion.leadIn ? <h3 className="practice-question-lead-in">{currentPracticeQuestion.leadIn}</h3> : null}
 
             <div className="options-grid">
               {currentPracticeQuestion.options.map((option) => {
@@ -2702,7 +2868,7 @@ async function fetchPracticeLibrary() {
                 <div className="icon-badge green">MCQ</div>
                 <div>
                   <h3 id="practice-choice-title">Practice {practiceChoiceSubject.title}</h3>
-                  <p>Choose PYQs by exam year or practise topic-wise questions.</p>
+                  <p>Choose PYQs, topic-wise practice, or USMLE Step-1 format questions.</p>
                 </div>
               </div>
               <div className="practice-year-picker">
@@ -2735,7 +2901,7 @@ async function fetchPracticeLibrary() {
                   ))}
                 </div>
               </div>
-              <div className="practice-choice-grid practice-choice-grid-single">
+              <div className="practice-choice-grid practice-choice-grid-formats">
                 <button
                   className="practice-choice-card practice-choice-card-ai"
                   type="button"
@@ -2746,6 +2912,16 @@ async function fetchPracticeLibrary() {
                   <strong>Topic Wise Questions</strong>
                   <p>Supplemental topic-wise questions</p>
                   <small>{practiceChoiceAiQuestionCount} questions</small>
+                </button>
+                <button
+                  className="practice-choice-card practice-choice-card-usmle"
+                  type="button"
+                  onClick={() => handleStartUsmlePractice(practiceChoiceSubject.id)}
+                >
+                  <span className="practice-choice-icon">S1</span>
+                  <strong>USMLE Step-1 Format Questions</strong>
+                  <p>Mixed, clinically framed one-best-answer questions</p>
+                  <small>{practiceChoiceUsmleQuestionCount} questions · shuffled each session</small>
                 </button>
               </div>
             </article>
@@ -2820,8 +2996,6 @@ async function fetchPracticeLibrary() {
   }
 
   function renderLeaderboard() {
-    const selectedStatePlayers = selectedStateEntry?.players ?? [];
-
     return (
       <section className="app-view">
         <div className="view-header">
@@ -2897,17 +3071,65 @@ async function fetchPracticeLibrary() {
           <article className="card panel leaderboard-panel leaderboard-state-panel">
             <div className="leaderboard-panel-head">
               <div>
-                <h3>State</h3>
-                <p className="panel-copy">Click a state to rank its users.</p>
+                <h3>College rankings</h3>
+                <p className="panel-copy">Choose a state, then narrow by college.</p>
               </div>
               <span className="rank-pill">{selectedStatePlayers.length} players</span>
+            </div>
+
+            <div className="leaderboard-directory-controls">
+              <label className="leaderboard-select-field">
+                <span>State</span>
+                <select
+                  value={selectedStateEntry?.state ?? ""}
+                  onChange={(event) => {
+                    setSelectedLeaderboardState(event.target.value);
+                    setSelectedLeaderboardCollege("");
+                  }}
+                >
+                  {leaderboardStateOptions.map((entry) => (
+                    <option key={entry.state} value={entry.state}>
+                      {entry.state} ({entry.players.length})
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              {selectedLeaderboardCollegeOptions.length ? (
+                <label className="leaderboard-select-field">
+                  <span>College</span>
+                  <select
+                    value={selectedLeaderboardCollege}
+                    onChange={(event) => setSelectedLeaderboardCollege(event.target.value)}
+                  >
+                    <option value="">All colleges in {selectedStateEntry?.state}</option>
+                    {selectedLeaderboardCollegeOptions.map((college) => (
+                      <option key={college} value={college}>{college}</option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+            </div>
+
+            <div className="leaderboard-college-card">
+              <div className="leaderboard-college-icon">MC</div>
+              <div className="leaderboard-college-main">
+                <span>{selectedStateEntry?.state ?? "Select state"}</span>
+                <strong title={selectedLeaderboardCollege || undefined}>
+                  {selectedLeaderboardCollege || "All medical colleges"}
+                </strong>
+              </div>
+              <div className="leaderboard-college-metrics" aria-label="Selected college metrics">
+                <span><strong>{selectedLeaderboardCollegeOptions.length}</strong> colleges</span>
+                <span><strong>{selectedStateEntry?.players.length ?? 0}</strong> learners</span>
+              </div>
             </div>
 
             <div className="state-search-block">
               <input
                 className="state-search-input"
                 type="text"
-                placeholder="Search state, for example Rajasthan or Karnataka"
+                placeholder="Search states"
                 value={stateSearchTerm}
                 onChange={(event) => setStateSearchTerm(event.target.value)}
               />
@@ -2920,10 +3142,13 @@ async function fetchPracticeLibrary() {
                     type="button"
                     key={entry.state}
                     className={`state-rank-chip${selectedStateEntry?.state === entry.state ? " state-rank-chip-active" : ""}`}
-                    onClick={() => setSelectedLeaderboardState(entry.state)}
+                    onClick={() => {
+                      setSelectedLeaderboardState(entry.state);
+                      setSelectedLeaderboardCollege("");
+                    }}
                   >
                     <strong>{entry.state}</strong>
-                    <span>{entry.players.length} players | top {entry.players[0]?.score ?? 0}</span>
+                    <span>{entry.players.length} players | {(medicalCollegesByState[entry.state] ?? []).length} colleges</span>
                   </button>
                 ))}
               </div>
@@ -2936,26 +3161,33 @@ async function fetchPracticeLibrary() {
 
             {selectedStateEntry ? (
               <div className="state-ranking-block">
-                <h4>{selectedStateEntry.state}</h4>
+                <h4>{selectedLeaderboardCollege || selectedStateEntry.state}</h4>
                 <div className="leaderboard-table leaderboard-table-compact" role="table" aria-label={`${selectedStateEntry.state} leaderboard`}>
-                  {selectedStatePlayers.map((player, index) => (
-                    <div
-                      className={`leaderboard-table-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
-                      key={`${selectedStateEntry.state}-${player.name}`}
-                      role="row"
-                    >
-                      <span className="leaderboard-rank" role="cell">#{index + 1}</span>
-                      <div className="leaderboard-person" role="cell">
-                        <div className="leaderboard-avatar">{getInitials(player.name)}</div>
-                        <div>
-                          <strong>{player.isCurrentUser ? "You" : player.name}</strong>
-                          <p>{player.college}</p>
+                  {selectedStatePlayers.length ? (
+                    selectedStatePlayers.map((player, index) => (
+                      <div
+                        className={`leaderboard-table-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
+                        key={`${selectedStateEntry.state}-${player.name}`}
+                        role="row"
+                      >
+                        <span className="leaderboard-rank" role="cell">#{index + 1}</span>
+                        <div className="leaderboard-person" role="cell">
+                          <div className="leaderboard-avatar">{getInitials(player.name)}</div>
+                          <div>
+                            <strong>{player.isCurrentUser ? "You" : player.name}</strong>
+                            <p>{player.college}</p>
+                          </div>
                         </div>
+                        <span className="leaderboard-streak" role="cell">{player.streak}d</span>
+                        <strong className="leaderboard-score" role="cell">{player.score}</strong>
                       </div>
-                      <span className="leaderboard-streak" role="cell">{player.streak}d</span>
-                      <strong className="leaderboard-score" role="cell">{player.score}</strong>
+                    ))
+                  ) : (
+                    <div className="empty-community-state empty-community-state-compact">
+                      <h3>No ranked learners here yet</h3>
+                      <p className="panel-copy">This state or college is ready for signups.</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             ) : null}
@@ -3702,18 +3934,30 @@ async function fetchPracticeLibrary() {
             <span className="rank-pill">{duelMode === "bot" ? "Bot practice" : "Rated"}</span>
           </div>
 
+          <QuestionLaboratoryTable findings={currentDuelQuestion.laboratoryFindings} compact />
+
           {currentDuelImageUrls.length ? (
             <div className="practice-question-images duel-question-images">
-              {currentDuelImageUrls.map((imageUrl, index) => (
-                <img
-                  key={`${currentDuelQuestion.id}-${imageUrl}`}
-                  className="practice-question-image duel-question-image"
-                  src={getPracticeImageUrl(imageUrl)}
-                  alt={`Compete question ${duelIndex + 1} visual ${index + 1}`}
-                />
-              ))}
+              {currentDuelImageUrls.map((imageUrl, index) => {
+                const showWatermark = isWatermarkedUsmleImage(imageUrl);
+                return (
+                  <span
+                    className={`practice-question-image-frame duel-question-image-frame${showWatermark ? " practice-question-image-frame-usmle" : ""}`}
+                    key={`${currentDuelQuestion.id}-${imageUrl}`}
+                  >
+                    <img
+                      className="practice-question-image duel-question-image"
+                      src={getPracticeImageUrl(imageUrl)}
+                      alt={`Compete question ${duelIndex + 1} visual ${index + 1}`}
+                    />
+                    {showWatermark ? <span className="practice-question-image-watermark" aria-hidden="true">medicomm</span> : null}
+                  </span>
+                );
+              })}
             </div>
           ) : null}
+
+          {currentDuelQuestion.leadIn ? <h3 className="practice-question-lead-in">{currentDuelQuestion.leadIn}</h3> : null}
 
           <div className="options-grid">
             {currentDuelQuestion.options.map((option) => {

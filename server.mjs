@@ -292,6 +292,15 @@ function normalizeQuestion(question, subject, exam = {}) {
   const answer = options[answerIndex] ?? question.answer ?? "";
   const imageUrls = Array.isArray(question.imageUrls) ? question.imageUrls : [];
   const images = Array.isArray(question.images) ? question.images : imageUrls;
+  const laboratoryFindings = Array.isArray(question.laboratoryFindings)
+    ? question.laboratoryFindings
+        .map((finding) => ({
+          test: String(finding?.test ?? "").trim(),
+          value: String(finding?.value ?? "").trim(),
+          reference: String(finding?.reference ?? "").trim(),
+        }))
+        .filter((finding) => finding.test && finding.value)
+    : [];
 
   return {
     id: String(question.id ?? randomBytes(8).toString("hex")),
@@ -303,12 +312,15 @@ function normalizeQuestion(question, subject, exam = {}) {
     subjectTitle: String(subject?.title ?? question.subjectTitle ?? ""),
     topic: String(question.topic ?? "General").trim() || "General",
     prompt: prompt || String(question.prompt ?? "").trim(),
+    leadIn: String(question.leadIn ?? "").trim(),
+    laboratoryFindings,
+    itemFamily: String(question.itemFamily ?? "").trim(),
     options,
     answerIndex,
     answer: String(answer ?? ""),
     explanation: String(question.explanation ?? (answer ? `Correct answer: ${answer}` : "")).trim(),
     difficulty: String(question.difficulty ?? "exam").trim(),
-    source: question.source === "topic-wise" ? "topic-wise" : question.source === "ai" ? "ai" : "official",
+    source: question.source === "usmle" ? "usmle" : question.source === "topic-wise" ? "topic-wise" : question.source === "ai" ? "ai" : "official",
     sourceExam: String(question.sourceExam ?? question.examTitle ?? exam.title ?? "").trim(),
     sourceExamGroup: String(question.sourceExamGroup ?? "").trim(),
     chapterTitle: String(question.chapterTitle ?? question.sourceChapterTitle ?? "").trim(),
@@ -328,7 +340,7 @@ function normalizeQuestion(question, subject, exam = {}) {
 function getOfficialPracticeQuestions(library) {
   const examsById = new Map((library.exams ?? []).map((exam) => [exam.id, exam]));
   return (library.subjects ?? []).flatMap((subject) =>
-    (subject.questions ?? []).filter((question) => question.source !== "ai").map((question) => {
+    (subject.questions ?? []).filter((question) => question.source !== "ai" && question.source !== "usmle").map((question) => {
       const exam = examsById.get(question.examId) ?? library.exam ?? {};
       return normalizeQuestion(question, subject, exam);
     }),
@@ -362,31 +374,51 @@ function buildPracticeLibrary(library, storedQuestions = []) {
     (subject.questions ?? []).filter((question) => question.source === "ai").map((question) => normalizeQuestion(question, subject, library.exam)),
   );
   const storedAiQuestions = storedQuestions.filter((question) => question.source === "ai").map((question) => normalizeQuestion(question));
+  const embeddedUsmleQuestions = (library.subjects ?? []).flatMap((subject) =>
+    (subject.questions ?? []).filter((question) => question.source === "usmle").map((question) => normalizeQuestion(question, subject, library.exam)),
+  );
+  const storedUsmleQuestions = storedQuestions.filter((question) => question.source === "usmle").map((question) => normalizeQuestion(question));
   const aiQuestionsById = new Map();
   for (const question of [...embeddedAiQuestions, ...storedAiQuestions]) {
     aiQuestionsById.set(question.id, question);
   }
+  const usmleQuestionsById = new Map();
+  for (const question of [...embeddedUsmleQuestions, ...storedUsmleQuestions]) {
+    usmleQuestionsById.set(question.id, question);
+  }
   const aiQuestions = [...aiQuestionsById.values()];
+  const usmleQuestions = [...usmleQuestionsById.values()];
   const questionsBySubjectId = new Map();
-  const aiSubjectTitlesById = new Map();
+  const usmleQuestionsBySubjectId = new Map();
+  const supplementalSubjectTitlesById = new Map();
 
   for (const question of aiQuestions) {
     const bucket = questionsBySubjectId.get(question.subjectId) ?? [];
     bucket.push(question);
     questionsBySubjectId.set(question.subjectId, bucket);
-    if (question.subjectId && question.subjectTitle && !aiSubjectTitlesById.has(question.subjectId)) {
-      aiSubjectTitlesById.set(question.subjectId, question.subjectTitle);
+    if (question.subjectId && question.subjectTitle && !supplementalSubjectTitlesById.has(question.subjectId)) {
+      supplementalSubjectTitlesById.set(question.subjectId, question.subjectTitle);
+    }
+  }
+
+  for (const question of usmleQuestions) {
+    const bucket = usmleQuestionsBySubjectId.get(question.subjectId) ?? [];
+    bucket.push(question);
+    usmleQuestionsBySubjectId.set(question.subjectId, bucket);
+    if (question.subjectId && question.subjectTitle && !supplementalSubjectTitlesById.has(question.subjectId)) {
+      supplementalSubjectTitlesById.set(question.subjectId, question.subjectTitle);
     }
   }
 
   const librarySubjects = library.subjects ?? [];
   const librarySubjectIds = new Set(librarySubjects.map((subject) => subject.id));
-  const supplementalSubjects = [...questionsBySubjectId.keys()]
+  const supplementalSubjectIds = new Set([...questionsBySubjectId.keys(), ...usmleQuestionsBySubjectId.keys()]);
+  const supplementalSubjects = [...supplementalSubjectIds]
     .filter((subjectId) => !librarySubjectIds.has(subjectId))
-    .sort((a, b) => String(aiSubjectTitlesById.get(a) ?? a).localeCompare(String(aiSubjectTitlesById.get(b) ?? b)))
+    .sort((a, b) => String(supplementalSubjectTitlesById.get(a) ?? a).localeCompare(String(supplementalSubjectTitlesById.get(b) ?? b)))
     .map((subjectId) => ({
       id: subjectId,
-      title: aiSubjectTitlesById.get(subjectId) ?? subjectId,
+      title: supplementalSubjectTitlesById.get(subjectId) ?? subjectId,
       questions: [],
     }));
   const allSubjects = [...librarySubjects, ...supplementalSubjects];
@@ -397,12 +429,21 @@ function buildPracticeLibrary(library, storedQuestions = []) {
       return {
         ...subject,
         questions: (subject.questions ?? [])
-          .filter((question) => question.source !== "ai")
+          .filter((question) => question.source !== "ai" && question.source !== "usmle")
           .map((question) => normalizeQuestion(question, subject, library.exam)),
       };
     }),
     aiSubjects: allSubjects.map((subject) => {
       const questions = questionsBySubjectId.get(subject.id) ?? [];
+      return {
+        id: subject.id,
+        title: subject.title,
+        questionCount: questions.length,
+        questions,
+      };
+    }),
+    usmleSubjects: allSubjects.map((subject) => {
+      const questions = usmleQuestionsBySubjectId.get(subject.id) ?? [];
       return {
         id: subject.id,
         title: subject.title,
@@ -431,9 +472,20 @@ function sanitizeDuelQuestion(question) {
   const options = Array.isArray(question.options) ? question.options.map((option) => String(option).trim()).filter(Boolean) : [];
   const answerIndex = Number.isInteger(question.answerIndex) ? question.answerIndex : options.indexOf(question.answer);
   const imageUrls = collectQuestionImageUrls(question);
+  const laboratoryFindings = Array.isArray(question.laboratoryFindings)
+    ? question.laboratoryFindings
+        .map((finding) => ({
+          test: String(finding?.test ?? "").trim(),
+          value: String(finding?.value ?? "").trim(),
+          reference: String(finding?.reference ?? "").trim(),
+        }))
+        .filter((finding) => finding.test && finding.value)
+    : [];
   return {
     id: String(question.id ?? randomBytes(8).toString("hex")),
     prompt: String(question.prompt ?? "").trim(),
+    leadIn: String(question.leadIn ?? "").trim(),
+    laboratoryFindings,
     options,
     answerIndex,
     answer: String(options[answerIndex] ?? question.answer ?? ""),
@@ -442,7 +494,7 @@ function sanitizeDuelQuestion(question) {
     subjectTitle: String(question.subjectTitle ?? "").trim(),
     imageUrls,
     images: imageUrls,
-    source: question.source === "topic-wise" ? "topic-wise" : question.source === "ai" ? "ai" : "official",
+    source: question.source === "usmle" ? "usmle" : question.source === "topic-wise" ? "topic-wise" : question.source === "ai" ? "ai" : "official",
   };
 }
 
@@ -451,6 +503,8 @@ function sanitizeDuelQuestionForClient(question) {
   return {
     id: sanitized.id,
     prompt: sanitized.prompt,
+    leadIn: sanitized.leadIn,
+    laboratoryFindings: sanitized.laboratoryFindings,
     options: sanitized.options,
     explanation: sanitized.explanation,
     subjectId: sanitized.subjectId,
@@ -1798,6 +1852,7 @@ function handlePracticeQuestionBank(request, response, url) {
   const allQuestions = [
     ...getOfficialPracticeQuestions(rawLibrary),
     ...(library.aiSubjects ?? []).flatMap((subject) => subject.questions ?? []),
+    ...(library.usmleSubjects ?? []).flatMap((subject) => subject.questions ?? []),
   ];
 
   return sendJson(response, 200, {
@@ -1806,7 +1861,7 @@ function handlePracticeQuestionBank(request, response, url) {
       exams: library.exams ?? [],
       subjects: (library.subjects ?? []).map((subject) => ({ id: subject.id, title: subject.title })),
       topics: [...new Set(allQuestions.map((question) => question.topic).filter(Boolean))].sort(),
-      sources: ["official", "ai"],
+      sources: ["official", "ai", "usmle"],
     },
     questions: hasQuestionFilters ? applyPracticeFilters(allQuestions, url) : [],
   }, {

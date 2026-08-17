@@ -10,10 +10,10 @@
       "passwordHash": "4bcf4dd3c036b842c5a7774cbc93579b704282a0306df0b1d6dc4a082f6a6a1698b08c58422ca36eb2f1e5230de25a6c85173a5454f3511987d925f60eaf147d",
       "passwordSalt": "1b1d95344af4057d034d892601a6ec4a",
       "contactNumber": "9664552098",
-      "correctAnswers": 62,
+      "correctAnswers": 68,
       "medicalCollege": "bj medical college",
       "profileImagePath": "f56d35cb8fac18703d7db6b5-1776011537529.jpg",
-      "attemptedQuestions": 124,
+      "attemptedQuestions": 134,
       "passwordIterations": 60000
     },
     {
@@ -127,7 +127,8 @@
     "cae42e58ac3274d7683c2c7c9dc73135d642e09b03a2ed1a": "f56d35cb8fac18703d7db6b5",
     "d659ef9f7187f7ecab3dbfff53c29b0e9771b1947b1b0cca": "f56d35cb8fac18703d7db6b5",
     "3adcb75cece0bd925452399d4d111ae9a8caa5cd61b4e503": "f56d35cb8fac18703d7db6b5",
-    "cc250db0f5d8f7b04e7b4479f65e209045d0c60151ba3cf7": "f56d35cb8fac18703d7db6b5"
+    "d6aaf29d91ec45c07db1e12ac3573bfa8b984d9d4c62b3d4": "f56d35cb8fac18703d7db6b5",
+    "0132212063f8c562a2a633d0cd6ac33e6c64b271337d1af2": "f56d35cb8fac18703d7db6b5"
   },
   "communities": [
     {
@@ -325,6 +326,25 @@
   "duelQueue": [],
   "duels": [],
   "duelResults": [
+    {
+      "id": "bdac2acad0a6604dc086",
+      "resultKey": "bot-f56d35cb8fac18703d7db6b5-bot-8d813d3d-0b22-4cbf-9812-4a9deb2b933a:f56d35cb8fac18703d7db6b5",
+      "duelId": "bot-f56d35cb8fac18703d7db6b5-bot-8d813d3d-0b22-4cbf-9812-4a9deb2b933a",
+      "mode": "bot",
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "opponentId": null,
+      "verdict": "loss",
+      "delta": 0,
+      "previousRating": 1443,
+      "nextRating": 1443,
+      "userScore": 1,
+      "opponentScore": 2,
+      "attemptedQuestions": 2,
+      "correctAnswers": 1,
+      "ratingAffected": false,
+      "forfeited": true,
+      "completedAt": "2026-08-16T18:34:28.103Z"
+    },
     {
       "id": "bc1bb4a5f7675710d3ad",
       "resultKey": "bot-f56d35cb8fac18703d7db6b5-bot-176d8e9e-cca0-428e-b128-479b92313d0e:f56d35cb8fac18703d7db6b5",
@@ -232513,6 +232533,884 @@
       "difficulty": "high",
       "tags": [
         "clinical"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-01",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "Cell Injury, Cell Death, and Adaptations",
+      "chapterOrder": 2,
+      "topic": "Apoptosis and Other Regulated Cell-Death Pathways",
+      "topicTitle": "Apoptosis and Other Regulated Cell-Death Pathways",
+      "topicOrder": 4,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 56,
+      "sourcePdfPageEnd": 56,
+      "difficulty": "moderate",
+      "prompt": "A 46-year-old woman has painless cervical lymphadenopathy. A lymph-node biopsy shows closely packed follicles composed predominantly of small lymphocytes. Cytogenetic analysis demonstrates t(14;18), resulting in overexpression of BCL2. The affected lymphocytes survive substantially longer than normal germinal-center B cells. Which of the following events is most directly inhibited by the overexpressed protein in these cells?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Activation of receptor-associated caspase 8",
+        "Release of cytochrome c through the outer mitochondrial membrane",
+        "Cleavage of an inhibitor of caspase-activated DNase",
+        "Externalization of phosphatidylserine on the plasma membrane",
+        "Formation of a death-inducing signaling complex"
+      ],
+      "answerIndex": 1,
+      "answer": "Release of cytochrome c through the outer mitochondrial membrane",
+      "explanation": "BCL2 is an anti-apoptotic protein that preserves outer mitochondrial membrane integrity and prevents cytochrome c from entering the cytosol. The other options describe downstream execution events or components of the extrinsic death-receptor pathway.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "apoptosis",
+        "bcl2"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-02",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "Cell Injury, Cell Death, and Adaptations",
+      "chapterOrder": 2,
+      "topic": "Ischemic, Reperfusion, and Toxic Injury",
+      "topicTitle": "Ischemic, Reperfusion, and Toxic Injury",
+      "topicOrder": 6,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 68,
+      "sourcePdfPageEnd": 68,
+      "difficulty": "moderate",
+      "prompt": "A 62-year-old man is brought to the emergency department 45 minutes after the onset of crushing substernal chest pain. ECG shows ST-segment elevations in leads V1 through V4. Angiography demonstrates complete occlusion of the left anterior descending artery, and blood flow is restored by percutaneous intervention. Despite successful reperfusion, additional cardiomyocyte injury occurs during the next several hours. Which of the following mechanisms most directly contributes to this additional injury?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Decreased recruitment of neutrophils to previously ischemic tissue",
+        "Closure of mitochondrial permeability transition pores",
+        "Rapid efflux of calcium from damaged cardiomyocytes",
+        "Generation of reactive oxygen species during reoxygenation",
+        "Upregulation of intracellular antioxidant defenses during ischemia"
+      ],
+      "answerIndex": 3,
+      "answer": "Generation of reactive oxygen species during reoxygenation",
+      "explanation": "Reoxygenation can cause a burst of reactive oxygen and nitrogen species from leukocytes, endothelial cells, and injured parenchymal cells. Reperfusion also worsens calcium overload, opens mitochondrial permeability transition pores, and recruits inflammatory cells.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "reperfusion",
+        "reactive-oxygen-species"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-03",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "Hemodynamic Disorders, Thromboembolic Disease, and Shock",
+      "chapterOrder": 4,
+      "topic": "Platelets, Coagulation Factors, and Anticoagulant Mechanisms",
+      "topicTitle": "Platelets, Coagulation Factors, and Anticoagulant Mechanisms",
+      "topicOrder": 4,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 136,
+      "sourcePdfPageEnd": 136,
+      "difficulty": "moderate",
+      "prompt": "A 29-year-old woman develops pain and swelling of the left calf 2 days after returning from a long flight. Duplex ultrasonography confirms a deep venous thrombosis. Her father and paternal aunt had venous thromboemboli before age 40 years. Laboratory studies are shown.",
+      "leadIn": "Which of the following abnormalities is most likely present?",
+      "laboratoryFindings": [
+        {
+          "test": "Platelet count",
+          "value": "248,000/mm3",
+          "reference": "150,000-400,000/mm3"
+        },
+        {
+          "test": "Prothrombin time",
+          "value": "12 seconds",
+          "reference": "11-13 seconds"
+        },
+        {
+          "test": "Partial thromboplastin time",
+          "value": "29 seconds",
+          "reference": "25-35 seconds"
+        },
+        {
+          "test": "Activated protein C resistance ratio",
+          "value": "1.5",
+          "reference": ">=2.3"
+        }
+      ],
+      "itemFamily": "mechanism",
+      "options": [
+        "Reduced hepatic synthesis of antithrombin",
+        "Increased prothrombin expression caused by a coding-region deletion",
+        "Resistance of factor V to cleavage by activated protein C",
+        "Impaired conversion of plasminogen to plasmin",
+        "Absence of endothelial thrombomodulin"
+      ],
+      "answerIndex": 2,
+      "answer": "Resistance of factor V to cleavage by activated protein C",
+      "explanation": "Factor V Leiden is caused by an Arg-to-Gln substitution at residue 506, making factor V resistant to inactivation by activated protein C. It produces an autosomal dominant predisposition to venous thrombosis while routine coagulation studies may remain normal.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "factor-v-leiden",
+        "thrombosis"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-04",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "Diseases of the Immune System",
+      "chapterOrder": 6,
+      "topic": "Transplantation Immunology",
+      "topicTitle": "Transplantation Immunology",
+      "topicOrder": 7,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 244,
+      "sourcePdfPageEnd": 244,
+      "difficulty": "moderate",
+      "prompt": "A 51-year-old woman with end-stage kidney disease undergoes renal transplantation. Within minutes after vascular anastomoses are completed, the graft becomes cyanotic and produces no urine. A biopsy specimen from the transplanted kidney is shown. Which of the following is the most likely cause of these findings?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Donor CD8+ T lymphocytes attacking recipient tubular cells",
+        "Deposition of circulating immune complexes formed after transplantation",
+        "Activation of recipient memory T lymphocytes against graft parenchyma",
+        "Preformed donor antibodies binding recipient vascular endothelium",
+        "Preformed recipient antibodies binding antigens on graft endothelium"
+      ],
+      "answerIndex": 4,
+      "answer": "Preformed recipient antibodies binding antigens on graft endothelium",
+      "explanation": "Hyperacute rejection is mediated by preformed recipient antibodies directed against donor blood-group or HLA antigens. Antibody binding activates complement and thrombosis in graft vessels, causing ischemia and failure within minutes to hours.",
+      "imageUrls": [
+        "/uploads/usmle-pathology-robbins-q04-hyperacute-rejection.png"
+      ],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "hyperacute-rejection",
+        "transplantation"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-05",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "Diseases of the Immune System",
+      "chapterOrder": 6,
+      "topic": "Primary and Secondary Immunodeficiency Diseases",
+      "topicTitle": "Primary and Secondary Immunodeficiency Diseases",
+      "topicOrder": 8,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 250,
+      "sourcePdfPageEnd": 250,
+      "difficulty": "moderate",
+      "prompt": "A 10-month-old boy is evaluated for recurrent bacterial skin infections. His umbilical cord separated 5 weeks after birth. During infections he develops marked neutrophilia, but the infected areas contain little pus. Flow cytometry shows absent expression of a molecule shared by LFA-1 and Mac-1. A defect in which of the following proteins most likely causes this patient's condition?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "The beta-2 integrin chain CD18",
+        "A membrane component of phagocyte NADPH oxidase",
+        "Bruton tyrosine kinase",
+        "The lysosomal trafficking protein LYST",
+        "Myeloperoxidase"
+      ],
+      "answerIndex": 0,
+      "answer": "The beta-2 integrin chain CD18",
+      "explanation": "Leukocyte adhesion deficiency type 1 results from defective synthesis of the beta-2 chain of CD11/CD18 integrins. Neutrophils cannot adhere firmly to endothelium or migrate into tissue, producing delayed cord separation, neutrophilia, recurrent bacterial infections, and impaired pus formation.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "leukocyte-adhesion-deficiency",
+        "cd18"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-06",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "Diseases of the Immune System",
+      "chapterOrder": 6,
+      "topic": "Amyloidosis",
+      "topicTitle": "Amyloidosis",
+      "topicOrder": 10,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 270,
+      "sourcePdfPageEnd": 270,
+      "difficulty": "moderate",
+      "prompt": "A 68-year-old man has progressive fatigue, back pain, ankle edema, and exertional dyspnea. Echocardiography shows increased ventricular wall thickness with impaired diastolic filling. Serum protein electrophoresis has a narrow spike, and abdominal fat-pad biopsy demonstrates Congo red-positive extracellular deposits with apple-green birefringence. Selected laboratory studies are shown.",
+      "leadIn": "The deposited fibrils are most likely derived from which of the following precursors?",
+      "laboratoryFindings": [
+        {
+          "test": "Hemoglobin",
+          "value": "9.1 g/dL",
+          "reference": "13.5-17.5 g/dL"
+        },
+        {
+          "test": "Creatinine",
+          "value": "2.3 mg/dL",
+          "reference": "0.7-1.3 mg/dL"
+        },
+        {
+          "test": "Calcium",
+          "value": "11.4 mg/dL",
+          "reference": "8.6-10.2 mg/dL"
+        },
+        {
+          "test": "Urine protein",
+          "value": "4.8 g/24 h",
+          "reference": "<150 mg/24 h"
+        }
+      ],
+      "itemFamily": "mechanism",
+      "options": [
+        "Amyloid-beta peptide",
+        "Beta-2 microglobulin",
+        "Serum amyloid-associated protein",
+        "Immunoglobulin light chains",
+        "Transthyretin"
+      ],
+      "answerIndex": 3,
+      "answer": "Immunoglobulin light chains",
+      "explanation": "A monoclonal plasma-cell disorder with systemic amyloidosis produces AL fibrils derived from immunoglobulin light chains, most often lambda. AA fibrils accompany chronic inflammation, beta-2 microglobulin accumulates with long-term dialysis, and transthyretin forms hereditary or age-related amyloid.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "amyloidosis",
+        "plasma-cell-disorder"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-07",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "Blood Vessels",
+      "chapterOrder": 11,
+      "topic": "Atherosclerosis: Risk Factors and Pathogenesis",
+      "topicTitle": "Atherosclerosis: Risk Factors and Pathogenesis",
+      "topicOrder": 3,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 503,
+      "sourcePdfPageEnd": 503,
+      "difficulty": "moderate",
+      "prompt": "Investigators create a small area of endothelial dysfunction in the coronary arteries of an animal model with severe hypercholesterolemia. Before the intervention, circulating cells are permanently labeled with lineage-specific fluorescent markers. Weeks later, the arterial lesions contain numerous lipid-laden foam cells beneath intact endothelium but no well-developed fibrous cap. The marker found in most foam cells was originally expressed by which of the following circulating cell types?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "experimental-design",
+      "options": [
+        "Adventitial fibroblasts",
+        "Circulating monocytes",
+        "Neutrophils",
+        "Vascular endothelial cells",
+        "T lymphocytes"
+      ],
+      "answerIndex": 1,
+      "answer": "Circulating monocytes",
+      "explanation": "This lineage-tracing experiment models an early fatty streak. Endothelial dysfunction promotes monocyte adhesion and entry into the intima; the monocytes become macrophages and ingest modified LDL through scavenger receptors. Smooth muscle cells can contribute to foam cells later, but they are not circulating cells.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "atherosclerosis",
+        "foam-cells"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-08",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Heart",
+      "chapterOrder": 12,
+      "topic": "Complications of Myocardial Infarction and Chronic IHD",
+      "topicTitle": "Complications of Myocardial Infarction and Chronic IHD",
+      "topicOrder": 5,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 556,
+      "sourcePdfPageEnd": 556,
+      "difficulty": "hard",
+      "prompt": "A 71-year-old woman is hospitalized after a first transmural myocardial infarction involving the lateral wall of the left ventricle. On hospital day 5, she suddenly develops hypotension, jugular venous distention, and pulseless electrical activity. Echocardiography shows a large pericardial effusion. Which of the following tissue processes most likely predisposed to this complication?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Deposition and contraction of a dense collagenous scar",
+        "Persistent coagulative necrosis without an inflammatory response",
+        "Macrophage-mediated digestion and maximal softening of necrotic myocardium",
+        "Neutrophil-mediated replacement of myocardium by mature granulation tissue",
+        "Rapid synthesis of type I collagen by surviving cardiomyocytes"
+      ],
+      "answerIndex": 2,
+      "answer": "Macrophage-mediated digestion and maximal softening of necrotic myocardium",
+      "explanation": "Left ventricular free-wall rupture causes hemopericardium and cardiac tamponade. Rupture is most likely 3 to 7 days after infarction, when macrophages are digesting necrotic myocardium and the infarct is maximally soft before a strong collagen scar has formed.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "myocardial-infarction",
+        "cardiac-rupture"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-09",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "Diseases of White Blood Cells, Lymph Nodes, Spleen, and Thymus",
+      "chapterOrder": 13,
+      "topic": "Myeloproliferative Neoplasms and Myelodysplastic Syndromes",
+      "topicTitle": "Myeloproliferative Neoplasms and Myelodysplastic Syndromes",
+      "topicOrder": 4,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 627,
+      "sourcePdfPageEnd": 627,
+      "difficulty": "moderate",
+      "prompt": "A 55-year-old man has 3 months of fatigue, night sweats, and early satiety. Examination shows a markedly enlarged spleen. A peripheral blood smear shows granulocytes at all stages of maturation. Selected laboratory studies are shown. Cytogenetic analysis demonstrates t(9;22)(q34;q11).",
+      "leadIn": "The protein produced by this rearrangement has which of the following activities?",
+      "laboratoryFindings": [
+        {
+          "test": "Hemoglobin",
+          "value": "10.2 g/dL",
+          "reference": "13.5-17.5 g/dL"
+        },
+        {
+          "test": "Leukocyte count",
+          "value": "145,000/mm3",
+          "reference": "4,500-11,000/mm3"
+        },
+        {
+          "test": "Basophils",
+          "value": "8%",
+          "reference": "0-1%"
+        },
+        {
+          "test": "Leukocyte alkaline phosphatase score",
+          "value": "18",
+          "reference": "20-100"
+        }
+      ],
+      "itemFamily": "mechanism",
+      "options": [
+        "Constitutively active nonreceptor tyrosine kinase activity",
+        "Constitutively active cytokine-receptor serine kinase activity",
+        "GTPase activity that is locked in its inactive GDP-bound state",
+        "Ligand-independent nuclear steroid-receptor activity",
+        "Membrane-bound receptor tyrosine phosphatase activity"
+      ],
+      "answerIndex": 0,
+      "answer": "Constitutively active nonreceptor tyrosine kinase activity",
+      "explanation": "The Philadelphia chromosome creates the BCR-ABL fusion protein. BCR-mediated self-association constitutively activates the nonreceptor ABL tyrosine kinase, driving growth and survival signaling through pathways including RAS and JAK/STAT.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "cml",
+        "bcr-abl"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-10",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Lung",
+      "chapterOrder": 15,
+      "topic": "Lung Tumors and Carcinogenesis",
+      "topicTitle": "Lung Tumors and Carcinogenesis",
+      "topicOrder": 9,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 723,
+      "sourcePdfPageEnd": 723,
+      "difficulty": "moderate",
+      "prompt": "A 66-year-old man with a 50-pack-year smoking history has progressive cough, weight loss, headache, and confusion. Examination shows no edema. CT scan shows a central hilar mass with bulky mediastinal lymphadenopathy. A bronchoscopic biopsy specimen is shown. Selected laboratory studies are shown.",
+      "leadIn": "Which of the following findings is most likely on electron microscopy of the tumor cells?",
+      "laboratoryFindings": [
+        {
+          "test": "Serum sodium",
+          "value": "119 mEq/L",
+          "reference": "136-145 mEq/L"
+        },
+        {
+          "test": "Serum osmolality",
+          "value": "258 mOsm/kg H2O",
+          "reference": "275-295 mOsm/kg H2O"
+        },
+        {
+          "test": "Urine osmolality",
+          "value": "540 mOsm/kg H2O",
+          "reference": "50-1,200 mOsm/kg H2O"
+        },
+        {
+          "test": "Urine sodium",
+          "value": "62 mEq/L",
+          "reference": "variable with intake"
+        }
+      ],
+      "itemFamily": "mechanism",
+      "options": [
+        "Birbeck granules",
+        "Prominent desmosomal plaques with tonofilaments",
+        "Weibel-Palade bodies",
+        "Premelanosomes",
+        "Dense-core neurosecretory granules"
+      ],
+      "answerIndex": 4,
+      "answer": "Dense-core neurosecretory granules",
+      "explanation": "Small cell carcinoma is a high-grade neuroendocrine carcinoma and often causes ectopic hormone syndromes such as SIADH. Its cells express neuroendocrine markers and commonly contain dense-core neurosecretory granules on electron microscopy.",
+      "imageUrls": [
+        "/uploads/usmle-pathology-robbins-q10-small-cell-carcinoma.png"
+      ],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "small-cell-carcinoma",
+        "neuroendocrine"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-11",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Gastrointestinal Tract",
+      "chapterOrder": 17,
+      "topic": "Esophagus: Reflux, Barrett Esophagus, and Tumors",
+      "topicTitle": "Esophagus: Reflux, Barrett Esophagus, and Tumors",
+      "topicOrder": 2,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 764,
+      "sourcePdfPageEnd": 764,
+      "difficulty": "moderate",
+      "prompt": "A 48-year-old man comes to the office because of a 12-year history of substernal burning and sour-tasting regurgitation after meals. The symptoms are worse when he lies down. BMI is 31 kg/m2. Endoscopy shows velvety salmon-colored mucosa extending proximally from the gastroesophageal junction. Biopsy demonstrates columnar epithelium containing goblet cells. Which of the following is the most likely diagnosis?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "diagnosis",
+      "options": [
+        "Barrett esophagus",
+        "Eosinophilic esophagitis",
+        "Esophageal squamous dysplasia",
+        "Gastric heterotopia",
+        "Reflux esophagitis without metaplasia"
+      ],
+      "answerIndex": 0,
+      "answer": "Barrett esophagus",
+      "explanation": "This is Barrett esophagus: intestinal metaplasia in which reflux-damaged distal esophageal squamous mucosa is replaced by columnar epithelium containing goblet cells. It increases the risk for dysplasia and esophageal adenocarcinoma.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "barrett-esophagus",
+        "metaplasia"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-12",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Gastrointestinal Tract",
+      "chapterOrder": 17,
+      "topic": "Gastric Polyps and Gastric Tumors",
+      "topicTitle": "Gastric Polyps and Gastric Tumors",
+      "topicOrder": 4,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 779,
+      "sourcePdfPageEnd": 779,
+      "difficulty": "hard",
+      "prompt": "A 58-year-old woman has chronic dyspepsia. Gastric biopsy shows Helicobacter pylori organisms and a dense infiltrate of small CD20-positive B lymphocytes forming lymphoepithelial lesions. Molecular testing shows no API2-MALT1, MALT1, or BCL10 translocation. Eradication therapy results in regression of the lymphoid proliferation. Which of the following best explains this response?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Restoration of p53 function in the neoplastic B cells",
+        "Direct cytotoxicity of the antibiotics against CD20-positive cells",
+        "Pharmacologic inhibition of an API2-MALT1 fusion protein",
+        "Removal of antigen-dependent NF-kappaB signaling through the MALT1-BCL10 pathway",
+        "Correction of a mismatch-repair defect in gastric epithelial cells"
+      ],
+      "answerIndex": 3,
+      "answer": "Removal of antigen-dependent NF-kappaB signaling through the MALT1-BCL10 pathway",
+      "explanation": "Early gastric MALT lymphomas without constitutively activating translocations can remain dependent on antigenic stimulation from H. pylori. Eradication removes this stimulus and reduces NF-kappaB-mediated B-cell growth and survival; translocation-positive tumors are more likely to resist eradication therapy.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "malt-lymphoma",
+        "helicobacter-pylori"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-13",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Pancreas",
+      "chapterOrder": 19,
+      "topic": "Pancreatic Ductal Adenocarcinoma: Risks and Morphology",
+      "topicTitle": "Pancreatic Ductal Adenocarcinoma: Risks and Morphology",
+      "topicOrder": 6,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 892,
+      "sourcePdfPageEnd": 892,
+      "difficulty": "moderate",
+      "prompt": "A 69-year-old man has 4 months of progressive weight loss, dull epigastric discomfort radiating to the back, dark urine, and yellow discoloration of the skin. Examination shows a palpable, nontender gallbladder. CT scan demonstrates an infiltrative mass in the head of the pancreas. Biopsy shows irregular mucin-producing glands within a dense desmoplastic stroma; adjacent ducts contain pancreatic intraepithelial neoplasia. Which of the following genes most likely contains an activating mutation affecting a small GTP-binding signaling protein?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "APC",
+        "BRCA2",
+        "KRAS",
+        "RB1",
+        "VHL"
+      ],
+      "answerIndex": 2,
+      "answer": "KRAS",
+      "explanation": "Activating KRAS mutations are common early abnormalities in pancreatic intraepithelial neoplasia and pancreatic ductal adenocarcinoma. CDKN2A, TP53, and SMAD4 are also frequently altered, but they are tumor suppressor genes rather than small GTP-binding proteins.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "pancreatic-carcinoma",
+        "kras"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-14",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Kidney",
+      "chapterOrder": 20,
+      "topic": "Nephrotic Syndrome: Minimal Change, FSGS, and Membranous Nephropathy",
+      "topicTitle": "Nephrotic Syndrome: Minimal Change, FSGS, and Membranous Nephropathy",
+      "topicOrder": 2,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 916,
+      "sourcePdfPageEnd": 916,
+      "difficulty": "moderate",
+      "prompt": "A 5-year-old boy develops periorbital edema 1 week after an upper respiratory infection. Blood pressure is 96/60 mm Hg. There is no rash or joint swelling. Selected laboratory studies are shown. Light microscopy of a renal biopsy shows glomeruli without significant abnormalities, and immunofluorescence shows no immune deposits.",
+      "leadIn": "Which of the following additional renal-biopsy findings is most likely?",
+      "laboratoryFindings": [
+        {
+          "test": "Serum albumin",
+          "value": "2.1 g/dL",
+          "reference": "3.5-5.0 g/dL"
+        },
+        {
+          "test": "Total cholesterol",
+          "value": "286 mg/dL",
+          "reference": "<170 mg/dL"
+        },
+        {
+          "test": "Creatinine",
+          "value": "0.4 mg/dL",
+          "reference": "0.3-0.7 mg/dL"
+        },
+        {
+          "test": "Complement C3",
+          "value": "112 mg/dL",
+          "reference": "80-160 mg/dL"
+        },
+        {
+          "test": "Urinalysis",
+          "value": "4+ protein; no blood",
+          "reference": "negative"
+        }
+      ],
+      "itemFamily": "predicted-finding",
+      "options": [
+        "Diffuse effacement of podocyte foot processes",
+        "Linear deposition of IgG along glomerular basement membranes",
+        "Mesangial deposition of IgA",
+        "Subendothelial immune-complex deposits with wire-loop lesions",
+        "Subepithelial immune-complex deposits with basement-membrane spikes"
+      ],
+      "answerIndex": 0,
+      "answer": "Diffuse effacement of podocyte foot processes",
+      "explanation": "The nephrotic syndrome, preserved complement level, bland urine sediment, and normal light microscopy indicate minimal change disease. It is a podocytopathy whose defining ultrastructural finding is diffuse foot-process effacement; immune-complex deposits are absent.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "minimal-change-disease",
+        "podocyte"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-15",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Lower Urinary Tract and Male Genital System",
+      "chapterOrder": 21,
+      "topic": "Prostatitis and Benign Prostatic Hyperplasia",
+      "topicTitle": "Prostatitis and Benign Prostatic Hyperplasia",
+      "topicOrder": 9,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 978,
+      "sourcePdfPageEnd": 978,
+      "difficulty": "moderate",
+      "prompt": "A 67-year-old man has urinary hesitancy, a weak stream, and nocturia. Digital rectal examination shows a symmetrically enlarged prostate without nodules. Histologic examination would show nodular hyperplasia of glands and stroma in the transition zone. Treatment is begun with an inhibitor of type 2 5-alpha-reductase in prostatic stromal cells. The intraprostatic concentration of which of the following substances will decrease?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Androstenedione",
+        "Dehydroepiandrosterone",
+        "Estradiol",
+        "Testosterone",
+        "Dihydrotestosterone"
+      ],
+      "answerIndex": 4,
+      "answer": "Dihydrotestosterone",
+      "explanation": "Type 2 5-alpha-reductase converts testosterone to dihydrotestosterone in prostatic stromal cells. DHT activates androgen receptors in stromal and epithelial cells and promotes growth-factor signaling that contributes to benign prostatic hyperplasia.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "bph",
+        "dihydrotestosterone"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-16",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Female Genital Tract",
+      "chapterOrder": 22,
+      "topic": "Cervicitis, HPV Infection, and Cervical Intraepithelial Neoplasia",
+      "topicTitle": "Cervicitis, HPV Infection, and Cervical Intraepithelial Neoplasia",
+      "topicOrder": 2,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 998,
+      "sourcePdfPageEnd": 998,
+      "difficulty": "moderate",
+      "prompt": "A 34-year-old woman has a high-grade squamous intraepithelial lesion on cervical cytology. Biopsy confirms severe dysplasia, and testing detects integrated HPV type 16 DNA with high expression of the viral E6 protein. Which of the following molecular effects is most directly caused by E6 in these cells?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Binding and proteasomal degradation of hypophosphorylated RB by E7",
+        "Binding and proteasomal degradation of p53",
+        "Constitutive activation of RAS GTPase",
+        "Inhibition of telomerase expression",
+        "Synthesis of a viral thymidine kinase that blocks DNA repair"
+      ],
+      "answerIndex": 1,
+      "answer": "Binding and proteasomal degradation of p53",
+      "explanation": "High-risk HPV E6 binds p53 and promotes its proteasomal degradation; it also increases telomerase expression. E7 separately binds active hypophosphorylated RB and promotes its degradation, releasing cell-cycle restraints.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "cervical-neoplasia",
+        "hpv-e6"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-17",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Breast",
+      "chapterOrder": 23,
+      "topic": "Breast Cancer Risk Factors and Molecular Subtypes",
+      "topicTitle": "Breast Cancer Risk Factors and Molecular Subtypes",
+      "topicOrder": 5,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 1053,
+      "sourcePdfPageEnd": 1053,
+      "difficulty": "moderate",
+      "prompt": "A 38-year-old woman has a poorly differentiated invasive breast carcinoma that is negative for estrogen receptor, progesterone receptor, and HER2. Her mother died of ovarian cancer at age 44 years. Germline testing identifies a pathogenic BRCA1 variant. The patient begins to cry and says, \"I gave this cancer to my daughter. She is only 12. What have I done?\" Which of the following is the most appropriate initial response by the physician?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "communication-ethics",
+      "options": [
+        "Because the variant is autosomal dominant, your daughter will develop breast cancer unless she has prophylactic surgery",
+        "I can see that you are worried you harmed your daughter; can you tell me what frightens you most about this result?",
+        "Your daughter has a 50% risk, so we should arrange genetic testing for her today",
+        "You should not blame yourself because inherited variants are entirely outside a parent's control",
+        "We need to focus on treating your cancer before discussing what this result could mean for your family"
+      ],
+      "answerIndex": 1,
+      "answer": "I can see that you are worried you harmed your daughter; can you tell me what frightens you most about this result?",
+      "explanation": "The best initial response names the patient's emotion and invites her to explain her concern before providing more information. A pathogenic BRCA1 variant confers susceptibility rather than certainty, and predictive testing for an adult-onset condition is generally deferred in a healthy 12-year-old. Immediate reassurance, redirection, or arranging testing fails to explore the patient's distress.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "brca1",
+        "triple-negative-breast-cancer"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-18",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Endocrine System",
+      "chapterOrder": 24,
+      "topic": "Thyroid Nodules and Thyroid Tumors",
+      "topicTitle": "Thyroid Nodules and Thyroid Tumors",
+      "topicOrder": 5,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 1088,
+      "sourcePdfPageEnd": 1088,
+      "difficulty": "moderate",
+      "prompt": "A 30-year-old woman who received radiation therapy to the neck during childhood has a painless thyroid nodule. A histologic section of the nodule is shown. Molecular analysis is most likely to demonstrate an alteration that directly activates which of the following intracellular signaling pathways?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "JAK-STAT signaling",
+        "WNT-beta-catenin signaling",
+        "RAS-RAF-MAPK signaling",
+        "Hedgehog-GLI signaling",
+        "TGF-beta-SMAD signaling"
+      ],
+      "answerIndex": 2,
+      "answer": "RAS-RAF-MAPK signaling",
+      "explanation": "RET/PTC rearrangements create constitutively active receptor tyrosine kinase fusion proteins that signal through the RAS-RAF-MAPK pathway. Activating BRAF mutations provide an alternative alteration in the same pathway in conventional papillary thyroid carcinoma.",
+      "imageUrls": [
+        "/uploads/usmle-pathology-robbins-q18-papillary-thyroid-carcinoma.png"
+      ],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "papillary-thyroid-carcinoma",
+        "ret-ptc"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-19",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "Bones, Joints, and Soft Tissue Tumors",
+      "chapterOrder": 26,
+      "topic": "Bone-Forming Tumors: Osteoma, Osteoid Osteoma, and Osteosarcoma",
+      "topicTitle": "Bone-Forming Tumors: Osteoma, Osteoid Osteoma, and Osteosarcoma",
+      "topicOrder": 4,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 1189,
+      "sourcePdfPageEnd": 1189,
+      "difficulty": "moderate",
+      "prompt": "A 16-year-old boy has 3 months of progressive pain and swelling above the knee. He has no history of trauma, fever, or weight loss. A radiograph of the affected limb is shown. Biopsy of the lesion is most likely to demonstrate which of the following findings?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "predicted-finding",
+      "options": [
+        "Atypical chondrocytes embedded in a lobulated hyaline cartilage matrix",
+        "Malignant spindle cells surrounding lace-like deposits of osteoid",
+        "Mononuclear stromal cells admixed uniformly with osteoclast-type giant cells",
+        "Sheets of small round cells with scant cytoplasm and diffuse CD99 expression",
+        "Well-differentiated plasma cells with eccentric clock-face nuclei"
+      ],
+      "answerIndex": 1,
+      "answer": "Malignant spindle cells surrounding lace-like deposits of osteoid",
+      "explanation": "The aggressive metaphyseal lesion with a mixed destructive and bone-forming matrix, sunburst periosteal reaction, and Codman triangle is a conventional osteosarcoma. Its defining histologic feature is malignant mesenchymal cells directly producing lace-like osteoid. The other options describe chondrosarcoma, giant cell tumor, Ewing sarcoma, and a plasma-cell neoplasm.",
+      "imageUrls": [
+        "/uploads/usmle-pathology-robbins-q19-osteosarcoma-xray.png"
+      ],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "osteosarcoma",
+        "malignant-osteoid"
+      ]
+    },
+    {
+      "id": "usmle-pathology-robbins-20",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapterTitle": "The Eye",
+      "chapterOrder": 29,
+      "topic": "Vascular Retinopathies and Retinal Ischemia",
+      "topicTitle": "Vascular Retinopathies and Retinal Ischemia",
+      "topicOrder": 7,
+      "source": "usmle",
+      "sourcePdf": "Robbins & Cotran Pathologic Basis of Disease, 10th ed. (provided PDF)",
+      "sourcePdfPageStart": 1322,
+      "sourcePdfPageEnd": 1322,
+      "difficulty": "moderate",
+      "prompt": "A newborn delivered at 27 weeks' gestation requires supplemental oxygen for respiratory distress. Several weeks later, ophthalmologic examination shows abnormal proliferation of vessels at the border between vascularized and avascular retina. Contraction of the resulting fibrovascular membrane places the infant at risk for retinal detachment. Which of the following mediators is most likely increased in the ischemic peripheral retina?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Complement component C5a",
+        "Endostatin",
+        "Interferon-gamma",
+        "Thromboxane A2",
+        "Vascular endothelial growth factor"
+      ],
+      "answerIndex": 4,
+      "answer": "Vascular endothelial growth factor",
+      "explanation": "High oxygen exposure constricts immature retinal vessels, leaving peripheral retina ischemic when oxygen is reduced. Ischemia upregulates VEGF and other proangiogenic factors, producing pathologic neovascularization whose contraction can cause retinal detachment.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "robbins-10e",
+        "retinopathy-of-prematurity",
+        "vegf"
       ]
     }
   ],

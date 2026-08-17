@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>USMLE Step 1-Style Question Writing Recipe</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #5e6879;
+      --navy: #17365d;
+      --blue: #2f6fa3;
+      --pale: #eef5fb;
+      --line: #cfd8e3;
+      --gold: #b98524;
+      --paper: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    @page {
+      size: A4;
+      margin: 18mm 17mm 19mm;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 10.5pt/1.47 "Segoe UI", Arial, sans-serif;
+    }
+
+    h1, h2, h3, h4 { color: var(--navy); page-break-after: avoid; }
+    h1 { margin: 0 0 10mm; font-size: 28pt; line-height: 1.08; letter-spacing: -.5pt; }
+    h2 { margin: 8mm 0 3mm; padding-bottom: 1.5mm; border-bottom: 1.5px solid var(--blue); font-size: 18pt; }
+    h3 { margin: 5mm 0 2mm; font-size: 13pt; }
+    h4 { margin: 4mm 0 1.5mm; font-size: 11pt; }
+    p { margin: 0 0 3mm; }
+    ul, ol { margin: 2mm 0 4mm 6mm; padding-left: 5mm; }
+    li { margin: 1mm 0; }
+    strong { color: #102a4b; }
+    code { font: 9.5pt/1.45 Consolas, "Courier New", monospace; }
+
+    .cover {
+      min-height: 247mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      page-break-after: always;
+      position: relative;
+    }
+
+    .cover::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 30mm;
+      width: 26mm;
+      height: 3mm;
+      background: var(--gold);
+    }
+
+    .eyebrow {
+      margin-bottom: 7mm;
+      color: var(--blue);
+      font-size: 11pt;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      max-width: 145mm;
+      color: var(--muted);
+      font-size: 15pt;
+      line-height: 1.45;
+    }
+
+    .cover-note {
+      margin-top: 22mm;
+      padding-top: 5mm;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 9.5pt;
+    }
+
+    .core {
+      margin: 6mm 0;
+      padding: 5mm 6mm;
+      border-left: 4px solid var(--gold);
+      background: #fff9eb;
+      font-size: 13pt;
+      line-height: 1.5;
+    }
+
+    .flow {
+      margin: 4mm 0 7mm;
+      padding: 4mm 5mm;
+      border: 1px solid #b7cbe0;
+      border-radius: 5px;
+      background: var(--pale);
+      color: var(--navy);
+      font-size: 12pt;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      margin: 3mm 0 6mm;
+      border-collapse: collapse;
+      page-break-inside: avoid;
+      font-size: 9.3pt;
+    }
+
+    th, td {
+      padding: 2.2mm 2.7mm;
+      border: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      color: white;
+      background: var(--navy);
+      font-weight: 650;
+      text-align: left;
+    }
+
+    .card {
+      margin: 3mm 0 5mm;
+      padding: 4mm 5mm;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      page-break-inside: avoid;
+    }
+
+    .card h3 { margin-top: 0; }
+
+    .lead-in {
+      margin: 2mm 0;
+      padding: 2.5mm 3.5mm;
+      border-left: 3px solid var(--blue);
+      background: var(--pale);
+      color: #193a60;
+      font-style: italic;
+    }
+
+    .template {
+      margin: 3mm 0 5mm;
+      padding: 4mm;
+      border: 1px solid #9daabd;
+      border-radius: 4px;
+      background: #f7f9fb;
+      white-space: pre-wrap;
+      font: 8.8pt/1.45 Consolas, "Courier New", monospace;
+      page-break-inside: avoid;
+    }
+
+    .checklist {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    .checklist li::before {
+      content: "\2610";
+      display: inline-block;
+      width: 6mm;
+      color: var(--blue);
+      font-size: 12pt;
+    }
+
+    .small { color: var(--muted); font-size: 9pt; }
+    .page-break { page-break-before: always; }
+    .avoid-break { page-break-inside: avoid; }
+
+    .footer {
+      position: fixed;
+      right: 0;
+      bottom: -12mm;
+      left: 0;
+      color: #7c8796;
+      font-size: 8pt;
+      text-align: center;
+    }
+
+    @media screen {
+      body { max-width: 210mm; margin: 0 auto; padding: 18mm 17mm; box-shadow: 0 0 30px #ccd2da; }
+      .cover { min-height: 245mm; }
+      .footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="footer">USMLE Step 1-Style Question Writing Recipe</div>
+
+  <section class="cover">
+    <div class="eyebrow">Practical authoring guide</div>
+    <h1>USMLE Step 1-Style<br>Question Writing Recipe</h1>
+    <p class="subtitle">A reusable method for converting standard textbook material into original, clinically framed, one-best-answer questions.</p>
+    <div class="cover-note">
+      <p><strong>Basis of analysis:</strong> 119 questions in the April 2026 public-release Step 1 sample-items booklet.</p>
+      <p><strong>Important:</strong> This is an independent style analysis and authoring guide. It is not an official NBME or USMLE item-writing manual and should not be presented as official examination material.</p>
+    </div>
+  </section>
+
+  <h2>1. The central pattern</h2>
+
+  <div class="core">Present a realistic clinical problem, make the examinee identify the hidden diagnosis or process, and then ask for a basic-science consequence one level deeper.</div>
+
+  <div class="flow">Clinical clues &nbsp;&rarr;&nbsp; hidden diagnosis or process &nbsp;&rarr;&nbsp; mechanism, structure, treatment, or predicted finding</div>
+
+  <p>The distinctive feature is not simply a long clinical stem. It is the reasoning transition. A student commonly has to recognize the clinical entity before reaching the fact that is actually being tested.</p>
+
+  <h3>Observed characteristics of the sample</h3>
+
+  <table>
+    <thead><tr><th>Feature</th><th>Observed pattern</th></tr></thead>
+    <tbody>
+      <tr><td>Total questions</td><td>119</td></tr>
+      <tr><td>Age/sex-based clinical scenarios</td><td>Approximately 109</td></tr>
+      <tr><td>Median stem length</td><td>Approximately 97 words</td></tr>
+      <tr><td>Observed stem range</td><td>Approximately 42-233 words</td></tr>
+      <tr><td>Presentation format</td><td>Narrative vignettes overwhelmingly predominate; three chart-format cases were present</td></tr>
+      <tr><td>Response options</td><td>Five is the default; four or six are also common enough to use when justified</td></tr>
+      <tr><td>Lead-in language</td><td>87 explicitly used “most likely”; 19 used “most appropriate”</td></tr>
+      <tr><td>Laboratory or diagnostic data</td><td>Approximately one quarter of the items</td></tr>
+      <tr><td>Visual interpretation</td><td>Roughly one in five used an image, tracing, graph, pedigree, or diagram</td></tr>
+      <tr><td>Testing pace</td><td>Approximately 90 seconds per item</td></tr>
+    </tbody>
+  </table>
+
+  <p class="small">These counts characterize this sample booklet only. They should not be treated as an official content blueprint.</p>
+
+  <h2>2. Start with the source</h2>
+
+  <h3>Step 1 — Extract one atomic textbook fact</h3>
+
+  <p>Do not begin by inventing a patient. First identify the exact proposition to test. Record:</p>
+
+  <ul>
+    <li>Book, edition, chapter, and page</li>
+    <li>Disease or physiologic process</li>
+    <li>Population and relevant risk factors</li>
+    <li>Typical presentation and discriminating findings</li>
+    <li>Mechanism, pathology, complications, and treatment</li>
+    <li>Closely related alternatives that could become distractors</li>
+  </ul>
+
+  <div class="card">
+    <h3>Source proposition example</h3>
+    <p>Loss of ATP7B-mediated copper transport reduces biliary copper excretion and produces copper accumulation in the liver, brain, and cornea.</p>
+    <p class="small">The final vignette must be original. Do not copy sentences or distinctive cases from the source book or an existing question bank.</p>
+  </div>
+
+  <h3>Step 2 — Define the tested endpoint</h3>
+
+  <p>Write the correct answer in one sentence. If the fact cannot be stated precisely, it is not ready to become a question.</p>
+
+  <h3>Step 3 — Design the reasoning chain</h3>
+
+  <div class="template">Clues:
+[population] + [time course] + [key symptoms] + [discriminating finding]
+
+Hidden diagnosis/process:
+[the entity the examinee must recognize]
+
+Tested endpoint:
+[the mechanism, structure, treatment, or predicted finding]
+
+Complete reasoning chain:
+[clues] → [diagnosis/process] → [correct answer]</div>
+
+  <h2>3. Choose the question family</h2>
+
+  <div class="card">
+    <h3>A. Diagnosis</h3>
+    <p><strong>Reasoning:</strong> clues &rarr; diagnosis</p>
+    <div class="lead-in">Which of the following is the most likely diagnosis?</div>
+    <p>Use selectively. A direct diagnosis item is usually easier unless the alternatives are clinically close.</p>
+  </div>
+
+  <div class="card">
+    <h3>B. Cause or mechanism</h3>
+    <p><strong>Reasoning:</strong> clues &rarr; diagnosis &rarr; pathophysiology</p>
+    <div class="lead-in">Which of the following is the most likely underlying cause of this patient’s condition?</div>
+    <div class="lead-in">Which of the following mechanisms best explains these findings?</div>
+    <p>This is the dominant Step 1-style construction.</p>
+  </div>
+
+  <div class="card">
+    <h3>C. Predicted additional finding</h3>
+    <p><strong>Reasoning:</strong> clues &rarr; diagnosis &rarr; another consequence</p>
+    <div class="lead-in">Which of the following additional findings is most likely in this patient?</div>
+    <div class="lead-in">Physical examination is most likely to show which of the following?</div>
+  </div>
+
+  <div class="card">
+    <h3>D. Treatment mechanism</h3>
+    <p><strong>Reasoning:</strong> clues &rarr; diagnosis &rarr; appropriate treatment &rarr; mechanism</p>
+    <div class="lead-in">The most appropriate pharmacotherapy has which of the following mechanisms of action?</div>
+    <div class="lead-in">Treatment will inhibit which of the following enzymes?</div>
+  </div>
+
+  <div class="card">
+    <h3>E. Anatomy or localization</h3>
+    <p><strong>Reasoning:</strong> deficit pattern &rarr; affected pathway &rarr; lesion location</p>
+    <div class="lead-in">The lesion is most likely located at which of the following levels?</div>
+    <div class="lead-in">This deficit is most likely caused by damage to which structure?</div>
+  </div>
+
+  <div class="card">
+    <h3>F. Laboratory or physiologic prediction</h3>
+    <p><strong>Reasoning:</strong> clinical state &rarr; physiologic adaptation &rarr; expected measurement</p>
+    <div class="lead-in">Which of the following laboratory findings is most likely in this patient?</div>
+    <p>Options can be presented as a small matrix of increased/decreased values when two variables must be integrated.</p>
+  </div>
+
+  <div class="card">
+    <h3>G. Communication or ethics</h3>
+    <p>Include an exact patient statement. Response options should differ in empathy, openness, assumptions, autonomy, and information gathering.</p>
+    <div class="lead-in">Which of the following is the most appropriate initial response by the physician?</div>
+  </div>
+
+  <div class="card">
+    <h3>H. Biostatistics or experimental design</h3>
+    <p>Present a concise study and ask about error, validity, reliability, study phase, risk calculation, sample size, or interpretation of a distribution.</p>
+  </div>
+
+  <h2>4. Build the clue structure</h2>
+
+  <table>
+    <thead><tr><th>Clue type</th><th>Purpose</th><th>Recommended use</th></tr></thead>
+    <tbody>
+      <tr><td>Defining clue</td><td>Strongly establishes the hidden diagnosis or process</td><td>One</td></tr>
+      <tr><td>Supporting clue</td><td>Confirms the pattern through another domain</td><td>One or two</td></tr>
+      <tr><td>Disambiguating clue</td><td>Separates the key from the nearest competing diagnosis</td><td>One</td></tr>
+      <tr><td>Relevant negative</td><td>Excludes a tempting alternative</td><td>Zero or one</td></tr>
+      <tr><td>Realism detail</td><td>Makes the encounter authentic</td><td>Use sparingly</td></tr>
+    </tbody>
+  </table>
+
+  <p>Every sentence should establish the diagnosis, support it, exclude an alternative, provide information needed for the answer, or add restrained clinical realism.</p>
+
+  <h3>Recommended difficulty formula</h3>
+
+  <div class="core">Two strong clues + one discriminating clue + a second-step lead-in + four plausible nearby distractors</div>
+
+  <table>
+    <thead><tr><th>Difficulty</th><th>Construction</th></tr></thead>
+    <tbody>
+      <tr><td>Easier</td><td>Classic presentation &rarr; diagnosis</td></tr>
+      <tr><td>Standard</td><td>Classic presentation &rarr; diagnosis &rarr; mechanism</td></tr>
+      <tr><td>Harder but fair</td><td>Overlapping presentations &rarr; discriminating clue &rarr; diagnosis &rarr; predicted consequence</td></tr>
+    </tbody>
+  </table>
+
+  <p>Difficulty should arise from integration, not obscure terminology, missing information, or trick wording.</p>
+
+  <h2>5. Write the options before the vignette</h2>
+
+  <p>Write the correct answer first, followed by the distractor set. Then construct the patient backward so that the stem supports exactly one choice.</p>
+
+  <h3>Homogeneous options</h3>
+
+  <p>Every option must answer the same question and occupy the same conceptual level. Suitable option sets include:</p>
+
+  <ul>
+    <li>Five diagnoses</li>
+    <li>Five receptors or enzymes</li>
+    <li>Five infectious organisms</li>
+    <li>Five embryologic tissues or developmental processes</li>
+    <li>Five mechanisms of drug action</li>
+    <li>Five anatomic structures</li>
+    <li>Five immune defects</li>
+  </ul>
+
+  <h3>Distractor construction</h3>
+
+  <p>A useful distractor is plausible but contradicted by one identifiable feature:</p>
+
+  <ul>
+    <li>Correct disease category, wrong mechanism</li>
+    <li>Correct mechanism, wrong organ or cellular compartment</li>
+    <li>Correct organism, wrong exposure or patient population</li>
+    <li>Correct drug class, wrong clinical setting</li>
+    <li>Correct structure, wrong side or neurologic level</li>
+    <li>Correct finding, wrong stage or time course</li>
+    <li>Common association contradicted by a discriminating clue</li>
+  </ul>
+
+  <table>
+    <thead><tr><th>Option</th><th>Why it is tempting</th><th>Why it is incorrect</th></tr></thead>
+    <tbody>
+      <tr><td>A</td><td>Fits the age group</td><td>Produces a different laboratory pattern</td></tr>
+      <tr><td>B</td><td>Causes similar symptoms</td><td>The time course is incompatible</td></tr>
+      <tr><td>C — Key</td><td>Fits every major clue</td><td>—</td></tr>
+      <tr><td>D</td><td>Involves the same organ system</td><td>Has a different underlying mechanism</td></tr>
+      <tr><td>E</td><td>Is more common overall</td><td>The defining examination finding is absent</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6. Write the clinical vignette</h2>
+
+  <h3>Narrative format</h3>
+
+  <div class="template">A [age]-year-old [man/woman/child] comes/is brought to the [setting]
+because of a [duration] history of [chief concern]. [Chronology and associated
+symptoms.] [Relevant medical, medication, family, exposure, or social history.]
+Temperature is [...], pulse is [...], respirations are [...], and blood pressure
+is [...]. Physical examination shows [key positive findings] and [relevant
+negative findings]. [Laboratory, imaging, pathology, or physiologic data.]
+Which of the following is the most likely [target]?
+
+(A) [homogeneous option]
+(B) [homogeneous option]
+(C) [homogeneous option]
+(D) [homogeneous option]
+(E) [homogeneous option]</div>
+
+  <h3>Information order</h3>
+
+  <ol>
+    <li>Demographics and site of care</li>
+    <li>Chief concern and duration</li>
+    <li>Evolution and associated symptoms</li>
+    <li>Relevant medical, family, exposure, and social history</li>
+    <li>Medications</li>
+    <li>Vital signs</li>
+    <li>Focused examination</li>
+    <li>Diagnostic data</li>
+    <li>Lead-in</li>
+  </ol>
+
+  <p>Do not disclose the diagnosis if recognizing it is part of the intended reasoning chain.</p>
+
+  <h3>Chart format</h3>
+
+  <div class="template">Patient Information
+Age:
+Gender:
+Race/Ethnicity:
+Site of Care:
+
+History
+Reason for Visit/Chief Concern:
+History of Present Illness:
+Past Medical History:
+Medications:
+Allergies:
+Family History:
+Psychosocial History:
+
+Physical Examination
+Vital signs:
+Appearance:
+Relevant systems:
+
+Diagnostic Studies
+Laboratory/imaging/pathology results:
+
+Question:
+Which of the following ...?
+
+(A) ...
+(B) ...
+(C) ...
+(D) ...
+(E) ...</div>
+
+  <p>Chart format should be used selectively. It is most useful when organized sections make a dense medical history easier to review.</p>
+
+  <h2>7. Lead-in and formatting rules</h2>
+
+  <h3>The cover-the-options test</h3>
+
+  <p>Hide the choices and read only the stem and lead-in. A knowledgeable examinee should be able to formulate an answer. If the question cannot be answered without viewing the options, the lead-in is probably too vague.</p>
+
+  <table>
+    <thead><tr><th>Prefer</th><th>Avoid</th></tr></thead>
+    <tbody>
+      <tr><td>Which mechanism most likely explains this patient’s hypercalcemia?</td><td>Which of the following statements is true?</td></tr>
+      <tr><td>Which structure is most likely damaged?</td><td>Which option is associated with this case?</td></tr>
+      <tr><td>Which is the most appropriate initial treatment?</td><td>Which of the following is NOT indicated?</td></tr>
+      <tr><td>One-best-answer options</td><td>All of the above or none of the above</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Surface-format conventions</h3>
+
+  <ul>
+    <li>Use four or more lettered options; five should be the default.</li>
+    <li>Format choices as (A), (B), (C), and so forth.</li>
+    <li>Keep option grammar and specificity parallel.</li>
+    <li>Order or alphabetize options when natural.</li>
+    <li>Place the lead-in at the end of the stem.</li>
+    <li>Use an aligned table when several laboratory values are included.</li>
+    <li>Provide reference intervals for uncommon or age-specific measurements.</li>
+    <li>Use standard clinical units consistently.</li>
+    <li>Keep explanations out of the test form; provide a separate answer key and teaching explanation.</li>
+    <li>Randomize answer positions only after all questions are finalized.</li>
+  </ul>
+
+  <h2>8. Images, graphs, and tracings</h2>
+
+  <p>Appropriate visual material includes gross pathology, histopathology, dermatologic photographs, radiographs, CT, MRI, ECGs, pedigrees, physiologic graphs, anatomy with labeled regions, and flow-volume loops.</p>
+
+  <p>The visual should provide information required for the reasoning. It should not merely decorate a diagnosis already disclosed completely in the text.</p>
+
+  <ul class="checklist">
+    <li>The image is essential or meaningfully informative.</li>
+    <li>Resolution remains adequate at examination size.</li>
+    <li>Labels and arrows do not accidentally reveal the answer.</li>
+    <li>The stem explains what specimen, sequence, view, or tracing is displayed.</li>
+    <li>Permission or licensing is documented.</li>
+    <li>The item can be answered from visible features rather than image-quality artifacts.</li>
+  </ul>
+
+  <h2>9. Twenty-question block recipe</h2>
+
+  <p>The following mix approximates the style of this sample and is not an official examination blueprint:</p>
+
+  <ul>
+    <li>14-16 clinical mechanism, prediction, pathology, pharmacology, or localization questions</li>
+    <li>One or two direct diagnosis questions</li>
+    <li>One communication or ethics question</li>
+    <li>One biostatistics or research-design question</li>
+    <li>Three or four items containing an image, graph, laboratory table, or option matrix, overlapping with the categories above</li>
+    <li>Mostly five-option questions</li>
+    <li>At most one chart-format case</li>
+  </ul>
+
+  <p>Mix organ systems and disciplines rather than grouping similar questions together.</p>
+
+  <h2>10. Reusable authoring worksheet</h2>
+
+  <div class="template">SOURCE
+Book:
+Edition:
+Chapter/page:
+Source proposition:
+
+CONTENT TARGET
+Discipline:
+Organ system:
+Tested concept:
+Hidden diagnosis/process:
+
+REASONING CHAIN
+Clues → diagnosis/process → tested answer:
+
+CLUE PLAN
+Defining clue:
+Supporting clue:
+Disambiguating clue:
+Relevant negative:
+Optional realism detail:
+
+ITEM TYPE
+Diagnosis / mechanism / prediction / pharmacology /
+localization / communication / biostatistics
+
+LEAD-IN
+Exact question:
+
+OPTIONS
+Option category:
+(A)
+(B)
+(C)
+(D)
+(E)
+
+Correct answer:
+Why it is correct:
+
+DISTRACTOR AUDIT
+A — Why tempting / why wrong:
+B — Why tempting / why wrong:
+C — Why tempting / why wrong:
+D — Why tempting / why wrong:
+E — Why tempting / why wrong:</div>
+
+  <h2>11. Final quality-control checklist</h2>
+
+  <h3>Scientific accuracy</h3>
+
+  <ul class="checklist">
+    <li>The tested fact is supported by the cited textbook edition.</li>
+    <li>Patient age, time course, vital signs, laboratory values, and treatment are internally consistent.</li>
+    <li>The key remains correct under current clinical and scientific standards.</li>
+    <li>At least one subject-matter reviewer has independently answered the question.</li>
+  </ul>
+
+  <h3>Item construction</h3>
+
+  <ul class="checklist">
+    <li>The item is answerable without seeing the choices.</li>
+    <li>Exactly one option is the best answer.</li>
+    <li>All options are homogeneous and grammatically parallel.</li>
+    <li>The key is not conspicuously longer, more detailed, or differently worded.</li>
+    <li>Each distractor is plausible for a defined reason.</li>
+    <li>The lead-in does not use EXCEPT, NOT, all of the above, or none of the above.</li>
+    <li>No wording in the stem unintentionally repeats or cues the key.</li>
+  </ul>
+
+  <h3>Fairness and originality</h3>
+
+  <ul class="checklist">
+    <li>The vignette is original rather than copied from a book or question bank.</li>
+    <li>Demographic information is clinically relevant or included neutrally.</li>
+    <li>The item does not depend on stereotypes or unnecessary personal details.</li>
+    <li>Difficulty comes from medical reasoning rather than ambiguity or tricks.</li>
+    <li>Any image is original, licensed, or otherwise authorized for use.</li>
+  </ul>
+
+  <h2>12. The rule to remember</h2>
+
+  <div class="core">Do not convert a textbook sentence directly into a recall question. Convert the fact into a clinical presentation, require recognition of the underlying process, and ask about the next scientifically linked fact.</div>
+
+</body>
+</html>
