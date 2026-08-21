@@ -3096,6 +3096,505 @@ main {
   color: #fdba74;
 }
 
+.practice-choice-card-viva {
+  grid-column: 1 / -1;
+  min-height: 190px !important;
+  border-color: rgba(168, 85, 247, 0.4);
+  background: linear-gradient(145deg, rgba(88, 28, 135, 0.26), #121418 62%);
+}
+
+.practice-choice-card-viva:hover,
+.practice-choice-card-viva:focus-visible {
+  border-color: rgba(192, 132, 252, 0.86);
+}
+
+.practice-choice-card-viva .practice-choice-icon,
+.practice-choice-card-viva small {
+  color: #d8b4fe;
+}
+
+.viva-setup-view {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.viva-setup-panel {
+  padding: 28px;
+}
+
+.viva-setup-toolbar,
+.viva-setup-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.viva-setup-toolbar > div,
+.viva-setup-footer p {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+}
+
+.viva-setup-toolbar span,
+.viva-setup-footer span,
+.viva-chapter-card small,
+.viva-build-note {
+  color: var(--muted);
+}
+
+.viva-chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.viva-chapter-card {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  min-height: 86px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card-bg);
+  color: inherit;
+  padding: 15px 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, background-color .18s ease;
+}
+
+.viva-chapter-card:hover,
+.viva-chapter-card:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(168, 85, 247, .7);
+  outline: none;
+}
+
+.viva-chapter-card.is-selected {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, .1);
+}
+
+.viva-chapter-check {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(168, 85, 247, .12);
+  color: #9333ea;
+  font-size: .82rem;
+  font-weight: 850;
+}
+
+.viva-chapter-card.is-selected .viva-chapter-check {
+  background: #9333ea;
+  color: #fff;
+}
+
+.viva-chapter-card > span:last-child {
+  display: grid;
+  gap: 7px;
+}
+
+.viva-chapter-card strong {
+  line-height: 1.35;
+}
+
+.viva-setup-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 22px;
+}
+
+.viva-build-note {
+  margin: 14px 0 0;
+  font-size: .82rem;
+  text-align: right;
+}
+
+.viva-privacy-notice {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: flex-start;
+  gap: 12px;
+  margin: 4px 0 22px;
+  border: 1px solid rgba(245, 158, 11, .34);
+  border-radius: 14px;
+  background: rgba(245, 158, 11, .08);
+  padding: 15px 16px;
+  cursor: pointer;
+}
+
+.viva-privacy-notice input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: #9333ea;
+}
+
+.viva-privacy-notice > span {
+  display: grid;
+  gap: 5px;
+}
+
+.viva-privacy-notice small {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.viva-session-message {
+  margin: -8px 0 20px;
+}
+
+.viva-session-view {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.viva-question-panel {
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.viva-session-progress-copy,
+.viva-question-meta,
+.viva-answer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.viva-session-progress-copy {
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 750;
+}
+
+.viva-session-progress {
+  margin: 10px 0 30px;
+}
+
+.viva-question-meta {
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.source-viva {
+  border-color: rgba(168, 85, 247, .38);
+  background: rgba(168, 85, 247, .1);
+  color: #7e22ce;
+  text-transform: none;
+}
+
+.viva-question-panel > h3 {
+  max-width: 820px;
+  margin: 0 0 28px;
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  line-height: 1.42;
+}
+
+.viva-answer-field {
+  display: grid;
+  gap: 9px;
+}
+
+.viva-answer-field > span {
+  font-weight: 800;
+}
+
+.viva-answer-field textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card-bg);
+  color: inherit;
+  padding: 16px 18px;
+  font: inherit;
+  line-height: 1.6;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.viva-answer-field textarea:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, .12);
+  outline: none;
+}
+
+.viva-answer-field small {
+  color: var(--muted);
+  text-align: right;
+}
+
+.viva-answer-actions {
+  align-items: flex-end;
+  margin-top: 24px;
+  border-top: 1px solid var(--border);
+  padding-top: 22px;
+}
+
+.viva-answer-actions p {
+  max-width: 560px;
+  margin: 0;
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.5;
+}
+
+.viva-evaluation {
+  display: grid;
+  gap: 24px;
+}
+
+.viva-evaluation-heading {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+  border-top: 1px solid var(--border);
+  padding-top: 26px;
+}
+
+.viva-evaluation-heading .eyebrow {
+  margin-bottom: 6px;
+}
+
+.viva-evaluation-heading h4 {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.55;
+}
+
+.viva-score-badge {
+  width: 92px;
+  height: 92px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  border: 1px solid rgba(168, 85, 247, .42);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(168, 85, 247, .18), rgba(168, 85, 247, .06));
+  color: #7e22ce;
+  padding-top: 22px;
+}
+
+.viva-score-badge strong {
+  font-size: 2.45rem;
+  line-height: 1;
+}
+
+.viva-score-badge span {
+  color: var(--muted);
+  font-size: .8rem;
+  font-weight: 800;
+}
+
+.viva-evaluation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.viva-evaluation-grid section,
+.viva-model-answer,
+.viva-submitted-answer {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card-bg);
+  padding: 18px 20px;
+}
+
+.viva-evaluation h5 {
+  margin: 0 0 12px;
+  font-size: .92rem;
+}
+
+.viva-evaluation ul {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding-left: 19px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.viva-evaluation-grid p,
+.viva-model-answer p,
+.viva-submitted-answer p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.viva-model-answer {
+  border-color: rgba(16, 185, 129, .32);
+  background: rgba(16, 185, 129, .07);
+}
+
+.viva-model-answer h5 {
+  color: #047857;
+}
+
+.viva-submitted-answer summary {
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.viva-submitted-answer p {
+  margin-top: 14px;
+}
+
+.viva-complete-panel {
+  display: grid;
+  justify-items: center;
+  gap: 28px;
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.viva-final-score {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(168, 85, 247, .45);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168, 85, 247, .2), rgba(168, 85, 247, .05) 68%);
+  text-align: center;
+}
+
+.viva-final-score strong {
+  color: #7e22ce;
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+.viva-final-score span {
+  margin-top: 4px;
+  font-weight: 850;
+}
+
+.viva-final-score small {
+  max-width: 135px;
+  margin-top: 9px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.viva-score-list {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+}
+
+.viva-score-list article {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.viva-score-list article > span {
+  color: #7e22ce;
+  font-weight: 900;
+}
+
+.viva-score-list article > div {
+  display: grid;
+  gap: 5px;
+}
+
+.viva-score-list strong,
+.viva-score-list small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viva-score-list small {
+  color: var(--muted);
+}
+
+.viva-score-list em {
+  color: #7e22ce;
+  font-size: 1.05rem;
+  font-style: normal;
+  font-weight: 900;
+}
+
+:root[data-theme="dark"] .source-viva,
+:root[data-theme="dark"] .viva-score-badge,
+:root[data-theme="dark"] .viva-final-score strong,
+:root[data-theme="dark"] .viva-score-list article > span,
+:root[data-theme="dark"] .viva-score-list em {
+  color: #d8b4fe;
+}
+
+:root[data-theme="dark"] .viva-model-answer h5 {
+  color: #6ee7b7;
+}
+
+@media (max-width: 720px) {
+  .practice-choice-card-viva {
+    grid-column: auto;
+  }
+
+  .viva-chapter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .viva-evaluation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .viva-evaluation-heading {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 15px;
+  }
+
+  .viva-score-badge {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    padding-top: 17px;
+  }
+
+  .viva-score-badge strong {
+    font-size: 2rem;
+  }
+
+  .viva-setup-toolbar,
+  .viva-setup-footer,
+  .viva-answer-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .viva-setup-footer .button {
+    width: 100%;
+  }
+
+  .viva-build-note {
+    text-align: left;
+  }
+
+  .viva-answer-actions .button {
+    width: 100%;
+  }
+}
+
 .source-ai {
   border-color: rgba(20, 184, 166, 0.35);
   background: rgba(20, 184, 166, 0.1);

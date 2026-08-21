@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "./components/AppShellV2";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
+import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
@@ -60,6 +61,29 @@ const comparePracticeDirectoryEntries = (left, right) => {
   if (orderDifference !== 0) return orderDifference;
   return String(left.title ?? left.topic ?? "").localeCompare(String(right.title ?? right.topic ?? ""));
 };
+
+function getVivaChapterOptions(subjectId, aiSubjects = [], usmleSubjects = []) {
+  const chapterCounts = new Map();
+  const sourceSubjects = [
+    aiSubjects.find((subject) => subject.id === subjectId),
+    usmleSubjects.find((subject) => subject.id === subjectId),
+  ].filter(Boolean);
+
+  for (const subject of sourceSubjects) {
+    for (const question of subject.questions ?? []) {
+      const title = String(question.chapterTitle ?? "").trim();
+      if (!title) continue;
+      const current = chapterCounts.get(title) ?? { title, count: 0, order: Number.MAX_SAFE_INTEGER };
+      current.count += 1;
+      current.order = Math.min(current.order, getPracticeChapterOrder(question, subjectId));
+      chapterCounts.set(title, current);
+    }
+  }
+
+  if (chapterCounts.size) return [...chapterCounts.values()].sort(comparePracticeDirectoryEntries);
+
+  return (VIVA_CHAPTER_FALLBACKS[subjectId] ?? []).map((title, index) => ({ title, count: 0, order: index + 1 }));
+}
 
 function shuffleQuestionIds(questions = []) {
   const ids = questions.map((question) => question.id);
@@ -512,6 +536,14 @@ function App() {
   const [practiceChoiceSubjectId, setPracticeChoiceSubjectId] = useState("");
   const [practiceQuestionIndex, setPracticeQuestionIndex] = useState(0);
   const [usmlePracticeQuestionIds, setUsmlePracticeQuestionIds] = useState([]);
+  const [vivaSelectedChapters, setVivaSelectedChapters] = useState([]);
+  const [vivaPrivacyAccepted, setVivaPrivacyAccepted] = useState(false);
+  const [vivaSessionBusy, setVivaSessionBusy] = useState(false);
+  const [vivaSessionMessage, setVivaSessionMessage] = useState("");
+  const [vivaSession, setVivaSession] = useState(null);
+  const [vivaAnswerDraft, setVivaAnswerDraft] = useState("");
+  const [vivaAnswerBusy, setVivaAnswerBusy] = useState(false);
+  const [vivaAnswerMessage, setVivaAnswerMessage] = useState("");
   const [practiceStage, setPracticeStage] = useState("catalog");
   const [practiceProgress, setPracticeProgress] = useState({});
   const [analyticsEvents, setAnalyticsEvents] = useState([]);
@@ -641,6 +673,14 @@ function App() {
   const practiceChoiceAiQuestionCount = currentAiPracticeSubject?.questions?.length ?? 0;
   const currentUsmlePracticeSubject = usmlePracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ?? null;
   const practiceChoiceUsmleQuestionCount = currentUsmlePracticeSubject?.questions?.length ?? 0;
+  const vivaChapterOptions = useMemo(
+    () => getVivaChapterOptions(selectedPracticeSubjectId, aiPracticeSubjects, usmlePracticeSubjects),
+    [selectedPracticeSubjectId, aiPracticeSubjects, usmlePracticeSubjects],
+  );
+  const currentVivaQuestion = vivaSession?.questions?.[vivaSession.currentQuestionIndex ?? 0] ?? null;
+  const currentVivaEvaluation = currentVivaQuestion
+    ? vivaSession?.answers?.find((answer) => answer.questionId === currentVivaQuestion.id) ?? null
+    : null;
   const groupedPracticeYears = practiceYears.map((year) => ({
     ...year,
     subjects: year.subjectIds
@@ -1396,6 +1436,13 @@ async function fetchPracticeLibrary() {
     setSelectedOption("");
     setSubmitted(false);
     setUsmlePracticeQuestionIds([]);
+    setVivaSelectedChapters([]);
+    setVivaPrivacyAccepted(false);
+    setVivaSessionMessage("");
+    setVivaSession(null);
+    setVivaAnswerDraft("");
+    setVivaAnswerBusy(false);
+    setVivaAnswerMessage("");
   }
 
   function openCommunityChat(communityId) {
@@ -1463,6 +1510,105 @@ async function fetchPracticeLibrary() {
     setSubmitted(false);
     setPracticeQuestionStartedAt(Date.now());
     scrollPracticeViewToTop();
+  }
+
+  function handleStartVivaSetup(subjectId) {
+    const subject = practiceSubjects.find((entry) => entry.id === subjectId);
+    if (!subject) return;
+
+    setSelectedPracticeSubjectId(subjectId);
+    setSelectedPracticeMode("viva");
+    setSelectedPracticeExamYear("");
+    setSelectedPracticeTopic("");
+    setSelectedPracticeChapter("");
+    setVivaSelectedChapters([]);
+    setVivaPrivacyAccepted(false);
+    setVivaSessionMessage("");
+    setVivaSession(null);
+    setVivaAnswerDraft("");
+    setVivaAnswerBusy(false);
+    setVivaAnswerMessage("");
+    setPracticeStage("viva-setup");
+    setPracticeChoiceSubjectId("");
+    scrollPracticeViewToTop();
+  }
+
+  function toggleVivaChapter(chapterTitle) {
+    setVivaSelectedChapters((current) =>
+      current.includes(chapterTitle)
+        ? current.filter((title) => title !== chapterTitle)
+        : [...current, chapterTitle],
+    );
+  }
+
+  async function handleCreateVivaSession() {
+    if (!selectedPracticeSubjectId || !vivaSelectedChapters.length || !vivaPrivacyAccepted || vivaSessionBusy) return;
+
+    setVivaSessionBusy(true);
+    setVivaSessionMessage("");
+    try {
+      const data = await apiRequest("/api/viva/sessions", {
+        method: "POST",
+        body: JSON.stringify({
+          subjectId: selectedPracticeSubjectId,
+          chapters: vivaSelectedChapters,
+          privacyAccepted: true,
+        }),
+        timeoutMs: 150000,
+      });
+      setVivaSession(data.session);
+      setVivaAnswerDraft("");
+      setVivaAnswerMessage("");
+      setPracticeStage("viva-session");
+      scrollPracticeViewToTop();
+    } catch (error) {
+      setVivaSessionMessage(error.message);
+    } finally {
+      setVivaSessionBusy(false);
+    }
+  }
+
+  async function handleSubmitVivaAnswer() {
+    const answer = vivaAnswerDraft.trim();
+    if (!vivaSession || !currentVivaQuestion || answer.length < 3 || vivaAnswerBusy || currentVivaEvaluation) return;
+
+    setVivaAnswerBusy(true);
+    setVivaAnswerMessage("");
+    try {
+      const data = await apiRequest(`/api/viva/sessions/${vivaSession.id}/answers`, {
+        method: "POST",
+        body: JSON.stringify({ questionId: currentVivaQuestion.id, answer }),
+        timeoutMs: 150000,
+      });
+      setVivaSession(data.session);
+      scrollPracticeViewToTop();
+    } catch (error) {
+      setVivaAnswerMessage(error.message);
+    } finally {
+      setVivaAnswerBusy(false);
+    }
+  }
+
+  async function handleAdvanceVivaSession() {
+    if (!vivaSession || !currentVivaEvaluation || vivaAnswerBusy) return;
+
+    setVivaAnswerBusy(true);
+    setVivaAnswerMessage("");
+    try {
+      const data = await apiRequest(`/api/viva/sessions/${vivaSession.id}/advance`, {
+        method: "POST",
+        body: JSON.stringify({}),
+        timeoutMs: 30000,
+      });
+      setVivaSession(data.session);
+      setVivaAnswerDraft("");
+      if (data.session.status === "completed") setPracticeStage("viva-complete");
+      scrollPracticeViewToTop();
+    } catch (error) {
+      setVivaAnswerMessage(error.message);
+    } finally {
+      setVivaAnswerBusy(false);
+    }
   }
 
   function openPracticeChapter(chapterTitle) {
@@ -2571,6 +2717,263 @@ async function fetchPracticeLibrary() {
     const isDirectoryPractice = selectedPracticeMode === "ai";
     const directoryModeTitle = isUsmlePractice ? "USMLE Step-1 Format Questions" : "Topic Wise Questions";
 
+    if (practiceStage === "viva-complete" && vivaSession) {
+      return (
+        <section className="app-view viva-session-view">
+          <div className="view-header">
+            <div>
+              <p className="eyebrow">{vivaSession.subjectTitle} · AI Viva complete</p>
+              <h2>Your final score is {vivaSession.averageScore} / 10</h2>
+              <p className="view-subtitle">Gemini reviewed all five responses against the question-specific marking points.</p>
+            </div>
+            <button className="button button-secondary" type="button" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
+          </div>
+
+          <article className="card panel viva-complete-panel">
+            <div className="viva-final-score" aria-label={`Final Viva score ${vivaSession.averageScore} out of 10`}>
+              <strong>{vivaSession.averageScore}</strong>
+              <span>out of 10</span>
+              <small>{vivaSession.totalScore} points across {vivaSession.questionCount} questions</small>
+            </div>
+            <div className="viva-score-list">
+              {(vivaSession.answers ?? []).map((evaluation, index) => {
+                const question = vivaSession.questions?.[evaluation.questionIndex];
+                return (
+                  <article key={evaluation.questionId}>
+                    <span>Q{index + 1}</span>
+                    <div>
+                      <strong>{question?.prompt ?? `Question ${index + 1}`}</strong>
+                      <small>{evaluation.feedback}</small>
+                    </div>
+                    <em>{evaluation.score}/10</em>
+                  </article>
+                );
+              })}
+            </div>
+            <button
+              className="button button-primary"
+              type="button"
+              onClick={() => {
+                setVivaSession(null);
+                setVivaAnswerDraft("");
+                setVivaAnswerMessage("");
+                setPracticeStage("viva-setup");
+                scrollPracticeViewToTop();
+              }}
+            >
+              Start another viva
+            </button>
+          </article>
+        </section>
+      );
+    }
+
+    if (practiceStage === "viva-session" && vivaSession && currentVivaQuestion) {
+      const questionNumber = (vivaSession.currentQuestionIndex ?? 0) + 1;
+      const progressPercent = Math.round((questionNumber / vivaSession.questionCount) * 100);
+
+      return (
+        <section className="app-view viva-session-view">
+          <div className="view-header viva-session-header">
+            <div>
+              <p className="eyebrow">{vivaSession.subjectTitle} · AI Viva</p>
+              <h2>Question {questionNumber} of {vivaSession.questionCount}</h2>
+              <p className="view-subtitle">Answer naturally, as you would when speaking to an examiner.</p>
+            </div>
+            <button className="button button-secondary" type="button" onClick={() => setPracticeStage("viva-setup")}>Change chapters</button>
+          </div>
+
+          <article className="card panel viva-question-panel">
+            <div className="viva-session-progress-copy">
+              <span>{progressPercent}% through this viva</span>
+              <span>Final score after 5 questions</span>
+            </div>
+            <span className="practice-progress-track viva-session-progress" aria-hidden="true"><span style={{ width: `${progressPercent}%` }} /></span>
+
+            <div className="viva-question-meta">
+              <span className="rank-pill source-viva">{currentVivaQuestion.chapterTitle}</span>
+              <span>{currentVivaQuestion.difficulty}</span>
+            </div>
+            <h3>{currentVivaQuestion.prompt}</h3>
+
+            {currentVivaEvaluation ? (
+              <div className="viva-evaluation" aria-live="polite">
+                <div className="viva-evaluation-heading">
+                  <div className="viva-score-badge">
+                    <strong>{currentVivaEvaluation.score}</strong>
+                    <span>/ 10</span>
+                  </div>
+                  <div>
+                    <p className="eyebrow">Gemini review</p>
+                    <h4>{currentVivaEvaluation.feedback}</h4>
+                  </div>
+                </div>
+
+                <div className="viva-evaluation-grid">
+                  <section>
+                    <h5>What you did well</h5>
+                    {currentVivaEvaluation.strengths?.length ? (
+                      <ul>{currentVivaEvaluation.strengths.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>
+                    ) : (
+                      <p>Build a more complete response using the improvements below.</p>
+                    )}
+                  </section>
+                  <section>
+                    <h5>How to improve</h5>
+                    <ul>{currentVivaEvaluation.improvements.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>
+                  </section>
+                </div>
+
+                <section className="viva-model-answer">
+                  <h5>Exam-ready model answer</h5>
+                  <p>{currentVivaEvaluation.modelAnswer}</p>
+                </section>
+
+                <details className="viva-submitted-answer">
+                  <summary>Your submitted response</summary>
+                  <p>{currentVivaEvaluation.answer}</p>
+                </details>
+
+                {vivaAnswerMessage ? <p className="form-message" role="alert">{vivaAnswerMessage}</p> : null}
+                <div className="viva-answer-actions">
+                  <p>Your score and review have been saved to this Viva session.</p>
+                  <button
+                    className="button button-primary"
+                    type="button"
+                    disabled={vivaAnswerBusy}
+                    onClick={handleAdvanceVivaSession}
+                    aria-busy={vivaAnswerBusy}
+                  >
+                    {vivaAnswerBusy
+                      ? "Loading..."
+                      : questionNumber === vivaSession.questionCount
+                        ? "Finish viva"
+                        : "Next question"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <label className="viva-answer-field">
+                  <span>Your response</span>
+                  <textarea
+                    value={vivaAnswerDraft}
+                    onChange={(event) => setVivaAnswerDraft(event.target.value.slice(0, 4000))}
+                    rows={9}
+                    placeholder="Explain your answer in a clear, structured way..."
+                    disabled={vivaAnswerBusy}
+                    autoFocus
+                  />
+                  <small>{vivaAnswerDraft.length} / 4000 characters</small>
+                </label>
+
+                {vivaAnswerMessage ? <p className="form-message" role="alert">{vivaAnswerMessage}</p> : null}
+                <div className="viva-answer-actions">
+                  <p>Gemini will compare your response with this question's private marking points, score it from 1–10, and prepare a model answer.</p>
+                  <button
+                    className="button button-primary"
+                    type="button"
+                    disabled={vivaAnswerDraft.trim().length < 3 || vivaAnswerBusy}
+                    onClick={handleSubmitVivaAnswer}
+                    aria-busy={vivaAnswerBusy}
+                  >
+                    {vivaAnswerBusy ? "Gemini is reviewing..." : "Submit for AI review"}
+                  </button>
+                </div>
+              </>
+            )}
+          </article>
+        </section>
+      );
+    }
+
+    if (practiceStage === "viva-setup") {
+      const vivaSubject = practiceSubjects.find((subject) => subject.id === selectedPracticeSubjectId) ?? null;
+      const allChaptersSelected = vivaChapterOptions.length > 0 && vivaSelectedChapters.length === vivaChapterOptions.length;
+
+      return (
+        <section className="app-view viva-setup-view">
+          <div className="view-header">
+            <div>
+              <p className="eyebrow">{vivaSubject?.title ?? "Practice"} · AI Viva</p>
+              <h2>Choose one or more chapters</h2>
+              <p className="view-subtitle">Your examiner will ask five explanatory questions drawn only from the chapters you select.</p>
+            </div>
+            <button className="button button-secondary" type="button" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
+          </div>
+
+          <article className="card panel viva-setup-panel">
+            <div className="viva-setup-toolbar">
+              <div>
+                <strong>{vivaSelectedChapters.length} selected</strong>
+                <span>Select a focused chapter or mix several for a broader viva.</span>
+              </div>
+              <button
+                className="button button-secondary"
+                type="button"
+                onClick={() => setVivaSelectedChapters(allChaptersSelected ? [] : vivaChapterOptions.map((chapter) => chapter.title))}
+              >
+                {allChaptersSelected ? "Clear all" : "Select all"}
+              </button>
+            </div>
+
+            {vivaChapterOptions.length ? (
+              <div className="viva-chapter-grid">
+                {vivaChapterOptions.map((chapter, index) => {
+                  const selected = vivaSelectedChapters.includes(chapter.title);
+                  return (
+                    <button
+                      className={`viva-chapter-card${selected ? " is-selected" : ""}`}
+                      type="button"
+                      key={chapter.title}
+                      aria-pressed={selected}
+                      onClick={() => toggleVivaChapter(chapter.title)}
+                    >
+                      <span className="viva-chapter-check" aria-hidden="true">{selected ? "✓" : String(index + 1).padStart(2, "0")}</span>
+                      <span>
+                        <strong>{chapter.title}</strong>
+                        <small>{chapter.count ? `${chapter.count} source questions available` : "Curriculum chapter"}</small>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="form-message">A chapter directory has not been added for this subject yet.</p>
+            )}
+
+            <label className="viva-privacy-notice">
+              <input
+                type="checkbox"
+                checked={vivaPrivacyAccepted}
+                onChange={(event) => setVivaPrivacyAccepted(event.target.checked)}
+              />
+              <span>
+                <strong>AI privacy notice</strong>
+                <small>Your selected chapters and typed responses will be sent to the configured AI provider. With Gemini's free tier, Google may use submitted content to improve its products. Do not include names, contact details, or patient-identifiable information.</small>
+              </span>
+            </label>
+
+            {vivaSessionMessage ? <p className="form-message viva-session-message" role="alert">{vivaSessionMessage}</p> : null}
+
+            <div className="viva-setup-footer">
+              <p><strong>5 questions</strong><span>Typed answers · feedback after each · final score out of 10</span></p>
+              <button
+                className="button button-primary"
+                type="button"
+                disabled={!vivaSelectedChapters.length || !vivaPrivacyAccepted || vivaSessionBusy}
+                onClick={handleCreateVivaSession}
+                aria-busy={vivaSessionBusy}
+              >
+                {vivaSessionBusy ? "Preparing your viva..." : "Continue to viva"}
+              </button>
+            </div>
+            <p className="viva-build-note">Generating five balanced questions can take up to a minute.</p>
+          </article>
+        </section>
+      );
+    }
+
     if (practiceStage === "chapters" || practiceStage === "topics") {
       const topicQuestions = currentPracticeSubject?.questions ?? [];
       const chapters = Object.values(topicQuestions.reduce((groups, question) => {
@@ -2868,7 +3271,7 @@ async function fetchPracticeLibrary() {
                 <div className="icon-badge green">MCQ</div>
                 <div>
                   <h3 id="practice-choice-title">Practice {practiceChoiceSubject.title}</h3>
-                  <p>Choose PYQs, topic-wise practice, or USMLE Step-1 format questions.</p>
+                  <p>Choose PYQs, topic-wise practice, USMLE Step-1 questions, or an AI viva.</p>
                 </div>
               </div>
               <div className="practice-year-picker">
@@ -2922,6 +3325,16 @@ async function fetchPracticeLibrary() {
                   <strong>USMLE Step-1 Format Questions</strong>
                   <p>Mixed, clinically framed one-best-answer questions</p>
                   <small>{practiceChoiceUsmleQuestionCount} questions · shuffled each session</small>
+                </button>
+                <button
+                  className="practice-choice-card practice-choice-card-viva"
+                  type="button"
+                  onClick={() => handleStartVivaSetup(practiceChoiceSubject.id)}
+                >
+                  <span className="practice-choice-icon">VIVA</span>
+                  <strong>AI Viva</strong>
+                  <p>Choose chapters and answer five explanatory questions</p>
+                  <small>Feedback after every answer · score out of 10</small>
                 </button>
               </div>
             </article>
