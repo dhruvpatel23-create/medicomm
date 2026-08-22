@@ -9,8 +9,12 @@ const PRACTICE_LIBRARY_URL = "/api/practice";
 const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
+const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
 const COMMUNITY_THREAD_WORD_LIMIT = 300;
 const COMMUNITY_THREAD_IMAGE_LIMIT_BYTES = 5 * 1024 * 1024;
+const VIVA_ANSWER_IMAGE_INPUT_LIMIT_BYTES = 12 * 1024 * 1024;
+const VIVA_ANSWER_IMAGE_OUTPUT_LIMIT_BYTES = 5 * 1024 * 1024;
+const VIVA_ANSWER_IMAGE_MAX_DIMENSION = 2048;
 // Atlas artwork was replaced in place, so use a versioned URL to ensure clients
 // don't keep showing a previously cached source image.
 const ATLAS_IMAGE_VERSION = "20260626";
@@ -135,7 +139,7 @@ const features = [
   },
 ];
 
-const navItems = ["Home", "Dashboard", "Practice", "Analytics", "Leaderboard", "Communities", "Compete", "Pricing", "Profile", "Settings"];
+const navItems = ["Home", "Dashboard", "Practice", "Bookmarks", "Analytics", "Leaderboard", "Communities", "Compete", "Pricing", "Profile", "Settings"];
 
 const duelOpponents = [
   { name: "Ava Patel", rating: 1538, specialty: "Cardiology" },
@@ -292,7 +296,7 @@ function getPracticeImageUrl(imageUrl) {
 }
 
 function isWatermarkedUsmleImage(imageUrl) {
-  return String(imageUrl ?? "").includes("/usmle-pathology-robbins-q");
+  return String(imageUrl ?? "").includes("/usmle-");
 }
 
 function getQuestionImageUrls(question) {
@@ -380,6 +384,30 @@ function readPracticeProgress(user) {
 function writePracticeProgress(user, progress) {
   if (typeof window === "undefined") return;
   localStorage.setItem(getPracticeProgressStorageKey(user), JSON.stringify(progress));
+}
+
+function getQuestionBookmarksStorageKey(user) {
+  const userKey = user?.id ?? user?.email ?? "guest";
+  return `${QUESTION_BOOKMARKS_STORAGE_KEY}:${userKey}`;
+}
+
+function readQuestionBookmarks(user) {
+  if (typeof window === "undefined") return [];
+  try {
+    const parsed = JSON.parse(localStorage.getItem(getQuestionBookmarksStorageKey(user)) || "[]");
+    return Array.isArray(parsed) ? parsed.slice(0, 500) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeQuestionBookmarks(user, bookmarks) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(getQuestionBookmarksStorageKey(user), JSON.stringify(bookmarks.slice(0, 500)));
+}
+
+function getQuestionBookmarkKey(bookmark) {
+  return `${bookmark?.mode ?? ""}:${bookmark?.subjectId ?? ""}:${bookmark?.questionId ?? ""}`;
 }
 
 function scrollPracticeViewToTop() {
@@ -534,6 +562,7 @@ function App() {
   const [selectedPracticeTopic, setSelectedPracticeTopic] = useState("");
   const [selectedPracticeChapter, setSelectedPracticeChapter] = useState("");
   const [practiceChoiceSubjectId, setPracticeChoiceSubjectId] = useState("");
+  const [practiceChoicePanel, setPracticeChoicePanel] = useState("formats");
   const [practiceQuestionIndex, setPracticeQuestionIndex] = useState(0);
   const [usmlePracticeQuestionIds, setUsmlePracticeQuestionIds] = useState([]);
   const [vivaSelectedChapters, setVivaSelectedChapters] = useState([]);
@@ -542,10 +571,14 @@ function App() {
   const [vivaSessionMessage, setVivaSessionMessage] = useState("");
   const [vivaSession, setVivaSession] = useState(null);
   const [vivaAnswerDraft, setVivaAnswerDraft] = useState("");
+  const [vivaAnswerImage, setVivaAnswerImage] = useState(null);
+  const [vivaAnswerImageBusy, setVivaAnswerImageBusy] = useState(false);
   const [vivaAnswerBusy, setVivaAnswerBusy] = useState(false);
   const [vivaAnswerMessage, setVivaAnswerMessage] = useState("");
   const [practiceStage, setPracticeStage] = useState("catalog");
   const [practiceProgress, setPracticeProgress] = useState({});
+  const [bookmarkMessage, setBookmarkMessage] = useState("");
+  const [bookmarkBusyKey, setBookmarkBusyKey] = useState("");
   const [analyticsEvents, setAnalyticsEvents] = useState([]);
   const [analyticsPeriod, setAnalyticsPeriod] = useState(30);
   const [practiceQuestionStartedAt, setPracticeQuestionStartedAt] = useState(Date.now());
@@ -660,6 +693,38 @@ function App() {
           .filter(Boolean)
       : basePracticeQuestions;
   const currentPracticeQuestion = currentPracticeQuestions[practiceQuestionIndex] ?? null;
+  const questionBookmarks = Array.isArray(user?.questionBookmarks) ? user.questionBookmarks : [];
+  const bookmarkQuestionIndex = useMemo(() => {
+    const index = new Map();
+    const sources = [
+      ["pyq", practiceSubjects],
+      ["ai", aiPracticeSubjects],
+      ["usmle", usmlePracticeSubjects],
+    ];
+    for (const [mode, subjects] of sources) {
+      for (const subject of subjects) {
+        for (const question of subject.questions ?? []) {
+          index.set(getQuestionBookmarkKey({ mode, subjectId: subject.id, questionId: question.id }), {
+            mode,
+            subject,
+            question,
+          });
+        }
+      }
+    }
+    return index;
+  }, [practiceSubjects, aiPracticeSubjects, usmlePracticeSubjects]);
+  const bookmarkedQuestionEntries = questionBookmarks.map((bookmark) => ({
+    bookmark,
+    resolved: bookmarkQuestionIndex.get(getQuestionBookmarkKey(bookmark)) ?? null,
+  }));
+  const isCurrentPracticeQuestionBookmarked = currentPracticeQuestion
+    ? questionBookmarks.some((bookmark) => getQuestionBookmarkKey(bookmark) === getQuestionBookmarkKey({
+        mode: selectedPracticeMode,
+        subjectId: currentPracticeSubject?.id,
+        questionId: currentPracticeQuestion.id,
+      }))
+    : false;
   const practiceChoiceSubject =
     practiceSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
     aiPracticeSubjects.find((subject) => subject.id === practiceChoiceSubjectId) ??
@@ -977,11 +1042,25 @@ async function fetchPracticeLibrary() {
   useEffect(() => {
     if (!practiceChoiceSubject) return undefined;
 
-    const previousBodyOverflow = document.body.style.overflow;
+    const scrollY = window.scrollY;
+    const previousBodyStyles = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      top: document.body.style.top,
+      width: document.body.style.width,
+    };
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
 
     return () => {
-      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      Object.assign(document.body.style, previousBodyStyles);
+      window.scrollTo(0, scrollY);
     };
   }, [practiceChoiceSubject]);
 
@@ -997,7 +1076,7 @@ async function fetchPracticeLibrary() {
   }, [authStatus]);
 
   useEffect(() => {
-    if (activeView !== "Practice" || practiceLibraryStatus !== "idle") return;
+    if (!["Practice", "Bookmarks"].includes(activeView) || practiceLibraryStatus !== "idle") return;
     fetchPracticeLibrary();
   }, [activeView, practiceLibraryStatus]);
 
@@ -1409,11 +1488,13 @@ async function fetchPracticeLibrary() {
   }
 
   function handleSelectPracticeSubject(subjectId) {
+    setPracticeChoicePanel("formats");
     setPracticeChoiceSubjectId(subjectId);
   }
 
   function closePracticeChoice() {
     setPracticeChoiceSubjectId("");
+    setPracticeChoicePanel("formats");
   }
 
   function startPracticeSession(subjectId, mode, examYear = "") {
@@ -1427,6 +1508,7 @@ async function fetchPracticeLibrary() {
     setPracticeStage("subject");
     setPracticeQuestionStartedAt(Date.now());
     setPracticeChoiceSubjectId("");
+    setPracticeChoicePanel("formats");
   }
 
   function handleBackToPracticeDirectory() {
@@ -1441,6 +1523,7 @@ async function fetchPracticeLibrary() {
     setVivaSessionMessage("");
     setVivaSession(null);
     setVivaAnswerDraft("");
+    setVivaAnswerImage(null);
     setVivaAnswerBusy(false);
     setVivaAnswerMessage("");
   }
@@ -1470,7 +1553,109 @@ async function fetchPracticeLibrary() {
     setSelectedOption("");
     setSubmitted(false);
     setAnswerConfidence("");
+    setBookmarkMessage("");
     setPracticeQuestionStartedAt(Date.now());
+  }
+
+  async function updateQuestionBookmark(bookmarkInput, shouldSave) {
+    const bookmarkKey = getQuestionBookmarkKey(bookmarkInput);
+    if (!bookmarkInput.questionId || !bookmarkInput.subjectId || bookmarkBusyKey === bookmarkKey) return;
+
+    const previousBookmarks = Array.isArray(user?.questionBookmarks) ? user.questionBookmarks : [];
+    const optimisticBookmark = {
+      questionId: bookmarkInput.questionId,
+      subjectId: bookmarkInput.subjectId,
+      mode: bookmarkInput.mode,
+      subjectTitle: bookmarkInput.subjectTitle ?? "Practice",
+      topic: bookmarkInput.topic ?? "General review",
+      year: Number.isFinite(bookmarkInput.year) ? bookmarkInput.year : null,
+      preview: String(bookmarkInput.preview ?? "Saved practice question").slice(0, 500),
+      savedAt: bookmarkInput.savedAt ?? new Date().toISOString(),
+    };
+    const nextBookmarks = shouldSave
+      ? [optimisticBookmark, ...previousBookmarks.filter((bookmark) => getQuestionBookmarkKey(bookmark) !== bookmarkKey)].slice(0, 500)
+      : previousBookmarks.filter((bookmark) => getQuestionBookmarkKey(bookmark) !== bookmarkKey);
+
+    setBookmarkBusyKey(bookmarkKey);
+    setBookmarkMessage(shouldSave ? "Question saved to Bookmarks." : "Question removed from Bookmarks.");
+    setUser((current) => current ? { ...current, questionBookmarks: nextBookmarks } : current);
+
+    if (authStatus === "guest") {
+      writeQuestionBookmarks(user, nextBookmarks);
+      setBookmarkBusyKey("");
+      return;
+    }
+
+    try {
+      const data = await apiRequest("/api/profile/question-bookmarks", {
+        method: "PATCH",
+        body: JSON.stringify({
+          questionId: bookmarkInput.questionId,
+          subjectId: bookmarkInput.subjectId,
+          mode: bookmarkInput.mode,
+          saved: shouldSave,
+        }),
+      });
+      setUser((current) => current ? { ...current, questionBookmarks: data.bookmarks ?? nextBookmarks } : current);
+    } catch (error) {
+      setUser((current) => current ? { ...current, questionBookmarks: previousBookmarks } : current);
+      setBookmarkMessage(error instanceof Error ? error.message : "Could not update this bookmark.");
+    } finally {
+      setBookmarkBusyKey("");
+    }
+  }
+
+  function toggleCurrentQuestionBookmark() {
+    if (!currentPracticeQuestion || !currentPracticeSubject) return;
+    void updateQuestionBookmark({
+      questionId: currentPracticeQuestion.id,
+      subjectId: currentPracticeSubject.id,
+      mode: selectedPracticeMode,
+      subjectTitle: currentPracticeSubject.title,
+      topic: currentPracticeQuestion.chapterTitle || currentPracticeQuestion.topic,
+      year: currentPracticeQuestion.year,
+      preview: currentPracticeQuestion.leadIn || currentPracticeQuestion.prompt,
+    }, !isCurrentPracticeQuestionBookmarked);
+  }
+
+  function openBookmarkedQuestion(entry) {
+    if (!entry?.resolved) {
+      setBookmarkMessage("That question is no longer available in the current practice library.");
+      return;
+    }
+
+    const { mode, subject, question } = entry.resolved;
+    setSelectedPracticeSubjectId(subject.id);
+    setSelectedPracticeMode(mode);
+    setSelectedPracticeTopic("");
+    setSelectedPracticeChapter("");
+    setSelectedOption("");
+    setSubmitted(false);
+    setAnswerConfidence("");
+    setPracticeChoiceSubjectId("");
+    setPracticeChoicePanel("formats");
+
+    if (mode === "pyq") {
+      const yearKey = getQuestionYearKey(question);
+      const yearQuestions = (subject.questions ?? []).filter((entryQuestion) => getQuestionYearKey(entryQuestion) === yearKey);
+      setSelectedPracticeExamYear(yearKey);
+      setUsmlePracticeQuestionIds([]);
+      setPracticeQuestionIndex(Math.max(0, yearQuestions.findIndex((entryQuestion) => entryQuestion.id === question.id)));
+    } else if (mode === "usmle") {
+      setSelectedPracticeExamYear("");
+      setUsmlePracticeQuestionIds([question.id]);
+      setPracticeQuestionIndex(0);
+    } else {
+      setSelectedPracticeExamYear("");
+      setUsmlePracticeQuestionIds([]);
+      setPracticeQuestionIndex(Math.max(0, (subject.questions ?? []).findIndex((entryQuestion) => entryQuestion.id === question.id)));
+    }
+
+    setPracticeStage("subject");
+    setPracticeQuestionStartedAt(Date.now());
+    setBookmarkMessage("");
+    setActiveView("Practice");
+    scrollPracticeViewToTop();
   }
 
   function handleStartAiPractice(subjectId) {
@@ -1485,6 +1670,7 @@ async function fetchPracticeLibrary() {
     setSelectedPracticeChapter("");
     setPracticeStage("chapters");
     setPracticeChoiceSubjectId("");
+    setPracticeChoicePanel("formats");
     setPracticeQuestionIndex(0);
     setSelectedOption("");
     setSubmitted(false);
@@ -1505,6 +1691,7 @@ async function fetchPracticeLibrary() {
     setUsmlePracticeQuestionIds(shuffleQuestionIds(subject?.questions ?? []));
     setPracticeStage("subject");
     setPracticeChoiceSubjectId("");
+    setPracticeChoicePanel("formats");
     setPracticeQuestionIndex(0);
     setSelectedOption("");
     setSubmitted(false);
@@ -1526,10 +1713,12 @@ async function fetchPracticeLibrary() {
     setVivaSessionMessage("");
     setVivaSession(null);
     setVivaAnswerDraft("");
+    setVivaAnswerImage(null);
     setVivaAnswerBusy(false);
     setVivaAnswerMessage("");
     setPracticeStage("viva-setup");
     setPracticeChoiceSubjectId("");
+    setPracticeChoicePanel("formats");
     scrollPracticeViewToTop();
   }
 
@@ -1558,6 +1747,7 @@ async function fetchPracticeLibrary() {
       });
       setVivaSession(data.session);
       setVivaAnswerDraft("");
+      setVivaAnswerImage(null);
       setVivaAnswerMessage("");
       setPracticeStage("viva-session");
       scrollPracticeViewToTop();
@@ -1570,17 +1760,22 @@ async function fetchPracticeLibrary() {
 
   async function handleSubmitVivaAnswer() {
     const answer = vivaAnswerDraft.trim();
-    if (!vivaSession || !currentVivaQuestion || answer.length < 3 || vivaAnswerBusy || currentVivaEvaluation) return;
+    if (!vivaSession || !currentVivaQuestion || (!vivaAnswerImage && answer.length < 3) || vivaAnswerBusy || vivaAnswerImageBusy || currentVivaEvaluation) return;
 
     setVivaAnswerBusy(true);
     setVivaAnswerMessage("");
     try {
       const data = await apiRequest(`/api/viva/sessions/${vivaSession.id}/answers`, {
         method: "POST",
-        body: JSON.stringify({ questionId: currentVivaQuestion.id, answer }),
+        body: JSON.stringify({
+          questionId: currentVivaQuestion.id,
+          answer,
+          answerImageDataUrl: vivaAnswerImage?.dataUrl ?? null,
+        }),
         timeoutMs: 150000,
       });
       setVivaSession(data.session);
+      setVivaAnswerImage(null);
       scrollPracticeViewToTop();
     } catch (error) {
       setVivaAnswerMessage(error.message);
@@ -1602,6 +1797,7 @@ async function fetchPracticeLibrary() {
       });
       setVivaSession(data.session);
       setVivaAnswerDraft("");
+      setVivaAnswerImage(null);
       if (data.session.status === "completed") setPracticeStage("viva-complete");
       scrollPracticeViewToTop();
     } catch (error) {
@@ -2094,6 +2290,69 @@ async function fetchPracticeLibrary() {
     });
   }
 
+  async function prepareVivaAnswerImage(file) {
+    if (!file.type.startsWith("image/")) {
+      throw new Error("Choose a photo or image of your written answer.");
+    }
+    if (file.size > VIVA_ANSWER_IMAGE_INPUT_LIMIT_BYTES) {
+      throw new Error("Choose an image smaller than 12 MB.");
+    }
+
+    const sourceDataUrl = await convertFileToDataUrl(file);
+    const image = await new Promise((resolve, reject) => {
+      const previewImage = new Image();
+      previewImage.onload = () => resolve(previewImage);
+      previewImage.onerror = () => reject(new Error("This image format could not be opened. Try JPG, PNG, or WEBP."));
+      previewImage.src = sourceDataUrl;
+    });
+    const scale = Math.min(1, VIVA_ANSWER_IMAGE_MAX_DIMENSION / Math.max(image.naturalWidth, image.naturalHeight));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("This device could not prepare the image.");
+
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+    let quality = 0.9;
+    let dataUrl = canvas.toDataURL("image/jpeg", quality);
+    const getDataSize = (value) => Math.ceil(((value.split(",")[1] ?? "").length * 3) / 4);
+    while (getDataSize(dataUrl) > VIVA_ANSWER_IMAGE_OUTPUT_LIMIT_BYTES && quality > 0.5) {
+      quality -= 0.1;
+      dataUrl = canvas.toDataURL("image/jpeg", quality);
+    }
+    if (getDataSize(dataUrl) > VIVA_ANSWER_IMAGE_OUTPUT_LIMIT_BYTES) {
+      throw new Error("The prepared image is still too large. Crop it closer to your answer and try again.");
+    }
+
+    return {
+      dataUrl,
+      name: file.name || "Camera answer.jpg",
+      width: canvas.width,
+      height: canvas.height,
+    };
+  }
+
+  async function handleVivaAnswerImageChange(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file || vivaAnswerBusy || vivaAnswerImageBusy) return;
+
+    setVivaAnswerImageBusy(true);
+    setVivaAnswerMessage("Preparing your answer image...");
+    try {
+      const preparedImage = await prepareVivaAnswerImage(file);
+      setVivaAnswerImage(preparedImage);
+      setVivaAnswerMessage("");
+    } catch (error) {
+      setVivaAnswerMessage(error instanceof Error ? error.message : "Could not prepare that image.");
+    } finally {
+      setVivaAnswerImageBusy(false);
+    }
+  }
+
   async function handleProfilePhotoChange(event) {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -2187,7 +2446,9 @@ async function fetchPracticeLibrary() {
       streak: 1,
       attemptedQuestions: 0,
       correctAnswers: 0,
+      questionBookmarks: [],
     };
+    guestUser.questionBookmarks = readQuestionBookmarks(guestUser);
     setUser(guestUser);
     setUserRating(1200);
     setProfileState(createProfileState(guestUser));
@@ -2756,6 +3017,7 @@ async function fetchPracticeLibrary() {
               onClick={() => {
                 setVivaSession(null);
                 setVivaAnswerDraft("");
+                setVivaAnswerImage(null);
                 setVivaAnswerMessage("");
                 setPracticeStage("viva-setup");
                 scrollPracticeViewToTop();
@@ -2831,7 +3093,8 @@ async function fetchPracticeLibrary() {
 
                 <details className="viva-submitted-answer">
                   <summary>Your submitted response</summary>
-                  <p>{currentVivaEvaluation.answer}</p>
+                  {currentVivaEvaluation.answer ? <p>{currentVivaEvaluation.answer}</p> : null}
+                  {currentVivaEvaluation.hasImage ? <p className="viva-submitted-image-note">A photographed written answer was included in Gemini&apos;s review.</p> : null}
                 </details>
 
                 {vivaAnswerMessage ? <p className="form-message" role="alert">{vivaAnswerMessage}</p> : null}
@@ -2867,13 +3130,64 @@ async function fetchPracticeLibrary() {
                   <small>{vivaAnswerDraft.length} / 4000 characters</small>
                 </label>
 
+                <section className="viva-image-answer" aria-labelledby="viva-image-answer-title">
+                  <div className="viva-image-answer-heading">
+                    <div>
+                      <strong id="viva-image-answer-title">Upload your written answer</strong>
+                      <span>Skip lengthy typing—Gemini can read clear handwriting from a photo.</span>
+                    </div>
+                    <span className="viva-image-optional">Optional</span>
+                  </div>
+
+                  {vivaAnswerImage ? (
+                    <div className="viva-image-preview">
+                      <img src={vivaAnswerImage.dataUrl} alt="Preview of your written Viva answer" />
+                      <div>
+                        <strong>{vivaAnswerImage.name}</strong>
+                        <span>{vivaAnswerImage.width} × {vivaAnswerImage.height}px · ready for review</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setVivaAnswerImage(null)}
+                        disabled={vivaAnswerBusy}
+                        aria-label="Remove written answer image"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="viva-image-picker-actions">
+                      <label className="button button-secondary viva-image-picker-button">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          capture="environment"
+                          onChange={handleVivaAnswerImageChange}
+                          disabled={vivaAnswerBusy || vivaAnswerImageBusy}
+                        />
+                        <span aria-hidden="true">◉</span> Take photo
+                      </label>
+                      <label className="button button-secondary viva-image-picker-button">
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+                          onChange={handleVivaAnswerImageChange}
+                          disabled={vivaAnswerBusy || vivaAnswerImageBusy}
+                        />
+                        <span aria-hidden="true">▧</span> Choose from gallery
+                      </label>
+                    </div>
+                  )}
+                  <small>For best results, use good lighting, keep the full page in frame, and avoid patient-identifiable information.</small>
+                </section>
+
                 {vivaAnswerMessage ? <p className="form-message" role="alert">{vivaAnswerMessage}</p> : null}
                 <div className="viva-answer-actions">
-                  <p>Gemini will compare your response with this question's private marking points, score it from 1–10, and prepare a model answer.</p>
+                  <p>Gemini will review your typed response, uploaded answer, or both against the private marking points and prepare a score and model answer.</p>
                   <button
                     className="button button-primary"
                     type="button"
-                    disabled={vivaAnswerDraft.trim().length < 3 || vivaAnswerBusy}
+                    disabled={(!vivaAnswerImage && vivaAnswerDraft.trim().length < 3) || vivaAnswerBusy || vivaAnswerImageBusy}
                     onClick={handleSubmitVivaAnswer}
                     aria-busy={vivaAnswerBusy}
                   >
@@ -2950,14 +3264,14 @@ async function fetchPracticeLibrary() {
               />
               <span>
                 <strong>AI privacy notice</strong>
-                <small>Your selected chapters and typed responses will be sent to the configured AI provider. With Gemini's free tier, Google may use submitted content to improve its products. Do not include names, contact details, or patient-identifiable information.</small>
+                <small>Your selected chapters, typed responses, and any uploaded answer images will be sent to the configured AI provider. Answer images are not saved in your Viva history. With Gemini&apos;s free tier, Google may use submitted content to improve its products. Do not include names, contact details, or patient-identifiable information.</small>
               </span>
             </label>
 
             {vivaSessionMessage ? <p className="form-message viva-session-message" role="alert">{vivaSessionMessage}</p> : null}
 
             <div className="viva-setup-footer">
-              <p><strong>5 questions</strong><span>Typed answers · feedback after each · final score out of 10</span></p>
+              <p><strong>5 questions</strong><span>Type or photograph answers · feedback after each · final score out of 10</span></p>
               <button
                 className="button button-primary"
                 type="button"
@@ -3216,10 +3530,24 @@ async function fetchPracticeLibrary() {
                   <button key={level} type="button" className={answerConfidence === level ? "active" : ""} onClick={() => setAnswerConfidence(level)}>{level}</button>
                 ))}
               </div>
-              <button className={`flag-button${flaggedQuestions[currentPracticeQuestion.id] ? " active" : ""}`} type="button" onClick={() => setFlaggedQuestions((current) => ({ ...current, [currentPracticeQuestion.id]: !current[currentPracticeQuestion.id] }))}>
-                {flaggedQuestions[currentPracticeQuestion.id] ? "Flagged for review" : "Flag for review"} <kbd>F</kbd>
-              </button>
+              <div className="practice-question-tools">
+                <button
+                  className={`bookmark-button${isCurrentPracticeQuestionBookmarked ? " active" : ""}`}
+                  type="button"
+                  disabled={bookmarkBusyKey === getQuestionBookmarkKey({ mode: selectedPracticeMode, subjectId: currentPracticeSubject.id, questionId: currentPracticeQuestion.id })}
+                  onClick={toggleCurrentQuestionBookmark}
+                  aria-pressed={isCurrentPracticeQuestionBookmarked}
+                >
+                  <span aria-hidden="true">{isCurrentPracticeQuestionBookmarked ? "★" : "☆"}</span>
+                  {isCurrentPracticeQuestionBookmarked ? "Saved" : "Save question"}
+                </button>
+                <button className={`flag-button${flaggedQuestions[currentPracticeQuestion.id] ? " active" : ""}`} type="button" onClick={() => setFlaggedQuestions((current) => ({ ...current, [currentPracticeQuestion.id]: !current[currentPracticeQuestion.id] }))}>
+                  {flaggedQuestions[currentPracticeQuestion.id] ? "Flagged for review" : "Flag for review"} <kbd>F</kbd>
+                </button>
+              </div>
             </div>
+
+            {bookmarkMessage ? <p className="bookmark-inline-message" role="status">{bookmarkMessage}</p> : null}
 
             <div className="quiz-actions practice-sticky-actions">
               <button className="button button-primary" onClick={handleSubmitAnswer} disabled={!selectedOption}>
@@ -3268,75 +3596,96 @@ async function fetchPracticeLibrary() {
                 x
               </button>
               <div className="practice-choice-heading">
-                <div className="icon-badge green">MCQ</div>
+                <div className="icon-badge green">{practiceChoicePanel === "pyq" ? "PYQ" : "MCQ"}</div>
                 <div>
-                  <h3 id="practice-choice-title">Practice {practiceChoiceSubject.title}</h3>
-                  <p>Choose PYQs, topic-wise practice, USMLE Step-1 questions, or an AI viva.</p>
+                  <h3 id="practice-choice-title">
+                    {practiceChoicePanel === "pyq" ? `${practiceChoiceSubject.title} PYQs` : `Practice ${practiceChoiceSubject.title}`}
+                  </h3>
+                  <p>
+                    {practiceChoicePanel === "pyq"
+                      ? "Choose a year to start solving official previous year questions."
+                      : "Choose PYQs, topic-wise practice, USMLE Step-1 questions, or an AI viva."}
+                  </p>
                 </div>
               </div>
-              <div className="practice-year-picker">
-                <div className="practice-choice-section-heading">
-                  <strong>Previous Year Questions</strong>
-                  <span>{practiceChoiceSubject.questions.length} official questions</span>
-                </div>
-                <div className="practice-year-choice-grid">
-                  {practiceChoiceYearSets.map((yearSet) => (
-                    <button
-                      className="practice-year-choice-card"
-                      type="button"
-                      key={yearSet.id}
-                      onClick={() => startPracticeSession(practiceChoiceSubject.id, "pyq", yearSet.id)}
-                    >
-                      <span className="practice-year-choice-topline">
-                        <strong>{yearSet.title}</strong>
-                        <small>{yearSet.total} Qs</small>
-                      </span>
-                      <span className="practice-year-choice-exams">
-                        {yearSet.examTitles.slice(0, 2).join(" + ") || "Official PYQs"}
-                      </span>
-                      <span className="practice-progress-track" aria-hidden="true">
-                        <span style={{ width: `${yearSet.progressPercent}%` }} />
-                      </span>
-                      <span className="practice-progress-copy">
-                        {yearSet.answered} / {yearSet.total} answered
-                      </span>
+              {practiceChoicePanel === "pyq" ? (
+                <div className="practice-year-picker">
+                  <div className="practice-choice-section-heading">
+                    <button className="practice-choice-back-link" type="button" onClick={() => setPracticeChoicePanel("formats")}>
+                      ← All practice modes
                     </button>
-                  ))}
+                    <span>{practiceChoiceSubject.questions.length} official questions</span>
+                  </div>
+                  <div className="practice-year-choice-grid">
+                    {practiceChoiceYearSets.map((yearSet) => (
+                      <button
+                        className="practice-year-choice-card"
+                        type="button"
+                        key={yearSet.id}
+                        onClick={() => startPracticeSession(practiceChoiceSubject.id, "pyq", yearSet.id)}
+                      >
+                        <span className="practice-year-choice-topline">
+                          <strong>{yearSet.title}</strong>
+                          <small>{yearSet.total} Qs</small>
+                        </span>
+                        <span className="practice-year-choice-exams">
+                          {yearSet.examTitles.slice(0, 2).join(" + ") || "Official PYQs"}
+                        </span>
+                        <span className="practice-progress-track" aria-hidden="true">
+                          <span style={{ width: `${yearSet.progressPercent}%` }} />
+                        </span>
+                        <span className="practice-progress-copy">
+                          {yearSet.answered} / {yearSet.total} answered
+                        </span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div className="practice-choice-grid practice-choice-grid-formats">
-                <button
-                  className="practice-choice-card practice-choice-card-ai"
-                  type="button"
-                  disabled={aiPracticeBusy}
-                  onClick={() => handleStartAiPractice(practiceChoiceSubject.id)}
-                >
-                  <span className="practice-choice-icon">TQ</span>
-                  <strong>Topic Wise Questions</strong>
-                  <p>Supplemental topic-wise questions</p>
-                  <small>{practiceChoiceAiQuestionCount} questions</small>
-                </button>
-                <button
-                  className="practice-choice-card practice-choice-card-usmle"
-                  type="button"
-                  onClick={() => handleStartUsmlePractice(practiceChoiceSubject.id)}
-                >
-                  <span className="practice-choice-icon">S1</span>
-                  <strong>USMLE Step-1 Format Questions</strong>
-                  <p>Mixed, clinically framed one-best-answer questions</p>
-                  <small>{practiceChoiceUsmleQuestionCount} questions · shuffled each session</small>
-                </button>
-                <button
-                  className="practice-choice-card practice-choice-card-viva"
-                  type="button"
-                  onClick={() => handleStartVivaSetup(practiceChoiceSubject.id)}
-                >
-                  <span className="practice-choice-icon">VIVA</span>
-                  <strong>AI Viva</strong>
-                  <p>Choose chapters and answer five explanatory questions</p>
-                  <small>Feedback after every answer · score out of 10</small>
-                </button>
-              </div>
+              ) : (
+                <div className="practice-choice-grid practice-choice-grid-formats">
+                  <button
+                    className="practice-choice-card practice-choice-card-pyq"
+                    type="button"
+                    onClick={() => setPracticeChoicePanel("pyq")}
+                  >
+                    <span className="practice-choice-icon">PYQ</span>
+                    <strong>Previous Year Questions</strong>
+                    <p>Official INI-CET and NEET PG questions grouped by year</p>
+                    <small>{practiceChoiceSubject.questions.length} questions</small>
+                  </button>
+                  <button
+                    className="practice-choice-card practice-choice-card-ai"
+                    type="button"
+                    disabled={aiPracticeBusy}
+                    onClick={() => handleStartAiPractice(practiceChoiceSubject.id)}
+                  >
+                    <span className="practice-choice-icon">TQ</span>
+                    <strong>Topic Wise Questions</strong>
+                    <p>Supplemental topic-wise questions</p>
+                    <small>{practiceChoiceAiQuestionCount} questions</small>
+                  </button>
+                  <button
+                    className="practice-choice-card practice-choice-card-usmle"
+                    type="button"
+                    onClick={() => handleStartUsmlePractice(practiceChoiceSubject.id)}
+                  >
+                    <span className="practice-choice-icon">S1</span>
+                    <strong>USMLE Step-1 Format Questions</strong>
+                    <p>Mixed, clinically framed one-best-answer questions</p>
+                    <small>{practiceChoiceUsmleQuestionCount} questions · shuffled each session</small>
+                  </button>
+                  <button
+                    className="practice-choice-card practice-choice-card-viva"
+                    type="button"
+                    onClick={() => handleStartVivaSetup(practiceChoiceSubject.id)}
+                  >
+                    <span className="practice-choice-icon">VIVA</span>
+                    <strong>AI Viva</strong>
+                    <p>Choose chapters and answer five explanatory questions</p>
+                    <small>Feedback after every answer · score out of 10</small>
+                  </button>
+                </div>
+              )}
             </article>
           </div>
         ) : null}
@@ -3362,7 +3711,7 @@ async function fetchPracticeLibrary() {
                       onClick={() => handleSelectPracticeSubject(subject.id)}
                     >
                       <span className="practice-subject-label">{subject.title}</span>
-                      <p className="practice-subject-copy">Choose PYQs or practise topic-wise questions.</p>
+                      <p className="practice-subject-copy">Choose PYQs, topic-wise questions, USMLE practice, or an AI viva.</p>
                       <span className="practice-subject-counts">
                         <strong>{subject.questions.length} PYQs</strong>
                         <strong>{aiQuestionCount} Topic Wise</strong>
@@ -3404,6 +3753,86 @@ async function fetchPracticeLibrary() {
             </section>
           ) : null}
         </div>
+      </section>
+    );
+  }
+
+  function renderBookmarks() {
+    const modeLabels = {
+      pyq: "Previous Year Question",
+      ai: "Topic-wise Question",
+      usmle: "USMLE Step-1 Question",
+    };
+    const availableCount = bookmarkedQuestionEntries.filter((entry) => entry.resolved).length;
+
+    return (
+      <section className="app-view bookmarks-view">
+        <div className="view-header">
+          <div>
+            <p className="eyebrow">Saved for revision</p>
+            <h2>Bookmarked questions</h2>
+            <p className="view-subtitle">Keep valuable questions close and reopen them whenever you want to revise.</p>
+          </div>
+          <button className="button button-primary" type="button" onClick={() => setActiveView("Practice")}>Browse questions</button>
+        </div>
+
+        {bookmarkMessage ? <p className="form-message bookmark-page-message" role="status">{bookmarkMessage}</p> : null}
+
+        {practiceLibraryStatus === "loading" || practiceLibraryStatus === "idle" ? (
+          <article className="card panel bookmarks-empty-state">
+            <span className="bookmarks-empty-icon" aria-hidden="true">☆</span>
+            <h3>Loading your saved questions…</h3>
+          </article>
+        ) : questionBookmarks.length ? (
+          <>
+            <div className="bookmark-summary-row" aria-label="Bookmark summary">
+              <article className="card"><span>Saved questions</span><strong>{questionBookmarks.length}</strong></article>
+              <article className="card"><span>Ready to review</span><strong>{availableCount}</strong></article>
+              <article className="card"><span>Answered before</span><strong>{questionBookmarks.filter((bookmark) => practiceProgress[bookmark.questionId]).length}</strong></article>
+            </div>
+            <div className="bookmark-question-list">
+              {bookmarkedQuestionEntries.map((entry) => {
+                const { bookmark, resolved } = entry;
+                const question = resolved?.question;
+                const subjectTitle = resolved?.subject?.title ?? bookmark.subjectTitle ?? "Practice";
+                const topic = question?.chapterTitle || question?.topic || bookmark.topic || "General review";
+                const preview = question?.leadIn || question?.prompt || bookmark.preview || "Saved practice question";
+                const progress = practiceProgress[bookmark.questionId];
+                return (
+                  <article className={`card panel bookmark-question-card${resolved ? "" : " bookmark-question-unavailable"}`} key={getQuestionBookmarkKey(bookmark)}>
+                    <div className="bookmark-question-meta">
+                      <span>{modeLabels[bookmark.mode] ?? "Practice Question"}</span>
+                      {bookmark.year ? <span>{bookmark.year}</span> : null}
+                      <span>{progress ? (progress.correct ? "Previously correct" : "Needs another look") : "Not answered yet"}</span>
+                    </div>
+                    <h3>{preview}</h3>
+                    <p>{subjectTitle} · {topic}</p>
+                    <div className="bookmark-question-actions">
+                      <button className="button button-primary" type="button" disabled={!resolved} onClick={() => openBookmarkedQuestion(entry)}>
+                        {resolved ? "Review question" : "Question unavailable"}
+                      </button>
+                      <button
+                        className="button button-secondary bookmark-remove-button"
+                        type="button"
+                        disabled={bookmarkBusyKey === getQuestionBookmarkKey(bookmark)}
+                        onClick={() => void updateQuestionBookmark(bookmark, false)}
+                      >
+                        Remove bookmark
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <article className="card panel bookmarks-empty-state">
+            <span className="bookmarks-empty-icon" aria-hidden="true">☆</span>
+            <h3>No bookmarked questions yet</h3>
+            <p>Use “Save question” while practising PYQs, topic-wise questions, or USMLE questions. They will appear here for revision.</p>
+            <button className="button button-primary" type="button" onClick={() => setActiveView("Practice")}>Find questions to save</button>
+          </article>
+        )}
       </section>
     );
   }
@@ -4749,6 +5178,8 @@ async function fetchPracticeLibrary() {
         return renderDashboard();
       case "Practice":
         return renderPractice();
+      case "Bookmarks":
+        return renderBookmarks();
       case "Analytics":
         return renderAnalytics();
       case "Leaderboard":

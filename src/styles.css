@@ -2363,14 +2363,21 @@ main {
   border-color: rgba(100, 116, 139, 0.45);
 }
 
-:root[data-theme="dark"] .option-correct {
-  background: #123225;
-  border-color: #1f8f57;
+:root[data-theme="dark"] .option-card.option-active {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.28), 0 10px 24px rgba(37, 99, 235, 0.2);
 }
 
-:root[data-theme="dark"] .option-wrong {
+:root[data-theme="dark"] .option-card.option-correct {
+  background: #123225;
+  border-color: #4ade80;
+  box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.3), 0 10px 24px rgba(34, 197, 94, 0.16);
+}
+
+:root[data-theme="dark"] .option-card.option-wrong {
   background: #3a1717;
-  border-color: #c24141;
+  border-color: #f87171;
+  box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.24), 0 10px 24px rgba(239, 68, 68, 0.14);
 }
 
 :root[data-theme="dark"] .feedback-good {
@@ -2866,22 +2873,27 @@ main {
   position: fixed;
   inset: 0;
   z-index: 30;
-  display: grid;
-  place-items: center;
-  padding: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
   background: rgba(2, 6, 23, 0.64);
   backdrop-filter: blur(8px);
   overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .practice-choice-modal {
   position: relative;
+  flex: 0 0 auto;
   width: min(720px, 100%);
-  max-height: min(90vh, 760px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
+  margin: auto;
   border: 1px solid rgba(148, 163, 184, 0.32);
   border-radius: 16px;
   background: #101216;
@@ -2936,7 +2948,49 @@ main {
 }
 
 .practice-choice-grid-formats .practice-choice-card {
-  min-height: 232px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 186px;
+  min-height: 186px;
+  padding: 16px;
+}
+
+.practice-choice-grid-formats .practice-choice-icon {
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.practice-choice-grid-formats .practice-choice-card strong {
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.practice-choice-grid-formats .practice-choice-card p {
+  margin: 6px 0;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.practice-choice-grid-formats .practice-choice-card small {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.practice-choice-card-pyq {
+  border-color: rgba(14, 165, 233, 0.38);
+  background: linear-gradient(145deg, rgba(7, 89, 133, 0.25), #121418 60%);
+}
+
+.practice-choice-card-pyq:hover,
+.practice-choice-card-pyq:focus-visible {
+  border-color: rgba(56, 189, 248, 0.86);
+}
+
+.practice-choice-card-pyq .practice-choice-icon,
+.practice-choice-card-pyq small {
+  color: #67e8f9;
 }
 
 .practice-choice-section-heading {
@@ -2956,6 +3010,23 @@ main {
   color: #94a3b8;
   font-size: 13px;
   font-weight: 700;
+}
+
+.practice-choice-back-link {
+  border: 0;
+  background: transparent;
+  color: #7dd3fc;
+  padding: 0;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.practice-choice-back-link:hover,
+.practice-choice-back-link:focus-visible {
+  color: #bae6fd;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .practice-year-choice-grid {
@@ -3097,8 +3168,6 @@ main {
 }
 
 .practice-choice-card-viva {
-  grid-column: 1 / -1;
-  min-height: 190px !important;
   border-color: rgba(168, 85, 247, 0.4);
   background: linear-gradient(145deg, rgba(88, 28, 135, 0.26), #121418 62%);
 }
@@ -3333,6 +3402,128 @@ main {
   text-align: right;
 }
 
+.viva-image-answer {
+  display: grid;
+  gap: 13px;
+  margin-top: 16px;
+  border: 1px dashed rgba(168, 85, 247, .42);
+  border-radius: 16px;
+  background: rgba(168, 85, 247, .055);
+  padding: 16px;
+}
+
+.viva-image-answer-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.viva-image-answer-heading > div {
+  display: grid;
+  gap: 3px;
+}
+
+.viva-image-answer-heading strong {
+  color: var(--text-primary, #172033);
+  font-size: .94rem;
+}
+
+.viva-image-answer-heading span,
+.viva-image-answer > small,
+.viva-image-preview span {
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+.viva-image-answer-heading .viva-image-optional {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: rgba(168, 85, 247, .12);
+  color: #7e22ce;
+  padding: 4px 9px;
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.viva-image-picker-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.viva-image-picker-button {
+  gap: 8px;
+  cursor: pointer;
+}
+
+.viva-image-picker-button input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.viva-image-picker-button:focus-within {
+  outline: 3px solid rgba(168, 85, 247, .25);
+  outline-offset: 2px;
+}
+
+.viva-image-preview {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--card-bg);
+  padding: 8px;
+}
+
+.viva-image-preview img {
+  display: block;
+  width: 104px;
+  height: 78px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+
+.viva-image-preview > div {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.viva-image-preview strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viva-image-preview button {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.viva-submitted-image-note {
+  color: #7e22ce !important;
+  font-weight: 750;
+}
+
 .viva-answer-actions {
   align-items: flex-end;
   margin-top: 24px;
@@ -3547,10 +3738,6 @@ main {
 }
 
 @media (max-width: 720px) {
-  .practice-choice-card-viva {
-    grid-column: auto;
-  }
-
   .viva-chapter-grid {
     grid-template-columns: 1fr;
   }
@@ -3592,6 +3779,20 @@ main {
 
   .viva-answer-actions .button {
     width: 100%;
+  }
+
+  .viva-image-picker-actions,
+  .viva-image-picker-button {
+    width: 100%;
+  }
+
+  .viva-image-preview {
+    grid-template-columns: 78px minmax(0, 1fr) 32px;
+  }
+
+  .viva-image-preview img {
+    width: 78px;
+    height: 68px;
   }
 }
 
@@ -3862,16 +4063,61 @@ main {
   .practice-subject-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .practice-year-choice-grid {
+    gap: 10px;
+  }
+
+  .practice-year-choice-card {
+    gap: 8px;
+    min-height: 114px;
+    padding: 14px;
+  }
+
+  .practice-year-choice-topline strong {
+    font-size: 15px;
+  }
+
+  .practice-year-choice-exams {
+    min-height: 27px;
+    font-size: 12px;
+  }
+
+  .practice-progress-track {
+    height: 6px;
+  }
+
+  .practice-choice-grid-formats {
+    gap: 19px;
+  }
+
+  .practice-choice-grid-formats .practice-choice-card {
+    height: 186px;
+    min-height: 186px;
+    padding: 16px;
+  }
+
+  .practice-choice-icon {
+    margin-bottom: 14px;
+  }
+
+  .practice-choice-card strong {
+    font-size: 21px;
+  }
+
+  .practice-choice-card p {
+    margin: 5px 0 10px;
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 720px) {
   .practice-choice-backdrop {
-    align-items: end;
-    padding: 12px;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
   }
 
   .practice-choice-modal {
-    max-height: calc(100dvh - 24px);
+    margin-block: 0;
   }
 
   .practice-year-section {

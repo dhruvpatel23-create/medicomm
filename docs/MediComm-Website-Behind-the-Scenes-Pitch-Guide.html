@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MediComm — Website, Product & Pitch Guide</title>
+  <style>
+    :root { --ink:#0b1220; --muted:#566379; --line:#dce4ef; --paper:#fff; --blue:#2563eb; --blue2:#60a5fa; --navy:#0f172a; --cyan:#06b6d4; --green:#10b981; --amber:#f59e0b; --red:#dc2626; --soft:#f3f7fc; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; background:#dce3ed; color:var(--ink); font-family:Inter, "Segoe UI", Arial, sans-serif; font-size:10.15pt; line-height:1.42; }
+    .page { position:relative; width:210mm; min-height:297mm; margin:8mm auto; padding:18mm 17mm 16mm; background:var(--paper); overflow:hidden; page-break-after:always; }
+    .page:last-child { page-break-after:auto; }
+    .page::before { content:""; position:absolute; inset:0 0 auto; height:4mm; background:linear-gradient(90deg,var(--blue),var(--cyan)); }
+    .folio { position:absolute; left:17mm; right:17mm; bottom:8mm; display:flex; justify-content:space-between; color:#7b879b; font-size:7.5pt; letter-spacing:.05em; }
+    .folio b { color:var(--blue); }
+    h1,h2,h3,h4,p { margin-top:0; }
+    h1 { font-size:34pt; line-height:1.05; letter-spacing:-.045em; margin-bottom:6mm; }
+    h2 { font-size:22pt; line-height:1.12; letter-spacing:-.03em; margin-bottom:3mm; }
+    h3 { font-size:12.5pt; margin-bottom:2mm; }
+    h4 { font-size:9.2pt; text-transform:uppercase; letter-spacing:.08em; color:var(--blue); margin-bottom:1mm; }
+    p { margin-bottom:3mm; }
+    .eyebrow { margin:0 0 4mm; text-transform:uppercase; letter-spacing:.18em; color:var(--blue); font-weight:800; font-size:8pt; }
+    .lede { font-size:14pt; line-height:1.45; color:#253149; max-width:155mm; }
+    .small { font-size:8.2pt; color:var(--muted); }
+    .tiny { font-size:7.3pt; color:var(--muted); }
+    .muted { color:var(--muted); }
+    .blue { color:var(--blue); }
+    .rule { height:1px; background:var(--line); margin:5mm 0; }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:5mm; }
+    .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:4mm; }
+    .grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap:3.5mm; }
+    .card { border:1px solid var(--line); border-radius:4mm; padding:5mm; background:#fff; }
+    .soft { background:var(--soft); border-color:#e6edf7; }
+    .dark { color:white; background:linear-gradient(145deg,#0b1220,#14213b); border:none; }
+    .dark .muted,.dark .small { color:#b8c4d9; }
+    .accent { border-left:1.5mm solid var(--blue); }
+    .metric { padding:4mm; min-height:29mm; }
+    .metric strong { display:block; font-size:22pt; line-height:1; color:var(--blue); margin-bottom:2mm; letter-spacing:-.03em; }
+    .metric span { color:var(--muted); font-size:8pt; }
+    ul,ol { margin:1.5mm 0 3mm; padding-left:5mm; }
+    li { margin-bottom:1.5mm; }
+    .clean { list-style:none; padding:0; }
+    .check li,.risk li { position:relative; padding-left:5mm; }
+    .check li::before { content:"✓"; position:absolute; left:0; color:var(--green); font-weight:900; }
+    .risk li::before { content:"!"; position:absolute; left:0; color:var(--amber); font-weight:900; }
+    .pill { display:inline-block; border-radius:99px; padding:1.2mm 2.8mm; margin:0 1mm 1mm 0; font-size:7.4pt; font-weight:700; color:#17428e; background:#e9f1ff; border:1px solid #cfe0ff; }
+    .status { display:inline-flex; align-items:center; gap:1.2mm; border-radius:99px; padding:1mm 2.2mm; font-size:7.1pt; font-weight:800; text-transform:uppercase; letter-spacing:.04em; }
+    .live { color:#066744; background:#dcfcef; }
+    .partial { color:#8a4f00; background:#fff3d6; }
+    .planned { color:#525f73; background:#edf1f6; }
+    table { width:100%; border-collapse:collapse; font-size:8.15pt; }
+    th { text-align:left; color:#526078; background:#f1f5fa; font-size:7.2pt; text-transform:uppercase; letter-spacing:.04em; }
+    th,td { padding:2.2mm 2.5mm; border:1px solid var(--line); vertical-align:top; }
+    td strong { color:#172239; }
+    code { font-family:"Cascadia Mono", Consolas, monospace; font-size:7.5pt; color:#1247a0; background:#edf4ff; padding:.2mm 1mm; border-radius:1mm; overflow-wrap:anywhere; }
+    .flow { display:flex; align-items:stretch; gap:2mm; margin:5mm 0; }
+    .node { flex:1; border:1px solid #cad7e8; border-radius:3mm; padding:4mm 3mm; text-align:center; background:#f7faff; }
+    .node strong { display:block; font-size:9pt; margin-bottom:1mm; }
+    .node span { color:var(--muted); font-size:7pt; }
+    .arrow { align-self:center; color:var(--blue); font-size:16pt; font-weight:900; }
+    .layer { display:grid; grid-template-columns:30mm 1fr; gap:4mm; padding:4mm 0; border-bottom:1px solid var(--line); }
+    .layer:last-child { border:0; }
+    .layer-label { font-weight:800; color:var(--blue); }
+    .journey { display:grid; grid-template-columns:repeat(5,1fr); gap:2mm; }
+    .step { min-height:38mm; padding:4mm 3mm; border:1px solid var(--line); border-radius:3mm; }
+    .step b { display:flex; width:7mm; height:7mm; align-items:center; justify-content:center; border-radius:50%; color:white; background:var(--blue); margin-bottom:3mm; }
+    .step strong { display:block; margin-bottom:1.5mm; }
+    .step span { font-size:7.3pt; color:var(--muted); }
+    .bar { height:3mm; border-radius:99px; background:#dfe7f2; overflow:hidden; }
+    .bar i { display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--cyan)); }
+    .quote { padding:6mm; font-size:16pt; line-height:1.35; letter-spacing:-.02em; border-left:2mm solid var(--blue); background:#f5f8fd; }
+    .shot { overflow:hidden; border:1px solid #27344f; border-radius:4mm; background:#0b1019; box-shadow:0 5mm 12mm rgba(15,23,42,.16); }
+    .shot img { width:100%; display:block; }
+    .shot-login { height:80mm; position:relative; }
+    .shot-login img { position:absolute; width:165mm; max-width:none; right:-3mm; top:-17mm; }
+    .cover { background:radial-gradient(circle at 90% 10%,#264479 0,transparent 30%), linear-gradient(150deg,#080d16 0%,#0e1729 60%,#172a4b 100%); color:white; }
+    .cover::before { height:6mm; }
+    .cover .brand { display:flex; align-items:center; gap:3mm; font-size:15pt; font-weight:800; margin-top:6mm; }
+    .brandmark { display:grid; place-items:center; width:11mm; height:11mm; background:var(--blue); border-radius:3mm; font-size:8pt; }
+    .cover h1 { margin-top:42mm; max-width:160mm; }
+    .cover .sub { max-width:145mm; font-size:15pt; color:#c7d3e7; }
+    .cover .meta { position:absolute; left:17mm; bottom:22mm; display:grid; grid-template-columns:42mm 42mm 50mm; gap:8mm; color:#c2cce0; font-size:8pt; }
+    .cover .meta strong { display:block; color:white; font-size:10pt; margin-bottom:1mm; }
+    .cover .orb { position:absolute; right:-28mm; bottom:28mm; width:95mm; height:95mm; border:1px solid rgba(96,165,250,.25); border-radius:50%; }
+    .cover .orb::before,.cover .orb::after { content:""; position:absolute; border:1px solid rgba(34,211,238,.22); border-radius:50%; }
+    .cover .orb::before { inset:12mm; }.cover .orb::after { inset:26mm; background:rgba(37,99,235,.12); }
+    .pitchline { font-size:19pt; line-height:1.28; letter-spacing:-.025em; }
+    .two-col-list { columns:2; column-gap:8mm; }
+    .callout { padding:4mm; border-radius:3mm; background:#fff8e7; border:1px solid #f5d590; color:#6c4700; }
+    .source-map td:first-child { width:42mm; }
+    @page { size:A4; margin:0; }
+    @media print { html,body { background:white; } .page { margin:0; box-shadow:none; } }
+  </style>
+</head>
+<body>
+
+<section class="page cover">
+  <div class="brand"><span class="brandmark">M</span> MediComm</div>
+  <p class="eyebrow" style="margin-top:20mm;color:#67a7ff">Product, technology & pitch guide</p>
+  <h1>What is behind<br><span style="color:#67a7ff">the website.</span></h1>
+  <p class="sub">A clear, evidence-based walkthrough of the product, user experience, content engine, architecture, business model, risks, and pitch story.</p>
+  <div class="meta">
+    <div><strong>Prepared</strong>18 August 2026</div>
+    <div><strong>Stage</strong>Working product / MVP</div>
+    <div><strong>Audience</strong>Founders, partners, investors & technical reviewers</div>
+  </div>
+  <div class="orb"></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">01 · Executive brief</p>
+  <h2>MediComm in one page</h2>
+  <p class="lede">MediComm is a focused digital workspace for medical students preparing for high-stakes exams. It combines question-led learning with performance feedback, peer communities, rankings, and short competitive battles.</p>
+  <div class="quote">“Practice the right medical questions, understand weak areas, and keep momentum—inside one connected learning workspace.”</div>
+  <div class="grid4" style="margin-top:6mm">
+    <div class="card metric"><strong>19</strong><span>medical subjects in the official catalogue</span></div>
+    <div class="card metric"><strong>15</strong><span>exam-year collections represented</span></div>
+    <div class="card metric"><strong>13,035</strong><span>distinct question records served after de-duplication</span></div>
+    <div class="card metric"><strong>10</strong><span>main product destinations</span></div>
+  </div>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card soft">
+      <h3>The problem</h3>
+      <ul class="clean risk">
+        <li>Exam preparation is fragmented across question banks, notes, analytics, chats, and peer groups.</li>
+        <li>Students often know their score but not what to study next.</li>
+        <li>Consistency is hard when feedback loops are slow and solitary.</li>
+      </ul>
+    </div>
+    <div class="card dark">
+      <h3>The product answer</h3>
+      <ul class="clean check">
+        <li>Structured PYQ, AI-supplemental, and USMLE-style practice.</li>
+        <li>Confidence, accuracy, pacing, flags, and weak-topic signals.</li>
+        <li>Community, direct messages, leaderboards, and 1v1 duels.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:6mm"><strong>Pitch discipline:</strong> these figures describe the current repository and runtime inventory—not verified active users, revenue, or clinical outcomes.</div>
+  <div class="folio"><span>MediComm · Confidential working brief</span><b>02</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">02 · Product map</p>
+  <h2>One workspace, four reinforcing loops</h2>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card accent"><h3>1. Learn</h3><p>Choose an exam, year, subject, chapter, or topic. Solve MCQs with clinical images, laboratory findings, explanations, flags, confidence, and keyboard shortcuts.</p><span class="status live">Implemented</span></div>
+    <div class="card accent"><h3>2. Understand</h3><p>Turn attempts into accuracy, pace, study-time, subject-mastery, trend, and “needs attention” views.</p><span class="status live">Implemented locally</span></div>
+    <div class="card accent"><h3>3. Connect</h3><p>Discover or create communities, publish threads with images, reply, manage members, find peers, and exchange direct messages.</p><span class="status live">Implemented</span></div>
+    <div class="card accent"><h3>4. Compete</h3><p>Use rankings, regional/college filters, bot practice, or rated matchmaking with Elo-style rating changes.</p><span class="status live">Implemented</span></div>
+  </div>
+  <h3 style="margin-top:7mm">Main navigation</h3>
+  <table>
+    <tr><th>Destination</th><th>Job for the student</th><th>Current state</th></tr>
+    <tr><td>Home / Dashboard</td><td>Orient, continue studying, see goals and activity.</td><td><span class="status live">Working</span></td></tr>
+    <tr><td>Practice</td><td>Choose and solve question sets across three content modes.</td><td><span class="status live">Working</span></td></tr>
+    <tr><td>Analytics</td><td>Review accuracy, pace, study time, mastery, and weak areas.</td><td><span class="status live">Working</span></td></tr>
+    <tr><td>Leaderboard</td><td>Compare ratings by state and college.</td><td><span class="status live">Working</span></td></tr>
+    <tr><td>Communities</td><td>Discuss, reply, share images, manage groups, and message peers.</td><td><span class="status live">Working</span></td></tr>
+    <tr><td>Compete</td><td>Enter bot or rated five-question, three-minute duels.</td><td><span class="status live">Working</span></td></tr>
+    <tr><td>Pricing</td><td>Understand Lite, Ultra, and Premium positioning.</td><td><span class="status partial">UI only</span></td></tr>
+    <tr><td>Profile / Settings</td><td>Manage identity, theme, study preferences, and account.</td><td><span class="status partial">Mixed</span></td></tr>
+  </table>
+  <div class="folio"><span>Product map</span><b>03</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">03 · User experience</p>
+  <h2>The core student journey</h2>
+  <div class="journey" style="margin-top:7mm">
+    <div class="step"><b>1</b><strong>Enter</strong><span>Log in, sign up, or explore as a guest with device-local progress.</span></div>
+    <div class="step"><b>2</b><strong>Select</strong><span>Choose PYQ, AI revision, or USMLE; then narrow by exam and subject.</span></div>
+    <div class="step"><b>3</b><strong>Solve</strong><span>Answer, set confidence, flag, inspect clinical context, and reveal explanation.</span></div>
+    <div class="step"><b>4</b><strong>Learn</strong><span>Record correctness and time; update progress and analytics.</span></div>
+    <div class="step"><b>5</b><strong>Return</strong><span>Use weak-topic prompts, streaks, communities, and competition to re-engage.</span></div>
+  </div>
+  <div class="flow">
+    <div class="node"><strong>Question attempt</strong><span>answer + confidence + time</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Learning event</strong><span>stored per user/device</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Insight</strong><span>accuracy + pace + weak topics</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Next action</strong><span>practice or review</span></div>
+  </div>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card soft"><h3>Designed for speed</h3><ul><li>Answer keys 1–4</li><li>Enter to submit / move forward</li><li>F to flag</li><li>Cached practice library for repeat visits</li><li>Responsive sidebar and mobile navigation</li></ul></div>
+    <div class="card"><h3>Designed for trust</h3><ul><li>Explicit source modes</li><li>Correct-answer and explanation reveal</li><li>Clinical images and laboratory tables</li><li>Public-profile data is sanitized server-side</li><li>Guest mode explains local-only progress</li></ul></div>
+  </div>
+  <h3 style="margin-top:7mm">Current authentication surface</h3>
+  <div class="shot shot-login"><img src="medicomm-current.png" alt="Current MediComm login interface" /></div>
+  <div class="folio"><span>User experience</span><b>04</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">04 · Practice & content engine</p>
+  <h2>The product’s content backbone</h2>
+  <div class="grid3" style="margin:6mm 0">
+    <div class="card metric"><strong>3,320</strong><span>official-tagged records</span></div>
+    <div class="card metric"><strong>9,695</strong><span>unique AI-supplemental records</span></div>
+    <div class="card metric"><strong>20</strong><span>USMLE-tagged records</span></div>
+  </div>
+  <p class="small">Together, the API can assemble <strong>13,035 distinct question records</strong>. Counts were computed from <code>data/practice-question-bank.json</code> plus <code>runtime-data/users.json</code>, de-duplicated by question ID. “Official-tagged” describes the source field in the repository; independent rights and editorial verification remain a business responsibility.</p>
+  <h3 style="margin-top:6mm">Official catalogue coverage</h3>
+  <div class="grid2">
+    <table>
+      <tr><th>Subject</th><th>Records</th></tr>
+      <tr><td>General Medicine</td><td>857</td></tr><tr><td>Ophthalmology</td><td>500</td></tr><tr><td>Pathology</td><td>421</td></tr><tr><td>Pharmacology</td><td>407</td></tr><tr><td>Microbiology</td><td>370</td></tr><tr><td>Community Medicine</td><td>356</td></tr><tr><td>Anatomy</td><td>276</td></tr><tr><td>Biochemistry</td><td>266</td></tr><tr><td>Forensic Medicine</td><td>210</td></tr><tr><td>Physiology</td><td>177</td></tr>
+    </table>
+    <table>
+      <tr><th>Subject</th><th>Records</th></tr>
+      <tr><td>ENT</td><td>139</td></tr><tr><td>Anesthesia</td><td>103</td></tr><tr><td>General Surgery</td><td>96</td></tr><tr><td>Obstetrics & Gynaecology</td><td>93</td></tr><tr><td>Pediatrics</td><td>42</td></tr><tr><td>Orthopedics</td><td>26</td></tr><tr><td>Dermatology</td><td>22</td></tr><tr><td>Psychiatry</td><td>20</td></tr><tr><td>Radiology</td><td>19</td></tr><tr><td><strong>Total</strong></td><td><strong>4,400*</strong></td></tr>
+    </table>
+  </div>
+  <p class="tiny">*The catalogue total includes 1,080 records tagged as AI within the catalogue file; hence the 3,320 official-tagged total above.</p>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="card"><h3>Question schema</h3><p class="small">Exam, year, subject, topic, chapter, prompt, lead-in, four options, answer index, explanation, difficulty, tags, source, images, lab findings, and source provenance fields.</p></div>
+    <div class="card"><h3>Study controls</h3><p class="small">Mode, exam/year, subject, topic/chapter, randomization, answer submission, explanation, confidence, flagging, progress, and next-question navigation.</p></div>
+  </div>
+  <div class="folio"><span>Practice & content engine</span><b>05</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">05 · Learning intelligence</p>
+  <h2>How attempts become useful feedback</h2>
+  <div class="flow">
+    <div class="node"><strong>Capture</strong><span>subject, topic, correct/incorrect, duration, activity, timestamp</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Aggregate</strong><span>period, subject, day, activity type</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Explain</strong><span>accuracy, pace, trend, mastery, attention list</span></div>
+  </div>
+  <div class="grid2" style="margin-top:5mm">
+    <div class="card soft">
+      <h3>Analytics currently computed</h3>
+      <ul class="clean check"><li>Accuracy over 30 / 90 / 365 days</li><li>Questions solved</li><li>Average time per question</li><li>Total measured study time</li><li>Daily accuracy trend</li><li>Subject mastery</li><li>Time by PYQ / revision / battle</li><li>Top weak topics from incorrect answers</li></ul>
+    </div>
+    <div class="card">
+      <h3>Important implementation fact</h3>
+      <p>Detailed analytics events and practice progress are stored in browser <code>localStorage</code>, scoped to the current user identifier and capped at the most recent 2,000 events.</p>
+      <p class="small"><strong>Meaning:</strong> it works well for a prototype and a single device, but full cross-device learning history requires moving event storage to the server/database.</p>
+      <span class="status partial">Prototype architecture</span>
+    </div>
+  </div>
+  <h3 style="margin-top:7mm">Learning loop as a pitchable moat</h3>
+  <div class="grid3">
+    <div class="card"><h4>Content depth</h4><p>More structured attempts create more meaningful learner signals.</p></div>
+    <div class="card"><h4>Personalization</h4><p>Signals can prioritize the next set by weakness, confidence, recency, and pace.</p></div>
+    <div class="card"><h4>Retention</h4><p>Visible improvement, social accountability, and short competition can reinforce return behavior.</p></div>
+  </div>
+  <div class="callout" style="margin-top:6mm"><strong>What is not yet present:</strong> a server-side recommendation model, validated adaptive algorithm, spaced-repetition scheduler, or outcomes study. Present those as roadmap, not current capability.</div>
+  <div class="folio"><span>Learning intelligence</span><b>06</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">06 · Social & competition</p>
+  <h2>Why MediComm is more than a question bank</h2>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card dark">
+      <h3>Communities and direct messages</h3>
+      <ul><li>Create and join topic communities</li><li>Post text threads up to 300 words</li><li>Attach images up to 5 MB</li><li>Reply to threads and expand conversations</li><li>Admin member removal</li><li>Search users and open private conversations</li><li>Periodic refresh for new messages</li></ul>
+    </div>
+    <div class="card accent">
+      <h3>Leaderboards and 1v1 duels</h3>
+      <ul><li>Global list with state and medical-college filtering</li><li>Rating and streak display</li><li>Bot mode for instant play</li><li>Rated queue using server-side session records</li><li>Five questions in three minutes</li><li>Elo-style rating update with K-factor 32</li><li>Result history and profile linkage</li></ul>
+    </div>
+  </div>
+  <h3 style="margin-top:7mm">The engagement thesis</h3>
+  <div class="journey">
+    <div class="step"><b>1</b><strong>Individual value</strong><span>A student gets immediate practice value alone.</span></div>
+    <div class="step"><b>2</b><strong>Identity</strong><span>Profile, college, state, rating, and streak create context.</span></div>
+    <div class="step"><b>3</b><strong>Peer value</strong><span>Communities and messages add support and knowledge exchange.</span></div>
+    <div class="step"><b>4</b><strong>Competition</strong><span>Duels and rank turn recall into a short repeatable format.</span></div>
+    <div class="step"><b>5</b><strong>Return loop</strong><span>Activity and social feedback create another reason to come back.</span></div>
+  </div>
+  <div class="grid2" style="margin-top:7mm">
+    <div class="card soft"><h3>What is real today</h3><p>Server routes, persisted records, sanitization, queue operations, community membership, direct conversations, duel completion, and rating updates.</p></div>
+    <div class="card"><h3>What needs scale work</h3><p>WebSockets/realtime events, moderation tooling, reporting, abuse prevention, queue concurrency controls, notification delivery, and normalized database tables.</p></div>
+  </div>
+  <div class="folio"><span>Social & competition</span><b>07</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">07 · System architecture</p>
+  <h2>How the website works</h2>
+  <div class="flow" style="margin-top:7mm">
+    <div class="node"><strong>Student browser</strong><span>React UI + browser storage</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Node web server</strong><span>static files + JSON API + auth</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Application state</strong><span>Supabase JSON row + local backup</span></div>
+  </div>
+  <div class="flow">
+    <div class="node"><strong>Question catalogue</strong><span>versioned JSON files</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Practice assembler</strong><span>normalize, filter, de-duplicate</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Clinical assets</strong><span>public/runtime upload folders</span></div>
+  </div>
+  <div class="flow">
+    <div class="node"><strong>Optional Gemini</strong><span>structured JSON generation</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Validation</strong><span>schema + subject + answer checks</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Supplemental bank</strong><span>stored separately by source</span></div>
+  </div>
+  <h3 style="margin-top:7mm">Architecture layers</h3>
+  <div class="card soft">
+    <div class="layer"><div class="layer-label">Experience</div><div>React screens, shell navigation, responsive CSS, accessible Radix primitives, Lucide icons, motion.</div></div>
+    <div class="layer"><div class="layer-label">Client state</div><div>React hooks for live UI; <code>localStorage</code> for token, theme, cache, progress, analytics, and read notifications.</div></div>
+    <div class="layer"><div class="layer-label">API</div><div>Node native HTTP routing for authentication, profiles, content, community, messages, leaderboard, duels, and AI generation.</div></div>
+    <div class="layer"><div class="layer-label">Persistence</div><div>Supabase REST against one <code>app_state</code> JSONB row; local JSON is seed, backup, and fallback.</div></div>
+    <div class="layer"><div class="layer-label">Delivery</div><div>Vite production build served by Node; Render blueprint targets Node 22.</div></div>
+  </div>
+  <div class="callout" style="margin-top:6mm"><strong>Plain-English summary:</strong> one deployable service hosts both the website and backend. This keeps the MVP simple; the next scale step is to separate durable data domains, not necessarily to split into microservices.</div>
+  <div class="folio"><span>System architecture</span><b>08</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">08 · Frontend</p>
+  <h2>What the user-facing website is made with</h2>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card"><h3>Core</h3><div class="pill">React 18.3</div><div class="pill">Vite 5.4</div><div class="pill">JavaScript / JSX</div><div class="pill">CSS</div><p class="small" style="margin-top:3mm">The application lives primarily in <code>src/App.jsx</code>, with a reusable shell and small UI primitives.</p></div>
+    <div class="card"><h3>Interface libraries</h3><div class="pill">Radix UI</div><div class="pill">Lucide React</div><div class="pill">Framer Motion</div><div class="pill">Tailwind utilities installed</div><p class="small" style="margin-top:3mm">Radix provides dialog, dropdown, progress, switch, tabs, and tooltip foundations.</p></div>
+  </div>
+  <h3 style="margin-top:7mm">Client responsibilities</h3>
+  <table>
+    <tr><th>Area</th><th>What happens in the browser</th></tr>
+    <tr><td>Navigation</td><td>View switching without a URL router; animated page transitions and command palette.</td></tr>
+    <tr><td>Practice</td><td>Catalogue selection, question state, keyboard actions, progress, flags, confidence, and attempt timing.</td></tr>
+    <tr><td>Analytics</td><td>Local event aggregation into KPIs, trend chart, mastery, activity mix, and weak-topic list.</td></tr>
+    <tr><td>Competition</td><td>Timer, answer state, bot-opponent simulation, queue polling, and result display.</td></tr>
+    <tr><td>Personalization</td><td>Dark/light theme, per-user browser cache, notification-read state, and guest progress.</td></tr>
+  </table>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card soft"><h3>Strengths</h3><ul class="clean check"><li>Single coherent workspace</li><li>Responsive desktop/mobile shell</li><li>Clear loading and guest states</li><li>Accessible component foundations</li><li>Fast static build and browser caching</li></ul></div>
+    <div class="card"><h3>Engineering debt</h3><ul class="clean risk"><li><code>App.jsx</code> is more than 4,000 lines</li><li>No URL-level routing/deep links</li><li>Large practice payload</li><li>Some installed dependencies are not yet used</li><li>Several settings and pricing controls are presentation-only</li></ul></div>
+  </div>
+  <div class="folio"><span>Frontend</span><b>09</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">09 · Backend & API</p>
+  <h2>The application server</h2>
+  <p class="lede">The backend is a single Node.js 22 service built with the native HTTP module—no Express framework. It serves the compiled website, JSON endpoints, and uploaded files.</p>
+  <div class="grid3" style="margin-top:5mm">
+    <div class="card"><h4>Identity</h4><p>Signup, login, session validation, logout, profile updates, public profiles, and user search.</p></div>
+    <div class="card"><h4>Learning</h4><p>Practice library, filterable questions, AI generation, profile statistics, platform summary, leaderboard.</p></div>
+    <div class="card"><h4>Network</h4><p>Communities, membership, threads, images, direct conversations, rated queue, duel completion.</p></div>
+  </div>
+  <h3 style="margin-top:7mm">Request pattern</h3>
+  <div class="flow">
+    <div class="node"><strong>Client request</strong><span>JSON + optional Bearer token</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Route handler</strong><span>parse + validate + authorize</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Read / mutate</strong><span>in-process state snapshot</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Persist</strong><span>local JSON then Supabase write chain</span></div>
+  </div>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card soft"><h3>Useful implementation choices</h3><ul><li>Server-generated random IDs and session tokens</li><li>Timing-safe password comparison</li><li>Output sanitizers for public/private data</li><li>Deterministic seeded duel question selection</li><li>Immutable caching for built assets</li><li>Local fallback if Supabase is unavailable</li></ul></div>
+    <div class="card"><h3>Scale limitations</h3><ul><li>Whole application state is cloned and rewritten</li><li>Writes are serialized in one process</li><li>No transactional relational model</li><li>Polling rather than realtime subscriptions</li><li>No automated API test suite in package scripts</li><li>Single server file is approximately 2,270 lines</li></ul></div>
+  </div>
+  <div class="folio"><span>Backend & API</span><b>10</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">10 · Data & storage</p>
+  <h2>What is stored, and where</h2>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card dark"><h3>Server-side domains</h3><p class="small">Users · sessions · communities · direct conversations · duel queue · duels · duel results · generated questions · practice results</p></div>
+    <div class="card accent"><h3>Browser-side domains</h3><p class="small">Session token · theme · practice-library cache · practice progress · analytics events · notification-read IDs</p></div>
+  </div>
+  <h3 style="margin-top:7mm">Current persistence model</h3>
+  <div class="flow">
+    <div class="node"><strong>In-memory cache</strong><span>normalized working copy</span></div><div class="arrow">→</div>
+    <div class="node"><strong>runtime-data/users.json</strong><span>local backup / fallback</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Supabase REST</strong><span>one app_state JSONB row</span></div>
+  </div>
+  <table style="margin-top:6mm">
+    <tr><th>Data</th><th>Current form</th><th>Production evolution</th></tr>
+    <tr><td>Users & auth</td><td>Custom records + bearer sessions</td><td>Managed auth or hardened session service; verification and recovery.</td></tr>
+    <tr><td>Learning events</td><td>Mostly browser-local</td><td>Append-only attempts table, cross-device sync, retention policy.</td></tr>
+    <tr><td>Question bank</td><td>Large versioned JSON files</td><td>Normalized content tables + search index + editorial workflow.</td></tr>
+    <tr><td>Community & messages</td><td>Arrays inside shared JSON state</td><td>Posts/messages tables, indexes, moderation and realtime delivery.</td></tr>
+    <tr><td>Duels</td><td>Queue and result arrays</td><td>Transactional match state, idempotency, concurrency guards, realtime events.</td></tr>
+    <tr><td>Images</td><td>Multiple local/static upload folders</td><td>Object storage, signed upload policy, scanning, CDN lifecycle.</td></tr>
+  </table>
+  <div class="callout" style="margin-top:6mm"><strong>Why Supabase is currently unusual:</strong> row-level security is enabled, but the service stores the entire application snapshot in one service-role-managed JSONB row. Supabase is being used as durable document storage, not yet as a relational product database.</div>
+  <div class="folio"><span>Data & storage</span><b>11</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">11 · AI pipeline</p>
+  <h2>Where artificial intelligence is used</h2>
+  <p class="lede">AI is an optional content-generation path for supplemental practice. The configured default model is <strong>Gemini 2.5 Flash</strong>; the app can also run without an AI key.</p>
+  <div class="flow" style="margin-top:7mm">
+    <div class="node"><strong>Topic request</strong><span>subject + learning intent</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Gemini API</strong><span>structured JSON schema</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Server validator</strong><span>four options + answer + explanation + subject</span></div><div class="arrow">→</div>
+    <div class="node"><strong>AI bank</strong><span>source explicitly tagged “ai”</span></div>
+  </div>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card soft"><h3>Guardrails already in code</h3><ul class="clean check"><li>JSON response schema</li><li>Exactly four options</li><li>Answer index restricted to 0–3</li><li>Answer must equal the indexed option</li><li>Non-empty prompt and explanation</li><li>Subject must exist in catalogue</li><li>Separate AI source label</li></ul></div>
+    <div class="card"><h3>Guardrails still needed</h3><ul class="clean risk"><li>Medical editorial review and audit trail</li><li>Reference/citation requirements</li><li>Duplicate and leakage detection</li><li>Bias, ambiguity, and factual-quality scoring</li><li>Versioning when source guidelines change</li><li>Cost limits, abuse controls, and monitoring</li></ul></div>
+  </div>
+  <h3 style="margin-top:7mm">Pitch-safe wording</h3>
+  <div class="quote" style="font-size:13pt">“AI expands targeted practice, while deterministic validation and a future clinician-review workflow protect quality. AI questions are labeled separately from source-tagged PYQs.”</div>
+  <p class="small" style="margin-top:4mm"><strong>Avoid saying:</strong> “Every question is medically verified” unless the business can provide reviewer identity, process, and evidence for the current inventory.</p>
+  <div class="folio"><span>AI pipeline</span><b>12</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">12 · Security, privacy & trust</p>
+  <h2>Current controls and honest gaps</h2>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card soft"><h3>Implemented controls</h3><ul class="clean check"><li>Passwords salted and hashed with PBKDF2-SHA512</li><li>Timing-safe hash comparison</li><li>Random bearer-session tokens</li><li>Public-user response sanitization</li><li>Profile image size boundary</li><li>Path basename handling for served uploads</li><li>Supabase service key kept server-side</li><li>Row-level security on the state table</li></ul></div>
+    <div class="card"><h3>Before production scale</h3><ul class="clean risk"><li>Restrict permissive CORS</li><li>Add rate limits and brute-force protection</li><li>Add email verification and password recovery</li><li>Prefer secure HttpOnly session cookies</li><li>Add CSRF strategy if cookies are adopted</li><li>Validate image MIME and scan uploads</li><li>Add security headers and audit logs</li><li>Move secrets to managed deployment storage</li></ul></div>
+  </div>
+  <h3 style="margin-top:7mm">Data classification</h3>
+  <table>
+    <tr><th>Class</th><th>Examples</th><th>Recommended treatment</th></tr>
+    <tr><td>Account data</td><td>Name, email, phone, medical college</td><td>Consent, encryption in transit/at rest, deletion flow, strict access.</td></tr>
+    <tr><td>Learning data</td><td>Attempts, mistakes, pace, weak topics</td><td>Treat as private profile data; clear retention and export rules.</td></tr>
+    <tr><td>Social content</td><td>Threads, replies, images, messages</td><td>Moderation, reporting, block tools, retention and takedown process.</td></tr>
+    <tr><td>Payments</td><td>Plan, order, entitlement, provider status</td><td>Use provider-hosted checkout; never store raw card/UPI credentials.</td></tr>
+  </table>
+  <div class="callout" style="margin-top:6mm"><strong>Positioning boundary:</strong> this is an exam-preparation product, not a diagnostic or clinical decision-support system. Terms, disclaimers, and content governance should make that explicit.</div>
+  <div class="folio"><span>Security, privacy & trust</span><b>13</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">13 · Deployment & operations</p>
+  <h2>How it is built and shipped</h2>
+  <div class="flow" style="margin-top:7mm">
+    <div class="node"><strong>Source</strong><span>React + Node + JSON content</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Build</strong><span>npm install + Vite build</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Deploy</strong><span>Render Node web service</span></div><div class="arrow">→</div>
+    <div class="node"><strong>Persist</strong><span>Supabase + local fallback</span></div>
+  </div>
+  <div class="grid2" style="margin-top:6mm">
+    <div class="card"><h3>Production command</h3><p><code>npm run build</code></p><p><code>npm start</code></p><p class="small">The Node server serves <code>dist/</code>, gives index.html no-cache behavior, and serves hashed static assets with long-lived immutable caching.</p></div>
+    <div class="card soft"><h3>Deployment variables</h3><p class="small"><code>NODE_ENV</code> · <code>PORT</code> · <code>HOST</code> · <code>SUPABASE_URL</code> · <code>SUPABASE_SECRET_KEY</code> / service-role key · optional state table/key · optional <code>GEMINI_API_KEY</code> and model.</p></div>
+  </div>
+  <h3 style="margin-top:7mm">Operational readiness checklist</h3>
+  <table>
+    <tr><th>Capability</th><th>Today</th><th>Next operational milestone</th></tr>
+    <tr><td>Build & serve</td><td><span class="status live">Configured</span></td><td>CI build on every pull request.</td></tr>
+    <tr><td>Persistent database</td><td><span class="status partial">Fallback model</span></td><td>Normalized Supabase schema and migrations.</td></tr>
+    <tr><td>Monitoring</td><td><span class="status planned">Not evident</span></td><td>Error tracking, uptime, latency, queue and AI metrics.</td></tr>
+    <tr><td>Backups</td><td><span class="status partial">Local copy</span></td><td>Automated remote backup, restore drill, retention policy.</td></tr>
+    <tr><td>Automated tests</td><td><span class="status planned">No test script</span></td><td>Unit, API, content-schema, and end-to-end suites.</td></tr>
+    <tr><td>Release safety</td><td><span class="status planned">Manual</span></td><td>Preview environments, migrations, rollback, feature flags.</td></tr>
+  </table>
+  <div class="folio"><span>Deployment & operations</span><b>14</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">14 · Business model</p>
+  <h2>Commercial logic already visible in the product</h2>
+  <div class="grid3" style="margin-top:7mm">
+    <div class="card"><h3>Lite</h3><p><strong>₹299 / year</strong></p><p class="small">Daily practice, analytics, community access, limited battle points.</p></div>
+    <div class="card dark"><h3>Ultra</h3><p><strong>₹999 / year</strong></p><p class="small">Unlimited battle points, communities, custom battles, deeper analytics, explanations, selected subjects.</p></div>
+    <div class="card"><h3>Premium</h3><p><strong>₹1,499 / month</strong></p><p class="small">All subjects, custom modules/practice, exam mode, clinical cases, and Ultra benefits.</p></div>
+  </div>
+  <p class="small" style="margin-top:3mm">These are current interface prices, not proof of activated billing or validated willingness to pay. Checkout is explicitly marked “coming soon.”</p>
+  <h3 style="margin-top:7mm">Revenue story</h3>
+  <div class="grid2">
+    <div class="card soft"><h3>Primary</h3><ul><li>Freemium student subscriptions</li><li>Subject or exam unlocks</li><li>Annual preparation plans</li></ul></div>
+    <div class="card"><h3>Expansion options</h3><ul><li>College/cohort dashboards</li><li>Faculty/community tools</li><li>Sponsored exam series with strict disclosure</li></ul></div>
+  </div>
+  <h3 style="margin-top:7mm">Metrics investors will ask for</h3>
+  <div class="grid4">
+    <div class="card"><h4>Activation</h4><p class="small">% completing first 10 questions within 24 hours</p></div>
+    <div class="card"><h4>Retention</h4><p class="small">D1, D7, D30 learning retention by cohort</p></div>
+    <div class="card"><h4>Learning</h4><p class="small">Attempts/week, accuracy movement, weak-topic closure</p></div>
+    <div class="card"><h4>Revenue</h4><p class="small">Free-to-paid conversion, ARPU, churn, payback</p></div>
+  </div>
+  <div class="callout" style="margin-top:6mm"><strong>Best next commercial experiment:</strong> test one simple annual plan against a clearly bounded free tier before maintaining three complex entitlements.</div>
+  <div class="folio"><span>Business model</span><b>15</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">15 · Your pitch</p>
+  <h2>A concise story you can deliver</h2>
+  <h3 style="margin-top:6mm">30-second version</h3>
+  <div class="quote" style="font-size:12.5pt">“Medical students prepare across disconnected question banks, notes, chats, and score trackers. MediComm brings that loop into one workspace: structured exam practice, clear weak-area analytics, peer communities, and fast 1v1 recall battles. The working product already supports 19 subjects and serves more than 13,000 distinct question records across source-tagged and supplemental modes. Our next step is to validate retention and paid conversion while hardening content review and the data platform.”</div>
+  <h3 style="margin-top:7mm">Five-slide narrative</h3>
+  <table>
+    <tr><th>Slide</th><th>Message</th><th>Evidence to show</th></tr>
+    <tr><td>1. Problem</td><td>Preparation is fragmented and feedback is weak.</td><td>A student’s current tool stack and time lost switching.</td></tr>
+    <tr><td>2. Product</td><td>One learning loop from question to next action.</td><td>Live practice → explanation → analytics demo.</td></tr>
+    <tr><td>3. Differentiation</td><td>Content + learning signals + peer network + competition.</td><td>Three content modes, weak-topic view, community, duel.</td></tr>
+    <tr><td>4. Business</td><td>Freemium access with focused annual upgrade.</td><td>Pricing hypothesis and conversion experiment.</td></tr>
+    <tr><td>5. Ask</td><td>Capital/partnership accelerates validation and production readiness.</td><td>90-day milestones and use of funds.</td></tr>
+  </table>
+  <h3 style="margin-top:7mm">Defensible statements</h3>
+  <ul class="clean check two-col-list"><li>Working React + Node product</li><li>19-subject catalogue</li><li>15 exam-year collections</li><li>13,035 distinct API records after de-duplication</li><li>Source-separated AI content</li><li>Profiles, messaging, communities, rankings, and duels</li><li>Optional Supabase persistence</li><li>Deployment blueprint included</li></ul>
+  <div class="folio"><span>Pitch narrative</span><b>16</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">16 · Live demo plan</p>
+  <h2>A seven-minute product walkthrough</h2>
+  <div class="journey" style="grid-template-columns:repeat(4,1fr); margin-top:6mm">
+    <div class="step"><b>1</b><strong>0:00–0:45</strong><span>State the fragmentation problem and show the focused sign-in surface.</span></div>
+    <div class="step"><b>2</b><strong>0:45–2:30</strong><span>Open Practice, choose a subject, solve one strong clinical question.</span></div>
+    <div class="step"><b>3</b><strong>2:30–3:30</strong><span>Show explanation, confidence, flag, progress, and keyboard speed.</span></div>
+    <div class="step"><b>4</b><strong>3:30–4:30</strong><span>Open Analytics and connect the attempt to the next action.</span></div>
+    <div class="step"><b>5</b><strong>4:30–5:20</strong><span>Open a community or direct conversation to show peer context.</span></div>
+    <div class="step"><b>6</b><strong>5:20–6:10</strong><span>Start a bot duel; explain rated matchmaking without waiting live.</span></div>
+    <div class="step"><b>7</b><strong>6:10–6:40</strong><span>Show pricing as a hypothesis, not completed commerce.</span></div>
+    <div class="step"><b>8</b><strong>6:40–7:00</strong><span>Close with the 90-day validation plan and the ask.</span></div>
+  </div>
+  <div class="grid2" style="margin-top:7mm">
+    <div class="card soft"><h3>Prepare before the room</h3><ul class="clean check"><li>Use a populated demo account</li><li>Preload one polished question with image/explanation</li><li>Confirm API and Supabase status</li><li>Use bot duel for deterministic timing</li><li>Keep screenshots as offline fallback</li><li>Disable notifications and browser chrome clutter</li></ul></div>
+    <div class="card"><h3>Do not demo live</h3><ul class="clean risk"><li>AI generation latency</li><li>Waiting for another rated player</li><li>Unmoderated community content</li><li>Checkout—there is no payment integration</li><li>Empty/new-account analytics without seeded history</li><li>Any unverified “expert curated” claim</li></ul></div>
+  </div>
+  <h3 style="margin-top:7mm">Answer to “what is proprietary?”</h3>
+  <p class="pitchline">“The code stack is standard by design. The defensible layer is the structured medical content graph, the learning-event history, the quality workflow, and the network formed around study behavior. Those assets become stronger as validated usage grows.”</p>
+  <div class="folio"><span>Live demo plan</span><b>17</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">17 · Roadmap</p>
+  <h2>From working MVP to investable system</h2>
+  <table style="margin-top:6mm">
+    <tr><th>Horizon</th><th>Product</th><th>Technology & trust</th><th>Proof</th></tr>
+    <tr><td><strong>0–30 days</strong></td><td>Polish onboarding and one “first win” practice path.</td><td>Fix counter hydration, remove dead UI, add API/content smoke tests.</td><td>Instrument activation funnel.</td></tr>
+    <tr><td><strong>31–60 days</strong></td><td>Server-sync attempts and improve weak-topic review.</td><td>Normalize users, attempts, questions, messages; harden auth/rate limits.</td><td>D1/D7 retention and question completion.</td></tr>
+    <tr><td><strong>61–90 days</strong></td><td>Pilot paid annual plan and reviewed content batch.</td><td>Provider-hosted checkout, entitlements, moderation, monitoring.</td><td>Conversion, churn intent, qualitative learner outcomes.</td></tr>
+    <tr><td><strong>3–6 months</strong></td><td>Adaptive modules, revision scheduling, cohort tools.</td><td>Realtime events, search, object storage, editorial CMS.</td><td>Cohort retention and college pilots.</td></tr>
+  </table>
+  <h3 style="margin-top:7mm">Highest-priority risks</h3>
+  <div class="grid2">
+    <div class="card"><h4>Content provenance</h4><p class="small">Confirm rights, source traceability, labeling, and expert review for every claim-worthy content set.</p><div class="bar"><i style="width:92%"></i></div></div>
+    <div class="card"><h4>Data architecture</h4><p class="small">Replace one-row snapshot storage before meaningful concurrency and analytics volume.</p><div class="bar"><i style="width:85%"></i></div></div>
+    <div class="card"><h4>Security & moderation</h4><p class="small">Harden identity, uploads, community safety, logging, and incident response.</p><div class="bar"><i style="width:82%"></i></div></div>
+    <div class="card"><h4>Market validation</h4><p class="small">Prove repeated use and willingness to pay; repository scale is not product-market fit.</p><div class="bar"><i style="width:95%"></i></div></div>
+  </div>
+  <div class="callout" style="margin-top:6mm"><strong>Recommended investor ask framing:</strong> fund the transition from feature-complete MVP to evidence-backed learning product—quality assurance, learner instrumentation, production data architecture, and a measured paid pilot.</div>
+  <div class="folio"><span>Roadmap</span><b>18</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">18 · Technical appendix</p>
+  <h2>API surface</h2>
+  <table style="font-size:7.5pt">
+    <tr><th>Method</th><th>Route</th><th>Purpose</th></tr>
+    <tr><td>POST</td><td><code>/api/auth/signup</code></td><td>Create account and session.</td></tr>
+    <tr><td>POST / GET / POST</td><td><code>/api/auth/login</code> · <code>/session</code> · <code>/logout</code></td><td>Authentication lifecycle.</td></tr>
+    <tr><td>PATCH</td><td><code>/api/profile</code> · <code>/api/profile/stats</code></td><td>Identity and learning summary.</td></tr>
+    <tr><td>GET</td><td><code>/api/practice</code></td><td>Assembled practice library; supports source/exam/year/subject/topic filters.</td></tr>
+    <tr><td>POST</td><td><code>/api/generate-question(s)</code></td><td>Generate and validate one or a batch of supplemental questions.</td></tr>
+    <tr><td>GET</td><td><code>/api/leaderboard</code> · <code>/api/summary</code></td><td>Ranked users and platform totals.</td></tr>
+    <tr><td>GET</td><td><code>/api/users/search</code> · <code>/api/users/:id</code></td><td>Peer discovery and public profile.</td></tr>
+    <tr><td>GET / POST</td><td><code>/api/communities</code></td><td>List and create communities.</td></tr>
+    <tr><td>POST</td><td><code>/api/communities/:id/join</code></td><td>Join a community.</td></tr>
+    <tr><td>POST</td><td><code>/api/communities/:id/messages</code></td><td>Publish a thread or reply, optionally with image.</td></tr>
+    <tr><td>DELETE</td><td><code>/api/communities/:id/members/:userId</code></td><td>Admin member removal.</td></tr>
+    <tr><td>GET / POST</td><td><code>/api/direct-messages</code> · <code>/open</code></td><td>List or open private conversations.</td></tr>
+    <tr><td>POST</td><td><code>/api/direct-messages/:id/messages</code></td><td>Send direct text/image message.</td></tr>
+    <tr><td>GET</td><td><code>/api/duels/questions</code></td><td>Return question set without client answer keys.</td></tr>
+    <tr><td>POST</td><td><code>/api/duels/complete</code></td><td>Score result and update rating.</td></tr>
+    <tr><td>POST / GET / DELETE</td><td><code>/api/duels/rated/queue</code></td><td>Join, poll, or leave matchmaking.</td></tr>
+    <tr><td>GET</td><td><code>/api/storage/status</code></td><td>Inspect Supabase/local persistence health.</td></tr>
+    <tr><td>GET</td><td><code>/uploads/:file</code></td><td>Serve runtime, built, public, or legacy image asset.</td></tr>
+  </table>
+  <h3 style="margin-top:6mm">Installed package groups</h3>
+  <p class="small"><strong>Runtime:</strong> React, React DOM, Radix UI components, Framer Motion, Lucide React, TanStack React Query, React Hook Form, Zod, class-variance-authority, clsx, tailwind-merge. <strong>Build:</strong> Vite React plugin, Tailwind CSS, PostCSS, Autoprefixer, TypeScript. Presence in <code>package.json</code> does not imply every library is used by the current screens.</p>
+  <div class="folio"><span>Technical appendix · API</span><b>19</b></div>
+</section>
+
+<section class="page">
+  <p class="eyebrow">19 · Repository map</p>
+  <h2>Where everything lives</h2>
+  <table class="source-map" style="margin-top:6mm">
+    <tr><th>Path</th><th>Responsibility</th></tr>
+    <tr><td><code>src/App.jsx</code></td><td>Core screens, feature state, workflows, and client-side analytics.</td></tr>
+    <tr><td><code>src/components/AppShellV2.jsx</code></td><td>Desktop/mobile navigation, command menu, notifications, profile menu.</td></tr>
+    <tr><td><code>src/styles.css</code> / <code>src/redesign.css</code></td><td>Visual system, layouts, responsive behavior, themes.</td></tr>
+    <tr><td><code>src/lib/api.js</code></td><td>Authenticated JSON requests, timeout, and error normalization.</td></tr>
+    <tr><td><code>server.mjs</code></td><td>HTTP server, API, auth, persistence, content assembly, AI, community, duels.</td></tr>
+    <tr><td><code>data/practice-question-bank.json</code></td><td>Versioned exam catalogue and embedded question records.</td></tr>
+    <tr><td><code>runtime-data/users.json</code></td><td>Local runtime database snapshot and supplemental question records.</td></tr>
+    <tr><td><code>public/uploads/</code></td><td>Clinical and question image assets (1,146 files at audit time).</td></tr>
+    <tr><td><code>scripts/</code></td><td>Import, clean-up, ordering, migration, inventory, and Supabase seed tooling.</td></tr>
+    <tr><td><code>supabase/migrations/</code></td><td>App-state table and row-level-security policy.</td></tr>
+    <tr><td><code>render.yaml</code></td><td>Render build/start configuration and production variables.</td></tr>
+    <tr><td><code>package.json</code></td><td>Node version, scripts, runtime dependencies, and build dependencies.</td></tr>
+  </table>
+  <h3 style="margin-top:7mm">Due-diligence notes</h3>
+  <ul class="clean risk two-col-list"><li>No automated test script is declared</li><li>No payment provider is connected</li><li>No evidence of verified active-user counts</li><li>Detailed analytics are device-local</li><li>Supabase state is not relational yet</li><li>CORS currently allows any origin</li><li>Content-rights evidence is outside the code</li><li>Monitoring and moderation need productization</li></ul>
+  <div class="quote" style="margin-top:7mm;font-size:13pt">The strongest pitch is not “everything is finished.” It is: “the complete learning loop is working, the technical and content risks are known, and the next validation milestones are concrete.”</div>
+  <div class="folio"><span>Repository map & diligence</span><b>20</b></div>
+</section>
+
+<section class="page cover" style="page-break-after:auto">
+  <div class="brand"><span class="brandmark">M</span> MediComm</div>
+  <p class="eyebrow" style="margin-top:42mm;color:#67a7ff">Closing thought</p>
+  <h1 style="max-width:168mm">A working foundation.<br><span style="color:#67a7ff">A measurable next step.</span></h1>
+  <p class="sub">Use the product demo to prove the loop. Use the roadmap to prove judgment. Use real cohort data next to prove the business.</p>
+  <div class="meta"><div><strong>Product</strong>Practice + intelligence</div><div><strong>Network</strong>Community + competition</div><div><strong>Next proof</strong>Retention + paid conversion</div></div>
+  <div class="orb"></div>
+</section>
+
+</body>
+</html>

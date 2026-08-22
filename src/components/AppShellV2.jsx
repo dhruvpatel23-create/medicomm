@@ -4,18 +4,18 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import {
-  Activity, BarChart3, Bell, BookOpen, ChevronDown, CircleHelp, Command, CreditCard,
+  Activity, BarChart3, Bell, Bookmark, BookOpen, ChevronDown, CircleHelp, Command, CreditCard,
   Check, Home, LayoutDashboard, Menu, MessageCircle, Moon, Search, Settings, Sparkles,
   Megaphone, PanelLeftClose, PanelLeftOpen, Stethoscope, Sun, Swords, Trophy, UserRound, X, Zap,
 } from "lucide-react";
 
 const iconMap = {
-  Home, Dashboard: LayoutDashboard, Practice: BookOpen, Analytics: BarChart3,
+  Home, Dashboard: LayoutDashboard, Practice: BookOpen, Bookmarks: Bookmark, Analytics: BarChart3,
   Leaderboard: Trophy, Communities: MessageCircle, Compete: Swords,
   Pricing: CreditCard, Profile: UserRound, Settings,
 };
 
-const primaryMobileItems = ["Dashboard", "Practice", "Communities", "Compete"];
+const primaryMobileItems = ["Dashboard", "Practice", "Bookmarks", "Communities"];
 
 function NavButton({ active, item, onNavigate }) {
   const Icon = iconMap[item] ?? Activity;
@@ -38,7 +38,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
   const [readNotificationIds, setReadNotificationIds] = useState([]);
   const notificationStorageKey = `medicomm-read-notifications-${user?.id ?? "guest"}`;
   const groupedItems = useMemo(() => ({
-    learn: navItems.filter((item) => ["Home", "Dashboard", "Practice", "Analytics"].includes(item)),
+    learn: navItems.filter((item) => ["Home", "Dashboard", "Practice", "Bookmarks", "Analytics"].includes(item)),
     connect: navItems.filter((item) => ["Leaderboard", "Communities", "Compete"].includes(item)),
     account: navItems.filter((item) => ["Pricing", "Profile", "Settings"].includes(item)),
   }), [navItems]);

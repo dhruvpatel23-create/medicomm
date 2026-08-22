@@ -196,9 +196,13 @@ kbd { padding: 2px 5px; border: 1px solid var(--ui-line); border-radius: 5px; ba
 .practice-decision-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 18px; }
 .confidence-selector { display: flex; align-items: center; gap: 5px; }
 .confidence-selector > span { margin-right: 3px; color: var(--ui-muted); font-size: 11px; font-weight: 700; }
-.confidence-selector button, .flag-button, .filter-chip { min-height: 34px; padding: 0 10px; border: 1px solid var(--ui-line); border-radius: 9px; background: var(--ui-surface); color: var(--ui-muted); font-size: 10px; font-weight: 700; cursor: pointer; }
-.confidence-selector button.active, .flag-button.active, .filter-chip-active { border-color: #9bb9ef; background: var(--ui-brand-soft); color: var(--ui-brand); }
-.flag-button { display: flex; align-items: center; gap: 7px; }
+.confidence-selector button, .flag-button, .bookmark-button, .filter-chip { min-height: 34px; padding: 0 10px; border: 1px solid var(--ui-line); border-radius: 9px; background: var(--ui-surface); color: var(--ui-muted); font-size: 10px; font-weight: 700; cursor: pointer; }
+.confidence-selector button.active, .flag-button.active, .bookmark-button.active, .filter-chip-active { border-color: #9bb9ef; background: var(--ui-brand-soft); color: var(--ui-brand); }
+.flag-button, .bookmark-button { display: flex; align-items: center; gap: 7px; }
+.bookmark-button span { color: #f59e0b; font-size: 16px; line-height: 1; }
+.bookmark-button:disabled { cursor: wait; opacity: .65; }
+.practice-question-tools { display: flex; align-items: center; gap: 8px; }
+.bookmark-inline-message { margin: 9px 0 0; color: var(--ui-brand); font-size: 11px; font-weight: 700; text-align: right; }
 .practice-sticky-actions kbd { margin-left: 6px; }
 .feedback-box details summary { cursor: pointer; font-weight: 700; }
 .feedback-box details p { margin-top: 9px; font-weight: 400; }
@@ -435,6 +439,36 @@ kbd { padding: 2px 5px; border: 1px solid var(--ui-line); border-radius: 5px; ba
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+/* Saved question workspace ------------------------------------------------ */
+.bookmarks-view { max-width: 1120px; margin: 0 auto; }
+.bookmark-page-message { margin: -8px 0 18px; }
+.bookmark-summary-row { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; margin-bottom: 18px; }
+.bookmark-summary-row article { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 20px; }
+.bookmark-summary-row span { color: var(--ui-muted); font-size: 12px; font-weight: 700; }
+.bookmark-summary-row strong { color: var(--ui-brand); font-size: 25px; }
+.bookmark-question-list { display: grid; gap: 14px; }
+.bookmark-question-card { padding: 22px; }
+.bookmark-question-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.bookmark-question-meta span { padding: 5px 8px; border-radius: 999px; background: var(--ui-brand-soft); color: var(--ui-brand); font-size: 9px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.bookmark-question-card h3 { max-width: 900px; margin: 0; color: var(--ui-text); font-size: 17px; line-height: 1.45; }
+.bookmark-question-card > p { margin: 8px 0 0; color: var(--ui-muted); font-size: 12px; }
+.bookmark-question-actions { display: flex; gap: 9px; margin-top: 18px; }
+.bookmark-question-actions .button { min-height: 38px; padding: 0 14px; }
+.bookmark-remove-button { color: var(--ui-muted); }
+.bookmark-question-unavailable { opacity: .72; }
+.bookmarks-empty-state { display: flex; min-height: 310px; flex-direction: column; align-items: center; justify-content: center; padding: 38px; text-align: center; }
+.bookmarks-empty-state h3 { margin: 12px 0 6px; }
+.bookmarks-empty-state p { max-width: 560px; margin: 0 0 20px; color: var(--ui-muted); line-height: 1.6; }
+.bookmarks-empty-icon { color: #f59e0b; font-size: 42px; line-height: 1; }
+
+@media (max-width: 720px) {
+  .practice-question-tools, .bookmark-question-actions { align-items: stretch; flex-direction: column; }
+  .practice-question-tools button, .bookmark-question-actions .button { justify-content: center; width: 100%; }
+  .bookmark-inline-message { text-align: left; }
+  .bookmark-summary-row { grid-template-columns: 1fr; }
+  .bookmark-question-card { padding: 18px; }
+}
 
 /* Community workspace ----------------------------------------------------- */
 .community-hub-view,

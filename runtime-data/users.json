@@ -10,11 +10,12 @@
       "passwordHash": "4bcf4dd3c036b842c5a7774cbc93579b704282a0306df0b1d6dc4a082f6a6a1698b08c58422ca36eb2f1e5230de25a6c85173a5454f3511987d925f60eaf147d",
       "passwordSalt": "1b1d95344af4057d034d892601a6ec4a",
       "contactNumber": "9664552098",
-      "correctAnswers": 68,
+      "correctAnswers": 69,
       "medicalCollege": "bj medical college",
       "profileImagePath": "f56d35cb8fac18703d7db6b5-1776011537529.jpg",
-      "attemptedQuestions": 134,
-      "passwordIterations": 60000
+      "attemptedQuestions": 137,
+      "passwordIterations": 60000,
+      "questionBookmarks": []
     },
     {
       "id": "9f09e0ba5307428adba3ebdb",
@@ -30,7 +31,8 @@
       "medicalCollege": "grant medical college",
       "profileImagePath": null,
       "attemptedQuestions": 0,
-      "passwordIterations": 60000
+      "passwordIterations": 60000,
+      "questionBookmarks": []
     },
     {
       "id": "a702192a65c051a66d9fa6fe",
@@ -46,7 +48,8 @@
       "medicalCollege": "sal medical college",
       "profileImagePath": null,
       "attemptedQuestions": 4,
-      "passwordIterations": 60000
+      "passwordIterations": 60000,
+      "questionBookmarks": []
     },
     {
       "id": "ce7d1f3bb3daeaeddcc8b125",
@@ -62,7 +65,8 @@
       "medicalCollege": "AIIMS Delhi",
       "profileImagePath": null,
       "attemptedQuestions": 0,
-      "passwordIterations": 60000
+      "passwordIterations": 60000,
+      "questionBookmarks": []
     },
     {
       "id": "49ae86ef0589cde0ac5a6082",
@@ -78,7 +82,8 @@
       "medicalCollege": "AIIMS Delhi",
       "profileImagePath": null,
       "attemptedQuestions": 0,
-      "passwordIterations": 60000
+      "passwordIterations": 60000,
+      "questionBookmarks": []
     },
     {
       "id": "6511aa595e612a8b80e64b1c",
@@ -94,7 +99,8 @@
       "medicalCollege": "CMC Vellore",
       "profileImagePath": null,
       "attemptedQuestions": 0,
-      "passwordIterations": 60000
+      "passwordIterations": 60000,
+      "questionBookmarks": []
     },
     {
       "id": "9d92c400f7a8c61a0f0c8f72",
@@ -110,7 +116,8 @@
       "medicalCollege": "Banaras Hindu University Institute of Medical Sciences",
       "profileImagePath": null,
       "attemptedQuestions": 0,
-      "passwordIterations": 60000
+      "passwordIterations": 60000,
+      "questionBookmarks": []
     }
   ],
   "sessions": {
@@ -128,7 +135,10 @@
     "d659ef9f7187f7ecab3dbfff53c29b0e9771b1947b1b0cca": "f56d35cb8fac18703d7db6b5",
     "3adcb75cece0bd925452399d4d111ae9a8caa5cd61b4e503": "f56d35cb8fac18703d7db6b5",
     "d6aaf29d91ec45c07db1e12ac3573bfa8b984d9d4c62b3d4": "f56d35cb8fac18703d7db6b5",
-    "0132212063f8c562a2a633d0cd6ac33e6c64b271337d1af2": "f56d35cb8fac18703d7db6b5"
+    "0132212063f8c562a2a633d0cd6ac33e6c64b271337d1af2": "f56d35cb8fac18703d7db6b5",
+    "dedb07b829e44e10bd82b880fe93c195f20f92045a1985c5": "f56d35cb8fac18703d7db6b5",
+    "e46cace066d12811100f2ac52042aa211f083a3320b4241c": "f56d35cb8fac18703d7db6b5",
+    "569d65e61cdd5bb1834b98e7e3da368262622e3532710c22": "f56d35cb8fac18703d7db6b5"
   },
   "communities": [
     {
@@ -233412,7 +233422,2511 @@
         "retinopathy-of-prematurity",
         "vegf"
       ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-01",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Pharmacokinetics: Absorption, Distribution, Metabolism, and Elimination",
+      "chapterOrder": 2,
+      "topic": "Loading Dose and Bioavailability",
+      "topicTitle": "Loading Dose and Bioavailability",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 59,
+      "sourcePdfPageEnd": 59,
+      "difficulty": "moderate",
+      "prompt": "A 64-year-old man is admitted for recurrent sustained ventricular tachycardia. An oral antiarrhythmic drug must reach its therapeutic concentration promptly. The target plasma concentration is 5 mg/L, the apparent volume of distribution is 40 L, and oral bioavailability is 0.50. Renal and hepatic function are normal. Which of the following is the most appropriate oral loading dose?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "pharmacokinetics",
+      "options": [
+        "100 mg",
+        "200 mg",
+        "400 mg",
+        "800 mg",
+        "1600 mg"
+      ],
+      "answerIndex": 2,
+      "answer": "400 mg",
+      "explanation": "Loading dose equals target plasma concentration multiplied by volume of distribution and divided by bioavailability. Thus, (5 mg/L x 40 L) / 0.50 = 400 mg. Clearance determines the maintenance dosing rate, not the loading dose.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "pharmacokinetics",
+        "loading-dose",
+        "bioavailability"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-02",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Pharmacodynamics: Molecular Mechanisms of Drug Action",
+      "chapterOrder": 3,
+      "topic": "Receptor Reserve and Irreversible Antagonism",
+      "topicTitle": "Receptor Reserve and Irreversible Antagonism",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 74,
+      "sourcePdfPageEnd": 74,
+      "difficulty": "hard",
+      "prompt": "Investigators study contraction of isolated arterial smooth muscle in response to a full agonist. After an irreversible antagonist inactivates 20% of the receptors, a higher agonist concentration is required to produce 50% of the maximal contraction, but the maximal contraction remains unchanged. At higher antagonist concentrations, the maximal response eventually decreases. Which of the following best explains the initial preservation of the maximal response?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "The agonist is converted to a more potent active metabolite",
+        "The antagonist increases receptor synthesis during the experiment",
+        "The antagonist has lower affinity at high agonist concentrations",
+        "A receptor reserve permits a maximal response without occupancy of every receptor",
+        "Negative cooperativity increases agonist efficacy at unoccupied receptors"
+      ],
+      "answerIndex": 3,
+      "answer": "A receptor reserve permits a maximal response without occupancy of every receptor",
+      "explanation": "When spare receptors are present, a full tissue response can occur with only a fraction of receptors occupied. Irreversible blockade first shifts the concentration-response relation because more agonist is needed, while maximal efficacy is preserved until the receptor reserve is exhausted.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "pharmacodynamics",
+        "spare-receptors",
+        "irreversible-antagonist"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-03",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Pharmacogenetics and Pharmacogenomics",
+      "chapterOrder": 7,
+      "topic": "HLA-Associated Abacavir Hypersensitivity",
+      "topicTitle": "HLA-Associated Abacavir Hypersensitivity",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 161,
+      "sourcePdfPageEnd": 161,
+      "difficulty": "moderate",
+      "prompt": "A 38-year-old man with HIV infection begins an antiretroviral regimen that includes abacavir. Nine days later, he develops fever, a diffuse rash, malaise, abdominal pain, and dyspnea. The medication is stopped, and the symptoms resolve. An unsupervised rechallenge causes hypotension and respiratory distress within hours. Screening for which of the following before treatment would most likely have prevented this reaction?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "predicted-finding",
+      "options": [
+        "HLA-B*57:01",
+        "HLA-B*58:01",
+        "HLA-B*15:02",
+        "HLA-A*31:01",
+        "CYP2C9*3"
+      ],
+      "answerIndex": 0,
+      "answer": "HLA-B*57:01",
+      "explanation": "HLA-B*57:01 strongly predicts abacavir hypersensitivity, and genotype-guided avoidance markedly reduces severe reactions. HLA-B*58:01 is associated with allopurinol reactions, while HLA-B*15:02 and HLA-A*31:01 are associated with carbamazepine reactions in particular populations.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "pharmacogenetics",
+        "abacavir",
+        "hla-b57-01"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-04",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Postmarketing Drug Safety",
+      "chapterOrder": 8,
+      "topic": "Limits of Spontaneous Adverse-Event Reports",
+      "topicTitle": "Limits of Spontaneous Adverse-Event Reports",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 167,
+      "sourcePdfPageEnd": 167,
+      "difficulty": "hard",
+      "prompt": "During the first year after approval of a new antiarrhythmic drug, a national spontaneous-reporting database receives 18 reports of torsades de pointes among patients who took the drug. Investigators want to use these reports alone to calculate the incidence of drug-induced torsades. Which of the following most directly prevents a valid incidence calculation?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "experimental-design",
+      "options": [
+        "The adverse event has a long biological latency",
+        "The reports cannot reveal a temporal relation to drug exposure",
+        "Randomization was not stratified by baseline QT interval",
+        "The drug was approved without a placebo-controlled efficacy trial",
+        "Both the number of exposed patients and the completeness of case reporting are uncertain"
+      ],
+      "answerIndex": 4,
+      "answer": "Both the number of exposed patients and the completeness of case reporting are uncertain",
+      "explanation": "Spontaneous-reporting systems are valuable for detecting rare safety signals, but they do not reliably provide either the numerator or denominator needed for incidence. Reporting is incomplete and selective, and the total number of exposed patients is usually not known accurately from the reports alone.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "pharmacovigilance",
+        "adverse-events",
+        "postmarketing-surveillance"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-05",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Anticholinesterase Inhibitors and Reactivators",
+      "chapterOrder": 12,
+      "topic": "Organophosphate Poisoning and Pralidoxime",
+      "topicTitle": "Organophosphate Poisoning and Pralidoxime",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 247,
+      "sourcePdfPageEnd": 247,
+      "difficulty": "moderate",
+      "prompt": "A 44-year-old greenhouse worker is brought to the emergency department after pesticide exposure. He has diaphoresis, vomiting, pinpoint pupils, bronchorrhea, bradycardia, and diffuse muscle fasciculations. Atropine improves the bradycardia and bronchial secretions, but marked skeletal muscle weakness persists. Pralidoxime is administered promptly. Which of the following best describes the action of this drug?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "treatment-mechanism",
+      "options": [
+        "Competitive inhibition of acetylcholine at nicotinic receptors",
+        "Nucleophilic removal of the phosphate group from acetylcholinesterase before aging occurs",
+        "Irreversible blockade of muscarinic acetylcholine receptors",
+        "Inhibition of presynaptic acetylcholine release at the neuromuscular junction",
+        "Acceleration of organophosphate metabolism by hepatic cytochrome P450 enzymes"
+      ],
+      "answerIndex": 1,
+      "answer": "Nucleophilic removal of the phosphate group from acetylcholinesterase before aging occurs",
+      "explanation": "Pralidoxime can reactivate phosphorylated acetylcholinesterase if it is given before the enzyme-organophosphate complex undergoes aging. Atropine antagonizes muscarinic manifestations but does not reverse nicotinic neuromuscular weakness.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "organophosphate",
+        "pralidoxime",
+        "acetylcholinesterase"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-06",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Neuromuscular Junction and Autonomic Ganglia",
+      "chapterOrder": 13,
+      "topic": "Succinylcholine-Associated Hyperkalemia",
+      "topicTitle": "Succinylcholine-Associated Hyperkalemia",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 257,
+      "sourcePdfPageEnd": 257,
+      "difficulty": "moderate",
+      "prompt": "A 29-year-old man with extensive crush injuries undergoes urgent debridement. Shortly after succinylcholine is given for endotracheal intubation, the ECG develops tall peaked T waves followed by a wide-complex tachycardia. Serum potassium is 7.7 mEq/L. Which of the following mechanisms most directly caused this acute electrolyte abnormality?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Inhibition of the sodium-potassium ATPase in cardiac myocytes",
+        "Release of potassium from damaged erythrocytes by an immune reaction",
+        "Sustained depolarization of skeletal muscle end plates with potassium efflux",
+        "Blockade of renal potassium secretion in the cortical collecting duct",
+        "Intracellular potassium displacement by acute respiratory acidosis"
+      ],
+      "answerIndex": 2,
+      "answer": "Sustained depolarization of skeletal muscle end plates with potassium efflux",
+      "explanation": "Succinylcholine is a depolarizing neuromuscular blocker. Persistent end-plate depolarization permits potassium to leave skeletal muscle; in patients with extensive soft-tissue injury, the resulting potassium load can be life-threatening.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "succinylcholine",
+        "hyperkalemia",
+        "neuromuscular-blockade"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-07",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Adrenergic Agonists and Antagonists",
+      "chapterOrder": 14,
+      "topic": "Preoperative Treatment of Pheochromocytoma",
+      "topicTitle": "Preoperative Treatment of Pheochromocytoma",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 288,
+      "sourcePdfPageEnd": 288,
+      "difficulty": "moderate",
+      "prompt": "A 41-year-old woman has episodic headache, diaphoresis, palpitations, and severe hypertension. Imaging shows an adrenal mass, and urinary fractionated metanephrines are markedly increased. Propranolol is given before any other adrenergic antagonist, after which her blood pressure rapidly rises to 246/132 mm Hg. Pretreatment with phenoxybenzamine would most likely have prevented this response by which of the following mechanisms?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "treatment-mechanism",
+      "options": [
+        "Inhibition of catecholamine storage in chromaffin-cell vesicles",
+        "Competitive inhibition of catecholamine synthesis by tyrosine hydroxylase",
+        "Selective blockade of beta-1 receptors in cardiac pacemaker cells",
+        "Activation of presynaptic alpha-2 receptors on sympathetic nerve terminals",
+        "Irreversible blockade of alpha adrenergic receptor-mediated vasoconstriction"
+      ],
+      "answerIndex": 4,
+      "answer": "Irreversible blockade of alpha adrenergic receptor-mediated vasoconstriction",
+      "explanation": "Phenoxybenzamine irreversibly blocks alpha receptors and is given before beta blockade in pheochromocytoma. Giving a beta blocker first removes beta-mediated cardiac effects and vasodilation while leaving intense alpha-mediated vasoconstriction unopposed, which can precipitate a hypertensive crisis.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "pheochromocytoma",
+        "phenoxybenzamine",
+        "alpha-blockade"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-08",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Protein Synthesis Inhibitors",
+      "chapterOrder": 60,
+      "topic": "Linezolid and Serotonin Syndrome",
+      "topicTitle": "Linezolid and Serotonin Syndrome",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 1206,
+      "sourcePdfPageEnd": 1206,
+      "difficulty": "moderate",
+      "prompt": "A 57-year-old woman takes sertraline for major depressive disorder. She is hospitalized for pneumonia caused by vancomycin-resistant Enterococcus faecium and is started on linezolid. Two days later, she develops agitation, diaphoresis, fever, diarrhea, hyperreflexia, and inducible ankle clonus. Which of the following pharmacologic interactions most likely caused these findings?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Combined blockade of dopamine receptors and vesicular dopamine transport",
+        "Combined activation of GABA-A receptors and inhibition of GABA metabolism",
+        "Combined inhibition of norepinephrine release and alpha-1 receptor blockade",
+        "Combined inhibition of serotonin reuptake and monoamine oxidase activity",
+        "Combined activation of muscarinic receptors and inhibition of acetylcholinesterase"
+      ],
+      "answerIndex": 3,
+      "answer": "Combined inhibition of serotonin reuptake and monoamine oxidase activity",
+      "explanation": "Sertraline inhibits serotonin reuptake, and linezolid has monoamine oxidase-inhibiting activity. Their combined serotonergic effects can produce serotonin syndrome, recognized by mental-status change, autonomic activation, hyperreflexia, and clonus.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "linezolid",
+        "serotonin-syndrome",
+        "drug-interaction"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-09",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Drugs Affecting Renal Excretory Function",
+      "chapterOrder": 29,
+      "topic": "Lithium-Induced Nephrogenic Diabetes Insipidus",
+      "topicTitle": "Lithium-Induced Nephrogenic Diabetes Insipidus",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 598,
+      "sourcePdfPageEnd": 598,
+      "difficulty": "moderate",
+      "prompt": "A 46-year-old woman with bipolar disorder has taken lithium for 8 years. She reports intense thirst and produces 6 L of urine daily. Water deprivation does not appreciably increase urine osmolality, and desmopressin produces little additional change. Lithium is continued because previous alternatives were ineffective.",
+      "leadIn": "The most appropriate pharmacotherapy acts by which of the following mechanisms?",
+      "laboratoryFindings": [
+        {
+          "test": "Serum sodium",
+          "value": "149 mEq/L",
+          "reference": "136-145 mEq/L"
+        },
+        {
+          "test": "Serum glucose",
+          "value": "94 mg/dL",
+          "reference": "70-100 mg/dL"
+        },
+        {
+          "test": "Urine osmolality",
+          "value": "105 mOsm/kg H2O",
+          "reference": "50-1200 mOsm/kg H2O"
+        }
+      ],
+      "itemFamily": "treatment-mechanism",
+      "options": [
+        "Block epithelial sodium channels in collecting-duct principal cells",
+        "Block sodium-potassium-chloride cotransport in the thick ascending limb",
+        "Block sodium-chloride cotransport in the distal convoluted tubule",
+        "Activate vasopressin V2 receptors in collecting-duct principal cells",
+        "Inhibit carbonic anhydrase in the proximal tubule"
+      ],
+      "answerIndex": 0,
+      "answer": "Block epithelial sodium channels in collecting-duct principal cells",
+      "explanation": "Amiloride blocks epithelial sodium channels in collecting-duct principal cells, reducing lithium entry into those cells and limiting its disruption of water-concentrating mechanisms. Desmopressin is generally ineffective because this is nephrogenic rather than central diabetes insipidus.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "lithium",
+        "nephrogenic-diabetes-insipidus",
+        "amiloride"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-10",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Treatment of Central Nervous System Degenerative Disorders",
+      "chapterOrder": 21,
+      "topic": "Levodopa and Peripheral Decarboxylase Inhibition",
+      "topicTitle": "Levodopa and Peripheral Decarboxylase Inhibition",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 435,
+      "sourcePdfPageEnd": 435,
+      "difficulty": "moderate",
+      "prompt": "A 72-year-old man with bradykinesia, resting tremor, and cogwheel rigidity begins levodopa together with carbidopa. Compared with levodopa alone, the combination permits a lower levodopa dose and causes less nausea and orthostatic hypotension. Which of the following best explains these effects of carbidopa?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "treatment-mechanism",
+      "options": [
+        "It activates dopamine D2 receptors in the striatum",
+        "It inhibits catechol-O-methyltransferase in both the brain and peripheral tissues",
+        "It inhibits monoamine oxidase B within dopaminergic neurons",
+        "It increases levodopa transport across the blood-brain barrier",
+        "It inhibits peripheral aromatic L-amino acid decarboxylase without substantially entering the brain"
+      ],
+      "answerIndex": 4,
+      "answer": "It inhibits peripheral aromatic L-amino acid decarboxylase without substantially entering the brain",
+      "explanation": "Carbidopa inhibits peripheral aromatic L-amino acid decarboxylase and penetrates the CNS poorly. It therefore reduces peripheral conversion of levodopa to dopamine, leaving more levodopa available to cross the blood-brain barrier while decreasing peripheral dopaminergic adverse effects.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "parkinson-disease",
+        "levodopa",
+        "carbidopa"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-11",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Opioid Analgesics",
+      "chapterOrder": 23,
+      "topic": "Recognition and Reversal of Opioid Toxicity",
+      "topicTitle": "Recognition and Reversal of Opioid Toxicity",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 484,
+      "sourcePdfPageEnd": 484,
+      "difficulty": "moderate",
+      "prompt": "An unconscious 26-year-old man is brought to the emergency department. Respirations are 4/min, pulse is 58/min, and blood pressure is 92/54 mm Hg. Examination shows cyanosis, pinpoint pupils, and decreased bowel sounds. Intranasal naloxone produces a rapid improvement in ventilation and alertness, but respiratory depression recurs 45 minutes later. Which of the following is the most likely diagnosis?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "diagnosis",
+      "options": [
+        "Antimuscarinic poisoning",
+        "Carbon monoxide poisoning",
+        "Opioid poisoning",
+        "Organophosphate poisoning",
+        "Sedative-hypnotic withdrawal"
+      ],
+      "answerIndex": 2,
+      "answer": "Opioid poisoning",
+      "explanation": "Profound respiratory depression, miosis, and reduced gastrointestinal motility indicate opioid toxicity. Rapid reversal by naloxone strongly supports the diagnosis. Recurrence can occur because naloxone has a shorter duration than many opioid agonists, so repeat dosing or infusion may be required.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "opioid-overdose",
+        "naloxone",
+        "respiratory-depression"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-12",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Local Anesthetics",
+      "chapterOrder": 25,
+      "topic": "Bupivacaine Cardiotoxicity",
+      "topicTitle": "Bupivacaine Cardiotoxicity",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 515,
+      "sourcePdfPageEnd": 515,
+      "difficulty": "hard",
+      "prompt": "A 31-year-old woman in labor receives epidural bupivacaine. Immediately after a repeat injection, she reports circumoral numbness and tinnitus and then develops seizures and a ventricular arrhythmia. Inadvertent intravascular administration is suspected. Interaction with which of the following molecular targets most directly underlies both the desired nerve block and this drug's cardiac conduction toxicity?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Extracellular ligand-binding site of nicotinic acetylcholine channels",
+        "Intracellular pore of voltage-gated sodium channels",
+        "Ryanodine receptors of the sarcoplasmic reticulum",
+        "Transmembrane pore of L-type calcium channels",
+        "Voltage sensor of delayed-rectifier potassium channels"
+      ],
+      "answerIndex": 1,
+      "answer": "Intracellular pore of voltage-gated sodium channels",
+      "explanation": "Local anesthetics such as bupivacaine enter excitable cells and bind within the pore of voltage-gated sodium channels, preferentially when channels are open or inactivated. Sodium-current blockade prevents nerve action-potential propagation and can also impair cardiac conduction and trigger serious arrhythmias.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "bupivacaine",
+        "local-anesthetic-toxicity",
+        "sodium-channels"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-13",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Drugs Affecting Renal Excretory Function",
+      "chapterOrder": 29,
+      "topic": "Thiazides and Urinary Calcium",
+      "topicTitle": "Thiazides and Urinary Calcium",
+      "topicOrder": 2,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 586,
+      "sourcePdfPageEnd": 586,
+      "difficulty": "moderate",
+      "prompt": "A 52-year-old woman with hypertension has had three episodes of calcium oxalate nephrolithiasis. Serum calcium and parathyroid hormone concentrations are normal, but 24-hour urine collection shows idiopathic hypercalciuria. Hydrochlorothiazide is started. Which of the following changes is most likely during treatment?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "predicted-finding",
+      "options": [
+        "Increased urinary uric acid excretion",
+        "Decreased proximal tubular sodium reabsorption",
+        "Increased free-water clearance",
+        "Increased urinary potassium retention",
+        "Decreased urinary calcium excretion"
+      ],
+      "answerIndex": 4,
+      "answer": "Decreased urinary calcium excretion",
+      "explanation": "Thiazides decrease urinary calcium excretion and are useful in recurrent calcium nephrolithiasis with hypercalciuria. Mild volume contraction increases proximal sodium and calcium reabsorption, and blockade of the distal sodium-chloride cotransporter also favors distal calcium entry.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "thiazide",
+        "hypercalciuria",
+        "nephrolithiasis"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-14",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Therapy of Heart Failure",
+      "chapterOrder": 33,
+      "topic": "ACE and Neprilysin Inhibition",
+      "topicTitle": "ACE and Neprilysin Inhibition",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 674,
+      "sourcePdfPageEnd": 674,
+      "difficulty": "moderate",
+      "prompt": "A 63-year-old man with heart failure and reduced ejection fraction takes lisinopril. Because he remains symptomatic, sacubitril/valsartan is started without an interval after the last lisinopril dose. Several hours later, he develops marked swelling of the lips and tongue. Concurrent inhibition of which of the following processes most likely increased his risk for this adverse effect?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Synthesis of angiotensinogen and release of renin",
+        "Binding of angiotensin II to AT1 and AT2 receptors",
+        "Conversion of angiotensin I and release of aldosterone",
+        "Degradation of bradykinin and substance P by two peptidases",
+        "Formation and receptor binding of atrial natriuretic peptide"
+      ],
+      "answerIndex": 3,
+      "answer": "Degradation of bradykinin and substance P by two peptidases",
+      "explanation": "ACE and neprilysin both participate in degrading vasoactive peptides, including bradykinin and substance P. Giving an ACE inhibitor together with a neprilysin inhibitor can cause excessive peptide accumulation and substantially increase the risk of angioedema.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "heart-failure",
+        "sacubitril",
+        "ace-inhibitor",
+        "angioedema"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-15",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Antiarrhythmic Drugs",
+      "chapterOrder": 34,
+      "topic": "Adenosine and AV Nodal Reentry",
+      "topicTitle": "Adenosine and AV Nodal Reentry",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 701,
+      "sourcePdfPageEnd": 701,
+      "difficulty": "moderate",
+      "prompt": "A 35-year-old woman comes to the emergency department with sudden palpitations. ECG shows a regular narrow-complex tachycardia at 190/min. Vagal maneuvers are unsuccessful. A rapid intravenous injection terminates the rhythm within seconds and briefly causes flushing and chest pressure. Which of the following cellular effects most directly explains termination of this arrhythmia?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "treatment-mechanism",
+      "options": [
+        "Activation of an atrial potassium current with hyperpolarization and transient AV nodal block",
+        "Blockade of fast sodium channels in ventricular Purkinje fibers",
+        "Inhibition of the sodium-potassium ATPase with increased vagal tone",
+        "Prolongation of ventricular repolarization by delayed-rectifier potassium-channel blockade",
+        "Use-dependent blockade of L-type calcium channels in ventricular myocytes"
+      ],
+      "answerIndex": 0,
+      "answer": "Activation of an atrial potassium current with hyperpolarization and transient AV nodal block",
+      "explanation": "Adenosine activates an acetylcholine-sensitive potassium current in atrial, sinus-node, and AV-node tissue. The resulting hyperpolarization and reduction of cyclic AMP-dependent calcium current transiently block AV nodal conduction and can terminate AV nodal reentrant tachycardia.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "adenosine",
+        "psvt",
+        "av-node"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-16",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Blood Coagulation and Anticoagulant Drugs",
+      "chapterOrder": 36,
+      "topic": "Heparin-Induced Thrombocytopenia",
+      "topicTitle": "Heparin-Induced Thrombocytopenia",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 735,
+      "sourcePdfPageEnd": 735,
+      "difficulty": "moderate",
+      "prompt": "A 68-year-old man with chronic kidney disease develops a painful swollen leg 7 days after unfractionated heparin was begun for an acute coronary syndrome. Ultrasonography shows a new femoral-vein thrombosis. Heparin is discontinued.",
+      "leadIn": "Which of the following is the most appropriate next pharmacotherapy?",
+      "laboratoryFindings": [
+        {
+          "test": "Platelet count at admission",
+          "value": "232,000/mm3",
+          "reference": "150,000-400,000/mm3"
+        },
+        {
+          "test": "Current platelet count",
+          "value": "78,000/mm3",
+          "reference": "150,000-400,000/mm3"
+        },
+        {
+          "test": "Serum creatinine",
+          "value": "3.1 mg/dL",
+          "reference": "0.6-1.2 mg/dL"
+        },
+        {
+          "test": "AST",
+          "value": "24 U/L",
+          "reference": "10-40 U/L"
+        }
+      ],
+      "itemFamily": "treatment",
+      "options": [
+        "Enoxaparin",
+        "Argatroban",
+        "Unfractionated heparin at a lower dose",
+        "Warfarin alone immediately",
+        "No anticoagulant until the platelet count normalizes"
+      ],
+      "answerIndex": 1,
+      "answer": "Argatroban",
+      "explanation": "The platelet fall beginning 5-10 days after heparin exposure plus new thrombosis indicates immune heparin-induced thrombocytopenia. All heparin must be stopped and a nonheparin anticoagulant started. Argatroban directly inhibits thrombin and is hepatically cleared, making it useful when renal function is poor.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "heparin-induced-thrombocytopenia",
+        "argatroban",
+        "direct-thrombin-inhibitor"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-17",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Pharmacotherapy of Inflammation, Fever, Pain, and Gout",
+      "chapterOrder": 42,
+      "topic": "Acid-Base Effects of Salicylate Toxicity",
+      "topicTitle": "Acid-Base Effects of Salicylate Toxicity",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 858,
+      "sourcePdfPageEnd": 858,
+      "difficulty": "moderate",
+      "prompt": "A 19-year-old woman is brought to the emergency department because of vomiting, tinnitus, confusion, and rapid breathing after ingesting a large number of aspirin tablets. Temperature is 38.6 C (101.5 F), and respirations are 32/min.",
+      "leadIn": "Which of the following mechanisms best explains this acid-base pattern?",
+      "laboratoryFindings": [
+        {
+          "test": "Arterial pH",
+          "value": "7.49",
+          "reference": "7.35-7.45"
+        },
+        {
+          "test": "Pco2",
+          "value": "22 mm Hg",
+          "reference": "35-45 mm Hg"
+        },
+        {
+          "test": "Serum bicarbonate",
+          "value": "16 mEq/L",
+          "reference": "22-28 mEq/L"
+        },
+        {
+          "test": "Serum anion gap",
+          "value": "22 mEq/L",
+          "reference": "8-12 mEq/L"
+        }
+      ],
+      "itemFamily": "physiologic-prediction",
+      "options": [
+        "Central respiratory depression with renal bicarbonate retention",
+        "Direct medullary respiratory stimulation with uncoupling of oxidative phosphorylation",
+        "Inhibition of carbonic anhydrase with suppression of organic-acid production",
+        "Inhibition of mitochondrial electron transport with compensatory hypoventilation",
+        "Peripheral chemoreceptor blockade with increased renal acid excretion"
+      ],
+      "answerIndex": 1,
+      "answer": "Direct medullary respiratory stimulation with uncoupling of oxidative phosphorylation",
+      "explanation": "Salicylates directly stimulate the medullary respiratory center, producing primary respiratory alkalosis. They also uncouple oxidative phosphorylation, increasing carbon dioxide, heat, and organic-acid production and causing a concurrent anion-gap metabolic acidosis.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "salicylate-toxicity",
+        "acid-base",
+        "oxidative-phosphorylation"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-18",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Pulmonary Pharmacology",
+      "chapterOrder": 44,
+      "topic": "Biologic Therapy for Eosinophilic Asthma",
+      "topicTitle": "Biologic Therapy for Eosinophilic Asthma",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 909,
+      "sourcePdfPageEnd": 909,
+      "difficulty": "moderate",
+      "prompt": "A 45-year-old woman with asthma has had four exacerbations requiring oral glucocorticoids during the past year despite adherence to high-dose inhaled glucocorticoid and long-acting beta-2 agonist therapy. Skin testing for perennial allergens is negative. Spirometry shows reversible airflow obstruction.",
+      "leadIn": "A drug chosen specifically for this patient's phenotype would most likely have which of the following actions?",
+      "laboratoryFindings": [
+        {
+          "test": "Blood eosinophils",
+          "value": "920/mm3",
+          "reference": "<500/mm3"
+        },
+        {
+          "test": "Total serum IgE",
+          "value": "42 IU/mL",
+          "reference": "0-100 IU/mL"
+        }
+      ],
+      "itemFamily": "treatment-mechanism",
+      "options": [
+        "Binds circulating interleukin-5",
+        "Blocks cysteinyl leukotriene receptors",
+        "Blocks immunoglobulin E binding to its high-affinity receptor",
+        "Inhibits phosphodiesterase 4 in inflammatory cells",
+        "Stimulates beta-2 receptors on airway smooth muscle"
+      ],
+      "answerIndex": 0,
+      "answer": "Binds circulating interleukin-5",
+      "explanation": "Marked blood eosinophilia and recurrent exacerbations identify severe eosinophilic asthma. Mepolizumab is a monoclonal antibody that binds circulating interleukin-5, reducing eosinophil survival and eosinophilic airway inflammation.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "asthma",
+        "mepolizumab",
+        "interleukin-5",
+        "eosinophils"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-19",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Endocrine Pancreas and Pharmacotherapy of Diabetes Mellitus",
+      "chapterOrder": 51,
+      "topic": "SGLT2 Inhibitor-Associated Ketoacidosis",
+      "topicTitle": "SGLT2 Inhibitor-Associated Ketoacidosis",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 1059,
+      "sourcePdfPageEnd": 1059,
+      "difficulty": "hard",
+      "prompt": "A 58-year-old man with type 2 diabetes mellitus takes metformin and empagliflozin. Two days after the onset of viral gastroenteritis with poor oral intake, he develops nausea, abdominal pain, and deep rapid respirations. Urinalysis shows marked glucosuria and ketonuria.",
+      "leadIn": "Which of the following drug classes most likely contributed to this patient's metabolic disorder?",
+      "laboratoryFindings": [
+        {
+          "test": "Serum glucose",
+          "value": "184 mg/dL",
+          "reference": "70-100 mg/dL"
+        },
+        {
+          "test": "Serum bicarbonate",
+          "value": "12 mEq/L",
+          "reference": "22-28 mEq/L"
+        },
+        {
+          "test": "Serum anion gap",
+          "value": "24 mEq/L",
+          "reference": "8-12 mEq/L"
+        },
+        {
+          "test": "Beta-hydroxybutyrate",
+          "value": "6.2 mmol/L",
+          "reference": "<0.4 mmol/L"
+        }
+      ],
+      "itemFamily": "mechanism",
+      "options": [
+        "An alpha-glucosidase inhibitor",
+        "A dipeptidyl peptidase-4 inhibitor",
+        "A glucagon-like peptide-1 receptor agonist",
+        "A sodium-glucose cotransporter 2 inhibitor",
+        "A sulfonylurea"
+      ],
+      "answerIndex": 3,
+      "answer": "A sodium-glucose cotransporter 2 inhibitor",
+      "explanation": "Empagliflozin inhibits SGLT2 in the proximal tubule and can precipitate diabetic ketoacidosis during illness, fasting, or relative insulin deficiency. Continued urinary glucose loss can keep the serum glucose only mildly elevated despite substantial ketogenesis and anion-gap acidosis.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "sglt2-inhibitor",
+        "empagliflozin",
+        "euglycemic-ketoacidosis"
+      ]
+    },
+    {
+      "id": "usmle-pharmacology-goodman-gilman-20",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "pharmacology",
+      "subjectTitle": "Pharmacology",
+      "chapterTitle": "Dermatological Pharmacology",
+      "chapterOrder": 75,
+      "topic": "Counseling About Isotretinoin Exposure",
+      "topicTitle": "Counseling About Isotretinoin Exposure",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Goodman and Gilman's The Pharmacological Basis of Therapeutics, 14th ed. (provided PDF)",
+      "sourcePdfPageStart": 1500,
+      "sourcePdfPageEnd": 1500,
+      "difficulty": "moderate",
+      "prompt": "A 23-year-old woman who takes isotretinoin for severe nodulocystic acne learns that she is 6 weeks pregnant. She begins to cry and says, \"I was careful, but I must have harmed my baby. What am I supposed to do now?\" Which of the following is the most appropriate initial response by the physician?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "communication-ethics",
+      "options": [
+        "Because fetal injury is certain, termination of pregnancy is the only medically appropriate choice",
+        "Do not blame yourself; many people have difficulty following medication precautions",
+        "I can see how frightened you are; tell me what you understand about isotretinoin exposure, and then we can discuss the next steps together",
+        "The risk is probably small because your pregnancy was recognized early",
+        "You should stop the drug now and return after you have decided whether to continue the pregnancy"
+      ],
+      "answerIndex": 2,
+      "answer": "I can see how frightened you are; tell me what you understand about isotretinoin exposure, and then we can discuss the next steps together",
+      "explanation": "The best initial response acknowledges the patient's emotion and invites her perspective before giving information. Systemic retinoids are highly teratogenic, so isotretinoin should be stopped and urgent, nonjudgmental counseling arranged, but the physician should not assume the patient's decision or falsely reassure her.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "goodman-gilman-14e",
+        "isotretinoin",
+        "teratogenicity",
+        "patient-communication"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-01",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Bacterial Lobar Pneumonia",
+      "chapterOrder": 61,
+      "topic": "Pneumococcal Virulence",
+      "topicTitle": "Pneumococcal Virulence",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1370,
+      "sourcePdfPageEnd": 1373,
+      "difficulty": "moderate",
+      "prompt": "A 69-year-old man who underwent splenectomy after trauma develops fever, pleuritic chest pain, and cough productive of rust-colored sputum. Chest radiography shows right lower-lobe consolidation. A Gram-stained sputum specimen is shown. Which of the following microbial structures is the principal virulence factor of the causative organism?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Immunoglobulin A protease",
+        "Lipopolysaccharide O antigen",
+        "Polysaccharide capsule",
+        "Protein A",
+        "Type III secretion apparatus"
+      ],
+      "answerIndex": 2,
+      "answer": "Polysaccharide capsule",
+      "explanation": "The image shows lancet-shaped gram-positive diplococci consistent with Streptococcus pneumoniae. Its polysaccharide capsule is the major virulence factor because it impairs phagocytosis; splenic macrophages are especially important for clearing encapsulated organisms.",
+      "imageUrls": [
+        "/uploads/usmle-microbiology-sastry-q01-pneumococcus-gram-stain.png"
+      ],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "streptococcus-pneumoniae",
+        "capsule",
+        "asplenia",
+        "gram-stain"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-02",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Antimicrobial Agents and Antimicrobial Resistance",
+      "chapterOrder": 3,
+      "topic": "Methicillin Resistance in Staphylococcus aureus",
+      "topicTitle": "Methicillin Resistance in Staphylococcus aureus",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 192,
+      "sourcePdfPageEnd": 192,
+      "difficulty": "moderate",
+      "prompt": "Blood cultures from a hospitalized patient with a catheter-associated infection grow Staphylococcus aureus that is resistant to oxacillin. Addition of a beta-lactamase inhibitor does not restore susceptibility. Which of the following alterations most likely accounts for this resistance?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Acquisition of a plasmid encoding an extended-spectrum beta-lactamase",
+        "Decreased expression of outer-membrane porins",
+        "Enzymatic replacement of D-alanine with D-lactate",
+        "Increased production of a drug-efflux pump",
+        "Production of a low-affinity penicillin-binding protein encoded by mecA"
+      ],
+      "answerIndex": 4,
+      "answer": "Production of a low-affinity penicillin-binding protein encoded by mecA",
+      "explanation": "Methicillin-resistant S aureus carries mecA, which encodes the altered penicillin-binding protein PBP2a. PBP2a has low affinity for most beta-lactams, so inhibiting beta-lactamase does not restore activity.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "mrsa",
+        "meca",
+        "pbp2a",
+        "antimicrobial-resistance"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-03",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Complement",
+      "chapterOrder": 13,
+      "topic": "Terminal Complement Deficiency",
+      "topicTitle": "Terminal Complement Deficiency",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 433,
+      "sourcePdfPageEnd": 433,
+      "difficulty": "moderate",
+      "prompt": "A 17-year-old boy has his third episode of meningococcemia. He has otherwise had normal growth and no history of recurrent viral or fungal infections. Immunoglobulin concentrations are normal.",
+      "leadIn": "The patient's disorder most directly impairs which of the following immune functions?",
+      "laboratoryFindings": [
+        {
+          "test": "CH50",
+          "value": "Undetectable",
+          "reference": "Normal hemolytic activity"
+        },
+        {
+          "test": "AH50",
+          "value": "Undetectable",
+          "reference": "Normal hemolytic activity"
+        },
+        {
+          "test": "Serum C3",
+          "value": "112 mg/dL",
+          "reference": "80-160 mg/dL"
+        },
+        {
+          "test": "Serum C4",
+          "value": "24 mg/dL",
+          "reference": "10-40 mg/dL"
+        }
+      ],
+      "itemFamily": "mechanism",
+      "options": [
+        "Formation of transmembrane pores in susceptible bacteria",
+        "Generation of hydrogen peroxide within neutrophil phagolysosomes",
+        "Opsonization of bacteria by immunoglobulin A",
+        "Recognition of mannose residues by macrophage Toll-like receptors",
+        "Transport of secretory immunoglobulin across mucosal epithelium"
+      ],
+      "answerIndex": 0,
+      "answer": "Formation of transmembrane pores in susceptible bacteria",
+      "explanation": "Loss of terminal complement components C5-C9 prevents assembly of the membrane attack complex, which normally forms pores in target membranes. Terminal complement deficiency strongly predisposes to recurrent or disseminated Neisseria infection.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "complement",
+        "membrane-attack-complex",
+        "neisseria"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-04",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Hypersensitivity",
+      "chapterOrder": 16,
+      "topic": "Tuberculin Delayed-Type Hypersensitivity",
+      "topicTitle": "Tuberculin Delayed-Type Hypersensitivity",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 512,
+      "sourcePdfPageEnd": 512,
+      "difficulty": "moderate",
+      "prompt": "A healthcare worker with prior latent Mycobacterium tuberculosis infection undergoes a tuberculin skin test. Forty-eight hours later, the injection site has a 17-mm area of firm induration. Biopsy of the site shows a predominantly mononuclear inflammatory infiltrate. Which of the following mechanisms most directly produces this reaction?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Deposition of circulating antigen-antibody complexes in dermal vessels",
+        "IgE-mediated mast-cell degranulation after antigen cross-linking",
+        "IgG-mediated activation of complement on antigen-bearing cells",
+        "Release of interferon-gamma by antigen-specific T cells with macrophage activation",
+        "Release of preformed histamine from sensitized basophils"
+      ],
+      "answerIndex": 3,
+      "answer": "Release of interferon-gamma by antigen-specific T cells with macrophage activation",
+      "explanation": "The tuberculin reaction is type IV delayed hypersensitivity. Previously sensitized T cells, predominantly TH1-derived cells, release interferon-gamma and other cytokines that recruit and activate macrophages over 48-72 hours.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "tuberculin-test",
+        "type-iv-hypersensitivity",
+        "th1",
+        "interferon-gamma"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-05",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Cardiovascular System Infections",
+      "chapterOrder": 28,
+      "topic": "Streptococcus gallolyticus Endocarditis",
+      "topicTitle": "Streptococcus gallolyticus Endocarditis",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 704,
+      "sourcePdfPageEnd": 704,
+      "difficulty": "moderate",
+      "prompt": "A 66-year-old man has 6 weeks of fatigue, low-grade fever, and weight loss. Examination shows a new holosystolic murmur and splinter hemorrhages. Echocardiography demonstrates a mitral-valve vegetation, and three blood-culture sets grow Streptococcus gallolyticus. In addition to treating the endocarditis, which of the following is the most appropriate next step?",
+      "leadIn": null,
+      "laboratoryFindings": [
+        {
+          "test": "Hemoglobin",
+          "value": "9.7 g/dL",
+          "reference": "13.5-17.5 g/dL"
+        },
+        {
+          "test": "Leukocyte count",
+          "value": "13,200/mm3",
+          "reference": "4,500-11,000/mm3"
+        },
+        {
+          "test": "Blood cultures",
+          "value": "3 of 3 sets positive",
+          "reference": "No growth"
+        }
+      ],
+      "itemFamily": "treatment",
+      "options": [
+        "Bone-marrow biopsy",
+        "Colonoscopy",
+        "CT scan of the paranasal sinuses",
+        "Serum protein electrophoresis",
+        "Upper gastrointestinal endoscopy"
+      ],
+      "answerIndex": 1,
+      "answer": "Colonoscopy",
+      "explanation": "S gallolyticus, formerly S bovis, bacteremia or endocarditis is associated with colorectal carcinoma and adenomatous polyps. The patient should undergo evaluation of the colon even when gastrointestinal symptoms are absent.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "streptococcus-gallolyticus",
+        "endocarditis",
+        "colorectal-cancer"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-06",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Malaria and Babesiosis",
+      "chapterOrder": 35,
+      "topic": "Falciparum Malaria and Sequestration",
+      "topicTitle": "Falciparum Malaria and Sequestration",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 833,
+      "sourcePdfPageEnd": 841,
+      "difficulty": "hard",
+      "prompt": "A 32-year-old man develops fever, confusion, and a generalized seizure 2 weeks after returning from Nigeria. A Giemsa-stained peripheral blood smear is shown. MRI shows diffuse cerebral edema without a focal lesion. Which of the following parasite-host interactions most directly contributes to this severe neurologic complication?",
+      "leadIn": null,
+      "laboratoryFindings": [
+        {
+          "test": "Hemoglobin",
+          "value": "8.9 g/dL",
+          "reference": "13.5-17.5 g/dL"
+        },
+        {
+          "test": "Platelet count",
+          "value": "64,000/mm3",
+          "reference": "150,000-400,000/mm3"
+        },
+        {
+          "test": "Serum glucose",
+          "value": "51 mg/dL",
+          "reference": "70-100 mg/dL"
+        },
+        {
+          "test": "Parasitemia",
+          "value": "8%",
+          "reference": "0%"
+        }
+      ],
+      "itemFamily": "mechanism",
+      "options": [
+        "Binding of Duffy antigen by merozoites restricted to reticulocytes",
+        "Deposition of circulating immune complexes in cerebral arterioles",
+        "Invasion of endothelial cells by sporozoites",
+        "Lysis of erythrocytes containing Maltese-cross tetrads",
+        "PfEMP1-mediated adherence of infected erythrocytes to vascular endothelium"
+      ],
+      "answerIndex": 4,
+      "answer": "PfEMP1-mediated adherence of infected erythrocytes to vascular endothelium",
+      "explanation": "The crescent gametocyte and multiple delicate ring forms identify P falciparum. PfEMP1 on infected erythrocytes mediates cytoadherence and sequestration in small vessels of deep organs, including the brain, causing microvascular obstruction, hypoxia, and cerebral malaria.",
+      "imageUrls": [
+        "/uploads/usmle-microbiology-sastry-q06-falciparum-smear.png"
+      ],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "plasmodium-falciparum",
+        "cerebral-malaria",
+        "pfemp1",
+        "blood-smear"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-07",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Cholera and Halophilic Vibrio Infections",
+      "chapterOrder": 42,
+      "topic": "Cholera Toxin Signaling",
+      "topicTitle": "Cholera Toxin Signaling",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 953,
+      "sourcePdfPageEnd": 953,
+      "difficulty": "moderate",
+      "prompt": "A 28-year-old woman develops abrupt, profuse, painless watery diarrhea after drinking untreated water. She is severely dehydrated, and stool microscopy shows motile curved gram-negative rods without fecal leukocytes. The responsible toxin binds GM1 ganglioside on intestinal epithelial cells. Which of the following intracellular events is caused by its active subunit?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Cleavage of synaptobrevin in cholinergic nerve terminals",
+        "Dephosphorylation of elongation factor 2",
+        "ADP-ribosylation of a G protein with persistent adenylate cyclase activation",
+        "Glycosylation of Rho-family GTP-binding proteins",
+        "Irreversible inhibition of the 60S ribosomal subunit"
+      ],
+      "answerIndex": 2,
+      "answer": "ADP-ribosylation of a G protein with persistent adenylate cyclase activation",
+      "explanation": "The A subunit of cholera toxin ADP-ribosylates the stimulatory G protein, persistently activating adenylate cyclase. Increased cAMP promotes chloride secretion and inhibits sodium absorption, producing isotonic watery diarrhea.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "vibrio-cholerae",
+        "cholera-toxin",
+        "camp",
+        "gm1"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-08",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Clostridioides difficile Infection",
+      "chapterOrder": 43,
+      "topic": "Toxin-Mediated Pseudomembranous Colitis",
+      "topicTitle": "Toxin-Mediated Pseudomembranous Colitis",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 982,
+      "sourcePdfPageEnd": 982,
+      "difficulty": "moderate",
+      "prompt": "A 74-year-old woman develops fever, abdominal cramping, and frequent watery stools after receiving clindamycin. Colonoscopy shows raised yellow-white plaques over erythematous mucosa. The bacterial products responsible for this disease most directly injure enterocytes by which of the following mechanisms?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Glycosylation and inactivation of Rho-family GTP-binding proteins",
+        "Inhibition of acetylcholine release from enteric neurons",
+        "Irreversible activation of adenylate cyclase by a G protein",
+        "Proteolytic cleavage of E-cadherin at epithelial junctions",
+        "Stimulation of guanylate cyclase through a heat-stable peptide"
+      ],
+      "answerIndex": 0,
+      "answer": "Glycosylation and inactivation of Rho-family GTP-binding proteins",
+      "explanation": "C difficile toxins A and B glycosylate regulatory GTP-binding proteins involved in the actin cytoskeleton. Loss of cytoskeletal integrity and epithelial barrier function produces diarrhea, inflammation, and pseudomembrane formation.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "clostridioides-difficile",
+        "toxin-a",
+        "toxin-b",
+        "rho-gtpase"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-09",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Staphylococcal Infections",
+      "chapterOrder": 51,
+      "topic": "Toxic Shock Syndrome Toxin",
+      "topicTitle": "Toxic Shock Syndrome Toxin",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1163,
+      "sourcePdfPageEnd": 1163,
+      "difficulty": "moderate",
+      "prompt": "A 24-year-old woman presents with high fever, vomiting, diffuse erythema, hypotension, and acute kidney injury during menstruation. Blood cultures are negative. A vaginal culture grows Staphylococcus aureus. Which of the following mechanisms best explains the systemic manifestations?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Antibody-mediated destruction of endothelial cells",
+        "Binding of Fc immunoglobulin through bacterial protein A",
+        "Endotoxin-mediated activation of Toll-like receptor 4",
+        "Cross-linking of MHC class II and T-cell receptors outside the antigen-binding groove",
+        "Formation of pores in phagocyte membranes by leukocidin"
+      ],
+      "answerIndex": 3,
+      "answer": "Cross-linking of MHC class II and T-cell receptors outside the antigen-binding groove",
+      "explanation": "Toxic shock syndrome toxin 1 acts as a superantigen. It cross-links MHC class II on antigen-presenting cells to T-cell receptors outside the normal peptide-binding site, activating many T cells and causing massive cytokine release, fever, rash, and shock.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "staphylococcus-aureus",
+        "toxic-shock-syndrome",
+        "superantigen"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-10",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Beta-Hemolytic Streptococcal Infections",
+      "chapterOrder": 52,
+      "topic": "Acute Rheumatic Fever",
+      "topicTitle": "Acute Rheumatic Fever",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1190,
+      "sourcePdfPageEnd": 1190,
+      "difficulty": "moderate",
+      "prompt": "An 11-year-old boy develops migratory pain and swelling of the knees and ankles 3 weeks after an untreated episode of exudative pharyngitis. Examination shows a new apical holosystolic murmur. Which of the following immunologic mechanisms most likely caused this complication?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Deposition of streptococcal antigen-antibody complexes in cardiac valves",
+        "Cross-reactivity between antibodies to streptococcal antigens and host cardiac tissue",
+        "Direct invasion of the myocardium by viable streptococci",
+        "Polyclonal T-cell activation by a streptococcal superantigen",
+        "Toxin-mediated inhibition of cardiomyocyte protein synthesis"
+      ],
+      "answerIndex": 1,
+      "answer": "Cross-reactivity between antibodies to streptococcal antigens and host cardiac tissue",
+      "explanation": "Acute rheumatic fever follows group A streptococcal pharyngitis. Molecular mimicry causes antibodies and immune cells directed against streptococcal antigens to cross-react with host tissues, particularly the heart, joints, skin, and central nervous system.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "streptococcus-pyogenes",
+        "rheumatic-fever",
+        "molecular-mimicry"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-11",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Tuberculosis and Nontuberculous Mycobacteria",
+      "chapterOrder": 63,
+      "topic": "Mycobacterial Acid Fastness",
+      "topicTitle": "Mycobacterial Acid Fastness",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1412,
+      "sourcePdfPageEnd": 1412,
+      "difficulty": "moderate",
+      "prompt": "A 46-year-old man has 3 months of cough, night sweats, fever, and weight loss. Chest radiography shows cavitary lesions in both upper lobes. A stained sputum specimen is shown. The staining property of the organisms is primarily attributable to a high concentration of which of the following cell-wall components?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Mycolic acids",
+        "N-acetylneuraminic acid",
+        "Peptidoglycan teichoic acids",
+        "Porin proteins",
+        "Wax-free lipopolysaccharide"
+      ],
+      "answerIndex": 0,
+      "answer": "Mycolic acids",
+      "explanation": "The image shows red acid-fast bacilli. The long-chain mycolic acids of the mycobacterial cell wall confer resistance to acid-alcohol decolorization, reduce cell-wall permeability, and contribute to intrinsic resistance to many antimicrobial drugs.",
+      "imageUrls": [
+        "/uploads/usmle-microbiology-sastry-q11-acid-fast-bacilli.png"
+      ],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "mycobacterium-tuberculosis",
+        "acid-fast",
+        "mycolic-acid",
+        "ziehl-neelsen"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-12",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Bacterial Atypical Pneumonia",
+      "chapterOrder": 62,
+      "topic": "Laboratory Diagnosis of Legionella",
+      "topicTitle": "Laboratory Diagnosis of Legionella",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1408,
+      "sourcePdfPageEnd": 1408,
+      "difficulty": "moderate",
+      "prompt": "A 61-year-old man develops high fever, nonproductive cough, diarrhea, and confusion after attending a convention at a hotel. Chest radiography shows patchy bilateral infiltrates. Sputum contains many neutrophils, but routine Gram stain shows few organisms. Which of the following culture media is most appropriate for isolating the pathogen?",
+      "leadIn": null,
+      "laboratoryFindings": [
+        {
+          "test": "Serum sodium",
+          "value": "126 mEq/L",
+          "reference": "136-145 mEq/L"
+        },
+        {
+          "test": "AST",
+          "value": "82 U/L",
+          "reference": "10-40 U/L"
+        },
+        {
+          "test": "Creatine kinase",
+          "value": "620 U/L",
+          "reference": "30-200 U/L"
+        }
+      ],
+      "itemFamily": "laboratory-diagnosis",
+      "options": [
+        "Bile-esculin agar with sodium azide",
+        "Chocolate agar containing factors V and X",
+        "Lowenstein-Jensen medium",
+        "Thayer-Martin medium",
+        "Buffered charcoal yeast-extract agar"
+      ],
+      "answerIndex": 4,
+      "answer": "Buffered charcoal yeast-extract agar",
+      "explanation": "Legionella pneumophila causes severe atypical pneumonia with gastrointestinal and neurologic symptoms and often hyponatremia. It stains poorly with Gram stain and is cultured on buffered charcoal yeast-extract agar, which supports this fastidious organism.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "legionella",
+        "atypical-pneumonia",
+        "bcye-agar"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-13",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Myxovirus Infections of the Respiratory Tract",
+      "chapterOrder": 66,
+      "topic": "Influenza Antigenic Shift",
+      "topicTitle": "Influenza Antigenic Shift",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1479,
+      "sourcePdfPageEnd": 1479,
+      "difficulty": "moderate",
+      "prompt": "A swine farm worker is simultaneously infected with an avian influenza A strain and a human influenza A strain. Viral progeny isolated from respiratory secretions contain a novel combination of hemagglutinin and neuraminidase genes and spread efficiently between humans. Which of the following processes produced this change?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "Complementation between two defective viral genomes",
+        "Reassortment of segmented viral RNA genomes",
+        "Recombination of proviral DNA integrated into host chromosomes",
+        "Stepwise accumulation of point mutations during seasonal transmission",
+        "Transduction of envelope genes by a bacteriophage"
+      ],
+      "answerIndex": 1,
+      "answer": "Reassortment of segmented viral RNA genomes",
+      "explanation": "Influenza A has a segmented RNA genome. Coinfection of one cell by distinct strains can exchange entire genome segments, producing an abrupt major antigenic change called antigenic shift and creating the potential for a pandemic.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "influenza-a",
+        "antigenic-shift",
+        "reassortment"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-14",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Miscellaneous Viral Respiratory Infections",
+      "chapterOrder": 68,
+      "topic": "Epstein-Barr Virus Infection",
+      "topicTitle": "Epstein-Barr Virus Infection",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1523,
+      "sourcePdfPageEnd": 1523,
+      "difficulty": "moderate",
+      "prompt": "A 19-year-old college student has fever, exudative pharyngitis, posterior cervical lymphadenopathy, and splenomegaly. A peripheral blood smear shows atypical lymphocytes, and a heterophile-antibody test is positive. The causative virus initially infects B lymphocytes by binding which of the following surface molecules?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "mechanism",
+      "options": [
+        "CCR5",
+        "CD4",
+        "CD8",
+        "CD21",
+        "ICAM-1"
+      ],
+      "answerIndex": 3,
+      "answer": "CD21",
+      "explanation": "Epstein-Barr virus binds CD21, also called complement receptor 2, on B lymphocytes and pharyngeal epithelial cells. The atypical cells in blood are activated CD8 T lymphocytes responding to infected B cells.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "epstein-barr-virus",
+        "infectious-mononucleosis",
+        "cd21"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-15",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Viral Encephalitis and Encephalopathy",
+      "chapterOrder": 74,
+      "topic": "Rabies Postexposure Prophylaxis",
+      "topicTitle": "Rabies Postexposure Prophylaxis",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1639,
+      "sourcePdfPageEnd": 1639,
+      "difficulty": "moderate",
+      "prompt": "A previously unvaccinated 34-year-old wildlife biologist is bitten deeply on the hand by a bat that escapes. He presents 2 hours later. The wound is bleeding, and he has no neurologic symptoms. Which of the following is the most appropriate management?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "treatment",
+      "options": [
+        "Observe without treatment unless symptoms develop",
+        "Rabies vaccine alone after primary closure of the wound",
+        "Immediate wound cleansing, rabies vaccine, and infiltration of rabies immunoglobulin around the wound",
+        "Rabies immunoglobulin alone because it acts immediately",
+        "Surgical excision of the wound followed by oral antiviral therapy"
+      ],
+      "answerIndex": 2,
+      "answer": "Immediate wound cleansing, rabies vaccine, and infiltration of rabies immunoglobulin around the wound",
+      "explanation": "A transdermal bite from a bat is a high-risk exposure. Postexposure prophylaxis for a previously unvaccinated person includes thorough local wound care, active immunization with rabies vaccine, and passive immunization with rabies immunoglobulin infiltrated into and around the wound when feasible.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "rabies",
+        "postexposure-prophylaxis",
+        "rabies-immunoglobulin",
+        "vaccine"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-16",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Parasitic and Fungal Infections of the Respiratory Tract",
+      "chapterOrder": 69,
+      "topic": "Rhino-Orbital-Cerebral Mucormycosis",
+      "topicTitle": "Rhino-Orbital-Cerebral Mucormycosis",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1542,
+      "sourcePdfPageEnd": 1542,
+      "difficulty": "moderate",
+      "prompt": "A 53-year-old man with poorly controlled diabetes mellitus is admitted for diabetic ketoacidosis. Two days later, he develops severe facial pain, periorbital swelling, ophthalmoplegia, and a black necrotic lesion on the nasal turbinate. Histologic examination of debrided tissue is shown. Which of the following is the most likely diagnosis?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "diagnosis",
+      "options": [
+        "Invasive aspergillosis",
+        "Mucormycosis",
+        "Nocardiosis",
+        "Pseudomonas ecthyma gangrenosum",
+        "Rhinosporidiosis"
+      ],
+      "answerIndex": 1,
+      "answer": "Mucormycosis",
+      "explanation": "The image shows broad, ribbon-like, pauciseptate hyphae with wide-angle branching and angioinvasion, characteristic of mucormycosis. Diabetic ketoacidosis is a major risk factor for rapidly progressive rhino-orbital-cerebral disease.",
+      "imageUrls": [
+        "/uploads/usmle-microbiology-sastry-q16-mucormycosis-hyphae.png"
+      ],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "mucormycosis",
+        "diabetic-ketoacidosis",
+        "broad-aseptate-hyphae"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-17",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Congenital Infections",
+      "chapterOrder": 79,
+      "topic": "Congenital Cytomegalovirus Infection",
+      "topicTitle": "Congenital Cytomegalovirus Infection",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1786,
+      "sourcePdfPageEnd": 1790,
+      "difficulty": "moderate",
+      "prompt": "A newborn is small for gestational age and has jaundice, hepatosplenomegaly, petechiae, microcephaly, and sensorineural hearing loss. Cranial ultrasonography shows periventricular calcifications. Which of the following histopathologic findings is most likely?",
+      "leadIn": null,
+      "laboratoryFindings": [
+        {
+          "test": "Platelet count",
+          "value": "58,000/mm3",
+          "reference": "150,000-400,000/mm3"
+        },
+        {
+          "test": "Direct bilirubin",
+          "value": "4.1 mg/dL",
+          "reference": "<0.3 mg/dL"
+        },
+        {
+          "test": "Urine CMV PCR",
+          "value": "Positive",
+          "reference": "Negative"
+        }
+      ],
+      "itemFamily": "predicted-finding",
+      "options": [
+        "Crescent-shaped intracellular organisms within macrophages",
+        "Granulomas containing spherules filled with endospores",
+        "Multinucleated giant cells with molded nuclei and margination of chromatin",
+        "Neurons containing eosinophilic cytoplasmic inclusions",
+        "Enlarged cells containing intranuclear owl-eye inclusions"
+      ],
+      "answerIndex": 4,
+      "answer": "Enlarged cells containing intranuclear owl-eye inclusions",
+      "explanation": "The findings indicate congenital cytomegalovirus infection. CMV produces cytomegalic cells with characteristic large intranuclear owl-eye inclusions. Periventricular calcifications and sensorineural hearing loss help distinguish CMV from congenital toxoplasmosis.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "congenital-cmv",
+        "owl-eye-inclusion",
+        "periventricular-calcifications"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-18",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "HIV/AIDS",
+      "chapterOrder": 33,
+      "topic": "Detection During the HIV Window Period",
+      "topicTitle": "Detection During the HIV Window Period",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 794,
+      "sourcePdfPageEnd": 799,
+      "difficulty": "hard",
+      "prompt": "A 27-year-old man has fever, sore throat, diffuse lymphadenopathy, and a maculopapular rash 18 days after unprotected sexual exposure. A third-generation antibody-only HIV assay is negative. Which of the following tests is most likely to detect infection at this time?",
+      "leadIn": null,
+      "laboratoryFindings": [
+        {
+          "test": "Leukocyte count",
+          "value": "3,400/mm3",
+          "reference": "4,500-11,000/mm3"
+        },
+        {
+          "test": "Platelet count",
+          "value": "118,000/mm3",
+          "reference": "150,000-400,000/mm3"
+        },
+        {
+          "test": "Antibody-only HIV assay",
+          "value": "Negative",
+          "reference": "Negative"
+        }
+      ],
+      "itemFamily": "laboratory-diagnosis",
+      "options": [
+        "Plasma HIV RNA by reverse-transcription PCR",
+        "HIV proviral DNA in a hair-follicle specimen",
+        "IgG antibody to Epstein-Barr nuclear antigen",
+        "Western blot for HIV envelope antibodies alone",
+        "Repeat antibody-only assay in 24 hours"
+      ],
+      "answerIndex": 0,
+      "answer": "Plasma HIV RNA by reverse-transcription PCR",
+      "explanation": "Acute retroviral syndrome can occur before antibodies become detectable. Plasma HIV RNA is detectable earliest, often within about 10-14 days after exposure; fourth-generation assays shorten the window by also detecting p24 antigen.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "acute-hiv",
+        "window-period",
+        "hiv-rna",
+        "rt-pcr"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-19",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "Laboratory Diagnosis of Bacterial Infections",
+      "chapterOrder": 3,
+      "topic": "Diagnostic-Test Sensitivity",
+      "topicTitle": "Diagnostic-Test Sensitivity",
+      "topicOrder": 2,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 151,
+      "sourcePdfPageEnd": 151,
+      "difficulty": "moderate",
+      "prompt": "Investigators compare a new multiplex PCR assay with culture, the reference standard, for detecting a bacterial bloodstream infection. Among 100 patients with positive cultures, the PCR result is positive in 90 and negative in 10. Among 900 patients with negative cultures, the PCR result is positive in 45 and negative in 855. What is the sensitivity of the PCR assay?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "experimental-design",
+      "options": [
+        "10%",
+        "67%",
+        "90%",
+        "95%",
+        "99%"
+      ],
+      "answerIndex": 2,
+      "answer": "90%",
+      "explanation": "Sensitivity is the proportion of patients with the infection who test positive: true positives divided by true positives plus false negatives. Here, sensitivity is 90 / (90 + 10) = 90%.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "diagnostic-testing",
+        "sensitivity",
+        "multiplex-pcr"
+      ]
+    },
+    {
+      "id": "usmle-microbiology-sastry-20",
+      "examId": "usmle-step-1",
+      "examTitle": "USMLE Step 1-Style Practice",
+      "subjectId": "microbiology",
+      "subjectTitle": "Microbiology",
+      "chapterTitle": "AETCOM in Microbiology",
+      "chapterOrder": 9,
+      "topic": "Confidentiality of an HIV Test Result",
+      "topicTitle": "Confidentiality of an HIV Test Result",
+      "topicOrder": 1,
+      "source": "usmle",
+      "sourcePdf": "Essentials of Medical Microbiology, 4th ed., Apurba S. Sastry (provided PDF)",
+      "sourcePdfPageStart": 1878,
+      "sourcePdfPageEnd": 1878,
+      "difficulty": "moderate",
+      "prompt": "A 29-year-old woman is informed that confirmatory testing for HIV is positive. She begins to cry and says, \"Please do not tell my husband yet. I need time to understand this first.\" Which of the following is the most appropriate initial response by the physician?",
+      "leadIn": null,
+      "laboratoryFindings": [],
+      "itemFamily": "communication-ethics",
+      "options": [
+        "I must call your husband immediately because he may have been exposed",
+        "I will document that you refused disclosure and end today's visit",
+        "You should not worry because current treatment makes HIV harmless",
+        "I can see this is overwhelming; let's discuss your concerns, confidentiality, and how we can safely involve your partner",
+        "Your husband can only be tested after you provide written permission"
+      ],
+      "answerIndex": 3,
+      "answer": "I can see this is overwhelming; let's discuss your concerns, confidentiality, and how we can safely involve your partner",
+      "explanation": "The initial response should acknowledge emotion, preserve trust, and invite discussion. HIV results are confidential, while partner safety and applicable disclosure requirements must be addressed through counseling and a plan rather than immediate coercive disclosure or false reassurance.",
+      "imageUrls": [],
+      "tags": [
+        "usmle-step-1",
+        "sastry-microbiology-4e",
+        "hiv",
+        "confidentiality",
+        "patient-communication"
+      ]
     }
   ],
-  "practiceResults": []
+  "practiceResults": [],
+  "vivaSessions": [
+    {
+      "id": "79bf074c4b70b8ef9819eff5",
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapters": [
+        "Inflammation and Repair"
+      ],
+      "status": "active",
+      "currentQuestionIndex": 0,
+      "provider": "gemini",
+      "privacyAcceptedAt": "2026-08-22T08:40:10.882Z",
+      "createdAt": "2026-08-22T08:40:10.882Z",
+      "updatedAt": "2026-08-22T08:40:10.882Z",
+      "questions": [
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Explain the pathogenesis and key morphological features of granulomatous inflammation, and provide two distinct clinical examples where it is typically observed.",
+          "idealAnswer": "Granulomatous inflammation is a distinct pattern of chronic inflammation characterized by aggregates of activated macrophages (epithelioid cells), often surrounded by lymphocytes and plasma cells. It forms when the immune system attempts to wall off foreign substances or infectious agents that are difficult to eradicate. Pathogenesis involves persistent T-cell activation, leading to macrophage activation, fusion into multinucleated giant cells (Langhans cells), and formation of a granuloma. Key features include epithelioid macrophages, multinucleated giant cells, and a cuff of lymphocytes, with or without central caseous necrosis. Clinical examples include tuberculosis and sarcoidosis.",
+          "keyPoints": [
+            "Aggregates of activated macrophages (epithelioid cells).",
+            "Formed in response to persistent, indigestible stimuli (e.g., certain microorganisms, foreign bodies).",
+            "Involves T-lymphocyte activation and cytokine release (e.g., IFN-gamma).",
+            "Macrophages transform into epithelioid cells and may fuse to form multinucleated giant cells (Langhans type).",
+            "Often surrounded by a collar of lymphocytes.",
+            "May feature central necrosis (e.g., caseous in TB) or be non-caseating (e.g., sarcoidosis).",
+            "Examples: Tuberculosis, Sarcoidosis, Crohn's disease, foreign body reaction."
+          ],
+          "difficulty": "intermediate",
+          "id": "52e0dc469024d39ce158"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Discuss the three main outcomes of acute inflammation, detailing the conditions under which each outcome is likely to occur.",
+          "idealAnswer": "The three main outcomes of acute inflammation are resolution, repair (healing by fibrosis), and progression to chronic inflammation. Resolution occurs when the injurious stimulus is removed, the tissue damage is minimal, and the tissue is capable of regeneration; it involves the return to normal tissue structure and function. Repair, or healing by fibrosis, happens when tissue damage is substantial, or the tissue lacks regenerative capacity; it involves the replacement of damaged tissue with connective tissue, leading to scar formation. Progression to chronic inflammation occurs when the acute inflammatory response fails to eliminate the injurious agent or if there's persistent tissue injury, leading to prolonged inflammation, tissue destruction, and attempts at healing.",
+          "keyPoints": [
+            "Resolution: Complete restoration of normal structure and function.",
+            "Resolution conditions: Minimal tissue damage, rapid elimination of injurious agent, tissue capable of regeneration.",
+            "Repair (Healing by fibrosis): Replacement of damaged tissue by connective tissue (scar).",
+            "Repair conditions: Substantial tissue destruction, damage to non-regenerative cells, extensive fibrin exudation.",
+            "Progression to chronic inflammation: Persistent inflammation over weeks/months.",
+            "Chronic inflammation conditions: Failure to eliminate injurious agent, persistent irritation, certain autoimmune responses."
+          ],
+          "difficulty": "foundational",
+          "id": "d4b022024d041c5c3bd6"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Identify and explain four distinct systemic factors that can significantly impair wound healing, providing a brief mechanism for each.",
+          "idealAnswer": "Several systemic factors can impair wound healing. Malnutrition, particularly protein or Vitamin C deficiency, compromises collagen synthesis and fibroblast proliferation. Diabetes mellitus impairs healing due to microvascular disease, neuropathy, increased infection risk, and impaired immune function. Glucocorticoids suppress the inflammatory response, fibroblast proliferation, and collagen synthesis. Immunosuppression (e.g., due to chemotherapy or HIV) increases susceptibility to infection, which delays healing. Other factors include poor circulation (e.g., peripheral vascular disease), advanced age, and anemia.",
+          "keyPoints": [
+            "Malnutrition (e.g., protein, Vitamin C, Zinc): Impairs collagen synthesis, fibroblast function, immune response.",
+            "Diabetes Mellitus: Causes microangiopathy, neuropathy, impaired immune function, increased infection risk, leading to poor tissue perfusion and delayed healing.",
+            "Corticosteroids: Suppress inflammatory response, fibroblast activity, collagen production, and wound contraction.",
+            "Immunosuppression: Increases risk of infection, which prolongs inflammation and delays healing.",
+            "Poor Perfusion/Circulation: Reduces oxygen, nutrient delivery, and waste removal.",
+            "Advanced Age: Decreased regenerative capacity, slower inflammatory response, reduced collagen synthesis."
+          ],
+          "difficulty": "intermediate",
+          "id": "907bb68202e0427d96c0"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Detail the sequential cellular and molecular steps involved in the recruitment of neutrophils from the bloodstream to the site of acute inflammation.",
+          "idealAnswer": "Neutrophil recruitment involves a series of sequential steps: 1. Margination: Leukocytes move from the central axial flow to the periphery of the blood vessel. 2. Rolling: Weak and transient adhesion of leukocytes to endothelial cells, mediated by selectins (P-selectin, E-selectin on endothelium, L-selectin on leukocytes). 3. Adhesion (Firm Adhesion): Stronger binding of leukocytes to endothelial cells mediated by integrins (on leukocytes, activated by chemokines) and their ligands (ICAM-1, VCAM-1 on endothelium). 4. Diapedesis (Transmigration): Leukocytes squeeze through gaps between endothelial cells, primarily at post-capillary venules, involving PECAM-1 (CD31) on both cells. 5. Chemotaxis: Leukocytes migrate through the interstitial tissue towards the site of injury along a chemical gradient of chemoattractants (e.g., C5a, LTB4, bacterial products, chemokines).",
+          "keyPoints": [
+            "Margination: Leukocytes move to vessel periphery.",
+            "Rolling: Transient adhesion via selectins (P, E, L).",
+            "Firm Adhesion: Stronger binding via integrins (on leukocyte) and their ligands (ICAM-1, VCAM-1 on endothelium).",
+            "Diapedesis (Transmigration): Leukocytes exit vessel, primarily via PECAM-1.",
+            "Chemotaxis: Migration along chemokine/chemoattractant gradient (e.g., C5a, LTB4)."
+          ],
+          "difficulty": "intermediate",
+          "id": "1748906eec21139dc0d3"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Discuss the multifaceted roles of macrophages in both the inflammatory and repair phases following tissue injury.",
+          "idealAnswer": "Macrophages play crucial and diverse roles in both acute and chronic inflammation, as well as in tissue repair. In acute inflammation, they arrive later than neutrophils, phagocytose microbes and cellular debris, and produce inflammatory mediators (e.g., cytokines, growth factors). They are key orchestrators of the transition from acute to chronic inflammation. In chronic inflammation, activated macrophages (M1) sustain inflammation and tissue injury by secreting pro-inflammatory cytokines, while M2 macrophages are involved in resolution and repair, producing growth factors (e.g., TGF-beta, PDGF, FGF, VEGF) that promote angiogenesis, fibroblast proliferation, and collagen synthesis, thus facilitating fibrosis and scar formation. They also continue to clear debris and apoptotic cells.",
+          "keyPoints": [
+            "Phagocytosis of microbes, necrotic cells, and debris.",
+            "Produce inflammatory mediators (cytokines like TNF, IL-1, chemokines).",
+            "Present antigens to T cells (initiating adaptive immunity).",
+            "Transition from acute to chronic inflammation.",
+            "M1 macrophages sustain inflammation and tissue injury.",
+            "Produce growth factors (e.g., TGF-beta, PDGF, FGF, VEGF) to stimulate cell proliferation.",
+            "Promote angiogenesis (new blood vessel formation).",
+            "Stimulate fibroblast migration and collagen synthesis; M2 macrophages are critical for tissue remodeling and fibrosis."
+          ],
+          "difficulty": "advanced",
+          "id": "104116e91f912035302d"
+        }
+      ],
+      "answers": []
+    },
+    {
+      "id": "ef4aa96d9517b7c9c7be45c7",
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "subjectId": "anatomy",
+      "subjectTitle": "Anatomy",
+      "chapters": [
+        "Abdomen"
+      ],
+      "status": "active",
+      "currentQuestionIndex": 0,
+      "provider": "gemini",
+      "privacyAcceptedAt": "2026-08-22T07:55:56.544Z",
+      "createdAt": "2026-08-22T07:55:56.544Z",
+      "updatedAt": "2026-08-22T07:55:56.544Z",
+      "questions": [
+        {
+          "chapterTitle": "Abdomen",
+          "prompt": "Describe the major peritoneal reflections and their significance in the abdominal cavity.",
+          "idealAnswer": "The peritoneum is a serous membrane lining the abdominal cavity and investing most abdominal organs. Major reflections include the greater omentum, lesser omentum, mesentery proper, transverse mesocolon, and sigmoid mesocolon. These reflections create compartments, suspend organs, provide pathways for neurovascular structures, and limit the spread of infection.",
+          "keyPoints": [
+            "Definition of peritoneum as a serous membrane.",
+            "Identification of major reflections: greater omentum, lesser omentum, mesentery proper, transverse mesocolon, sigmoid mesocolon.",
+            "Function: organ suspension and stabilization.",
+            "Function: provision of pathways for neurovascular structures.",
+            "Function: creation of compartments (e.g., supracolic/infracolic, greater/lesser sacs).",
+            "Function: limitation of spread of infection/inflammation."
+          ],
+          "difficulty": "foundational",
+          "id": "f7c73959e64f840bdb78"
+        },
+        {
+          "chapterTitle": "Abdomen",
+          "prompt": "Explain the anatomical basis for the typical progression of pain in acute appendicitis.",
+          "idealAnswer": "Acute appendicitis typically begins with vague periumbilical pain due to visceral afferent fibers from the appendix (innervated by T10-T12 segments) entering the spinal cord at the same level as somatic afferents from the periumbilical region. As inflammation progresses and irritates the parietal peritoneum lining the right iliac fossa, the pain localizes to McBurney's point, becoming sharp and somatic, due to irritation of somatic nerve fibers (e.g., iliohypogastric, ilioinguinal nerves).",
+          "keyPoints": [
+            "Initial pain is visceral and periumbilical.",
+            "Appendix visceral afferents enter spinal cord at T10-T12.",
+            "Referred pain mechanism due to shared spinal cord segments.",
+            "Progression to somatic pain in the right iliac fossa.",
+            "Irritation of the parietal peritoneum.",
+            "Localization to McBurney's point."
+          ],
+          "difficulty": "intermediate",
+          "id": "3ef6acbd6d6623d3ce85"
+        },
+        {
+          "chapterTitle": "Abdomen",
+          "prompt": "Discuss the anatomical components that contribute to the formation of the inguinal canal and describe its clinical significance regarding hernias.",
+          "idealAnswer": "The inguinal canal is an oblique passage through the anterior abdominal wall. Its boundaries include: anteriorly, the aponeurosis of the external oblique and internal oblique muscle; posteriorly, the transversalis fascia and conjoint tendon; superiorly, the arching fibers of the internal oblique and transversus abdominis; and inferiorly, the inguinal ligament. It transmits the spermatic cord in males and the round ligament of the uterus in females. Its clinical significance lies in being a common site for inguinal hernias (direct and indirect) due to inherent weaknesses at the deep and superficial inguinal rings and along its length.",
+          "keyPoints": [
+            "Oblique passage through the anterior abdominal wall.",
+            "Boundaries: Anterior wall (external oblique aponeurosis, internal oblique).",
+            "Boundaries: Posterior wall (transversalis fascia, conjoint tendon).",
+            "Boundaries: Roof (internal oblique, transversus abdominis arching fibers).",
+            "Boundaries: Floor (inguinal ligament).",
+            "Contents: spermatic cord/round ligament.",
+            "Clinical significance: common site for inguinal hernias (direct/indirect)."
+          ],
+          "difficulty": "intermediate",
+          "id": "f72569a659cb3df4466d"
+        },
+        {
+          "chapterTitle": "Abdomen",
+          "prompt": "Trace the arterial supply and venous drainage of the midgut, explaining the anastomotic connections and their clinical relevance.",
+          "idealAnswer": "The midgut, extending from the distal duodenum to the proximal two-thirds of the transverse colon, is primarily supplied by the superior mesenteric artery (SMA). Branches include the inferior pancreaticoduodenal, jejunal and ileal arteries, ileocolic, right colic, and middle colic arteries. Venous drainage largely parallels the arterial supply, emptying into the superior mesenteric vein (SMV), which joins the splenic vein to form the hepatic portal vein. Anastomotic connections include the marginal artery of Drummond (connecting SMA and IMA branches) and the pancreaticoduodenal arcades (connecting SMA and celiac trunk branches). These anastomoses provide collateral circulation, which can be vital in cases of partial occlusion but may be insufficient in acute complete occlusion, leading to mesenteric ischemia.",
+          "keyPoints": [
+            "Midgut supplied by Superior Mesenteric Artery (SMA).",
+            "Key SMA branches: jejunal, ileal, ileocolic, right colic, middle colic arteries.",
+            "Venous drainage via Superior Mesenteric Vein (SMV) to hepatic portal vein.",
+            "Anastomosis: Marginal artery of Drummond (SMA to IMA).",
+            "Anastomosis: Pancreaticoduodenal arcades (SMA to Celiac trunk).",
+            "Clinical relevance: provides collateral circulation.",
+            "Clinical relevance: risk of mesenteric ischemia with acute occlusion."
+          ],
+          "difficulty": "advanced",
+          "id": "4c6dab7ef515da413f7f"
+        },
+        {
+          "chapterTitle": "Abdomen",
+          "prompt": "Describe the anatomical relationships and clinical implications of the portal triad within the hepatoduodenal ligament.",
+          "idealAnswer": "The portal triad, located within the free edge of the lesser omentum (hepatoduodenal ligament), consists of the common bile duct, hepatic artery proper, and hepatic portal vein. The common bile duct is typically anterior and to the right, the hepatic artery proper is anterior and to the left, and the hepatic portal vein is posterior to both. These structures are surrounded by loose connective tissue, lymphatic vessels, and nerves. Clinically, understanding these relationships is crucial during cholecystectomy or other hepatobiliary surgeries, particularly for Pringle's maneuver to control bleeding (clamping the hepatoduodenal ligament). Injury to any component can lead to severe complications such as biliary leakage, hemorrhage, or portal hypertension.",
+          "keyPoints": [
+            "Components: common bile duct, hepatic artery proper, hepatic portal vein.",
+            "Location: hepatoduodenal ligament (free edge of lesser omentum).",
+            "Spatial arrangement: bile duct (anterior right), hepatic artery (anterior left), portal vein (posterior).",
+            "Clinical relevance: crucial for hepatobiliary surgeries (e.g., cholecystectomy).",
+            "Clinical relevance: Pringle's maneuver for hemorrhage control.",
+            "Consequences of injury: biliary leakage, hemorrhage, portal hypertension."
+          ],
+          "difficulty": "advanced",
+          "id": "6269598151bb9c695fb5"
+        }
+      ],
+      "answers": []
+    },
+    {
+      "id": "a119c92cad73b14d5aac4414",
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapters": [
+        "Cell Injury, Cell Death, and Adaptations",
+        "Hemodynamic Disorders, Thromboembolic Disease, and Shock"
+      ],
+      "status": "active",
+      "currentQuestionIndex": 0,
+      "provider": "gemini",
+      "privacyAcceptedAt": "2026-08-21T09:18:45.421Z",
+      "createdAt": "2026-08-21T09:18:45.421Z",
+      "updatedAt": "2026-08-21T09:21:13.589Z",
+      "questions": [
+        {
+          "chapterTitle": "Cell Injury, Cell Death, and Adaptations",
+          "prompt": "Differentiate between apoptosis and necrosis, highlighting their distinct morphological features and underlying mechanisms.",
+          "idealAnswer": "Apoptosis is programmed cell death, characterized by cell shrinkage, chromatin condensation, nuclear fragmentation, and formation of apoptotic bodies, without inflammation. Necrosis is accidental cell death, typically due to severe injury, characterized by cell swelling, rupture of membranes, denaturation of proteins, and enzymatic digestion, leading to an inflammatory response. Key mechanisms differ, with apoptosis involving a caspase cascade and necrosis involving ATP depletion and membrane damage.",
+          "keyPoints": [
+            "Apoptosis: programmed, cell shrinkage, chromatin condensation, apoptotic bodies, no inflammation",
+            "Necrosis: accidental, cell swelling, membrane rupture, inflammation",
+            "Apoptosis mechanism: caspase activation",
+            "Necrosis mechanism: ATP depletion, membrane damage, enzyme release",
+            "Physiological vs. pathological roles"
+          ],
+          "difficulty": "intermediate",
+          "id": "a8d397a66deba44b3dbe"
+        },
+        {
+          "chapterTitle": "Cell Injury, Cell Death, and Adaptations",
+          "prompt": "Explain the sequence of cellular events that lead to irreversible cell injury following prolonged ischemia.",
+          "idealAnswer": "Prolonged ischemia leads to an initial decrease in ATP production due to oxidative phosphorylation failure. This impairs Na+/K+-ATPase, causing cell swelling and influx of calcium. Mitochondrial damage ensues, leading to increased reactive oxygen species and release of pro-apoptotic factors. Lysosomal membranes rupture, releasing hydrolytic enzymes. Ultimately, severe membrane damage, irreversible mitochondrial dysfunction, and nuclear changes lead to cell death.",
+          "keyPoints": [
+            "ATP depletion (oxidative phosphorylation failure)",
+            "Failure of Na+/K+-ATPase (cell swelling, Ca++ influx)",
+            "Mitochondrial damage (ROS production, cytochrome c release)",
+            "Lysosomal membrane rupture (enzyme release)",
+            "Irreversible membrane damage",
+            "Nuclear changes (pyknosis, karyorrhexis, karyolysis)"
+          ],
+          "difficulty": "advanced",
+          "id": "328f28179f0622382276"
+        },
+        {
+          "chapterTitle": "Cell Injury, Cell Death, and Adaptations",
+          "prompt": "Describe the four main types of cellular adaptations to stress and provide a pathological example for each.",
+          "idealAnswer": "The four main types are hypertrophy (increase in cell size, e.g., cardiac hypertrophy in hypertension), hyperplasia (increase in cell number, e.g., endometrial hyperplasia), atrophy (decrease in cell size and number, e.g., muscle atrophy from disuse), and metaplasia (reversible change from one mature cell type to another, e.g., squamous metaplasia in the bronchus of smokers).",
+          "keyPoints": [
+            "Hypertrophy: increase in cell size, e.g., cardiac hypertrophy",
+            "Hyperplasia: increase in cell number, e.g., endometrial hyperplasia",
+            "Atrophy: decrease in cell size/number, e.g., disuse muscle atrophy",
+            "Metaplasia: reversible change of cell type, e.g., squamous metaplasia in smokers",
+            "Each adaptation is a response to stress or altered stimuli"
+          ],
+          "difficulty": "intermediate",
+          "id": "984bb9f495765517c64e"
+        },
+        {
+          "chapterTitle": "Hemodynamic Disorders, Thromboembolic Disease, and Shock",
+          "prompt": "Discuss Virchow's triad and explain how each component contributes to the pathogenesis of thrombosis.",
+          "idealAnswer": "Virchow's triad consists of endothelial injury, stasis or turbulent blood flow, and hypercoagulability. Endothelial injury exposes subendothelial collagen and tissue factor, initiating the coagulation cascade. Stasis or turbulence disrupts laminar flow, preventing dilution of activated clotting factors and inhibiting anticoagulant delivery. Hypercoagulability refers to alterations in the coagulation system that predispose to thrombosis, such as genetic mutations or acquired conditions. All three factors, individually or in combination, increase the risk of thrombus formation.",
+          "keyPoints": [
+            "Endothelial injury: exposes subendothelial collagen, releases tissue factor, activates platelets",
+            "Stasis/Turbulent blood flow: prevents washout of activated factors, promotes endothelial activation, impairs anticoagulant delivery",
+            "Hypercoagulability: refers to alterations in clotting components (e.g., Factor V Leiden, malignancy)",
+            "Each component independently or synergistically promotes thrombosis",
+            "Foundation of understanding thrombogenesis"
+          ],
+          "difficulty": "foundational",
+          "id": "4a40edd8fda90bb6faf8"
+        },
+        {
+          "chapterTitle": "Hemodynamic Disorders, Thromboembolic Disease, and Shock",
+          "prompt": "Compare and contrast the pathophysiology and primary hemodynamic derangements in cardiogenic shock and septic shock.",
+          "idealAnswer": "Cardiogenic shock results from severe myocardial pump failure, leading to reduced cardiac output, hypotension, much high systemic vascular resistance (SVR), and elevated central venous pressure (CVP)/pulmonary capillary wedge pressure (PCWP). Septic shock, conversely, is initiated by a systemic inflammatory response to infection, causing widespread vasodilation, increased capillary permeability, and myocardial depression. Hemodynamically, it presents with high cardiac output (initially), very low SVR, and variable CVP/PCWP. Both lead to inadequate tissue perfusion and organ dysfunction.",
+          "keyPoints": [
+            "Cardiogenic shock: pump failure, low cardiac output, high SVR, high CVP/PCWP",
+            "Septic shock: systemic infection, vasodilation, low SVR, high/normal/low CO (initially high), variable CVP/PCWP",
+            "Both lead to tissue hypoperfusion",
+            "Cardiogenic: primary cardiac issue",
+            "Septic: primary distributive issue with some myocardial depression",
+            "Treatment strategies differ significantly based on hemodynamics"
+          ],
+          "difficulty": "advanced",
+          "id": "45e73aa559b3cfd9532c"
+        }
+      ],
+      "answers": [
+        {
+          "id": "464d63dab46ec6f03874",
+          "questionId": "a8d397a66deba44b3dbe",
+          "questionIndex": 0,
+          "answer": "apoptosis is suicidal death of a cell and necrosis is pathological death of the cell, apoptosis is non inflammatory reaction and necrosis is inflammatory reaction",
+          "score": 5,
+          "feedback": "The student correctly identified apoptosis as programmed cell death and necrosis as pathological, along with their respective inflammatory responses. However, the answer lacked crucial details regarding the distinct morphological features and the underlying molecular mechanisms for both processes, which were explicitly requested in the question.",
+          "strengths": [
+            "Correctly identified apoptosis as 'suicidal' (programmed) and necrosis as 'pathological'.",
+            "Accurately distinguished the inflammatory response (absent in apoptosis, present in necrosis).",
+            "Concise phrasing."
+          ],
+          "improvements": [
+            "Elaborate on the distinct morphological changes for both apoptosis (e.g., cell shrinkage, chromatin condensation, apoptotic bodies) and necrosis (e.g., cell swelling, membrane rupture).",
+            "Explain the underlying mechanisms, specifically mentioning caspase activation for apoptosis.",
+            "Explain the underlying mechanisms for necrosis, such as ATP depletion, mitochondrial damage, and membrane rupture.",
+            "Structure the answer to clearly differentiate between the two processes across various aspects."
+          ],
+          "modelAnswer": "Definition:\n• Apoptosis: Programmed, regulated cell death, often physiological, without inflammation.\n• Necrosis: Accidental, unregulated cell death, typically pathological, leading to inflammation.\n\nMorphological Features:\nApoptosis:\n• Cell shrinkage and condensation.\n• Chromatin condensation (pyknosis) and nuclear fragmentation (karyorrhexis).\n• Formation of apoptotic bodies (membrane-bound fragments).\n• Plasma membrane remains intact initially, with blebbing.\n\nNecrosis:\n• Cell swelling (oncosis).\n• Rupture of plasma and organelle membranes.\n• Denaturation of intracellular proteins.\n• Enzymatic digestion of cellular components by lysosomal enzymes.\n• Nuclear changes: pyknosis → karyorrhexis → karyolysis.\n\nUnderlying Mechanisms:\nApoptosis:\n• Activation of a caspase cascade (cysteine-aspartic proteases).\n• Intrinsic (mitochondrial) pathway: Release of cytochrome c from mitochondria.\n• Extrinsic (death receptor) pathway: Ligand binding to cell surface death receptors (e.g., Fas, TNF receptors).\n• An active, energy-dependent process.\n\nNecrosis:\n• ATP depletion leading to failure of ion pumps and cell swelling.\n• Mitochondrial damage and dysfunction, leading to ROS production.\n• Loss of plasma membrane integrity, allowing influx of ions and water.\n• Uncontrolled release of intracellular enzymes (e.g., lysosomal hydrolases).\n• A passive, energy-independent process.\n\nInflammatory Response:\n• Apoptosis: No inflammation; apoptotic bodies are rapidly phagocytosed by macrophages.\n• Necrosis: Significant inflammation due to the release of cellular contents and DAMPs (Damage-Associated Molecular Patterns).\n\nComparison Summary (Schematic):\n• Apoptosis: Programmed → Cell shrinkage → Apoptotic bodies → Phagocytosis → No inflammation\n• Necrosis: Accidental → Cell swelling → Membrane rupture → Enzyme release → Inflammation",
+          "submittedAt": "2026-08-21T09:21:13.589Z"
+        }
+      ]
+    },
+    {
+      "id": "575f67d6ff43fd9c3e9ca504",
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapters": [
+        "The Cell as a Unit of Health and Disease",
+        "Inflammation and Repair"
+      ],
+      "status": "active",
+      "currentQuestionIndex": 1,
+      "provider": "gemini",
+      "privacyAcceptedAt": "2026-08-21T09:04:36.086Z",
+      "createdAt": "2026-08-21T09:04:36.086Z",
+      "updatedAt": "2026-08-21T09:09:31.544Z",
+      "questions": [
+        {
+          "chapterTitle": "The Cell as a Unit of Health and Disease",
+          "prompt": "Discuss the various cellular adaptations to stress, providing examples for each type.",
+          "idealAnswer": "Cells adapt to stress to maintain viability and function. These adaptations include atrophy (decrease in cell size or number), hypertrophy (increase in cell size), hyperplasia (increase in cell number), and metaplasia (reversible change from one mature cell type to another). Dysplasia is a disorderly growth but is not considered a true adaptation.",
+          "keyPoints": [
+            "Atrophy: decrease in cell size/number, e.g., disuse atrophy of skeletal muscle.",
+            "Hypertrophy: increase in cell size, e.g., cardiac muscle in hypertension.",
+            "Hyperplasia: increase in cell number, e.g., endometrial proliferation.",
+            "Metaplasia: reversible change of one mature cell type to another, e.g., squamous metaplasia in bronchi of smokers.",
+            "Each adaptation aims to achieve a new steady state, preserving cell viability."
+          ],
+          "difficulty": "foundational",
+          "id": "8afd3c8e395414f6ce31"
+        },
+        {
+          "chapterTitle": "The Cell as a Unit of Health and Disease",
+          "prompt": "Explain the key differences between apoptosis and necrosis, including their morphological features and underlying mechanisms.",
+          "idealAnswer": "Apoptosis is programmed cell death, an active, energy-dependent process characterized by cell shrinkage, chromatin condensation, membrane blebbing, and formation of apoptotic bodies, without eliciting an inflammatory response. Necrosis is accidental cell death, often due to acute injury, characterized by cell swelling, rupture of the cell membrane, leakage of cellular contents, and typically elicits an inflammatory response due to cellular debris.",
+          "keyPoints": [
+            "Apoptosis: programmed, active, cell shrinkage, chromatin condensation, membrane blebbing.",
+            "Apoptosis: forms apoptotic bodies, no inflammation, removed by phagocytes, caspase activation.",
+            "Necrosis: accidental, passive, cell swelling, membrane rupture, leakage of contents.",
+            "Necrosis: causes inflammation, enzymatic digestion of cellular components.",
+            "Physiological vs. pathological roles: Apoptosis in development/homeostasis, Necrosis in injury/disease."
+          ],
+          "difficulty": "intermediate",
+          "id": "820bd1397c8a4b909d6a"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Describe the cardinal signs of acute inflammation and explain the underlying pathophysiological mechanisms responsible for each.",
+          "idealAnswer": "The cardinal signs of acute inflammation are rubor (redness), calor (heat), tumor (swelling), dolor (pain), and functio laesa (loss of function). Rubor and calor are due to vasodilation and increased blood flow to the injured area. Tumor is caused by increased vascular permeability, leading to exudation of fluid and plasma proteins into the interstitial space (edema). Dolor results from chemical mediators like bradykinin and prostaglandins stimulating nerve endings. Functio laesa is a consequence of the combined effects of swelling, pain, and tissue damage.",
+          "keyPoints": [
+            "Rubor (redness) and Calor (heat): Vasodilation, increased blood flow.",
+            "Tumor (swelling): Increased vascular permeability, exudate formation, edema.",
+            "Dolor (pain): Chemical mediators (e.g., bradykinin, prostaglandins) stimulate nerve endings.",
+            "Functio laesa (loss of function): Consequence of pain, swelling, and tissue damage."
+          ],
+          "difficulty": "foundational",
+          "id": "76da51b5ecf679a61984"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Discuss the systemic effects of acute inflammation, including the mediators involved and their clinical manifestations.",
+          "idealAnswer": "The systemic effects of acute inflammation, collectively known as the acute-phase response, are primarily mediated by cytokines like IL-1, IL-6, and TNF. Clinical manifestations include fever, leukocytosis, and increased synthesis of acute-phase proteins. Fever is induced by pyrogens (e.g., IL-1, TNF) acting on the hypothalamus. Leukocytosis involves increased leukocyte production and release from the bone marrow, stimulated by IL-1 and TNF. Acute-phase proteins (e.g., C-reactive protein, fibrinogen) are mainly synthesized in the liver, stimulated by IL-6. Other effects can include malaise, anorexia, and in severe cases, septic shock.",
+          "keyPoints": [
+            "Fever: Mediated by IL-1, TNF acting on the hypothalamus.",
+            "Leukocytosis: Increased leukocyte production/release from bone marrow, driven by IL-1, TNF.",
+            "Acute-phase proteins: Liver synthesis stimulated by IL-6 (e.g., CRP, fibrinogen).",
+            "Other symptoms: Malaise, anorexia, increased sleep.",
+            "Severe cases: Septic shock (hypotension, DIC, metabolic disturbances) from high levels of TNF/IL-1."
+          ],
+          "difficulty": "intermediate",
+          "id": "8247eb24a55f574afb29"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Differentiate between primary and secondary intention wound healing, outlining the key cellular and molecular events in each process.",
+          "idealAnswer": "Primary intention healing occurs in clean, uninfected wounds with minimal tissue loss and approximated edges (e.g., surgical incision). It involves minimal inflammation, rapid re-epithelialization, and little granulation tissue formation, leading to a fine scar. Secondary intention healing occurs in wounds with significant tissue loss, infected wounds, or those with separated edges (e.g., large burns, ulcers). It involves more intense inflammation, abundant granulation tissue formation, significant wound contraction by myofibroblasts, and typically results in a larger, more prominent scar.",
+          "keyPoints": [
+            "Primary intention: Clean wound, minimal tissue loss, approximated edges.",
+            "Primary intention: Minimal inflammation, rapid re-epithelialization, little granulation tissue.",
+            "Primary intention: Healing by epithelial regeneration, fine linear scar.",
+            "Secondary intention: Large tissue defect, infected wounds, separated edges.",
+            "Secondary intention: Intense inflammation, abundant granulation tissue, prolonged healing.",
+            "Secondary intention: Significant wound contraction by myofibroblasts.",
+            "Secondary intention: Healing involves more extensive collagen deposition and remodeling, resulting in a larger scar."
+          ],
+          "difficulty": "advanced",
+          "id": "a42e4e86a01e01880c2e"
+        }
+      ],
+      "answers": [
+        {
+          "id": "07d3a19fa93885f03384",
+          "questionId": "8afd3c8e395414f6ce31",
+          "questionIndex": 0,
+          "answer": "types of cellular adaptations are, hypertrophy, hyperplasia, atrophy and metaplasia",
+          "score": 4,
+          "feedback": "The student correctly identified the main types of cellular adaptations but did not elaborate on their definitions, mechanisms, or provide any examples as requested by the question. The answer lacks the depth required for a 'discussion'.",
+          "strengths": [
+            "Correctly identified the four main types of cellular adaptations"
+          ],
+          "improvements": [
+            "Define each type of adaptation, explaining what changes occur at the cellular level.",
+            "Provide specific clinical or pathological examples for each type of adaptation.",
+            "Discuss the underlying purpose or goal of these adaptations in response to stress.",
+            "Consider mentioning conditions like dysplasia and why they are distinct from true adaptations."
+          ],
+          "modelAnswer": "Cells adapt to stress to maintain viability and function. The primary types of cellular adaptations include: Atrophy, which is a decrease in cell size or number, often seen in disuse atrophy of skeletal muscle. Hypertrophy, an increase in cell size, exemplified by the enlargement of cardiac muscle in response to hypertension. Hyperplasia, an increase in the number of cells, such as endometrial proliferation during the menstrual cycle. And Metaplasia, a reversible change where one mature cell type is replaced by another, for instance, squamous metaplasia in the bronchi of smokers. These adaptations aim to achieve a new steady state, preserving cell viability and function under altered conditions. Dysplasia, while involving disorderly growth, is not considered a true adaptive response.",
+          "submittedAt": "2026-08-21T09:05:40.275Z"
+        },
+        {
+          "id": "e4d5504365687fcb6512",
+          "questionId": "820bd1397c8a4b909d6a",
+          "questionIndex": 1,
+          "answer": "apoptosis means suicidal death of a cell, it can be triggered by cells own enzymes and it is non inflammatory reaction, while necrosis is pathological death of a cell and triggered by external factors also it is inflammatory type reaction.",
+          "score": 5,
+          "feedback": "The student correctly identifies the non-inflammatory nature of apoptosis and the inflammatory nature of necrosis, along with their general triggers. However, the response lacks crucial details regarding the distinct morphological changes and underlying cellular mechanisms for both processes, which were explicitly requested in the question.",
+          "strengths": [
+            "Correctly identifies apoptosis as a non-inflammatory process.",
+            "Correctly identifies necrosis as an inflammatory process.",
+            "Recognizes apoptosis as an internally triggered ('suicidal') process.",
+            "Recognizes necrosis as a pathological process triggered by external factors."
+          ],
+          "improvements": [
+            "Elaborate on the distinct morphological features of apoptosis (e.g., cell shrinkage, chromatin condensation, membrane blebbing, formation of apoptotic bodies).",
+            "Describe the morphological features of necrosis (e.g., cell swelling, membrane rupture, leakage of cellular contents).",
+            "Explain the underlying mechanisms, such as the active, energy-dependent nature and caspase activation in apoptosis, and the passive nature and enzymatic digestion in necrosis.",
+            "Clearly distinguish between 'programmed' (apoptosis) and 'accidental' (necrosis) cell death."
+          ],
+          "modelAnswer": "Apoptosis is programmed, active cell death, an energy-dependent process characterized by cell shrinkage, chromatin condensation, membrane blebbing, and the formation of apoptotic bodies. These are subsequently cleared by phagocytes without eliciting an inflammatory response, often involving caspase activation. In contrast, necrosis is accidental cell death, a passive process typically caused by acute injury. It is characterized by cell swelling, rupture of the cell membrane, and leakage of cellular contents, which triggers an inflammatory response due to cellular debris and enzymatic digestion. Apoptosis serves physiological roles in development and homeostasis, while necrosis is always pathological.",
+          "submittedAt": "2026-08-21T09:09:31.544Z"
+        }
+      ]
+    },
+    {
+      "id": "a570cfb933930fc3ec53511c",
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapters": [
+        "The Cell as a Unit of Health and Disease",
+        "Inflammation and Repair"
+      ],
+      "status": "active",
+      "currentQuestionIndex": 0,
+      "provider": "gemini",
+      "privacyAcceptedAt": "2026-08-21T08:59:25.346Z",
+      "createdAt": "2026-08-21T08:59:25.346Z",
+      "updatedAt": "2026-08-21T08:59:25.346Z",
+      "questions": [
+        {
+          "chapterTitle": "The Cell as a Unit of Health and Disease",
+          "prompt": "Describe the main types of cellular adaptation to stress, providing an example for each and explaining its significance in pathology.",
+          "idealAnswer": "Cellular adaptation refers to reversible changes in the number, size, phenotype, metabolic activity, or functions of cells in response to changes in their environment. The main types include hypertrophy (increase in cell size, e.g., cardiac muscle hypertrophy in hypertension), hyperplasia (increase in cell number, e.g., endometrial hyperplasia), atrophy (decrease in cell size and number, e.g., disuse atrophy of skeletal muscle), and metaplasia (reversible change where one adult cell type is replaced by another, e.g., squamous metaplasia in the respiratory epithelium of smokers). These adaptations are crucial for survival but can become pathological if the stress is severe or prolonged, potentially leading to injury or malignancy.",
+          "keyPoints": [
+            "Hypertrophy: increase in cell size, example (e.g., cardiac hypertrophy).",
+            "Hyperplasia: increase in cell number, example (e.g., endometrial hyperplasia).",
+            "Atrophy: decrease in cell size and number, example (e.g., disuse atrophy).",
+            "Metaplasia: reversible change from one mature cell type to another, example (e.g., squamous metaplasia in smokers).",
+            "All are reversible changes to stress.",
+            "Can be physiological or pathological.",
+            "Pathological adaptations can predispose to other diseases or malignancy."
+          ],
+          "difficulty": "foundational",
+          "id": "92349c8691beb2b71225"
+        },
+        {
+          "chapterTitle": "The Cell as a Unit of Health and Disease",
+          "prompt": "Discuss the primary mechanisms leading to reversible and irreversible cell injury, and differentiate between necrosis and apoptosis.",
+          "idealAnswer": "Key mechanisms of cell injury include ATP depletion, mitochondrial damage, influx of intracellular calcium, accumulation of reactive oxygen species (ROS), and defects in membrane permeability. Reversible injury is characterized by cellular swelling and fatty change, where the cell can recover if the injurious stimulus is removed. Irreversible injury, however, leads to cell death, primarily through necrosis or apoptosis. Necrosis is an uncontrolled, pathological process typically caused by severe injury, characterized by cell swelling, rupture of membranes, and release of cellular contents, triggering inflammation. Apoptosis is a programmed, controlled form of cell death, often physiological, characterized by cell shrinkage, DNA fragmentation, and formation of apoptotic bodies, without inducing inflammation.",
+          "keyPoints": [
+            "Mechanisms of injury: ATP depletion, mitochondrial damage, Ca2+ influx, ROS, membrane damage.",
+            "Reversible injury: cellular swelling, fatty change, reversible if stimulus removed.",
+            "Irreversible injury: leads to cell death (necrosis or apoptosis).",
+            "Necrosis: uncontrolled, pathological, cell swelling, membrane rupture, inflammatory response.",
+            "Apoptosis: programmed, controlled, cell shrinkage, DNA fragmentation, no inflammation.",
+            "Distinction in morphology and inflammatory response."
+          ],
+          "difficulty": "intermediate",
+          "id": "9a104543d2051adc43b1"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Outline the key vascular and cellular events that characterize acute inflammation, and explain the role of at least three major chemical mediators involved.",
+          "idealAnswer": "Acute inflammation is a rapid, short-lived protective response to injury or infection. Vascular events include transient vasoconstriction followed by vasodilation, leading to increased blood flow (rubor and calor), and increased vascular permeability, causing exudation of fluid into tissues (tumor). Cellular events involve leukocyte recruitment: margination, rolling, adhesion to endothelium, transmigration (diapedesis) into the extravascular space, and chemotaxis towards the site of injury, followed by phagocytosis. Key mediators include histamine (vasodilation, increased permeability), prostaglandins (vasodilation, pain, fever), leukotrienes (increased permeability, chemotaxis, bronchospasm), and cytokines like TNF and IL-1 (endothelial activation, systemic effects).",
+          "keyPoints": [
+            "Vascular events: transient vasoconstriction, vasodilation, increased vascular permeability.",
+            "Cellular events: leukocyte recruitment (margination, rolling, adhesion, transmigration, chemotaxis).",
+            "Primary cells involved: neutrophils.",
+            "Histamine: vasodilation, increased vascular permeability.",
+            "Prostaglandins: vasodilation, pain, fever.",
+            "Leukotrienes: increased vascular permeability, chemotaxis.",
+            "Cytokines (TNF, IL-1): endothelial activation, systemic effects."
+          ],
+          "difficulty": "intermediate",
+          "id": "56e8cfdd240d4fe0740c"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Compare and contrast acute and chronic inflammation, highlighting their distinct cellular infiltrates, duration, and typical outcomes.",
+          "idealAnswer": "Acute inflammation is a rapid, short-duration response (minutes to days) characterized by exudation of fluid and plasma proteins, and emigration of neutrophils, aiming to eliminate the injurious agent. Its typical outcomes are resolution, progression to chronic inflammation, or scar formation. Chronic inflammation is a prolonged response (weeks to years) where inflammation, tissue injury, and attempts at repair coexist. It is characterized by an infiltrate of mononuclear cells (macrophages, lymphocytes, plasma cells), tissue destruction, and attempts at healing through angiogenesis and fibrosis. Chronic inflammation often results from persistent infection, prolonged exposure to toxic agents, or autoimmune reactions, leading to significant tissue damage and functional impairment, often with fibrosis.",
+          "keyPoints": [
+            "Duration: Acute (short, minutes-days), Chronic (prolonged, weeks-years).",
+            "Cellular infiltrate: Acute (neutrophils), Chronic (mononuclear cells: macrophages, lymphocytes, plasma cells).",
+            "Key processes: Acute (exudation, neutrophil emigration), Chronic (inflammation, tissue injury, repair attempts).",
+            "Tissue damage: Acute (minimal, often reversible), Chronic (significant, often irreversible).",
+            "Outcomes: Acute (resolution, scarring, chronicity), Chronic (fibrosis, loss of function).",
+            "Causes: Acute (infection, trauma), Chronic (persistent infection, autoimmune, toxins)."
+          ],
+          "difficulty": "intermediate",
+          "id": "b88abbae5cf3ed4c086d"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Describe the sequential phases of cutaneous wound healing by primary intention, detailing the key cellular and molecular events in each phase.",
+          "idealAnswer": "Wound healing by primary intention occurs in clean, uninfected wounds with minimal tissue loss and edges closely approximated. It proceeds through three overlapping phases: 1. Inflammation (Day 0-3): Immediately after injury, a blood clot forms. Neutrophils infiltrate to clear debris and bacteria, followed by macrophages which phagocytose neutrophils and cellular debris, and release growth factors. 2. Proliferation (Day 3-Weeks): Granulation tissue forms, characterized by fibroblast proliferation, collagen deposition, and angiogenesis. Epithelial cells at the wound edges proliferate and migrate to cover the denuded surface (re-epithelialization). 3. Maturation and Remodeling (Weeks-Months/Years): Collagen synthesis and degradation are balanced, leading to remodeling of the scar. Fibroblasts differentiate into myofibroblasts, causing wound contraction. The scar strengthens over time, eventually achieving about 70-80% of the original tissue's tensile strength.",
+          "keyPoints": [
+            "Primary intention: clean, minimal tissue loss, approximated edges.",
+            "Inflammation phase: clot formation, neutrophil and macrophage infiltration, debris clearance.",
+            "Proliferation phase: granulation tissue formation, angiogenesis, fibroblast migration and collagen deposition, re-epithelialization.",
+            "Maturation/Remodeling phase: collagen remodeling, wound contraction by myofibroblasts.",
+            "Progressive increase in tensile strength.",
+            "Key cells: neutrophils, macrophages, fibroblasts, endothelial cells, epithelial cells, myofibroblasts.",
+            "Key molecules: growth factors, collagen."
+          ],
+          "difficulty": "advanced",
+          "id": "ca0a6ddb645888b03b67"
+        }
+      ],
+      "answers": []
+    },
+    {
+      "id": "5a38b966c25164c68c1f370c",
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapters": [
+        "Inflammation and Repair",
+        "The Cell as a Unit of Health and Disease"
+      ],
+      "status": "active",
+      "currentQuestionIndex": 0,
+      "provider": "gemini",
+      "privacyAcceptedAt": "2026-08-21T08:42:41.624Z",
+      "createdAt": "2026-08-21T08:42:41.624Z",
+      "updatedAt": "2026-08-21T08:42:41.624Z",
+      "questions": [
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Describe the major steps involved in acute inflammation, focusing on the vascular and cellular events.",
+          "idealAnswer": "Acute inflammation is a rapid, short-lived protective response involving vascular changes like vasodilation and increased permeability, followed by cellular events such as leukocyte emigration, chemotaxis, and phagocytosis, all aimed at eliminating the injurious agent and initiating repair.",
+          "keyPoints": [
+            "Vasodilation of arterioles and capillaries",
+            "Increased vascular permeability leading to exudation",
+            "Endothelial activation and expression of adhesion molecules",
+            "Leukocyte margination, rolling, and adhesion to endothelium",
+            "Transmigration (diapedesis) of leukocytes through the vessel wall",
+            "Chemotaxis of leukocytes towards the site of injury",
+            "Phagocytosis and intracellular killing of microbes and debris"
+          ],
+          "difficulty": "foundational",
+          "id": "5c398a9267870a125f58"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Explain the differences between primary and secondary intention wound healing, providing examples of each.",
+          "idealAnswer": "Primary intention healing occurs in clean, uninfected wounds with minimal tissue loss and edges closely approximated, leading to rapid healing with minimal scarring. Secondary intention healing involves larger wounds with significant tissue loss, infection, or edges that cannot be approximated, requiring granulation tissue formation, wound contraction, and resulting in more prominent scarring.",
+          "keyPoints": [
+            "Primary intention: Minimal tissue loss, clean edges, approximated by sutures/staples",
+            "Primary intention: Rapid epithelialization, minimal granulation tissue, small scar (e.g., surgical incision)",
+            "Secondary intention: Significant tissue loss, unapproximated edges, often infected",
+            "Secondary intention: Extensive granulation tissue formation, wound contraction by myofibroblasts",
+            "Secondary intention: Slower healing, larger and more prominent scar (e.g., large ulcer, burn)",
+            "Differences in extent of inflammation and amount of necrotic debris to be removed"
+          ],
+          "difficulty": "intermediate",
+          "id": "8428efde089b7c30192c"
+        },
+        {
+          "chapterTitle": "Inflammation and Repair",
+          "prompt": "Discuss the systemic effects of inflammation and the mediators responsible for these effects.",
+          "idealAnswer": "Systemic effects of inflammation, often termed the acute-phase response, include fever, leukocytosis, increased acute-phase protein synthesis by the liver, and sometimes septic shock in severe cases. These effects are primarily mediated by cytokines like IL-1, TNF-alpha, and IL-6, which act on the hypothalamus, bone marrow, and liver respectively.",
+          "keyPoints": [
+            "Fever (pyrexia) via IL-1, TNF-alpha, and prostaglandins acting on the hypothalamus",
+            "Leukocytosis (increased white blood cell count) due to increased release from bone marrow, mediated by IL-1, TNF-alpha, and colony-stimulating factors",
+            "Increased synthesis of acute-phase proteins (e.g., CRP, fibrinogen) by the liver, primarily driven by IL-6",
+            "Increased heart rate and blood pressure",
+            "Anorexia, malaise, and somnolence",
+            "In severe cases, septic shock (hypotension, DIC, metabolic disturbances) mediated by high levels of TNF-alpha and IL-1"
+          ],
+          "difficulty": "intermediate",
+          "id": "734aea596c4af686d884"
+        },
+        {
+          "chapterTitle": "The Cell as a Unit of Health and Disease",
+          "prompt": "Outline the main mechanisms by which cells adapt to stress, providing an example for each adaptive response.",
+          "idealAnswer": "Cells adapt to stress through mechanisms such as hypertrophy (increase in cell size, e.g., cardiac muscle in hypertension), hyperplasia (increase in cell number, e.g., endometrial hyperplasia), atrophy (decrease in cell size/number, e.g., disuse atrophy), and metaplasia (reversible change from one differentiated cell type to another, e.g., squamous metaplasia in bronchi of smokers).",
+          "keyPoints": [
+            "Hypertrophy: Increase in cell size (e.g., left ventricular hypertrophy in hypertension)",
+            "Hyperplasia: Increase in cell number (e.g., compensatory hyperplasia of liver after partial hepatectomy)",
+            "Atrophy: Decrease in cell size and/or number (e.g., skeletal muscle atrophy from disuse)",
+            "Metaplasia: Reversible change of one adult cell type to another (e.g., columnar to squamous metaplasia in respiratory tract of smokers)",
+            "Dysplasia: Disordered cell growth, often a precursor to neoplasia (not strictly adaptive, but related)",
+            "These adaptations aim to achieve a new steady state to preserve viability"
+          ],
+          "difficulty": "foundational",
+          "id": "9a3761e8e27457032f0b"
+        },
+        {
+          "chapterTitle": "The Cell as a Unit of Health and Disease",
+          "prompt": "Explain the intrinsic and extrinsic pathways of apoptosis and their physiological roles.",
+          "idealAnswer": "Apoptosis is programmed cell death. The intrinsic (mitochondrial) pathway is activated by intracellular signals like DNA damage or growth factor withdrawal, leading to cytochrome c release from mitochondria and activation of caspases. The extrinsic (death receptor) pathway is activated by extracellular signals binding to death receptors (e.g., Fas, TNFR), leading to DISC formation and caspase activation. Both pathways converge on effector caspases, leading to cell dismantling. Physiologically, apoptosis is crucial for embryogenesis, tissue homeostasis, and eliminating potentially harmful cells.",
+          "keyPoints": [
+            "Intrinsic (mitochondrial) pathway: Activated by intracellular signals (e.g., DNA damage, growth factor withdrawal)",
+            "Intrinsic pathway: Involves release of cytochrome c from mitochondria, regulated by Bcl-2 family proteins",
+            "Extrinsic (death receptor) pathway: Activated by extracellular ligands binding to death receptors (e.g., FasL/Fas, TNF/TNFR)",
+            "Extrinsic pathway: Formation of the Death-Inducing Signaling Complex (DISC)",
+            "Both pathways converge on activation of initiator caspases (e.g., caspase-8, -9) which then activate effector caspases (e.g., caspase-3, -6)",
+            "Physiological roles: Embryogenesis and development (e.g., digit formation), tissue homeostasis and turnover, elimination of self-reactive lymphocytes, removal of virus-infected cells"
+          ],
+          "difficulty": "advanced",
+          "id": "14ed13e22c867b3f3a63"
+        }
+      ],
+      "answers": []
+    },
+    {
+      "id": "cdf18cdf73bbc37724281d23",
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "subjectId": "pathology",
+      "subjectTitle": "Pathology",
+      "chapters": [
+        "Genetic Disorders"
+      ],
+      "status": "active",
+      "currentQuestionIndex": 0,
+      "provider": "gemini",
+      "privacyAcceptedAt": "2026-08-21T08:39:48.955Z",
+      "createdAt": "2026-08-21T08:39:48.955Z",
+      "updatedAt": "2026-08-21T08:39:48.955Z",
+      "questions": [
+        {
+          "chapterTitle": "Genetic Disorders",
+          "prompt": "Outline the major categories of genetic disorders, providing a concise description and a prototypical example for each.",
+          "idealAnswer": "Genetic disorders can be broadly classified into three main categories: single-gene disorders, chromosomal disorders, and multifactorial disorders. Single-gene disorders result from mutations in a single gene (e.g., Cystic Fibrosis, Sickle Cell Anemia). Chromosomal disorders arise from structural or numerical alterations in chromosomes (e.g., Down Syndrome, Turner Syndrome). Multifactorial disorders are caused by a combination of genetic predispositions and environmental factors (e.g., Type 2 Diabetes, Coronary Artery Disease).",
+          "keyPoints": [
+            "Single-gene (monogenic) disorders: mutation in a single gene",
+            "Chromosomal (cytogenetic) disorders: structural or numerical alterations in chromosomes",
+            "Multifactorial disorders: multiple genes + environmental factors",
+            "Example for single-gene disorders (e.g., Cystic Fibrosis)",
+            "Example for chromosomal disorders (e.g., Down Syndrome)",
+            "Example for multifactorial disorders (e.g., Type 2 Diabetes)"
+          ],
+          "difficulty": "foundational",
+          "id": "755ec47a8642b97b6465"
+        },
+        {
+          "chapterTitle": "Genetic Disorders",
+          "prompt": "Discuss the genetic basis and inheritance pattern of Cystic Fibrosis, including the primary gene involved and its cellular consequences.",
+          "idealAnswer": "Cystic Fibrosis is an autosomal recessive genetic disorder caused by mutations in the CFTR (Cystic Fibrosis Transmembrane Conductance Regulator) gene, located on chromosome 7. The CFTR gene encodes a chloride channel protein primarily expressed in epithelial cells. Mutations, most commonly the delta-F508 deletion, lead to a dysfunctional or absent CFTR protein, impairing chloride ion transport across cell membranes. This results in dehydrated, thick, viscous secretions in various exocrine glands, particularly affecting the lungs, pancreas, and sweat glands.",
+          "keyPoints": [
+            "Autosomal recessive inheritance pattern",
+            "Caused by mutations in the CFTR gene (Chromosome 7)",
+            "CFTR gene encodes a chloride channel protein",
+            "Mutations lead to dysfunctional or absent CFTR protein",
+            "Impairs chloride ion transport across cell membranes",
+            "Results in thick, viscous secretions",
+            "Primarily affects lungs, pancreas, and sweat glands",
+            "Common mutation is delta-F508 deletion"
+          ],
+          "difficulty": "intermediate",
+          "id": "95815a356a0429c87b36"
+        },
+        {
+          "chapterTitle": "Genetic Disorders",
+          "prompt": "Detail the characteristic clinical features associated with Down Syndrome (Trisomy 21) and outline the key diagnostic methods used to confirm the condition.",
+          "idealAnswer": "Down Syndrome, or Trisomy 21, is characterized by a distinctive set of clinical features including intellectual disability, characteristic facial features (e.g., epicanthic folds, flat facial profile, small ears), a single palmar crease, and hypotonia. Associated medical conditions often include congenital heart defects, gastrointestinal anomalies, increased risk of leukemia, and early onset Alzheimer-like changes. Diagnosis is typically initiated by prenatal screening (e.g., NIPT, maternal serum screening, ultrasound) and confirmed postnatally or prenatally by chromosomal analysis (karyotyping) from blood, amniotic fluid, or chorionic villus samples, which identifies the extra copy of chromosome 21.",
+          "keyPoints": [
+            "Intellectual disability",
+            "Characteristic facial features (e.g., epicanthic folds, flat profile)",
+            "Single palmar crease and hypotonia",
+            "Associated medical conditions (e.g., congenital heart defects, GI anomalies, leukemia)",
+            "Prenatal screening methods (e.g., NIPT, maternal serum screening)",
+            "Confirmatory diagnosis by chromosomal analysis (karyotyping)",
+            "Identifies the extra copy of chromosome 21"
+          ],
+          "difficulty": "intermediate",
+          "id": "685c8f58f489c1a7d263"
+        },
+        {
+          "chapterTitle": "Genetic Disorders",
+          "prompt": "Explain the fundamental principles behind genetic screening for inherited disorders, describe its common applications, and discuss the significant ethical considerations that arise.",
+          "idealAnswer": "Genetic screening involves testing populations or individuals at risk to identify those who have or are at risk of developing a genetic disorder, or who are carriers. Principles include identifying conditions with significant health impact, availability of accurate tests, and potential for intervention or reproductive planning. Applications include newborn screening (e.g., PKU, hypothyroidism), carrier screening (e.g., Tay-Sachs, Cystic Fibrosis), and prenatal screening (e.g., Down Syndrome, neural tube defects). Ethical considerations are profound, encompassing informed consent, potential for discrimination (genetic information), psychological impact of results, confidentiality, the right not to know, and the implications for reproductive choices and family planning.",
+          "keyPoints": [
+            "Principles: significant health impact, accurate test, potential for intervention/planning",
+            "Applications: newborn screening (e.g., PKU)",
+            "Applications: carrier screening (e.g., Cystic Fibrosis)",
+            "Applications: prenatal screening (e.g., Down Syndrome)",
+            "Ethical considerations: informed consent, confidentiality",
+            "Ethical considerations: potential for discrimination",
+            "Ethical considerations: psychological impact, right not to know",
+            "Ethical considerations: implications for reproductive choices"
+          ],
+          "difficulty": "advanced",
+          "id": "5dcc88d7d6505c3468ea"
+        },
+        {
+          "chapterTitle": "Genetic Disorders",
+          "prompt": "Compare and contrast single-gene disorders with multifactorial genetic disorders, highlighting key differences in their etiology, inheritance patterns, and risk assessment.",
+          "idealAnswer": "Single-gene disorders result from mutations in a single specific gene and follow Mendelian inheritance patterns (autosomal dominant, autosomal recessive, X-linked). Their inheritance risk is often predictable based on pedigree analysis (e.g., 50% for AD, 25% for AR). Examples include Huntington's disease and Cystic Fibrosis. Multifactorial disorders, conversely, involve the interaction of multiple genes (polygenic) and environmental factors. They do not follow simple Mendelian patterns; instead, risk is influenced by the number of predisposing genes inherited and the degree of environmental exposure. Risk assessment is more complex, often relying on empirical risk data and family history, and is typically lower than single-gene disorders for first-degree relatives. Examples include Type 2 Diabetes, hypertension, and cleft lip/palate.",
+          "keyPoints": [
+            "Single-gene etiology: mutation in a single gene",
+            "Multifactorial etiology: multiple genes + environmental factors",
+            "Single-gene inheritance: Mendelian patterns (AD, AR, X-linked)",
+            "Multifactorial inheritance: non-Mendelian, complex",
+            "Single-gene risk assessment: predictable via pedigree analysis",
+            "Multifactorial risk assessment: empirical data, family history, lower for first-degree relatives",
+            "Examples for single-gene (e.g., Huntington's, Cystic Fibrosis)",
+            "Examples for multifactorial (e.g., Type 2 Diabetes, hypertension)"
+          ],
+          "difficulty": "intermediate",
+          "id": "b3c7ae6127d4aeaf4d55"
+        }
+      ],
+      "answers": []
+    }
+  ]
 }
