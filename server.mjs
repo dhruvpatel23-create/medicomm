@@ -1475,7 +1475,7 @@ async function handleAdvanceVivaSession(request, response, sessionId) {
   return sendJson(response, 200, { session: sanitizeVivaSession(session) });
 }
 
-function normalizeGeneratedClinicalCases(generated, selectedChapters) {
+function normalizeGeneratedClinicalCases(generated, selectedChapters, subjectId = "") {
   const cases = Array.isArray(generated?.cases) ? generated.cases : [];
   const selectedChapterSet = new Set(selectedChapters);
 
@@ -1501,7 +1501,8 @@ function normalizeGeneratedClinicalCases(generated, selectedChapters) {
     if (!selectedChapterSet.has(chapterTitle)) {
       throw new Error(`Clinical case ${index + 1} is outside the selected chapters.`);
     }
-    if (stem.length < 80 || stem.length > 2200) {
+    const minimumStemLength = subjectId === "pharmacology" ? 45 : 80;
+    if (stem.length < minimumStemLength || stem.length > 2200) {
       throw new Error(`Clinical case ${index + 1} has an invalid case stem.`);
     }
     if (subquestions.length < 2 || subquestions.length > 4 || subquestions.some((item) => item.prompt.length < 8 || item.prompt.length > 500)) {
@@ -1560,7 +1561,18 @@ async function requestGeminiClinicalCases({ subjectTitle, subjectId, chapters, p
     .slice(0, CLINICAL_CASE_RECENT_STEM_LIMIT);
   const referenceStyle = subjectId === "pathology"
     ? "Follow the supplied pathology sample-paper style: each item is an applied short-note case with age and sex, a focused time course, discriminating symptoms and examination findings, and only the laboratory or imaging clues needed for reasoning. Follow it with a diagnosis question and one or two theory prompts chosen from etiopathogenesis, pathogenesis, gross and microscopic morphology, investigations with interpretation, differential comparison, or clinicopathologic correlation. The case should feel like a 6-to-10-mark undergraduate pathology paper, not an MCQ and not a management simulation."
-    : `Use the same undergraduate applied short-note format adapted accurately to ${subjectTitle}: a focused clinical stem followed by a diagnosis or core inference and one or two theory questions testing mechanisms, investigations, interpretation, or clinically relevant subject knowledge.`;
+    : subjectId === "pharmacology"
+      ? "Follow the supplied pharmacology sample-paper style without copying its cases or wording. Write a compact age-and-sex clinical vignette using only the details needed to recognize a condition, poisoning, adverse drug reaction, contraindication, interaction, or therapeutic problem. When relevant, include a current medicine or exposure, pregnancy or comorbidity, duration, focused examination findings, and one or two decisive investigations. Follow it with two or three linked undergraduate theory tasks. Rotate naturally among: identify the diagnosis or drug-related problem; enumerate or choose appropriate drug classes; outline acute treatment and longer-term prophylaxis; explain mechanism of action; state important adverse effects or contraindications; justify a combination, route, duration, or preferred drug; compare alternatives; and give administration, adherence, monitoring, or patient-counselling instructions. Keep the emphasis on rational pharmacotherapy and core pharmacology rather than pathology morphology. Frame management as an academic examination exercise, not personalized prescribing advice."
+      : `Use the same undergraduate applied short-note format adapted accurately to ${subjectTitle}: a focused clinical stem followed by a diagnosis or core inference and one or two theory questions testing mechanisms, investigations, interpretation, or clinically relevant subject knowledge.`;
+  const treatmentSafetyInstruction = subjectId === "pharmacology"
+    ? "Management questions must ask for standard textbook pharmacological principles for the presented exam vignette and must not claim to replace clinical judgment or local treatment guidelines."
+    : "Do not ask for patient-specific treatment.";
+  const diagnosisInstruction = subjectId === "pharmacology"
+    ? "The stem may name an established diagnosis when the task is to test treatment, mechanism, adverse effects, or counselling; otherwise leave the diagnosis for the student to infer."
+    : "Do not disclose the diagnosis in the stem.";
+  const stemLengthInstruction = subjectId === "pharmacology"
+    ? "Keep each stem compact, usually about 45 to 100 words."
+    : "Keep each stem concise, about 80 to 160 words.";
   const avoidanceInstruction = recentStems.length
     ? `Do not repeat or lightly paraphrase these recent case stems: ${JSON.stringify(recentStems)}.`
     : "Use a fresh mix of diagnoses, clue patterns, and reasoning tasks.";
@@ -1624,8 +1636,8 @@ async function requestGeminiClinicalCases({ subjectTitle, subjectId, chapters, p
               text:
                 `Act as an experienced medical-university theory examiner for ${subjectTitle}. Create exactly ${CLINICAL_CASE_COUNT} original clinical cases using only these chapters, reproducing every chapter title exactly: ${JSON.stringify(chapters)}. ` +
                 `${referenceStyle} ${avoidanceInstruction} ` +
-                "Distribute cases across the selected chapters as evenly as possible. Do not copy a known exam stem, disclose the diagnosis in the stem, use multiple-choice options, ask for patient-specific treatment, or include internally contradictory clues. Use realistic units and internally consistent laboratory values. " +
-                "Keep each stem concise (about 80 to 160 words). Give each case two or three labeled subquestions with marks that reward diagnosis plus explanation. Return five to eight concise, atomic private keyPoints for later grading; the first must state the exact diagnosis or core inference. Do not write a model answer at this stage.",
+                `Distribute cases across the selected chapters as evenly as possible. Do not copy a known exam stem, use multiple-choice options, or include internally contradictory clues. ${diagnosisInstruction} ${treatmentSafetyInstruction} Use realistic units and internally consistent laboratory values. ` +
+                `${stemLengthInstruction} Give each case two or three labeled subquestions with marks that reward diagnosis plus explanation. Return five to eight concise, atomic private keyPoints for later grading; the first must state the exact diagnosis or core inference. Do not write a model answer at this stage.`,
             }],
           }],
         }),
@@ -1645,7 +1657,7 @@ async function requestGeminiClinicalCases({ subjectTitle, subjectId, chapters, p
 
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error("Gemini returned an empty clinical case set.");
-  return normalizeGeneratedClinicalCases(JSON.parse(text), chapters);
+  return normalizeGeneratedClinicalCases(JSON.parse(text), chapters, subjectId);
 }
 
 async function requestClinicalCases(payload) {
