@@ -3460,7 +3460,7 @@ async function fetchPracticeLibrary() {
                 {clinicalSessionBusy ? "Preparing clinical cases..." : "Start clinical cases"}
               </button>
             </div>
-            <p className="viva-build-note">Cases follow the applied short-note structure of the provided pathology sample.</p>
+            <p className="viva-build-note">Preparing three applied cases usually takes a few seconds.</p>
           </article>
         </section>
       );
