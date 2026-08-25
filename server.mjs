@@ -63,6 +63,9 @@ const CLINICAL_CASE_COUNT = 3;
 const CLINICAL_CASE_MAX_CHAPTERS = 30;
 const CLINICAL_CASE_GENERATION_LIMIT_PER_HOUR = 6;
 const CLINICAL_CASE_RECENT_STEM_LIMIT = 30;
+const RETIRED_GEMINI_MODELS = new Map([
+  ["gemini-2.5-flash-lite", "gemini-3.5-flash-lite"],
+]);
 const DUEL_FALLBACK_QUESTIONS = [
   {
     prompt: "Which cranial nerve is primarily responsible for lateral eye movement?",
@@ -90,6 +93,11 @@ const DUEL_FALLBACK_QUESTIONS = [
     answer: "Collecting duct",
   },
 ];
+
+function resolveGeminiModel(configuredModel, fallbackModel) {
+  const model = String(configuredModel ?? fallbackModel).trim().replace(/^models\//, "");
+  return RETIRED_GEMINI_MODELS.get(model) ?? model;
+}
 
 ensureStorage();
 
@@ -640,7 +648,7 @@ async function requestGeminiQuestion(payload, library) {
     throw new Error("Topic-wise questions are not available yet.");
   }
 
-  const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+  const model = resolveGeminiModel(process.env.GEMINI_MODEL, "gemini-2.5-flash");
   const subjectList = (library.subjects ?? []).map((subject) => `${subject.id}: ${subject.title}`).join(", ");
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
@@ -717,7 +725,7 @@ async function requestGeminiQuestionBatch(payload, library, count) {
     throw new Error("Topic-wise questions are not available yet.");
   }
 
-  const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+  const model = resolveGeminiModel(process.env.GEMINI_MODEL, "gemini-2.5-flash");
   const subjectList = (library.subjects ?? []).map((subject) => `${subject.id}: ${subject.title}`).join(", ");
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
@@ -967,7 +975,10 @@ async function requestGeminiVivaQuestions({ subjectTitle, chapters, previousProm
   const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? process.env.GOOGLE_AI_STUDIO_API_KEY;
   if (!apiKey) throw new Error("AI Viva is not configured yet. Add GEMINI_API_KEY to the server environment.");
 
-  const model = process.env.VIVA_QUESTION_MODEL ?? process.env.GEMINI_MODEL ?? "gemini-2.5-flash-lite";
+  const model = resolveGeminiModel(
+    process.env.VIVA_QUESTION_MODEL ?? process.env.GEMINI_MODEL,
+    "gemini-3.5-flash-lite",
+  );
   let promptsToAvoid = [...new Set(previousPrompts.map((prompt) => String(prompt).trim()).filter(Boolean))]
     .slice(0, VIVA_RECENT_PROMPT_LIMIT);
   let latestQuestions = null;
@@ -1134,7 +1145,7 @@ async function requestGeminiVivaEvaluation({ subjectTitle, question, studentAnsw
   const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? process.env.GOOGLE_AI_STUDIO_API_KEY;
   if (!apiKey) throw new Error("AI Viva is not configured yet. Add GEMINI_API_KEY to the server environment.");
 
-  const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+  const model = resolveGeminiModel(process.env.GEMINI_MODEL, "gemini-2.5-flash");
   let response;
   try {
     response = await fetchGeminiWithRetry(
@@ -1542,7 +1553,10 @@ async function requestGeminiClinicalCases({ subjectTitle, subjectId, chapters, p
   const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? process.env.GOOGLE_AI_STUDIO_API_KEY;
   if (!apiKey) throw new Error("Clinical Cases is not configured yet. Add GEMINI_API_KEY to the server environment.");
 
-  const model = process.env.CLINICAL_CASE_MODEL ?? process.env.VIVA_QUESTION_MODEL ?? process.env.GEMINI_MODEL ?? "gemini-2.5-flash-lite";
+  const model = resolveGeminiModel(
+    process.env.CLINICAL_CASE_MODEL ?? process.env.VIVA_QUESTION_MODEL ?? process.env.GEMINI_MODEL,
+    "gemini-3.5-flash-lite",
+  );
   const recentStems = [...new Set(previousStems.map((stem) => String(stem).trim()).filter(Boolean))]
     .slice(0, CLINICAL_CASE_RECENT_STEM_LIMIT);
   const referenceStyle = subjectId === "pathology"
@@ -1668,7 +1682,7 @@ async function requestGeminiClinicalCaseEvaluation({ subjectTitle, clinicalCase,
   const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? process.env.GOOGLE_AI_STUDIO_API_KEY;
   if (!apiKey) throw new Error("Clinical Cases is not configured yet. Add GEMINI_API_KEY to the server environment.");
 
-  const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+  const model = resolveGeminiModel(process.env.GEMINI_MODEL, "gemini-2.5-flash");
   let response;
   try {
     response = await fetchGeminiWithRetry(

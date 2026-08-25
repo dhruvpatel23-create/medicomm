@@ -14,3 +14,7 @@ services:
         sync: false
       - key: GEMINI_API_KEY
         sync: false
+      - key: VIVA_QUESTION_MODEL
+        value: gemini-3.5-flash-lite
+      - key: CLINICAL_CASE_MODEL
+        value: gemini-3.5-flash-lite
