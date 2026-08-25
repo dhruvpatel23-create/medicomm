@@ -15,6 +15,8 @@ const COMMUNITY_THREAD_IMAGE_LIMIT_BYTES = 5 * 1024 * 1024;
 const VIVA_ANSWER_IMAGE_INPUT_LIMIT_BYTES = 12 * 1024 * 1024;
 const VIVA_ANSWER_IMAGE_OUTPUT_LIMIT_BYTES = 5 * 1024 * 1024;
 const VIVA_ANSWER_IMAGE_MAX_DIMENSION = 2048;
+const CLINICAL_CASE_GENERATION_POLL_MS = 2000;
+const CLINICAL_CASE_GENERATION_WAIT_MS = 4 * 60 * 1000;
 // Atlas artwork was replaced in place, so use a versioned URL to ensure clients
 // don't keep showing a previously cached source image.
 const ATLAS_IMAGE_VERSION = "20260626";
@@ -1913,12 +1915,35 @@ async function fetchPracticeLibrary() {
           chapters: clinicalSelectedChapters,
           privacyAccepted: true,
         }),
-        timeoutMs: 150000,
+        timeoutMs: 45000,
       });
-      setClinicalSession(data.session);
+      let readySession = data.session;
+      const generationDeadline = Date.now() + CLINICAL_CASE_GENERATION_WAIT_MS;
+      setClinicalSessionMessage("Gemini is preparing the cases. This page will open them automatically when they are ready.");
+
+      while (readySession?.status === "generating" && Date.now() < generationDeadline) {
+        await new Promise((resolve) => window.setTimeout(resolve, CLINICAL_CASE_GENERATION_POLL_MS));
+        try {
+          const statusData = await apiRequest(`/api/clinical-cases/sessions/${readySession.id}`, { timeoutMs: 15000 });
+          readySession = statusData.session;
+        } catch {
+          // A brief Render/network interruption should not discard a generation job
+          // that is still running safely on the server.
+        }
+      }
+
+      if (readySession?.status === "generation_failed") {
+        throw new Error(readySession.generationError || "Gemini could not prepare these clinical cases.");
+      }
+      if (readySession?.status !== "active") {
+        throw new Error("Clinical Case generation is still running. Press Start clinical cases again to reconnect to it.");
+      }
+
+      setClinicalSession(readySession);
       setClinicalAnswerDraft("");
       setClinicalAnswerImage(null);
       setClinicalAnswerMessage("");
+      setClinicalSessionMessage("");
       setPracticeStage("clinical-session");
       scrollPracticeViewToTop();
     } catch (error) {

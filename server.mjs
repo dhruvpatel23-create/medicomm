@@ -63,6 +63,7 @@ const CLINICAL_CASE_COUNT = 3;
 const CLINICAL_CASE_MAX_CHAPTERS = 30;
 const CLINICAL_CASE_GENERATION_LIMIT_PER_HOUR = 6;
 const CLINICAL_CASE_RECENT_STEM_LIMIT = 30;
+const CLINICAL_CASE_GENERATION_STALE_MS = 5 * 60 * 1000;
 const RETIRED_GEMINI_MODELS = new Map([
   ["gemini-2.5-flash-lite", "gemini-3.5-flash-lite"],
 ]);
@@ -1774,21 +1775,28 @@ function sanitizeClinicalCaseAnswer(answer) {
 
 function sanitizeClinicalCaseSession(session) {
   const answers = (session.answers ?? []).map(sanitizeClinicalCaseAnswer);
+  const cases = session.cases ?? [];
   const totalScore = answers.reduce((total, answer) => total + answer.score, 0);
+  const generationIsStale = session.status === "generating"
+    && Date.now() - Date.parse(session.updatedAt ?? session.createdAt) > CLINICAL_CASE_GENERATION_STALE_MS;
+  const status = generationIsStale ? "generation_failed" : session.status;
   return {
     id: session.id,
     subjectId: session.subjectId,
     subjectTitle: session.subjectTitle,
     chapters: session.chapters,
-    status: session.status,
+    status,
+    generationError: status === "generation_failed"
+      ? session.generationError ?? "Clinical Case generation was interrupted. Please try again."
+      : null,
     currentCaseIndex: session.currentCaseIndex,
-    caseCount: session.cases.length,
+    caseCount: cases.length,
     answerCount: answers.length,
     totalScore,
     averageScore: answers.length ? Number((totalScore / answers.length).toFixed(1)) : null,
     createdAt: session.createdAt,
     completedAt: session.completedAt ?? null,
-    cases: session.cases.map((clinicalCase, index) => ({
+    cases: cases.map((clinicalCase, index) => ({
       id: clinicalCase.id,
       chapterTitle: clinicalCase.chapterTitle,
       stem: clinicalCase.stem,
@@ -1798,6 +1806,61 @@ function sanitizeClinicalCaseSession(session) {
     })),
     answers,
   };
+}
+
+function haveSameSelectedChapters(first = [], second = []) {
+  if (first.length !== second.length) return false;
+  const secondSet = new Set(second);
+  return first.every((chapter) => secondSet.has(chapter));
+}
+
+async function completeClinicalCaseGeneration({ sessionId, userId, subjectTitle, subjectId, chapters, previousStems }) {
+  let generatedCases;
+  try {
+    generatedCases = await requestClinicalCases({ subjectTitle, subjectId, chapters, previousStems });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "The AI examiner could not prepare these clinical cases.";
+    const database = readDatabase();
+    const sessionIndex = (database.clinicalCaseSessions ?? []).findIndex(
+      (session) => session.id === sessionId && session.userId === userId,
+    );
+    if (sessionIndex !== -1 && database.clinicalCaseSessions[sessionIndex].status === "generating") {
+      database.clinicalCaseSessions[sessionIndex].status = "generation_failed";
+      database.clinicalCaseSessions[sessionIndex].generationError = message;
+      database.clinicalCaseSessions[sessionIndex].updatedAt = new Date().toISOString();
+      await writeDatabase(database).catch(() => undefined);
+    }
+    console.warn(`Clinical Case generation failed for session ${sessionId}: ${message}`);
+    return;
+  }
+
+  const database = readDatabase();
+  const sessionIndex = (database.clinicalCaseSessions ?? []).findIndex(
+    (session) => session.id === sessionId && session.userId === userId,
+  );
+  if (sessionIndex === -1 || database.clinicalCaseSessions[sessionIndex].status !== "generating") return;
+
+  const session = database.clinicalCaseSessions[sessionIndex];
+  session.status = "active";
+  session.generationError = null;
+  session.currentCaseIndex = 0;
+  session.cases = generatedCases.map((clinicalCase) => ({ ...clinicalCase, id: randomBytes(10).toString("hex") }));
+  session.updatedAt = new Date().toISOString();
+  database.clinicalCaseSessions[sessionIndex] = session;
+  await writeDatabase(database).catch((error) => {
+    console.warn(`Could not persist generated Clinical Cases session ${sessionId}: ${error instanceof Error ? error.message : "unknown error"}`);
+  });
+}
+
+function handleGetClinicalCaseSession(request, response, sessionId) {
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return;
+  const session = (database.clinicalCaseSessions ?? []).find(
+    (entry) => entry.id === sessionId && entry.userId === currentUser.id,
+  );
+  if (!session) return sendJson(response, 404, { message: "Clinical Cases session not found." });
+  return sendJson(response, 200, { session: sanitizeClinicalCaseSession(session) });
 }
 
 async function handleCreateClinicalCaseSession(request, response) {
@@ -1827,46 +1890,60 @@ async function handleCreateClinicalCaseSession(request, response) {
     return sendJson(response, 400, { message: "One or more selected chapters are not available for this subject." });
   }
 
+  const existingGeneration = (database.clinicalCaseSessions ?? []).find(
+    (session) => session.userId === currentUser.id
+      && session.subjectId === subjectId
+      && session.status === "generating"
+      && Date.now() - Date.parse(session.updatedAt ?? session.createdAt) <= CLINICAL_CASE_GENERATION_STALE_MS
+      && haveSameSelectedChapters(session.chapters, chapters),
+  );
+  if (existingGeneration) {
+    return sendJson(response, 202, { session: sanitizeClinicalCaseSession(existingGeneration) });
+  }
+
   const oneHourAgo = Date.now() - 60 * 60 * 1000;
   const recentSessionCount = (database.clinicalCaseSessions ?? []).filter(
-    (session) => session.userId === currentUser.id && Date.parse(session.createdAt) >= oneHourAgo,
+    (session) => session.userId === currentUser.id
+      && session.status !== "generation_failed"
+      && !(session.status === "generating" && Date.now() - Date.parse(session.updatedAt ?? session.createdAt) > CLINICAL_CASE_GENERATION_STALE_MS)
+      && Date.parse(session.createdAt) >= oneHourAgo,
   ).length;
   if (recentSessionCount >= CLINICAL_CASE_GENERATION_LIMIT_PER_HOUR) {
     return sendJson(response, 429, { message: "You have reached the hourly Clinical Cases generation limit. Please try again later." });
   }
 
-  let generatedCases;
-  try {
-    generatedCases = await requestClinicalCases({
-      subjectTitle: subject.title,
-      subjectId,
-      chapters,
-      previousStems: getRecentClinicalCaseStems(database, currentUser.id, subjectId, chapters),
-    });
-  } catch (error) {
-    return sendJson(response, 502, { message: error instanceof Error ? error.message : "The AI examiner could not prepare these clinical cases." });
-  }
-
   const createdAt = new Date().toISOString();
+  const previousStems = getRecentClinicalCaseStems(database, currentUser.id, subjectId, chapters);
   const session = {
     id: randomBytes(12).toString("hex"),
     userId: currentUser.id,
     subjectId,
     subjectTitle: subject.title,
     chapters,
-    status: "active",
+    status: "generating",
     currentCaseIndex: 0,
     provider: String(process.env.VIVA_AI_PROVIDER ?? "gemini").trim().toLowerCase(),
     privacyAcceptedAt: createdAt,
     createdAt,
     updatedAt: createdAt,
-    cases: generatedCases.map((clinicalCase) => ({ ...clinicalCase, id: randomBytes(10).toString("hex") })),
+    cases: [],
     answers: [],
   };
 
   database.clinicalCaseSessions = [session, ...(database.clinicalCaseSessions ?? [])].slice(0, 1000);
-  await writeDatabase(database);
-  return sendJson(response, 201, { session: sanitizeClinicalCaseSession(session) });
+  const initialWrite = writeDatabase(database);
+  sendJson(response, 202, { session: sanitizeClinicalCaseSession(session) });
+  void initialWrite.catch((error) => {
+    console.warn(`Could not persist pending Clinical Cases session ${session.id}: ${error instanceof Error ? error.message : "unknown error"}`);
+  });
+  void completeClinicalCaseGeneration({
+    sessionId: session.id,
+    userId: currentUser.id,
+    subjectTitle: subject.title,
+    subjectId,
+    chapters,
+    previousStems,
+  });
 }
 
 async function handleSubmitClinicalCaseAnswer(request, response, sessionId) {
@@ -3505,6 +3582,10 @@ async function handleRequest(request, response) {
     }
     if (request.method === "POST" && url.pathname === "/api/clinical-cases/sessions") {
       return await handleCreateClinicalCaseSession(request, response);
+    }
+    const clinicalCaseSessionMatch = url.pathname.match(/^\/api\/clinical-cases\/sessions\/([^/]+)$/);
+    if (request.method === "GET" && clinicalCaseSessionMatch) {
+      return handleGetClinicalCaseSession(request, response, clinicalCaseSessionMatch[1]);
     }
     const clinicalCaseAnswerMatch = url.pathname.match(/^\/api\/clinical-cases\/sessions\/([^/]+)\/answers$/);
     if (request.method === "POST" && clinicalCaseAnswerMatch) {
