@@ -7,8 +7,13 @@ The local API automatically loads `.env.local` and then `.env` from the project 
 ```env
 GEMINI_API_KEY=your_key_from_google_ai_studio
 GEMINI_MODEL=gemini-2.5-flash
+VIVA_QUESTION_MODEL=gemini-2.5-flash-lite
+CLINICAL_CASE_MODEL=gemini-2.5-flash-lite
 VIVA_AI_PROVIDER=gemini
 ```
+
+`VIVA_QUESTION_MODEL` uses the lower-latency Flash-Lite model for preparing a Viva while `GEMINI_MODEL` remains the default for answer review. Remove the question-specific override if you prefer to use the same model for both operations.
+`CLINICAL_CASE_MODEL` independently controls generation of the applied theory cases; their submitted answers are reviewed with `GEMINI_MODEL`.
 
 Keep `.env.local` private. Restart `npm run dev` after adding or changing the key because an already-running API process will not reload environment variables.
 

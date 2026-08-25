@@ -3182,6 +3182,21 @@ main {
   color: #d8b4fe;
 }
 
+.practice-choice-card-clinical {
+  border-color: rgba(14, 165, 233, 0.42);
+  background: linear-gradient(145deg, rgba(12, 74, 110, 0.3), #121418 62%);
+}
+
+.practice-choice-card-clinical:hover,
+.practice-choice-card-clinical:focus-visible {
+  border-color: rgba(56, 189, 248, 0.88);
+}
+
+.practice-choice-card-clinical .practice-choice-icon,
+.practice-choice-card-clinical small {
+  color: #7dd3fc;
+}
+
 .viva-setup-view {
   max-width: 1100px;
   margin: 0 auto;
@@ -3360,6 +3375,118 @@ main {
   background: rgba(168, 85, 247, .1);
   color: #7e22ce;
   text-transform: none;
+}
+
+.source-clinical {
+  border-color: rgba(14, 165, 233, .4);
+  background: rgba(14, 165, 233, .11);
+  color: #0369a1;
+  text-transform: none;
+}
+
+.clinical-chapter-card:hover,
+.clinical-chapter-card:focus-visible {
+  border-color: rgba(14, 165, 233, .72);
+}
+
+.clinical-chapter-card.is-selected {
+  border-color: #0284c7;
+  background: rgba(14, 165, 233, .1);
+}
+
+.clinical-chapter-card .viva-chapter-check {
+  background: rgba(14, 165, 233, .12);
+  color: #0369a1;
+}
+
+.clinical-chapter-card.is-selected .viva-chapter-check {
+  background: #0284c7;
+  color: #fff;
+}
+
+.clinical-privacy-notice input {
+  accent-color: #0284c7;
+}
+
+.clinical-case-panel {
+  display: grid;
+}
+
+.clinical-case-stem {
+  margin-bottom: 18px;
+  border: 1px solid rgba(14, 165, 233, .25);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(14, 165, 233, .08), rgba(14, 165, 233, .025));
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.clinical-case-stem .eyebrow {
+  margin: 0 0 8px;
+  color: #0369a1;
+}
+
+.clinical-case-stem h3 {
+  margin: 0;
+  font-size: clamp(1.08rem, 2vw, 1.35rem);
+  font-weight: 720;
+  line-height: 1.65;
+}
+
+.clinical-subquestions {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 28px;
+  padding: 0;
+  list-style: none;
+}
+
+.clinical-subquestions li {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card-bg);
+  padding: 13px 15px;
+}
+
+.clinical-subquestions li > span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(14, 165, 233, .12);
+  color: #0369a1;
+  font-weight: 900;
+}
+
+.clinical-subquestions p {
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+.clinical-subquestions em {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: .75rem;
+  font-style: normal;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.clinical-session-view .viva-score-badge,
+.clinical-complete-panel .viva-final-score {
+  border-color: rgba(14, 165, 233, .42);
+  background: linear-gradient(145deg, rgba(14, 165, 233, .18), rgba(14, 165, 233, .055));
+}
+
+.clinical-session-view .viva-score-badge,
+.clinical-complete-panel .viva-final-score strong,
+.clinical-complete-panel .viva-score-list article > span,
+.clinical-complete-panel .viva-score-list em {
+  color: #0369a1;
 }
 
 .viva-question-panel > h3 {
@@ -3733,6 +3860,16 @@ main {
   color: #d8b4fe;
 }
 
+:root[data-theme="dark"] .source-clinical,
+:root[data-theme="dark"] .clinical-case-stem .eyebrow,
+:root[data-theme="dark"] .clinical-subquestions li > span,
+:root[data-theme="dark"] .clinical-session-view .viva-score-badge,
+:root[data-theme="dark"] .clinical-complete-panel .viva-final-score strong,
+:root[data-theme="dark"] .clinical-complete-panel .viva-score-list article > span,
+:root[data-theme="dark"] .clinical-complete-panel .viva-score-list em {
+  color: #7dd3fc;
+}
+
 :root[data-theme="dark"] .viva-model-answer h5 {
   color: #6ee7b7;
 }
@@ -3793,6 +3930,15 @@ main {
   .viva-image-preview img {
     width: 78px;
     height: 68px;
+  }
+
+  .clinical-subquestions li {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .clinical-subquestions em {
+    grid-column: 2;
+    margin-top: 0;
   }
 }
 

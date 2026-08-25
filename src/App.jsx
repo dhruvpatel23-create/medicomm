@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AppShell } from "./components/AppShellV2";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
@@ -575,10 +575,22 @@ function App() {
   const [vivaAnswerImageBusy, setVivaAnswerImageBusy] = useState(false);
   const [vivaAnswerBusy, setVivaAnswerBusy] = useState(false);
   const [vivaAnswerMessage, setVivaAnswerMessage] = useState("");
+  const [clinicalSelectedChapters, setClinicalSelectedChapters] = useState([]);
+  const [clinicalPrivacyAccepted, setClinicalPrivacyAccepted] = useState(false);
+  const [clinicalSessionBusy, setClinicalSessionBusy] = useState(false);
+  const [clinicalSessionMessage, setClinicalSessionMessage] = useState("");
+  const [clinicalSession, setClinicalSession] = useState(null);
+  const [clinicalAnswerDraft, setClinicalAnswerDraft] = useState("");
+  const [clinicalAnswerImage, setClinicalAnswerImage] = useState(null);
+  const [clinicalAnswerImageBusy, setClinicalAnswerImageBusy] = useState(false);
+  const [clinicalAnswerBusy, setClinicalAnswerBusy] = useState(false);
+  const [clinicalAnswerMessage, setClinicalAnswerMessage] = useState("");
   const [practiceStage, setPracticeStage] = useState("catalog");
   const [practiceProgress, setPracticeProgress] = useState({});
   const [bookmarkMessage, setBookmarkMessage] = useState("");
-  const [bookmarkBusyKey, setBookmarkBusyKey] = useState("");
+  const [bookmarkBusyKeys, setBookmarkBusyKeys] = useState([]);
+  const bookmarkPendingKeysRef = useRef(new Set());
+  const bookmarkMutationQueueRef = useRef(Promise.resolve());
   const [analyticsEvents, setAnalyticsEvents] = useState([]);
   const [analyticsPeriod, setAnalyticsPeriod] = useState(30);
   const [practiceQuestionStartedAt, setPracticeQuestionStartedAt] = useState(Date.now());
@@ -745,6 +757,10 @@ function App() {
   const currentVivaQuestion = vivaSession?.questions?.[vivaSession.currentQuestionIndex ?? 0] ?? null;
   const currentVivaEvaluation = currentVivaQuestion
     ? vivaSession?.answers?.find((answer) => answer.questionId === currentVivaQuestion.id) ?? null
+    : null;
+  const currentClinicalCase = clinicalSession?.cases?.[clinicalSession.currentCaseIndex ?? 0] ?? null;
+  const currentClinicalEvaluation = currentClinicalCase
+    ? clinicalSession?.answers?.find((answer) => answer.caseId === currentClinicalCase.id) ?? null
     : null;
   const groupedPracticeYears = practiceYears.map((year) => ({
     ...year,
@@ -1076,9 +1092,10 @@ async function fetchPracticeLibrary() {
   }, [authStatus]);
 
   useEffect(() => {
-    if (!["Practice", "Bookmarks"].includes(activeView) || practiceLibraryStatus !== "idle") return;
+    const needsPracticeLibrary = activeView === "Practice" || (activeView === "Bookmarks" && questionBookmarks.length > 0);
+    if (!needsPracticeLibrary || practiceLibraryStatus !== "idle") return;
     fetchPracticeLibrary();
-  }, [activeView, practiceLibraryStatus]);
+  }, [activeView, practiceLibraryStatus, questionBookmarks.length]);
 
   useEffect(() => {
     if (activeView !== "Practice" || practiceStage !== "subject") return undefined;
@@ -1526,6 +1543,14 @@ async function fetchPracticeLibrary() {
     setVivaAnswerImage(null);
     setVivaAnswerBusy(false);
     setVivaAnswerMessage("");
+    setClinicalSelectedChapters([]);
+    setClinicalPrivacyAccepted(false);
+    setClinicalSessionMessage("");
+    setClinicalSession(null);
+    setClinicalAnswerDraft("");
+    setClinicalAnswerImage(null);
+    setClinicalAnswerBusy(false);
+    setClinicalAnswerMessage("");
   }
 
   function openCommunityChat(communityId) {
@@ -1559,7 +1584,7 @@ async function fetchPracticeLibrary() {
 
   async function updateQuestionBookmark(bookmarkInput, shouldSave) {
     const bookmarkKey = getQuestionBookmarkKey(bookmarkInput);
-    if (!bookmarkInput.questionId || !bookmarkInput.subjectId || bookmarkBusyKey === bookmarkKey) return;
+    if (!bookmarkInput.questionId || !bookmarkInput.subjectId || bookmarkPendingKeysRef.current.has(bookmarkKey)) return;
 
     const previousBookmarks = Array.isArray(user?.questionBookmarks) ? user.questionBookmarks : [];
     const optimisticBookmark = {
@@ -1576,33 +1601,70 @@ async function fetchPracticeLibrary() {
       ? [optimisticBookmark, ...previousBookmarks.filter((bookmark) => getQuestionBookmarkKey(bookmark) !== bookmarkKey)].slice(0, 500)
       : previousBookmarks.filter((bookmark) => getQuestionBookmarkKey(bookmark) !== bookmarkKey);
 
-    setBookmarkBusyKey(bookmarkKey);
+    bookmarkPendingKeysRef.current.add(bookmarkKey);
+    setBookmarkBusyKeys((current) => [...current, bookmarkKey]);
     setBookmarkMessage(shouldSave ? "Question saved to Bookmarks." : "Question removed from Bookmarks.");
-    setUser((current) => current ? { ...current, questionBookmarks: nextBookmarks } : current);
+    setUser((current) => {
+      if (!current) return current;
+      const currentBookmarks = Array.isArray(current.questionBookmarks) ? current.questionBookmarks : [];
+      const optimisticBookmarks = shouldSave
+        ? [optimisticBookmark, ...currentBookmarks.filter((bookmark) => getQuestionBookmarkKey(bookmark) !== bookmarkKey)].slice(0, 500)
+        : currentBookmarks.filter((bookmark) => getQuestionBookmarkKey(bookmark) !== bookmarkKey);
+      return { ...current, questionBookmarks: optimisticBookmarks };
+    });
 
     if (authStatus === "guest") {
       writeQuestionBookmarks(user, nextBookmarks);
-      setBookmarkBusyKey("");
+      bookmarkPendingKeysRef.current.delete(bookmarkKey);
+      setBookmarkBusyKeys((current) => current.filter((key) => key !== bookmarkKey));
       return;
     }
 
-    try {
-      const data = await apiRequest("/api/profile/question-bookmarks", {
-        method: "PATCH",
-        body: JSON.stringify({
-          questionId: bookmarkInput.questionId,
-          subjectId: bookmarkInput.subjectId,
-          mode: bookmarkInput.mode,
-          saved: shouldSave,
-        }),
+    const mutation = bookmarkMutationQueueRef.current
+      .catch(() => undefined)
+      .then(async () => {
+        const data = await apiRequest("/api/profile/question-bookmarks", {
+          method: "PATCH",
+          body: JSON.stringify({
+            questionId: bookmarkInput.questionId,
+            subjectId: bookmarkInput.subjectId,
+            mode: bookmarkInput.mode,
+            saved: shouldSave,
+          }),
+          timeoutMs: 30000,
+        });
+        const savedBookmark = (data.bookmarks ?? []).find((bookmark) => getQuestionBookmarkKey(bookmark) === bookmarkKey);
+        setUser((current) => {
+          if (!current) return current;
+          const currentBookmarks = Array.isArray(current.questionBookmarks) ? current.questionBookmarks : [];
+          const withoutCurrent = currentBookmarks.filter((bookmark) => getQuestionBookmarkKey(bookmark) !== bookmarkKey);
+          return {
+            ...current,
+            questionBookmarks: shouldSave && savedBookmark
+              ? [savedBookmark, ...withoutCurrent].slice(0, 500)
+              : withoutCurrent,
+          };
+        });
+      })
+      .catch((error) => {
+        setUser((current) => {
+          if (!current) return current;
+          const currentBookmarks = Array.isArray(current.questionBookmarks) ? current.questionBookmarks : [];
+          const withoutCurrent = currentBookmarks.filter((bookmark) => getQuestionBookmarkKey(bookmark) !== bookmarkKey);
+          return {
+            ...current,
+            questionBookmarks: shouldSave ? withoutCurrent : [optimisticBookmark, ...withoutCurrent].slice(0, 500),
+          };
+        });
+        setBookmarkMessage(error instanceof Error ? error.message : "Could not update this bookmark.");
+      })
+      .finally(() => {
+        bookmarkPendingKeysRef.current.delete(bookmarkKey);
+        setBookmarkBusyKeys((current) => current.filter((key) => key !== bookmarkKey));
       });
-      setUser((current) => current ? { ...current, questionBookmarks: data.bookmarks ?? nextBookmarks } : current);
-    } catch (error) {
-      setUser((current) => current ? { ...current, questionBookmarks: previousBookmarks } : current);
-      setBookmarkMessage(error instanceof Error ? error.message : "Could not update this bookmark.");
-    } finally {
-      setBookmarkBusyKey("");
-    }
+
+    bookmarkMutationQueueRef.current = mutation;
+    await mutation;
   }
 
   function toggleCurrentQuestionBookmark() {
@@ -1804,6 +1866,114 @@ async function fetchPracticeLibrary() {
       setVivaAnswerMessage(error.message);
     } finally {
       setVivaAnswerBusy(false);
+    }
+  }
+
+  function handleStartClinicalCasesSetup(subjectId) {
+    const subject = practiceSubjects.find((entry) => entry.id === subjectId);
+    if (!subject) return;
+
+    setSelectedPracticeSubjectId(subjectId);
+    setSelectedPracticeMode("clinical-cases");
+    setSelectedPracticeExamYear("");
+    setSelectedPracticeTopic("");
+    setSelectedPracticeChapter("");
+    setClinicalSelectedChapters([]);
+    setClinicalPrivacyAccepted(false);
+    setClinicalSessionMessage("");
+    setClinicalSession(null);
+    setClinicalAnswerDraft("");
+    setClinicalAnswerImage(null);
+    setClinicalAnswerBusy(false);
+    setClinicalAnswerMessage("");
+    setPracticeStage("clinical-setup");
+    setPracticeChoiceSubjectId("");
+    setPracticeChoicePanel("formats");
+    scrollPracticeViewToTop();
+  }
+
+  function toggleClinicalChapter(chapterTitle) {
+    setClinicalSelectedChapters((current) =>
+      current.includes(chapterTitle)
+        ? current.filter((title) => title !== chapterTitle)
+        : [...current, chapterTitle],
+    );
+  }
+
+  async function handleCreateClinicalCaseSession() {
+    if (!selectedPracticeSubjectId || !clinicalSelectedChapters.length || !clinicalPrivacyAccepted || clinicalSessionBusy) return;
+
+    setClinicalSessionBusy(true);
+    setClinicalSessionMessage("");
+    try {
+      const data = await apiRequest("/api/clinical-cases/sessions", {
+        method: "POST",
+        body: JSON.stringify({
+          subjectId: selectedPracticeSubjectId,
+          chapters: clinicalSelectedChapters,
+          privacyAccepted: true,
+        }),
+        timeoutMs: 150000,
+      });
+      setClinicalSession(data.session);
+      setClinicalAnswerDraft("");
+      setClinicalAnswerImage(null);
+      setClinicalAnswerMessage("");
+      setPracticeStage("clinical-session");
+      scrollPracticeViewToTop();
+    } catch (error) {
+      setClinicalSessionMessage(error instanceof Error ? error.message : "Could not create these clinical cases.");
+    } finally {
+      setClinicalSessionBusy(false);
+    }
+  }
+
+  async function handleSubmitClinicalCaseAnswer() {
+    const answer = clinicalAnswerDraft.trim();
+    if (!clinicalSession || !currentClinicalCase || (!clinicalAnswerImage && answer.length < 3) || clinicalAnswerBusy || clinicalAnswerImageBusy || currentClinicalEvaluation) return;
+
+    setClinicalAnswerBusy(true);
+    setClinicalAnswerMessage("");
+    try {
+      const data = await apiRequest(`/api/clinical-cases/sessions/${clinicalSession.id}/answers`, {
+        method: "POST",
+        body: JSON.stringify({
+          caseId: currentClinicalCase.id,
+          answer,
+          answerImageDataUrl: clinicalAnswerImage?.dataUrl ?? null,
+        }),
+        timeoutMs: 150000,
+      });
+      setClinicalSession(data.session);
+      setClinicalAnswerImage(null);
+      scrollPracticeViewToTop();
+    } catch (error) {
+      setClinicalAnswerMessage(error instanceof Error ? error.message : "Could not review this clinical case.");
+    } finally {
+      setClinicalAnswerBusy(false);
+    }
+  }
+
+  async function handleAdvanceClinicalCaseSession() {
+    if (!clinicalSession || !currentClinicalEvaluation || clinicalAnswerBusy) return;
+
+    setClinicalAnswerBusy(true);
+    setClinicalAnswerMessage("");
+    try {
+      const data = await apiRequest(`/api/clinical-cases/sessions/${clinicalSession.id}/advance`, {
+        method: "POST",
+        body: JSON.stringify({}),
+        timeoutMs: 30000,
+      });
+      setClinicalSession(data.session);
+      setClinicalAnswerDraft("");
+      setClinicalAnswerImage(null);
+      if (data.session.status === "completed") setPracticeStage("clinical-complete");
+      scrollPracticeViewToTop();
+    } catch (error) {
+      setClinicalAnswerMessage(error instanceof Error ? error.message : "Could not continue this Clinical Cases session.");
+    } finally {
+      setClinicalAnswerBusy(false);
     }
   }
 
@@ -2350,6 +2520,24 @@ async function fetchPracticeLibrary() {
       setVivaAnswerMessage(error instanceof Error ? error.message : "Could not prepare that image.");
     } finally {
       setVivaAnswerImageBusy(false);
+    }
+  }
+
+  async function handleClinicalAnswerImageChange(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file || clinicalAnswerBusy || clinicalAnswerImageBusy) return;
+
+    setClinicalAnswerImageBusy(true);
+    setClinicalAnswerMessage("Preparing your answer image...");
+    try {
+      const preparedImage = await prepareVivaAnswerImage(file);
+      setClinicalAnswerImage(preparedImage);
+      setClinicalAnswerMessage("");
+    } catch (error) {
+      setClinicalAnswerMessage(error instanceof Error ? error.message : "Could not prepare that image.");
+    } finally {
+      setClinicalAnswerImageBusy(false);
     }
   }
 
@@ -2978,6 +3166,306 @@ async function fetchPracticeLibrary() {
     const isDirectoryPractice = selectedPracticeMode === "ai";
     const directoryModeTitle = isUsmlePractice ? "USMLE Step-1 Format Questions" : "Topic Wise Questions";
 
+    if (practiceStage === "clinical-complete" && clinicalSession) {
+      return (
+        <section className="app-view viva-session-view clinical-session-view">
+          <div className="view-header">
+            <div>
+              <p className="eyebrow">{clinicalSession.subjectTitle} · Clinical Cases complete</p>
+              <h2>Your final score is {clinicalSession.averageScore} / 10</h2>
+              <p className="view-subtitle">Gemini reviewed all three theory responses against case-specific marking points.</p>
+            </div>
+            <button className="button button-secondary" type="button" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
+          </div>
+
+          <article className="card panel viva-complete-panel clinical-complete-panel">
+            <div className="viva-final-score" aria-label={`Final Clinical Cases score ${clinicalSession.averageScore} out of 10`}>
+              <strong>{clinicalSession.averageScore}</strong>
+              <span>out of 10</span>
+              <small>{clinicalSession.totalScore} points across {clinicalSession.caseCount} cases</small>
+            </div>
+            <div className="viva-score-list">
+              {(clinicalSession.answers ?? []).map((evaluation, index) => {
+                const clinicalCase = clinicalSession.cases?.[evaluation.caseIndex];
+                return (
+                  <article key={evaluation.caseId}>
+                    <span>C{index + 1}</span>
+                    <div>
+                      <strong>{clinicalCase?.stem ?? `Clinical case ${index + 1}`}</strong>
+                      <small>{evaluation.feedback}</small>
+                    </div>
+                    <em>{evaluation.score}/10</em>
+                  </article>
+                );
+              })}
+            </div>
+            <button
+              className="button button-primary"
+              type="button"
+              onClick={() => {
+                setClinicalSession(null);
+                setClinicalAnswerDraft("");
+                setClinicalAnswerImage(null);
+                setClinicalAnswerMessage("");
+                setPracticeStage("clinical-setup");
+                scrollPracticeViewToTop();
+              }}
+            >
+              Start another case set
+            </button>
+          </article>
+        </section>
+      );
+    }
+
+    if (practiceStage === "clinical-session" && clinicalSession && currentClinicalCase) {
+      const caseNumber = (clinicalSession.currentCaseIndex ?? 0) + 1;
+      const progressPercent = Math.round((caseNumber / clinicalSession.caseCount) * 100);
+
+      return (
+        <section className="app-view viva-session-view clinical-session-view">
+          <div className="view-header viva-session-header">
+            <div>
+              <p className="eyebrow">{clinicalSession.subjectTitle} · Clinical Cases</p>
+              <h2>Case {caseNumber} of {clinicalSession.caseCount}</h2>
+              <p className="view-subtitle">Write a structured theory answer covering every labeled question.</p>
+            </div>
+            <button className="button button-secondary" type="button" onClick={() => setPracticeStage("clinical-setup")}>Change chapters</button>
+          </div>
+
+          <article className="card panel viva-question-panel clinical-case-panel">
+            <div className="viva-session-progress-copy">
+              <span>{progressPercent}% through this case set</span>
+              <span>Final score after {clinicalSession.caseCount} cases</span>
+            </div>
+            <span className="practice-progress-track viva-session-progress" aria-hidden="true"><span style={{ width: `${progressPercent}%` }} /></span>
+
+            <div className="viva-question-meta">
+              <span className="rank-pill source-clinical">{currentClinicalCase.chapterTitle}</span>
+              <span>{currentClinicalCase.difficulty}</span>
+            </div>
+            <section className="clinical-case-stem" aria-labelledby="clinical-case-title">
+              <p className="eyebrow">Case stem</p>
+              <h3 id="clinical-case-title">{currentClinicalCase.stem}</h3>
+            </section>
+            <ol className="clinical-subquestions">
+              {currentClinicalCase.subquestions.map((subquestion) => (
+                <li key={`${subquestion.label}-${subquestion.prompt}`}>
+                  <span>{subquestion.label}</span>
+                  <p>{subquestion.prompt}</p>
+                  <em>{subquestion.marks} {subquestion.marks === 1 ? "mark" : "marks"}</em>
+                </li>
+              ))}
+            </ol>
+
+            {currentClinicalEvaluation ? (
+              <div className="viva-evaluation" aria-live="polite">
+                <div className="viva-evaluation-heading">
+                  <div className="viva-score-badge">
+                    <strong>{currentClinicalEvaluation.score}</strong>
+                    <span>/ 10</span>
+                  </div>
+                  <div>
+                    <p className="eyebrow">Gemini theory review</p>
+                    <h4>{currentClinicalEvaluation.feedback}</h4>
+                  </div>
+                </div>
+
+                <div className="viva-evaluation-grid">
+                  <section>
+                    <h5>What you did well</h5>
+                    {currentClinicalEvaluation.strengths?.length ? (
+                      <ul>{currentClinicalEvaluation.strengths.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>
+                    ) : (
+                      <p>Build a more complete response using the improvements below.</p>
+                    )}
+                  </section>
+                  <section>
+                    <h5>How to improve</h5>
+                    <ul>{currentClinicalEvaluation.improvements.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul>
+                  </section>
+                </div>
+
+                <section className="viva-model-answer">
+                  <h5>Exam-ready model answer</h5>
+                  <p>{currentClinicalEvaluation.modelAnswer}</p>
+                </section>
+
+                <details className="viva-submitted-answer">
+                  <summary>Your submitted response</summary>
+                  {currentClinicalEvaluation.answer ? <p>{currentClinicalEvaluation.answer}</p> : null}
+                  {currentClinicalEvaluation.hasImage ? <p className="viva-submitted-image-note">A photographed written answer was included in Gemini&apos;s review.</p> : null}
+                </details>
+
+                {clinicalAnswerMessage ? <p className="form-message" role="alert">{clinicalAnswerMessage}</p> : null}
+                <div className="viva-answer-actions">
+                  <p>Your score and review have been saved to this Clinical Cases session.</p>
+                  <button
+                    className="button button-primary"
+                    type="button"
+                    disabled={clinicalAnswerBusy}
+                    onClick={handleAdvanceClinicalCaseSession}
+                    aria-busy={clinicalAnswerBusy}
+                  >
+                    {clinicalAnswerBusy
+                      ? "Loading..."
+                      : caseNumber === clinicalSession.caseCount
+                        ? "Finish case set"
+                        : "Next case"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <label className="viva-answer-field">
+                  <span>Your complete theory response</span>
+                  <textarea
+                    value={clinicalAnswerDraft}
+                    onChange={(event) => setClinicalAnswerDraft(event.target.value.slice(0, 8000))}
+                    rows={13}
+                    placeholder="A. Diagnosis…\nB. Pathogenesis…\nC. Morphology / investigations…"
+                    disabled={clinicalAnswerBusy}
+                    autoFocus
+                  />
+                  <small>{clinicalAnswerDraft.length} / 8000 characters</small>
+                </label>
+
+                <section className="viva-image-answer" aria-labelledby="clinical-image-answer-title">
+                  <div className="viva-image-answer-heading">
+                    <div>
+                      <strong id="clinical-image-answer-title">Upload your written theory answer</strong>
+                      <span>Gemini can review clear handwriting from a photographed answer sheet.</span>
+                    </div>
+                    <span className="viva-image-optional">Optional</span>
+                  </div>
+
+                  {clinicalAnswerImage ? (
+                    <div className="viva-image-preview">
+                      <img src={clinicalAnswerImage.dataUrl} alt="Preview of your written clinical case answer" />
+                      <div>
+                        <strong>{clinicalAnswerImage.name}</strong>
+                        <span>{clinicalAnswerImage.width} × {clinicalAnswerImage.height}px · ready for review</span>
+                      </div>
+                      <button type="button" onClick={() => setClinicalAnswerImage(null)} disabled={clinicalAnswerBusy} aria-label="Remove written answer image">×</button>
+                    </div>
+                  ) : (
+                    <div className="viva-image-picker-actions">
+                      <label className="button button-secondary viva-image-picker-button">
+                        <input type="file" accept="image/*" capture="environment" onChange={handleClinicalAnswerImageChange} disabled={clinicalAnswerBusy || clinicalAnswerImageBusy} />
+                        <span aria-hidden="true">◉</span> Take photo
+                      </label>
+                      <label className="button button-secondary viva-image-picker-button">
+                        <input type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" onChange={handleClinicalAnswerImageChange} disabled={clinicalAnswerBusy || clinicalAnswerImageBusy} />
+                        <span aria-hidden="true">▧</span> Choose from gallery
+                      </label>
+                    </div>
+                  )}
+                  <small>Use good lighting, keep the full page in frame, and do not include patient-identifiable information.</small>
+                </section>
+
+                {clinicalAnswerMessage ? <p className="form-message" role="alert">{clinicalAnswerMessage}</p> : null}
+                <div className="viva-answer-actions">
+                  <p>Gemini will grade diagnosis, reasoning, morphology, and investigations against private case-specific marking points.</p>
+                  <button
+                    className="button button-primary"
+                    type="button"
+                    disabled={(!clinicalAnswerImage && clinicalAnswerDraft.trim().length < 3) || clinicalAnswerBusy || clinicalAnswerImageBusy}
+                    onClick={handleSubmitClinicalCaseAnswer}
+                    aria-busy={clinicalAnswerBusy}
+                  >
+                    {clinicalAnswerBusy ? "Gemini is reviewing..." : "Submit case for AI review"}
+                  </button>
+                </div>
+              </>
+            )}
+          </article>
+        </section>
+      );
+    }
+
+    if (practiceStage === "clinical-setup") {
+      const clinicalSubject = practiceSubjects.find((subject) => subject.id === selectedPracticeSubjectId) ?? null;
+      const allChaptersSelected = vivaChapterOptions.length > 0 && clinicalSelectedChapters.length === vivaChapterOptions.length;
+
+      return (
+        <section className="app-view viva-setup-view clinical-setup-view">
+          <div className="view-header">
+            <div>
+              <p className="eyebrow">{clinicalSubject?.title ?? "Practice"} · Clinical Cases</p>
+              <h2>Choose one or more chapters</h2>
+              <p className="view-subtitle">Gemini will create three applied theory cases in the selected chapters.</p>
+            </div>
+            <button className="button button-secondary" type="button" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
+          </div>
+
+          <article className="card panel viva-setup-panel clinical-setup-panel">
+            <div className="viva-setup-toolbar">
+              <div>
+                <strong>{clinicalSelectedChapters.length} selected</strong>
+                <span>Choose a focused chapter or mix several for a broader case paper.</span>
+              </div>
+              <button
+                className="button button-secondary"
+                type="button"
+                onClick={() => setClinicalSelectedChapters(allChaptersSelected ? [] : vivaChapterOptions.map((chapter) => chapter.title))}
+              >
+                {allChaptersSelected ? "Clear all" : "Select all"}
+              </button>
+            </div>
+
+            {vivaChapterOptions.length ? (
+              <div className="viva-chapter-grid">
+                {vivaChapterOptions.map((chapter, index) => {
+                  const selected = clinicalSelectedChapters.includes(chapter.title);
+                  return (
+                    <button
+                      className={`viva-chapter-card clinical-chapter-card${selected ? " is-selected" : ""}`}
+                      type="button"
+                      key={chapter.title}
+                      aria-pressed={selected}
+                      onClick={() => toggleClinicalChapter(chapter.title)}
+                    >
+                      <span className="viva-chapter-check" aria-hidden="true">{selected ? "✓" : String(index + 1).padStart(2, "0")}</span>
+                      <span>
+                        <strong>{chapter.title}</strong>
+                        <small>{chapter.count ? `${chapter.count} source questions available` : "Curriculum chapter"}</small>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="form-message">A chapter directory has not been added for this subject yet.</p>
+            )}
+
+            <label className="viva-privacy-notice clinical-privacy-notice">
+              <input type="checkbox" checked={clinicalPrivacyAccepted} onChange={(event) => setClinicalPrivacyAccepted(event.target.checked)} />
+              <span>
+                <strong>AI privacy notice</strong>
+                <small>Your selected chapters, typed answers, and uploaded answer images will be sent to the configured AI provider. Images are not saved in your Clinical Cases history. Do not include names, contact details, or patient-identifiable information.</small>
+              </span>
+            </label>
+
+            {clinicalSessionMessage ? <p className="form-message viva-session-message" role="alert">{clinicalSessionMessage}</p> : null}
+
+            <div className="viva-setup-footer">
+              <p><strong>3 applied cases</strong><span>Diagnosis + theory prompts · typed or photographed answers · score out of 10</span></p>
+              <button
+                className="button button-primary"
+                type="button"
+                disabled={!clinicalSelectedChapters.length || !clinicalPrivacyAccepted || clinicalSessionBusy}
+                onClick={handleCreateClinicalCaseSession}
+                aria-busy={clinicalSessionBusy}
+              >
+                {clinicalSessionBusy ? "Preparing clinical cases..." : "Start clinical cases"}
+              </button>
+            </div>
+            <p className="viva-build-note">Cases follow the applied short-note structure of the provided pathology sample.</p>
+          </article>
+        </section>
+      );
+    }
+
     if (practiceStage === "viva-complete" && vivaSession) {
       return (
         <section className="app-view viva-session-view">
@@ -3282,7 +3770,7 @@ async function fetchPracticeLibrary() {
                 {vivaSessionBusy ? "Preparing your viva..." : "Continue to viva"}
               </button>
             </div>
-            <p className="viva-build-note">Generating five balanced questions can take up to a minute.</p>
+            <p className="viva-build-note">Preparing five balanced questions usually takes a few seconds.</p>
           </article>
         </section>
       );
@@ -3534,7 +4022,7 @@ async function fetchPracticeLibrary() {
                 <button
                   className={`bookmark-button${isCurrentPracticeQuestionBookmarked ? " active" : ""}`}
                   type="button"
-                  disabled={bookmarkBusyKey === getQuestionBookmarkKey({ mode: selectedPracticeMode, subjectId: currentPracticeSubject.id, questionId: currentPracticeQuestion.id })}
+                  disabled={bookmarkBusyKeys.includes(getQuestionBookmarkKey({ mode: selectedPracticeMode, subjectId: currentPracticeSubject.id, questionId: currentPracticeQuestion.id }))}
                   onClick={toggleCurrentQuestionBookmark}
                   aria-pressed={isCurrentPracticeQuestionBookmarked}
                 >
@@ -3604,7 +4092,7 @@ async function fetchPracticeLibrary() {
                   <p>
                     {practiceChoicePanel === "pyq"
                       ? "Choose a year to start solving official previous year questions."
-                      : "Choose PYQs, topic-wise practice, USMLE Step-1 questions, or an AI viva."}
+                      : "Choose PYQs, topic-wise practice, USMLE Step-1 questions, an AI viva, or Clinical Cases."}
                   </p>
                 </div>
               </div>
@@ -3684,6 +4172,16 @@ async function fetchPracticeLibrary() {
                     <p>Choose chapters and answer five explanatory questions</p>
                     <small>Feedback after every answer · score out of 10</small>
                   </button>
+                  <button
+                    className="practice-choice-card practice-choice-card-clinical"
+                    type="button"
+                    onClick={() => handleStartClinicalCasesSetup(practiceChoiceSubject.id)}
+                  >
+                    <span className="practice-choice-icon">CASE</span>
+                    <strong>Clinical Cases</strong>
+                    <p>Applied theory cases with diagnosis and structured follow-up questions</p>
+                    <small>Type or photograph answers · Gemini theory review</small>
+                  </button>
                 </div>
               )}
             </article>
@@ -3711,7 +4209,7 @@ async function fetchPracticeLibrary() {
                       onClick={() => handleSelectPracticeSubject(subject.id)}
                     >
                       <span className="practice-subject-label">{subject.title}</span>
-                      <p className="practice-subject-copy">Choose PYQs, topic-wise questions, USMLE practice, or an AI viva.</p>
+                      <p className="practice-subject-copy">Choose PYQs, topic-wise questions, USMLE practice, an AI viva, or Clinical Cases.</p>
                       <span className="practice-subject-counts">
                         <strong>{subject.questions.length} PYQs</strong>
                         <strong>{aiQuestionCount} Topic Wise</strong>
@@ -3778,13 +4276,16 @@ async function fetchPracticeLibrary() {
 
         {bookmarkMessage ? <p className="form-message bookmark-page-message" role="status">{bookmarkMessage}</p> : null}
 
-        {practiceLibraryStatus === "loading" || practiceLibraryStatus === "idle" ? (
-          <article className="card panel bookmarks-empty-state">
-            <span className="bookmarks-empty-icon" aria-hidden="true">☆</span>
-            <h3>Loading your saved questions…</h3>
-          </article>
-        ) : questionBookmarks.length ? (
+        {questionBookmarks.length ? (
           <>
+            {practiceLibraryStatus === "loading" || practiceLibraryStatus === "idle" ? (
+              <p className="form-message bookmark-page-message" role="status">Saved bookmarks are ready. Loading full question details in the background…</p>
+            ) : practiceLibraryStatus === "error" ? (
+              <div className="form-message bookmark-page-message" role="alert">
+                <span>{practiceLibraryMessage || "Question details could not be loaded."}</span>{" "}
+                <button className="text-button" type="button" onClick={fetchPracticeLibrary}>Retry</button>
+              </div>
+            ) : null}
             <div className="bookmark-summary-row" aria-label="Bookmark summary">
               <article className="card"><span>Saved questions</span><strong>{questionBookmarks.length}</strong></article>
               <article className="card"><span>Ready to review</span><strong>{availableCount}</strong></article>
@@ -3809,12 +4310,16 @@ async function fetchPracticeLibrary() {
                     <p>{subjectTitle} · {topic}</p>
                     <div className="bookmark-question-actions">
                       <button className="button button-primary" type="button" disabled={!resolved} onClick={() => openBookmarkedQuestion(entry)}>
-                        {resolved ? "Review question" : "Question unavailable"}
+                        {resolved
+                          ? "Review question"
+                          : practiceLibraryStatus === "loading" || practiceLibraryStatus === "idle"
+                            ? "Loading question…"
+                            : "Question unavailable"}
                       </button>
                       <button
                         className="button button-secondary bookmark-remove-button"
                         type="button"
-                        disabled={bookmarkBusyKey === getQuestionBookmarkKey(bookmark)}
+                        disabled={bookmarkBusyKeys.includes(getQuestionBookmarkKey(bookmark))}
                         onClick={() => void updateQuestionBookmark(bookmark, false)}
                       >
                         Remove bookmark
