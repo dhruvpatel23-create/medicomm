@@ -3761,6 +3761,73 @@ main {
   color: #047857;
 }
 
+.clinical-model-answer-sections {
+  display: grid;
+  gap: 14px;
+}
+
+.clinical-model-answer-section {
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(16, 185, 129, .24);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--card-bg) 92%, rgba(16, 185, 129, .08));
+  padding: 16px;
+}
+
+.clinical-model-answer-section header {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.clinical-model-answer-section header span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, .14);
+  color: #047857;
+  font-weight: 900;
+}
+
+.clinical-model-answer-section h6 {
+  margin: 0;
+  color: var(--text);
+  font-size: .96rem;
+  line-height: 1.4;
+}
+
+.clinical-model-answer-section ul {
+  gap: 8px;
+  color: var(--text);
+  line-height: 1.58;
+}
+
+.clinical-model-flowchart {
+  display: grid;
+  gap: 6px;
+  border-left: 3px solid rgba(16, 185, 129, .52);
+  border-radius: 0 10px 10px 0;
+  background: rgba(16, 185, 129, .08);
+  padding: 10px 12px;
+}
+
+.clinical-model-flowchart strong {
+  color: #047857;
+  font-size: .76rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.clinical-model-flowchart p {
+  color: var(--text);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
 .viva-submitted-answer summary {
   font-weight: 800;
   cursor: pointer;
@@ -3871,6 +3938,11 @@ main {
 }
 
 :root[data-theme="dark"] .viva-model-answer h5 {
+  color: #6ee7b7;
+}
+
+:root[data-theme="dark"] .clinical-model-answer-section header span,
+:root[data-theme="dark"] .clinical-model-flowchart strong {
   color: #6ee7b7;
 }
 

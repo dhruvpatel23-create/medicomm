@@ -3313,7 +3313,29 @@ async function fetchPracticeLibrary() {
 
                 <section className="viva-model-answer">
                   <h5>Exam-ready model answer</h5>
-                  <p>{currentClinicalEvaluation.modelAnswer}</p>
+                  {currentClinicalEvaluation.modelAnswerSections?.length ? (
+                    <div className="clinical-model-answer-sections">
+                      {currentClinicalEvaluation.modelAnswerSections.map((section) => (
+                        <article key={section.label} className="clinical-model-answer-section">
+                          <header>
+                            <span>{section.label}</span>
+                            <h6>{section.heading}</h6>
+                          </header>
+                          <ul>
+                            {section.points.map((point, index) => <li key={`${section.label}-${index}-${point}`}>{point}</li>)}
+                          </ul>
+                          {section.flowchart ? (
+                            <div className="clinical-model-flowchart">
+                              <strong>Flowchart</strong>
+                              <p>{section.flowchart}</p>
+                            </div>
+                          ) : null}
+                        </article>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>{currentClinicalEvaluation.modelAnswer}</p>
+                  )}
                 </section>
 
                 <details className="viva-submitted-answer">

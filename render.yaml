@@ -18,3 +18,5 @@ services:
         value: gemini-3.5-flash-lite
       - key: CLINICAL_CASE_MODEL
         value: gemini-3.5-flash-lite
+      - key: CLINICAL_CASE_EVALUATION_MODEL
+        value: gemini-3.5-flash
