@@ -190,12 +190,12 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q001.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q001.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q001.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q001.png"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original PDF image; black background, Roman numeral markers, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Embryology notochord/nucleus pulposus schematic; labels I-IV preserved, I on notochord."
         },
         {
           "id": "aiims-2017-anatomy-q002",
@@ -235,15 +235,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q002.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q002.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q002.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q002.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q002-p3-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original PDF image; black background, arrow preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Midsagittal brain illustration; arrow endpoint preserved on fornix."
         },
         {
           "id": "aiims-2017-anatomy-q003",
@@ -283,15 +283,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q003.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q003.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q003.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q003.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q003-p3-i2.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original PDF image; black background, arrows preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Infratemporal fossa illustration; arrows preserved on lateral pterygoid muscle."
         },
         {
           "id": "aiims-2017-anatomy-q004",
@@ -331,15 +331,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q004.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q004.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q004.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q004.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q004-p4-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, letter labels and pointer lines preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Internal skull-base foramina illustration; labels A-D and leader endpoints preserved."
         },
         {
           "id": "aiims-2017-anatomy-q005",
@@ -379,15 +379,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q005.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q005.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q005.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q005.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q005-p5-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, original markers preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Reused /img1 EM synapse illustration; asterisks on presynaptic secretory vesicles."
         },
         {
           "id": "aiims-2017-anatomy-q006",
@@ -427,15 +427,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q006.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q006.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q006.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q006.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q006-p5-i2.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, letter labels and pointer lines preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Chewing muscles diagram; label B preserved on lateral pterygoid."
         },
         {
           "id": "aiims-2017-anatomy-q007",
@@ -475,15 +475,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q007.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q007.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q007.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q007.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q007-p6-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, arrow preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Reused /img1 skull-base superior orbital fissure illustration; question arrow endpoint preserved."
         },
         {
           "id": "aiims-2017-anatomy-q008",
@@ -563,15 +563,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q009.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q009.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q009.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q009.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q009-p7-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, label and arrow preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Midsagittal brain illustration; A arrow preserved on splenium of corpus callosum."
         },
         {
           "id": "aiims-2017-anatomy-q010",
@@ -731,15 +731,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q013.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q013.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q013.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q013.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q013-p8-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational histology plate generated from the original source image; black background, letter labels preserved, source histology preserved."
+          "assetNote": "/img1 copyright-safe educational image. Four-panel gland histology illustration; B preserved as sebaceous holocrine gland."
         },
         {
           "id": "aiims-2017-anatomy-q014",
@@ -779,15 +779,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q014.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q014.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q014.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q014.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q014-p9-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational specimen image generated from the original source image; black background, letter labels and arrows preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Embryology illustration; C leader endpoint preserved on heart bulge."
         },
         {
           "id": "aiims-2017-anatomy-q015",
@@ -907,15 +907,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q017.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q017.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q017.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q017.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q017-p10-i2.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, letter labels and pointer lines preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Lower abdominal wall illustration; C endpoint preserved on conjoint tendon."
         },
         {
           "id": "aiims-2017-anatomy-q018",
@@ -955,15 +955,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q018.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q018.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q018.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q018.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q018-p11-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational histology image generated from the original source image; black background, arrow preserved, source histology preserved."
+          "assetNote": "/img1 copyright-safe educational image. Lymph-node histology illustration; arrow endpoint preserved on mantle zone."
         },
         {
           "id": "aiims-2017-anatomy-q019",
@@ -1003,15 +1003,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q019.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q019.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q019.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q019.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q019-p12-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, numbered markers converted to Roman numerals, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Pharyngeal pouch diagram; number 3 endpoint preserved on third pouch/thymus region."
         },
         {
           "id": "aiims-2017-anatomy-q020",
@@ -1051,15 +1051,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q020.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q020.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q020.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q020.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q020-p12-i2.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, letter labels and pointer lines preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Humerus landmark diagram; C endpoint preserved on medial epicondyle region."
         },
         {
           "id": "aiims-2017-anatomy-q021",
@@ -1099,15 +1099,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q021.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q021.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q021.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q021.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q021-p13-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, letter labels and pointer lines preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Scapula illustration; A endpoint preserved on coracoid process."
         },
         {
           "id": "aiims-2017-anatomy-q022",
@@ -1147,15 +1147,15 @@
             "Anatomy AIIMS 2017"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q022.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q022.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2017-anatomy-q022.png"
+            "/uploads/medicomm-img1-aiims-2017-anatomy-q022.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2017-anatomy-q022-p14-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, letter labels and pointer lines preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational image. Pelvic floor diagram; A endpoint preserved on levator ani/pelvic diaphragm."
         },
         {
           "id": "aiims-2017-anatomy-q023",
@@ -1235,15 +1235,15 @@
             "Anatomy AIIMS 2018"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q001.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q001.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q001.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q001.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2018-anatomy-q001-p31-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational image reused from an identical converted source image; black background, original markers preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational electron-micrograph style synapse illustration; asterisks preserved on presynaptic secretory vesicles and arrowheads preserved on postsynaptic density."
         },
         {
           "id": "aiims-2018-anatomy-q002",
@@ -1403,15 +1403,15 @@
             "Anatomy AIIMS 2018"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q005.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q005.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q005.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q005.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2018-anatomy-q005-p32-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, letter labels preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational midsagittal brain illustration; A/B/C/D markers preserved with C intentionally on pituitary gland for the wrongly marked structure question."
         },
         {
           "id": "aiims-2018-anatomy-q006",
@@ -1571,15 +1571,15 @@
             "Anatomy AIIMS 2018"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q009.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q009.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q009.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q009.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2018-anatomy-q009-p34-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, arrow preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational coronal brain illustration; horizontal pointer endpoint preserved on the fornix."
         },
         {
           "id": "aiims-2018-anatomy-q010",
@@ -1779,15 +1779,15 @@
             "Anatomy AIIMS 2018"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q014.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q014.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q014.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q014.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2018-anatomy-q014-p35-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational image reused from an identical converted source image; black background, arrow preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational internal skull-base illustration; arrow endpoint preserved on superior orbital fissure."
         },
         {
           "id": "aiims-2018-anatomy-q015",
@@ -1867,15 +1867,15 @@
             "Anatomy AIIMS 2018"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q016.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q016.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2018-anatomy-q016.png"
+            "/uploads/medicomm-img1-aiims-2018-anatomy-q016.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2018-anatomy-q016-p36-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, question marker and pointer line preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational coronal head-section illustration; marker preserved on temporalis muscle and source branding removed."
         },
         {
           "id": "aiims-2018-anatomy-q017",
@@ -2155,15 +2155,15 @@
             "Anatomy NEET 2018"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2018-anatomy-q001.png"
+            "/uploads/medicomm-img1-neet-pg-2018-anatomy-q001.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-neet-pg-2018-anatomy-q001.png"
+            "/uploads/medicomm-img1-neet-pg-2018-anatomy-q001.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2018-anatomy-q001-p112-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational schematic generated from the original source image; black background, letter labels and arrows preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational two-panel lateral-neck illustration; red arrows preserved on thickened great auricular nerve."
         },
         {
           "id": "neet-pg-2018-anatomy-q002",
@@ -2483,15 +2483,15 @@
             "Anatomy NEET 2018"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2018-anatomy-q009.png"
+            "/uploads/medicomm-img1-neet-pg-2018-anatomy-q009.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-neet-pg-2018-anatomy-q009.png"
+            "/uploads/medicomm-img1-neet-pg-2018-anatomy-q009.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2018-anatomy-q009-p114-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational dissection generated from the original source image; pure black background, letter labels and pointer lines preserved, source anatomy preserved."
+          "assetNote": "/img1 copyright-safe educational palmar hand illustration; label A arrow endpoint preserved on lumbrical muscle."
         },
         {
           "id": "neet-pg-2018-anatomy-q010",
@@ -2731,10 +2731,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q001.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q001-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q001.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q001-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q001-p53-i1.jpg"
@@ -2779,10 +2779,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q002.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q002-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q002.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q002-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q002-p54-i1.jpg"
@@ -2907,10 +2907,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q005.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q005-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q005.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q005-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q005-p55-i1.jpg"
@@ -2995,10 +2995,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q007.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q007-v2.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q007.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q007-v2.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q007-p56-i1.jpg"
@@ -3043,10 +3043,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q008.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q008-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q008.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q008-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q008-p56-i2.jpg"
@@ -3091,10 +3091,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q009.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q009-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q009.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q009-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q009-p57-i1.jpg"
@@ -3139,10 +3139,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q010.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q010-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q010.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q010-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q010-p58-i1.jpg"
@@ -3187,10 +3187,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q011.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q011-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q011.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q011-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q011-p58-i2.jpg"
@@ -3235,10 +3235,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q012.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q012-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q012.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q012-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q012-p59-i1.jpg"
@@ -3323,10 +3323,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q014.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q014-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q014.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q014-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q014-p60-i1.jpg"
@@ -3371,10 +3371,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q015.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q015-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q015.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q015-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q015-p60-i2.jpg"
@@ -3419,10 +3419,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q016.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q016-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q016.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q016-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q016-p61-i1.jpg"
@@ -3467,10 +3467,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q017.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q017-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q017.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q017-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q017-p62-i1.jpg"
@@ -3515,10 +3515,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q018.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q018-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q018.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q018-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q018-p62-i2.jpg"
@@ -3563,10 +3563,10 @@
             "Anatomy AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q019.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q019-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-aiims-2019-anatomy-q019.png"
+            "/uploads/medicomm-animated-aiims-2019-anatomy-q019-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-anatomy-q019-p63-i1.jpg"
@@ -3731,10 +3731,10 @@
             "Anatomy NEET 2019"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q004.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q004-v2.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q004.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q004-v2.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2019-anatomy-q004-p126-i1.jpg"
@@ -3779,10 +3779,10 @@
             "Anatomy NEET 2019"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q005.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q005-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q005.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q005-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2019-anatomy-q005-p126-i2.jp2"
@@ -3867,10 +3867,10 @@
             "Anatomy NEET 2019"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q007.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q007-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q007.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q007-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2019-anatomy-q007-p127-i1.jpg"
@@ -3915,15 +3915,15 @@
             "Anatomy NEET 2019"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q008.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q008-v2.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q008.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q008-v2.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2019-anatomy-q008-p128-i1.jpg"
           ],
-          "assetNote": "Medicomm atlas-style educational posterolateral forearm illustration generated from the original source image; black background, question marker, and pointer endpoint preserved."
+          "assetNote": "Medicomm atlas-style regenerated forearm illustration for this question; pale blue background, yellow highlighted structure, and arrow marker preserved for rapid review."
         },
         {
           "id": "neet-pg-2019-anatomy-q009",
@@ -3963,10 +3963,10 @@
             "Anatomy NEET 2019"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q009.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q009-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q009.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q009-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2019-anatomy-q009-p128-i2.jpg"
@@ -4011,10 +4011,10 @@
             "Anatomy NEET 2019"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q010.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q010-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q010.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q010-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2019-anatomy-q010-p129-i1.jpg"
@@ -4299,10 +4299,10 @@
             "Anatomy NEET 2019"
           ],
           "imageUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q017.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q017-v1.png"
           ],
           "images": [
-            "/uploads/medicomm-atlas-neet-pg-2019-anatomy-q017.png"
+            "/uploads/medicomm-animated-neet-pg-2019-anatomy-q017-v1.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2019-anatomy-q017-p131-i1.jpg"

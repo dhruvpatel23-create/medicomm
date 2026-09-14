@@ -1,5 +1,13 @@
 # medicomm
 
+## Website ratings and reviews
+
+Home and the Reviews page show public 1–5 star ratings, an overall average, and learner comments. Signed-in users can save, edit, or delete one rating per account; comments are optional and limited to 1,000 characters. Guest users can browse reviews.
+
+`GET /api/reviews?page=1` returns 12 reviews per page and the overall rating summary. Authenticated `PUT /api/reviews` accepts `{ "rating": 5, "comment": "..." }`; `DELETE /api/reviews` deletes the caller's own review. Reviews use the existing `websiteReviews` database field and follow the app's local/Supabase storage configuration.
+
+Run `node scripts/check-website-reviews.mjs` to check authentication, validation, ownership, persistence, rating calculations, and pagination with isolated test data.
+
 ## Local Gemini setup
 
 The local API automatically loads `.env.local` and then `.env` from the project root. Add a Gemini API key to `.env.local`:

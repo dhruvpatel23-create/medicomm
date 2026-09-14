@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
 import { resolveCollegeState } from "./collegeStateLookup.mjs";
 import { VIVA_CHAPTER_FALLBACKS } from "./src/data/vivaChapters.js";
+import { createReviewHandler } from "./server/reviews.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -147,6 +148,7 @@ function getEmptyDatabase() {
     practiceResults: [],
     vivaSessions: [],
     clinicalCaseSessions: [],
+    websiteReviews: [],
   };
 }
 
@@ -174,6 +176,7 @@ function normalizeDatabase(parsed = {}) {
     practiceResults: Array.isArray(parsed.practiceResults) ? parsed.practiceResults : [],
     vivaSessions: Array.isArray(parsed.vivaSessions) ? parsed.vivaSessions : [],
     clinicalCaseSessions: Array.isArray(parsed.clinicalCaseSessions) ? parsed.clinicalCaseSessions : [],
+    websiteReviews: Array.isArray(parsed.websiteReviews) ? parsed.websiteReviews : [],
   };
 }
 
@@ -302,6 +305,8 @@ function writeDatabase(data) {
     throw error;
   });
 }
+
+const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
 
 function normalizeContactNumber(value) {
   return String(value ?? "").replace(/\D/g, "");
@@ -3268,7 +3273,7 @@ function handlePracticeQuestionBank(request, response, url) {
     },
     questions: hasQuestionFilters ? applyPracticeFilters(allQuestions, url) : [],
   }, {
-    "Cache-Control": hasQuestionFilters ? "no-store" : "private, max-age=300, stale-while-revalidate=86400",
+    "Cache-Control": "no-store",
   });
 }
 
@@ -3606,6 +3611,7 @@ async function handleRequest(request, response) {
 
   try {
     if (request.method === "POST" && url.pathname === "/api/auth/signup") return await handleSignup(request, response);
+    if (url.pathname === "/api/reviews") return await handleWebsiteReviews(request, response, url);
     if (request.method === "POST" && url.pathname === "/api/auth/login") return await handleLogin(request, response);
     if (request.method === "GET" && url.pathname === "/api/auth/session") return handleSession(request, response);
     if (request.method === "POST" && url.pathname === "/api/auth/logout") return handleLogout(request, response);

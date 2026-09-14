@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AppShell } from "./components/AppShellV2";
+import WebsiteReviews from "./components/WebsiteReviews";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20260914-img1-2017-anatomy";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -19,7 +20,18 @@ const CLINICAL_CASE_GENERATION_POLL_MS = 2000;
 const CLINICAL_CASE_GENERATION_WAIT_MS = 4 * 60 * 1000;
 // Atlas artwork was replaced in place, so use a versioned URL to ensure clients
 // don't keep showing a previously cached source image.
-const ATLAS_IMAGE_VERSION = "20260626";
+const ATLAS_IMAGE_VERSION = "20260912-q009-regenerated-v2";
+const MIND_MAP_ASSET_VERSION = "20260830-teacher-notes";
+
+const MIND_MAP_ASSETS = {
+  pharmacology: {
+    "General Principles of Antimicrobial Therapy": `/uploads/pharmacology-ch07-t01-general-principles-mind-map.png?v=${MIND_MAP_ASSET_VERSION}`,
+    "DNA Disruptors: Sulfonamides, Quinolones, and Nitroimidazoles": `/uploads/pharmacology-ch07-t02-dna-disruptors-mind-map.png?v=${MIND_MAP_ASSET_VERSION}`,
+    "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials": `/uploads/pharmacology-ch07-t03-cell-envelope-disruptors-mind-map.png?v=${MIND_MAP_ASSET_VERSION}`,
+    "Miscellaneous Antibacterials: Aminoglycosides, Polymyxins, Urinary Antiseptics, Bacteriophages": `/uploads/pharmacology-ch07-t04-misc-antibacterials-mind-map.png?v=${MIND_MAP_ASSET_VERSION}`,
+    "Protein Synthesis Inhibitors": `/uploads/pharmacology-ch07-t05-protein-synthesis-inhibitors-mind-map.png?v=${MIND_MAP_ASSET_VERSION}`,
+  },
+};
 
 const directoryOrder = (value) => Number.isFinite(Number(value)) ? Number(value) : Number.MAX_SAFE_INTEGER;
 
@@ -141,7 +153,7 @@ const features = [
   },
 ];
 
-const navItems = ["Home", "Dashboard", "Practice", "Bookmarks", "Analytics", "Leaderboard", "Communities", "Compete", "Pricing", "Profile", "Settings"];
+const navItems = ["Home", "Dashboard", "Practice", "Bookmarks", "Analytics", "Leaderboard", "Communities", "Reviews", "Compete", "Pricing", "Profile", "Settings"];
 
 const duelOpponents = [
   { name: "Ava Patel", rating: 1538, specialty: "Cardiology" },
@@ -983,7 +995,7 @@ async function fetchPracticeLibrary() {
       }
 
       const response = await fetch(PRACTICE_LIBRARY_URL, {
-        cache: "default",
+        cache: "no-store",
         signal: controller.signal,
       });
 
@@ -1516,6 +1528,18 @@ async function fetchPracticeLibrary() {
     setPracticeChoicePanel("formats");
   }
 
+  function handleOpenMindMaps(subjectId) {
+    setSelectedPracticeSubjectId(subjectId);
+    setSelectedPracticeMode("ai");
+    setSelectedPracticeExamYear("");
+    setSelectedPracticeTopic("");
+    setSelectedPracticeChapter("");
+    setPracticeStage("mind-map-chapters");
+    setPracticeChoiceSubjectId("");
+    setPracticeChoicePanel("formats");
+    scrollPracticeViewToTop();
+  }
+
   function startPracticeSession(subjectId, mode, examYear = "") {
     setSelectedPracticeSubjectId(subjectId);
     setSelectedPracticeMode(mode);
@@ -2007,6 +2031,20 @@ async function fetchPracticeLibrary() {
     setPracticeStage("topics");
     scrollPracticeViewToTop();
   }
+
+  function openMindMapChapter(chapterTitle) {
+    setSelectedPracticeChapter(chapterTitle);
+    setSelectedPracticeTopic("");
+    setPracticeStage("mind-map-topics");
+    scrollPracticeViewToTop();
+  }
+
+  function openMindMapTopic(topic) {
+    setSelectedPracticeTopic(topic);
+    setPracticeStage("mind-map-detail");
+    scrollPracticeViewToTop();
+  }
+
   function startTopicPractice(topic) {
     setSelectedPracticeTopic(topic);
     setPracticeQuestionIndex(0);
@@ -2950,6 +2988,8 @@ async function fetchPracticeLibrary() {
           </div>
         </section>
 
+        <WebsiteReviews compact canReview={authStatus === "authenticated"} onSignIn={handleLogout} onViewAll={() => setActiveView("Reviews")} />
+
         <section className="cta-banner">
           <h2>Ready to Level Up Your Medical Knowledge?</h2>
           <p>Join the current live learner base and help grow the community from real usage.</p>
@@ -3190,6 +3230,128 @@ async function fetchPracticeLibrary() {
     const isSupplementalPractice = selectedPracticeMode === "ai" || isUsmlePractice;
     const isDirectoryPractice = selectedPracticeMode === "ai";
     const directoryModeTitle = isUsmlePractice ? "USMLE Step-1 Format Questions" : "Topic Wise Questions";
+
+    if (["mind-map-chapters", "mind-map-topics", "mind-map-detail"].includes(practiceStage)) {
+      const mindMapSubject = aiPracticeSubjects.find((subject) => subject.id === selectedPracticeSubjectId) ?? null;
+      const chapters = Object.values((mindMapSubject?.questions ?? []).reduce((groups, question) => {
+        const chapterTitle = question.chapterTitle || "General Concepts";
+        const chapterOrder = getPracticeChapterOrder({ ...question, chapterTitle }, mindMapSubject?.id);
+        const topic = question.topic || "General Review";
+        groups[chapterTitle] ??= { title: chapterTitle, order: chapterOrder, topics: {} };
+        groups[chapterTitle].order = Math.min(groups[chapterTitle].order, chapterOrder);
+        groups[chapterTitle].topics[topic] ??= { topic, order: directoryOrder(question.topicOrder), questions: [] };
+        groups[chapterTitle].topics[topic].order = Math.min(groups[chapterTitle].topics[topic].order, directoryOrder(question.topicOrder));
+        groups[chapterTitle].topics[topic].questions.push(question);
+        return groups;
+      }, {})).sort(comparePracticeDirectoryEntries);
+
+      if (!chapters.length) {
+        return (
+          <section className="app-view mind-maps-view topic-wise-directory">
+            <div className="view-header">
+              <div>
+                <p className="eyebrow">{mindMapSubject?.title ?? "Subject"} · Mind Maps</p>
+                <h2>Mind map directory is not ready yet</h2>
+                <p className="view-subtitle">Chapters and topics will appear here when topic-wise content is added for this subject.</p>
+              </div>
+              <button className="button button-secondary" type="button" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
+            </div>
+          </section>
+        );
+      }
+
+      if (practiceStage === "mind-map-chapters") {
+        return (
+          <section className="app-view mind-maps-view topic-wise-directory">
+            <div className="view-header">
+              <div>
+                <p className="eyebrow">{mindMapSubject?.title} · Mind Maps</p>
+                <h2>Choose a chapter</h2>
+                <p className="view-subtitle">Browse the same chapter structure as Topic Wise Questions.</p>
+              </div>
+              <button className="button button-secondary" type="button" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
+            </div>
+            <div className="topic-directory-list">
+              {chapters.map((chapter, index) => (
+                <button type="button" className="topic-directory-row chapter-directory-row" key={chapter.title} onClick={() => openMindMapChapter(chapter.title)}>
+                  <span className="directory-index">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="directory-main">
+                    <span className="directory-kicker">Chapter {index + 1}</span>
+                    <strong>{chapter.title}</strong>
+                    <span className="directory-meta">{Object.keys(chapter.topics).length} topics</span>
+                  </span>
+                  <span className="directory-arrow" aria-hidden="true">→</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      const chapter = chapters.find((entry) => entry.title === selectedPracticeChapter);
+      const selectedMindMapAsset = MIND_MAP_ASSETS[selectedPracticeSubjectId]?.[selectedPracticeTopic] ?? "";
+
+      if (practiceStage === "mind-map-topics") {
+        return (
+          <section className="app-view mind-maps-view topic-wise-directory">
+            <div className="view-header">
+              <div>
+                <p className="eyebrow">Mind Maps · Chapter topics</p>
+                <h2>{chapter?.title ?? "Choose a topic"}</h2>
+                <p className="view-subtitle">Choose a topic to open its visual revision map.</p>
+              </div>
+              <button className="button button-secondary" type="button" onClick={() => setPracticeStage("mind-map-chapters")}>Back to chapters</button>
+            </div>
+            <div className="topic-directory-list">
+              {Object.values(chapter?.topics ?? {}).sort(comparePracticeDirectoryEntries).map(({ topic }, index) => {
+                const hasMindMap = Boolean(MIND_MAP_ASSETS[selectedPracticeSubjectId]?.[topic]);
+                return (
+                  <button type="button" className="topic-directory-row" key={topic} onClick={() => openMindMapTopic(topic)}>
+                    <span className="directory-index">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="directory-main">
+                      <span className="directory-kicker">Topic {index + 1}</span>
+                      <strong>{topic}</strong>
+                      <span className={`directory-meta${hasMindMap ? " mind-map-available" : ""}`}>{hasMindMap ? "Mind map available" : "Coming soon"}</span>
+                    </span>
+                    <span className="directory-arrow" aria-hidden="true">→</span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        );
+      }
+
+      return (
+        <section className="app-view mind-maps-view">
+          <div className="view-header">
+            <div>
+              <p className="eyebrow">{mindMapSubject?.title} · {chapter?.title}</p>
+              <h2>{selectedPracticeTopic}</h2>
+              <p className="view-subtitle">Mind Map</p>
+            </div>
+            <button className="button button-secondary" type="button" onClick={() => setPracticeStage("mind-map-topics")}>Back to topics</button>
+          </div>
+          {selectedMindMapAsset ? (
+            <article className="card panel mind-map-reader">
+              <img src={selectedMindMapAsset} alt={`${selectedPracticeTopic} pharmacology mind map`} />
+              <div className="mind-map-reader-actions">
+                <a className="button button-secondary" href={selectedMindMapAsset} target="_blank" rel="noreferrer">Open full size</a>
+                <a className="button button-primary" href={selectedMindMapAsset} download>Download 4K notes</a>
+              </div>
+            </article>
+          ) : (
+            <article className="card panel mind-maps-empty-state">
+              <span className="mind-maps-empty-icon" aria-hidden="true">MAP</span>
+              <div>
+                <h3>This mind map is coming soon</h3>
+                <p className="panel-copy">The chapter and topic directory is ready for visual summaries to be added.</p>
+              </div>
+            </article>
+          )}
+        </section>
+      );
+    }
 
     if (practiceStage === "clinical-complete" && clinicalSession) {
       return (
@@ -4139,7 +4301,7 @@ async function fetchPracticeLibrary() {
                   <p>
                     {practiceChoicePanel === "pyq"
                       ? "Choose a year to start solving official previous year questions."
-                      : "Choose PYQs, topic-wise practice, USMLE Step-1 questions, an AI viva, or Clinical Cases."}
+                      : "Choose PYQs, topic-wise practice, USMLE Step-1 questions, Mind Maps, an AI viva, or Clinical Cases."}
                   </p>
                 </div>
               </div>
@@ -4210,6 +4372,16 @@ async function fetchPracticeLibrary() {
                     <small>{practiceChoiceUsmleQuestionCount} questions · shuffled each session</small>
                   </button>
                   <button
+                    className="practice-choice-card practice-choice-card-mind-maps"
+                    type="button"
+                    onClick={() => handleOpenMindMaps(practiceChoiceSubject.id)}
+                  >
+                    <span className="practice-choice-icon">MAP</span>
+                    <strong>Mind Maps</strong>
+                    <p>Visual, high-yield connections for rapid revision</p>
+                    <small>Chapter-wise visual summaries</small>
+                  </button>
+                  <button
                     className="practice-choice-card practice-choice-card-viva"
                     type="button"
                     onClick={() => handleStartVivaSetup(practiceChoiceSubject.id)}
@@ -4256,7 +4428,7 @@ async function fetchPracticeLibrary() {
                       onClick={() => handleSelectPracticeSubject(subject.id)}
                     >
                       <span className="practice-subject-label">{subject.title}</span>
-                      <p className="practice-subject-copy">Choose PYQs, topic-wise questions, USMLE practice, an AI viva, or Clinical Cases.</p>
+                      <p className="practice-subject-copy">Choose PYQs, topic-wise questions, USMLE practice, Mind Maps, an AI viva, or Clinical Cases.</p>
                       <span className="practice-subject-counts">
                         <strong>{subject.questions.length} PYQs</strong>
                         <strong>{aiQuestionCount} Topic Wise</strong>
@@ -5728,6 +5900,8 @@ async function fetchPracticeLibrary() {
     switch (activeView) {
       case "Dashboard":
         return renderDashboard();
+      case "Reviews":
+        return <div className="app-view"><WebsiteReviews canReview={authStatus === "authenticated"} onSignIn={handleLogout} /></div>;
       case "Practice":
         return renderPractice();
       case "Bookmarks":

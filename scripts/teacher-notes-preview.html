@@ -1,0 +1,1207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher notes preview</title>
+  <style>
+    :root {
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #26322d;
+      background: #efe4d1;
+      font-synthesis: none;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 3840px;
+      height: 2160px;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      background:
+        linear-gradient(rgba(87, 105, 94, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(87, 105, 94, 0.026) 1px, transparent 1px),
+        radial-gradient(circle at 10% 4%, rgba(255, 255, 255, 0.82), transparent 28%),
+        #f1e7d6;
+      background-size: 54px 54px, 54px 54px, auto, auto;
+    }
+
+    .sheet {
+      width: 100%;
+      height: 100%;
+      padding: 54px 70px 50px;
+    }
+
+    .sheet-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      border-bottom: 3px solid #394e45;
+      padding: 0 4px 24px;
+    }
+
+    .chapter-label {
+      margin: 0 0 10px;
+      color: #6c7067;
+      font-size: 23px;
+      font-weight: 780;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      display: inline-block;
+      position: relative;
+      margin: 0;
+      color: #20342c;
+      font-family: "Segoe Print", "Segoe UI", sans-serif;
+      font-size: 58px;
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    h1::after {
+      position: absolute;
+      right: 0;
+      bottom: -12px;
+      left: 0;
+      height: 7px;
+      border-radius: 50%;
+      background: #d9a847;
+      content: "";
+      transform: rotate(-0.4deg);
+    }
+
+    .page-mark {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #617066;
+      font-size: 23px;
+      font-weight: 760;
+    }
+
+    .page-number {
+      display: grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      border: 3px solid #63776d;
+      border-radius: 50%;
+      background: rgba(255,255,255,.5);
+      font-size: 27px;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: 1.03fr 0.96fr 1.01fr;
+      gap: 58px;
+      height: calc(100% - 138px);
+      padding-top: 36px;
+    }
+
+    .column {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .column + .column {
+      border-left: 2px dashed rgba(68, 83, 75, 0.22);
+      padding-left: 58px;
+    }
+
+    .section {
+      position: relative;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0 0 18px;
+      color: #24362e;
+      font-family: "Segoe Print", "Segoe UI", sans-serif;
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1.12;
+    }
+
+    .section-title::before {
+      flex: 0 0 14px;
+      width: 14px;
+      height: 44px;
+      border-radius: 999px;
+      background: var(--accent, #577565);
+      content: "";
+      transform: rotate(2deg);
+    }
+
+    .pen-note {
+      margin: 0;
+      color: #38453f;
+      font-size: 29px;
+      line-height: 1.32;
+    }
+
+    strong {
+      color: #1f3129;
+      font-weight: 780;
+    }
+
+    mark {
+      border-radius: 5px;
+      background: linear-gradient(transparent 18%, rgba(238, 196, 96, 0.46) 18%, rgba(238, 196, 96, 0.46) 88%, transparent 88%);
+      color: inherit;
+      padding: 0 3px;
+    }
+
+    .therapy-flow {
+      display: grid;
+      gap: 9px;
+      margin: 0;
+    }
+
+    .flow-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      align-items: center;
+      min-height: 76px;
+      border-radius: 12px;
+      background: rgba(255, 252, 244, 0.64);
+      padding: 11px 18px 11px 22px;
+      box-shadow: inset 7px 0 var(--step);
+    }
+
+    .flow-step:not(:last-child)::after {
+      position: absolute;
+      bottom: -16px;
+      left: 128px;
+      z-index: 2;
+      color: #61776b;
+      content: "↓";
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .flow-name {
+      color: #22342c;
+      font-size: 29px;
+      font-weight: 780;
+    }
+
+    .flow-explain {
+      color: #46524c;
+      font-size: 27px;
+      line-height: 1.25;
+    }
+
+    .teacher-callout {
+      position: relative;
+      border: 2px solid rgba(104, 83, 45, 0.24);
+      border-radius: 15px 19px 14px 18px;
+      background: #fff4c9;
+      padding: 20px 24px 19px;
+      box-shadow: 6px 7px 0 rgba(109, 86, 51, 0.08);
+      transform: rotate(-0.25deg);
+    }
+
+    .teacher-callout::before {
+      position: absolute;
+      top: -13px;
+      left: 54px;
+      width: 86px;
+      height: 25px;
+      background: rgba(215, 173, 91, 0.45);
+      content: "";
+      transform: rotate(-2deg);
+    }
+
+    .callout-label {
+      margin-right: 10px;
+      color: #8a592a;
+      font-family: "Segoe Print", "Segoe UI", sans-serif;
+      font-size: 27px;
+      font-weight: 800;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 18px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      position: relative;
+      border-bottom: 2px solid rgba(74, 91, 82, 0.12);
+      padding: 8px 8px 12px 43px;
+      color: #34423b;
+      font-size: 27px;
+      line-height: 1.25;
+    }
+
+    .checklist li::before {
+      position: absolute;
+      top: 7px;
+      left: 2px;
+      color: #527665;
+      content: "✓";
+      font-family: "Segoe Print", sans-serif;
+      font-size: 29px;
+      font-weight: 800;
+    }
+
+    .arrow-note {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #95553d;
+      font-family: "Segoe Print", "Segoe UI", sans-serif;
+      font-size: 27px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .arrow-note::before {
+      flex: 0 0 auto;
+      content: "→";
+      font-size: 43px;
+    }
+
+    .pk-stack {
+      display: grid;
+      gap: 15px;
+    }
+
+    .pk-row {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      align-items: center;
+      border-radius: 13px;
+      background: rgba(255, 253, 247, 0.72);
+      padding: 18px 22px;
+      box-shadow: inset 8px 0 var(--pk);
+    }
+
+    .pk-type {
+      color: #273931;
+      font-size: 28px;
+      font-weight: 780;
+    }
+
+    .pk-target {
+      color: #3e4b45;
+      font-size: 28px;
+      line-height: 1.23;
+    }
+
+    .formula-line {
+      display: inline-block;
+      border-bottom: 5px solid rgba(81, 119, 100, 0.55);
+      color: #203229;
+      font-size: 31px;
+      font-weight: 790;
+    }
+
+    .dose-flow {
+      display: grid;
+      grid-template-columns: 1fr 62px 1fr;
+      align-items: stretch;
+      margin-top: 16px;
+    }
+
+    .dose-box {
+      border: 2px solid rgba(63, 80, 71, 0.2);
+      border-radius: 14px;
+      background: rgba(255,255,255,.58);
+      padding: 17px 18px;
+      color: #37463e;
+      font-size: 26px;
+      line-height: 1.25;
+    }
+
+    .dose-box strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 29px;
+    }
+
+    .dose-arrow {
+      display: grid;
+      place-items: center;
+      color: #a86445;
+      font-size: 38px;
+      font-weight: 800;
+    }
+
+    .compare-table {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      border: 2px solid rgba(62, 78, 69, 0.22);
+      border-radius: 15px;
+      background: rgba(255,255,255,.54);
+    }
+
+    .compare-cell {
+      padding: 18px 20px;
+      color: #3b4842;
+      font-size: 26px;
+      line-height: 1.26;
+    }
+
+    .compare-cell + .compare-cell {
+      border-left: 2px solid rgba(62, 78, 69, 0.17);
+    }
+
+    .compare-cell b {
+      display: block;
+      margin-bottom: 6px;
+      color: #2b3d34;
+      font-family: "Segoe Print", "Segoe UI", sans-serif;
+      font-size: 29px;
+    }
+
+    .mechanisms {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mechanism {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      align-items: center;
+      min-height: 65px;
+      border-bottom: 2px solid rgba(69, 84, 76, 0.13);
+      padding: 5px 4px 10px;
+      color: #34423b;
+      font-size: 28px;
+      line-height: 1.22;
+    }
+
+    .mechanism-icon {
+      color: var(--ink);
+      font-family: "Segoe Print", sans-serif;
+      font-size: 33px;
+      font-weight: 800;
+    }
+
+    .stewardship {
+      border: 3px solid #5e796b;
+      border-radius: 18px 21px 16px 20px;
+      background: rgba(230, 239, 229, 0.66);
+      padding: 22px 26px 24px;
+      box-shadow: 7px 8px 0 rgba(74, 98, 85, 0.09);
+    }
+
+    .stewardship ul {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding-left: 31px;
+    }
+
+    .stewardship li {
+      padding-left: 4px;
+      color: #34433b;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .stewardship li::marker { color: #557665; }
+
+    .bottom-summary {
+      margin-top: auto;
+      border-top: 4px double rgba(78, 91, 84, 0.34);
+      padding: 19px 6px 0;
+      color: #24362e;
+      font-family: "Segoe Print", "Segoe UI", sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.33;
+    }
+
+    .teaching-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0 0 0 33px;
+    }
+
+    .teaching-list li {
+      padding-left: 5px;
+      color: #34423b;
+      font-size: 31px;
+      line-height: 1.27;
+    }
+
+    .teaching-list li::marker { color: var(--accent, #567566); }
+
+    .diagnostic-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 30px;
+      margin-top: 8px;
+    }
+
+    .diagnostic-step {
+      position: relative;
+      display: grid;
+      min-height: 132px;
+      place-items: center;
+      border: 2px solid rgba(62, 79, 69, 0.2);
+      border-radius: 14px;
+      background: rgba(255, 253, 247, 0.68);
+      padding: 14px;
+      color: #314139;
+      font-size: 29px;
+      font-weight: 720;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .diagnostic-step:not(:last-child)::after {
+      position: absolute;
+      top: 42px;
+      right: -31px;
+      color: #a36246;
+      content: "→";
+      font-size: 35px;
+      font-weight: 800;
+    }
+
+    /* Legibility pass: these sizes remain comfortably readable when the 4K sheet is fitted to screen. */
+    .pen-note { font-size: 33px; }
+    .flow-step { min-height: 91px; }
+    .flow-name { font-size: 33px; }
+    .flow-explain { font-size: 31px; }
+    .callout-label { font-size: 31px; }
+    .checklist li { font-size: 31px; }
+    .arrow-note { font-size: 31px; }
+    .pk-row { min-height: 104px; }
+    .pk-type,
+    .pk-target { font-size: 32px; }
+    .formula-line { font-size: 35px; }
+    .dose-box { font-size: 30px; }
+    .dose-box strong { font-size: 33px; }
+    .compare-cell { font-size: 30px; }
+    .compare-cell b { font-size: 33px; }
+    .mechanism { min-height: 78px; font-size: 32px; }
+    .stewardship li { font-size: 31px; }
+    .bottom-summary { font-size: 32px; }
+
+    .pathway {
+      display: flex;
+      align-items: stretch;
+      gap: 14px;
+    }
+
+    .path-node {
+      display: grid;
+      min-height: 92px;
+      flex: 1 1 0;
+      place-items: center;
+      border: 2px solid rgba(64, 80, 71, 0.2);
+      border-radius: 14px;
+      background: rgba(255, 253, 247, 0.72);
+      padding: 12px;
+      color: #293a32;
+      font-size: 29px;
+      font-weight: 760;
+      line-height: 1.16;
+      text-align: center;
+    }
+
+    .path-arrow {
+      display: grid;
+      flex: 0 0 34px;
+      place-items: center;
+      color: #a26043;
+      font-size: 38px;
+      font-weight: 800;
+    }
+
+    .drug-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .drug-note {
+      border: 2px solid rgba(64, 80, 71, 0.18);
+      border-left: 8px solid var(--drug, #587667);
+      border-radius: 13px;
+      background: rgba(255, 253, 247, 0.68);
+      padding: 16px 18px;
+      color: #3a4841;
+      font-size: 29px;
+      line-height: 1.24;
+    }
+
+    .drug-note b {
+      display: block;
+      margin-bottom: 4px;
+      color: #26382f;
+      font-size: 31px;
+    }
+
+    .warning-box {
+      border: 3px solid rgba(169, 82, 57, 0.5);
+      border-radius: 17px;
+      background: rgba(249, 229, 218, 0.67);
+      padding: 20px 24px;
+    }
+
+    .warning-box .section-title { margin-bottom: 12px; }
+
+    .generation-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .generation-row {
+      display: grid;
+      grid-template-columns: 115px 1fr;
+      border-bottom: 2px solid rgba(69, 84, 76, 0.13);
+      padding: 8px 5px 12px;
+      color: #37453e;
+      font-size: 29px;
+      line-height: 1.24;
+    }
+
+    .generation-row b {
+      color: #9a6234;
+      font-family: "Segoe Print", "Segoe UI", sans-serif;
+      font-size: 31px;
+    }
+
+    .exam-strip {
+      border-top: 3px solid rgba(58, 76, 66, 0.3);
+      border-bottom: 3px solid rgba(58, 76, 66, 0.3);
+      background: rgba(255, 249, 224, 0.62);
+      padding: 17px 20px;
+      color: #26382f;
+      font-family: "Segoe Print", "Segoe UI", sans-serif;
+      font-size: 31px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .notes-grid.dynamic .column {
+      justify-content: space-between;
+    }
+
+    .notes-grid.dynamic [style*="margin-top:auto"] {
+      margin-top: 0 !important;
+    }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <header class="sheet-header">
+      <div>
+        <h1>General principles of antimicrobial therapy</h1>
+      </div>
+      <div class="page-mark"><span>Sheet</span><span class="page-number">01</span></div>
+    </header>
+
+    <section class="notes-grid">
+      <div class="column">
+        <section class="section" style="--accent:#587768">
+          <h2 class="section-title">When do we treat?</h2>
+          <div class="therapy-flow">
+            <div class="flow-step" style="--step:#6d8b7a"><span class="flow-name">Primary prophylaxis</span><span class="flow-explain">prevent the first infection</span></div>
+            <div class="flow-step" style="--step:#6f8796"><span class="flow-name">Pre-emptive</span><span class="flow-explain">early test evidence, before symptoms</span></div>
+            <div class="flow-step" style="--step:#b46a4c"><span class="flow-name">Empiric</span><span class="flow-explain">likely pathogens; cultures pending</span></div>
+            <div class="flow-step" style="--step:#ae873e"><span class="flow-name">Definitive</span><span class="flow-explain">culture-guided and narrower</span></div>
+            <div class="flow-step" style="--step:#85687b"><span class="flow-name">Suppressive</span><span class="flow-explain">prevent relapse when cure is difficult</span></div>
+          </div>
+        </section>
+
+        <aside class="teacher-callout">
+          <p class="pen-note"><span class="callout-label">Teacher's rule:</span>Take meaningful cultures first—but <mark>never delay urgent therapy</mark> in sepsis or meningitis.</p>
+        </aside>
+
+        <section class="section" style="--accent:#51718a">
+          <h2 class="section-title">Choosing the right drug</h2>
+          <ul class="checklist">
+            <li>Likely organism + local antibiogram</li>
+            <li>Site penetration</li>
+            <li>Severity and urgency</li>
+            <li>Allergy and pregnancy</li>
+            <li>Immune status</li>
+            <li>Renal/hepatic function</li>
+            <li>Toxicity + interactions</li>
+            <li>Previous antibiotics</li>
+          </ul>
+        </section>
+
+        <p class="arrow-note">Drain abscesses, debride tissue and remove infected hardware: antibiotics cannot replace source control.</p>
+
+        <section class="section" style="--accent:#a66649">
+          <h2 class="section-title">When should drugs be combined?</h2>
+          <ul class="teaching-list">
+            <li><strong>Broader empiric cover</strong> in a critically ill patient</li>
+            <li><strong>Proven synergy</strong> for selected organisms or sites</li>
+            <li><strong>Prevent resistance</strong> when single-step escape is likely</li>
+            <li>Use only when benefit exceeds added toxicity, interactions and microbiome damage</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="column">
+        <section class="section" style="--accent:#af6748">
+          <h2 class="section-title">Match PK/PD to the MIC</h2>
+          <p class="pen-note" style="margin-bottom:16px"><span class="formula-line">MIC</span> = lowest concentration that visibly inhibits growth.</p>
+          <div class="pk-stack">
+            <div class="pk-row" style="--pk:#b96143"><span class="pk-type">Concentration-dependent</span><span class="pk-target"><strong>Cmax / MIC</strong><br>larger peak → better killing</span></div>
+            <div class="pk-row" style="--pk:#4f718d"><span class="pk-type">Time-dependent</span><span class="pk-target"><strong>fT &gt; MIC</strong><br>keep free level above MIC</span></div>
+            <div class="pk-row" style="--pk:#8a667c"><span class="pk-type">Exposure-dependent</span><span class="pk-target"><strong>AUC / MIC</strong><br>total exposure drives effect</span></div>
+          </div>
+          <p class="pen-note" style="margin-top:15px"><mark>Post-antibiotic effect</mark>: growth remains suppressed even after the drug level falls.</p>
+        </section>
+
+        <section class="section" style="--accent:#a98233">
+          <h2 class="section-title">Dose logic</h2>
+          <div class="dose-flow">
+            <div class="dose-box"><strong>Loading dose</strong>mainly follows the <mark>volume of distribution</mark></div>
+            <span class="dose-arrow">→</span>
+            <div class="dose-box"><strong>Maintenance dose</strong>mainly follows <mark>clearance</mark></div>
+          </div>
+          <p class="pen-note" style="margin-top:14px">Always interpret susceptibility with the <strong>dose, infection site and achievable free concentration</strong>—not as a standalone laboratory answer.</p>
+        </section>
+
+        <section class="section" style="--accent:#6c7b5b">
+          <h2 class="section-title">Kill or inhibit?</h2>
+          <div class="compare-table">
+            <div class="compare-cell"><b>Bactericidal</b>Directly kills bacteria. Favoured when host defence is limited or the site is protected.</div>
+            <div class="compare-cell"><b>Bacteriostatic</b>Stops bacterial growth. Host immunity then completes clearance.</div>
+          </div>
+          <p class="arrow-note" style="margin:16px 0 0">The distinction is useful—but organism, site, exposure and host immunity still decide the outcome.</p>
+        </section>
+
+        <section class="section" style="--accent:#527466">
+          <h2 class="section-title">From specimen to de-escalation</h2>
+          <div class="diagnostic-flow">
+            <div class="diagnostic-step">Good specimen</div>
+            <div class="diagnostic-step">Gram stain + rapid test</div>
+            <div class="diagnostic-step">Culture + MIC</div>
+            <div class="diagnostic-step">Narrow, switch or stop</div>
+          </div>
+          <p class="pen-note" style="margin-top:14px">Reassess at <mark>48–72 hours</mark>: response, cultures, organ function, route and planned duration.</p>
+        </section>
+
+        <aside class="teacher-callout" style="margin-top:auto; transform:rotate(.18deg)">
+          <p class="pen-note"><span class="callout-label">Read the report:</span>Susceptible, intermediate or resistant must be interpreted with the specimen quality and clinical response.</p>
+        </aside>
+      </div>
+
+      <div class="column">
+        <section class="section" style="--accent:#8b6479">
+          <h2 class="section-title">How resistance develops</h2>
+          <div class="mechanisms">
+            <div class="mechanism"><span class="mechanism-icon" style="--ink:#547563">↘</span><span><strong>Reduced entry</strong> through altered porins</span></div>
+            <div class="mechanism"><span class="mechanism-icon" style="--ink:#4e718d">↗</span><span><strong>Efflux pumps</strong> lower intracellular drug</span></div>
+            <div class="mechanism"><span class="mechanism-icon" style="--ink:#b55f43">✂</span><span><strong>Enzymes</strong> destroy or modify the drug</span></div>
+            <div class="mechanism"><span class="mechanism-icon" style="--ink:#a98232">◎</span><span><strong>Altered target</strong> prevents useful binding</span></div>
+            <div class="mechanism"><span class="mechanism-icon" style="--ink:#896179">⇢</span><span><strong>Pathway bypass</strong> avoids the blocked step</span></div>
+            <div class="mechanism"><span class="mechanism-icon" style="--ink:#537565">≋</span><span><strong>Biofilm + persisters</strong> produce tolerant populations</span></div>
+          </div>
+          <p class="pen-note" style="margin-top:15px">Resistance spreads by <mark>mutation</mark> and horizontal transfer: conjugation, transduction and transformation.</p>
+        </section>
+
+        <section class="stewardship">
+          <h2 class="section-title" style="--accent:#557665">Antimicrobial stewardship</h2>
+          <ul>
+            <li>Start with adequate coverage when illness is severe.</li>
+            <li>Review cultures early and <strong>de-escalate</strong>.</li>
+            <li>Use the narrowest effective spectrum.</li>
+            <li>Optimise dose, route, exposure and duration.</li>
+            <li>Combine agents only for proven synergy, resistance prevention or toxicity reduction.</li>
+            <li>Avoid duplicate coverage and unnecessary prophylaxis.</li>
+            <li>Protect the microbiome and reduce <em>C. difficile</em> risk.</li>
+          </ul>
+        </section>
+
+        <section class="section" style="--accent:#aa8134">
+          <h2 class="section-title">If treatment is failing, ask why</h2>
+          <ul class="teaching-list">
+            <li>Wrong organism, resistance or a noninfectious diagnosis</li>
+            <li>Inadequate dose, absorption or penetration into the site</li>
+            <li>Undrained focus, necrotic tissue, biofilm or infected device</li>
+            <li>Poor adherence or profound immune dysfunction</li>
+          </ul>
+        </section>
+
+        <p class="bottom-summary">Final exam line → right drug + right dose + right site + source control + early review.</p>
+      </div>
+    </section>
+  </main>
+
+  <template id="map-dna">
+    <div class="column">
+      <section class="section" style="--accent:#587768">
+        <h2 class="section-title">Folate pathway blockade</h2>
+        <div class="pathway">
+          <div class="path-node">PABA</div><span class="path-arrow">→</span>
+          <div class="path-node"><mark>DHPS</mark><br>blocked by sulfonamides</div><span class="path-arrow">→</span>
+          <div class="path-node">Dihydrofolate</div><span class="path-arrow">→</span>
+          <div class="path-node"><mark>DHFR</mark><br>blocked by trimethoprim</div>
+        </div>
+        <p class="pen-note" style="margin-top:15px"><strong>TMP–SMX</strong> gives sequential blockade: each drug is usually bacteriostatic alone; the combination is often bactericidal.</p>
+      </section>
+      <section class="section" style="--accent:#4f718d">
+        <h2 class="section-title">Where TMP–SMX is useful</h2>
+        <div class="drug-grid">
+          <div class="drug-note"><b>Common</b>UTI and community-MRSA skin infection</div>
+          <div class="drug-note" style="--drug:#4f718d"><b>Opportunistic</b><em>Pneumocystis jirovecii</em></div>
+          <div class="drug-note" style="--drug:#a98233"><b>Distinctive</b><em>Nocardia</em> and <em>Stenotrophomonas</em></div>
+          <div class="drug-note" style="--drug:#896179"><b>Selected</b>Protozoal infections and some enteric pathogens</div>
+        </div>
+      </section>
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#b45f43">Sulfonamide toxicity</h2>
+        <ul class="teaching-list" style="--accent:#b45f43">
+          <li>Rash, photosensitivity and <strong>SJS/TEN</strong></li>
+          <li>Crystalluria; maintain hydration</li>
+          <li>Marrow suppression and hyperkalaemia</li>
+          <li>Haemolysis in G6PD deficiency</li>
+          <li>Kernicterus risk near term and in newborns</li>
+          <li>Important interaction: <strong>warfarin</strong></li>
+        </ul>
+      </section>
+      <aside class="teacher-callout" style="margin-top:auto">
+        <p class="pen-note"><span class="callout-label">Teacher's cue:</span>Sulfa stops folate at <strong>DHPS</strong>; trimethoprim finishes the block at <strong>DHFR</strong>.</p>
+      </aside>
+    </div>
+
+    <div class="column">
+      <section class="section" style="--accent:#b26143">
+        <h2 class="section-title">Fluoroquinolones</h2>
+        <div class="pathway">
+          <div class="path-node">Drug enters bacterium</div><span class="path-arrow">→</span>
+          <div class="path-node">Blocks <mark>DNA gyrase</mark> + topoisomerase IV</div><span class="path-arrow">→</span>
+          <div class="path-node">DNA breaks accumulate</div>
+        </div>
+        <p class="pen-note" style="margin-top:14px">Bactericidal, concentration-dependent killing with a useful post-antibiotic effect.</p>
+      </section>
+      <section class="section" style="--accent:#52718b">
+        <h2 class="section-title">Pick the quinolone deliberately</h2>
+        <div class="drug-grid">
+          <div class="drug-note"><b>Ciprofloxacin</b>Pseudomonas, anthrax and UTI; weaker pneumococcal activity</div>
+          <div class="drug-note" style="--drug:#52718b"><b>Levofloxacin</b>Respiratory pathogens plus Pseudomonas and urinary activity</div>
+          <div class="drug-note" style="--drug:#896179"><b>Moxifloxacin</b>Respiratory + anaerobic activity; <mark>not useful for UTI</mark></div>
+          <div class="drug-note" style="--drug:#a98233"><b>Delafloxacin</b>Activity against MRSA with gram-negative coverage</div>
+        </div>
+      </section>
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#b45f43">Safety: do not prescribe casually</h2>
+        <ul class="teaching-list" style="--accent:#b45f43">
+          <li>Tendinitis and tendon rupture</li>
+          <li>Peripheral neuropathy and CNS effects, including seizures</li>
+          <li>QT prolongation and dysglycaemia</li>
+          <li><em>C. difficile</em>-associated diarrhoea</li>
+          <li>Calcium, iron and aluminium <strong>chelate</strong> the drug</li>
+          <li>Use cautiously in pregnancy and children</li>
+        </ul>
+      </section>
+      <section class="section" style="--accent:#6b7759">
+        <h2 class="section-title">How quinolone resistance appears</h2>
+        <ul class="teaching-list">
+          <li><strong>gyrA/parC</strong> target mutations</li>
+          <li>Reduced porin entry and increased efflux</li>
+          <li><strong>qnr</strong> proteins protect the target</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="column">
+      <section class="section" style="--accent:#896179">
+        <h2 class="section-title">Nitroimidazoles</h2>
+        <div class="pathway">
+          <div class="path-node">Metronidazole enters</div><span class="path-arrow">→</span>
+          <div class="path-node">Reduced in anaerobes / protozoa</div><span class="path-arrow">→</span>
+          <div class="path-node"><mark>Reactive radicals</mark> damage DNA</div>
+        </div>
+      </section>
+      <section class="section" style="--accent:#557665">
+        <h2 class="section-title">Spectrum and clinical use</h2>
+        <ul class="teaching-list">
+          <li><strong>Anaerobes:</strong> <em>Bacteroides</em> and many clostridia</li>
+          <li><strong>Protozoa:</strong> amoebiasis, giardiasis and trichomoniasis</li>
+          <li>Bacterial vaginosis and anaerobic polymicrobial infection</li>
+          <li>Part of selected <em>H. pylori</em> combinations</li>
+          <li>Excellent tissue penetration, including abscesses</li>
+        </ul>
+      </section>
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#a98233">Adverse effects + cautions</h2>
+        <ul class="teaching-list" style="--accent:#a98233">
+          <li>Metallic taste, nausea and GI upset</li>
+          <li>Peripheral neuropathy with prolonged exposure</li>
+          <li>Dark urine may occur</li>
+          <li>Raises warfarin effect; review the INR</li>
+          <li>Reduced activation and <strong>nim</strong> genes can confer resistance</li>
+        </ul>
+      </section>
+      <aside class="teacher-callout">
+        <p class="pen-note"><span class="callout-label">Clinical distinction:</span>Quinolones stop supercoiling; nitroimidazoles form radicals that physically damage DNA.</p>
+      </aside>
+      <p class="exam-strip" style="margin-top:auto">Rapid recall → Sulfa: folate · Quinolones: topoisomerases · Metronidazole: radicals · Moxifloxacin misses the urine.</p>
+    </div>
+  </template>
+
+  <template id="map-envelope">
+    <div class="column">
+      <section class="section" style="--accent:#557665">
+        <h2 class="section-title">How β-lactams break the wall</h2>
+        <div class="pathway">
+          <div class="path-node">D-Ala–D-Ala mimic</div><span class="path-arrow">→</span>
+          <div class="path-node">Bind <mark>PBPs</mark></div><span class="path-arrow">→</span>
+          <div class="path-node">No peptidoglycan cross-linking</div><span class="path-arrow">→</span>
+          <div class="path-node">Cell lysis</div>
+        </div>
+        <p class="pen-note" style="margin-top:14px">Bactericidal, usually <strong>time-dependent</strong>, and most effective while bacteria are actively dividing.</p>
+      </section>
+      <section class="section" style="--accent:#4e718d">
+        <h2 class="section-title">Penicillin groups</h2>
+        <div class="drug-grid">
+          <div class="drug-note"><b>Natural G / V</b>Streptococci, susceptible oral anaerobes and syphilis</div>
+          <div class="drug-note" style="--drug:#4e718d"><b>Anti-staphylococcal</b>Oxacillin, nafcillin, dicloxacillin → MSSA</div>
+          <div class="drug-note" style="--drug:#a98233"><b>Aminopenicillins</b>Ampicillin/amoxicillin → enterococci, Listeria and respiratory pathogens</div>
+          <div class="drug-note" style="--drug:#896179"><b>Antipseudomonal</b>Piperacillin, usually paired with tazobactam</div>
+        </div>
+      </section>
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#b45f43">Penicillin cautions</h2>
+        <ul class="teaching-list" style="--accent:#b45f43">
+          <li>Immediate allergy: urticaria, bronchospasm or anaphylaxis</li>
+          <li>Delayed rash is not always IgE-mediated allergy</li>
+          <li>Mostly renal elimination: adjust when needed</li>
+          <li>High concentrations can provoke neurotoxicity or seizures</li>
+        </ul>
+      </section>
+      <aside class="teacher-callout" style="margin-top:auto"><p class="pen-note"><span class="callout-label">Teacher's rule:</span>For β-lactams, maintain useful free concentration above the MIC—dose interval matters.</p></aside>
+    </div>
+
+    <div class="column">
+      <section class="section" style="--accent:#a98233">
+        <h2 class="section-title">Cephalosporin generations</h2>
+        <div class="generation-list">
+          <div class="generation-row"><b>1st</b><span>Cefazolin/cephalexin → MSSA, streptococci;PEcK gram-negatives</span></div>
+          <div class="generation-row"><b>2nd</b><span>Cefuroxime; cefoxitin/cefotetan add anaerobic activity</span></div>
+          <div class="generation-row"><b>3rd</b><span>Ceftriaxone/cefotaxime for serious infection and CNS; ceftazidime covers Pseudomonas</span></div>
+          <div class="generation-row"><b>4th</b><span>Cefepime → broad gram-negative coverage including Pseudomonas</span></div>
+          <div class="generation-row"><b>5th</b><span>Ceftaroline binds PBP2a → MRSA activity</span></div>
+        </div>
+        <p class="arrow-note" style="margin:13px 0 0">Cephalosporins do not reliably cover Enterococcus, Listeria or atypicals.</p>
+      </section>
+      <section class="section" style="--accent:#896179">
+        <h2 class="section-title">How β-lactam resistance happens</h2>
+        <ul class="teaching-list">
+          <li><strong>β-lactamases</strong> hydrolyse the ring</li>
+          <li><strong>Altered PBPs:</strong> MRSA expresses low-affinity PBP2a</li>
+          <li>Reduced porin entry and increased efflux</li>
+          <li>Biofilm and high bacterial burden reduce effectiveness</li>
+        </ul>
+      </section>
+      <section class="section" style="--accent:#527466">
+        <h2 class="section-title">Inhibitors and other β-lactams</h2>
+        <div class="drug-grid">
+          <div class="drug-note"><b>Inhibitors</b>Clavulanate, sulbactam, tazobactam, avibactam—match inhibitor to enzyme</div>
+          <div class="drug-note" style="--drug:#527466"><b>Carbapenems</b>Very broad; stable to many ESBLs. Imipenem has greater seizure risk</div>
+          <div class="drug-note" style="--drug:#a98233"><b>Ertapenem misses</b>Pseudomonas, Acinetobacter and Enterococcus</div>
+          <div class="drug-note" style="--drug:#896179"><b>Aztreonam</b>Gram-negative aerobes including Pseudomonas; no gram-positive/anaerobic cover</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="column">
+      <section class="section" style="--accent:#557665">
+        <h2 class="section-title">Vancomycin</h2>
+        <div class="pathway">
+          <div class="path-node">Binds D-Ala–D-Ala</div><span class="path-arrow">→</span>
+          <div class="path-node">Blocks wall polymerisation</div><span class="path-arrow">→</span>
+          <div class="path-node">Gram-positive killing</div>
+        </div>
+        <ul class="teaching-list" style="margin-top:14px">
+          <li>IV: serious gram-positive disease including MRSA</li>
+          <li>Oral: remains in gut and treats <em>C. difficile</em></li>
+          <li>Monitor exposure and renal function</li>
+          <li>Nephrotoxicity and infusion-related flushing/hypotension</li>
+          <li>Resistance: D-Ala–D-Lac reduces binding</li>
+        </ul>
+      </section>
+      <section class="section" style="--accent:#b26143">
+        <h2 class="section-title">Daptomycin</h2>
+        <div class="pathway">
+          <div class="path-node">Binds membrane</div><span class="path-arrow">→</span>
+          <div class="path-node">Rapid depolarisation</div><span class="path-arrow">→</span>
+          <div class="path-node">Cell death</div>
+        </div>
+        <ul class="teaching-list" style="margin-top:14px">
+          <li>MRSA and VRE bacteraemia; selected right-sided endocarditis</li>
+          <li><mark>Inactivated by pulmonary surfactant</mark>—never use for pneumonia</li>
+          <li>Myopathy and CPK elevation; monitor symptoms and CPK</li>
+        </ul>
+      </section>
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#a98233">Clinical traps</h2>
+        <ul class="teaching-list" style="--accent:#a98233">
+          <li>Meropenem can be used for CNS infection; ertapenem lacks Pseudomonas</li>
+          <li>β-lactam allergy cross-reactivity depends heavily on shared side chains</li>
+          <li>Bacitracin is mainly topical because systemic toxicity is substantial</li>
+        </ul>
+      </section>
+      <p class="exam-strip" style="margin-top:auto">Wall recall → β-lactams stop cross-linking · Vancomycin caps D-Ala–D-Ala · Daptomycin drains membrane potential—and does not do lungs.</p>
+    </div>
+  </template>
+
+  <template id="map-miscellaneous">
+    <div class="column">
+      <section class="section" style="--accent:#557665">
+        <h2 class="section-title">Aminoglycoside mechanism</h2>
+        <div class="pathway">
+          <div class="path-node">Oxygen-dependent uptake</div><span class="path-arrow">→</span>
+          <div class="path-node">Irreversible <mark>30S</mark> binding</div><span class="path-arrow">→</span>
+          <div class="path-node">mRNA misreading</div><span class="path-arrow">→</span>
+          <div class="path-node">Cell death</div>
+        </div>
+        <p class="pen-note" style="margin-top:14px">Bactericidal, concentration-dependent killing with a prominent post-antibiotic effect.</p>
+      </section>
+      <section class="section" style="--accent:#4f718d">
+        <h2 class="section-title">Drugs and useful distinctions</h2>
+        <div class="drug-grid">
+          <div class="drug-note"><b>Gentamicin</b>Broad gram-negative use and synergy in selected gram-positive infections</div>
+          <div class="drug-note" style="--drug:#4f718d"><b>Tobramycin</b>Particularly active against Pseudomonas</div>
+          <div class="drug-note" style="--drug:#a98233"><b>Amikacin / plazomicin</b>May retain activity against resistant strains</div>
+          <div class="drug-note" style="--drug:#896179"><b>Streptomycin</b>Tuberculosis, plague and tularemia</div>
+        </div>
+      </section>
+      <section class="section" style="--accent:#896179">
+        <h2 class="section-title">Spectrum and kinetics</h2>
+        <ul class="teaching-list">
+          <li>Serious <strong>aerobic gram-negative bacilli</strong></li>
+          <li>No activity in anaerobes: uptake requires oxygen</li>
+          <li>Activity falls in acidic or necrotic environments</li>
+          <li>Poor oral and CSF penetration; mainly renal elimination</li>
+          <li>Cell-wall agents may enhance entry and create synergy</li>
+        </ul>
+      </section>
+      <aside class="teacher-callout" style="margin-top:auto"><p class="pen-note"><span class="callout-label">Teacher's cue:</span>Aminoglycosides need oxygen, hit 30S irreversibly and kill better with a high peak.</p></aside>
+    </div>
+
+    <div class="column">
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#b45f43">Aminoglycoside toxicity</h2>
+        <ul class="teaching-list" style="--accent:#b45f43">
+          <li><strong>Nephrotoxicity</strong>—often related to accumulation</li>
+          <li><strong>Ototoxicity</strong>—cochlear or vestibular; may be irreversible</li>
+          <li>Neuromuscular blockade</li>
+          <li>Risk rises with other nephrotoxins or ototoxins</li>
+        </ul>
+      </section>
+      <section class="section" style="--accent:#527466">
+        <h2 class="section-title">Dose and monitor intelligently</h2>
+        <div class="dose-flow">
+          <div class="dose-box"><strong>Extended interval</strong>uses concentration-dependent killing + post-antibiotic effect</div>
+          <span class="dose-arrow">→</span>
+          <div class="dose-box"><strong>Monitor</strong>renal function and drug exposure when indicated</div>
+        </div>
+        <p class="pen-note" style="margin-top:14px">Review indication daily; unnecessary prolonged therapy multiplies toxicity.</p>
+      </section>
+      <section class="section" style="--accent:#a98233">
+        <h2 class="section-title">Polymyxins: membrane detergents</h2>
+        <div class="pathway">
+          <div class="path-node">Bind LPS + phospholipids</div><span class="path-arrow">→</span>
+          <div class="path-node">Disrupt gram-negative membrane</div><span class="path-arrow">→</span>
+          <div class="path-node">Leakage + death</div>
+        </div>
+        <ul class="teaching-list" style="margin-top:14px">
+          <li>Colistin (polymyxin E) and polymyxin B</li>
+          <li>Last-line activity against MDR Pseudomonas, Acinetobacter and Enterobacterales</li>
+          <li>Major nephrotoxicity and neurotoxicity</li>
+          <li>Colistin is given as a prodrug; polymyxin B does not produce reliable urinary levels</li>
+        </ul>
+      </section>
+      <p class="exam-strip" style="margin-top:auto">Aminoglycosides enter using oxygen; polymyxins behave like detergent on the gram-negative outer membrane.</p>
+    </div>
+
+    <div class="column">
+      <section class="section" style="--accent:#557665">
+        <h2 class="section-title">Urinary antiseptics</h2>
+        <div class="drug-grid">
+          <div class="drug-note"><b>Nitrofurantoin</b>Reactive damage; E. coli/Enterococcus; <mark>lower UTI only</mark></div>
+          <div class="drug-note" style="--drug:#4f718d"><b>Fosfomycin</b>Blocks MurA; convenient option for uncomplicated cystitis</div>
+          <div class="drug-note" style="--drug:#a98233"><b>Methenamine</b>Forms formaldehyde in acidic urine; suppression, not acute pyelonephritis</div>
+          <div class="drug-note" style="--drug:#896179"><b>Key principle</b>High urine concentration does not guarantee renal-tissue concentration</div>
+        </div>
+      </section>
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#b45f43">Nitrofurantoin cautions</h2>
+        <ul class="teaching-list" style="--accent:#b45f43">
+          <li>Brown urine is harmless</li>
+          <li>Pulmonary, hepatic and neurological toxicity</li>
+          <li>Haemolysis in G6PD deficiency</li>
+          <li>Not appropriate for pyelonephritis or systemic infection</li>
+        </ul>
+      </section>
+      <section class="section" style="--accent:#896179">
+        <h2 class="section-title">Bacteriophage therapy</h2>
+        <div class="pathway">
+          <div class="path-node">Attach</div><span class="path-arrow">→</span>
+          <div class="path-node">Inject DNA</div><span class="path-arrow">→</span>
+          <div class="path-node">Replicate</div><span class="path-arrow">→</span>
+          <div class="path-node">Lyse bacterium</div>
+        </div>
+        <ul class="teaching-list" style="margin-top:14px">
+          <li>Lytic phages are highly host-specific; cocktails broaden coverage</li>
+          <li>Can self-replicate and may help attack biofilms</li>
+          <li>Resistance and immune clearance remain challenges</li>
+          <li>Temperate/lysogenic phages are poor therapeutic candidates</li>
+          <li>Still investigational rather than routine therapy</li>
+        </ul>
+      </section>
+      <p class="exam-strip" style="margin-top:auto">Rapid recall → Aminoglycosides need oxygen · Polymyxins punch membranes · Urinary agents stay low · Lytic phages burst bacteria.</p>
+    </div>
+  </template>
+
+  <template id="map-protein">
+    <div class="column">
+      <section class="section" style="--accent:#557665">
+        <h2 class="section-title">Ribosome map</h2>
+        <div class="compare-table">
+          <div class="compare-cell"><b>30S targets</b>Aminoglycosides and tetracyclines</div>
+          <div class="compare-cell"><b>50S targets</b>Macrolides, clindamycin, chloramphenicol, oxazolidinones and streptogramins</div>
+        </div>
+        <p class="pen-note" style="margin-top:13px"><span class="formula-line">30S + 50S = bacterial 70S ribosome</span></p>
+      </section>
+      <section class="section" style="--accent:#4f718d">
+        <h2 class="section-title">Tetracyclines</h2>
+        <div class="pathway">
+          <div class="path-node">Reversibly bind 30S</div><span class="path-arrow">→</span>
+          <div class="path-node">Block aminoacyl-tRNA entry at A site</div><span class="path-arrow">→</span>
+          <div class="path-node">Protein synthesis stops</div>
+        </div>
+        <ul class="teaching-list" style="margin-top:14px">
+          <li>Doxycycline, minocycline and tetracycline; newer tigecycline, eravacycline and omadacycline</li>
+          <li>Rickettsiae, Chlamydia, Mycoplasma, Lyme disease, acne and community MRSA</li>
+          <li>GI upset, oesophagitis and photosensitivity</li>
+          <li>Teeth/bone effects: generally avoid in pregnancy and young children unless compelling</li>
+          <li>Cations reduce absorption; minocycline causes vestibular effects</li>
+        </ul>
+      </section>
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#a98233">Tetracycline resistance</h2>
+        <ul class="teaching-list" style="--accent:#a98233">
+          <li>Efflux pumps</li>
+          <li>Ribosomal protection proteins</li>
+          <li>Enzymatic drug inactivation</li>
+        </ul>
+      </section>
+      <aside class="teacher-callout" style="margin-top:auto"><p class="pen-note"><span class="callout-label">30S cue:</span>Aminoglycosides misread; tetracyclines prevent incoming tRNA from docking.</p></aside>
+    </div>
+
+    <div class="column">
+      <section class="section" style="--accent:#b26143">
+        <h2 class="section-title">Macrolides</h2>
+        <p class="pen-note"><strong>Erythromycin, clarithromycin and azithromycin</strong> bind 50S and inhibit translocation.</p>
+        <div class="drug-grid" style="margin-top:14px">
+          <div class="drug-note"><b>Uses</b>Atypical respiratory pathogens, pertussis, diphtheria and Chlamydia</div>
+          <div class="drug-note" style="--drug:#4f718d"><b>Differences</b>Azithromycin has long tissue persistence; clarithromycin enters H. pylori regimens</div>
+          <div class="drug-note" style="--drug:#a98233"><b>Toxicity</b>GI/motilin effects, QT prolongation and cholestatic hepatitis</div>
+          <div class="drug-note" style="--drug:#896179"><b>Interactions</b>Erythro/clarithro inhibit CYP more than azithro</div>
+        </div>
+        <p class="pen-note" style="margin-top:13px">Resistance: efflux, <strong>erm</strong>-mediated target methylation, esterase or target mutation.</p>
+      </section>
+      <section class="section" style="--accent:#896179">
+        <h2 class="section-title">Clindamycin</h2>
+        <ul class="teaching-list">
+          <li>Gram-positive cocci and anaerobes, especially above the diaphragm</li>
+          <li>Suppresses toxin production in selected severe infections</li>
+          <li>High risk of <em>C. difficile</em> colitis</li>
+          <li><strong>D-test</strong> detects inducible resistance</li>
+        </ul>
+      </section>
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#b45f43">Chloramphenicol</h2>
+        <ul class="teaching-list" style="--accent:#b45f43">
+          <li>Inhibits peptidyl transferase and penetrates CNS well</li>
+          <li>Dose-related reversible marrow suppression</li>
+          <li>Rare idiosyncratic aplastic anaemia</li>
+          <li>Gray-baby syndrome in neonates</li>
+        </ul>
+      </section>
+      <p class="exam-strip" style="margin-top:auto">Macrolides move poorly at 50S; clindamycin carries a major C. difficile warning; chloramphenicol carries marrow warnings.</p>
+    </div>
+
+    <div class="column">
+      <section class="section" style="--accent:#557665">
+        <h2 class="section-title">Oxazolidinones</h2>
+        <div class="pathway">
+          <div class="path-node">Linezolid / tedizolid</div><span class="path-arrow">→</span>
+          <div class="path-node">Prevent 50S initiation complex</div><span class="path-arrow">→</span>
+          <div class="path-node">MRSA + VRE coverage</div>
+        </div>
+        <ul class="teaching-list" style="margin-top:14px">
+          <li>Excellent oral absorption and useful tissue/CNS distribution</li>
+          <li>Myelosuppression, especially thrombocytopenia</li>
+          <li>Peripheral or optic neuropathy with prolonged exposure</li>
+          <li>Lactic acidosis</li>
+          <li>MAO inhibition creates serotonin-syndrome risk</li>
+        </ul>
+      </section>
+      <section class="section" style="--accent:#a98233">
+        <h2 class="section-title">Other protein-synthesis drugs</h2>
+        <div class="drug-grid">
+          <div class="drug-note"><b>Quinupristin / dalfopristin</b>VRE <em>E. faecium</em>, not <em>E. faecalis</em>; arthralgia/myalgia and CYP inhibition</div>
+          <div class="drug-note" style="--drug:#4f718d"><b>Pleuromutilins</b>Lefamulin and retapamulin act at 50S</div>
+          <div class="drug-note" style="--drug:#a98233"><b>Mupirocin</b>Blocks isoleucyl-tRNA synthetase; topical impetigo and nasal MRSA decolonisation</div>
+          <div class="drug-note" style="--drug:#896179"><b>Mupirocin resistance</b>Altered or bypass isoleucyl-tRNA synthetase</div>
+        </div>
+      </section>
+      <aside class="teacher-callout">
+        <p class="pen-note"><span class="callout-label">Memory aid:</span><strong>Buy AT 30</strong> = Aminoglycosides + Tetracyclines. <strong>CELL at 50</strong> = Chloramphenicol, Erythro/macrolides, Linezolid, Lincosamides.</p>
+      </aside>
+      <section class="warning-box">
+        <h2 class="section-title" style="--accent:#b45f43">High-yield interaction check</h2>
+        <ul class="teaching-list" style="--accent:#b45f43">
+          <li>Macrolides: QT interval and CYP interactions</li>
+          <li>Linezolid: serotonergic drugs and blood counts</li>
+          <li>Tetracyclines: separate from calcium, iron and aluminium</li>
+        </ul>
+      </section>
+      <p class="exam-strip" style="margin-top:auto">Match every inhibitor to three things: ribosomal site, distinctive spectrum and signature toxicity.</p>
+    </div>
+  </template>
+
+  <script>
+    const sheets = {
+      dna: { title: "DNA disruptors", number: "02", template: "map-dna" },
+      envelope: { title: "Cell-envelope disruptors", number: "03", template: "map-envelope" },
+      miscellaneous: { title: "Miscellaneous antibacterials", number: "04", template: "map-miscellaneous" },
+      protein: { title: "Protein-synthesis inhibitors", number: "05", template: "map-protein" }
+    };
+
+    const selected = new URLSearchParams(window.location.search).get("map") || "general";
+    const sheet = sheets[selected];
+    if (sheet) {
+      document.querySelector("h1").textContent = sheet.title;
+      document.querySelector(".page-number").textContent = sheet.number;
+      document.querySelector(".notes-grid").classList.add("dynamic");
+      document.querySelector(".notes-grid").innerHTML = document.getElementById(sheet.template).innerHTML;
+    }
+  </script>
+</body>
+</html>

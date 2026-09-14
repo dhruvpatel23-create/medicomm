@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Posterolateral anatomy of the right forearm and dorsum of hand</title>
+  <desc id="desc">An original educational illustration. The extensor carpi radialis longus is highlighted in amber and indicated with a pointer.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#172a47"/><stop offset="1" stop-color="#0b1429"/></linearGradient>
+    <linearGradient id="muscle" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#7894b2"/><stop offset="1" stop-color="#405b7a"/></linearGradient>
+    <linearGradient id="highlight" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffd266"/><stop offset="1" stop-color="#d98a27"/></linearGradient>
+    <linearGradient id="tendon" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4ebd7"/><stop offset="1" stop-color="#b9c8d0"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#020815" flood-opacity=".55"/></filter>
+    <pattern id="paper" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M0 5h24M0 17h24" stroke="#fff" stroke-opacity=".025"/></pattern>
+    <marker id="arrowHead" markerWidth="13" markerHeight="13" refX="10" refY="6.5" orient="auto"><path d="M0 0 L13 6.5 L0 13 z" fill="#f5fbff"/></marker>
+  </defs>
+  <rect width="1536" height="1024" fill="url(#bg)"/>
+  <rect width="1536" height="1024" fill="url(#paper)"/>
+  <g filter="url(#shadow)" stroke-linejoin="round">
+    <!-- subtle anatomical field, deliberately different from the former black poster format -->
+    <path d="M1195 113 C1102 157 1031 223 956 316 L654 671 C606 728 553 778 473 842 L350 915 C321 936 283 912 295 875 L342 732 C366 665 408 617 478 554 L844 226 C932 142 1029 74 1123 61 C1179 54 1227 82 1195 113Z" fill="#d7e2e7" stroke="#b9cbd3" stroke-width="10"/>
+    <!-- radius and ulna shown as quiet structural landmarks -->
+    <path d="M1071 159 C966 256 851 379 717 514 C615 617 523 714 404 836" fill="none" stroke="#dce9e5" stroke-width="42" stroke-linecap="round"/>
+    <path d="M1130 196 C1008 346 882 480 758 599 C643 708 552 776 450 868" fill="none" stroke="#c5d5d5" stroke-width="34" stroke-linecap="round"/>
+    <!-- deep extensor compartment -->
+    <path d="M1145 170 C1044 214 949 299 850 405 C755 507 647 619 499 771 L450 827 L534 805 C680 674 795 562 900 449 C1015 325 1091 251 1191 191Z" fill="#304965" stroke="#243b56" stroke-width="7"/>
+    <!-- extensor digitorum, separated into original stylised fascicles -->
+    <path d="M1054 203 C982 284 890 398 781 500 C672 601 581 689 440 821 L472 848 C626 733 728 648 838 544 C949 439 1047 335 1120 245Z" fill="url(#muscle)" stroke="#314c6b" stroke-width="8"/>
+    <path d="M1003 225 C919 324 835 419 730 519 C638 607 554 691 429 824" fill="none" stroke="#a9bdc9" stroke-opacity=".36" stroke-width="4"/>
+    <path d="M1038 231 C961 334 879 421 767 529 C666 626 585 700 448 839" fill="none" stroke="#a9bdc9" stroke-opacity=".32" stroke-width="4"/>
+    <!-- extensor carpi ulnaris -->
+    <path d="M1167 176 C1110 247 1050 340 974 438 C882 556 772 667 623 795 L590 835 L661 813 C807 686 916 572 1014 450 C1087 359 1156 272 1207 201Z" fill="#587591" stroke="#314c6b" stroke-width="8"/>
+    <!-- BRACHIORADIALIS: a visual neighbour but intentionally subdued -->
+    <path d="M1200 125 C1146 165 1094 224 1048 287 L862 555 L810 649 L860 623 L1048 392 C1114 305 1169 230 1235 159Z" fill="#6985a0" stroke="#314c6b" stroke-width="8"/>
+    <!-- highlighted ECRL: origin at lateral supracondylar ridge to radial side of 2nd metacarpal -->
+    <path d="M1191 111 C1154 147 1114 196 1078 254 C1027 338 965 418 889 494 C809 575 706 648 573 751 L466 839 L509 866 C625 790 730 711 824 632 C915 555 991 477 1053 396 C1115 316 1162 238 1220 155 C1236 132 1213 100 1191 111Z" fill="url(#highlight)" stroke="#ffe4a4" stroke-width="9"/>
+    <path d="M1199 145 C1143 243 1095 327 1025 414 C956 499 877 572 789 644 C701 717 622 773 523 844" fill="none" stroke="#fff0bf" stroke-opacity=".58" stroke-width="5"/>
+    <path d="M1179 149 C1117 252 1063 339 992 427 C918 517 838 588 750 661 C670 727 598 783 500 850" fill="none" stroke="#ac5e18" stroke-opacity=".5" stroke-width="4"/>
+    <!-- extensor retinaculum -->
+    <path d="M599 735 L686 806 L627 879 L538 808Z" fill="#eff2e9" stroke="#9db4bb" stroke-width="8"/>
+    <path d="M586 765 L662 830 M568 791 L646 856" stroke="#9cb3bc" stroke-width="5" opacity=".9"/>
+    <!-- dorsum of hand and metacarpals -->
+    <path d="M525 807 C479 798 431 817 401 857 L346 930 C329 951 343 976 369 969 L443 947 L431 990 C427 1012 459 1021 475 997 L506 952 L514 1005 C519 1028 552 1028 560 1004 L577 952 L595 986 C609 1008 641 998 636 974 L610 902 C594 857 565 824 525 807Z" fill="#d7e2e7" stroke="#b9cbd3" stroke-width="9"/>
+    <path d="M545 830 L451 928 M558 851 L498 973 M576 864 L556 993 M595 870 L614 967" stroke="url(#tendon)" stroke-width="20" stroke-linecap="round"/>
+    <!-- ECRL tendon arrives on radial base of second metacarpal -->
+    <path d="M507 857 C490 877 477 899 462 929" fill="none" stroke="#f7c95f" stroke-width="22" stroke-linecap="round"/>
+    <!-- dorsal extensor tendons -->
+    <path d="M542 842 C503 876 477 905 444 946 M562 852 C542 894 530 928 514 984 M583 859 C578 901 576 940 576 995 M604 869 C616 910 624 940 630 970" fill="none" stroke="#f3f1e6" stroke-width="10" stroke-linecap="round"/>
+    <!-- tendon bands on fingers -->
+    <path d="M402 893 L438 923 M460 915 L484 943 M510 925 L536 951 M556 924 L581 950" stroke="#a8bbc4" stroke-width="7"/>
+  </g>
+  <!-- Pointer is purpose-built for the question and not derived from the source image -->
+  <g fill="none" stroke="#f5fbff" stroke-linecap="round">
+    <path d="M1380 390 H1170 C1111 390 1060 370 1007 342" stroke-width="8" marker-end="url(#arrowHead)"/>
+    <circle cx="1406" cy="390" r="35" fill="#f5fbff" stroke="#f5fbff" stroke-width="4"/>
+    <path d="M1393 390 H1419" stroke="#17304d" stroke-width="7"/>
+  </g>
+  <g fill="#d9e9f3" font-family="system-ui, sans-serif" letter-spacing="3" opacity=".7"><text x="80" y="92" font-size="21">ORIGINAL ANATOMY ILLUSTRATION</text></g>
+</svg>

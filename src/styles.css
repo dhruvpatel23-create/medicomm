@@ -3167,6 +3167,21 @@ main {
   color: #fdba74;
 }
 
+.practice-choice-card-mind-maps {
+  border-color: rgba(244, 114, 182, 0.38);
+  background: linear-gradient(145deg, rgba(131, 24, 67, 0.26), #121418 62%);
+}
+
+.practice-choice-card-mind-maps:hover,
+.practice-choice-card-mind-maps:focus-visible {
+  border-color: rgba(244, 114, 182, 0.86);
+}
+
+.practice-choice-card-mind-maps .practice-choice-icon,
+.practice-choice-card-mind-maps small {
+  color: #f9a8d4;
+}
+
 .practice-choice-card-viva {
   border-color: rgba(168, 85, 247, 0.4);
   background: linear-gradient(145deg, rgba(88, 28, 135, 0.26), #121418 62%);
@@ -3195,6 +3210,80 @@ main {
 .practice-choice-card-clinical .practice-choice-icon,
 .practice-choice-card-clinical small {
   color: #7dd3fc;
+}
+
+.mind-maps-view {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.mind-maps-empty-state {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 180px;
+  padding: 30px;
+}
+
+.mind-maps-empty-state h3 {
+  margin: 0 0 8px;
+}
+
+.mind-maps-empty-icon {
+  display: grid;
+  flex: 0 0 72px;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(244, 114, 182, 0.2), rgba(168, 85, 247, 0.16));
+  color: #be185d;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.mind-map-available {
+  color: #15803d;
+  font-weight: 800;
+}
+
+.mind-map-reader {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  padding: 22px;
+  background: #f7ebcf;
+}
+
+.mind-map-reader img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 86dvh;
+  height: auto;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(82, 55, 28, 0.16);
+}
+
+.mind-map-reader-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+@media (max-width: 720px) {
+  .mind-map-reader {
+    padding: 12px;
+  }
+
+  .mind-map-reader img {
+    max-height: 82dvh;
+    border-radius: 12px;
+  }
 }
 
 .viva-setup-view {
