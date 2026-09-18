@@ -8,6 +8,8 @@ import { gzipSync } from "node:zlib";
 import { resolveCollegeState } from "./collegeStateLookup.mjs";
 import { VIVA_CHAPTER_FALLBACKS } from "./src/data/vivaChapters.js";
 import { createReviewHandler } from "./server/reviews.mjs";
+import { readUsmleModules } from "./server/usmleModules.mjs";
+import { readFmgeSessions } from "./server/fmgeQuestions.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -370,12 +372,23 @@ function normalizeQuestion(question, subject, exam = {}) {
     leadIn: String(question.leadIn ?? "").trim(),
     laboratoryFindings,
     itemFamily: String(question.itemFamily ?? "").trim(),
+    moduleId: String(question.moduleId ?? ""),
+    disciplines: Array.isArray(question.disciplines) ? question.disciplines : [],
+    educationalObjective: String(question.educationalObjective ?? ""),
+    reasoningChain: String(question.reasoningChain ?? ""),
+    optionExplanations: Array.isArray(question.optionExplanations) ? question.optionExplanations : [],
+    explanationImageUrls: Array.isArray(question.explanationImageUrls) ? question.explanationImageUrls : [],
+    explanationOrigin: String(question.explanationOrigin ?? ""),
+    reviewNote: String(question.reviewNote ?? ""),
+    sourceNote: String(question.sourceNote ?? ""),
+    part: question.part ?? null,
+    references: Array.isArray(question.references) ? question.references : [],
     options,
     answerIndex,
     answer: String(answer ?? ""),
     explanation: String(question.explanation ?? (answer ? `Correct answer: ${answer}` : "")).trim(),
     difficulty: String(question.difficulty ?? "exam").trim(),
-    source: question.source === "usmle" ? "usmle" : question.source === "topic-wise" ? "topic-wise" : question.source === "ai" ? "ai" : "official",
+    source: question.source === "fmge" ? "fmge" : question.source === "usmle" ? "usmle" : question.source === "topic-wise" ? "topic-wise" : question.source === "ai" ? "ai" : "official",
     sourceExam: String(question.sourceExam ?? question.examTitle ?? exam.title ?? "").trim(),
     sourceExamGroup: String(question.sourceExamGroup ?? "").trim(),
     chapterTitle: String(question.chapterTitle ?? question.sourceChapterTitle ?? "").trim(),
@@ -480,6 +493,14 @@ function buildPracticeLibrary(library, storedQuestions = []) {
 
   return {
     ...library,
+    fmgeSessions: readFmgeSessions().map((session) => ({
+      ...session,
+      questions: session.questions.map((question) => normalizeQuestion(question, session)),
+    })),
+    usmleModules: readUsmleModules().map((module) => ({
+      ...module,
+      questions: module.questions.map((question) => normalizeQuestion(question, module)),
+    })),
     subjects: allSubjects.map((subject) => {
       return {
         ...subject,
@@ -2660,7 +2681,7 @@ async function handleQuestionBookmarkUpdate(request, response) {
   const mode = String(payload.mode ?? "").trim().toLowerCase();
   const shouldSave = payload.saved === true;
 
-  if (!questionId || !subjectId || !["pyq", "ai", "usmle"].includes(mode)) {
+  if (!questionId || !subjectId || !["pyq", "ai", "usmle", "fmge"].includes(mode)) {
     return sendJson(response, 400, { message: "Choose a valid practice question to bookmark." });
   }
 
@@ -2683,7 +2704,9 @@ async function handleQuestionBookmarkUpdate(request, response) {
     const sourceSubjects = mode === "ai"
       ? practiceLibrary.aiSubjects ?? []
       : mode === "usmle"
-        ? practiceLibrary.usmleSubjects ?? []
+        ? [...(practiceLibrary.usmleSubjects ?? []), ...(practiceLibrary.usmleModules ?? [])]
+        : mode === "fmge"
+          ? practiceLibrary.fmgeSessions ?? []
         : practiceLibrary.subjects ?? [];
     const subject = sourceSubjects.find((entry) => entry.id === subjectId);
     const question = (subject?.questions ?? []).find((entry) => entry.id === questionId);
@@ -3261,6 +3284,8 @@ function handlePracticeQuestionBank(request, response, url) {
     ...getOfficialPracticeQuestions(rawLibrary),
     ...(library.aiSubjects ?? []).flatMap((subject) => subject.questions ?? []),
     ...(library.usmleSubjects ?? []).flatMap((subject) => subject.questions ?? []),
+    ...(library.usmleModules ?? []).flatMap((module) => module.questions ?? []),
+    ...(library.fmgeSessions ?? []).flatMap((session) => session.questions ?? []),
   ];
 
   return sendJson(response, 200, {
@@ -3269,7 +3294,7 @@ function handlePracticeQuestionBank(request, response, url) {
       exams: library.exams ?? [],
       subjects: (library.subjects ?? []).map((subject) => ({ id: subject.id, title: subject.title })),
       topics: [...new Set(allQuestions.map((question) => question.topic).filter(Boolean))].sort(),
-      sources: ["official", "ai", "usmle"],
+      sources: ["official", "ai", "usmle", "fmge"],
     },
     questions: hasQuestionFilters ? applyPracticeFilters(allQuestions, url) : [],
   }, {
@@ -3586,7 +3611,9 @@ async function handleRequest(request, response) {
   const url = new URL(request.url, `http://${requestHost}`);
 
   if (request.method === "GET" && url.pathname.startsWith("/uploads/")) {
-    const requestedFile = path.basename(url.pathname);
+    const requestedFile = /^\/uploads\/fmge\/[a-zA-Z0-9_-]+\.webp$/.test(url.pathname)
+      ? path.join("fmge", path.basename(url.pathname))
+      : path.basename(url.pathname);
     const uploadFileCandidates = [
       path.join(uploadsDir, requestedFile),
       path.join(distUploadsDir, requestedFile),

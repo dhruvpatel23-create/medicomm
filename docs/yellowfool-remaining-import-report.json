@@ -1,0 +1,1143 @@
+{
+  "sourceQuestions": 2104,
+  "subjects": [
+    {
+      "subject": "general-medicine",
+      "source": 488,
+      "added": 404,
+      "updated": 84,
+      "totalPyqs": 491,
+      "images": 83
+    },
+    {
+      "subject": "general-surgery",
+      "source": 408,
+      "added": 312,
+      "updated": 96,
+      "totalPyqs": 408,
+      "images": 116
+    },
+    {
+      "subject": "obgyn",
+      "source": 448,
+      "added": 358,
+      "updated": 90,
+      "totalPyqs": 451,
+      "images": 65
+    },
+    {
+      "subject": "pediatrics",
+      "source": 211,
+      "added": 170,
+      "updated": 41,
+      "totalPyqs": 212,
+      "images": 34
+    },
+    {
+      "subject": "orthopedics",
+      "source": 175,
+      "added": 150,
+      "updated": 25,
+      "totalPyqs": 176,
+      "images": 79
+    },
+    {
+      "subject": "psychiatry",
+      "source": 115,
+      "added": 95,
+      "updated": 20,
+      "totalPyqs": 115,
+      "images": 4
+    },
+    {
+      "subject": "dermatology",
+      "source": 139,
+      "added": 116,
+      "updated": 22,
+      "totalPyqs": 138,
+      "images": 90
+    },
+    {
+      "subject": "radiology",
+      "source": 120,
+      "added": 101,
+      "updated": 19,
+      "totalPyqs": 120,
+      "images": 86
+    }
+  ],
+  "matches": {
+    "neet-pg-2023-general-medicine-q001": "neet-pg-2023-q093",
+    "neet-pg-2023-general-medicine-q002": "neet-pg-2023-q096",
+    "neet-pg-2023-general-medicine-q003": "neet-pg-2023-q097",
+    "neet-pg-2023-general-medicine-q004": "neet-pg-2023-q098",
+    "neet-pg-2023-general-medicine-q005": "neet-pg-2023-q101",
+    "neet-pg-2023-general-medicine-q006": "neet-pg-2023-q102",
+    "neet-pg-2023-general-medicine-q007": "neet-pg-2023-q103",
+    "neet-pg-2023-general-medicine-q008": "neet-pg-2023-q106",
+    "neet-pg-2023-general-medicine-q009": "neet-pg-2023-q107",
+    "neet-pg-2023-general-medicine-q010": "neet-pg-2023-q109",
+    "neet-pg-2023-general-medicine-q011": "neet-pg-2023-q111",
+    "neet-pg-2023-general-medicine-q012": "neet-pg-2023-q114",
+    "neet-pg-2023-general-medicine-q013": "neet-pg-2023-q134",
+    "neet-pg-2023-general-medicine-q014": "neet-pg-2023-q135",
+    "neet-pg-2023-general-medicine-q015": "neet-pg-2023-q136",
+    "neet-pg-2023-general-medicine-q016": "neet-pg-2023-q137",
+    "neet-pg-2023-general-medicine-q017": "neet-pg-2023-q138",
+    "neet-pg-2022-general-medicine-q002": "neet-pg-2022-q011",
+    "neet-pg-2022-general-medicine-q004": "neet-pg-2022-q012",
+    "neet-pg-2022-general-medicine-q007": "neet-pg-2022-q013",
+    "neet-pg-2022-general-medicine-q009": "neet-pg-2022-q014",
+    "neet-pg-2022-general-medicine-q010": "neet-pg-2022-q015",
+    "neet-pg-2022-general-medicine-q012": "neet-pg-2022-q016",
+    "neet-pg-2022-general-medicine-q013": "neet-pg-2022-q017",
+    "neet-pg-2022-general-medicine-q014": "neet-pg-2022-q018",
+    "neet-pg-2022-general-medicine-q016": "neet-pg-2022-q019",
+    "neet-pg-2022-general-medicine-q019": "neet-pg-2022-q020",
+    "neet-pg-2022-general-medicine-q020": "neet-pg-2022-q021",
+    "neet-pg-2022-general-medicine-q001": "neet-pg-2022-q101",
+    "neet-pg-2022-general-medicine-q003": "neet-pg-2022-q102",
+    "neet-pg-2022-general-medicine-q005": "neet-pg-2022-q103",
+    "neet-pg-2022-general-medicine-q006": "neet-pg-2022-q105",
+    "neet-pg-2022-general-medicine-q008": "neet-pg-2022-q106",
+    "neet-pg-2022-general-medicine-q011": "neet-pg-2022-q109",
+    "neet-pg-2022-general-medicine-q015": "neet-pg-2022-q110",
+    "neet-pg-2022-general-medicine-q017": "neet-pg-2022-q111",
+    "neet-pg-2022-general-medicine-q018": "neet-pg-2022-q112",
+    "neet-pg-2022-general-medicine-q021": "neet-pg-2022-q113",
+    "neet-pg-2022-general-medicine-q022": "neet-pg-2022-q114",
+    "neet-pg-2022-general-medicine-q023": "neet-pg-2022-q115",
+    "neet-pg-2021-general-medicine-q001": "neet-pg-2021-q086",
+    "neet-pg-2021-general-medicine-q002": "neet-pg-2021-q090",
+    "neet-pg-2021-general-medicine-q003": "neet-pg-2021-q092",
+    "neet-pg-2021-general-medicine-q004": "neet-pg-2021-q094",
+    "neet-pg-2021-general-medicine-q005": "neet-pg-2021-q095",
+    "neet-pg-2021-general-medicine-q006": "neet-pg-2021-q096",
+    "neet-pg-2021-general-medicine-q007": "neet-pg-2021-q098",
+    "neet-pg-2021-general-medicine-q008": "neet-pg-2021-q101",
+    "neet-pg-2021-general-medicine-q009": "neet-pg-2021-q103",
+    "neet-pg-2021-general-medicine-q010": "neet-pg-2021-q106",
+    "neet-pg-2021-general-medicine-q011": "neet-pg-2021-q107",
+    "neet-pg-2021-general-medicine-q012": "neet-pg-2021-q111",
+    "neet-pg-2021-general-medicine-q013": "neet-pg-2021-q112",
+    "neet-pg-2021-general-medicine-q014": "neet-pg-2021-q114",
+    "neet-pg-2021-general-medicine-q015": "neet-pg-2021-q116",
+    "neet-pg-2021-general-medicine-q016": "neet-pg-2021-q117",
+    "neet-pg-2021-general-medicine-q017": "neet-pg-2021-q118",
+    "neet-pg-2021-general-medicine-q018": "neet-pg-2021-q119",
+    "neet-pg-2021-general-medicine-q019": "neet-pg-2021-q121",
+    "neet-pg-2021-general-medicine-q020": "neet-pg-2021-q122",
+    "neet-pg-2021-general-medicine-q021": "neet-pg-2021-q123",
+    "neet-pg-2020-general-medicine-q001": "neet-pg-2020-q102",
+    "neet-pg-2020-general-medicine-q002": "neet-pg-2020-q108",
+    "neet-pg-2020-general-medicine-q003": "neet-pg-2020-q111",
+    "neet-pg-2020-general-medicine-q004": "neet-pg-2020-q112",
+    "neet-pg-2020-general-medicine-q005": "neet-pg-2020-q115",
+    "neet-pg-2020-general-medicine-q006": "neet-pg-2020-q118",
+    "neet-pg-2020-general-medicine-q007": "neet-pg-2020-q120",
+    "neet-pg-2020-general-medicine-q008": "neet-pg-2020-q128",
+    "neet-pg-2020-general-medicine-q009": "neet-pg-2020-q132",
+    "neet-pg-2020-general-medicine-q010": "neet-pg-2020-q134",
+    "neet-pg-2020-general-medicine-q011": "neet-pg-2020-q135",
+    "neet-pg-2020-general-medicine-q012": "neet-pg-2020-q137",
+    "neet-pg-2020-general-medicine-q013": "neet-pg-2020-q140",
+    "neet-pg-2020-general-medicine-q014": "neet-pg-2020-q141",
+    "neet-pg-2020-general-medicine-q015": "neet-pg-2020-q143",
+    "neet-pg-2020-general-medicine-q016": "neet-pg-2020-q144",
+    "neet-pg-2020-general-medicine-q017": "neet-pg-2020-q147",
+    "neet-pg-2020-general-medicine-q018": "neet-pg-2020-q149",
+    "neet-pg-2020-general-medicine-q019": "neet-pg-2020-q153",
+    "neet-pg-2020-general-medicine-q020": "neet-pg-2020-q156",
+    "neet-pg-2020-general-medicine-q021": "neet-pg-2020-q160",
+    "neet-pg-2020-general-medicine-q022": "neet-pg-2020-q163",
+    "neet-pg-2020-general-medicine-q023": "neet-pg-2020-q168",
+    "neet-pg-2023-general-surgery-q001": "neet-pg-2023-q039",
+    "neet-pg-2023-general-surgery-q002": "neet-pg-2023-q040",
+    "neet-pg-2023-general-surgery-q003": "neet-pg-2023-q041",
+    "neet-pg-2023-general-surgery-q004": "neet-pg-2023-q042",
+    "neet-pg-2023-general-surgery-q005": "neet-pg-2023-q043",
+    "neet-pg-2023-general-surgery-q006": "neet-pg-2023-q044",
+    "neet-pg-2023-general-surgery-q007": "neet-pg-2023-q045",
+    "neet-pg-2023-general-surgery-q008": "neet-pg-2023-q046",
+    "neet-pg-2023-general-surgery-q010": "neet-pg-2023-q047",
+    "neet-pg-2023-general-surgery-q011": "neet-pg-2023-q051",
+    "neet-pg-2023-general-surgery-q012": "neet-pg-2023-q056",
+    "neet-pg-2023-general-surgery-q013": "neet-pg-2023-q058",
+    "neet-pg-2023-general-surgery-q014": "neet-pg-2023-q060",
+    "neet-pg-2023-general-surgery-q015": "neet-pg-2023-q062",
+    "neet-pg-2023-general-surgery-q016": "neet-pg-2023-q063",
+    "neet-pg-2023-general-surgery-q017": "neet-pg-2023-q065",
+    "neet-pg-2023-general-surgery-q019": "neet-pg-2023-q070",
+    "neet-pg-2023-general-surgery-q020": "neet-pg-2023-q072",
+    "neet-pg-2023-general-surgery-q021": "neet-pg-2023-q075",
+    "neet-pg-2023-general-surgery-q022": "neet-pg-2023-q084",
+    "neet-pg-2023-general-surgery-q023": "neet-pg-2023-q085",
+    "neet-pg-2023-general-surgery-q024": "neet-pg-2023-q088",
+    "neet-pg-2023-general-surgery-q025": "neet-pg-2023-q089",
+    "neet-pg-2023-general-surgery-q027": "neet-pg-2023-q091",
+    "neet-pg-2023-general-surgery-q026": "neet-pg-2023-q159",
+    "neet-pg-2023-general-surgery-q018": "neet-pg-2023-q162",
+    "neet-pg-2023-general-surgery-q009": "neet-pg-2023-q164",
+    "neet-pg-2022-general-surgery-q001": "neet-pg-2022-q140",
+    "neet-pg-2022-general-surgery-q002": "neet-pg-2022-q141",
+    "neet-pg-2022-general-surgery-q003": "neet-pg-2022-q143",
+    "neet-pg-2022-general-surgery-q004": "neet-pg-2022-q145",
+    "neet-pg-2022-general-surgery-q005": "neet-pg-2022-q147",
+    "neet-pg-2022-general-surgery-q006": "neet-pg-2022-q149",
+    "neet-pg-2022-general-surgery-q007": "neet-pg-2022-q150",
+    "neet-pg-2022-general-surgery-q008": "neet-pg-2022-q152",
+    "neet-pg-2022-general-surgery-q009": "neet-pg-2022-q154",
+    "neet-pg-2022-general-surgery-q010": "neet-pg-2022-q155",
+    "neet-pg-2022-general-surgery-q011": "neet-pg-2022-q156",
+    "neet-pg-2022-general-surgery-q012": "neet-pg-2022-q158",
+    "neet-pg-2022-general-surgery-q013": "neet-pg-2022-q160",
+    "neet-pg-2022-general-surgery-q014": "neet-pg-2022-q161",
+    "neet-pg-2022-general-surgery-q015": "neet-pg-2022-q163",
+    "neet-pg-2022-general-surgery-q016": "neet-pg-2022-q166",
+    "neet-pg-2022-general-surgery-q017": "neet-pg-2022-q168",
+    "neet-pg-2022-general-surgery-q018": "neet-pg-2022-q173",
+    "neet-pg-2022-general-surgery-q019": "neet-pg-2022-q175",
+    "neet-pg-2022-general-surgery-q020": "neet-pg-2022-q177",
+    "neet-pg-2022-general-surgery-q022": "neet-pg-2022-q181",
+    "neet-pg-2022-general-surgery-q023": "neet-pg-2022-q183",
+    "neet-pg-2022-general-surgery-q024": "neet-pg-2022-q184",
+    "neet-pg-2022-general-surgery-q025": "neet-pg-2022-q185",
+    "neet-pg-2021-general-surgery-q004": "neet-pg-2021-q141",
+    "neet-pg-2021-general-surgery-q005": "neet-pg-2021-q143",
+    "neet-pg-2021-general-surgery-q006": "neet-pg-2021-q144",
+    "neet-pg-2021-general-surgery-q007": "neet-pg-2021-q145",
+    "neet-pg-2021-general-surgery-q008": "neet-pg-2021-q146",
+    "neet-pg-2021-general-surgery-q009": "neet-pg-2021-q149",
+    "neet-pg-2021-general-surgery-q010": "neet-pg-2021-q151",
+    "neet-pg-2021-general-surgery-q011": "neet-pg-2021-q152",
+    "neet-pg-2021-general-surgery-q013": "neet-pg-2021-q155",
+    "neet-pg-2021-general-surgery-q014": "neet-pg-2021-q158",
+    "neet-pg-2021-general-surgery-q017": "neet-pg-2021-q159",
+    "neet-pg-2021-general-surgery-q001": "neet-pg-2021-q174",
+    "neet-pg-2021-general-surgery-q002": "neet-pg-2021-q175",
+    "neet-pg-2021-general-surgery-q003": "neet-pg-2021-q177",
+    "neet-pg-2021-general-surgery-q015": "neet-pg-2021-q197",
+    "neet-pg-2021-general-surgery-q016": "neet-pg-2021-q198",
+    "neet-pg-2021-general-surgery-q018": "neet-pg-2021-q199",
+    "neet-pg-2021-general-surgery-q012": "neet-pg-2021-q200",
+    "neet-pg-2020-general-surgery-q001": "neet-pg-2020-q173",
+    "neet-pg-2020-general-surgery-q002": "neet-pg-2020-q177",
+    "neet-pg-2020-general-surgery-q003": "neet-pg-2020-q183",
+    "neet-pg-2020-general-surgery-q004": "neet-pg-2020-q186",
+    "neet-pg-2020-general-surgery-q005": "neet-pg-2020-q187",
+    "neet-pg-2020-general-surgery-q006": "neet-pg-2020-q188",
+    "neet-pg-2020-general-surgery-q007": "neet-pg-2020-q190",
+    "neet-pg-2020-general-surgery-q018": "neet-pg-2020-q191",
+    "neet-pg-2020-general-surgery-q019": "neet-pg-2020-q193",
+    "neet-pg-2020-general-surgery-q020": "neet-pg-2020-q197",
+    "neet-pg-2020-general-surgery-q021": "neet-pg-2020-q199",
+    "neet-pg-2020-general-surgery-q022": "neet-pg-2020-q201",
+    "neet-pg-2020-general-surgery-q023": "neet-pg-2020-q203",
+    "neet-pg-2020-general-surgery-q024": "neet-pg-2020-q205",
+    "neet-pg-2020-general-surgery-q025": "neet-pg-2020-q207",
+    "neet-pg-2020-general-surgery-q026": "neet-pg-2020-q208",
+    "neet-pg-2020-general-surgery-q008": "neet-pg-2020-q209",
+    "neet-pg-2020-general-surgery-q009": "neet-pg-2020-q212",
+    "neet-pg-2020-general-surgery-q010": "neet-pg-2020-q214",
+    "neet-pg-2020-general-surgery-q011": "neet-pg-2020-q218",
+    "neet-pg-2020-general-surgery-q012": "neet-pg-2020-q222",
+    "neet-pg-2020-general-surgery-q013": "neet-pg-2020-q227",
+    "neet-pg-2020-general-surgery-q014": "neet-pg-2020-q232",
+    "neet-pg-2020-general-surgery-q015": "neet-pg-2020-q235",
+    "neet-pg-2020-general-surgery-q016": "neet-pg-2020-q239",
+    "neet-pg-2020-general-surgery-q017": "neet-pg-2020-q244",
+    "neet-pg-2023-obgyn-q001": "neet-pg-2023-q142",
+    "neet-pg-2023-obgyn-q002": "neet-pg-2023-q144",
+    "neet-pg-2023-obgyn-q003": "neet-pg-2023-q145",
+    "neet-pg-2023-obgyn-q004": "neet-pg-2023-q146",
+    "neet-pg-2023-obgyn-q009": "neet-pg-2023-q147",
+    "neet-pg-2023-obgyn-q005": "neet-pg-2023-q149",
+    "neet-pg-2023-obgyn-q010": "neet-pg-2023-q150",
+    "neet-pg-2023-obgyn-q006": "neet-pg-2023-q151",
+    "neet-pg-2023-obgyn-q011": "neet-pg-2023-q152",
+    "neet-pg-2023-obgyn-q007": "neet-pg-2023-q153",
+    "neet-pg-2023-obgyn-q012": "neet-pg-2023-q154",
+    "neet-pg-2023-obgyn-q013": "neet-pg-2023-q155",
+    "neet-pg-2023-obgyn-q008": "neet-pg-2023-q156",
+    "neet-pg-2023-obgyn-q014": "neet-pg-2023-q157",
+    "neet-pg-2023-obgyn-q015": "neet-pg-2023-q158",
+    "neet-pg-2023-obgyn-q016": "neet-pg-2023-q160",
+    "neet-pg-2023-obgyn-q017": "neet-pg-2023-q161",
+    "neet-pg-2023-obgyn-q018": "neet-pg-2023-q163",
+    "neet-pg-2022-obgyn-q001": "neet-pg-2022-q023",
+    "neet-pg-2022-obgyn-q002": "neet-pg-2022-q024",
+    "neet-pg-2022-obgyn-q003": "neet-pg-2022-q025",
+    "neet-pg-2022-obgyn-q004": "neet-pg-2022-q026",
+    "neet-pg-2022-obgyn-q005": "neet-pg-2022-q027",
+    "neet-pg-2022-obgyn-q006": "neet-pg-2022-q028",
+    "neet-pg-2022-obgyn-q007": "neet-pg-2022-q029",
+    "neet-pg-2022-obgyn-q008": "neet-pg-2022-q030",
+    "neet-pg-2022-obgyn-q009": "neet-pg-2022-q031",
+    "neet-pg-2022-obgyn-q010": "neet-pg-2022-q032",
+    "neet-pg-2022-obgyn-q011": "neet-pg-2022-q033",
+    "neet-pg-2022-obgyn-q012": "neet-pg-2022-q034",
+    "neet-pg-2022-obgyn-q013": "neet-pg-2022-q035",
+    "neet-pg-2022-obgyn-q014": "neet-pg-2022-q036",
+    "neet-pg-2022-obgyn-q015": "neet-pg-2022-q037",
+    "neet-pg-2022-obgyn-q016": "neet-pg-2022-q038",
+    "neet-pg-2022-obgyn-q017": "neet-pg-2022-q039",
+    "neet-pg-2022-obgyn-q018": "neet-pg-2022-q040",
+    "neet-pg-2022-obgyn-q019": "neet-pg-2022-q041",
+    "neet-pg-2022-obgyn-q020": "neet-pg-2022-q042",
+    "neet-pg-2022-obgyn-q021": "neet-pg-2022-q043",
+    "neet-pg-2022-obgyn-q022": "neet-pg-2022-q044",
+    "neet-pg-2022-obgyn-q023": "neet-pg-2022-q045",
+    "neet-pg-2022-obgyn-q024": "neet-pg-2022-q046",
+    "neet-pg-2022-obgyn-q025": "neet-pg-2022-q047",
+    "neet-pg-2021-obgyn-q002": "neet-pg-2021-q041",
+    "neet-pg-2021-obgyn-q003": "neet-pg-2021-q044",
+    "neet-pg-2021-obgyn-q001": "neet-pg-2021-q046",
+    "neet-pg-2021-obgyn-q004": "neet-pg-2021-q048",
+    "neet-pg-2021-obgyn-q005": "neet-pg-2021-q049",
+    "neet-pg-2021-obgyn-q006": "neet-pg-2021-q050",
+    "neet-pg-2021-obgyn-q007": "neet-pg-2021-q052",
+    "neet-pg-2021-obgyn-q008": "neet-pg-2021-q054",
+    "neet-pg-2021-obgyn-q009": "neet-pg-2021-q056",
+    "neet-pg-2021-obgyn-q010": "neet-pg-2021-q059",
+    "neet-pg-2021-obgyn-q011": "neet-pg-2021-q063",
+    "neet-pg-2021-obgyn-q012": "neet-pg-2021-q066",
+    "neet-pg-2021-obgyn-q013": "neet-pg-2021-q069",
+    "neet-pg-2021-obgyn-q014": "neet-pg-2021-q070",
+    "neet-pg-2021-obgyn-q015": "neet-pg-2021-q073",
+    "neet-pg-2021-obgyn-q016": "neet-pg-2021-q075",
+    "neet-pg-2021-obgyn-q017": "neet-pg-2021-q078",
+    "neet-pg-2021-obgyn-q018": "neet-pg-2021-q080",
+    "neet-pg-2021-obgyn-q019": "neet-pg-2021-q082",
+    "neet-pg-2020-obgyn-q001": "neet-pg-2020-q002",
+    "neet-pg-2020-obgyn-q002": "neet-pg-2020-q004",
+    "neet-pg-2020-obgyn-q003": "neet-pg-2020-q007",
+    "neet-pg-2020-obgyn-q004": "neet-pg-2020-q009",
+    "neet-pg-2020-obgyn-q005": "neet-pg-2020-q011",
+    "neet-pg-2020-obgyn-q006": "neet-pg-2020-q014",
+    "neet-pg-2020-obgyn-q007": "neet-pg-2020-q024",
+    "neet-pg-2020-obgyn-q008": "neet-pg-2020-q025",
+    "neet-pg-2020-obgyn-q009": "neet-pg-2020-q026",
+    "neet-pg-2020-obgyn-q010": "neet-pg-2020-q029",
+    "neet-pg-2020-obgyn-q011": "neet-pg-2020-q034",
+    "neet-pg-2020-obgyn-q012": "neet-pg-2020-q042",
+    "neet-pg-2020-obgyn-q013": "neet-pg-2020-q047",
+    "neet-pg-2020-obgyn-q014": "neet-pg-2020-q048",
+    "neet-pg-2020-obgyn-q015": "neet-pg-2020-q054",
+    "neet-pg-2020-obgyn-q016": "neet-pg-2020-q056",
+    "neet-pg-2020-obgyn-q017": "neet-pg-2020-q058",
+    "neet-pg-2020-obgyn-q018": "neet-pg-2020-q061",
+    "neet-pg-2020-obgyn-q019": "neet-pg-2020-q063",
+    "neet-pg-2020-obgyn-q020": "neet-pg-2020-q066",
+    "neet-pg-2020-obgyn-q021": "neet-pg-2020-q074",
+    "neet-pg-2020-obgyn-q022": "neet-pg-2020-q082",
+    "neet-pg-2020-obgyn-q023": "neet-pg-2020-q084",
+    "neet-pg-2020-obgyn-q024": "neet-pg-2020-q086",
+    "neet-pg-2020-obgyn-q025": "neet-pg-2020-q091",
+    "neet-pg-2020-obgyn-q026": "neet-pg-2020-q093",
+    "neet-pg-2020-obgyn-q027": "neet-pg-2020-q095",
+    "neet-pg-2020-obgyn-q028": "neet-pg-2020-q099",
+    "neet-pg-2023-pediatrics-q001": "neet-pg-2023-q105",
+    "neet-pg-2023-pediatrics-q002": "neet-pg-2023-q112",
+    "neet-pg-2023-pediatrics-q003": "neet-pg-2023-q113",
+    "neet-pg-2023-pediatrics-q005": "neet-pg-2023-q115",
+    "neet-pg-2023-pediatrics-q006": "neet-pg-2023-q118",
+    "neet-pg-2023-pediatrics-q008": "neet-pg-2023-q119",
+    "neet-pg-2023-pediatrics-q010": "neet-pg-2023-q121",
+    "neet-pg-2023-pediatrics-q004": "neet-pg-2023-q181",
+    "neet-pg-2023-pediatrics-q007": "neet-pg-2023-q183",
+    "neet-pg-2023-pediatrics-q009": "neet-pg-2023-q186",
+    "neet-pg-2022-pediatrics-q001": "neet-pg-2022-q104",
+    "neet-pg-2022-pediatrics-q002": "neet-pg-2022-q107",
+    "neet-pg-2022-pediatrics-q003": "neet-pg-2022-q108",
+    "neet-pg-2022-pediatrics-q004": "neet-pg-2022-q125",
+    "neet-pg-2022-pediatrics-q005": "neet-pg-2022-q126",
+    "neet-pg-2022-pediatrics-q006": "neet-pg-2022-q127",
+    "neet-pg-2022-pediatrics-q007": "neet-pg-2022-q128",
+    "neet-pg-2022-pediatrics-q008": "neet-pg-2022-q139",
+    "neet-pg-2022-pediatrics-q010": "neet-pg-2022-q144",
+    "neet-pg-2022-pediatrics-q011": "neet-pg-2022-q146",
+    "neet-pg-2022-pediatrics-q012": "neet-pg-2022-q148",
+    "neet-pg-2022-pediatrics-q013": "neet-pg-2022-q151",
+    "neet-pg-2022-pediatrics-q014": "neet-pg-2022-q153",
+    "neet-pg-2021-pediatrics-q001": "neet-pg-2021-q083",
+    "neet-pg-2021-pediatrics-q002": "neet-pg-2021-q084",
+    "neet-pg-2021-pediatrics-q003": "neet-pg-2021-q085",
+    "neet-pg-2021-pediatrics-q004": "neet-pg-2021-q088",
+    "neet-pg-2021-pediatrics-q005": "neet-pg-2021-q089",
+    "neet-pg-2021-pediatrics-q006": "neet-pg-2021-q091",
+    "neet-pg-2021-pediatrics-q007": "neet-pg-2021-q093",
+    "neet-pg-2021-pediatrics-q008": "neet-pg-2021-q097",
+    "neet-pg-2020-pediatrics-q001": "neet-pg-2020-q110",
+    "neet-pg-2020-pediatrics-q002": "neet-pg-2020-q114",
+    "neet-pg-2020-pediatrics-q003": "neet-pg-2020-q117",
+    "neet-pg-2020-pediatrics-q005": "neet-pg-2020-q119",
+    "neet-pg-2020-pediatrics-q006": "neet-pg-2020-q122",
+    "neet-pg-2020-pediatrics-q007": "neet-pg-2020-q125",
+    "neet-pg-2020-pediatrics-q008": "neet-pg-2020-q146",
+    "neet-pg-2020-pediatrics-q009": "neet-pg-2020-q148",
+    "neet-pg-2020-pediatrics-q010": "neet-pg-2020-q150",
+    "neet-pg-2023-orthopedics-q001": "neet-pg-2023-q061",
+    "neet-pg-2023-orthopedics-q002": "neet-pg-2023-q067",
+    "neet-pg-2023-orthopedics-q003": "neet-pg-2023-q069",
+    "neet-pg-2023-orthopedics-q004": "neet-pg-2023-q079",
+    "neet-pg-2023-orthopedics-q005": "neet-pg-2023-q080",
+    "neet-pg-2023-orthopedics-q006": "neet-pg-2023-q082",
+    "neet-pg-2022-orthopedics-q001": "neet-pg-2022-q054",
+    "neet-pg-2022-orthopedics-q002": "neet-pg-2022-q055",
+    "neet-pg-2022-orthopedics-q003": "neet-pg-2022-q056",
+    "neet-pg-2022-orthopedics-q004": "neet-pg-2022-q057",
+    "neet-pg-2022-orthopedics-q005": "neet-pg-2022-q058",
+    "neet-pg-2022-orthopedics-q006": "neet-pg-2022-q059",
+    "neet-pg-2022-orthopedics-q007": "neet-pg-2022-q060",
+    "neet-pg-2021-orthopedics-q001": "neet-pg-2021-q051",
+    "neet-pg-2021-orthopedics-q002": "neet-pg-2021-q053",
+    "neet-pg-2021-orthopedics-q003": "neet-pg-2021-q055",
+    "neet-pg-2021-orthopedics-q004": "neet-pg-2021-q057",
+    "neet-pg-2021-orthopedics-q005": "neet-pg-2021-q060",
+    "neet-pg-2021-orthopedics-q006": "neet-pg-2021-q061",
+    "neet-pg-2020-orthopedics-q003": "neet-pg-2020-q104",
+    "neet-pg-2020-orthopedics-q005": "neet-pg-2020-q105",
+    "neet-pg-2020-orthopedics-q006": "neet-pg-2020-q107",
+    "neet-pg-2020-orthopedics-q001": "neet-pg-2020-q217",
+    "neet-pg-2020-orthopedics-q002": "neet-pg-2020-q220",
+    "neet-pg-2020-orthopedics-q004": "neet-pg-2020-q226",
+    "neet-pg-2023-psychiatry-q001": "neet-pg-2023-q081",
+    "neet-pg-2023-psychiatry-q002": "neet-pg-2023-q094",
+    "neet-pg-2023-psychiatry-q003": "neet-pg-2023-q095",
+    "neet-pg-2023-psychiatry-q005": "neet-pg-2023-q100",
+    "neet-pg-2023-psychiatry-q004": "neet-pg-2023-q139",
+    "neet-pg-2022-psychiatry-q001": "neet-pg-2022-q135",
+    "neet-pg-2022-psychiatry-q002": "neet-pg-2022-q136",
+    "neet-pg-2021-psychiatry-q001": "neet-pg-2021-q040",
+    "neet-pg-2021-psychiatry-q002": "neet-pg-2021-q042",
+    "neet-pg-2021-psychiatry-q003": "neet-pg-2021-q043",
+    "neet-pg-2021-psychiatry-q004": "neet-pg-2021-q045",
+    "neet-pg-2021-psychiatry-q005": "neet-pg-2021-q047",
+    "neet-pg-2020-psychiatry-q001": "neet-pg-2020-q155",
+    "neet-pg-2020-psychiatry-q002": "neet-pg-2020-q157",
+    "neet-pg-2020-psychiatry-q003": "neet-pg-2020-q159",
+    "neet-pg-2020-psychiatry-q004": "neet-pg-2020-q167",
+    "neet-pg-2020-psychiatry-q005": "neet-pg-2020-q171",
+    "neet-pg-2020-psychiatry-q006": "neet-pg-2020-q178",
+    "neet-pg-2020-psychiatry-q007": "neet-pg-2020-q181",
+    "neet-pg-2020-psychiatry-q008": "neet-pg-2020-q184",
+    "neet-pg-2023-dermatology-q001": "neet-pg-2023-q048",
+    "neet-pg-2023-dermatology-q002": "neet-pg-2023-q049",
+    "neet-pg-2023-dermatology-q003": "neet-pg-2023-q052",
+    "neet-pg-2023-dermatology-q004": "neet-pg-2023-q053",
+    "neet-pg-2022-dermatology-q001": "neet-pg-2022-q006",
+    "neet-pg-2022-dermatology-q002": "neet-pg-2022-q075",
+    "neet-pg-2022-dermatology-q003": "neet-pg-2022-q076",
+    "neet-pg-2022-dermatology-q006": "neet-pg-2022-q077",
+    "neet-pg-2022-dermatology-q007": "neet-pg-2022-q078",
+    "neet-pg-2022-dermatology-q004": "neet-pg-2022-q197",
+    "neet-pg-2022-dermatology-q005": "neet-pg-2022-q199",
+    "neet-pg-2021-dermatology-q001": "neet-pg-2021-q127",
+    "neet-pg-2021-dermatology-q002": "neet-pg-2021-q130",
+    "neet-pg-2021-dermatology-q003": "neet-pg-2021-q137",
+    "neet-pg-2021-dermatology-q004": "neet-pg-2021-q139",
+    "neet-pg-2021-dermatology-q005": "neet-pg-2021-q140",
+    "neet-pg-2021-dermatology-q006": "neet-pg-2021-q142",
+    "neet-pg-2020-dermatology-q001": "neet-pg-2020-q175",
+    "neet-pg-2020-dermatology-q002": "neet-pg-2020-q182",
+    "neet-pg-2020-dermatology-q003": "neet-pg-2020-q194",
+    "neet-pg-2020-dermatology-q004": "neet-pg-2020-q196",
+    "neet-pg-2020-dermatology-q005": "neet-pg-2020-q198",
+    "neet-pg-2023-radiology-q001": "neet-pg-2023-q012",
+    "neet-pg-2023-radiology-q002": "neet-pg-2023-q013",
+    "neet-pg-2023-radiology-q003": "neet-pg-2023-q165",
+    "neet-pg-2023-radiology-q004": "neet-pg-2023-q167",
+    "neet-pg-2022-radiology-q001": "neet-pg-2022-q137",
+    "neet-pg-2022-radiology-q002": "neet-pg-2022-q138",
+    "neet-pg-2021-radiology-q001": "neet-pg-2021-q178",
+    "neet-pg-2021-radiology-q002": "neet-pg-2021-q179",
+    "neet-pg-2021-radiology-q003": "neet-pg-2021-q181",
+    "neet-pg-2021-radiology-q004": "neet-pg-2021-q185",
+    "neet-pg-2021-radiology-q005": "neet-pg-2021-q188",
+    "neet-pg-2020-radiology-q001": "neet-pg-2020-q169",
+    "neet-pg-2020-radiology-q002": "neet-pg-2020-q172",
+    "neet-pg-2020-radiology-q003": "neet-pg-2020-q174",
+    "neet-pg-2020-radiology-q004": "neet-pg-2020-q179",
+    "neet-pg-2020-radiology-q005": "neet-pg-2020-q180",
+    "neet-pg-2020-radiology-q006": "neet-pg-2020-q189",
+    "neet-pg-2020-radiology-q007": "neet-pg-2020-q192",
+    "neet-pg-2020-radiology-q008": "neet-pg-2020-q195",
+    "neet-pg-2022-general-surgery-q021": "neet-pg-2022-q179",
+    "neet-pg-2022-pediatrics-q009": "neet-pg-2022-q142"
+  },
+  "answerChanges": [
+    {
+      "id": "neet-pg-2020-q102",
+      "old": "Hypothyroidism due to disease in the pituitary",
+      "source": "HYPOTHYROIDISM DUE TO DISEASE IN THE HYPOTHALAMUS"
+    },
+    {
+      "id": "neet-pg-2020-q134",
+      "old": "Needle decompression into the 5 th intercostal space anterior to the midaxillary line",
+      "source": "NEEDLE DECOMPRESSION INTO THE 5TH INTERCOSTAL SPACE ANTERIOR TO THE MIDAXILLARY LINE"
+    },
+    {
+      "id": "neet-pg-2020-q153",
+      "old": "42 degree C",
+      "source": "37 DEGREE C"
+    },
+    {
+      "id": "neet-pg-2020-q156",
+      "old": "Nephrogenic DI",
+      "source": "NEPHROGENIC DIABETES INSIPIDUS"
+    },
+    {
+      "id": "neet-pg-2021-q111",
+      "old": "pH-7.14, pCO2-20 mmHg, HCO3- 5 mEq/L",
+      "source": "PH- 7.14, PCO2- 20 MM HG, HCO3- 5 MEQ/L"
+    },
+    {
+      "id": "neet-pg-2021-q114",
+      "old": "Transoesophageal echocardiography",
+      "source": "TRANSESOPHAGEAL ECHOCARDIOGRAPHY"
+    },
+    {
+      "id": "neet-pg-2021-q116",
+      "old": "Streptococcus pneumonia",
+      "source": "STREPTOCOCCUS PNUEMONIAE"
+    },
+    {
+      "id": "neet-pg-2022-q103",
+      "old": "Intravenous nitro-glycerine",
+      "source": "INTRAVENOUS NITROGLYCERINE"
+    },
+    {
+      "id": "neet-pg-2022-q111",
+      "old": "Hypokalaemia",
+      "source": "HYPOKALEMIA"
+    },
+    {
+      "id": "neet-pg-2023-q137",
+      "old": "Pancoast tumour",
+      "source": "PANCOAST TUMOR"
+    },
+    {
+      "id": "neet-pg-2020-q186",
+      "old": "Most of the retrosternal goiters can be removed by a neck incision",
+      "source": "MOST OF THE RETROSTERNAL GOITRES CAN BE REMOVED BY A NECK INCISION"
+    },
+    {
+      "id": "neet-pg-2021-q146",
+      "old": "Wait and watch",
+      "source": "WAIT FOR BLADDER TO FILL"
+    },
+    {
+      "id": "neet-pg-2021-q158",
+      "old": "Retained",
+      "source": "PRIMARY"
+    },
+    {
+      "id": "neet-pg-2022-q143",
+      "old": "Thromboeslastography",
+      "source": "THROMBOELASTOGRAPHY"
+    },
+    {
+      "id": "neet-pg-2022-q161",
+      "old": "Resuscitation and laparotomy",
+      "source": "EMERGENCY LAPAROTOMY"
+    },
+    {
+      "id": "neet-pg-2022-q183",
+      "old": "Subhepatic",
+      "source": "4"
+    },
+    {
+      "id": "neet-pg-2023-q159",
+      "old": "Chemotherapy is given before radical surgery to reduce the bulk of the tumor",
+      "source": "CHEMOTHERAPY GIVEN BEFORE RADICAL SURGERY TO REDUCE BULK OF TUMOR"
+    },
+    {
+      "id": "neet-pg-2020-q074",
+      "old": "Point A is 2 cm above the external os and 5cm lateral to the internal uterine canal",
+      "source": "POINT A IS 2 CM ABOVE THE EXTERNAL OS AND 5 CM LATERAL TO THE INTERNAL UTERINE CANAL"
+    },
+    {
+      "id": "neet-pg-2021-q048",
+      "old": "Hysterosalipingography",
+      "source": "HYSTEROSALPINGOGRAPHY"
+    },
+    {
+      "id": "neet-pg-2022-q037",
+      "old": "One finger breadth below umbilicus",
+      "source": "TWO FINGER BREADTHS BELOW UMBILICUS"
+    },
+    {
+      "id": "neet-pg-2022-q038",
+      "old": "Additional 300 kcal in 2nd trimester",
+      "source": "ADDITIONAL 300KCAL IN 2ND TRIMESTER"
+    },
+    {
+      "id": "neet-pg-2022-q039",
+      "old": "Prolapse of membranes into the vagina",
+      "source": "RUPTURED MEMBRANES"
+    },
+    {
+      "id": "neet-pg-2022-q044",
+      "old": "Mala",
+      "source": "MALA N"
+    },
+    {
+      "id": "neet-pg-2023-q150",
+      "old": "Genital tuberculosis",
+      "source": "NEISSERIA GONORRHOEA"
+    },
+    {
+      "id": "neet-pg-2020-q150",
+      "old": "Gastrochisis",
+      "source": "GASTROSCHISIS"
+    },
+    {
+      "id": "neet-pg-2021-q093",
+      "old": "lgG measles in CSF",
+      "source": "IGG MEASLES IN CSF"
+    },
+    {
+      "id": "neet-pg-2022-q104",
+      "old": "a.Continue breast feeding not observed",
+      "source": "CONTINUE BREAST FEEDING AND OBSERVE"
+    },
+    {
+      "id": "neet-pg-2022-q126",
+      "old": "Adrenocorticotropic hormone",
+      "source": "ADRENOCORTICOTROPIC HORMONE (ACTH)"
+    },
+    {
+      "id": "neet-pg-2022-q146",
+      "old": "In complete obstruction ball and valve mechanism causes hyperinflation",
+      "source": "FOCAL AREA OF DECREASED AIR ENTRY WILL BE SUGGESTIVE OF FOREIGN BODY"
+    },
+    {
+      "id": "neet-pg-2023-q113",
+      "old": "Increase in length of 25 centimetres in the first year",
+      "source": "INCREASE IN LENGTH OF 25 CENTIMETERS IN THE FIRST YEAR"
+    },
+    {
+      "id": "neet-pg-2023-q069",
+      "old": "Bipartite fracture patella, X-ray of other knees",
+      "source": "BIPARTITE FRACTURE PATELLA, X-RAY OF OTHER KNEE"
+    },
+    {
+      "id": "neet-pg-2020-q181",
+      "old": "Stage 4",
+      "source": "REM SLEEP"
+    },
+    {
+      "id": "neet-pg-2020-q198",
+      "old": "Icthyosis vulgaris",
+      "source": "ICHTHYOSIS VULGARIS"
+    },
+    {
+      "id": "neet-pg-2020-q192",
+      "old": "TAPVC",
+      "source": "TOTAL ANOMALOUS PULMONARY VENOUS CONNECTION"
+    }
+  ],
+  "sourceGaps": [
+    {
+      "id": "ini-cet-2024-general-surgery-q002",
+      "status": "truncated-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q003",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q004",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q005",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q006",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q007",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q008",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q009",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q010",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q011",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q012",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q013",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q014",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q015",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q016",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q017",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q018",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q019",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q020",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q021",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q022",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q023",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q024",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q025",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q026",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q027",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q028",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q029",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q030",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q031",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q032",
+      "status": "missing-in-pdf"
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q033",
+      "status": "missing-in-pdf"
+    }
+  ],
+  "contextGaps": [
+    {
+      "id": "aiims-2018-general-medicine-q010",
+      "sourceQuestionId": "aiims-2018-general-medicine-q010",
+      "note": "The source PDF omits the investigation results referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-general-medicine-q013",
+      "sourceQuestionId": "ini-cet-2021-general-medicine-q013",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-general-medicine-q024",
+      "sourceQuestionId": "ini-cet-2021-general-medicine-q024",
+      "note": "The source PDF omits the investigation results referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-medicine-q003",
+      "sourceQuestionId": "ini-cet-2022-general-medicine-q003",
+      "note": "The source PDF omits the investigation results referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-medicine-q016",
+      "sourceQuestionId": "ini-cet-2022-general-medicine-q016",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-medicine-q019",
+      "sourceQuestionId": "ini-cet-2022-general-medicine-q019",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-medicine-q020",
+      "sourceQuestionId": "ini-cet-2022-general-medicine-q020",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-medicine-q030",
+      "sourceQuestionId": "ini-cet-2022-general-medicine-q030",
+      "note": "The source PDF omits the investigation results referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-medicine-q050",
+      "sourceQuestionId": "ini-cet-2022-general-medicine-q050",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-medicine-q059",
+      "sourceQuestionId": "ini-cet-2022-general-medicine-q059",
+      "note": "The source PDF omits the investigation results referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-medicine-q002",
+      "sourceQuestionId": "ini-cet-2023-general-medicine-q002",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-medicine-q010",
+      "sourceQuestionId": "ini-cet-2023-general-medicine-q010",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-medicine-q013",
+      "sourceQuestionId": "ini-cet-2023-general-medicine-q013",
+      "note": "The source PDF omits the investigation results referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-medicine-q014",
+      "sourceQuestionId": "ini-cet-2023-general-medicine-q014",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-medicine-q017",
+      "sourceQuestionId": "ini-cet-2023-general-medicine-q017",
+      "note": "The source PDF omits the investigation results referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-medicine-q018",
+      "sourceQuestionId": "ini-cet-2023-general-medicine-q018",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-medicine-q019",
+      "sourceQuestionId": "ini-cet-2023-general-medicine-q019",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-medicine-q025",
+      "sourceQuestionId": "ini-cet-2023-general-medicine-q025",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-medicine-q027",
+      "sourceQuestionId": "ini-cet-2023-general-medicine-q027",
+      "note": "The source PDF omits the investigation results referenced by this question."
+    },
+    {
+      "id": "ini-cet-2024-general-medicine-q017",
+      "sourceQuestionId": "ini-cet-2024-general-medicine-q017",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2024-general-medicine-q021",
+      "sourceQuestionId": "ini-cet-2024-general-medicine-q021",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2024-general-medicine-q031",
+      "sourceQuestionId": "ini-cet-2024-general-medicine-q031",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2024-general-medicine-q032",
+      "sourceQuestionId": "ini-cet-2024-general-medicine-q032",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2024-general-medicine-q041",
+      "sourceQuestionId": "ini-cet-2024-general-medicine-q041",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "aiims-2019-general-surgery-q066",
+      "sourceQuestionId": "aiims-2019-general-surgery-q066",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "aiims-2019-general-surgery-q071",
+      "sourceQuestionId": "aiims-2019-general-surgery-q071",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-general-surgery-q020",
+      "sourceQuestionId": "ini-cet-2021-general-surgery-q020",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-general-surgery-q027",
+      "sourceQuestionId": "ini-cet-2021-general-surgery-q027",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-general-surgery-q029",
+      "sourceQuestionId": "ini-cet-2021-general-surgery-q029",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-surgery-q002",
+      "sourceQuestionId": "ini-cet-2022-general-surgery-q002",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-surgery-q031",
+      "sourceQuestionId": "ini-cet-2022-general-surgery-q031",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-surgery-q040",
+      "sourceQuestionId": "ini-cet-2022-general-surgery-q040",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-general-surgery-q045",
+      "sourceQuestionId": "ini-cet-2022-general-surgery-q045",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-surgery-q011",
+      "sourceQuestionId": "ini-cet-2023-general-surgery-q011",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-general-surgery-q016",
+      "sourceQuestionId": "ini-cet-2023-general-surgery-q016",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2024-general-surgery-q001",
+      "sourceQuestionId": "ini-cet-2024-general-surgery-q001",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-obgyn-q009",
+      "sourceQuestionId": "ini-cet-2021-obgyn-q009",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-obgyn-q018",
+      "sourceQuestionId": "ini-cet-2021-obgyn-q018",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-obgyn-q021",
+      "sourceQuestionId": "ini-cet-2021-obgyn-q021",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-obgyn-q022",
+      "sourceQuestionId": "ini-cet-2021-obgyn-q022",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-obgyn-q037",
+      "sourceQuestionId": "ini-cet-2021-obgyn-q037",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-obgyn-q025",
+      "sourceQuestionId": "ini-cet-2022-obgyn-q025",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-obgyn-q041",
+      "sourceQuestionId": "ini-cet-2022-obgyn-q041",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-obgyn-q044",
+      "sourceQuestionId": "ini-cet-2022-obgyn-q044",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-obgyn-q009",
+      "sourceQuestionId": "ini-cet-2023-obgyn-q009",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2024-obgyn-q027",
+      "sourceQuestionId": "ini-cet-2024-obgyn-q027",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-pediatrics-q005",
+      "sourceQuestionId": "ini-cet-2022-pediatrics-q005",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-pediatrics-q007",
+      "sourceQuestionId": "ini-cet-2022-pediatrics-q007",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-pediatrics-q010",
+      "sourceQuestionId": "ini-cet-2022-pediatrics-q010",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-pediatrics-q012",
+      "sourceQuestionId": "ini-cet-2022-pediatrics-q012",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-pediatrics-q018",
+      "sourceQuestionId": "ini-cet-2022-pediatrics-q018",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-pediatrics-q020",
+      "sourceQuestionId": "ini-cet-2022-pediatrics-q020",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-pediatrics-q021",
+      "sourceQuestionId": "ini-cet-2022-pediatrics-q021",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-pediatrics-q001",
+      "sourceQuestionId": "ini-cet-2023-pediatrics-q001",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-pediatrics-q008",
+      "sourceQuestionId": "ini-cet-2023-pediatrics-q008",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2024-pediatrics-q006",
+      "sourceQuestionId": "ini-cet-2024-pediatrics-q006",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2024-pediatrics-q011",
+      "sourceQuestionId": "ini-cet-2024-pediatrics-q011",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "aiims-2019-orthopedics-q030",
+      "sourceQuestionId": "aiims-2019-orthopedics-q030",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-orthopedics-q007",
+      "sourceQuestionId": "ini-cet-2021-orthopedics-q007",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2021-orthopedics-q008",
+      "sourceQuestionId": "ini-cet-2021-orthopedics-q008",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-orthopedics-q011",
+      "sourceQuestionId": "ini-cet-2022-orthopedics-q011",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-psychiatry-q008",
+      "sourceQuestionId": "ini-cet-2022-psychiatry-q008",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2023-psychiatry-q005",
+      "sourceQuestionId": "ini-cet-2023-psychiatry-q005",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-dermatology-q004",
+      "sourceQuestionId": "ini-cet-2022-dermatology-q004",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-dermatology-q013",
+      "sourceQuestionId": "ini-cet-2022-dermatology-q013",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    },
+    {
+      "id": "ini-cet-2022-radiology-q004",
+      "sourceQuestionId": "ini-cet-2022-radiology-q004",
+      "note": "The source PDF omits the numbered statements or table referenced by this question."
+    }
+  ],
+  "sourceDuplicatesCollapsed": 1,
+  "verification": {
+    "sourceEntriesVerified": 2104,
+    "uniqueQuestionsVerified": 2103,
+    "imageUrlsVerified": 557,
+    "subjects": [
+      {
+        "subject": "general-medicine",
+        "livePyqs": 491
+      },
+      {
+        "subject": "general-surgery",
+        "livePyqs": 408
+      },
+      {
+        "subject": "obgyn",
+        "livePyqs": 451
+      },
+      {
+        "subject": "pediatrics",
+        "livePyqs": 212
+      },
+      {
+        "subject": "orthopedics",
+        "livePyqs": 176
+      },
+      {
+        "subject": "psychiatry",
+        "livePyqs": 115
+      },
+      {
+        "subject": "dermatology",
+        "livePyqs": 138
+      },
+      {
+        "subject": "radiology",
+        "livePyqs": 120
+      }
+    ],
+    "sameExamExactDuplicates": 0
+  }
+}

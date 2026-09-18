@@ -16,6 +16,7 @@
     "check:practice-order": "node scripts/check_pathology_chapter_order.mjs",
     "check:pathology-order": "npm run check:practice-order",
     "seed:supabase": "node scripts/seed-supabase.mjs",
+    "check:supabase": "node scripts/check-supabase.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },

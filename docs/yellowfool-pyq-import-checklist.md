@@ -2,9 +2,11 @@
 
 Source PDF: `F:\pyqs\Pyqs neet inict the yellowfool.pdf`
 
-Importer: `npm run import:yellowfool -- --subject <#ec1386subject-id>`
+Original importer: `npm run import:yellowfool -- --subject <subject-id>`
 
-Total audited questions: 5,007 (2,903 imported)
+The remaining-subject pass uses the additive, reviewed workflow in `scripts/stage_remaining_yellowfool.py` and `scripts/merge_remaining_yellowfool.py`. Do not rerun the original replacement importer over these subjects: it drops unmatched questions and the old chapter index misclassifies Radiology as Psychiatry.
+
+Total audited source entries: 5,007 — all represented after the 2026-09-16 import. One identical Dermatology question occurring twice in the same exam-year is consolidated with both source references retained.
 
 ## Completed
 
@@ -20,15 +22,18 @@ Total audited questions: 5,007 (2,903 imported)
 - [x] Ophthalmology - 190 questions imported with explanations and 55 source images
 - [x] ENT - 139 questions imported with explanations and 44 source images
 
-## Remaining Subjects
+## Completed remaining-subject pass (2026-09-16)
 
-- [ ] Medicine - 488 questions
-- [ ] Obstetrics & Gynecology - 448 questions
-- [ ] Surgery - 408 questions
-- [ ] Psychiatry - 235 questions
-- [ ] Pediatrics - 211 questions
-- [ ] Orthopedics - 175 questions
-- [ ] Dermatology - 139 questions
+- [x] Medicine - 488 source questions
+- [x] Obstetrics & Gynecology - 448 source questions
+- [x] Surgery - 408 source questions
+- [x] Psychiatry - 115 source questions
+- [x] Radiology - 120 source questions (previously incorrectly included in Psychiatry's 235)
+- [x] Pediatrics - 211 source questions
+- [x] Orthopedics - 175 source questions
+- [x] Dermatology - 139 source entries, 138 distinct questions
+
+Added 1,706 new questions and updated 397 existing questions without changing their IDs. Preserved unmatched existing questions and AI content. Imported 557 source images, including additional figures and images on answer-key pages. See [the completion report](yellowfool-remaining-import-report.md) for validation and source-content limitations. Atlas conversion remains a separate task.
 
 ## Missing Visual Recovery and Atlas Conversion
 

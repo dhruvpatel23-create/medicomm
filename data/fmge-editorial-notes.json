@@ -1,0 +1,102 @@
+{
+  "fmge-2025-january-part-2-q010": {
+    "explanation": "Vomiting, diarrhoea and laxative use can deplete potassium. Hypokalemia changes cardiac excitability and may produce arrhythmias, making it the best fit among these options. Gastrointestinal losses can also disturb sodium and magnesium, so the clinical association is suggestive rather than a substitute for electrolyte measurement. The source's statement that hypocalcemia cannot cause arrhythmias is incorrect: hypocalcemia can prolong the QT interval and predispose to rhythm disturbances.",
+    "educationalObjective": "Connect gastrointestinal potassium loss with cardiac rhythm disturbances.",
+    "reasoningChain": "Vomiting and laxative-associated diarrhoea → potassium depletion → hypokalemia-associated arrhythmia.",
+    "optionExplanations": [
+      "Sodium loss can accompany diarrhoea, but hypokalemia better explains the cardiac rhythm clue in this question.",
+      "Hypocalcemia can prolong QT and cause arrhythmias, but the history more directly supports potassium depletion.",
+      "Gastrointestinal losses and laxative use can cause potassium depletion and associated cardiac arrhythmias.",
+      "Hyperkalemia can also cause arrhythmias, but is less consistent with potassium loss from diarrhoea."
+    ],
+    "explanationOrigin": "editorial",
+    "reviewNote": "The missing numeric key is recoverable from the source solution, which identifies option C. The explanation has been corrected and the source's treatment-dose table omitted.",
+    "references": [
+      {
+        "book": "Merck Manual Professional",
+        "chapter": "Hypokalemia",
+        "url": "https://www.merckmanuals.com/professional/endocrine-and-metabolic-disorders/electrolyte-disorders/hypokalemia"
+      }
+    ]
+  },
+  "fmge-2025-january-part-2-q129": {
+    "explanation": "An infant with post-feed vomiting, poor weight gain and a palpable olive-shaped upper abdominal mass has the classic presentation of hypertrophic pyloric stenosis. Thickening of the pyloric muscle obstructs gastric emptying. The age and palpable mass distinguish this from uncomplicated gastroesophageal reflux. Ultrasound can demonstrate the thickened pylorus. The source PDF omitted its answer field; option B is supported by the clinical findings.",
+    "educationalObjective": "Recognize the characteristic age, vomiting pattern and palpable mass of hypertrophic pyloric stenosis.",
+    "reasoningChain": "Young infant + post-feed vomiting + olive-shaped mass → hypertrophied pylorus → gastric outlet obstruction.",
+    "optionExplanations": [
+      "A nonspecific intestinal obstruction does not account for the characteristic palpable pyloric olive.",
+      "Pyloric muscular hypertrophy causes gastric outlet obstruction and the characteristic olive-shaped mass.",
+      "Reflux may cause regurgitation but does not produce an olive-shaped abdominal mass.",
+      "Esophageal atresia usually presents immediately after birth with feeding difficulty, choking and excessive secretions."
+    ],
+    "explanationOrigin": "editorial",
+    "reviewNote": "The PDF has no answer key or solution for this item. The recovered answer is pyloric stenosis (B).",
+    "references": [
+      {
+        "book": "Merck Manual Professional",
+        "chapter": "Hypertrophic Pyloric Stenosis",
+        "url": "https://www.merckmanuals.com/professional/pediatrics/gastrointestinal-disorders-in-neonates-and-infants/hypertrophic-pyloric-stenosis"
+      }
+    ]
+  },
+  "fmge-2022-june-q084": {
+    "explanation": "With-the-rule astigmatism has greater refractive power in the vertical meridian. A cylinder has no power along its axis and full power perpendicular to it. Thus -3.00 DC at 180 degrees adds minus power vertically, while +1.00 DC at 90 degrees adds plus power horizontally. Together these give vertical power -3 D and horizontal power +1 D, equivalent to +1 DS / -4 DC at 180 degrees, the appropriate direction of correction.",
+    "educationalObjective": "Calculate cylinder power perpendicular to the stated axis when correcting with-the-rule astigmatism.",
+    "reasoningChain": "Vertical meridian has excess power -> relatively more minus correction vertically -> minus cylinder axis 180 degrees.",
+    "optionExplanations": [
+      "Vertical +5 D and horizontal -3 D give relatively more plus vertically, the opposite correction.",
+      "Vertical +7 D and horizontal +5 D also give relatively more plus vertically.",
+      "Vertical -4 D and horizontal -5 D give relatively more minus horizontally, the opposite correction.",
+      "Vertical -3 D and horizontal +1 D give relatively more minus vertically, correcting with-the-rule astigmatism."
+    ],
+    "reviewNote": "",
+    "explanationOrigin": "editorial",
+    "references": [
+      {
+        "book": "American Academy of Ophthalmology EyeWiki",
+        "chapter": "Physiology of Astigmatism",
+        "url": "https://eyewiki.aao.org/Physiology_of_Astigmatism"
+      }
+    ]
+  },
+  "fmge-2022-june-q241": {
+    "explanation": "The left infrascapular location suggests Ewart sign: a large pericardial effusion compresses the adjacent left lower lobe, producing dullness and altered breath sounds below the left scapula. This explains the intended answer of cardiac tamponade, although the sign indicates a large effusion rather than proving tamponade physiology. Classically bronchial breathing or egophony is described; reduced breath sounds also fit pleural effusion, making this recall wording less specific.",
+    "educationalObjective": "Recognize left infrascapular findings from lung compression by a large pericardial effusion.",
+    "reasoningChain": "Large pericardial effusion -> left lower-lobe compression -> left infrascapular dullness and altered breath sounds.",
+    "optionExplanations": [
+      "The intended key invokes Ewart sign from a large pericardial effusion, which may cause tamponade.",
+      "Constrictive pericarditis primarily causes impaired filling and systemic venous congestion rather than this classic localized sign.",
+      "Pulmonary embolism does not characteristically produce this localized percussion sign; associated effusion can alter examination findings.",
+      "Pleural effusion also causes basal dullness and reduced breath sounds, so the recalled wording is ambiguous."
+    ],
+    "reviewNote": "The infrascapular localization suggests Ewart sign, classically with bronchial breathing or egophony. The wording alone cannot distinguish pericardial from pleural effusion or establish tamponade.",
+    "explanationOrigin": "editorial",
+    "references": [
+      {
+        "book": "Cureus",
+        "chapter": "A Large Pericardial Effusion Culminating in Left Lung Collapse",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6764612/"
+      }
+    ]
+  },
+  "fmge-2022-june-q120": {
+    "explanation": "An oxygen saturation of 88% indicates significant hypoxemia, so oxygen should not be withheld simply because a ventilator is unavailable. Acute asthma care includes controlled oxygen, inhaled bronchodilators and systemic corticosteroids. Leukotriene antagonists are not established rescue treatment, and routine theophylline is not recommended because of limited benefit and adverse effects. The supplied key excluding oxygen is unsafe as a teaching rule; the recalled options do not provide a clean single exception under current guidance.",
+    "educationalObjective": "Recognize the need to correct hypoxemia during acute asthma and distinguish rescue treatment from controller therapy.",
+    "reasoningChain": "Breathlessness with SpO2 88% -> significant hypoxemia -> controlled oxygen and acute asthma treatment, not oxygen avoidance.",
+    "optionExplanations": [
+      "Systemic corticosteroids, including hydrocortisone when appropriate, reduce airway inflammation during significant exacerbations.",
+      "Routine theophylline is not recommended for acute exacerbations because of limited benefit and toxicity.",
+      "Supplemental oxygen is indicated for hypoxemia; delivery should be titrated to the appropriate oxygen-saturation target.",
+      "Leukotriene antagonists are controller medicines, not established rescue treatment for an acute severe attack."
+    ],
+    "reviewNote": "The historical key excludes oxygen despite SpO2 88%. This is not medically appropriate. Leukotriene antagonists are not rescue therapy, and routine theophylline is also not recommended, making the options problematic.",
+    "explanationOrigin": "editorial",
+    "references": [
+      {
+        "book": "Global Initiative for Asthma",
+        "chapter": "2025 Strategy Report: management of exacerbations",
+        "url": "https://ginasthma.org/wp-content/uploads/2025/07/GINA-2025-Strategy-Report_25_05_25-WMS-2.pdf"
+      }
+    ]
+  }
+}

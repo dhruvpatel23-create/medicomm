@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AppShell } from "./components/AppShellV2";
 import WebsiteReviews from "./components/WebsiteReviews";
+import PracticeSelection from "./components/PracticeSelection";
+import UsmleModules from "./components/UsmleModules";
+import FmgeYears from "./components/FmgeYears";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20260914-img1-2017-anatomy";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20260917-fmge";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -172,6 +175,8 @@ const emptyPracticeLibrary = {
   subjects: [],
   aiSubjects: [],
   usmleSubjects: [],
+  usmleModules: [],
+  fmgeSessions: [],
 };
 
 function normalizePracticeLibrary(data) {
@@ -181,6 +186,8 @@ function normalizePracticeLibrary(data) {
     subjects: data?.subjects ?? [],
     aiSubjects: data?.aiSubjects ?? [],
     usmleSubjects: data?.usmleSubjects ?? [],
+    usmleModules: data?.usmleModules ?? [],
+    fmgeSessions: data?.fmgeSessions ?? [],
   };
 }
 
@@ -560,7 +567,17 @@ function getInitialTheme() {
 
 function App() {
   const [theme, setTheme] = useState(getInitialTheme);
-  const [activeView, setActiveView] = useState("Home");
+  const [activeView, updateActiveView] = useState("Home");
+  const [practicePathTitle, setPracticePathTitle] = useState("");
+
+  function setActiveView(view) {
+    if (view === "Practice") {
+      handleBackToPracticeDirectory();
+      setPracticeChoiceSubjectId("");
+      setPracticeStage("selection");
+    }
+    updateActiveView(view);
+  }
   const [selectedOption, setSelectedOption] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [answerConfidence, setAnswerConfidence] = useState("");
@@ -599,7 +616,7 @@ function App() {
   const [clinicalAnswerImageBusy, setClinicalAnswerImageBusy] = useState(false);
   const [clinicalAnswerBusy, setClinicalAnswerBusy] = useState(false);
   const [clinicalAnswerMessage, setClinicalAnswerMessage] = useState("");
-  const [practiceStage, setPracticeStage] = useState("catalog");
+  const [practiceStage, setPracticeStage] = useState("selection");
   const [practiceProgress, setPracticeProgress] = useState({});
   const [bookmarkMessage, setBookmarkMessage] = useState("");
   const [bookmarkBusyKeys, setBookmarkBusyKeys] = useState([]);
@@ -682,6 +699,9 @@ function App() {
   const practiceSubjects = practiceLibrary.subjects ?? [];
   const aiPracticeSubjects = practiceLibrary.aiSubjects ?? [];
   const usmlePracticeSubjects = practiceLibrary.usmleSubjects ?? [];
+  const usmleModules = practiceLibrary.usmleModules ?? [];
+  const fmgeSessions = practiceLibrary.fmgeSessions ?? [];
+  const allUsmlePracticeSets = useMemo(() => [...usmlePracticeSubjects, ...usmleModules], [usmlePracticeSubjects, usmleModules]);
   const aiPracticeQuestionCountsBySubject = useMemo(
     () =>
       Object.fromEntries(
@@ -694,7 +714,9 @@ function App() {
     selectedPracticeMode === "ai"
       ? aiPracticeSubjects
       : selectedPracticeMode === "usmle"
-        ? usmlePracticeSubjects
+        ? allUsmlePracticeSets
+        : selectedPracticeMode === "fmge"
+          ? fmgeSessions
         : practiceSubjects;
   const currentPracticeSubject =
     activePracticeSubjects.find((subject) => subject.id === selectedPracticeSubjectId) ??
@@ -725,7 +747,8 @@ function App() {
     const sources = [
       ["pyq", practiceSubjects],
       ["ai", aiPracticeSubjects],
-      ["usmle", usmlePracticeSubjects],
+      ["usmle", allUsmlePracticeSets],
+      ["fmge", fmgeSessions],
     ];
     for (const [mode, subjects] of sources) {
       for (const subject of subjects) {
@@ -739,7 +762,7 @@ function App() {
       }
     }
     return index;
-  }, [practiceSubjects, aiPracticeSubjects, usmlePracticeSubjects]);
+  }, [practiceSubjects, aiPracticeSubjects, allUsmlePracticeSets, fmgeSessions]);
   const bookmarkedQuestionEntries = questionBookmarks.map((bookmark) => ({
     bookmark,
     resolved: bookmarkQuestionIndex.get(getQuestionBookmarkKey(bookmark)) ?? null,
@@ -976,7 +999,7 @@ async function fetchPracticeLibrary() {
   if (cachedLibrary?.subjects?.length) {
     setPracticeLibrary(cachedLibrary);
     setSelectedPracticeSubjectId((current) => {
-      const hasCurrentSubject = [...cachedLibrary.subjects, ...(cachedLibrary.aiSubjects ?? []), ...(cachedLibrary.usmleSubjects ?? [])].some((subject) => subject.id === current);
+      const hasCurrentSubject = [...cachedLibrary.subjects, ...(cachedLibrary.aiSubjects ?? []), ...(cachedLibrary.usmleSubjects ?? []), ...(cachedLibrary.usmleModules ?? []), ...(cachedLibrary.fmgeSessions ?? [])].some((subject) => subject.id === current);
       return hasCurrentSubject ? current : cachedLibrary.subjects[0]?.id ?? cachedLibrary.aiSubjects?.[0]?.id ?? cachedLibrary.usmleSubjects?.[0]?.id ?? "";
     });
     setPracticeLibraryStatus("ready");
@@ -1007,7 +1030,7 @@ async function fetchPracticeLibrary() {
       setPracticeLibrary(nextLibrary);
       writeCachedPracticeLibrary(nextLibrary);
       setSelectedPracticeSubjectId((current) => {
-        const hasCurrentSubject = [...nextLibrary.subjects, ...(nextLibrary.aiSubjects ?? []), ...(nextLibrary.usmleSubjects ?? [])].some((subject) => subject.id === current);
+        const hasCurrentSubject = [...nextLibrary.subjects, ...(nextLibrary.aiSubjects ?? []), ...(nextLibrary.usmleSubjects ?? []), ...(nextLibrary.usmleModules ?? []), ...(nextLibrary.fmgeSessions ?? [])].some((subject) => subject.id === current);
         if (hasCurrentSubject) return current;
         return nextLibrary.subjects[0]?.id ?? nextLibrary.aiSubjects?.[0]?.id ?? nextLibrary.usmleSubjects?.[0]?.id ?? "";
       });
@@ -1493,7 +1516,7 @@ async function fetchPracticeLibrary() {
         subjectId: currentPracticeQuestion.subjectId || currentPracticeSubject?.id || "unknown",
         subject: currentPracticeSubject?.title || "Other",
         topic: currentPracticeQuestion.topic || currentPracticeQuestion.subtopic || "General review",
-        activity: selectedPracticeMode === "ai" ? "revision" : "pyq",
+        activity: selectedPracticeMode === "usmle" ? "usmle" : selectedPracticeMode === "ai" ? "revision" : "pyq",
         durationSeconds: Math.max(1, Math.min(1800, Math.round((Date.now() - practiceQuestionStartedAt) / 1000))),
       }];
       writeAnalyticsEvents(user, nextEvents);
@@ -1544,6 +1567,8 @@ async function fetchPracticeLibrary() {
     setSelectedPracticeSubjectId(subjectId);
     setSelectedPracticeMode(mode);
     setSelectedPracticeExamYear(mode === "pyq" ? examYear : "");
+    setSelectedPracticeTopic("");
+    setSelectedPracticeChapter("");
     setPracticeQuestionIndex(0);
     setSelectedOption("");
     setSubmitted(false);
@@ -1713,6 +1738,8 @@ async function fetchPracticeLibrary() {
     }
 
     const { mode, subject, question } = entry.resolved;
+    if (mode === "fmge") setPracticePathTitle("FMGE");
+    if (subject.moduleNumber) setPracticePathTitle("USMLE–STEP 1");
     setSelectedPracticeSubjectId(subject.id);
     setSelectedPracticeMode(mode);
     setSelectedPracticeTopic("");
@@ -1742,7 +1769,7 @@ async function fetchPracticeLibrary() {
     setPracticeStage("subject");
     setPracticeQuestionStartedAt(Date.now());
     setBookmarkMessage("");
-    setActiveView("Practice");
+    updateActiveView("Practice");
     scrollPracticeViewToTop();
   }
 
@@ -3168,6 +3195,34 @@ async function fetchPracticeLibrary() {
   }
 
   function renderPractice() {
+    if (practiceStage === "selection") {
+      return <PracticeSelection onSelect={(title, id) => {
+        setPracticePathTitle(title);
+        setPracticeStage(id === "usmle" ? "usmle-modules" : id === "fmge" ? "fmge-years" : "catalog");
+        scrollPracticeViewToTop();
+      }} />;
+    }
+
+    if (practiceStage === "fmge-years") {
+      return <FmgeYears sessions={fmgeSessions} progress={practiceProgress} status={practiceLibraryStatus} onRetry={fetchPracticeLibrary} onStart={(sessionId) => {
+        startPracticeSession(sessionId, "fmge");
+        scrollPracticeViewToTop();
+      }} onBack={() => {
+        setPracticeStage("selection");
+        scrollPracticeViewToTop();
+      }} />;
+    }
+
+    if (practiceStage === "usmle-modules") {
+      return <UsmleModules modules={usmleModules} progress={practiceProgress} status={practiceLibraryStatus} onRetry={fetchPracticeLibrary} onStart={(moduleId) => {
+        startPracticeSession(moduleId, "usmle");
+        scrollPracticeViewToTop();
+      }} onBack={() => {
+        setActiveView("Practice");
+        scrollPracticeViewToTop();
+      }} />;
+    }
+
     if (practiceLibraryStatus === "idle" || practiceLibraryStatus === "loading") {
       return (
         <section className="app-view">
@@ -3208,7 +3263,7 @@ async function fetchPracticeLibrary() {
       );
     }
 
-    if (!practiceSubjects.length) {
+    if (!practiceSubjects.length && !currentPracticeSubject?.moduleNumber && selectedPracticeMode !== "fmge") {
       return (
         <section className="app-view">
           <div className="view-header">
@@ -3227,9 +3282,11 @@ async function fetchPracticeLibrary() {
     }
 
     const isUsmlePractice = selectedPracticeMode === "usmle";
+    const isFmgePractice = selectedPracticeMode === "fmge";
+    const isModulePractice = isUsmlePractice && Boolean(currentPracticeSubject?.moduleNumber);
     const isSupplementalPractice = selectedPracticeMode === "ai" || isUsmlePractice;
     const isDirectoryPractice = selectedPracticeMode === "ai";
-    const directoryModeTitle = isUsmlePractice ? "USMLE Step-1 Format Questions" : "Topic Wise Questions";
+    const directoryModeTitle = isModulePractice ? "USMLE Step 1 · Integrated practice" : isUsmlePractice ? "USMLE Step-1 Format Questions" : "Topic Wise Questions";
 
     if (["mind-map-chapters", "mind-map-topics", "mind-map-detail"].includes(practiceStage)) {
       const mindMapSubject = aiPracticeSubjects.find((subject) => subject.id === selectedPracticeSubjectId) ?? null;
@@ -4080,36 +4137,36 @@ async function fetchPracticeLibrary() {
 
     const totalQuestions = currentPracticeQuestions.length;
     const explanationText = formatExplanationText(
-      currentPracticeQuestion.explanation || "Answer saved in the NEET PG question bank.",
+      currentPracticeQuestion?.explanation || "Answer saved in the NEET PG question bank.",
     );
 
     if (practiceStage === "subject") {
       return (
-        <section className="app-view practice-detail-view">
+        <section className={`app-view practice-detail-view${isModulePractice ? " usmle-module-session practice-path-red" : isFmgePractice ? " fmge-session usmle-module-session practice-path-teal" : ""}`}>
           <div className="view-header">
             <div>
               <p className="eyebrow">Practice</p>
               <h2>
                 {currentPracticeSubject.title}{" "}
-                {isSupplementalPractice ? directoryModeTitle : currentPracticeQuestionSet?.title ?? "PYQ session"}
+                {isFmgePractice ? "practice" : isSupplementalPractice ? directoryModeTitle : currentPracticeQuestionSet?.title ?? "PYQ session"}
               </h2>
             </div>
-            <button className="button button-secondary" onClick={() => isDirectoryPractice ? setPracticeStage("topics") : handleBackToPracticeDirectory()}>
-              {isDirectoryPractice ? "Back to topics" : "Back to subjects"}
+            <button className="button button-secondary" onClick={() => isFmgePractice ? setPracticeStage("fmge-years") : isModulePractice ? setPracticeStage("usmle-modules") : isDirectoryPractice ? setPracticeStage("topics") : handleBackToPracticeDirectory()}>
+              {isFmgePractice ? "Back to years" : isModulePractice ? "Back to modules" : isDirectoryPractice ? "Back to topics" : "Back to subjects"}
             </button>
           </div>
 
           <article className="card quiz-card practice-focus-card">
             <div className="practice-focus-topbar">
               <span className="practice-year-tag">
-                {isUsmlePractice
+                {isFmgePractice ? currentPracticeSubject.title : isUsmlePractice
                   ? `Mixed ${totalQuestions}-question set`
                   : isDirectoryPractice
                     ? activePracticeYear?.title ?? "Practice"
                   : currentPracticeQuestionSet?.title ?? "PYQ session"}
               </span>
               <span className={`rank-pill ${isUsmlePractice ? "source-usmle" : selectedPracticeMode === "ai" ? "source-ai" : "source-official"}`}>
-                {isSupplementalPractice ? directoryModeTitle : "Official PYQ"}
+                {isFmgePractice ? "FMGE recall questions" : isSupplementalPractice ? directoryModeTitle : "Official PYQ"}
               </span>
             </div>
             <div className="practice-question-status-strip" aria-label="Question progress">
@@ -4161,9 +4218,10 @@ async function fetchPracticeLibrary() {
                   ? "Supplemental topic-wise practice"
                   : currentPracticeQuestion.examTitle ?? currentPracticeQuestionSet?.title ?? `${currentPracticeQuestion.year} PYQ`}
               </span>
-              <span>{currentPracticeQuestion.topic}</span>
+              <span>{isModulePractice || isFmgePractice ? `${currentPracticeQuestion.part ? `Part ${currentPracticeQuestion.part} · ` : ""}Question ${practiceQuestionIndex + 1} of ${totalQuestions}` : currentPracticeQuestion.topic}</span>
             </div>
             <h3>{currentPracticeQuestion.prompt}</h3>
+            {isFmgePractice && currentPracticeQuestion.sourceNote && <p className="fmge-review-note" role="note">{currentPracticeQuestion.sourceNote}</p>}
 
             {currentPracticeQuestion.subtopic ? <p className="panel-copy">{currentPracticeQuestion.subtopic}</p> : null}
 
@@ -4214,7 +4272,7 @@ async function fetchPracticeLibrary() {
                     }}
                     aria-pressed={isActive}
                   >
-                    {option}
+                    {isModulePractice || isFmgePractice ? `(${String.fromCharCode(65 + currentPracticeQuestion.options.indexOf(option))}) ${option}` : option}
                   </button>
                 );
               })}
@@ -4262,9 +4320,30 @@ async function fetchPracticeLibrary() {
             {submitted ? (
               <div className={"feedback-box " + (isCorrect ? "feedback-good" : "feedback-bad")}>
                 <strong>
-                  {isCorrect ? "Correct." : "Not quite. Correct answer: " + currentPracticeQuestion.answer + "."}
+                  {isFmgePractice && currentPracticeQuestion.reviewNote ? "Recall key: " + currentPracticeQuestion.answer + ". See the review note below." : isCorrect ? "Correct." : "Not quite. Correct answer: " + currentPracticeQuestion.answer + "."}
                 </strong>
                 <details open><summary>Explanation</summary><p>{explanationText}</p></details>
+                {isFmgePractice && <div className="usmle-teaching-notes">
+                  {currentPracticeQuestion.reviewNote && <p className="fmge-review-note"><strong>Recall review note:</strong> {currentPracticeQuestion.reviewNote}</p>}
+                  {currentPracticeQuestion.educationalObjective && <p><strong>Learning objective:</strong> {currentPracticeQuestion.educationalObjective}</p>}
+                  {currentPracticeQuestion.reasoningChain && <p><strong>Reasoning:</strong> {currentPracticeQuestion.reasoningChain}</p>}
+                  {currentPracticeQuestion.optionExplanations?.length === 4 && <details open><summary>Option-by-option review</summary><ol type="A">{currentPracticeQuestion.optionExplanations.map((note, index) => <li key={index}><strong>{currentPracticeQuestion.options[index]}</strong><p>{note}</p></li>)}</ol></details>}
+                  {currentPracticeQuestion.explanationImageUrls?.length > 0 && <div className="practice-question-images">{currentPracticeQuestion.explanationImageUrls.map((url, index) => <img key={url} className="practice-question-image" src={getPracticeImageUrl(url)} alt={`Explanation visual ${index + 1}`} loading="lazy" />)}</div>}
+                </div>}
+                {isModulePractice && <div className="usmle-teaching-notes">
+                  <p><strong>Learning objective:</strong> {currentPracticeQuestion.educationalObjective}</p>
+                  <p><strong>Reasoning:</strong> {currentPracticeQuestion.reasoningChain}</p>
+                  <p><strong>Integrated disciplines:</strong> {currentPracticeQuestion.disciplines.join(" · ")}</p>
+                  <details open><summary>Option-by-option review</summary>
+                    <ol type="A">{currentPracticeQuestion.optionExplanations.map((explanation, index) => <li key={index}><strong>{currentPracticeQuestion.options[index]}</strong><p>{explanation}</p></li>)}</ol>
+                  </details>
+                  {currentPracticeQuestion.references.length > 0 && <details><summary>Textbook references</summary>
+                    <ul>{currentPracticeQuestion.references.map((reference, index) => <li key={index}>
+                      {reference.book}, {reference.edition}. {reference.chapter}{reference.pages ? `, pp. ${reference.pages}` : ""}{reference.pdfPages ? ` (PDF pages ${reference.pdfPages})` : ""}.
+                      {reference.url && <> <a href={reference.url} target="_blank" rel="noreferrer">Read chapter</a></>}
+                    </li>)}</ul>
+                  </details>}
+                </div>}
               </div>
             ) : null}
           </article>
@@ -4279,8 +4358,8 @@ async function fetchPracticeLibrary() {
             <p className="eyebrow">Practice</p>
             <h2>{practiceLibrary.exam.title} by year and subject</h2>
           </div>
-          <button className="button button-secondary" onClick={() => setActiveView("Dashboard")}>
-            Back to dashboard
+          <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
+            Back
           </button>
         </div>
 
@@ -4479,6 +4558,7 @@ async function fetchPracticeLibrary() {
       pyq: "Previous Year Question",
       ai: "Topic-wise Question",
       usmle: "USMLE Step-1 Question",
+      fmge: "FMGE Question",
     };
     const availableCount = bookmarkedQuestionEntries.filter((entry) => entry.resolved).length;
 
@@ -5858,9 +5938,9 @@ async function fetchPracticeLibrary() {
 
   function renderPricing() {
     const plans = [
-      { name: "Lite", price: "₹299", cadence: "/ year", copy: "Perfect for students who want daily practice without spending much.", features: ["5 Battle Points every day", "Performance Analytics", "Daily Practice Access", "Community Access", "Perfect for casual learners"], action: "Get Lite" },
+      { name: "Lite", price: "₹499", cadence: "/ year", copy: "Perfect for students who want daily practice without spending much.", features: ["5 Battle Points every day", "Performance Analytics", "Daily Practice Access", "Community Access", "Perfect for casual learners"], action: "Get Lite" },
       { name: "Ultra", price: "₹999", cadence: "/ year", copy: "For MBBS students preparing consistently throughout the year.", features: ["Unlimited Battle Points", "Create Communities", "Custom Battles", "Detailed Analytics", "Explanation Access", "Unlock Any 3 Subjects"], action: "Choose Ultra", featured: true },
-      { name: "Premium", price: "₹1499", cadence: "/ month", copy: "Built for serious NEET PG aspirants.", features: ["All Subjects Unlocked", "Custom Modules", "Custom Practice", "NEET PG Exam Mode", "Clinical Cases", "Everything in Ultra"], action: "Go Premium" },
+      { name: "Premium", price: "₹1499", cadence: "/ year", copy: "Built for serious NEET PG aspirants.", features: ["All Subjects Unlocked", "Custom Modules", "Custom Practice", "NEET PG Exam Mode", "Clinical Cases", "Everything in Ultra"], action: "Go Premium" },
     ];
     const assurances = [
       ["◇", "Secure & Trusted", "Your data is safe with us."],
@@ -5903,7 +5983,13 @@ async function fetchPracticeLibrary() {
       case "Reviews":
         return <div className="app-view"><WebsiteReviews canReview={authStatus === "authenticated"} onSignIn={handleLogout} /></div>;
       case "Practice":
-        return renderPractice();
+        return <>
+          {!["selection", "usmle-modules", "fmge-years"].includes(practiceStage) && <div className="practice-path-breadcrumb">
+            <button type="button" className="text-button" onClick={() => setActiveView("Practice")}>← All practice options</button>
+            {practicePathTitle && <span>{practicePathTitle} practice</span>}
+          </div>}
+          {renderPractice()}
+        </>;
       case "Bookmarks":
         return renderBookmarks();
       case "Analytics":
