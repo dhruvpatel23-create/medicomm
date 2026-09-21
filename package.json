@@ -17,6 +17,8 @@
     "check:pathology-order": "npm run check:practice-order",
     "seed:supabase": "node scripts/seed-supabase.mjs",
     "check:supabase": "node scripts/check-supabase.mjs",
+    "sync:practice": "node scripts/sync_ai_questions_to_practice_bank.mjs",
+    "prebuild": "npm run sync:practice",
     "build": "vite build",
     "preview": "vite preview"
   },

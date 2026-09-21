@@ -1,10 +1,8 @@
-import { copyFileSync, readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 
 const SOURCE_DATA = "data/users.json";
 const DATA_BANK = "data/practice-question-bank.json";
 const PUBLIC_BANK = "public/practice-question-bank.json";
-const DIST_BANK = "dist/practice-question-bank.json";
-const SYNC_SUBJECT_IDS = new Set(["general-medicine", "ophthalmology"]);
 
 function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8").replace(/^\uFEFF/, ""));
@@ -25,7 +23,7 @@ function normalizeAiQuestion(question) {
 
 const data = readJson(SOURCE_DATA);
 const aiQuestions = (data.questions ?? [])
-  .filter((question) => question.source === "ai" && SYNC_SUBJECT_IDS.has(question.subjectId))
+  .filter((question) => question.source === "ai")
   .map(normalizeAiQuestion);
 
 function syncBank(path) {
@@ -75,6 +73,5 @@ function syncBank(path) {
 
 syncBank(DATA_BANK);
 syncBank(PUBLIC_BANK);
-copyFileSync(PUBLIC_BANK, DIST_BANK);
 
-console.log(`Synced ${aiQuestions.length} AI questions into ${DATA_BANK}, ${PUBLIC_BANK}, and ${DIST_BANK}.`);
+console.log(`Synced ${aiQuestions.length} AI questions into ${DATA_BANK} and ${PUBLIC_BANK}. Run npm run build to update dist.`);
