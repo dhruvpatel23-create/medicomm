@@ -75,6 +75,7 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
   const [storageError, setStorageError] = useState(false);
   const [message, setMessage] = useState("");
   const [confirmClear, setConfirmClear] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
   const canvasRef = useRef(null);
   const activeStroke = useRef(null);
   const draftRef = useRef(draft);
@@ -157,14 +158,15 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
 
   return <Dialog.Portal>
     <Dialog.Overlay className="an-overlay fixed inset-0 bg-slate-950/50 backdrop-blur-sm" />
-    <Dialog.Content className="an-dialog fixed flex flex-col overflow-hidden rounded-2xl shadow-2xl" onEscapeKeyDown={() => finish()}
+    <Dialog.Content className="an-dialog fixed overflow-hidden shadow-2xl" onEscapeKeyDown={() => finish()}
       onInteractOutside={event => event.preventDefault()} onOpenAutoFocus={event => { event.preventDefault(); document.getElementById("an-close")?.focus(); }}>
-      <header className="an-header flex items-start justify-between gap-4 border-b px-5 py-4 sm:px-7">
-        <div><div className="flex items-center gap-2"><NotebookPen size={20} className="an-accent" /><Dialog.Title className="text-lg font-semibold tracking-tight">Your answer, in your handwriting.</Dialog.Title></div>
-          <Dialog.Description className="mt-1 text-xs">A little space to think, write, and sketch. Save your sheet when you’re ready.</Dialog.Description></div>
+      <header className="an-header">
+        <NotebookPen size={20} className="an-accent" />
+        <div className="an-heading"><Dialog.Title>Notepad</Dialog.Title><Dialog.Description title={prompt}>{prompt}</Dialog.Description></div>
+        <button type="button" className="an-tool an-tools-toggle" aria-expanded={toolsOpen} aria-controls="an-controls" onClick={() => setToolsOpen(value => !value)}>Tools</button>
         <Dialog.Close asChild><button id="an-close" type="button" className="an-tool shrink-0" aria-label="Close notepad" onClick={() => finish()}><X size={20} /></button></Dialog.Close>
       </header>
-      <div className="an-question border-b px-5 py-3 sm:px-7"><span className="an-accent text-[10px] font-bold uppercase tracking-widest">Writing about</span><p className="mt-1 line-clamp-2 text-sm" title={prompt}>{prompt}</p></div>
+      <aside id="an-controls" className={`an-controls${toolsOpen ? " an-controls-open" : ""}`} aria-label="Notepad controls">
       <div className="an-toolbar flex flex-wrap items-center gap-2 border-b px-4 py-3 sm:px-7" aria-label="Writing tools">
         <div className="an-tool-group flex gap-1 rounded-xl p-1">
           <button type="button" className="an-tool" aria-label="Pen" aria-pressed={tool === "pen"} onClick={() => setTool("pen")}><PenLine size={19} /><span className="hidden sm:inline">Pen</span></button>
@@ -183,17 +185,18 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
         <label className="flex min-h-9 cursor-pointer items-center gap-2"><input type="checkbox" checked={pencilOnly} onChange={event => setPencilOnly(event.target.checked)} /> Pencil only · ignore finger touches</label>
       </div>
       {confirmClear && <div role="alert" className="an-clear flex flex-wrap items-center justify-center gap-3 px-4 py-2 text-sm">Clear this sheet? You can undo this.<button type="button" onClick={() => { persist({ ...draftRef.current, strokes: [...draftRef.current.strokes, { tool: "eraser", color, size: 38, points: [{ x: WIDTH / 2, y: HEIGHT / 2, pressure: 1 }], clear: true }] }); setRedo([]); setConfirmClear(false); }}>Clear</button><button type="button" onClick={() => setConfirmClear(false)}>Keep writing</button></div>}
-      <div className="an-workspace min-h-0 flex-1 overflow-auto px-4 py-5 sm:px-10">
+      </aside>
+      <div className="an-workspace">
         <div className={`an-paper an-paper-${draft.paper} relative mx-auto shadow-lg`}>
           {!draft.strokes.length && <div className="pointer-events-none absolute inset-x-0 top-20 text-center text-slate-400"><PenLine size={26} className="mx-auto mb-3 opacity-50" /><p className="text-sm">Every good answer starts here.</p><p className="mt-2 text-xs">Use your Pencil, finger, or mouse.</p></div>}
           <canvas ref={attachCanvas} width={WIDTH} height={HEIGHT} className="an-canvas relative block w-full" aria-label="Handwritten answer sheet" onPointerDown={start} onPointerMove={move} onPointerUp={finish} onPointerCancel={finish} onLostPointerCapture={finish} onContextMenu={event => event.preventDefault()} />
         </div>
         <p className="an-sheet-caption mt-4 text-center text-xs">One sheet · Scroll beside the paper to move down</p>
       </div>
-      <footer className="an-footer border-t px-5 py-4 sm:px-7">
-        <div className="flex flex-wrap items-center justify-between gap-3"><div className="text-xs"><p className="flex items-center gap-1.5" role="status">{!storageError && <Check size={14} className="an-accent" />}{storageError ? "Draft could not save on this device. Keep this sheet open." : "Draft kept on this device"}</p><p className="mt-1 opacity-70">{hasImage ? "Saving replaces the currently attached image." : "Save, then submit your answer for AI review."}</p></div>
+      <footer className="an-footer">
+        <div className="flex flex-wrap items-center justify-between gap-3"><div className="text-xs"><p className="flex items-center gap-1.5" role="status">{!storageError && <Check size={14} className="an-accent" />}{storageError ? "Draft could not save on this device. Keep this sheet open." : "Draft kept on this device"}</p><p className="sr-only">{hasImage ? "Saving replaces the currently attached image." : "Save, then submit your answer for AI review."}</p></div>
           <button type="button" className="an-save flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold" onClick={save}>Save answer <ArrowRight size={16} /></button></div>
-        {message && <p className="mt-2 text-sm text-red-600" role="alert">{message}</p>}
+        {message && <p className="an-save-error text-sm text-red-600" role="alert">{message}</p>}
       </footer>
     </Dialog.Content>
   </Dialog.Portal>;

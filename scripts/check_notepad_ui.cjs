@@ -33,11 +33,19 @@ const fs = require('node:fs');
     }
     await openQuestion();
     await page.getByRole('button', { name: /Notepad Write/ }).click();
-    for (const viewport of [{ width: 1440, height: 1000 }, { width: 1024, height: 1366 }]) {
+    fs.mkdirSync('output/notepad', { recursive: true });
+    for (const viewport of [{ width: 1270, height: 587 }, { width: 1440, height: 1000 }, { width: 1024, height: 1366 }]) {
       await page.setViewportSize(viewport);
-      const bounds = await page.getByRole('dialog').boundingBox();
-      assert(Math.abs(bounds.width - viewport.width * 0.8) < 2, 'Notepad must occupy 80% of viewport width');
-      assert(Math.abs(bounds.height - viewport.height * 0.8) < 2, 'Notepad must occupy 80% of viewport height');
+      const workspace = await page.locator('.an-workspace').boundingBox();
+      const paper = await page.locator('.an-canvas').boundingBox();
+      const visibleWidth = Math.min(workspace.x + workspace.width, paper.x + paper.width) - Math.max(workspace.x, paper.x);
+      const visibleHeight = Math.min(workspace.y + workspace.height, paper.y + paper.height) - Math.max(workspace.y, paper.y);
+      assert(visibleWidth >= viewport.width * 0.8, 'Visible writable sheet must occupy at least 80% of viewport width');
+      assert(visibleHeight >= viewport.height * 0.8, 'Visible writable sheet must occupy at least 80% of viewport height');
+      if (viewport.width === 1270) {
+        await page.evaluate(() => document.documentElement.dataset.theme = 'dark');
+        await page.screenshot({ path: 'output/notepad/short-screen.png' });
+      }
     }
     await page.getByRole('button', { name: 'Save answer', exact: true }).click();
     await page.getByRole('alert').filter({ hasText: 'Write your answer' }).waitFor();
