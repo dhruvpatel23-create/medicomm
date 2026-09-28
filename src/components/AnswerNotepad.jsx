@@ -1,23 +1,28 @@
 import { useCallback, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ArrowRight, Check, Eraser, NotebookPen, PenLine, Redo2, RotateCcw, Undo2, X } from "lucide-react";
+import { ArrowRight, Check, Eraser, Hand, Minus, Plus, NotebookPen, PenLine, Redo2, RotateCcw, Undo2, X } from "lucide-react";
 import "./AnswerNotepad.css";
 
 const WIDTH = 1200;
 const HEIGHT = 1600;
 const inks = [["Midnight", "#25334d"], ["Blue", "#295cc9"], ["Violet", "#7950b8"], ["Green", "#17785f"]];
-const emptyDraft = () => ({ strokes: [], paper: "ruled" });
+const MAX_PAGES = 8;
+const emptyPage = () => ({ strokes: [], paper: "ruled" });
+const emptyDraft = () => ({ pages: [emptyPage()], pageIndex: 0 });
 
 function readDraft(key) {
   try {
-    const draft = JSON.parse(localStorage.getItem(key));
-    if (draft?.version === 1 && Array.isArray(draft.strokes) && draft.strokes.every(stroke =>
-      ["pen", "eraser"].includes(stroke.tool) && typeof stroke.color === "string" && Number.isFinite(stroke.size)
-      && Array.isArray(stroke.points) && stroke.points.length && stroke.points.every(point =>
-        [point.x, point.y, point.pressure].every(Number.isFinite)))) {
-      return { strokes: draft.strokes, paper: ["ruled", "dotted", "plain"].includes(draft.paper) ? draft.paper : "ruled" };
+    const stored = JSON.parse(localStorage.getItem(key));
+    const pages = stored?.version === 1 ? [stored] : stored?.version === 2 ? stored.pages : null;
+    if (Array.isArray(pages) && pages.length && pages.length <= MAX_PAGES && pages.every(page =>
+      Array.isArray(page.strokes) && page.strokes.every(stroke =>
+        ["pen", "eraser"].includes(stroke.tool) && typeof stroke.color === "string" && Number.isFinite(stroke.size)
+        && Array.isArray(stroke.points) && stroke.points.length && stroke.points.every(point =>
+          [point.x, point.y, point.pressure].every(Number.isFinite))))) {
+      return { pages: pages.map(page => ({ strokes: page.strokes.map(stroke => stored.version === 1 && stroke.tool === "eraser" ? { ...stroke, size: 38 } : stroke), paper: ["ruled", "dotted", "plain"].includes(page.paper) ? page.paper : "ruled" })),
+        pageIndex: Math.max(0, Math.min(pages.length - 1, Number.isInteger(stored.pageIndex) ? stored.pageIndex : 0)) };
     }
-  } catch { /* A missing or unavailable local draft starts a fresh sheet. */ }
+  } catch { /* Preserve legacy drafts when possible; unavailable storage starts a fresh sheet. */ }
   return emptyDraft();
 }
 
@@ -26,7 +31,11 @@ function drawSegment(context, stroke, from, to) {
   context.globalCompositeOperation = stroke.tool === "eraser" ? "destination-out" : "source-over";
   context.strokeStyle = stroke.color;
   context.fillStyle = stroke.color;
-  context.lineWidth = stroke.tool === "eraser" ? 38 : stroke.size * (0.6 + to.pressure * 0.8);
+  const style = stroke.style || "ballpoint";
+  const pressure = Math.max(0.15, to.pressure);
+  context.lineWidth = stroke.tool === "eraser" ? stroke.size : stroke.size *
+    (style === "brush" ? 0.3 + pressure * 2.5 : style === "fountain" ? 0.5 + pressure * 1.4 : style === "pencil" ? 0.8 : 1);
+  if (style === "pencil" && stroke.tool !== "eraser") context.globalAlpha = 0.65;
   context.lineCap = "round";
   context.lineJoin = "round";
   context.beginPath();
@@ -47,6 +56,14 @@ function redraw(canvas, strokes) {
   context.clearRect(0, 0, WIDTH, HEIGHT);
   for (const stroke of strokes) {
     if (stroke.clear) { context.clearRect(0, 0, WIDTH, HEIGHT); continue; }
+    if (stroke.style === "highlighter" && stroke.tool !== "eraser") {
+      context.save(); context.globalAlpha = 0.25; context.strokeStyle = stroke.color;
+      context.lineWidth = stroke.size * 4; context.lineCap = "round"; context.lineJoin = "round";
+      context.beginPath(); context.moveTo(stroke.points[0].x, stroke.points[0].y);
+      for (const point of stroke.points) context.lineTo(point.x, point.y);
+      if (stroke.points.length === 1) context.lineTo(stroke.points[0].x + 0.01, stroke.points[0].y);
+      context.stroke(); context.restore(); continue;
+    }
     stroke.points.forEach((point, index) => drawSegment(context, stroke, stroke.points[Math.max(0, index - 1)], point));
   }
 }
@@ -71,6 +88,9 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
   const [tool, setTool] = useState("pen");
   const [color, setColor] = useState(inks[0][1]);
   const [size, setSize] = useState(3);
+  const [eraserSize, setEraserSize] = useState(38);
+  const [penStyle, setPenStyle] = useState("ballpoint");
+  const [zoom, setZoom] = useState(1);
   const [pencilOnly, setPencilOnly] = useState(false);
   const [storageError, setStorageError] = useState(false);
   const [message, setMessage] = useState("");
@@ -78,19 +98,23 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
   const [toolsOpen, setToolsOpen] = useState(false);
   const canvasRef = useRef(null);
   const activeStroke = useRef(null);
+  const workspaceRef = useRef(null);
+  const panRef = useRef(null);
   const draftRef = useRef(draft);
+  const currentPage = draft.pages[draft.pageIndex];
+  const pageRef = () => draftRef.current.pages[draftRef.current.pageIndex];
 
   function persist(next) {
     draftRef.current = next;
     setDraft(next);
-    try { localStorage.setItem(storageKey, JSON.stringify({ version: 1, ...next })); setStorageError(false); }
+    try { localStorage.setItem(storageKey, JSON.stringify({ version: 2, ...next })); setStorageError(false); }
     catch { setStorageError(true); }
   }
 
   const attachCanvas = useCallback(canvas => {
     canvasRef.current = canvas;
-    redraw(canvas, draft.strokes);
-  }, [draft.strokes]);
+    redraw(canvas, currentPage.strokes);
+  }, [currentPage.strokes]);
 
   function point(event) {
     const bounds = canvasRef.current.getBoundingClientRect();
@@ -98,17 +122,37 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
       y: Math.max(0, Math.min(HEIGHT, (event.clientY - bounds.top) * HEIGHT / bounds.height)),
       pressure: event.pointerType === "pen" ? event.pressure || 0.5 : 0.5 };
   }
+  function updatePage(nextPage) {
+    const current = draftRef.current;
+    persist({ ...current, pages: current.pages.map((page, i) => i === current.pageIndex ? nextPage : page) });
+  }
+  function chooseTool(next) { finish(); panRef.current = null; setTool(next); setConfirmClear(false); }
   function start(event) {
-    if (activeStroke.current || (event.pointerType === "mouse" && event.button !== 0) || (pencilOnly && event.pointerType === "touch")) return;
+    if (activeStroke.current || panRef.current || (event.pointerType === "mouse" && event.button !== 0)) return;
+    if (tool === "pan" || (pencilOnly && event.pointerType === "touch")) {
+      event.preventDefault();
+      event.currentTarget.setPointerCapture(event.pointerId);
+      panRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY,
+        left: workspaceRef.current.scrollLeft, top: workspaceRef.current.scrollTop };
+      return;
+    }
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
     if (event.pointerType === "pen") setPencilOnly(true);
-    const stroke = { tool, color, size, points: [point(event)] };
+    const selectedTool = event.pointerType === "pen" && (event.button === 5 || event.buttons === 32) ? "eraser" : tool;
+    const stroke = { tool: selectedTool, style: penStyle, color, size: selectedTool === "eraser" ? eraserSize : size, points: [point(event)] };
     activeStroke.current = { pointerId: event.pointerId, stroke };
-    drawSegment(canvasRef.current.getContext("2d"), stroke, stroke.points[0], stroke.points[0]);
+    redraw(canvasRef.current, [...pageRef().strokes, stroke]);
     setMessage(""); setConfirmClear(false);
   }
   function move(event) {
+    const pan = panRef.current;
+    if (pan?.id === event.pointerId) {
+      event.preventDefault();
+      workspaceRef.current.scrollLeft = pan.left + pan.x - event.clientX;
+      workspaceRef.current.scrollTop = pan.top + pan.y - event.clientY;
+      return;
+    }
     const active = activeStroke.current;
     if (!active || event.pointerId !== active.pointerId) return;
     event.preventDefault();
@@ -117,43 +161,81 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
       const next = point(sample);
       const previous = active.stroke.points.at(-1);
       if (Math.hypot(next.x - previous.x, next.y - previous.y) < 0.5) continue;
-      drawSegment(canvasRef.current.getContext("2d"), active.stroke, previous, next);
       active.stroke.points.push(next);
+      if (active.stroke.style !== "highlighter" || active.stroke.tool === "eraser") drawSegment(canvasRef.current.getContext("2d"), active.stroke, previous, next);
     }
+    if (active.stroke.style === "highlighter" && active.stroke.tool === "pen") redraw(canvasRef.current, [...pageRef().strokes, active.stroke]);
   }
   function finish(event) {
+    if (!event || panRef.current?.id === event.pointerId) panRef.current = null;
     const active = activeStroke.current;
     if (!active || (event && event.pointerId !== active.pointerId)) return;
     activeStroke.current = null;
-    persist({ ...draftRef.current, strokes: [...draftRef.current.strokes, active.stroke] });
+    if (canvasRef.current?.hasPointerCapture(active.pointerId)) canvasRef.current.releasePointerCapture(active.pointerId);
+    updatePage({ ...pageRef(), strokes: [...pageRef().strokes, active.stroke] });
     setRedo([]);
   }
   function undoStroke() {
     finish();
-    const current = draftRef.current;
-    if (!current.strokes.length) return;
-    setRedo(items => [...items, current.strokes.at(-1)]);
-    persist({ ...current, strokes: current.strokes.slice(0, -1) });
+    const page = pageRef();
+    if (!page.strokes.length) return;
+    setRedo(items => [...items, page.strokes.at(-1)]);
+    updatePage({ ...page, strokes: page.strokes.slice(0, -1) });
   }
   function redoStroke() {
+    finish();
     if (!redo.length) return;
-    persist({ ...draftRef.current, strokes: [...draftRef.current.strokes, redo.at(-1)] });
+    updatePage({ ...pageRef(), strokes: [...pageRef().strokes, redo.at(-1)] });
     setRedo(items => items.slice(0, -1));
+  }
+  function changePage(index, add = false) {
+    finish();
+    const current = draftRef.current;
+    if (add && current.pages.length >= MAX_PAGES) return;
+    persist({ ...current, pages: add ? [...current.pages, emptyPage()] : current.pages, pageIndex: index });
+    setRedo([]); setConfirmClear(false); setMessage("");
+    workspaceRef.current.scrollTo(0, 0);
+  }
+  function changeZoom(value) {
+    finish();
+    const next = Math.max(0.5, Math.min(3, value));
+    const workspace = workspaceRef.current;
+    const centerX = (workspace.scrollLeft + workspace.clientWidth / 2) / zoom;
+    const centerY = (workspace.scrollTop + workspace.clientHeight / 2) / zoom;
+    setZoom(next);
+    requestAnimationFrame(() => workspace.scrollTo(Math.max(0, centerX * next - workspace.clientWidth / 2), Math.max(0, centerY * next - workspace.clientHeight / 2)));
   }
   function save() {
     finish();
-    const canvas = canvasRef.current;
-    const pixels = canvas.getContext("2d").getImageData(0, 0, WIDTH, HEIGHT).data;
-    let hasInk = false;
-    for (let index = 3; index < pixels.length; index += 4) { if (pixels[index]) { hasInk = true; break; } }
-    if (!hasInk) { setMessage("Write your answer on the sheet before saving."); return; }
     try {
+      const pages = draftRef.current.pages;
+      const scratch = document.createElement("canvas"); scratch.width = WIDTH; scratch.height = HEIGHT;
+      let hasInk = false;
+      for (const page of pages) {
+        redraw(scratch, page.strokes);
+        const pixels = scratch.getContext("2d").getImageData(0, 0, WIDTH, HEIGHT).data;
+        for (let i = 3; i < pixels.length; i += 4) if (pixels[i]) { hasInk = true; break; }
+        if (hasInk) break;
+      }
+      if (!hasInk) { setMessage("Write your answer on the sheet before saving."); return; }
+      const columns = pages.length > 1 ? 2 : 1;
+      const labelHeight = pages.length > 1 ? 32 : 0;
       const output = document.createElement("canvas");
-      output.width = WIDTH; output.height = HEIGHT;
+      output.width = WIDTH * columns; output.height = (HEIGHT + labelHeight) * Math.ceil(pages.length / columns);
       const context = output.getContext("2d");
-      context.fillStyle = "#ffffff"; context.fillRect(0, 0, WIDTH, HEIGHT); context.drawImage(canvas, 0, 0);
-      onSave({ dataUrl: output.toDataURL("image/png"), name: "Notepad answer.png", width: WIDTH, height: HEIGHT });
-    } catch { setMessage("Your answer could not be attached. Please try saving again."); }
+      context.fillStyle = "#ffffff"; context.fillRect(0, 0, output.width, output.height);
+      pages.forEach((page, index) => {
+        redraw(scratch, page.strokes);
+        const x = (index % columns) * WIDTH; const y = Math.floor(index / columns) * (HEIGHT + labelHeight);
+        if (labelHeight) { context.fillStyle = "#555555"; context.font = "20px sans-serif"; context.fillText(`Page ${index + 1}`, x + 16, y + 24); }
+        context.drawImage(scratch, x, y + labelHeight);
+      });
+      const dataUrl = output.toDataURL("image/png");
+      if (!dataUrl.startsWith("data:image/png") || (dataUrl.length - dataUrl.indexOf(",") - 1) * 0.75 > 5 * 1024 * 1024) {
+        setMessage("These pages are too large to attach. Your draft is saved; reduce the amount of ink and try again."); return;
+      }
+      onSave({ dataUrl, name: "Notepad answer.png", width: output.width, height: output.height });
+    } catch { setMessage("Your answer could not be attached. Your pages are still saved here. Please try again."); }
   }
 
   return <Dialog.Portal>
@@ -169,32 +251,41 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
       <aside id="an-controls" className={`an-controls${toolsOpen ? " an-controls-open" : ""}`} aria-label="Notepad controls">
       <div className="an-toolbar flex flex-wrap items-center gap-2 border-b px-4 py-3 sm:px-7" aria-label="Writing tools">
         <div className="an-tool-group flex gap-1 rounded-xl p-1">
-          <button type="button" className="an-tool" aria-label="Pen" aria-pressed={tool === "pen"} onClick={() => setTool("pen")}><PenLine size={19} /><span className="hidden sm:inline">Pen</span></button>
-          <button type="button" className="an-tool" aria-label="Eraser" aria-pressed={tool === "eraser"} onClick={() => setTool("eraser")}><Eraser size={19} /><span className="hidden sm:inline">Eraser</span></button>
+          <button type="button" className="an-tool" aria-label="Pen" aria-pressed={tool === "pen"} onClick={() => chooseTool("pen")}><PenLine size={19} /><span className="hidden sm:inline">Pen</span></button>
+          <button type="button" className="an-tool" aria-label="Eraser" aria-pressed={tool === "eraser"} onClick={() => chooseTool("eraser")}><Eraser size={19} /><span className="hidden sm:inline">Eraser</span></button>
         </div>
-        <div className="flex items-center" aria-label="Ink colour">{inks.map(([label, ink]) => <button type="button" key={ink} className="an-swatch" aria-label={`${label} ink`} aria-pressed={color === ink} onClick={() => { setColor(ink); setTool("pen"); }}><span style={{ background: ink }}>{color === ink && <Check size={13} color="white" />}</span></button>)}</div>
-        <label className="an-select-label flex items-center gap-2 text-xs">Stroke<select aria-label="Pen thickness" value={size} onChange={event => setSize(Number(event.target.value))}><option value={2}>Fine</option><option value={3}>Medium</option><option value={5}>Bold</option></select></label>
+        <div className="flex items-center" aria-label="Ink colour">{inks.map(([label, ink]) => <button type="button" key={ink} className="an-swatch" aria-label={`${label} ink`} aria-pressed={color === ink} onClick={() => { finish(); setColor(ink); }}><span style={{ background: ink }}>{color === ink && <Check size={13} color="white" />}</span></button>)}</div>
+        <label className="an-select-label flex items-center gap-2 text-xs">Pen style<select aria-label="Pen style" value={penStyle} onChange={event => { finish(); setPenStyle(event.target.value); chooseTool("pen"); }}>
+          <option value="ballpoint">Ballpoint</option><option value="fountain">Fountain</option><option value="brush">Brush</option><option value="pencil">Pencil</option><option value="highlighter">Highlighter</option>
+        </select></label>
+        <label className="an-thickness text-xs">{tool === "eraser" ? "Eraser size" : "Tip thickness"}<output>{tool === "eraser" ? eraserSize : size} px</output>
+          <input type="range" aria-label={tool === "eraser" ? "Eraser size" : "Tip thickness"} min={tool === "eraser" ? 8 : 1} max={tool === "eraser" ? 96 : 20} step="1" value={tool === "eraser" ? eraserSize : size} onChange={event => { finish(); (tool === "eraser" ? setEraserSize : setSize)(Number(event.target.value)); }} />
+        </label>
+        <button type="button" className="an-tool" aria-label="Move page" aria-pressed={tool === "pan"} onClick={() => chooseTool("pan")}><Hand size={19} />Move page</button>
+        <div className="an-zoom"><button className="an-tool" type="button" aria-label="Zoom out" disabled={zoom <= 0.5} onClick={() => changeZoom(zoom - 0.25)}><Minus size={18} /></button><button type="button" className="an-tool" aria-label="Reset zoom" onClick={() => changeZoom(1)}>{Math.round(zoom * 100)}%</button><button className="an-tool" type="button" aria-label="Zoom in" disabled={zoom >= 3} onClick={() => changeZoom(zoom + 0.25)}><Plus size={18} /></button></div>
         <div className="ml-auto flex gap-1">
-          <button type="button" className="an-tool" aria-label="Undo" disabled={!draft.strokes.length} onClick={undoStroke}><Undo2 size={19} /></button>
+          <button type="button" className="an-tool" aria-label="Undo" disabled={!currentPage.strokes.length} onClick={undoStroke}><Undo2 size={19} /></button>
           <button type="button" className="an-tool" aria-label="Redo" disabled={!redo.length} onClick={redoStroke}><Redo2 size={19} /></button>
-          <button type="button" className="an-tool" aria-label="Clear sheet" disabled={!draft.strokes.length} onClick={() => setConfirmClear(true)}><RotateCcw size={18} /></button>
+          <button type="button" className="an-tool" aria-label="Clear sheet" disabled={!currentPage.strokes.length} onClick={() => setConfirmClear(true)}><RotateCcw size={18} /></button>
         </div>
       </div>
       <div className="an-options flex flex-wrap items-center justify-between gap-2 px-5 py-2 text-xs sm:px-7">
-        <label className="flex items-center gap-2">Paper<select aria-label="Paper style" value={draft.paper} onChange={event => persist({ ...draftRef.current, paper: event.target.value })}><option value="ruled">Ruled</option><option value="dotted">Dotted</option><option value="plain">Plain</option></select></label>
-        <label className="flex min-h-9 cursor-pointer items-center gap-2"><input type="checkbox" checked={pencilOnly} onChange={event => setPencilOnly(event.target.checked)} /> Pencil only · ignore finger touches</label>
+        <label className="flex items-center gap-2">Paper<select aria-label="Paper style" value={currentPage.paper} onChange={event => { finish(); updatePage({ ...pageRef(), paper: event.target.value }); }}><option value="ruled">Ruled</option><option value="dotted">Dotted</option><option value="plain">Plain</option></select></label>
+        <label className="flex min-h-9 cursor-pointer items-center gap-2"><input type="checkbox" checked={pencilOnly} onChange={event => setPencilOnly(event.target.checked)} /> Pencil only · finger to move</label>
       </div>
-      {confirmClear && <div role="alert" className="an-clear flex flex-wrap items-center justify-center gap-3 px-4 py-2 text-sm">Clear this sheet? You can undo this.<button type="button" onClick={() => { persist({ ...draftRef.current, strokes: [...draftRef.current.strokes, { tool: "eraser", color, size: 38, points: [{ x: WIDTH / 2, y: HEIGHT / 2, pressure: 1 }], clear: true }] }); setRedo([]); setConfirmClear(false); }}>Clear</button><button type="button" onClick={() => setConfirmClear(false)}>Keep writing</button></div>}
+      {confirmClear && <div role="alert" className="an-clear flex flex-wrap items-center justify-center gap-3 px-4 py-2 text-sm">Clear this sheet? You can undo this.<button type="button" onClick={() => { finish(); updatePage({ ...pageRef(), strokes: [...pageRef().strokes, { tool: "eraser", color, size: 38, points: [{ x: WIDTH / 2, y: HEIGHT / 2, pressure: 1 }], clear: true }] }); setRedo([]); setConfirmClear(false); }}>Clear</button><button type="button" onClick={() => setConfirmClear(false)}>Keep writing</button></div>}
       </aside>
-      <div className="an-workspace">
-        <div className={`an-paper an-paper-${draft.paper} relative mx-auto shadow-lg`}>
-          {!draft.strokes.length && <div className="pointer-events-none absolute inset-x-0 top-20 text-center text-slate-400"><PenLine size={26} className="mx-auto mb-3 opacity-50" /><p className="text-sm">Every good answer starts here.</p><p className="mt-2 text-xs">Use your Pencil, finger, or mouse.</p></div>}
+      <div className={`an-workspace${tool === "pan" ? " an-panning" : ""}`} ref={workspaceRef}>
+        <div className="an-page-scale" style={{ width: `${zoom * 100}%` }}>
+        <div className={`an-paper an-paper-${currentPage.paper} relative mx-auto shadow-lg`}>
+          {!currentPage.strokes.length && <div className="pointer-events-none absolute inset-x-0 top-20 text-center text-slate-400"><PenLine size={26} className="mx-auto mb-3 opacity-50" /><p className="text-sm">Every good answer starts here.</p><p className="mt-2 text-xs">Use your Pencil, finger, or mouse.</p></div>}
           <canvas ref={attachCanvas} width={WIDTH} height={HEIGHT} className="an-canvas relative block w-full" aria-label="Handwritten answer sheet" onPointerDown={start} onPointerMove={move} onPointerUp={finish} onPointerCancel={finish} onLostPointerCapture={finish} onContextMenu={event => event.preventDefault()} />
         </div>
-        <p className="an-sheet-caption mt-4 text-center text-xs">One sheet · Scroll beside the paper to move down</p>
+        <p className="an-sheet-caption mt-4 text-center text-xs">Page {draft.pageIndex + 1} of {draft.pages.length} · Use Move page to drag the sheet</p>
+        </div>
       </div>
       <footer className="an-footer">
-        <div className="flex flex-wrap items-center justify-between gap-3"><div className="text-xs"><p className="flex items-center gap-1.5" role="status">{!storageError && <Check size={14} className="an-accent" />}{storageError ? "Draft could not save on this device. Keep this sheet open." : "Draft kept on this device"}</p><p className="sr-only">{hasImage ? "Saving replaces the currently attached image." : "Save, then submit your answer for AI review."}</p></div>
+        <div className="flex flex-wrap items-center justify-between gap-3"><div className="an-page-navigation"><button className="an-tool" type="button" aria-label="Previous page" disabled={draft.pageIndex === 0} onClick={() => changePage(draft.pageIndex - 1)}>&lsaquo;</button><span>{draft.pageIndex + 1}/{draft.pages.length}</span><button className="an-tool" type="button" aria-label="Next page" disabled={draft.pageIndex === draft.pages.length - 1} onClick={() => changePage(draft.pageIndex + 1)}>&rsaquo;</button><button className="an-tool" type="button" aria-label="Add page" disabled={draft.pages.length >= MAX_PAGES} onClick={() => changePage(draft.pages.length, true)}><Plus size={16} /><span className="hidden sm:inline">Page</span></button></div><div className="an-draft-status text-xs"><p className="flex items-center gap-1.5" role="status">{!storageError && <Check size={14} className="an-accent" />}{storageError ? "Draft could not save on this device. Keep this sheet open." : "Draft kept on this device"}</p><p className="sr-only">{hasImage ? "Saving replaces the currently attached image." : "Save, then submit your answer for AI review."}</p></div>
           <button type="button" className="an-save flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold" onClick={save}>Save answer <ArrowRight size={16} /></button></div>
         {message && <p className="an-save-error text-sm text-red-600" role="alert">{message}</p>}
       </footer>

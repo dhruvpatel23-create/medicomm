@@ -87,10 +87,59 @@ const fs = require('node:fs');
     await page.getByRole('button', { name: 'Previous question' }).click();
     await page.getByRole('button', { name: /Notepad Write/ }).click(); assert.equal(await inkCount(), ink);
     await page.getByRole('button', { name: 'Close notepad' }).click();
+    // Restore a legacy single-page draft, including its original eraser semantics.
+    await page.evaluate(() => {
+      for (const key of Object.keys(localStorage).filter(key => key.startsWith('medicomm-notepad:'))) {
+        const draft = JSON.parse(localStorage.getItem(key));
+        if (draft.version === 2 && draft.pages.length === 1) localStorage.setItem(key, JSON.stringify({ version: 1, ...draft.pages[0] }));
+      }
+    });
     await page.reload(); await page.getByRole('button', { name: 'Explore as guest' }).click();
     await page.evaluate(() => localStorage.setItem('medicomm-session-token', 'notepad-test'));
     await openQuestion(); await page.getByRole('button', { name: /Notepad Write/ }).click();
     assert.equal(await inkCount(), ink); assert.equal(await page.getByLabel('Paper style').inputValue(), 'dotted');
+    // Tool switching must not leave a captured eraser stroke or change ink into erasing.
+    await page.getByRole('button', { name: 'Pen', exact: true }).click();
+    await page.getByLabel('Pen style', { exact: true }).selectOption('brush');
+    await page.getByRole('slider', { name: 'Tip thickness' }).fill('9');
+    assert.equal(await page.getByRole('slider', { name: 'Tip thickness' }).inputValue(), '9');
+    await page.getByRole('button', { name: 'Eraser', exact: true }).click();
+    await page.getByRole('slider', { name: 'Eraser size' }).fill('64');
+    await page.getByRole('button', { name: 'Blue ink', exact: true }).click();
+    assert.equal(await page.getByRole('button', { name: 'Eraser', exact: true }).getAttribute('aria-pressed'), 'true');
+    await page.getByRole('button', { name: 'Pen', exact: true }).click();
+    assert.equal(await page.getByRole('slider', { name: 'Tip thickness' }).inputValue(), '9');
+    await page.getByRole('button', { name: 'Add page', exact: true }).click();
+    assert.equal(await inkCount(), 0);
+    for (const style of ['ballpoint', 'fountain', 'brush', 'pencil', 'highlighter']) {
+      await page.getByLabel('Pen style', { exact: true }).selectOption(style);
+      await stroke(); assert((await inkCount()) > 0);
+      await page.getByRole('button', { name: 'Undo', exact: true }).click(); assert.equal(await inkCount(), 0);
+    }
+    await page.getByLabel('Pen style', { exact: true }).selectOption('ballpoint'); await stroke();
+    const secondPageInk = await inkCount();
+    await page.getByRole('button', { name: 'Previous page', exact: true }).click(); assert.equal(await inkCount(), ink);
+    await page.getByRole('button', { name: 'Next page', exact: true }).click(); assert.equal(await inkCount(), secondPageInk);
+    await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
+    assert.equal(await page.getByRole('button', { name: 'Reset zoom' }).textContent(), '125%');
+    await page.getByRole('button', { name: 'Move page', exact: true }).click();
+    const workspace = page.locator('.an-workspace');
+    await workspace.evaluate(el => el.scrollTop = 0);
+    const touchSession = await page.context().newCDPSession(page);
+    const view = await workspace.boundingBox();
+    const touchX = Math.round(view.x + view.width / 2);
+    const touchY = Math.round(view.y + Math.min(view.height - 30, 350));
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: touchX, y: touchY }] });
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: touchX, y: touchY - 150 }] });
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    assert((await workspace.evaluate(el => el.scrollTop)) >= 140, 'A finger drag must actually move the page');
+    await touchSession.detach();
+    assert.equal(await inkCount(), secondPageInk, 'Panning must not add ink');
+    await page.getByRole('button', { name: 'Zoom out', exact: true }).click();
+    await page.getByRole('button', { name: 'Reset zoom', exact: true }).click();
+    await page.getByRole('button', { name: 'Close notepad' }).click();
+    await page.getByRole('button', { name: /Notepad Write/ }).click(); assert.equal(await inkCount(), secondPageInk);
+    await page.getByRole('button', { name: 'Previous page', exact: true }).click(); assert.equal(await inkCount(), ink);
     await page.evaluate(() => document.documentElement.dataset.theme = 'dark');
     await page.setViewportSize({ width: 390, height: 844 });
     await page.screenshot({ path: 'output/notepad/mobile-dark.png' });
@@ -100,6 +149,8 @@ const fs = require('node:fs');
     await page.getByAltText('Your handwritten answer').waitFor();
     const image = await page.getByAltText('Your handwritten answer').getAttribute('src');
     assert(image.startsWith('data:image/png;base64,'));
+    const dimensions = await page.getByAltText('Your handwritten answer').evaluate(async el => { await el.decode(); return [el.naturalWidth, el.naturalHeight]; });
+    assert.deepEqual(dimensions, [2400, 1632], 'Both pages must be included in the attachment');
     await page.getByRole('checkbox').check();
     await page.getByRole('button', { name: 'Submit for AI review' }).click();
     await page.getByRole('alert').filter({ hasText: 'Temporary review failure' }).waitFor();
