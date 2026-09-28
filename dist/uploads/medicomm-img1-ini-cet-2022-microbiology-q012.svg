@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <rect width="1000" height="1000" fill="#000000"/>
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Title Banner -->
+  <text x="500" y="70" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" letter-spacing="1">MICROBIAL CELL ENVELOPE</text>
+  <text x="500" y="105" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500">Multilayered Architecture &amp; Macromolecular Composition</text>
+
+  <!-- Main Envelope Stack -->
+  <g transform="translate(100, 140)">
+    <!-- Layer 1: Outermost Mannoproteins / Fibrillar Layer -->
+    <rect x="50" y="30" width="700" height="90" rx="10" fill="#0369a1" fill-opacity="0.8" stroke="#38bdf8" stroke-width="2.5"/>
+    <text x="400" y="80" text-anchor="middle" fill="#f0f9ff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800">MANNOPROTEINS (Outer Fibrillar Layer)</text>
+    <!-- Glycan antennae -->
+    <g stroke="#7dd3fc" stroke-width="3" fill="none">
+      <path d="M 120 30 L 120 -15 M 120 -15 L 105 -35 M 120 -15 L 135 -35"/>
+      <path d="M 220 30 L 220 -15 M 220 -15 L 205 -35 M 220 -15 L 235 -35"/>
+      <path d="M 320 30 L 320 -15 M 320 -15 L 305 -35 M 320 -15 L 335 -35"/>
+      <path d="M 420 30 L 420 -15 M 420 -15 L 405 -35 M 420 -15 L 435 -35"/>
+      <path d="M 520 30 L 520 -15 M 520 -15 L 505 -35 M 520 -15 L 535 -35"/>
+      <path d="M 620 30 L 620 -15 M 620 -15 L 605 -35 M 620 -15 L 635 -35"/>
+      <path d="M 720 30 L 720 -15 M 720 -15 L 705 -35 M 720 -15 L 735 -35"/>
+    </g>
+
+    <!-- Layer 2: &#946;-1,6-Glucan / &#946;-1,3-Glucan Network -->
+    <rect x="50" y="145" width="700" height="130" rx="10" fill="#047857" fill-opacity="0.8" stroke="#34d399" stroke-width="2.5"/>
+    <text x="400" y="195" text-anchor="middle" fill="#ecfdf5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800">&#946;-(1,3)-GLUCAN &amp; &#946;-(1,6)-GLUCAN MATRIX</text>
+    <text x="400" y="235" text-anchor="middle" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Cross-linked structural glucose polymer backbone</text>
+
+    <!-- Layer 3: Chitin Layer -->
+    <rect x="50" y="300" width="700" height="80" rx="10" fill="#b45309" fill-opacity="0.85" stroke="#fbbf24" stroke-width="2.5"/>
+    <text x="400" y="350" text-anchor="middle" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800">CHITIN LAYER (N-Acetylglucosamine polymer)</text>
+
+    <!-- Layer 4: Cell Membrane Bilayer with Ergosterol -->
+    <rect x="50" y="405" width="700" height="140" rx="12" fill="#1e293b" stroke="#64748b" stroke-width="3"/>
+    <text x="400" y="455" text-anchor="middle" fill="#f1f5f9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800">PLASMALEMMA (Phospholipid Bilayer)</text>
+    
+    <!-- Membrane components (heads and tails) -->
+    <g fill="#94a3b8">
+      <circle cx="90" cy="425" r="6"/><circle cx="120" cy="425" r="6"/><circle cx="150" cy="425" r="6"/>
+      <circle cx="180" cy="425" r="6"/><circle cx="210" cy="425" r="6"/><circle cx="240" cy="425" r="6"/>
+      <circle cx="560" cy="425" r="6"/><circle cx="590" cy="425" r="6"/><circle cx="620" cy="425" r="6"/>
+      <circle cx="650" cy="425" r="6"/><circle cx="680" cy="425" r="6"/><circle cx="710" cy="425" r="6"/>
+
+      <circle cx="90" cy="525" r="6"/><circle cx="120" cy="525" r="6"/><circle cx="150" cy="525" r="6"/>
+      <circle cx="180" cy="525" r="6"/><circle cx="210" cy="525" r="6"/><circle cx="240" cy="525" r="6"/>
+      <circle cx="560" cy="525" r="6"/><circle cx="590" cy="525" r="6"/><circle cx="620" cy="525" r="6"/>
+      <circle cx="650" cy="525" r="6"/><circle cx="680" cy="525" r="6"/><circle cx="710" cy="525" r="6"/>
+    </g>
+
+    <!-- Ergosterol molecules intercalated -->
+    <g fill="#f43f5e" stroke="#fda4af" stroke-width="1.5">
+      <rect x="290" y="435" width="22" height="75" rx="4"/>
+      <rect x="350" y="435" width="22" height="75" rx="4"/>
+      <rect x="420" y="435" width="22" height="75" rx="4"/>
+      <rect x="490" y="435" width="22" height="75" rx="4"/>
+    </g>
+    <rect x="330" y="480" width="140" height="26" rx="4" fill="#881337" fill-opacity="0.9"/>
+    <text x="400" y="498" text-anchor="middle" fill="#ffe4e6" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">ERGOSTEROL</text>
+
+    <!-- Cytoplasm Interior -->
+    <rect x="50" y="570" width="700" height="80" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+    <text x="400" y="618" text-anchor="middle" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">CYTOPLASM</text>
+  </g>
+
+  <!-- Side Bracket & Label -->
+  <path d="M 870 170 L 890 170 L 890 350 L 910 350 L 890 350 L 890 530 L 870 530" fill="none" stroke="#38bdf8" stroke-width="3"/>
+  <text x="930" y="358" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" writing-mode="vertical-rl">CELL WALL</text>
+
+  <!-- Distinctive Diagnostic Marker Box -->
+  <rect x="180" y="870" width="640" height="55" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="500" y="904" text-anchor="middle" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Distinguishing features: <tspan fill="#34d399" font-weight="700">&#946;-Glucans</tspan>, <tspan fill="#fbbf24" font-weight="700">Chitin</tspan>, and <tspan fill="#f43f5e" font-weight="700">Ergosterol</tspan></text>
+
+  <!-- Subtle medicomm watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

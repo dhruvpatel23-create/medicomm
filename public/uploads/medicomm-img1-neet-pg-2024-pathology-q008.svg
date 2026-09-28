@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-340" y="-24" width="680" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">BOWEL WALL ARCHITECTURE: COLONIC WALL CROSS-SECTION</text>
+  </g>
+  <g transform="translate(170, 130)">
+    <!-- Layer 1: Mucosa -->
+    <rect x="0" y="0" width="620" height="90" rx="8" fill="#f43f5e" stroke="#be123c" stroke-width="2.5"/>
+    <path d="M 120,0 L 120,70 L 140,70 L 140,0 M 220,0 L 220,70 L 240,70 L 240,0 M 320,0 L 320,70 L 340,70 L 340,0 M 420,0 L 420,70 L 440,70 L 440,0 M 520,0 L 520,70 L 540,70 L 540,0" stroke="#ffe4e6" stroke-width="4" fill="none"/>
+    <!-- Giant High-Contrast Number Badge 1 -->
+    <circle cx="45" cy="45" r="28" fill="#020617" stroke="#ffffff" stroke-width="3"/>
+    <text x="45" y="55" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="28" font-weight="900" fill="#ffffff">1</text>
+    <text x="90" y="52" font-family="-apple-system, sans-serif" font-size="18" font-weight="800" fill="#ffffff" letter-spacing="0.5">Mucosa</text>
+
+    <!-- Layer 2: Submucosa (Meissner plexus absent) -->
+    <rect x="0" y="105" width="620" height="105" rx="8" fill="#fbcfe8" stroke="#db2777" stroke-width="2.5"/>
+    <!-- Hypertrophied nerve fibers -->
+    <ellipse cx="300" cy="158" rx="45" ry="18" fill="#f472b6" stroke="#be123c" stroke-width="2"/>
+    <ellipse cx="480" cy="158" rx="45" ry="18" fill="#f472b6" stroke="#be123c" stroke-width="2"/>
+    <!-- Giant High-Contrast Number Badge 2 -->
+    <circle cx="45" cy="158" r="28" fill="#831843" stroke="#ffffff" stroke-width="3"/>
+    <text x="45" y="168" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="28" font-weight="900" fill="#ffffff">2</text>
+    <text x="90" y="164" font-family="-apple-system, sans-serif" font-size="18" font-weight="800" fill="#831843" letter-spacing="0.5">Submucosa (Auerbach/Meissner Zone)</text>
+
+    <!-- Layer 3: Muscularis Propria -->
+    <rect x="0" y="225" width="620" height="130" rx="8" fill="#be123c" stroke="#881337" stroke-width="2.5"/>
+    <line x1="20" y1="290" x2="600" y2="290" stroke="#f43f5e" stroke-width="4" stroke-dasharray="10 8"/>
+    <ellipse cx="380" cy="290" rx="40" ry="18" fill="#f472b6" stroke="#fbcfe8" stroke-width="2"/>
+    <!-- Giant High-Contrast Number Badge 3 -->
+    <circle cx="45" cy="290" r="28" fill="#020617" stroke="#ffffff" stroke-width="3"/>
+    <text x="45" y="300" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="28" font-weight="900" fill="#ffffff">3</text>
+    <text x="90" y="296" font-family="-apple-system, sans-serif" font-size="18" font-weight="800" fill="#ffffff" letter-spacing="0.5">Muscularis Propria</text>
+
+    <!-- Layer 4: Serosa -->
+    <rect x="0" y="370" width="620" height="55" rx="8" fill="#cbd5e1" stroke="#64748b" stroke-width="2.5"/>
+    <!-- Giant High-Contrast Number Badge 4 -->
+    <circle cx="45" cy="398" r="24" fill="#0f172a" stroke="#ffffff" stroke-width="2.5"/>
+    <text x="45" y="407" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="24" font-weight="900" fill="#ffffff">4</text>
+    <text x="90" y="405" font-family="-apple-system, sans-serif" font-size="18" font-weight="800" fill="#0f172a" letter-spacing="0.5">Serosa / Adventitia</text>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

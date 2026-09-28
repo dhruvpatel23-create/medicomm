@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff1f2"/><stop offset="85%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fecdd3"/>
+    </radialGradient>
+    <radialGradient id="annieNuc" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/><stop offset="70%" stop-color="#fdf2f8"/><stop offset="100%" stop-color="#f472b6"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-340" y="-24" width="680" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">THYROID LESION: CYTOMORPHOLOGY (H&amp;E)</text>
+  </g>
+  <g transform="translate(480, 360)">
+    <circle cx="0" cy="0" r="280" fill="url(#fieldGrad)" stroke="#334155" stroke-width="8"/>
+    <clipPath id="c5"><circle cx="0" cy="0" r="276"/></clipPath>
+    <g clip-path="url(#c5)">
+      <path d="M -80,280 C -40,100 -20,-80 0,-240 C 20,-80 40,100 80,280 Z" fill="#fda4af" stroke="#f43f5e" stroke-width="2"/>
+      <line x1="0" y1="-200" x2="0" y2="240" stroke="#be123c" stroke-width="4"/>
+
+      <g transform="translate(-10, -30)">
+        <ellipse cx="0" cy="0" rx="42" ry="34" fill="#f472b6" opacity="0.6"/>
+        <ellipse cx="0" cy="0" rx="30" ry="24" fill="url(#annieNuc)" stroke="#831843" stroke-width="3"/>
+        <line x1="-18" y1="0" x2="18" y2="0" stroke="#831843" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="10" cy="-8" r="5" fill="#fdf2f8" stroke="#831843" stroke-width="1.5"/>
+      </g>
+      <g transform="translate(-65, -80)">
+        <ellipse cx="0" cy="0" rx="26" ry="20" fill="url(#annieNuc)" stroke="#831843" stroke-width="2.5"/>
+        <line x1="-12" y1="-2" x2="12" y2="2" stroke="#831843" stroke-width="2"/>
+      </g>
+      <g transform="translate(50, -85)">
+        <ellipse cx="0" cy="0" rx="28" ry="22" fill="url(#annieNuc)" stroke="#831843" stroke-width="2.5"/>
+        <line x1="-14" y1="3" x2="14" y2="-3" stroke="#831843" stroke-width="2"/>
+      </g>
+      <g transform="translate(-70, 45)">
+        <ellipse cx="0" cy="0" rx="28" ry="22" fill="url(#annieNuc)" stroke="#831843" stroke-width="2.5"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke="#831843" stroke-width="2"/>
+      </g>
+      <g transform="translate(55, 40)">
+        <ellipse cx="0" cy="0" rx="29" ry="23" fill="url(#annieNuc)" stroke="#831843" stroke-width="2.5"/>
+        <line x1="-12" y1="-2" x2="12" y2="2" stroke="#831843" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+  
+  <g transform="translate(740, 290)">
+    <rect x="-115" y="-26" width="230" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Optically Clear Nuclei</text>
+    <path d="M -103,0 L -220,35" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="-220" cy="35" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

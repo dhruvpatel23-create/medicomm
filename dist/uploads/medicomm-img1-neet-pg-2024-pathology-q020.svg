@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/><stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="bloodGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#dc2626"/><stop offset="70%" stop-color="#991b1b"/><stop offset="100%" stop-color="#450a0a"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-340" y="-24" width="680" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">AORTIC WALL BIOPSY: HISTOPATHOLOGY (ELASTIC STAIN)</text>
+  </g>
+  <g transform="translate(170, 140)">
+    <!-- Intima Layer -->
+    <rect x="0" y="0" width="620" height="50" rx="6" fill="#fda4af" stroke="#be123c" stroke-width="2.5"/>
+    <text x="35" y="32" font-family="-apple-system, sans-serif" font-size="18" font-weight="900" fill="#881337">Tunica Intima</text>
+    <path d="M 220,50 L 255,0 L 265,0 L 245,50 Z" fill="#450a0a"/>
+
+    <!-- Medial Dissection False Lumen -->
+    <rect x="0" y="70" width="620" height="150" rx="10" fill="url(#bloodGrad)" stroke="#7f1d1d" stroke-width="3"/>
+    <rect x="60" y="125" width="500" height="42" rx="21" fill="#020617" opacity="0.8"/>
+    <text x="310" y="152" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="18" font-weight="900" fill="#fecaca" letter-spacing="1">FALSE LUMEN / MEDIAL DISSECTION HEMATOMA</text>
+
+    <!-- Outer Media with Elastic Fiber Fragmentation -->
+    <rect x="0" y="240" width="620" height="120" rx="6" fill="#fecdd3" stroke="#be123c" stroke-width="2.5"/>
+    <g stroke="#1e1b4b" stroke-width="3" fill="none">
+      <path d="M 20,260 Q 60,250 100,260 M 140,260 Q 200,270 260,255 M 320,260 Q 380,250 440,265"/>
+      <path d="M 40,290 Q 80,300 120,285 M 180,295 Q 240,285 300,295 M 360,290 Q 420,305 480,290"/>
+      <path d="M 30,330 Q 90,320 150,335 M 220,330 Q 280,340 340,325 M 400,335 Q 460,320 520,335"/>
+    </g>
+    <text x="35" y="350" font-family="-apple-system, sans-serif" font-size="17" font-weight="900" fill="#881337">Tunica Media (Fragmented Elastic Fibers)</text>
+    
+    <!-- Adventitia -->
+    <rect x="0" y="380" width="620" height="45" rx="6" fill="#cbd5e1" stroke="#64748b" stroke-width="2.5"/>
+    <text x="35" y="408" font-family="-apple-system, sans-serif" font-size="16" font-weight="800" fill="#0f172a">Tunica Adventitia</text>
+  </g>
+  
+  <g transform="translate(740, 220)">
+    <rect x="-115" y="-26" width="230" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Medial False Lumen</text>
+    <path d="M -103,0 L -105,40" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="-105" cy="40" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

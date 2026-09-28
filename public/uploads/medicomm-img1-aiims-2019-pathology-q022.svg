@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-380" y="-24" width="760" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">FLOW CYTOMETRY: CD40L (CD154) EXPRESSION ON T-CELLS</text>
+  </g>
+  <!-- Control Plot (Normal Expression) -->
+  <g transform="translate(240, 360)">
+    <rect x="-140" y="-140" width="280" height="280" rx="8" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <line x1="-140" y1="0" x2="140" y2="0" stroke="#334155" stroke-dasharray="4 4"/>
+    <line x1="0" y1="-140" x2="0" y2="140" stroke="#334155" stroke-dasharray="4 4"/>
+    <!-- Normal T-cell cluster (CD40L Positive) in Upper Right Quadrant -->
+    <circle cx="60" cy="-60" r="45" fill="#22c55e" opacity="0.7"/>
+    <rect x="-100" y="150" width="200" height="36" rx="18" fill="#0f172a" stroke="#22c55e" stroke-width="2"/>
+    <text x="0" y="174" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="16" font-weight="900" fill="#4ade80">Normal Control: CD40L+</text>
+  </g>
+
+  <!-- Patient Plot (Absent CD40L) -->
+  <g transform="translate(680, 360)">
+    <rect x="-140" y="-140" width="280" height="280" rx="8" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <line x1="-140" y1="0" x2="140" y2="0" stroke="#334155" stroke-dasharray="4 4"/>
+    <line x1="0" y1="-140" x2="0" y2="140" stroke="#334155" stroke-dasharray="4 4"/>
+    <!-- Deficient cluster shifted to Lower Left (CD40L Negative) -->
+    <circle cx="-60" cy="60" r="45" fill="#ef4444" opacity="0.7"/>
+    <rect x="-110" y="150" width="220" height="36" rx="18" fill="#0f172a" stroke="#ef4444" stroke-width="2"/>
+    <text x="0" y="174" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="16" font-weight="900" fill="#f87171">Patient: CD40L Deficient</text>
+  </g>
+  
+  <g transform="translate(680, 240)">
+    <rect x="-140" y="-26" width="280" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Absent CD40L Gate</text>
+    <path d="M 128,0 L 0,-20" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="0" cy="-20" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

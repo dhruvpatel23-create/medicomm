@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <radialGradient id="smearGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff1f2"/><stop offset="85%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fecdd3"/>
+    </radialGradient>
+    <radialGradient id="proCyto" cx="40%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#a5b4fc"/><stop offset="70%" stop-color="#6366f1"/><stop offset="100%" stop-color="#4338ca"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-360" y="-24" width="720" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">PERIPHERAL BLOOD FILM: APML CYTOMORPHOLOGY</text>
+  </g>
+  <g transform="translate(480, 360)">
+    <circle cx="0" cy="0" r="280" fill="url(#smearGrad)" stroke="#334155" stroke-width="8"/>
+    <clipPath id="c1904"><circle cx="0" cy="0" r="276"/></clipPath>
+    <g clip-path="url(#c1904)">
+      <!-- Promyelocyte Cell Body -->
+      <path d="M -130,-110 C -40,-160 80,-140 140,-80 C 190,-30 180,90 120,140 C 50,190 -70,170 -120,120 C -170,60 -180,-40 -130,-110 Z" fill="url(#proCyto)" stroke="#3730a3" stroke-width="3"/>
+      <!-- Folded Nucleus -->
+      <ellipse cx="-30" cy="-20" rx="70" ry="60" fill="#1e1b4b"/>
+      
+      <!-- Faggot Cell: Bundled Auer Rods Cluster -->
+      <g transform="translate(40, 40) rotate(-30)">
+        <line x1="-50" y1="-14" x2="50" y2="-14" stroke="#7f1d1d" stroke-width="7" stroke-linecap="round"/>
+        <line x1="-47" y1="-14" x2="47" y2="-14" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+        <line x1="-55" y1="-4" x2="45" y2="-4" stroke="#7f1d1d" stroke-width="7" stroke-linecap="round"/>
+        <line x1="-52" y1="-4" x2="42" y2="-4" stroke="#dc2626" stroke-width="4" stroke-linecap="round"/>
+        <line x1="-40" y1="6" x2="52" y2="6" stroke="#7f1d1d" stroke-width="7" stroke-linecap="round"/>
+        <line x1="-37" y1="6" x2="49" y2="6" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+        <line x1="-48" y1="16" x2="42" y2="16" stroke="#7f1d1d" stroke-width="7" stroke-linecap="round"/>
+        <line x1="-45" y1="16" x2="39" y2="16" stroke="#dc2626" stroke-width="4" stroke-linecap="round"/>
+      </g>
+    </g>
+  </g>
+  
+  <g transform="translate(740, 430)">
+    <rect x="-145" y="-26" width="290" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Bundled Auer Rods</text>
+    <path d="M -133,0 L -125,-30" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="-125" cy="-30" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

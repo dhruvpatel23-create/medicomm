@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="myoGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f87171"/>
+      <stop offset="60%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-270" y="-18" width="540" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">CARDIAC AUTOPSY: VENTRICULAR CROSS-SECTION</text>
+  </g>
+
+  <!-- Gross Heart Cutaway (Transverse / 4-Chamber View) -->
+  <g transform="translate(480, 360)" filter="url(#shadow)">
+    <!-- Heart outer profile -->
+    <path d="M -260,-160 C -120,-240 180,-230 280,-140 C 340,-60 330,80 240,180 C 140,250 -40,260 -180,190 C -270,120 -310,-60 -260,-160 Z"
+          fill="url(#myoGrad)" stroke="#7f1d1d" stroke-width="4"/>
+
+    <!-- Right Ventricle Cavity (Thin-walled crescent on left) -->
+    <path d="M -240,-100 C -220,-30 -210,40 -160,110 C -190,50 -190,-40 -180,-90 Z" fill="#090d16" stroke="#450a0a" stroke-width="2"/>
+    <text x="-210" y="0" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#fca5a5" text-anchor="middle">RV</text>
+
+    <!-- Asymmetric Septal Hypertrophy (Massive bulging interventricular septum) -->
+    <path d="M -110,-120 C 20,-150 120,-110 130,-10 C 140,80 40,140 -70,110 C -130,50 -140,-40 -110,-120 Z"
+          fill="#b91c1c" stroke="#fca5a5" stroke-width="2.5" stroke-dasharray="6 3"/>
+
+    <!-- Left Ventricle Compressed Crescent / "Banana Slit" Cavity -->
+    <path d="M 140,-50 C 180,-30 200,30 190,90 C 160,60 145,20 135,-30 Z" fill="#090d16" stroke="#450a0a" stroke-width="2"/>
+    <text x="175" y="30" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#fca5a5" text-anchor="middle">LV</text>
+
+    <!-- Normal thickness LV posterior wall (for visual contrast) -->
+    <!-- Marker Callout Arrow pointing to Asymmetric Interventricular Septum -->
+    <g transform="translate(-10, 0)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="900" fill="#000000">!</text>
+    </g>
+
+    <!-- Annotation Pill -->
+    <g transform="translate(-10, -180)">
+      <rect x="-140" y="-16" width="280" height="32" rx="16" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+      <text x="0" y="5" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="800" fill="#f8fafc">ASYMMETRIC SEPTAL HYPERTROPHY</text>
+      <line x1="0" y1="16" x2="0" y2="150" stroke="#f59e0b" stroke-width="2.5"/>
+      <polygon points="0,165 -6,150 6,150" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

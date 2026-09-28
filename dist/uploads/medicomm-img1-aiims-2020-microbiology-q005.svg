@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="wellGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="720" fill="#000000"/>
+  <rect width="960" height="720" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 45)">
+    <rect x="-240" y="-18" width="480" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">SANDWICH IMMUNOASSAY PRINCIPLE</text>
+  </g>
+
+  <!-- Microtiter Well Outline -->
+  <g transform="translate(480, 390)">
+    <!-- Well Base & Walls -->
+    <path d="M -320 -180 L -320 160 Q -320 200 -280 200 L 280 200 Q 320 200 320 160 L 320 -180" fill="url(#wellGrad)" stroke="#334155" stroke-width="3" filter="url(#shadow)"/>
+    <rect x="-300" y="180" width="600" height="12" fill="#0284c7" opacity="0.3" rx="4"/>
+
+    <!-- Well Floor Label -->
+    <text x="0" y="235" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" fill="#64748b">Solid Phase / Microtiter Well Surface</text>
+
+    <!-- Component C: Capture Antibody (Anchored to Floor) -->
+    <g transform="translate(0, 140)">
+      <!-- Y-shaped antibody (blue/cyan) -->
+      <!-- Stem (Fc) -->
+      <line x1="0" y1="40" x2="0" y2="0" stroke="#0ea5e9" stroke-width="8" stroke-linecap="round"/>
+      <!-- Left Arm (Fab) -->
+      <line x1="0" y1="0" x2="-35" y2="-45" stroke="#0ea5e9" stroke-width="8" stroke-linecap="round"/>
+      <!-- Right Arm (Fab) -->
+      <line x1="0" y1="0" x2="35" y2="-45" stroke="#0ea5e9" stroke-width="8" stroke-linecap="round"/>
+    </g>
+
+    <!-- Component D: Target Antigen (Bound in the Fab groove) -->
+    <g transform="translate(0, 70)">
+      <!-- Spherical / multi-epitope antigen (orange/coral) -->
+      <circle cx="0" cy="0" r="26" fill="#f97316" stroke="#ea580c" stroke-width="2.5"/>
+      <circle cx="-8" cy="-6" r="4" fill="#ffedd5"/>
+      <circle cx="7" cy="8" r="3" fill="#ffedd5"/>
+    </g>
+
+    <!-- Detection Antibody (Inverted Y) -->
+    <g transform="translate(0, 0)">
+      <!-- Left Fab arm binding to antigen -->
+      <line x1="-35" y1="25" x2="0" y2="-20" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+      <!-- Right Fab arm binding to antigen -->
+      <line x1="35" y1="25" x2="0" y2="-20" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+      <!-- Fc stem pointing up -->
+      <line x1="0" y1="-20" x2="0" y2="-60" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+    </g>
+
+    <!-- Component B: Enzyme Conjugate (Secondary Antibody + Enzyme Molecule) -->
+    <g transform="translate(0, -95)">
+      <!-- Secondary Antibody Stem & Arms -->
+      <line x1="0" y1="15" x2="0" y2="-25" stroke="#a855f7" stroke-width="7" stroke-linecap="round"/>
+      <line x1="0" y1="15" x2="-25" y2="35" stroke="#a855f7" stroke-width="7" stroke-linecap="round"/>
+      <line x1="0" y1="15" x2="25" y2="35" stroke="#a855f7" stroke-width="7" stroke-linecap="round"/>
+      <!-- Conjugated Enzyme sphere attached to Fc -->
+      <g transform="translate(0, -42)">
+        <circle cx="0" cy="0" r="22" fill="#10b981" stroke="#059669" stroke-width="2.5"/>
+        <text x="0" y="5" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="900" fill="#ffffff">E</text>
+      </g>
+    </g>
+
+    <!-- Component A: Substrate -> Chromogenic Product -->
+    <g transform="translate(140, -137)">
+      <!-- Substrate molecule arrow into enzyme -->
+      <path d="M 50 0 L -80 0" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 3"/>
+      <!-- Substrate hex/diamond -->
+      <polygon points="65,-12 80,0 65,12 50,0" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/>
+      <!-- Color transformation burst -->
+      <g transform="translate(100, -25)">
+        <circle cx="0" cy="0" r="16" fill="#ec4899" opacity="0.8"/>
+        <text x="35" y="4" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#f472b6">Colored Product</text>
+      </g>
+    </g>
+
+    <!-- ================= LABELS & POINTERS ================= -->
+
+    <!-- Label A: Pointer to Substrate -->
+    <g transform="translate(230, -170)">
+      <circle cx="0" cy="0" r="20" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="7" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="18" font-weight="900" fill="#ffffff">A</text>
+      <line x1="-22" y1="5" x2="-80" y2="25" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="-80" cy="25" r="3" fill="#ffffff"/>
+    </g>
+
+    <!-- Label B: Pointer to Enzyme Conjugate (TARGET) -->
+    <g transform="translate(-160, -137)">
+      <circle cx="0" cy="0" r="20" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="7" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="18" font-weight="900" fill="#ffffff">B</text>
+      <line x1="22" y1="0" x2="110" y2="0" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="110" cy="0" r="3" fill="#ffffff"/>
+    </g>
+
+    <!-- Label D: Pointer to Antigen -->
+    <g transform="translate(-160, 70)">
+      <circle cx="0" cy="0" r="20" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="7" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="18" font-weight="900" fill="#ffffff">D</text>
+      <line x1="22" y1="0" x2="115" y2="0" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="115" cy="0" r="3" fill="#ffffff"/>
+    </g>
+
+    <!-- Label C: Pointer to Capture Antibody -->
+    <g transform="translate(-160, 140)">
+      <circle cx="0" cy="0" r="20" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="7" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="18" font-weight="900" fill="#ffffff">C</text>
+      <line x1="22" y1="0" x2="115" y2="0" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="115" cy="0" r="3" fill="#ffffff"/>
+    </g>
+
+  </g>
+
+  <!-- Watermark -->
+  <text x="36" y="692" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#475569" letter-spacing="1">medicomm</text>
+</svg>

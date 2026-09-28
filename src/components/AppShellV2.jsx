@@ -6,8 +6,9 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import {
   Activity, BarChart3, Bell, Bookmark, BookOpen, ChevronDown, CircleHelp, Command, CreditCard,
   Check, Home, LayoutDashboard, Menu, MessageCircle, Moon, Search, Settings, Sparkles,
-  Megaphone, PanelLeftClose, PanelLeftOpen, Star, Stethoscope, Sun, Swords, Trophy, UserRound, X, Zap,
+  Megaphone, PanelLeftClose, PanelLeftOpen, Star, Sun, Swords, Trophy, UserRound, X, Zap,
 } from "lucide-react";
+import { BrandMark } from "./BrandMark";
 
 const iconMap = {
   Home, Dashboard: LayoutDashboard, Practice: BookOpen, Bookmarks: Bookmark, Analytics: BarChart3,
@@ -119,7 +120,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
       <aside className={`app-sidebar${mobileMenuOpen ? " app-sidebar-open" : ""}${sidebarCollapsed ? " app-sidebar-collapsed" : ""}`} aria-label="Application navigation">
         <div className="sidebar-brand-row">
           <button className="brand brand-button" type="button" onClick={() => navigate("Home")}>
-            <span className="brand-mark" aria-hidden="true"><Stethoscope size={20} /></span>
+            <span className="brand-mark" aria-hidden="true"><BrandMark title="" /></span>
             <span className="brand-copy"><strong><span className="brand-medi">Medi</span><span className="brand-comm">Comm</span></strong><small>Medical learning</small></span>
           </button>
           <button className="icon-button sidebar-close" type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Close navigation"><X size={19} /></button>

@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <rect width="1000" height="1000" fill="#030712"/>
+
+  <!-- Top Title Pill -->
+  <rect x="180" y="40" width="640" height="48" rx="24" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="500" y="71" fill="#38bdf8" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" letter-spacing="1">NACO SYNDROMIC MANAGEMENT OF STI / RTI</text>
+
+  <text x="500" y="125" fill="#94a3b8" font-family="sans-serif" font-size="15" text-anchor="middle">Match the Color-Coded Drug Kits (Column I) with the Target Clinical Syndrome (Column II)</text>
+
+  <!-- Column I Header -->
+  <rect x="80" y="160" width="370" height="42" rx="8" fill="#1e293b"/>
+  <text x="265" y="187" fill="#38bdf8" font-family="sans-serif" font-size="16" font-weight="800" text-anchor="middle">COLUMN I: COLOR-CODED KITS</text>
+
+  <!-- Column II Header -->
+  <rect x="550" y="160" width="370" height="42" rx="8" fill="#1e293b"/>
+  <text x="735" y="187" fill="#38bdf8" font-family="sans-serif" font-size="16" font-weight="800" text-anchor="middle">COLUMN II: CLINICAL SYNDROMES</text>
+
+  <!-- Row 1: Kit A vs Syndrome 1 -->
+  <g transform="translate(80, 230)">
+    <rect width="370" height="135" rx="12" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+    <rect x="15" y="15" width="70" height="35" rx="6" fill="#64748b"/>
+    <text x="50" y="39" fill="#fff" font-family="sans-serif" font-size="17" font-weight="900" text-anchor="middle">A</text>
+    <text x="110" y="42" fill="#f8fafc" font-family="sans-serif" font-size="19" font-weight="800">KIT 1 (GREY)</text>
+    <text x="25" y="95" fill="#94a3b8" font-family="sans-serif" font-size="14">Color Identification: Grey Packaging</text>
+  </g>
+  <g transform="translate(550, 230)">
+    <rect width="370" height="135" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="15" y="15" width="45" height="35" rx="6" fill="#334155"/>
+    <text x="37" y="39" fill="#38bdf8" font-family="sans-serif" font-size="17" font-weight="800" text-anchor="middle">1</text>
+    <text x="80" y="42" fill="#f8fafc" font-family="sans-serif" font-size="17" font-weight="700">Vaginal Discharge / Vaginitis</text>
+    <text x="25" y="95" fill="#94a3b8" font-family="sans-serif" font-size="14">Syndromic presentation</text>
+  </g>
+
+  <!-- Row 2: Kit B vs Syndrome 2 -->
+  <g transform="translate(80, 400)">
+    <rect width="370" height="135" rx="12" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+    <rect x="15" y="15" width="70" height="35" rx="6" fill="#10b981"/>
+    <text x="50" y="39" fill="#064e3b" font-family="sans-serif" font-size="17" font-weight="900" text-anchor="middle">B</text>
+    <text x="110" y="42" fill="#f8fafc" font-family="sans-serif" font-size="19" font-weight="800">KIT 2 (GREEN)</text>
+    <text x="25" y="95" fill="#a7f3d0" font-family="sans-serif" font-size="14">Color Identification: Green Packaging</text>
+  </g>
+  <g transform="translate(550, 400)">
+    <rect width="370" height="135" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="15" y="15" width="45" height="35" rx="6" fill="#334155"/>
+    <text x="37" y="39" fill="#38bdf8" font-family="sans-serif" font-size="17" font-weight="800" text-anchor="middle">2</text>
+    <text x="80" y="42" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="700">Non-Herpetic Genital Ulcer</text>
+    <text x="80" y="70" fill="#cbd5e1" font-family="sans-serif" font-size="14">(Allergic to Penicillin)</text>
+  </g>
+
+  <!-- Row 3: Kit C vs Syndrome 3 -->
+  <g transform="translate(80, 570)">
+    <rect width="370" height="135" rx="12" fill="#334155" stroke="#cbd5e1" stroke-width="2"/>
+    <rect x="15" y="15" width="70" height="35" rx="6" fill="#f8fafc"/>
+    <text x="50" y="39" fill="#0f172a" font-family="sans-serif" font-size="17" font-weight="900" text-anchor="middle">C</text>
+    <text x="110" y="42" fill="#f8fafc" font-family="sans-serif" font-size="19" font-weight="800">KIT 3 (WHITE)</text>
+    <text x="25" y="95" fill="#e2e8f0" font-family="sans-serif" font-size="14">Color Identification: White Packaging</text>
+  </g>
+  <g transform="translate(550, 570)">
+    <rect width="370" height="135" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="15" y="15" width="45" height="35" rx="6" fill="#334155"/>
+    <text x="37" y="39" fill="#38bdf8" font-family="sans-serif" font-size="17" font-weight="800" text-anchor="middle">3</text>
+    <text x="80" y="42" fill="#f8fafc" font-family="sans-serif" font-size="17" font-weight="700">Non-Herpetic Genital Ulcer</text>
+    <text x="25" y="95" fill="#94a3b8" font-family="sans-serif" font-size="14">Syndromic presentation</text>
+  </g>
+
+  <!-- Row 4: Kit D vs Syndrome 4 -->
+  <g transform="translate(80, 740)">
+    <rect width="370" height="135" rx="12" fill="#1e3a8a" stroke="#3b82f6" stroke-width="2"/>
+    <rect x="15" y="15" width="70" height="35" rx="6" fill="#3b82f6"/>
+    <text x="50" y="39" fill="#fff" font-family="sans-serif" font-size="17" font-weight="900" text-anchor="middle">D</text>
+    <text x="110" y="42" fill="#f8fafc" font-family="sans-serif" font-size="19" font-weight="800">KIT 4 (BLUE)</text>
+    <text x="25" y="95" fill="#bfdbfe" font-family="sans-serif" font-size="14">Color Identification: Blue Packaging</text>
+  </g>
+  <g transform="translate(550, 740)">
+    <rect width="370" height="135" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="15" y="15" width="45" height="35" rx="6" fill="#334155"/>
+    <text x="37" y="39" fill="#38bdf8" font-family="sans-serif" font-size="17" font-weight="800" text-anchor="middle">4</text>
+    <text x="80" y="42" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="700">Urethral / Cervical / Anorectal</text>
+    <text x="80" y="70" fill="#cbd5e1" font-family="sans-serif" font-size="14">Discharge Syndrome</text>
+  </g>
+
+  <!-- Center Unconnected Question Marks -->
+  <g fill="#94a3b8" font-family="sans-serif" font-size="24" font-weight="900" text-anchor="middle">
+    <text x="500" y="305">?</text>
+    <text x="500" y="475">?</text>
+    <text x="500" y="645">?</text>
+    <text x="500" y="815">?</text>
+  </g>
+
+  <!-- Single Watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

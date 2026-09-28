@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <marker id="axis-arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#ffffff" />
+    </marker>
+  </defs>
+
+  <!-- Axes -->
+  <!-- Y axis (1/v) -->
+  <line x1="500" y1="750" x2="500" y2="120" stroke="#ffffff" stroke-width="4" marker-end="url(#axis-arrow)"/>
+  <text x="500" y="85" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">1/v</text>
+
+  <!-- X axis (1/[S]) -->
+  <line x1="80" y1="650" x2="1120" y2="650" stroke="#ffffff" stroke-width="4" marker-end="url(#axis-arrow)"/>
+  <text x="1080" y="705" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="end">1/[S]</text>
+
+  <!-- Common 1/Vmax point at (500, 480) -->
+  <!-- Line 1: Control (Without inhibitor) - Cyan -->
+  <!-- Intercept at x = 160 (i.e. -1/Km) -> slope = (480-650)/(500-160) = -170/340 = -0.5 -->
+  <!-- Extended to right: x=960, y = 480 + 0.5*(960-500) = 480 - 230 = 250 -->
+  <line x1="160" y1="650" x2="960" y2="250" stroke="#00e5ff" stroke-width="5" stroke-linecap="round"/>
+  <text x="980" y="245" fill="#00e5ff" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="start">Without inhibitor</text>
+
+  <!-- Line 2: With inhibitor - Gold/Orange -->
+  <!-- Intercept at x = 360 (i.e. -1/Km') -> slope = (480-650)/(500-360) = -170/140 = -1.214 -->
+  <!-- Extended to right: x=720, y = 480 - 1.214*(720-500) = 480 - 267 = 213 -->
+  <line x1="360" y1="650" x2="730" y2="200" stroke="#ffb300" stroke-width="5" stroke-linecap="round"/>
+  <text x="750" y="195" fill="#ffb300" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="start">+ Inhibitor</text>
+
+  <!-- Dashed vertical guide to -1/Km and -1/Km' -->
+  <line x1="160" y1="650" x2="160" y2="690" stroke="#ffffff" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="160" cy="650" r="7" fill="#00e5ff"/>
+  <text x="160" y="735" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle">-1/K<tspan dy="6" font-size="22">m</tspan></text>
+
+  <line x1="360" y1="650" x2="360" y2="690" stroke="#ffffff" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="360" cy="650" r="7" fill="#ffb300"/>
+  <text x="360" y="735" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle">-1/K<tspan dy="6" font-size="22">m'</tspan></text>
+
+  <!-- 1/Vmax intercept point -->
+  <circle cx="500" cy="480" r="7" fill="#ffffff"/>
+  <text x="525" y="495" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="start">1/V<tspan dy="6" font-size="22">max</tspan></text>
+
+  <!-- Watermark -->
+  <text x="40" y="860" fill="#718096" font-family="Arial, sans-serif" font-size="24" font-weight="normal">medicomm</text>
+</svg>

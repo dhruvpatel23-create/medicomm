@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <rect width="1000" height="1000" fill="#000000"/>
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Title Banner -->
+  <text x="500" y="60" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" letter-spacing="1">PARASITIC HELMINTH MORPHOLOGY</text>
+  <text x="500" y="92" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="500">Cestode Scolex / Strobila (A) and Diagnostic Ova (B)</text>
+
+  <!-- Panel A (Left: Adult Worm Scolex & Proglottids) -->
+  <g transform="translate(60, 120)">
+    <rect x="0" y="0" width="410" height="780" rx="14" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+    <text x="205" y="40" text-anchor="middle" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="800">IMAGE A: ADULT SPECIMEN</text>
+
+    <!-- Scolex Vector -->
+    <g transform="translate(205, 180)">
+      <!-- Head / Knob-like scolex -->
+      <ellipse cx="0" cy="0" rx="55" ry="48" fill="#1e293b" stroke="#38bdf8" stroke-width="3"/>
+      <!-- Rostellum with single crown of hooks -->
+      <ellipse cx="0" cy="-38" rx="24" ry="12" fill="#0284c7" stroke="#7dd3fc" stroke-width="2"/>
+      <g stroke="#facc15" stroke-width="2.5">
+        <line x1="-18" y1="-44" x2="-22" y2="-52"/><line x1="-10" y1="-46" x2="-12" y2="-55"/>
+        <line x1="0" y1="-47" x2="0" y2="-56"/>
+        <line x1="10" y1="-46" x2="12" y2="-55"/><line x1="18" y1="-44" x2="22" y2="-52"/>
+      </g>
+      <!-- 4 Round Suckers -->
+      <circle cx="-28" cy="-5" r="15" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+      <circle cx="28" cy="-5" r="15" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+      <ellipse cx="0" cy="18" rx="18" ry="12" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+    </g>
+
+    <!-- Slender Neck -->
+    <path d="M 185 228 L 180 290 L 230 290 L 225 228 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+
+    <!-- Proglottids (Broader than long) -->
+    <g transform="translate(205, 290)">
+      <!-- Segment stack becoming progressively broader -->
+      <path d="M -35 15 L 35 15 L 42 35 L -42 35 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M -45 40 L 45 40 L 54 62 L -54 62 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M -58 68 L 58 68 L 68 93 L -68 93 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M -72 100 L 72 100 L 84 130 L -84 130 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M -90 138 L 90 138 L 105 172 L -105 172 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M -110 180 L 110 180 L 125 218 L -125 218 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M -130 228 L 130 228 L 148 270 L -148 270 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M -152 280 L 152 280 L 170 326 L -170 326 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M -175 336 L 175 336 L 190 386 L -190 386 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+      <path d="M -192 396 L 192 396 L 200 450 L -200 450 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+    </g>
+    <text x="205" y="760" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600">Proglottids distinctly broader than long</text>
+  </g>
+
+  <!-- Column B (Right: 4 Candidate Eggs) -->
+  <g transform="translate(510, 120)">
+    <rect x="0" y="0" width="430" height="780" rx="14" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+    <text x="215" y="40" text-anchor="middle" fill="#facc15" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="800">COLUMN B: CANDIDATE EGGS</text>
+
+    <!-- Egg 1: Ascaris (Mammillated) -->
+    <g transform="translate(40, 65)">
+      <rect x="0" y="0" width="350" height="150" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+      <g transform="translate(70, 75)">
+        <ellipse cx="0" cy="0" rx="42" ry="34" fill="#78350f" stroke="#ca8a04" stroke-width="5" stroke-dasharray="8 4"/>
+        <ellipse cx="0" cy="0" rx="28" ry="22" fill="#451a03"/>
+      </g>
+      <!-- Numeral 1 -->
+      <g transform="translate(280, 75)" filter="url(#glow)">
+        <circle cx="0" cy="0" r="22" fill="#1e293b" stroke="#ffffff" stroke-width="2"/>
+        <text x="0" y="8" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800">1</text>
+      </g>
+    </g>
+
+    <!-- Egg 2: Taenia (Radially striated thick embryophore) -->
+    <g transform="translate(40, 235)">
+      <rect x="0" y="0" width="350" height="150" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+      <g transform="translate(70, 75)">
+        <circle cx="0" cy="0" r="38" fill="#451a03" stroke="#ca8a04" stroke-width="7" stroke-dasharray="4 2"/>
+        <!-- 6 hooklets inside -->
+        <g stroke="#facc15" stroke-width="2">
+          <line x1="-12" y1="-6" x2="12" y2="-6"/><line x1="-12" y1="0" x2="12" y2="0"/><line x1="-12" y1="6" x2="12" y2="6"/>
+        </g>
+      </g>
+      <!-- Numeral 2 -->
+      <g transform="translate(280, 75)" filter="url(#glow)">
+        <circle cx="0" cy="0" r="22" fill="#1e293b" stroke="#ffffff" stroke-width="2"/>
+        <text x="0" y="8" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800">2</text>
+      </g>
+    </g>
+
+    <!-- Egg 3: Enterobius (Planoconvex / D-shaped) -->
+    <g transform="translate(40, 405)">
+      <rect x="0" y="0" width="350" height="150" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+      <g transform="translate(70, 75)">
+        <path d="M -30 -35 C 10 -35 35 -15 35 0 C 35 15 10 35 -30 35 L -30 -35 Z" fill="#0b1120" stroke="#38bdf8" stroke-width="3"/>
+        <path d="M -15 -18 C 0 -18 15 -8 15 0 C 15 8 0 18 -15 18" fill="none" stroke="#7dd3fc" stroke-width="2.5"/>
+      </g>
+      <!-- Numeral 3 -->
+      <g transform="translate(280, 75)" filter="url(#glow)">
+        <circle cx="0" cy="0" r="22" fill="#1e293b" stroke="#ffffff" stroke-width="2"/>
+        <text x="0" y="8" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800">3</text>
+      </g>
+    </g>
+
+    <!-- Egg 4: Hymenolepis nana (Spherical, colorless outer shell, hexacanth with polar filaments) -->
+    <g transform="translate(40, 575)">
+      <rect x="0" y="0" width="350" height="150" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+      <g transform="translate(70, 75)">
+        <!-- Thin outer colorless shell -->
+        <circle cx="0" cy="0" r="44" fill="#020617" stroke="#e2e8f0" stroke-width="2.5"/>
+        <!-- Inner embryophore covering hexacanth -->
+        <circle cx="0" cy="0" r="28" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+        <!-- Two polar knobs/thickenings with polar filaments -->
+        <circle cx="0" cy="-28" r="4" fill="#38bdf8"/>
+        <circle cx="0" cy="28" r="4" fill="#38bdf8"/>
+        <!-- Wavy polar filaments radiating into space between membranes -->
+        <path d="M 0 -28 C -15 -20 -25 -10 -30 0" fill="none" stroke="#7dd3fc" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <path d="M 0 -28 C 15 -20 25 -10 30 0" fill="none" stroke="#7dd3fc" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <path d="M 0 28 C -15 20 -25 10 -30 0" fill="none" stroke="#7dd3fc" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <path d="M 0 28 C 15 20 25 10 30 0" fill="none" stroke="#7dd3fc" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <!-- 6 hooklets inside oncosphere -->
+        <g stroke="#facc15" stroke-width="2">
+          <line x1="-8" y1="-6" x2="8" y2="-6"/><line x1="-8" y1="0" x2="8" y2="0"/><line x1="-8" y1="6" x2="8" y2="6"/>
+        </g>
+      </g>
+      <!-- Numeral 4 -->
+      <g transform="translate(280, 75)" filter="url(#glow)">
+        <circle cx="0" cy="0" r="22" fill="#0284c7" stroke="#ffffff" stroke-width="2.5"/>
+        <text x="0" y="8" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800">4</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Subtle medicomm watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

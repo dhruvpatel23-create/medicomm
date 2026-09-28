@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrowRose" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#fb7185"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="720" fill="#000000"/>
+  <rect width="960" height="720" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-240" y="-18" width="480" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">ACARINE VECTOR DEVELOPMENTAL LIFE CYCLE</text>
+  </g>
+
+  <!-- Central Cycle Path Ring -->
+  <path d="M 480 150 A 210 210 0 0 1 690 360 A 210 210 0 0 1 480 570 A 210 210 0 0 1 270 360 A 210 210 0 0 1 480 150" fill="none" stroke="#1e293b" stroke-width="4" stroke-dasharray="8 8"/>
+
+  <!-- Stage 1: Adult (Top Center) -->
+  <g transform="translate(480, 150)">
+    <circle cx="0" cy="0" r="62" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5" filter="url(#glow)"/>
+    <!-- Stylized 8-legged mite body -->
+    <!-- Abdomen -->
+    <ellipse cx="0" cy="8" rx="28" ry="34" fill="#dc2626" opacity="0.85"/>
+    <!-- Cephalothorax -->
+    <ellipse cx="0" cy="-22" rx="18" ry="14" fill="#b91c1c"/>
+    <!-- 8 Legs -->
+    <path d="M -16 -24 L -36 -38 M -16 -18 L -42 -22 M -16 -8 L -44 2 M -16 6 L -38 24" stroke="#fca5a5" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 16 -24 L 36 -38 M 16 -18 L 42 -22 M 16 -8 L 44 2 M 16 6 L 38 24" stroke="#fca5a5" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Text Badge -->
+    <rect x="-65" y="68" width="130" height="26" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+    <text x="0" y="85" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#f1f5f9">ADULT (8 LEGS)</text>
+    <text x="0" y="105" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#94a3b8">Free-living in soil</text>
+  </g>
+
+  <!-- Cycle Arrow: Adult to Eggs -->
+  <path d="M 545 165 C 620 190 665 240 680 290" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: Eggs (Right) -->
+  <g transform="translate(690, 350)">
+    <circle cx="0" cy="0" r="50" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+    <!-- Multiple eggs cluster -->
+    <circle cx="-12" cy="-10" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
+    <circle cx="12" cy="-10" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
+    <circle cx="0" cy="12" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
+    <!-- Text Badge -->
+    <rect x="-55" y="58" width="110" height="24" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+    <text x="0" y="74" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#fcd34d">EGGS IN SOIL</text>
+  </g>
+
+  <!-- Cycle Arrow: Eggs to Larva -->
+  <path d="M 670 415 C 640 475 580 525 535 548" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: Larva / Chigger (Bottom Center - Critical Parasitic Stage) -->
+  <g transform="translate(480, 560)">
+    <circle cx="0" cy="0" r="62" fill="#0f172a" stroke="#ef4444" stroke-width="3" filter="url(#glow)"/>
+    <!-- Stylized 6-legged larva -->
+    <ellipse cx="0" cy="6" rx="22" ry="26" fill="#ea580c"/>
+    <ellipse cx="0" cy="-18" rx="14" ry="12" fill="#c2410c"/>
+    <!-- 6 Legs ONLY -->
+    <path d="M -12 -18 L -32 -30 M -12 -8 L -36 -8 M -12 4 L -32 18" stroke="#fdba74" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 12 -18 L 32 -30 M 12 -8 L 36 -8 M 12 4 L 32 18" stroke="#fdba74" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Badge -->
+    <rect x="-80" y="70" width="160" height="42" rx="8" fill="#7f1d1d" stroke="#f87171" stroke-width="1.5"/>
+    <text x="0" y="88" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="800" fill="#fef2f2">6-LEGGED LARVA (CHIGGER)</text>
+    <text x="0" y="104" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#fca5a5">ONLY PARASITIC FEEDING STAGE</text>
+  </g>
+
+  <!-- Branch to Vertebrate Host -->
+  <g transform="translate(680, 570)">
+    <rect x="-70" y="-35" width="140" height="70" rx="10" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="0" y="-12" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#e2e8f0">VERTEBRATE HOSTS</text>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#cbd5e1">Rodents (Reservoir)</text>
+    <text x="0" y="22" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="10" font-weight="700" fill="#f87171">Human (Accidental Host)</text>
+  </g>
+  <!-- Connector from Larva to Host -->
+  <path d="M 545 565 L 605 565" stroke="#f87171" stroke-width="2.5" stroke-dasharray="4 4" marker-end="url(#arrowRose)"/>
+
+  <!-- Cycle Arrow: Larva to Nymph -->
+  <path d="M 425 550 C 370 520 315 470 290 415" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4: Nymph / Deutonymph (Left) -->
+  <g transform="translate(270, 350)">
+    <circle cx="0" cy="0" r="52" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+    <!-- 8-legged nymph -->
+    <ellipse cx="0" cy="6" rx="22" ry="26" fill="#047857"/>
+    <ellipse cx="0" cy="-18" rx="14" ry="12" fill="#065f46"/>
+    <!-- 8 legs -->
+    <path d="M -12 -18 L -28 -28 M -12 -10 L -32 -10 M -12 2 L -32 10 M -12 12 L -28 24" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 12 -18 L 28 -28 M 12 -10 L 32 -10 M 12 2 L 32 10 M 12 12 L 28 24" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round"/>
+    <!-- Badge -->
+    <rect x="-70" y="60" width="140" height="38" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+    <text x="0" y="76" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#6ee7b7">NYMPH (8 LEGS)</text>
+    <text x="0" y="91" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#94a3b8">Non-parasitic soil feeder</text>
+  </g>
+
+  <!-- Cycle Arrow: Nymph to Adult -->
+  <path d="M 285 295 C 315 235 370 185 415 160" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Transovarial Transmission Indicator in Center -->
+  <g transform="translate(480, 350)">
+    <rect x="-100" y="-30" width="200" height="60" rx="10" fill="#020617" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="0" y="-8" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">TRANSOVARIAL &amp;</text>
+    <text x="0" y="8" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">TRANS-STADIAL PASSAGE</text>
+    <text x="0" y="22" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#94a3b8">(Vector &amp; Reservoir)</text>
+  </g>
+
+  <!-- Watermark -->
+  <text x="36" y="692" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#475569" letter-spacing="1">medicomm</text>
+</svg>

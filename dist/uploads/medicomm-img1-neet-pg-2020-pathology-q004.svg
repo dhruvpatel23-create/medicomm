@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+
+    <!-- Histology Field Vignette -->
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="70%" stop-color="#fce7f3"/>
+      <stop offset="100%" stop-color="#fbcfe8"/>
+    </radialGradient>
+
+    <!-- Crescent Proliferation Gradient (Densely Cellular, Parietal Epithelium + Fibrin) -->
+    <radialGradient id="crescentGrad" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="60%" stop-color="#db2777"/>
+      <stop offset="100%" stop-color="#9d174d"/>
+    </radialGradient>
+
+    <!-- Capillary Tuft Mesangium & Endothelium -->
+    <radialGradient id="tuftGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fca5a5"/>
+      <stop offset="70%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </radialGradient>
+
+    <!-- Nuclei purple gradient -->
+    <linearGradient id="nucGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4c1d95"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+
+    <!-- Drop Shadow -->
+    <filter id="shadowBox" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-310" y="-20" width="620" height="40" rx="20" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#f8fafc" letter-spacing="1">CRESCENTIC GLOMERULONEPHRITIS (ANTI-GBM / RPGN)</text>
+  </g>
+
+  <!-- Circular Microscopy Field (Center: 480, 310, r: 230) -->
+  <g transform="translate(480, 310)" filter="url(#shadowBox)">
+    <circle cx="0" cy="0" r="236" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+    <circle cx="0" cy="0" r="230" fill="url(#fieldGrad)"/>
+
+    <g clip-path="url(#circleClip)">
+      <clipPath id="circleClip">
+        <circle cx="0" cy="0" r="230"/>
+      </clipPath>
+
+      <!-- Surrounding Renal Tubules (Proximal & Distal in interstitium) -->
+      <!-- Top Left Tubules -->
+      <g stroke="#db2777" stroke-width="1.5" fill="#fdf2f8">
+        <ellipse cx="-160" cy="-150" rx="35" ry="25"/>
+        <ellipse cx="-160" cy="-150" rx="14" ry="9" fill="#fff1f2"/>
+        <circle cx="-170" cy="-160" r="5" fill="url(#nucGrad)"/>
+        <circle cx="-150" cy="-162" r="5" fill="url(#nucGrad)"/>
+        <circle cx="-135" cy="-148" r="5" fill="url(#nucGrad)"/>
+        <circle cx="-150" cy="-138" r="5" fill="url(#nucGrad)"/>
+        <circle cx="-175" cy="-142" r="5" fill="url(#nucGrad)"/>
+
+        <!-- Top Right Tubule -->
+        <ellipse cx="160" cy="-150" rx="38" ry="26"/>
+        <ellipse cx="160" cy="-150" rx="15" ry="10" fill="#fff1f2"/>
+        <circle cx="145" cy="-160" r="5" fill="url(#nucGrad)"/>
+        <circle cx="165" cy="-162" r="5" fill="url(#nucGrad)"/>
+        <circle cx="180" cy="-148" r="5" fill="url(#nucGrad)"/>
+        <circle cx="165" cy="-138" r="5" fill="url(#nucGrad)"/>
+        <circle cx="140" cy="-142" r="5" fill="url(#nucGrad)"/>
+
+        <!-- Bottom Left Tubule with RBC Cast -->
+        <ellipse cx="-160" cy="150" rx="36" ry="26"/>
+        <ellipse cx="-160" cy="150" rx="16" ry="10" fill="#fee2e2"/>
+        <!-- RBC cast in lumen -->
+        <circle cx="-165" cy="148" r="3.5" fill="#ef4444"/>
+        <circle cx="-158" cy="152" r="3.5" fill="#ef4444"/>
+        <circle cx="-152" cy="147" r="3.5" fill="#ef4444"/>
+
+        <!-- Bottom Right Tubule -->
+        <ellipse cx="160" cy="150" rx="38" ry="28"/>
+        <ellipse cx="160" cy="150" rx="16" ry="10" fill="#fff1f2"/>
+      </g>
+
+      <!-- Interstitial inflammatory infiltrates (lymphocytes/monocytes) -->
+      <g fill="#4c1d95">
+        <circle cx="-180" cy="-70" r="4"/><circle cx="-165" cy="-60" r="4"/><circle cx="-190" cy="-40" r="4"/>
+        <circle cx="180" cy="-60" r="4"/><circle cx="195" cy="-40" r="4"/><circle cx="170" cy="-80" r="4"/>
+        <circle cx="-175" cy="70" r="4"/><circle cx="-190" cy="90" r="4"/>
+        <circle cx="180" cy="80" r="4"/><circle cx="165" cy="95" r="4"/>
+      </g>
+
+      <!-- ================= THE GLOMERULUS (Center) ================= -->
+      <!-- Bowman's Capsule Outer Fibrous Ring (Thin basement membrane) -->
+      <circle cx="0" cy="0" r="145" fill="none" stroke="#be185d" stroke-width="3"/>
+
+      <!-- COMPRESSED GLOMERULAR CAPILLARY TUFT (Displaced & Shrunken to Lower-Left) -->
+      <g transform="translate(-40, 30)">
+        <!-- Lobular compressed capillary loops -->
+        <path d="M -70,-20 C -60,-60 -20,-75 20,-60 C 50,-40 60,0 45,40 C 30,70 -30,70 -60,40 C -80,20 -80,0 -70,-20 Z" 
+              fill="url(#tuftGrad)" stroke="#991b1b" stroke-width="2"/>
+        
+        <!-- Collapsed capillary lumens & mesangial hypercellularity -->
+        <g fill="url(#nucGrad)">
+          <circle cx="-35" cy="-15" r="5"/><circle cx="-15" cy="-35" r="5.5"/>
+          <circle cx="15" cy="-30" r="5"/><circle cx="30" cy="-10" r="5.5"/>
+          <circle cx="25" cy="15" r="5"/><circle cx="5" cy="35" r="5.5"/>
+          <circle cx="-25" cy="30" r="5"/><circle cx="-40" cy="10" r="5.5"/>
+          <circle cx="-5" cy="-5" r="6"/><circle cx="5" cy="10" r="5"/>
+        </g>
+        
+        <!-- Fibrinoid necrosis focal strands in capillary tuft -->
+        <path d="M -20,-10 L 10,15 M -15,10 L 20,-15" stroke="#ffe4e6" stroke-width="3" stroke-linecap="round"/>
+      </g>
+
+      <!-- THE PROMINENT CELLULAR CRESCENT (Upper & Right Bowman's Space) -->
+      <!-- Multilayered proliferating parietal cells + macrophages + fibrin filling Bowman's space -->
+      <path d="M -130,-60 
+               C -80,-140 40,-150 120,-80 
+               C 155,-20 155,60 110,110 
+               C 80,135 40,145 0,140
+               C 25,120 40,90 20,40
+               C 5,-10 -30,-40 -130,-60 Z" 
+            fill="url(#crescentGrad)" stroke="#9d174d" stroke-width="2"/>
+
+      <!-- Proliferating Parietal Epithelial Cells & Infiltrating Monocytes in Crescent -->
+      <g fill="url(#nucGrad)" stroke="#2e1065" stroke-width="0.7">
+        <!-- Layer 1 (Outer crescent rim) -->
+        <ellipse cx="-90" cy="-100" rx="6" ry="8" transform="rotate(-30 -90 -100)"/>
+        <ellipse cx="-60" cy="-120" rx="6" ry="8" transform="rotate(-20 -60 -120)"/>
+        <ellipse cx="-20" cy="-132" rx="6" ry="8" transform="rotate(-5 -20 -132)"/>
+        <ellipse cx="20" cy="-130" rx="6" ry="8" transform="rotate(15 20 -130)"/>
+        <ellipse cx="60" cy="-115" rx="6" ry="8" transform="rotate(30 60 -115)"/>
+        <ellipse cx="95" cy="-90" rx="6" ry="8" transform="rotate(45 95 -90)"/>
+        <ellipse cx="120" cy="-55" rx="6" ry="8" transform="rotate(60 120 -55)"/>
+        <ellipse cx="130" cy="-15" rx="6" ry="8" transform="rotate(75 130 -15)"/>
+        <ellipse cx="125" cy="25" rx="6" ry="8" transform="rotate(90 125 25)"/>
+        <ellipse cx="105" cy="65" rx="6" ry="8" transform="rotate(110 105 65)"/>
+        <ellipse cx="75" cy="100" rx="6" ry="8" transform="rotate(125 75 100)"/>
+        <ellipse cx="35" cy="125" rx="6" ry="8" transform="rotate(140 35 125)"/>
+
+        <!-- Layer 2 (Middle crescent) -->
+        <ellipse cx="-65" cy="-85" rx="6" ry="8" transform="rotate(-35 -65 -85)"/>
+        <ellipse cx="-35" cy="-102" rx="6" ry="8" transform="rotate(-15 -35 -102)"/>
+        <ellipse cx="5" cy="-108" rx="6" ry="8" transform="rotate(10 5 -108)"/>
+        <ellipse cx="45" cy="-92" rx="6" ry="8" transform="rotate(25 45 -92)"/>
+        <ellipse cx="80" cy="-65" rx="6" ry="8" transform="rotate(45 80 -65)"/>
+        <ellipse cx="98" cy="-25" rx="6" ry="8" transform="rotate(70 98 -25)"/>
+        <ellipse cx="92" cy="15" rx="6" ry="8" transform="rotate(85 92 15)"/>
+        <ellipse cx="75" cy="50" rx="6" ry="8" transform="rotate(105 75 50)"/>
+        <ellipse cx="45" cy="85" rx="6" ry="8" transform="rotate(120 45 85)"/>
+
+        <!-- Layer 3 (Inner crescent interface) -->
+        <ellipse cx="-35" cy="-65" rx="5.5" ry="7.5" transform="rotate(-20 -35 -65)"/>
+        <ellipse cx="-5" cy="-80" rx="5.5" ry="7.5" transform="rotate(0 -5 -80)"/>
+        <ellipse cx="30" cy="-68" rx="5.5" ry="7.5" transform="rotate(20 30 -68)"/>
+        <ellipse cx="60" cy="-40" rx="5.5" ry="7.5" transform="rotate(40 60 -40)"/>
+        <ellipse cx="68" cy="-5" rx="5.5" ry="7.5" transform="rotate(65 68 -5)"/>
+        <ellipse cx="60" cy="25" rx="5.5" ry="7.5" transform="rotate(80 60 25)"/>
+      </g>
+
+      <!-- Fibrin Deposits within the Crescent (Eosinophilic Strands) -->
+      <g stroke="#fbcfe8" stroke-width="2.5" stroke-linecap="round" opacity="0.85">
+        <path d="M -70,-95 Q -40,-115 -10,-105"/>
+        <path d="M 15,-115 Q 50,-100 75,-75"/>
+        <path d="M 70,-60 Q 100,-40 95,0"/>
+        <path d="M 85,15 Q 75,55 50,80"/>
+        <path d="M -20,-75 Q 15,-60 45,-30"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Pointers / Callouts -->
+  <!-- Callout 1: Cellular Crescent in Bowman's Space -->
+  <g transform="translate(170, 150)">
+    <circle cx="0" cy="0" r="16" fill="#db2777" stroke="#ffffff" stroke-width="2"/>
+    <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#ffffff">1</text>
+    <line x1="20" y1="5" x2="295" y2="45" stroke="#db2777" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="-15" y="-5" text-anchor="end" font-family="sans-serif" font-size="14.5" font-weight="700" fill="#f472b6">CELLULAR CRESCENT</text>
+    <text x="-15" y="15" text-anchor="end" font-family="sans-serif" font-size="12" fill="#cbd5e1">Parietal epithelial cells, macrophages &amp; fibrin</text>
+  </g>
+
+  <!-- Callout 2: Compressed Capillary Tuft -->
+  <g transform="translate(170, 390)">
+    <circle cx="0" cy="0" r="16" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+    <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#ffffff">2</text>
+    <line x1="20" y1="-5" x2="235" y2="-40" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="-15" y="-5" text-anchor="end" font-family="sans-serif" font-size="14.5" font-weight="700" fill="#f87171">COMPRESSED CAPILLARY TUFT</text>
+    <text x="-15" y="15" text-anchor="end" font-family="sans-serif" font-size="12" fill="#cbd5e1">Ischemic collapse against vascular pole</text>
+  </g>
+
+  <!-- Callout 3: Immunofluorescence Correlate Panel -->
+  <g transform="translate(790, 240)">
+    <circle cx="0" cy="0" r="16" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/>
+    <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#0f172a">3</text>
+    <line x1="-20" y1="5" x2="-230" y2="30" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="25" y="-5" text-anchor="start" font-family="sans-serif" font-size="14.5" font-weight="700" fill="#38bdf8">BOWMAN'S CAPSULE RUPTURE</text>
+    <text x="25" y="15" text-anchor="start" font-family="sans-serif" font-size="12" fill="#cbd5e1">Fibrin leakage triggers crescent formation</text>
+  </g>
+
+  <!-- Educational Concept Cards (Bottom) -->
+  <g transform="translate(70, 560)">
+    <rect x="0" y="0" width="390" height="100" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="24" font-family="sans-serif" font-size="13" font-weight="700" fill="#f472b6">TYPE I RPGN: ANTI-GBM DISEASE</text>
+    <text x="20" y="46" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#facc15">Pathogenesis:</tspan> Autoantibodies against NC1 domain of</text>
+    <text x="32" y="64" font-family="sans-serif" font-size="11.5" fill="#cbd5e1">alpha-3 chain of Type IV collagen in glomerular basement membrane.</text>
+    <text x="20" y="84" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#f87171">Diagnostic Workup:</tspan> Serum Anti-GBM antibody titers &amp; biopsy.</text>
+  </g>
+
+  <g transform="translate(500, 560)">
+    <rect x="0" y="0" width="390" height="100" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="24" font-family="sans-serif" font-size="13" font-weight="700" fill="#38bdf8">IMMUNOFLUORESCENCE &amp; CLINICAL TRIAD</text>
+    <text x="20" y="46" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#38bdf8">Direct IF:</tspan> Smooth, continuous <tspan font-weight="700" fill="#38bdf8">Linear IgG</tspan> &amp; C3 along GBM.</text>
+    <text x="20" y="66" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#facc15">Goodpasture Syndrome:</tspan> Hemoptysis (alveolar hemorrhage) +</text>
+    <text x="32" y="84" font-family="sans-serif" font-size="11.5" fill="#cbd5e1">Hematuria + Rapidly progressing renal failure (elevated Cr).</text>
+  </g>
+
+  <!-- Medicomm Watermark -->
+  <text x="32" y="680" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#ffffff" opacity="0.35" letter-spacing="1">medicomm</text>
+</svg>

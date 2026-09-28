@@ -1,4 +1,5 @@
 import { Button } from "./ui";
+import { BrandMark } from "./BrandMark";
 
 export function AppShell({
   activeView,
@@ -15,7 +16,7 @@ export function AppShell({
     <div className="page-shell">
       <header className="topbar">
         <Button className="brand brand-button" variant="ghost" onClick={() => onNavigate("Home")}>
-          <div className="brand-mark">MQ</div>
+          <div className="brand-mark" aria-hidden="true"><BrandMark title="" /></div>
           <span>MediComm</span>
         </Button>
 

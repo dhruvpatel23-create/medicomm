@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1448" height="1086" viewBox="0 0 1448 1086">
+<rect width="1448" height="1086" fill="#000000"/>
+<defs>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#f59e0b"/>
+  </marker>
+  <marker id="arrow-cyan" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#06b6d4"/>
+  </marker>
+  <marker id="arrow-white" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#f8fafc"/>
+  </marker>
+  <marker id="inhibit" markerWidth="10" markerHeight="14" refX="5" refY="7" orient="auto">
+    <line x1="5" y1="0" x2="5" y2="14" stroke="#f43f5e" stroke-width="4"/>
+  </marker>
+</defs>
+<text x="36" y="1050" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" letter-spacing="1">medicomm</text>
+<text x="724" y="70" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">Fibrinolytic Cascade &amp; Inhibitor Target Site</text>
+<rect x="160" y="140" width="1128" height="820" fill="#0f172a" stroke="#334155" stroke-width="3" rx="16"/>
+<rect x="260" y="260" width="300" height="110" fill="#1e1b4b" stroke="#6366f1" stroke-width="3" rx="12"/>
+<text x="410" y="325" fill="#c7d2fe" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle">Plasminogen</text>
+<rect x="780" y="180" width="360" height="90" fill="#064e3b" stroke="#10b981" stroke-width="2" rx="10"/>
+<text x="960" y="225" fill="#a7f3d0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Plasminogen Activators
+(t-PA, Urokinase, SK)</text>
+<line x1="780.0" y1="225.0" x2="590.0" y2="390.0" stroke="#10b981" stroke-width="4" marker-end="url(#arrow)"/>
+<line x1="410.0" y1="370.0" x2="410.0" y2="520.0" stroke="#f59e0b" stroke-width="5" marker-end="url(#arrow)"/>
+<circle cx="410" cy="445" r="36" fill="#881337" stroke="#f43f5e" stroke-width="3"/>
+<text x="410" y="454" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="bold" text-anchor="middle">X</text>
+<text x="560" y="452" fill="#f43f5e" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle">Inhibitor Site &#x27;X&#x27;</text>
+<rect x="260" y="520" width="300" height="110" fill="#881337" stroke="#f43f5e" stroke-width="3" rx="12"/>
+<text x="410" y="585" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle">Plasmin</text>
+<line x1="410.0" y1="630.0" x2="410.0" y2="770.0" stroke="#f59e0b" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="780" y="520" width="360" height="110" fill="#1e293b" stroke="#f8fafc" stroke-width="2" rx="10"/>
+<text x="960" y="570" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Insoluble Fibrin Clot</text>
+<text x="960" y="600" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">(Thrombus)</text>
+<line x1="560.0" y1="575.0" x2="780.0" y2="575.0" stroke="#06b6d4" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="260" y="770" width="360" height="110" fill="#1e293b" stroke="#f8fafc" stroke-width="2" rx="12"/>
+<text x="440" y="820" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle">Fibrin Degradation Products</text>
+<text x="440" y="855" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">(FDPs / D-Dimer)</text>
+</svg>

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdf2f8"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">LUNG BIOPSY: HISTOPATHOLOGY OF HILAR MASS</text>
+  </g>
+
+  <!-- Histology Field -->
+  <g transform="translate(480, 345)" filter="url(#shadow)">
+    <rect x="-380" y="-240" width="760" height="480" rx="20" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+    <rect x="-372" y="-232" width="744" height="464" rx="16" fill="url(#fieldGrad)"/>
+
+    <g clip-path="url(#sccClip)">
+      <clipPath id="sccClip">
+        <rect x="-372" y="-232" width="744" height="464" rx="16"/>
+      </clipPath>
+
+      <!-- Malignant Polygonal Squamous Cells with Intercellular Bridges -->
+      <g>
+        <rect x="-340" y="-200" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-308" cy="-173" r="14" fill="#4c1d95"/><rect x="-235" y="-200" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-203" cy="-173" r="14" fill="#4c1d95"/><rect x="-130" y="-200" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-98" cy="-173" r="14" fill="#4c1d95"/><rect x="-25" y="-200" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="7" cy="-173" r="14" fill="#4c1d95"/><rect x="80" y="-200" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="112" cy="-173" r="14" fill="#4c1d95"/><rect x="185" y="-200" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="217" cy="-173" r="14" fill="#4c1d95"/><rect x="290" y="-200" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="322" cy="-173" r="14" fill="#4c1d95"/><rect x="-340" y="-110" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-308" cy="-83" r="14" fill="#4c1d95"/><rect x="-235" y="-110" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-203" cy="-83" r="14" fill="#4c1d95"/><rect x="-130" y="-110" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-98" cy="-83" r="14" fill="#4c1d95"/><rect x="-25" y="-110" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="7" cy="-83" r="14" fill="#4c1d95"/><rect x="80" y="-110" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="112" cy="-83" r="14" fill="#4c1d95"/><rect x="185" y="-110" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="217" cy="-83" r="14" fill="#4c1d95"/><rect x="290" y="-110" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="322" cy="-83" r="14" fill="#4c1d95"/><rect x="-340" y="-20" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-308" cy="7" r="14" fill="#4c1d95"/><rect x="-235" y="-20" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-203" cy="7" r="14" fill="#4c1d95"/><rect x="-130" y="-20" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-98" cy="7" r="14" fill="#4c1d95"/><rect x="-25" y="-20" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="7" cy="7" r="14" fill="#4c1d95"/><rect x="80" y="-20" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="112" cy="7" r="14" fill="#4c1d95"/><rect x="185" y="-20" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="217" cy="7" r="14" fill="#4c1d95"/><rect x="290" y="-20" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="322" cy="7" r="14" fill="#4c1d95"/><rect x="-340" y="70" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-308" cy="97" r="14" fill="#4c1d95"/><rect x="-235" y="70" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-203" cy="97" r="14" fill="#4c1d95"/><rect x="-130" y="70" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-98" cy="97" r="14" fill="#4c1d95"/><rect x="-25" y="70" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="7" cy="97" r="14" fill="#4c1d95"/><rect x="80" y="70" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="112" cy="97" r="14" fill="#4c1d95"/><rect x="185" y="70" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="217" cy="97" r="14" fill="#4c1d95"/><rect x="290" y="70" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="322" cy="97" r="14" fill="#4c1d95"/><rect x="-340" y="160" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-308" cy="187" r="14" fill="#4c1d95"/><rect x="-235" y="160" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-203" cy="187" r="14" fill="#4c1d95"/><rect x="-130" y="160" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="-98" cy="187" r="14" fill="#4c1d95"/><rect x="-25" y="160" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="7" cy="187" r="14" fill="#4c1d95"/><rect x="80" y="160" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="112" cy="187" r="14" fill="#4c1d95"/><rect x="185" y="160" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="217" cy="187" r="14" fill="#4c1d95"/><rect x="290" y="160" width="65" height="55" rx="10" fill="#f472b6" opacity="0.6" stroke="#be185d" stroke-width="1.5"/>
+                  <circle cx="322" cy="187" r="14" fill="#4c1d95"/>
+      </g>
+
+      <!-- Centerpiece: Concentric Laminated Keratin Pearl (Squamous Pearl) -->
+      <g transform="translate(40, 10)">
+        <circle cx="0" cy="0" r="110" fill="#f43f5e" opacity="0.85" stroke="#be123c" stroke-width="3"/>
+        <!-- Concentric whorls of keratin -->
+        <path d="M -80,0 C -80,-60 80,-60 80,0 C 80,60 -60,60 -60,0 C -60,-40 40,-40 40,0 C 40,25 -20,25 -20,0 Z"
+              stroke="#ffe4e6" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <!-- Central dense eosinophilic keratin -->
+        <circle cx="0" cy="0" r="24" fill="#e11d48"/>
+      </g>
+    </g>
+
+    <!-- Marker Arrow to Keratin Pearl -->
+    <g transform="translate(-160, -90)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#000000">!</text>
+      <line x1="16" y1="12" x2="135" y2="70" stroke="#f59e0b" stroke-width="3"/>
+      <polygon points="145,76 132,67 137,58" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

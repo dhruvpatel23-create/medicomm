@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <linearGradient id="q12Bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#030712"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="curveShade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="1000" fill="url(#q12Bg)"/>
+
+  <!-- Top Title Pill -->
+  <rect x="180" y="50" width="640" height="48" rx="24" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="500" y="81" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" text-anchor="middle" letter-spacing="1">GAUSSIAN NORMAL DISTRIBUTION CURVE</text>
+
+  <text x="500" y="135" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" text-anchor="middle">Study Parameters: Population Mean (μ) = 200  |  Standard Deviation (σ) = 20</text>
+
+  <!-- Neutral Bell Curve Shading -->
+  <path d="M 120 740 C 180 740, 240 738, 300 720 C 350 690, 380 620, 420 480 C 460 330, 480 280, 500 280 C 520 280, 540 330, 580 480 C 620 620, 650 690, 700 720 C 760 738, 820 740, 880 740 Z" fill="url(#curveShade)"/>
+
+  <!-- Bell Curve Main Line -->
+  <path d="M 120 740 C 180 740, 240 738, 300 720 C 350 690, 380 620, 420 480 C 460 330, 480 280, 500 280 C 520 280, 540 330, 580 480 C 620 620, 650 690, 700 720 C 760 738, 820 740, 880 740" fill="none" stroke="#38bdf8" stroke-width="4.5"/>
+
+  <!-- Base Baseline Axis -->
+  <line x1="90" y1="740" x2="910" y2="740" stroke="#64748b" stroke-width="3"/>
+  <polygon points="915,740 900,733 900,747" fill="#64748b"/>
+  <polygon points="85,740 100,733 100,747" fill="#64748b"/>
+
+  <!-- Center Mean Axis Line -->
+  <line x1="500" y1="280" x2="500" y2="740" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="6,4"/>
+  <circle cx="500" cy="280" r="6" fill="#38bdf8"/>
+
+  <!-- Vertical Divider Lines for Standard Deviations -->
+  <!-- -1 SD (400) and +1 SD (600) -->
+  <line x1="400" y1="540" x2="400" y2="740" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="600" y1="540" x2="600" y2="740" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- -2 SD (300) and +2 SD (700) -->
+  <line x1="300" y1="720" x2="300" y2="740" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="700" y1="720" x2="700" y2="740" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+  <!-- -3 SD (200) and +3 SD (800) -->
+  <line x1="200" y1="736" x2="200" y2="740" stroke="#475569" stroke-width="1"/>
+  <line x1="800" y1="736" x2="800" y2="740" stroke="#475569" stroke-width="1"/>
+
+  <!-- Axis Labels below baseline -->
+  <text x="500" y="775" fill="#38bdf8" font-family="sans-serif" font-size="16" font-weight="700" text-anchor="middle">Mean (μ)</text>
+  <text x="500" y="810" fill="#f8fafc" font-family="sans-serif" font-size="24" font-weight="800" text-anchor="middle">200</text>
+
+  <text x="400" y="775" fill="#94a3b8" font-family="sans-serif" font-size="15" font-weight="600" text-anchor="middle">μ - 1σ</text>
+  <text x="400" y="810" fill="#e2e8f0" font-family="sans-serif" font-size="20" font-weight="700" text-anchor="middle">180</text>
+
+  <text x="600" y="775" fill="#94a3b8" font-family="sans-serif" font-size="15" font-weight="600" text-anchor="middle">μ + 1σ</text>
+  <text x="600" y="810" fill="#e2e8f0" font-family="sans-serif" font-size="20" font-weight="700" text-anchor="middle">220</text>
+
+  <text x="300" y="775" fill="#64748b" font-family="sans-serif" font-size="14" font-weight="500" text-anchor="middle">μ - 2σ</text>
+  <text x="300" y="810" fill="#cbd5e1" font-family="sans-serif" font-size="18" font-weight="600" text-anchor="middle">160</text>
+
+  <text x="700" y="775" fill="#64748b" font-family="sans-serif" font-size="14" font-weight="500" text-anchor="middle">μ + 2σ</text>
+  <text x="700" y="810" fill="#cbd5e1" font-family="sans-serif" font-size="18" font-weight="600" text-anchor="middle">240</text>
+
+  <text x="200" y="775" fill="#475569" font-family="sans-serif" font-size="14" font-weight="500" text-anchor="middle">μ - 3σ</text>
+  <text x="200" y="810" fill="#94a3b8" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">140</text>
+
+  <text x="800" y="775" fill="#475569" font-family="sans-serif" font-size="14" font-weight="500" text-anchor="middle">μ + 3σ</text>
+  <text x="800" y="810" fill="#94a3b8" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">260</text>
+
+  <!-- Single Watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

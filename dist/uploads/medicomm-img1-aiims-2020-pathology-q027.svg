@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+
+    <!-- Histology Field Vignette -->
+    <radialGradient id="heBg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="70%" stop-color="#ffe4e6"/>
+      <stop offset="100%" stop-color="#fecdd3"/>
+    </radialGradient>
+
+    <!-- Parietal Cell Cytoplasm (Intensely Eosinophilic / Bright Pink-Red) -->
+    <radialGradient id="parietalCyto" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="60%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </radialGradient>
+
+    <!-- Chief Cell Cytoplasm (Basophilic / Purple-Blue Zymogenic) -->
+    <radialGradient id="chiefCyto" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="60%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#581c87"/>
+    </radialGradient>
+
+    <!-- Nucleus Gradient (Purple Chromatin) -->
+    <radialGradient id="nucGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#4c1d95"/>
+      <stop offset="60%" stop-color="#2e1065"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+
+    <!-- Drop Shadow -->
+    <filter id="shadowBox" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-300" y="-20" width="600" height="40" rx="20" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#f8fafc" letter-spacing="1">GASTRIC OXYNTIC MUCOSA HISTOPATHOLOGY</text>
+  </g>
+
+  <!-- Microscopic Circular Field (Center: 480, 310, r: 230) -->
+  <g transform="translate(480, 310)" filter="url(#shadowBox)">
+    <circle cx="0" cy="0" r="236" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+    <circle cx="0" cy="0" r="230" fill="url(#heBg)"/>
+
+    <g clip-path="url(#circleClip)">
+      <clipPath id="circleClip">
+        <circle cx="0" cy="0" r="230"/>
+      </clipPath>
+
+      <!-- Lamina Propria Background Fibers & Capillaries -->
+      <g stroke="#fda4af" stroke-width="2" opacity="0.6">
+        <path d="M -230,-150 C -120,-170 50,-130 230,-160" fill="none"/>
+        <path d="M -230,150 C -100,120 70,180 230,140" fill="none"/>
+      </g>
+
+      <!-- Longitudinally Oriented Gastric Fundic Gland Structure -->
+      <!-- Basement Membrane Boundary Left & Right -->
+      <path d="M -150,-240 C -160,-100 -160,100 -150,240" stroke="#fda4af" stroke-width="6" fill="none" opacity="0.8"/>
+      <path d="M 150,-240 C 160,-100 160,100 150,240" stroke="#fda4af" stroke-width="6" fill="none" opacity="0.8"/>
+
+      <!-- Central Gland Lumen -->
+      <path d="M -15,-240 C -20,-100 -20,100 -15,240 L 15,240 C 20,100 20,-100 15,-240 Z" fill="#fff1f2" opacity="0.9"/>
+
+      <!-- ================= LEFT GLAND WALL CELLS ================= -->
+      <!-- Cell L1: Mucous Neck Cell (Upper) -->
+      <path d="M -150,-210 L -20,-200 L -20,-160 L -155,-160 Z" fill="#fbcfe8" stroke="#f472b6" stroke-width="1.5"/>
+      <ellipse cx="-130" cy="-185" rx="8" ry="12" fill="url(#nucGrad)"/>
+
+      <!-- Cell L2: PARIETAL CELL (Upper Left - Structure A Candidate) -->
+      <!-- Large triangular/pyramidal shape bulging outwards -->
+      <path d="M -155,-160 L -20,-160 L -20,-80 L -155,-80 C -195,-110 -195,-130 -155,-160 Z" fill="url(#parietalCyto)" stroke="#9f1239" stroke-width="2"/>
+      <!-- Intracellular canaliculi lines -->
+      <path d="M -30,-120 C -70,-115 -110,-135 -140,-120" stroke="#fecdd3" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <!-- Round central nucleus with prominent nucleolus -->
+      <circle cx="-95" cy="-120" r="16" fill="url(#nucGrad)" stroke="#4c1d95" stroke-width="1.2"/>
+      <circle cx="-92" cy="-122" r="3" fill="#e0e7ff"/>
+
+      <!-- Cell L3: Mucous / Intermediate Cell -->
+      <path d="M -155,-80 L -20,-80 L -20,-20 L -155,-20 Z" fill="#fbcfe8" stroke="#f472b6" stroke-width="1.5"/>
+      <ellipse cx="-125" cy="-50" rx="8" ry="12" fill="url(#nucGrad)"/>
+
+      <!-- Cell L4: PARIETAL CELL (Mid Left - TARGET A) -->
+      <!-- Distinct classic "Fried Egg" / Pyramidal cell with eosinophilic cytoplasm -->
+      <path d="M -155,-20 L -20,-20 L -20,70 L -155,70 C -205,35 -205,10 -155,-20 Z" fill="url(#parietalCyto)" stroke="#9f1239" stroke-width="2"/>
+      <!-- Intracellular canaliculi branching network -->
+      <path d="M -35,25 C -75,20 -115,5 -145,25" stroke="#fecdd3" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M -90,0 Q -105,25 -85,45" stroke="#fecdd3" stroke-width="2" fill="none" opacity="0.6"/>
+      <!-- Central Spherical Nucleus -->
+      <circle cx="-100" cy="25" r="18" fill="url(#nucGrad)" stroke="#4c1d95" stroke-width="1.5"/>
+      <circle cx="-96" cy="22" r="3.5" fill="#e0e7ff"/>
+
+      <!-- Cell L5: CHIEF CELL (Lower Left Base of Gland) -->
+      <!-- Cuboidal/columnar basophilic cell -->
+      <path d="M -150,70 L -20,70 L -20,140 L -150,140 Z" fill="url(#chiefCyto)" stroke="#4c1d95" stroke-width="1.5"/>
+      <!-- Zymogen granular texture in apical cytoplasm -->
+      <g fill="#a855f7" opacity="0.7">
+        <circle cx="-35" cy="85" r="2"/><circle cx="-50" cy="95" r="2.5"/><circle cx="-35" cy="115" r="2"/>
+        <circle cx="-55" cy="125" r="2.2"/><circle cx="-40" cy="130" r="2"/>
+      </g>
+      <!-- Basal round nucleus -->
+      <circle cx="-110" cy="105" r="14" fill="url(#nucGrad)" stroke="#2e1065" stroke-width="1.2"/>
+
+      <!-- Cell L6: CHIEF CELL (Deep Base of Gland) -->
+      <path d="M -150,140 L -20,140 L -20,210 L -150,210 Z" fill="url(#chiefCyto)" stroke="#4c1d95" stroke-width="1.5"/>
+      <circle cx="-110" cy="175" r="14" fill="url(#nucGrad)" stroke="#2e1065" stroke-width="1.2"/>
+
+      <!-- ================= RIGHT GLAND WALL CELLS ================= -->
+      <!-- Cell R1: Mucous Neck Cell -->
+      <path d="M 20,-200 L 150,-210 L 155,-160 L 20,-160 Z" fill="#fbcfe8" stroke="#f472b6" stroke-width="1.5"/>
+      <ellipse cx="125" cy="-185" rx="8" ry="12" fill="url(#nucGrad)"/>
+
+      <!-- Cell R2: PARIETAL CELL (Upper Right) -->
+      <path d="M 20,-160 L 155,-160 C 195,-130 195,-110 155,-80 L 20,-80 Z" fill="url(#parietalCyto)" stroke="#9f1239" stroke-width="2"/>
+      <path d="M 30,-120 C 70,-115 110,-135 140,-120" stroke="#fecdd3" stroke-width="2" fill="none" opacity="0.7"/>
+      <circle cx="95" cy="-120" r="16" fill="url(#nucGrad)" stroke="#4c1d95" stroke-width="1.2"/>
+      <circle cx="98" cy="-122" r="3" fill="#e0e7ff"/>
+
+      <!-- Cell R3: Intermediate Neck Cell -->
+      <path d="M 20,-80 L 155,-80 L 155,-10 L 20,-10 Z" fill="#fbcfe8" stroke="#f472b6" stroke-width="1.5"/>
+      <ellipse cx="125" cy="-45" rx="8" ry="12" fill="url(#nucGrad)"/>
+
+      <!-- Cell R4: CHIEF CELL (Mid-Lower Right - TARGET B) -->
+      <!-- Prominent Chief Cell with basophilic purplish granular cytoplasm and basal nucleus -->
+      <path d="M 20,-10 L 155,-10 L 155,75 L 20,75 Z" fill="url(#chiefCyto)" stroke="#4c1d95" stroke-width="2"/>
+      <!-- Apical Zymogen (Pepsinogen) Granules -->
+      <g fill="#c084fc" opacity="0.8">
+        <circle cx="45" cy="5" r="2.5"/><circle cx="65" cy="15" r="2.8"/><circle cx="45" cy="30" r="2.5"/>
+        <circle cx="65" cy="45" r="3"/><circle cx="45" cy="60" r="2.5"/><circle cx="75" cy="65" r="2.8"/>
+      </g>
+      <!-- Basally Located Round Nucleus -->
+      <circle cx="115" cy="32" r="16" fill="url(#nucGrad)" stroke="#2e1065" stroke-width="1.5"/>
+      <circle cx="118" cy="30" r="3" fill="#e0e7ff"/>
+
+      <!-- Cell R5: CHIEF CELL (Lower Right Base of Gland) -->
+      <path d="M 20,75 L 150,75 L 150,150 L 20,150 Z" fill="url(#chiefCyto)" stroke="#4c1d95" stroke-width="1.5"/>
+      <circle cx="110" cy="112" r="14" fill="url(#nucGrad)" stroke="#2e1065" stroke-width="1.2"/>
+
+      <!-- Cell R6: CHIEF CELL (Deep Base) -->
+      <path d="M 20,150 L 150,150 L 150,220 L 20,220 Z" fill="url(#chiefCyto)" stroke="#4c1d95" stroke-width="1.5"/>
+      <circle cx="110" cy="185" r="14" fill="url(#nucGrad)" stroke="#2e1065" stroke-width="1.2"/>
+    </g>
+  </g>
+
+  <!-- Pointers / Circular Labels A & B -->
+  <!-- BADGE A: Parietal Cell (Pink / Red theme, labeled A) -->
+  <g transform="translate(170, 290)">
+    <circle cx="0" cy="0" r="20" fill="#e11d48" stroke="#ffffff" stroke-width="2.5"/>
+    <text x="0" y="7" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="900" fill="#ffffff">A</text>
+    <!-- Slim Pointer to Parietal Cell L4 -->
+    <line x1="25" y1="5" x2="195" y2="45" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="5 2"/>
+    <text x="-15" y="-5" text-anchor="end" font-family="sans-serif" font-size="15" font-weight="700" fill="#fb7185">CELL TYPE A</text>
+    <text x="-15" y="15" text-anchor="end" font-family="sans-serif" font-size="12" fill="#cbd5e1">Intensely eosinophilic (pink)</text>
+  </g>
+
+  <!-- BADGE B: Chief Cell (Purple theme, labeled B) -->
+  <g transform="translate(790, 310)">
+    <circle cx="0" cy="0" r="20" fill="#7c3aed" stroke="#ffffff" stroke-width="2.5"/>
+    <text x="0" y="7" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="900" fill="#ffffff">B</text>
+    <!-- Slim Pointer to Chief Cell R4 -->
+    <line x1="-25" y1="5" x2="-200" y2="30" stroke="#7c3aed" stroke-width="2.5" stroke-dasharray="5 2"/>
+    <text x="25" y="-5" text-anchor="start" font-family="sans-serif" font-size="15" font-weight="700" fill="#c084fc">CELL TYPE B</text>
+    <text x="25" y="15" text-anchor="start" font-family="sans-serif" font-size="12" fill="#cbd5e1">Basophilic granular (purple)</text>
+  </g>
+
+  <!-- Educational Concept Cards (Bottom) -->
+  <g transform="translate(70, 560)">
+    <rect x="0" y="0" width="390" height="100" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="24" font-family="sans-serif" font-size="13" font-weight="700" fill="#fb7185">A = PARIETAL (OXYNTIC) CELLS</text>
+    <text x="20" y="46" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#facc15">Secretions:</tspan> Hydrochloric acid (HCl) &amp; Intrinsic Factor (IF).</text>
+    <text x="20" y="66" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#f87171">Absence (Autoimmune Gastritis):</tspan> Achlorhydria, B12 deficiency,</text>
+    <text x="32" y="84" font-family="sans-serif" font-size="11.5" fill="#cbd5e1">pernicious anemia, G-cell hyperplasia, &amp; carcinoid risk.</text>
+  </g>
+
+  <g transform="translate(500, 560)">
+    <rect x="0" y="0" width="390" height="100" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="24" font-family="sans-serif" font-size="13" font-weight="700" fill="#c084fc">B = CHIEF (PEPTIC) CELLS</text>
+    <text x="20" y="46" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#a78bfa">Location &amp; Function:</tspan> Reside in deep base of oxyntic glands.</text>
+    <text x="20" y="66" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#facc15">Secretions:</tspan> Pepsinogen I &amp; II (cleaved to active pepsin by HCl).</text>
+    <text x="20" y="86" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#38bdf8">Staining:</tspan> Rich in rough endoplasmic reticulum (basophilic).</text>
+  </g>
+
+  <!-- Medicomm Watermark -->
+  <text x="32" y="680" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#ffffff" opacity="0.35" letter-spacing="1">medicomm</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <radialGradient id="smearGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff1f2"/><stop offset="85%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fecdd3"/>
+    </radialGradient>
+    <radialGradient id="rbcGrad" cx="40%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#fda4af"/><stop offset="70%" stop-color="#f43f5e"/><stop offset="100%" stop-color="#be123c"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-340" y="-24" width="680" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">PERIPHERAL BLOOD SMEAR: CYTOMORPHOLOGY (WRIGHT-GIEMSA)</text>
+  </g>
+  <g transform="translate(480, 360)">
+    <circle cx="0" cy="0" r="280" fill="url(#fieldGrad)" stroke="#334155" stroke-width="8"/>
+    <clipPath id="c26"><circle cx="0" cy="0" r="276"/></clipPath>
+    <g clip-path="url(#c26)">
+      <circle cx="-180" cy="-140" r="26" fill="url(#rbcGrad)"/><circle cx="-180" cy="-140" r="10" fill="#fff1f2" opacity="0.6"/>
+      <circle cx="180" cy="-150" r="25" fill="url(#rbcGrad)"/><circle cx="180" cy="-150" r="9" fill="#fff1f2" opacity="0.6"/>
+      <circle cx="-190" cy="120" r="26" fill="url(#rbcGrad)"/><circle cx="-190" cy="120" r="10" fill="#fff1f2" opacity="0.6"/>
+      <circle cx="190" cy="130" r="25" fill="url(#rbcGrad)"/><circle cx="190" cy="130" r="9" fill="#fff1f2" opacity="0.6"/>
+
+      <!-- CENTRAL ACANTHOCYTE -->
+      <g transform="translate(0, 0)">
+        <path d="
+          M -35,-20 L -55,-45 L -35,-35 L -30,-60 L -15,-40 L 10,-65 L 15,-40 L 45,-55 L 35,-30 L 65,-25 L 42,-5 L 60,15 L 35,18 L 45,50 L 20,35 L 5,60 L -10,35 L -40,55 L -30,25 L -65,15 L -40,-5 Z
+        " fill="url(#rbcGrad)" stroke="#9f1239" stroke-width="2.5"/>
+        <circle cx="0" cy="0" r="14" fill="#fda4af" opacity="0.4"/>
+      </g>
+      <g transform="translate(-100, 80) scale(0.75)">
+        <path d="M -35,-20 L -55,-45 L -35,-35 L -30,-60 L -15,-40 L 10,-65 L 15,-40 L 45,-55 L 35,-30 L 65,-25 L 42,-5 L 60,15 L 35,18 L 45,50 L 20,35 L 5,60 L -10,35 L -40,55 L -30,25 L -65,15 L -40,-5 Z" fill="url(#rbcGrad)" stroke="#9f1239" stroke-width="2.5"/>
+      </g>
+      <g transform="translate(110, -70) scale(0.75)">
+        <path d="M -35,-20 L -55,-45 L -35,-35 L -30,-60 L -15,-40 L 10,-65 L 15,-40 L 45,-55 L 35,-30 L 65,-25 L 42,-5 L 60,15 L 35,18 L 45,50 L 20,35 L 5,60 L -10,35 L -40,55 L -30,25 L -65,15 L -40,-5 Z" fill="url(#rbcGrad)" stroke="#9f1239" stroke-width="2.5"/>
+      </g>
+    </g>
+  </g>
+  
+  <g transform="translate(740, 270)">
+    <rect x="-115" y="-26" width="230" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Irregular Spur Cell</text>
+    <path d="M -103,0 L -195,50" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="-195" cy="50" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

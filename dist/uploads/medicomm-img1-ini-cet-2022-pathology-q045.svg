@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdf2f8"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">THYROID HISTOPATHOLOGY: NEUROENDOCRINE NEOPLASM</text>
+  </g>
+
+  <!-- Histology Field -->
+  <g transform="translate(480, 345)" filter="url(#shadow)">
+    <rect x="-380" y="-240" width="760" height="480" rx="20" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+    <rect x="-372" y="-232" width="744" height="464" rx="16" fill="url(#fieldGrad)"/>
+
+    <g clip-path="url(#mctClip)">
+      <clipPath id="mctClip">
+        <rect x="-372" y="-232" width="744" height="464" rx="16"/>
+      </clipPath>
+
+      <!-- Acellular Dense Eosinophilic Amyloid Stroma (Derived from Calcitonin) -->
+      <path d="M -220,-240 C -120,-140 -160,20 -100,100 C -40,180 80,140 180,240 L -380,240 L -380,-240 Z"
+            fill="#fb7185" opacity="0.65"/>
+      <path d="M 60,-240 C 140,-120 100,20 180,100 C 240,160 300,140 380,200 L 380,-240 Z"
+            fill="#fb7185" opacity="0.65"/>
+
+      <!-- Nests & Cords of Polygonal / Plasmacytoid Tumor Cells -->
+      <g>
+        <circle cx="-100" cy="-140" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-100" cy="-140" r="6" fill="#4c1d95"/><circle cx="-48" cy="-140" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-48" cy="-140" r="6" fill="#4c1d95"/><circle cx="4" cy="-140" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="4" cy="-140" r="6" fill="#4c1d95"/><circle cx="36" cy="-140" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="36" cy="-140" r="6" fill="#4c1d95"/><circle cx="88" cy="-140" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="88" cy="-140" r="6" fill="#4c1d95"/><circle cx="140" cy="-140" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="140" cy="-140" r="6" fill="#4c1d95"/><circle cx="-98" cy="-95" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-98" cy="-95" r="6" fill="#4c1d95"/><circle cx="-46" cy="-95" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-46" cy="-95" r="6" fill="#4c1d95"/><circle cx="6" cy="-95" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="6" cy="-95" r="6" fill="#4c1d95"/><circle cx="38" cy="-95" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="38" cy="-95" r="6" fill="#4c1d95"/><circle cx="90" cy="-95" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="90" cy="-95" r="6" fill="#4c1d95"/><circle cx="142" cy="-95" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="142" cy="-95" r="6" fill="#4c1d95"/><circle cx="-96" cy="-50" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-96" cy="-50" r="6" fill="#4c1d95"/><circle cx="-44" cy="-50" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-44" cy="-50" r="6" fill="#4c1d95"/><circle cx="8" cy="-50" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="8" cy="-50" r="6" fill="#4c1d95"/><circle cx="40" cy="-50" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="40" cy="-50" r="6" fill="#4c1d95"/><circle cx="92" cy="-50" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="92" cy="-50" r="6" fill="#4c1d95"/><circle cx="144" cy="-50" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="144" cy="-50" r="6" fill="#4c1d95"/><circle cx="-94" cy="-5" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-94" cy="-5" r="6" fill="#4c1d95"/><circle cx="-42" cy="-5" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-42" cy="-5" r="6" fill="#4c1d95"/><circle cx="-10" cy="-5" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-10" cy="-5" r="6" fill="#4c1d95"/><circle cx="42" cy="-5" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="42" cy="-5" r="6" fill="#4c1d95"/><circle cx="94" cy="-5" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="94" cy="-5" r="6" fill="#4c1d95"/><circle cx="126" cy="-5" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="126" cy="-5" r="6" fill="#4c1d95"/><circle cx="-92" cy="40" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-92" cy="40" r="6" fill="#4c1d95"/><circle cx="-40" cy="40" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-40" cy="40" r="6" fill="#4c1d95"/><circle cx="-8" cy="40" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-8" cy="40" r="6" fill="#4c1d95"/><circle cx="44" cy="40" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="44" cy="40" r="6" fill="#4c1d95"/><circle cx="96" cy="40" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="96" cy="40" r="6" fill="#4c1d95"/><circle cx="128" cy="40" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="128" cy="40" r="6" fill="#4c1d95"/><circle cx="-90" cy="85" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-90" cy="85" r="6" fill="#4c1d95"/><circle cx="-38" cy="85" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-38" cy="85" r="6" fill="#4c1d95"/><circle cx="-6" cy="85" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-6" cy="85" r="6" fill="#4c1d95"/><circle cx="46" cy="85" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="46" cy="85" r="6" fill="#4c1d95"/><circle cx="98" cy="85" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="98" cy="85" r="6" fill="#4c1d95"/><circle cx="130" cy="85" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="130" cy="85" r="6" fill="#4c1d95"/><circle cx="-88" cy="130" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-88" cy="130" r="6" fill="#4c1d95"/><circle cx="-36" cy="130" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-36" cy="130" r="6" fill="#4c1d95"/><circle cx="-4" cy="130" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-4" cy="130" r="6" fill="#4c1d95"/><circle cx="48" cy="130" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="48" cy="130" r="6" fill="#4c1d95"/><circle cx="80" cy="130" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="80" cy="130" r="6" fill="#4c1d95"/><circle cx="132" cy="130" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="132" cy="130" r="6" fill="#4c1d95"/><circle cx="-86" cy="175" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-86" cy="175" r="6" fill="#4c1d95"/><circle cx="-54" cy="175" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-54" cy="175" r="6" fill="#4c1d95"/><circle cx="-2" cy="175" r="12" fill="#be185d" stroke="#831843" stroke-width="1"/>
+                  <circle cx="-2" cy="175" r="6" fill="#4c1d95"/>
+      </g>
+    </g>
+
+    <!-- Marker Arrow to Amyloid Stroma -->
+    <g transform="translate(-240, -110)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#000000">!</text>
+      <!-- Arrow pointing to pink acellular amyloid matrix -->
+      <line x1="16" y1="12" x2="65" y2="55" stroke="#f59e0b" stroke-width="3"/>
+      <polygon points="75,62 61,54 67,44" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

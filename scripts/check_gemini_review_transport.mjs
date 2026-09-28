@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import { createGeminiReviewTransport } from '../server/geminiReviewTransport.mjs';
+process.env.GEMINI_REVIEW_FALLBACK_MODEL = 'gemini-2.5-flash';
+const url='https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent';
+const payload={systemInstruction:{parts:[{text:'Our review style'}]},generationConfig:{thinkingConfig:{thinkingLevel:'low'},responseMimeType:'application/json',responseSchema:{type:'object'}},contents:[{parts:[{text:'A synthetic answer'},{inlineData:{mimeType:'image/png',data:'synthetic'}}]}]};
+const options={method:'POST',headers:{'x-goog-api-key':'test-placeholder'},body:JSON.stringify(payload)};
+const ok=()=>new Response('{"review":"ok"}',{status:200});
+const fail=status=>new Response('{"error":{"message":"test"}}',{status});
+let calls=[];
+let clock=0;
+const sleep=async ms=>{clock+=ms;};
+const transport=createGeminiReviewTransport({now:()=>clock,sleep,random:()=>0,fetchImpl:async (target,opts)=>{calls.push({target,opts});return target.includes('3.5')?fail(503):ok();}});
+let response=await transport(url,options);
+assert.equal(response.status,200);assert.equal(response.geminiModel,'gemini-2.5-flash');assert.equal(calls.length,2);
+let fallbackBody=JSON.parse(calls[1].opts.body);
+assert.deepEqual(fallbackBody.contents,payload.contents);assert.deepEqual(fallbackBody.systemInstruction,payload.systemInstruction);assert.deepEqual(fallbackBody.generationConfig.responseSchema,payload.generationConfig.responseSchema);
+assert.deepEqual(fallbackBody.generationConfig.thinkingConfig,{thinkingBudget:0});
+assert.equal(JSON.parse(options.body).generationConfig.thinkingConfig.thinkingLevel,'low');
+calls=[];await transport(url,options);assert.equal(calls.length,1);assert(calls[0].target.includes('2.5'));
+clock+=60001;calls=[];await transport(url,options);assert(calls[0].target.includes('3.5'));
+for(const status of [400,401,403]){calls=[];const request=createGeminiReviewTransport({sleep,fetchImpl:async target=>{calls.push(target);return fail(status);}});assert.equal((await request(url,options)).status,status);assert.equal(calls.length,1);}
+calls=[];clock=0;
+const quota=createGeminiReviewTransport({now:()=>clock,sleep,fetchImpl:async target=>{calls.push(target);return new Response('{}',{status:429,headers:{'retry-after':'2'}});}});
+assert.equal((await quota(url,options)).status,429);assert.equal(calls.length,2);assert(calls.every(target=>target.includes('3.5')));assert(clock>=2000);
+calls=[];const missing=createGeminiReviewTransport({sleep,fetchImpl:async target=>{calls.push(target);return target.includes('3.5')?fail(404):ok();}});assert.equal((await missing(url,options)).status,200);assert.equal(calls.length,2);
+calls=[];clock=0;const unavailable=createGeminiReviewTransport({now:()=>clock,sleep,fetchImpl:async target=>{calls.push(target);return fail(503);}});assert.equal((await unavailable(url,options)).status,503);assert.equal(calls.length,4);
+calls=[];const network=createGeminiReviewTransport({sleep,fetchImpl:async target=>{calls.push(target);if(target.includes('3.5'))throw new TypeError('fetch failed');return ok();}});assert.equal((await network(url,options)).status,200);
+const timeout=createGeminiReviewTransport({attemptTimeoutMs:15,fetchImpl:async (target,opts)=>{if(!target.includes('3.5'))return ok();return new Promise((resolve,reject)=>{const keepAlive=setTimeout(()=>resolve(fail(504)),200);opts.signal.addEventListener('abort',()=>{clearTimeout(keepAlive);reject(opts.signal.reason);},{once:true});});}});assert.equal((await timeout(url,options)).status,200);
+console.log('PASS: 503 recovery, model cooldown, preserved prompt/schema/photo, model-specific thinking, auth failures, quota backoff without model switching, unavailable model, bounded retries, network failures and timeout recovery.');
+
+delete process.env.GEMINI_REVIEW_FALLBACK_MODEL;
+const defaultFallback=createGeminiReviewTransport({sleep,fetchImpl:async target=>target.includes('gemini-3.5-flash:')?fail(503):ok()});
+assert.equal((await defaultFallback(url,options)).geminiModel,'gemini-3.5-flash-lite');
+console.log('PASS: default fallback uses the live-verified Gemini Flash Lite model.');

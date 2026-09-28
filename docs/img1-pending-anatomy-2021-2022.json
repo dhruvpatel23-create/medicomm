@@ -1,0 +1,135 @@
+[
+  {
+    "questionId": "ini-cet-2021-anatomy-q001",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2021-anatomy-q001.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2021-anatomy-q001-p161-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2021-anatomy-q002",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2021-anatomy-q002.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2021-anatomy-q002-p162-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2021-anatomy-q003",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2021-anatomy-q003.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2021-anatomy-q003-p162-i2.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2021-anatomy-q005",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2021-anatomy-q005.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2021-anatomy-q005-p163-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2021-anatomy-q010",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2021-anatomy-q010.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2021-anatomy-q010-p167-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2021-anatomy-q014",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2021-anatomy-q014.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2021-anatomy-q014-p169-i2.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2021-anatomy-q015",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2021-anatomy-q015.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2021-anatomy-q015-p170-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2021-anatomy-q016",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2021-anatomy-q016.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2021-anatomy-q016-p171-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2021-anatomy-q022",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2021-anatomy-q022.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2021-anatomy-q022-p174-i2.jp2",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "neet-pg-2021-anatomy-q003",
+    "year": 2021,
+    "currentImageUrl": "/uploads/medicomm-atlas-neet-pg-2021-anatomy-q003.png",
+    "sourceImageUrl": "/uploads/yellowfool-neet-pg-2021-anatomy-q003-p205-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2022-anatomy-q004",
+    "year": 2022,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2022-anatomy-q004.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2022-anatomy-q004-p220-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2022-anatomy-q022",
+    "year": 2022,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2022-anatomy-q022.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2022-anatomy-q022-p227-i1.jp2",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2022-anatomy-q024",
+    "year": 2022,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2022-anatomy-q024.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2022-anatomy-q024-p228-i1.jp2",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2022-anatomy-q027",
+    "year": 2022,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2022-anatomy-q027.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2022-anatomy-q027-p229-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2022-anatomy-q030",
+    "year": 2022,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2022-anatomy-q030.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2022-anatomy-q030-p231-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "ini-cet-2022-anatomy-q033",
+    "year": 2022,
+    "currentImageUrl": "/uploads/medicomm-atlas-ini-cet-2022-anatomy-q033.png",
+    "sourceImageUrl": "/uploads/yellowfool-ini-cet-2022-anatomy-q033-p232-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "neet-pg-2022-anatomy-q001",
+    "year": 2022,
+    "currentImageUrl": "/uploads/medicomm-atlas-neet-pg-2022-anatomy-q001.png",
+    "sourceImageUrl": "/uploads/yellowfool-neet-pg-2022-anatomy-q001-p284-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "neet-pg-2022-anatomy-q003",
+    "year": 2022,
+    "currentImageUrl": "/uploads/medicomm-atlas-neet-pg-2022-anatomy-q003.png",
+    "sourceImageUrl": "/uploads/yellowfool-neet-pg-2022-anatomy-q003-p285-i1.jpg",
+    "status": "pending-img1"
+  },
+  {
+    "questionId": "neet-pg-2022-anatomy-q005",
+    "year": 2022,
+    "currentImageUrl": "/uploads/medicomm-atlas-neet-pg-2022-anatomy-q005.png",
+    "sourceImageUrl": "/uploads/yellowfool-neet-pg-2022-anatomy-q005-p286-i2.jpg",
+    "status": "pending-img1"
+  }
+]

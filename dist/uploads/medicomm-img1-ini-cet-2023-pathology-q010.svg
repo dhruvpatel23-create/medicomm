@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <radialGradient id="temBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e293b"/><stop offset="80%" stop-color="#090d16"/><stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <radialGradient id="cytoGrad" cx="45%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#475569"/><stop offset="70%" stop-color="#334155"/><stop offset="100%" stop-color="#1e293b"/>
+    </radialGradient>
+    <radialGradient id="nucGrad" cx="40%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#1e1b4b"/><stop offset="60%" stop-color="#0f172a"/><stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#temBg)"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-360" y="-24" width="720" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">TRANSMISSION ELECTRON MICROSCOPY: HAIRY CELL</text>
+  </g>
+  <g transform="translate(480, 360)">
+    <path d="
+      M -150,-120 Q -190,-160 -210,-210 Q -185,-180 -140,-135
+      M -120,-150 Q -150,-210 -170,-260 Q -145,-215 -105,-160
+      M -80,-170 Q -95,-240 -105,-300 Q -85,-240 -65,-175
+      M -30,-180 Q -35,-250 -30,-310 Q -15,-250 -10,-180
+      M 20,-180 Q 30,-255 45,-315 Q 40,-250 40,-180
+      M 70,-170 Q 100,-235 130,-290 Q 105,-230 90,-165
+      M 120,-150 Q 165,-205 210,-255 Q 165,-200 135,-140
+      M 155,-115 Q 220,-160 280,-190 Q 220,-150 170,-100
+      M 175,-70 Q 245,-90 315,-95 Q 245,-80 185,-50
+      M 190,-20 Q 265,-25 330,-15 Q 260,-15 190,0
+      M 185,35 Q 260,50 320,80 Q 250,55 180,50
+      M 170,85 Q 235,130 290,175 Q 225,125 160,105
+      M 140,130 Q 185,195 230,250 Q 175,190 125,145
+      M 95,160 Q 130,230 155,295 Q 115,225 80,170
+      M 40,180 Q 55,250 65,315 Q 40,245 25,180
+      M -15,185 Q -25,255 -30,320 Q -30,250 -30,185
+      M -70,175 Q -95,240 -120,300 Q -95,235 -80,170
+      M -120,150 Q -175,205 -220,260 Q -170,200 -135,140
+      M -160,110 Q -230,150 -290,185 Q -225,140 -170,95
+      M -180,60 Q -255,80 -320,95 Q -250,70 -185,45
+      M -190,10 Q -265,10 -330,0 Q -260,0 -190,-10
+      M -180,-45 Q -255,-60 -315,-80 Q -245,-55 -175,-40
+      M -165,-90 Q -230,-125 -285,-165 Q -220,-120 -155,-85
+    " stroke="#64748b" stroke-width="5" fill="#475569" stroke-linecap="round"/>
+
+    <ellipse cx="0" cy="0" rx="190" ry="180" fill="url(#cytoGrad)" stroke="#64748b" stroke-width="3.5"/>
+
+    <!-- Indented Nucleus -->
+    <path d="M -90,-80 C -40,-110 50,-100 80,-50 C 110,0 95,80 40,110 C -20,130 -80,100 -95,40 C -105,-10 -115,-60 -90,-80 Z" fill="url(#nucGrad)" stroke="#1e293b" stroke-width="4"/>
+    <circle cx="0" cy="10" r="18" fill="#020617"/>
+  </g>
+
+  <!-- Scale Bar: Large Bold -->
+  <g transform="translate(100, 620)">
+    <line x1="0" y1="0" x2="120" y2="0" stroke="#f8fafc" stroke-width="5"/>
+    <line x1="0" y1="-10" x2="0" y2="10" stroke="#f8fafc" stroke-width="4"/>
+    <line x1="120" y1="-10" x2="120" y2="10" stroke="#f8fafc" stroke-width="4"/>
+    <text x="60" y="-16" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="20" font-weight="900" fill="#ffffff">1.0 µm</text>
+  </g>
+
+  
+  <g transform="translate(720, 220)">
+    <rect x="-155" y="-26" width="310" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Hair-Like Projections</text>
+    <path d="M -143,0 L -90,40" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="-90" cy="40" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff1f2"/><stop offset="85%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fecdd3"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-360" y="-24" width="720" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">LIVER HISTOLOGY: GORDON &amp; SWEET RETICULIN STAIN</text>
+  </g>
+  <g transform="translate(480, 360)">
+    <circle cx="0" cy="0" r="280" fill="url(#fieldGrad)" stroke="#334155" stroke-width="8"/>
+    <clipPath id="c1"><circle cx="0" cy="0" r="276"/></clipPath>
+    <g clip-path="url(#c1)">
+      <!-- Pale pink hepatocyte cord plates -->
+      <g fill="#fda4af" opacity="0.65">
+        <rect x="-240" y="-180" width="180" height="70" rx="8"/>
+        <rect x="-30" y="-200" width="220" height="75" rx="8"/>
+        <rect x="-260" y="-60" width="240" height="80" rx="8"/>
+        <rect x="20" y="-80" width="240" height="85" rx="8"/>
+        <rect x="-220" y="60" width="200" height="75" rx="8"/>
+        <rect x="10" y="50" width="230" height="80" rx="8"/>
+        <rect x="-140" y="160" width="260" height="80" rx="8"/>
+      </g>
+      <!-- Black Silver-Impregnated Reticulin Fiber Meshwork (Type III Collagen) -->
+      <g stroke="#020617" stroke-width="3" fill="none" stroke-linecap="round">
+        <path d="M -260,-190 C -180,-150 -120,-180 -50,-140 C 30,-170 120,-130 240,-160"/>
+        <path d="M -280,-70 C -190,-40 -80,-80 10,-50 C 110,-70 190,-40 280,-60"/>
+        <path d="M -270,50 C -170,80 -70,30 20,60 C 130,40 200,80 280,50"/>
+        <path d="M -250,150 C -150,180 -40,140 60,170 C 160,140 220,180 270,160"/>
+        <!-- Interconnecting sinusoid bridges -->
+        <path d="M -160,-180 L -160,-70 M -60,-170 L -60,-60 M 60,-160 L 60,-50 M 160,-150 L 160,-50"/>
+        <path d="M -200,-50 L -200,60 M -90,-60 L -90,40 M 40,-50 L 40,50 M 140,-50 L 140,50"/>
+        <path d="M -140,60 L -140,160 M -20,50 L -20,160 M 100,50 L 100,160"/>
+      </g>
+    </g>
+  </g>
+  
+  <g transform="translate(740, 260)">
+    <rect x="-155" y="-26" width="310" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Black Reticulin Fibers</text>
+    <path d="M -143,0 L -205,50" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="-205" cy="50" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

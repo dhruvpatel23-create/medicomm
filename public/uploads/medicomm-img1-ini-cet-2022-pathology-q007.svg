@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="gbGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="70%" stop-color="#166534"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">GROSS SPECIMEN: RESECTED GALLBLADDER LUMEN</text>
+  </g>
+
+  <!-- Gross Specimen Canvas -->
+  <g transform="translate(480, 350)" filter="url(#shadow)">
+    <!-- Opened Gallbladder Wall (Bile-stained dark greenish-olive velvety mucosa) -->
+    <path d="M -280,-160 C -180,-240 180,-240 280,-150 C 330,-40 310,120 250,190 C 180,260 -180,260 -250,180 C -310,100 -330,-50 -280,-160 Z"
+          fill="url(#gbGrad)" stroke="#052e16" stroke-width="4"/>
+
+    <!-- Rugose Mucosal Folds -->
+    <path d="M -220,-80 Q -100,-120 0,-90 T 220,-100" stroke="#14532d" stroke-width="6" fill="none" opacity="0.6"/>
+    <path d="M -200,40 Q -80,10 20,50 T 200,30" stroke="#14532d" stroke-width="6" fill="none" opacity="0.6"/>
+    <path d="M -180,120 Q -60,150 40,110 T 180,130" stroke="#14532d" stroke-width="5" fill="none" opacity="0.6"/>
+
+    <!-- Distinct Yellow-Tan Cholesterol Polyps Projecting from Mucosa -->
+    <!-- Primary Marked Polyp (Center) -->
+    <g transform="translate(-20, -10)">
+      <ellipse cx="0" cy="0" rx="22" ry="18" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+      <ellipse cx="-4" cy="-3" rx="8" ry="6" fill="#fef08a" opacity="0.8"/>
+      <path d="M -10,14 C -12,24 -8,32 -6,38 C -2,38 4,32 6,20 Z" fill="#ca8a04"/>
+    </g>
+
+    <!-- Satellite Polyps -->
+    <g transform="translate(100, -70)">
+      <circle cx="0" cy="0" r="14" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+      <circle cx="-3" cy="-2" r="5" fill="#fef08a"/>
+    </g>
+    <g transform="translate(140, 60)">
+      <circle cx="0" cy="0" r="12" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+      <circle cx="-2" cy="-2" r="4" fill="#fef08a"/>
+    </g>
+    <g transform="translate(-130, 70)">
+      <circle cx="0" cy="0" r="15" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+      <circle cx="-3" cy="-3" r="5" fill="#fef08a"/>
+    </g>
+
+    <!-- Marker Arrow to Primary Polyp -->
+    <g transform="translate(-160, -90)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#000000">!</text>
+      <!-- Arrow pointing to central yellow polyp -->
+      <line x1="16" y1="12" x2="110" y2="70" stroke="#f59e0b" stroke-width="3"/>
+      <polygon points="120,76 106,68 112,58" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

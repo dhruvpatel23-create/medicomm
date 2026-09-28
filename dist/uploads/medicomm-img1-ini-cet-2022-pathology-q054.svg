@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="brownGlass" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#78350f"/>
+      <stop offset="50%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">HEMATOLOGY LABORATORY INSTRUMENT</text>
+  </g>
+
+  <!-- Sahli's Comparator Box & Dilution Tube -->
+  <g transform="translate(480, 360)" filter="url(#shadow)">
+    <!-- Black Molded Plastic Comparator Stand -->
+    <rect x="-180" y="-180" width="360" height="360" rx="16" fill="#18181b" stroke="#3f3f46" stroke-width="3"/>
+
+    <!-- Left Standard Brown Glass Color Comparison Strip -->
+    <rect x="-130" y="-130" width="45" height="260" rx="6" fill="url(#brownGlass)" stroke="#27272a" stroke-width="2"/>
+
+    <!-- Right Standard Brown Glass Color Comparison Strip -->
+    <rect x="85" y="-130" width="45" height="260" rx="6" fill="url(#brownGlass)" stroke="#27272a" stroke-width="2"/>
+
+    <!-- Central Slot with Graduated Dilution Tube containing Acid Hematin -->
+    <rect x="-35" y="-160" width="70" height="320" rx="6" fill="#f8fafc" opacity="0.2" stroke="#94a3b8" stroke-width="2"/>
+
+    <!-- Diluted Brown Acid Hematin Liquid Column in Center -->
+    <rect x="-28" y="-40" width="56" height="195" rx="4" fill="url(#brownGlass)" opacity="0.95"/>
+
+    <!-- Graduated Markings (g/dL and % Hb) on Central Tube -->
+    <line x1="-33" y1="-140" x2="-22" y2="-140" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="-140" x2="33" y2="-140" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="-116" x2="-22" y2="-116" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="-116" x2="33" y2="-116" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="-92" x2="-22" y2="-92" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="-92" x2="33" y2="-92" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="-68" x2="-22" y2="-68" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="-68" x2="33" y2="-68" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="-44" x2="-22" y2="-44" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="-44" x2="33" y2="-44" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="-20" x2="-22" y2="-20" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="-20" x2="33" y2="-20" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="4" x2="-22" y2="4" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="4" x2="33" y2="4" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="28" x2="-22" y2="28" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="28" x2="33" y2="28" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="52" x2="-22" y2="52" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="52" x2="33" y2="52" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="76" x2="-22" y2="76" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="76" x2="33" y2="76" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="100" x2="-22" y2="100" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="100" x2="33" y2="100" stroke="#ffffff" stroke-width="1.5"/><line x1="-33" y1="124" x2="-22" y2="124" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="22" y1="124" x2="33" y2="124" stroke="#ffffff" stroke-width="1.5"/>
+
+    <!-- Glass Stirrer rod protruding from top -->
+    <rect x="-4" y="-220" width="8" height="120" rx="3" fill="#cbd5e1" opacity="0.8" stroke="#64748b"/>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

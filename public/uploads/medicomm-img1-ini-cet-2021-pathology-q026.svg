@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="microscopeGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdf2f8"/>
+      <stop offset="85%" stop-color="#fce7f3"/>
+      <stop offset="100%" stop-color="#f472b6"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-270" y="-18" width="540" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">LYMPH NODE CYTOMORPHOLOGY: HIGH-POWER FIELD</text>
+  </g>
+
+  <!-- Microscope Circular Field -->
+  <g transform="translate(480, 345)" filter="url(#shadow)">
+    <circle cx="0" cy="0" r="236" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+    <circle cx="0" cy="0" r="230" fill="url(#microscopeGrad)"/>
+
+    <g clip-path="url(#circleClip)">
+      <clipPath id="circleClip">
+        <circle cx="0" cy="0" r="230"/>
+      </clipPath>
+
+      <!-- Reactive Background: Small mature lymphocytes, histiocytes, eosinophils -->
+      <circle cx="75" cy="0" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="78.40857412857638" cy="39.951163977080114" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="59.366310481539784" cy="81.7107164318697" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="17.833529014586325" cy="112.5964708278457" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-39.24515828561831" cy="120.78417756948451" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-98.99494936611664" cy="98.99494936611666" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-145.51164699315848" cy="47.27960013936697" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-163.95626453879288" cy="-25.9681211966783" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="-144.81404199311558" cy="-105.21356016035267" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-87.166175949993" cy="-171.07325264416662" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-3.765788907378111e-14" cy="-205" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="98.96992894322116" cy="-194.23942227306424" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="69.57546151624547" cy="-50.54953169715271" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="97.78114571891862" cy="-15.487012038982881" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="106.51832982505721" cy="34.609903369994086" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="88.38834764831846" cy="88.38834764831842" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="42.64434522374279" cy="131.24579924873117" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-23.62160422107495" cy="149.1409394298658" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-96.39678137596556" cy="132.6787870774914" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-157.70815478134116" cy="80.35631845389969" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-190" cy="6.980486755139912e-14" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-180.87432441023864" cy="-92.16007144712809" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="-126.96161449517427" cy="-174.7476707849886" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-13.140495063379353" cy="-82.96582060999157" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="29.97464845436986" cy="-92.25248208062992" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="77.78174593052026" cy="-77.7817459305202" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="116.97995150430387" cy="-38.009090308118594" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="134.3256143209387" cy="21.27508724547145" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="120.54353216186722" cy="87.58000259157843" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="73.54646095780653" cy="144.34305691851563" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="9.644093543285407e-14" cy="175" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-85.35021395103485" cy="167.50922654741314" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-162.61241586936438" cy="118.14483571078719" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-211.36530488735949" cy="33.47697551860934" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-77.98663433620256" cy="-25.339393538745778" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-67.175144212722" cy="-67.17514421272203" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="-33.37383539249439" cy="-102.71410375987656" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="18.92857026986775" cy="-119.5102892120117" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="78.76322380719152" cy="-108.40827724624287" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="130.9779590556901" cy="-66.73660346171336" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="160" cy="-1.175660927181459e-13" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="154.14412868458777" cy="78.54035645494133" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="109.32805692639985" cy="150.47716095374034" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="31.130458543005926" cy="196.54997977843243" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-65.5116028074887" cy="201.62398145457263" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-56.568542494923705" cy="56.5685424949239" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-88.4482560154493" cy="28.73858047687003" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-104.6949641030846" cy="-16.582053294264476" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-96.2730223306188" cy="-69.94644502280423" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-59.92674596562039" cy="-117.61286119286444" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="1.2439140230576165e-13" cy="-145" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="71.73049895884839" cy="-140.77903082176212" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="138.34190603811592" cy="-100.51127814201304" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="181.7346546695053" cy="-28.783941567402817" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="187.3581337101452" cy="60.87634789186479" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="148.49242404917499" cy="148.49242404917496" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="24.103325561245974" cy="74.18240827102196" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="-14.235536318660834" cy="89.87963899415756" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-61.129666238417265" cy="84.13776741499449" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-104.24776333003904" cy="53.116888469527" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-130" cy="1.4328367550024033e-13" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-127.41393295893674" cy="-64.92064146275494" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-91.69449935762572" cy="-126.20665112249185" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-26.437424591799065" cy="-166.91932956057826" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="56.241092976240225" cy="-173.09228596571802" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="137.88582233137646" cy="-137.88582233137706" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="197.819755389392" cy="-64.27553482998896" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="75.06431388523048" cy="11.889019343057521" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="72.0025124993702" cy="52.312887454030275" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="46.30703097343397" cy="90.88266546721343" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-5.640493553398591e-14" cy="115" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="-58.110783966661536" cy="114.04883509611132" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-114.07139620686748" cy="82.87772057323888" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-152.10400445165124" cy="24.090907616195352" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-158.8264382212908" cy="-51.605838060615724" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-127.27922061357862" cy="-127.27922061357849" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="-59.64027991436446" cy="-183.55390764496477" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="32.22549979828709" cy="-203.46379816259844" r="6.5" fill="#ef4444" opacity="0.8"/><circle cx="128.72497025205166" cy="-177.17472176811344" r="4.5" fill="#312e81" opacity="0.6"/><circle cx="77.51756760438785" cy="-39.497173477340894" r="4.5" fill="#312e81" opacity="0.6"/>
+
+      <!-- Centerpiece: Classic Binucleated Reed-Sternberg Cell (Owl-Eye Appearance) -->
+      <g transform="translate(0, 0)">
+        <!-- Abundant slightly amphophilic / eosinophilic cytoplasm -->
+        <ellipse cx="0" cy="0" rx="90" ry="75" fill="#f472b6" opacity="0.65" stroke="#be185d" stroke-width="2.5"/>
+
+        <!-- Twin / Mirror-image Bilobed Nucleus -->
+        <!-- Left lobe -->
+        <g transform="translate(-32, -5)">
+          <ellipse cx="0" cy="0" rx="30" ry="32" fill="#e9d5ff" stroke="#6b21a8" stroke-width="3"/>
+          <!-- Clear perinucleolar halo -->
+          <circle cx="0" cy="0" r="16" fill="#ffffff" opacity="0.8"/>
+          <!-- Huge, inclusion-like cherry-red nucleolus -->
+          <circle cx="0" cy="0" r="10" fill="#be123c" stroke="#881337" stroke-width="1.5"/>
+        </g>
+
+        <!-- Right lobe -->
+        <g transform="translate(32, -5)">
+          <ellipse cx="0" cy="0" rx="30" ry="32" fill="#e9d5ff" stroke="#6b21a8" stroke-width="3"/>
+          <circle cx="0" cy="0" r="16" fill="#ffffff" opacity="0.8"/>
+          <circle cx="0" cy="0" r="10" fill="#be123c" stroke="#881337" stroke-width="1.5"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Marker Arrow to Diagnostic Owl-Eye Nuclei -->
+    <g transform="translate(-160, -110)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#000000">!</text>
+      <!-- Slim arrow to twin nucleoli -->
+      <line x1="16" y1="12" x2="105" y2="75" stroke="#f59e0b" stroke-width="3"/>
+      <polygon points="115,82 101,73 107,63" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

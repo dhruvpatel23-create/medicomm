@@ -1,0 +1,236 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+
+    <!-- Field background -->
+    <radialGradient id="fieldLight" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </radialGradient>
+
+    <!-- RBC Gradient -->
+    <radialGradient id="rbcGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fee2e2"/>
+      <stop offset="40%" stop-color="#fca5a5"/>
+      <stop offset="85%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </radialGradient>
+
+    <!-- Chromatin gradients -->
+    <linearGradient id="purpleNuc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#581c87"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+
+    <linearGradient id="darkBasoNuc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#312e81"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Drop Shadow -->
+    <filter id="boxShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-300" y="-20" width="600" height="40" rx="20" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#f8fafc" letter-spacing="1">PERIPHERAL BLOOD LEUKOCYTE MORPHOLOGY</text>
+  </g>
+
+  <!-- 4-Quadrant Composite Microscopy Panels -->
+  <!-- ================= PANEL 1: EOSINOPHIL (Top-Left) ================= -->
+  <g transform="translate(80, 80)" filter="url(#boxShadow)">
+    <!-- Frame Box -->
+    <rect x="0" y="0" width="380" height="250" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="6" y="6" width="368" height="238" rx="8" fill="url(#fieldLight)"/>
+    
+    <!-- RBCs scattered in panel 1 -->
+    <g fill="url(#rbcGrad)" stroke="#991b1b" stroke-width="0.7">
+      <circle cx="45" cy="50" r="16"/><circle cx="85" cy="40" r="15"/>
+      <circle cx="330" cy="50" r="16"/><circle cx="340" cy="90" r="15"/>
+      <circle cx="50" cy="190" r="16"/><circle cx="90" cy="205" r="15"/>
+      <circle cx="320" cy="180" r="16"/><circle cx="280" cy="210" r="15"/>
+      <circle cx="40" cy="120" r="15"/>
+    </g>
+
+    <!-- Eosinophil (Center of Panel 1: 190, 125) -->
+    <g transform="translate(190, 125)">
+      <!-- Cytoplasm with brick-red/orange coarse granules -->
+      <circle cx="0" cy="0" r="54" fill="#ffedd5" stroke="#fb923c" stroke-width="1.5"/>
+      
+      <!-- Brick-Red / Bright Orange Eosinophilic Granules -->
+      <g fill="#ea580c" opacity="0.85">
+        <!-- Granule dense distribution -->
+        <circle cx="-38" cy="-15" r="2.8"/><circle cx="-32" cy="-28" r="3"/><circle cx="-20" cy="-36" r="3.2"/><circle cx="-5" cy="-42" r="3"/>
+        <circle cx="10" cy="-40" r="3.2"/><circle cx="25" cy="-35" r="3"/><circle cx="38" cy="-20" r="2.8"/><circle cx="42" cy="-5" r="3"/>
+        <circle cx="40" cy="15" r="3"/><circle cx="35" cy="30" r="3.2"/><circle cx="20" cy="38" r="3"/><circle cx="5" cy="42" r="3.2"/>
+        <circle cx="-15" cy="40" r="3"/><circle cx="-30" cy="32" r="2.8"/><circle cx="-42" cy="15" r="3"/><circle cx="-42" cy="-2" r="3"/>
+        <!-- Central granules -->
+        <circle cx="-10" cy="-10" r="3"/><circle cx="12" cy="-12" r="3.2"/><circle cx="0" cy="0" r="3.5"/><circle cx="-12" cy="12" r="3"/>
+        <circle cx="10" cy="15" r="3"/><circle cx="-25" cy="-5" r="3.2"/><circle cx="25" cy="5" r="3"/><circle cx="-5" cy="-25" r="3"/>
+        <circle cx="5" cy="28" r="3.2"/><circle cx="-25" cy="15" r="3"/><circle cx="25" cy="-20" r="3"/>
+      </g>
+
+      <!-- Bilobed Spectacle-Shaped Nucleus (Connected by thin isthmus) -->
+      <!-- Chromatin Isthmus -->
+      <path d="M -16,0 Q 0,-4 16,0" stroke="#3b0764" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <!-- Left Lobe -->
+      <ellipse cx="-20" cy="0" rx="16" ry="24" transform="rotate(-15 -20 0)" fill="url(#purpleNuc)" stroke="#2e1065" stroke-width="1.2"/>
+      <!-- Right Lobe -->
+      <ellipse cx="20" cy="0" rx="16" ry="24" transform="rotate(15 20 0)" fill="url(#purpleNuc)" stroke="#2e1065" stroke-width="1.2"/>
+    </g>
+
+    <!-- BADGE 1 (Circular Blue Badge) -->
+    <g transform="translate(30, 30)">
+      <circle cx="0" cy="0" r="16" fill="#0284c7" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="900" fill="#ffffff">1</text>
+      <!-- Slim pointer pointing to eosinophil -->
+      <line x1="16" y1="16" x2="135" y2="95" stroke="#0284c7" stroke-width="2" stroke-dasharray="4 2"/>
+    </g>
+  </g>
+
+  <!-- ================= PANEL 2: LYMPHOCYTE (Top-Right) ================= -->
+  <g transform="translate(500, 80)" filter="url(#boxShadow)">
+    <rect x="0" y="0" width="380" height="250" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="6" y="6" width="368" height="238" rx="8" fill="url(#fieldLight)"/>
+    
+    <!-- RBCs -->
+    <g fill="url(#rbcGrad)" stroke="#991b1b" stroke-width="0.7">
+      <circle cx="45" cy="50" r="16"/><circle cx="85" cy="40" r="15"/>
+      <circle cx="330" cy="50" r="16"/><circle cx="340" cy="90" r="15"/>
+      <circle cx="50" cy="190" r="16"/><circle cx="90" cy="205" r="15"/>
+      <circle cx="320" cy="180" r="16"/><circle cx="280" cy="210" r="15"/>
+      <circle cx="340" cy="140" r="15"/>
+    </g>
+
+    <!-- Small Mature Lymphocyte (Center: 190, 125, size ~9um) -->
+    <g transform="translate(190, 125)">
+      <!-- Narrow rim of pale sky-blue cytoplasm -->
+      <circle cx="0" cy="0" r="44" fill="#e0f2fe" stroke="#38bdf8" stroke-width="1.5"/>
+      
+      <!-- Dense, round, darkly stained clumped nucleus (high N:C ratio) -->
+      <circle cx="-2" cy="-1" r="37" fill="url(#purpleNuc)" stroke="#1e1b4b" stroke-width="1.5"/>
+      
+      <!-- Smudgy clumped chromatin details -->
+      <ellipse cx="-10" cy="-10" rx="8" ry="6" fill="#1e1b4b" opacity="0.6"/>
+      <ellipse cx="12" cy="8" rx="10" ry="7" fill="#1e1b4b" opacity="0.6"/>
+      <ellipse cx="-8" cy="12" rx="7" ry="5" fill="#1e1b4b" opacity="0.6"/>
+    </g>
+
+    <!-- BADGE 2 (Circular Blue Badge) -->
+    <g transform="translate(30, 30)">
+      <circle cx="0" cy="0" r="16" fill="#0284c7" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="900" fill="#ffffff">2</text>
+      <!-- Slim pointer pointing to lymphocyte -->
+      <line x1="16" y1="16" x2="145" y2="95" stroke="#0284c7" stroke-width="2" stroke-dasharray="4 2"/>
+    </g>
+  </g>
+
+  <!-- ================= PANEL 3: BASOPHIL (Bottom-Left) ================= -->
+  <g transform="translate(80, 350)" filter="url(#boxShadow)">
+    <rect x="0" y="0" width="380" height="250" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="6" y="6" width="368" height="238" rx="8" fill="url(#fieldLight)"/>
+    
+    <!-- RBCs -->
+    <g fill="url(#rbcGrad)" stroke="#991b1b" stroke-width="0.7">
+      <circle cx="45" cy="50" r="16"/><circle cx="85" cy="40" r="15"/>
+      <circle cx="330" cy="50" r="16"/><circle cx="340" cy="90" r="15"/>
+      <circle cx="50" cy="190" r="16"/><circle cx="90" cy="205" r="15"/>
+      <circle cx="320" cy="180" r="16"/><circle cx="280" cy="210" r="15"/>
+      <circle cx="40" cy="120" r="15"/>
+    </g>
+
+    <!-- Basophil (Center: 190, 125) -->
+    <g transform="translate(190, 125)">
+      <!-- Cytoplasm -->
+      <circle cx="0" cy="0" r="52" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5"/>
+
+      <!-- Underlying S-shaped nucleus (partially masked by granules) -->
+      <path d="M -22,-18 Q -5,-30 15,-15 Q 25,5 0,15 Q -25,25 5,30" stroke="#312e81" stroke-width="18" stroke-linecap="round" fill="none" opacity="0.6"/>
+
+      <!-- Large, Coarse, Dark Blue-Black Metachromatic Granules (Overlying nucleus) -->
+      <g fill="#1e1b4b" stroke="#09090b" stroke-width="0.8">
+        <circle cx="-35" cy="-20" r="4.2"/><circle cx="-24" cy="-32" r="4.5"/><circle cx="-8" cy="-38" r="4.8"/><circle cx="10" cy="-36" r="4.5"/>
+        <circle cx="26" cy="-28" r="4.2"/><circle cx="36" cy="-14" r="4.6"/><circle cx="40" cy="2" r="4.5"/><circle cx="35" cy="18" r="4.8"/>
+        <circle cx="24" cy="30" r="4.2"/><circle cx="8" cy="38" r="4.5"/><circle cx="-10" cy="36" r="4.8"/><circle cx="-26" cy="28" r="4.2"/>
+        <circle cx="-36" cy="14" r="4.5"/><circle cx="-40" cy="-2" r="4.8"/>
+        <!-- Central overlapping granules directly covering the nucleus -->
+        <circle cx="-18" cy="-12" r="4.5"/><circle cx="-4" cy="-18" r="4.8"/><circle cx="12" cy="-14" r="4.6"/>
+        <circle cx="-15" cy="4" r="4.6"/><circle cx="0" cy="0" r="5"/><circle cx="16" cy="6" r="4.8"/>
+        <circle cx="-6" cy="18" r="4.8"/><circle cx="10" cy="22" r="4.5"/><circle cx="-22" cy="12" r="4.2"/>
+        <circle cx="25" cy="-5" r="4.5"/><circle cx="-8" cy="-5" r="4.8"/>
+      </g>
+    </g>
+
+    <!-- BADGE 3 (Circular Blue Badge) -->
+    <g transform="translate(30, 30)">
+      <circle cx="0" cy="0" r="16" fill="#0284c7" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="900" fill="#ffffff">3</text>
+      <!-- Slim pointer pointing to basophil -->
+      <line x1="16" y1="16" x2="135" y2="95" stroke="#0284c7" stroke-width="2" stroke-dasharray="4 2"/>
+    </g>
+  </g>
+
+  <!-- ================= PANEL 4: MONOCYTE (Bottom-Right) ================= -->
+  <g transform="translate(500, 350)" filter="url(#boxShadow)">
+    <rect x="0" y="0" width="380" height="250" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="6" y="6" width="368" height="238" rx="8" fill="url(#fieldLight)"/>
+    
+    <!-- RBCs -->
+    <g fill="url(#rbcGrad)" stroke="#991b1b" stroke-width="0.7">
+      <circle cx="45" cy="50" r="16"/><circle cx="85" cy="40" r="15"/>
+      <circle cx="330" cy="50" r="16"/><circle cx="340" cy="90" r="15"/>
+      <circle cx="50" cy="190" r="16"/><circle cx="90" cy="205" r="15"/>
+      <circle cx="320" cy="180" r="16"/><circle cx="280" cy="210" r="15"/>
+      <circle cx="340" cy="140" r="15"/>
+    </g>
+
+    <!-- Large Monocyte (Center: 190, 125, size ~18-20um) -->
+    <g transform="translate(190, 125)">
+      <!-- Abundant Grayish-Blue Cytoplasm with fine vacuoles -->
+      <circle cx="0" cy="0" r="64" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+      
+      <!-- Fine cytoplasmic vacuoles -->
+      <circle cx="-42" cy="-20" r="3.5" fill="#f8fafc" stroke="#94a3b8" stroke-width="0.6"/>
+      <circle cx="38" cy="35" r="4" fill="#f8fafc" stroke="#94a3b8" stroke-width="0.6"/>
+      <circle cx="-35" cy="30" r="3" fill="#f8fafc" stroke="#94a3b8" stroke-width="0.6"/>
+
+      <!-- Large Kidney-Shaped (Reniform / Folded) Nucleus -->
+      <path d="M -15,-40 C 20,-45 42,-20 40,15 C 38,40 10,48 -15,40 C -35,32 -38,10 -35,-15 C -32,-30 -25,-38 -15,-40 Z 
+               M -5,-15 C 8,-15 15,-5 12,12 C 10,22 0,22 -8,18 C -18,12 -18,-5 -5,-15 Z" 
+            fill="url(#purpleNuc)" stroke="#1e1b4b" stroke-width="1.5" fill-rule="evenodd"/>
+    </g>
+
+    <!-- BADGE 4 (Circular Blue Badge) -->
+    <g transform="translate(30, 30)">
+      <circle cx="0" cy="0" r="16" fill="#0284c7" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="900" fill="#ffffff">4</text>
+      <!-- Slim pointer pointing to monocyte -->
+      <line x1="16" y1="16" x2="135" y2="95" stroke="#0284c7" stroke-width="2" stroke-dasharray="4 2"/>
+    </g>
+  </g>
+
+  <!-- Educational Summary Legend (Bottom Center) -->
+  <g transform="translate(240, 620)">
+    <rect x="0" y="0" width="480" height="42" rx="21" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="240" y="26" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#e2e8f0">
+      <tspan fill="#38bdf8">1:</tspan> Eosinophil &#160;|&#160; 
+      <tspan fill="#38bdf8">2:</tspan> Lymphocyte &#160;|&#160; 
+      <tspan fill="#38bdf8">3:</tspan> Basophil &#160;|&#160; 
+      <tspan fill="#38bdf8">4:</tspan> Monocyte
+    </text>
+  </g>
+
+  <!-- Medicomm Watermark -->
+  <text x="32" y="680" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#ffffff" opacity="0.35" letter-spacing="1">medicomm</text>
+</svg>

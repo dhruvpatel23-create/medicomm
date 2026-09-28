@@ -4,13 +4,16 @@ import WebsiteReviews from "./components/WebsiteReviews";
 import PracticeSelection from "./components/PracticeSelection";
 import UsmleModules from "./components/UsmleModules";
 import FmgeYears from "./components/FmgeYears";
+import ShortNotes from "./components/ShortNotes";
+import AnswerNotepad from "./components/AnswerNotepad";
+import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20260917-fmge";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20260928-microbiology-2023-2024";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -2793,7 +2796,7 @@ async function fetchPracticeLibrary() {
     return (
       <div className="auth-shell">
         <section className="auth-hero">
-          <div className="auth-brand"><span className="brand-mark">M</span><strong><span className="brand-medi">Medi</span><span className="brand-comm">Comm</span></strong></div>
+          <div className="auth-brand"><span className="brand-mark" aria-hidden="true"><BrandMark title="" /></span><strong><span className="brand-medi">Medi</span><span className="brand-comm">Comm</span></strong></div>
           <p className="eyebrow">Built for serious medical preparation</p>
           <h1>Study with clarity.<br /><span>Perform with confidence.</span></h1>
           <p>
@@ -3195,6 +3198,8 @@ async function fetchPracticeLibrary() {
   }
 
   function renderPractice() {
+    const isTheory = practicePathTitle === "THEORY";
+    const catalogTitle = isTheory ? "Cases and short notes by subject" : `${practiceLibrary.exam.title} by year and subject`;
     if (practiceStage === "selection") {
       return <PracticeSelection onSelect={(title, id) => {
         setPracticePathTitle(title);
@@ -3228,8 +3233,8 @@ async function fetchPracticeLibrary() {
         <section className="app-view">
           <div className="view-header">
             <div>
-              <p className="eyebrow">Practice</p>
-              <h2>NEET PG PYQs by year and subject</h2>
+              <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
+              <h2>{catalogTitle}</h2>
             </div>
           </div>
 
@@ -3247,8 +3252,8 @@ async function fetchPracticeLibrary() {
         <section className="app-view">
           <div className="view-header">
             <div>
-              <p className="eyebrow">Practice</p>
-              <h2>NEET PG PYQs by year and subject</h2>
+              <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
+              <h2>{catalogTitle}</h2>
             </div>
           </div>
 
@@ -3268,8 +3273,8 @@ async function fetchPracticeLibrary() {
         <section className="app-view">
           <div className="view-header">
             <div>
-              <p className="eyebrow">Practice</p>
-              <h2>NEET PG PYQs by year and subject</h2>
+              <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
+              <h2>{catalogTitle}</h2>
             </div>
           </div>
 
@@ -3279,6 +3284,18 @@ async function fetchPracticeLibrary() {
           </article>
         </section>
       );
+    }
+
+    if (isTheory && practiceStage === "short-notes") {
+      return <ShortNotes
+        key={`${user?.id || "guest"}-${selectedPracticeSubjectId}`}
+        subjectId={selectedPracticeSubjectId}
+        subjectTitle={currentPracticeSubject?.title}
+        userId={user?.id}
+        onBack={handleBackToPracticeDirectory}
+        prepareImage={prepareVivaAnswerImage}
+        onNavigate={scrollPracticeViewToTop}
+      />;
     }
 
     const isUsmlePractice = selectedPracticeMode === "usmle";
@@ -3627,6 +3644,7 @@ async function fetchPracticeLibrary() {
                     </div>
                   )}
                   <small>Use good lighting, keep the full page in frame, and do not include patient-identifiable information.</small>
+                  <AnswerNotepad key={currentClinicalCase.id} draftId={`clinical:${user?.id || "guest"}:${clinicalSession.id}:${currentClinicalCase.id}`} prompt={currentClinicalCase.stem} disabled={clinicalAnswerBusy || clinicalAnswerImageBusy} hasImage={Boolean(clinicalAnswerImage)} onSave={image => { setClinicalAnswerImage(image); setClinicalAnswerMessage(""); }} />
                 </section>
 
                 {clinicalAnswerMessage ? <p className="form-message" role="alert">{clinicalAnswerMessage}</p> : null}
@@ -3933,6 +3951,7 @@ async function fetchPracticeLibrary() {
                     </div>
                   )}
                   <small>For best results, use good lighting, keep the full page in frame, and avoid patient-identifiable information.</small>
+                  <AnswerNotepad key={currentVivaQuestion.id} draftId={`viva:${user?.id || "guest"}:${vivaSession.id}:${currentVivaQuestion.id}`} prompt={currentVivaQuestion.prompt} disabled={vivaAnswerBusy || vivaAnswerImageBusy} hasImage={Boolean(vivaAnswerImage)} onSave={image => { setVivaAnswerImage(image); setVivaAnswerMessage(""); }} />
                 </section>
 
                 {vivaAnswerMessage ? <p className="form-message" role="alert">{vivaAnswerMessage}</p> : null}
@@ -4113,7 +4132,7 @@ async function fetchPracticeLibrary() {
         <section className="app-view">
           <div className="view-header">
             <div>
-              <p className="eyebrow">Practice</p>
+              <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
               <h2>{isSupplementalPractice ? `${directoryModeTitle} are not ready yet` : "No questions found"}</h2>
             </div>
             <button className="button button-secondary" onClick={() => isDirectoryPractice ? setPracticeStage("topics") : handleBackToPracticeDirectory()}>
@@ -4145,7 +4164,7 @@ async function fetchPracticeLibrary() {
         <section className={`app-view practice-detail-view${isModulePractice ? " usmle-module-session practice-path-red" : isFmgePractice ? " fmge-session usmle-module-session practice-path-teal" : ""}`}>
           <div className="view-header">
             <div>
-              <p className="eyebrow">Practice</p>
+              <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
               <h2>
                 {currentPracticeSubject.title}{" "}
                 {isFmgePractice ? "practice" : isSupplementalPractice ? directoryModeTitle : currentPracticeQuestionSet?.title ?? "PYQ session"}
@@ -4355,8 +4374,8 @@ async function fetchPracticeLibrary() {
       <section className="app-view">
         <div className="view-header">
           <div>
-            <p className="eyebrow">Practice</p>
-            <h2>{practiceLibrary.exam.title} by year and subject</h2>
+            <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
+            <h2>{catalogTitle}</h2>
           </div>
           <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
             Back
@@ -4372,19 +4391,36 @@ async function fetchPracticeLibrary() {
                 x
               </button>
               <div className="practice-choice-heading">
-                <div className="icon-badge green">{practiceChoicePanel === "pyq" ? "PYQ" : "MCQ"}</div>
+                <div className="icon-badge green">{isTheory ? "TH" : practiceChoicePanel === "pyq" ? "PYQ" : "MCQ"}</div>
                 <div>
                   <h3 id="practice-choice-title">
-                    {practiceChoicePanel === "pyq" ? `${practiceChoiceSubject.title} PYQs` : `Practice ${practiceChoiceSubject.title}`}
+                    {isTheory ? `${practiceChoiceSubject.title} Theory` : practiceChoicePanel === "pyq" ? `${practiceChoiceSubject.title} PYQs` : `Practice ${practiceChoiceSubject.title}`}
                   </h3>
                   <p>
-                    {practiceChoicePanel === "pyq"
+                    {isTheory ? "Choose cases or short notes to study this subject." : practiceChoicePanel === "pyq"
                       ? "Choose a year to start solving official previous year questions."
                       : "Choose PYQs, topic-wise practice, USMLE Step-1 questions, Mind Maps, an AI viva, or Clinical Cases."}
                   </p>
                 </div>
               </div>
-              {practiceChoicePanel === "pyq" ? (
+              {isTheory ? (
+                <div className="practice-choice-grid">
+                  <button className="practice-choice-card practice-choice-card-clinical" type="button" onClick={() => handleStartClinicalCasesSetup(practiceChoiceSubject.id)}>
+                    <span className="practice-choice-icon">CASE</span><strong>Cases</strong>
+                    <p>Apply your knowledge with clinical cases and structured theory answers.</p>
+                  </button>
+                  <button className="practice-choice-card practice-choice-card-mind-maps" type="button" onClick={() => {
+                    setSelectedPracticeSubjectId(practiceChoiceSubject.id);
+                    setSelectedPracticeMode("pyq");
+                    closePracticeChoice();
+                    setPracticeStage("short-notes");
+                    scrollPracticeViewToTop();
+                  }}>
+                    <span className="practice-choice-icon">NOTE</span><strong>Short Notes</strong>
+                    <p>Choose a topic, write a theory answer, and get AI feedback.</p>
+                  </button>
+                </div>
+              ) : practiceChoicePanel === "pyq" ? (
                 <div className="practice-year-picker">
                   <div className="practice-choice-section-heading">
                     <button className="practice-choice-back-link" type="button" onClick={() => setPracticeChoicePanel("formats")}>
@@ -4507,10 +4543,9 @@ async function fetchPracticeLibrary() {
                       onClick={() => handleSelectPracticeSubject(subject.id)}
                     >
                       <span className="practice-subject-label">{subject.title}</span>
-                      <p className="practice-subject-copy">Choose PYQs, topic-wise questions, USMLE practice, Mind Maps, an AI viva, or Clinical Cases.</p>
+                      <p className="practice-subject-copy">{isTheory ? "Study this subject through cases and short notes." : "Choose PYQs, topic-wise questions, USMLE practice, Mind Maps, an AI viva, or Clinical Cases."}</p>
                       <span className="practice-subject-counts">
-                        <strong>{subject.questions.length} PYQs</strong>
-                        <strong>{aiQuestionCount} Topic Wise</strong>
+                        {isTheory ? <><strong>Cases</strong><strong>Short Notes</strong></> : <><strong>{subject.questions.length} PYQs</strong><strong>{aiQuestionCount} Topic Wise</strong></>}
                       </span>
                     </button>
                   );
@@ -4518,7 +4553,7 @@ async function fetchPracticeLibrary() {
               </div>
             </section>
           ))}
-          {supplementalAiPracticeSubjects.length ? (
+          {!isTheory && supplementalAiPracticeSubjects.length ? (
             <section className="card panel practice-year-section">
               <div className="panel-heading-split">
                 <div>

@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#04070e" />
+      <stop offset="100%" stop-color="#000000" />
+    </linearGradient>
+
+    <!-- Curve Glow & Stroke Gradient -->
+    <linearGradient id="curveGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#60a5fa" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+
+    <!-- Point Glow Filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Marker Arrow -->
+    <marker id="axisArrow" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto">
+      <path d="M 1 1 L 7 4 L 1 7 z" fill="#94a3b8" />
+    </marker>
+  </defs>
+
+  <style>
+    .axis-label { font-family: system-ui, -apple-system, sans-serif; font-size: 28px; font-weight: 700; fill: #ffffff; letter-spacing: 0.5px; }
+    .tick-label { font-family: system-ui, -apple-system, sans-serif; font-size: 18px; font-weight: 500; fill: #64748b; }
+    .chart-title { font-family: system-ui, -apple-system, sans-serif; font-size: 26px; font-weight: 700; fill: #e2e8f0; }
+    .point-badge { font-family: system-ui, -apple-system, sans-serif; font-size: 26px; font-weight: 800; fill: #ffffff; }
+    .point-sub { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 600; fill: #93c5fd; }
+    .watermark { font-family: system-ui, -apple-system, sans-serif; font-size: 18px; font-weight: 600; fill: #64748b; letter-spacing: 0.5px; }
+    .grid-line { stroke: #1e293b; stroke-width: 1; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Pure Black Background -->
+  <rect width="1200" height="900" fill="#000000" />
+
+  <!-- Inner Chart Card -->
+  <rect x="50" y="40" width="1100" height="800" rx="16" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="2" />
+
+  <!-- Chart Title -->
+  <text x="320" y="140" class="chart-title">Acid mixture</text>
+
+  <!-- ==================== AXES ==================== -->
+  <!-- Origin: (240, 700), Top: (240, 150), Right: (1050, 700) -->
+  
+  <!-- Y Axis (NaOH) -->
+  <line x1="240" y1="720" x2="240" y2="130" stroke="#64748b" stroke-width="3" marker-end="url(#axisArrow)" />
+  <text x="170" y="440" class="axis-label" transform="rotate(-90, 170, 440)" text-anchor="middle">NaOH</text>
+
+  <!-- Y-Axis Ticks -->
+  <line x1="225" y1="650" x2="240" y2="650" stroke="#64748b" stroke-width="2.5" />
+  <line x1="225" y1="520" x2="240" y2="520" stroke="#64748b" stroke-width="2.5" />
+  <line x1="225" y1="390" x2="240" y2="390" stroke="#64748b" stroke-width="2.5" />
+  <line x1="225" y1="260" x2="240" y2="260" stroke="#64748b" stroke-width="2.5" />
+
+  <!-- X Axis (pH) -->
+  <line x1="220" y1="700" x2="1060" y2="700" stroke="#64748b" stroke-width="3" marker-end="url(#axisArrow)" />
+  <text x="650" y="760" class="axis-label" text-anchor="middle">pH</text>
+
+  <!-- ==================== PROJECTION LINES ==================== -->
+  <!-- Projection for Point A (Y=520, X=560) -->
+  <line x1="240" y1="520" x2="560" y2="520" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6" />
+
+  <!-- Projection for Point B (Y=260, X=850) -->
+  <line x1="240" y1="260" x2="850" y2="260" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6" />
+
+  <!-- ==================== TITRATION SIGMOID CURVE ==================== -->
+  <!-- Double-sigmoidal curve for diprotic amino acid / acid mixture -->
+  <!-- Start: (280, 660) -->
+  <!-- Buffer region 1 midpoint: A at (560, 520) -->
+  <!-- Inflection plateau: (680, 450) -->
+  <!-- Buffer region 2 midpoint: B at (850, 260) -->
+  <!-- End: (980, 180) -->
+  
+  <!-- Outer Glow Curve -->
+  <path d="M 280 665 
+           C 400 660, 480 620, 530 555 
+           C 550 530, 570 510, 600 470 
+           C 640 420, 670 410, 730 400 
+           C 780 390, 810 330, 840 275 
+           C 870 215, 920 185, 980 180" 
+        fill="none" stroke="#0284c7" stroke-width="8" opacity="0.35" filter="url(#glow)" />
+
+  <!-- Main Crisp Titration Curve -->
+  <path d="M 280 665 
+           C 400 660, 480 620, 530 555 
+           C 550 530, 570 510, 600 470 
+           C 640 420, 670 410, 730 400 
+           C 780 390, 810 330, 840 275 
+           C 870 215, 920 185, 980 180" 
+        fill="none" stroke="url(#curveGrad)" stroke-width="4.5" stroke-linecap="round" />
+
+  <!-- ==================== MARKED POINTS A AND B ==================== -->
+
+  <!-- Point A (Midpoint of first buffer range) -->
+  <g transform="translate(560, 520)">
+    <circle cx="0" cy="0" r="14" fill="#38bdf8" opacity="0.3" filter="url(#glow)" />
+    <circle cx="0" cy="0" r="8" fill="#38bdf8" stroke="#ffffff" stroke-width="2.5" />
+    
+    <!-- Label A Badge -->
+    <rect x="25" y="-22" width="45" height="44" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="2" filter="url(#glow)" />
+    <text x="47" y="10" text-anchor="middle" class="point-badge" fill="#38bdf8">A</text>
+  </g>
+
+  <!-- Point B (Midpoint of second buffer range) -->
+  <g transform="translate(850, 260)">
+    <circle cx="0" cy="0" r="14" fill="#818cf8" opacity="0.3" filter="url(#glow)" />
+    <circle cx="0" cy="0" r="8" fill="#818cf8" stroke="#ffffff" stroke-width="2.5" />
+    
+    <!-- Label B Badge -->
+    <rect x="25" y="-22" width="45" height="44" rx="8" fill="#0f172a" stroke="#818cf8" stroke-width="2" filter="url(#glow)" />
+    <text x="47" y="10" text-anchor="middle" class="point-badge" fill="#a5b4fc">B</text>
+  </g>
+
+  <!-- Subtle Watermark -->
+  <text x="80" y="870" class="watermark">medicomm</text>
+</svg>

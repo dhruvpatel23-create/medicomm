@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff1f2"/><stop offset="85%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fecdd3"/>
+    </radialGradient>
+    <radialGradient id="fibGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f43f5e"/><stop offset="70%" stop-color="#e11d48"/><stop offset="100%" stop-color="#be123c"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-360" y="-24" width="720" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">MYOCARDIAL BIOPSY: ASCHOFF NODULE (H&amp;E)</text>
+  </g>
+  <g transform="translate(480, 360)">
+    <circle cx="0" cy="0" r="280" fill="url(#fieldGrad)" stroke="#334155" stroke-width="8"/>
+    <clipPath id="c3"><circle cx="0" cy="0" r="276"/></clipPath>
+    <g clip-path="url(#c3)">
+      <!-- Cardiac Muscle Fibers -->
+      <path d="M -280,-180 Q 0,-140 280,-190 L 280,-260 L -280,-260 Z" fill="#f43f5e" opacity="0.8"/>
+      <path d="M -280,180 Q 0,140 280,190 L 280,260 L -280,260 Z" fill="#f43f5e" opacity="0.8"/>
+
+      <!-- Central Eosinophilic Fibrinoid Necrosis Core -->
+      <ellipse cx="0" cy="0" rx="90" ry="60" fill="url(#fibGrad)" stroke="#881337" stroke-width="3"/>
+
+      <!-- Anitschkow Cells ("Caterpillar Cells" with slender wavy chromatin) -->
+      <!-- Anitschkow Cell 1 (Center Marked) -->
+      <g transform="translate(-110, -40)">
+        <ellipse cx="0" cy="0" rx="34" ry="20" fill="#fbcfe8" stroke="#be123c" stroke-width="2"/>
+        <!-- Wavy caterpillar chromatin bar -->
+        <path d="M -18,0 Q -10,-5 0,0 Q 10,5 18,0" stroke="#4c1d95" stroke-width="4.5" fill="none"/>
+      </g>
+      <!-- Anitschkow Cell 2 -->
+      <g transform="translate(110, 40)">
+        <ellipse cx="0" cy="0" rx="34" ry="20" fill="#fbcfe8" stroke="#be123c" stroke-width="2"/>
+        <path d="M -18,0 Q -10,-5 0,0 Q 10,5 18,0" stroke="#4c1d95" stroke-width="4.5" fill="none"/>
+      </g>
+      <!-- Aschoff Multinucleated Giant Cell -->
+      <g transform="translate(90, -50)">
+        <ellipse cx="0" cy="0" rx="42" ry="28" fill="#fda4af" stroke="#be123c" stroke-width="2"/>
+        <circle cx="-12" cy="-6" r="5" fill="#4c1d95"/><circle cx="0" cy="-8" r="5" fill="#4c1d95"/><circle cx="14" cy="-5" r="5" fill="#4c1d95"/>
+      </g>
+    </g>
+  </g>
+  
+  <g transform="translate(220, 240)">
+    <rect x="-140" y="-26" width="280" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Anitschkow Cell</text>
+    <path d="M 128,0 L 190,80" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="190" cy="80" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

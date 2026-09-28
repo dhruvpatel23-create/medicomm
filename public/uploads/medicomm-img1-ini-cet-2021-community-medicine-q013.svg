@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <rect width="1000" height="1000" fill="#030712"/>
+
+  <!-- Top Title Pill -->
+  <rect x="200" y="40" width="600" height="48" rx="24" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="500" y="71" fill="#38bdf8" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" letter-spacing="1">FLOW CYTOMETRY DATA ACQUISITION WORKSTATION</text>
+
+  <text x="500" y="125" fill="#94a3b8" font-family="sans-serif" font-size="16" text-anchor="middle">Graphical Data Representations: Panel A and Panel B</text>
+
+  <!-- Panel A: Data Plot 1 -->
+  <g transform="translate(60, 160)">
+    <rect width="410" height="660" rx="14" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="20" y="20" width="110" height="36" rx="6" fill="#1e293b"/>
+    <text x="75" y="45" fill="#38bdf8" font-family="sans-serif" font-size="18" font-weight="800" text-anchor="middle">PANEL A</text>
+    
+    <!-- Coordinate axes -->
+    <line x1="60" y1="560" x2="380" y2="560" stroke="#64748b" stroke-width="2.5"/>
+    <line x1="60" y1="560" x2="60" y2="100" stroke="#64748b" stroke-width="2.5"/>
+    
+    <text x="220" y="605" fill="#94a3b8" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">Forward Scatter (FSC - Cell Size)</text>
+    <text x="20" y="330" fill="#94a3b8" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle" transform="rotate(-90, 20, 330)">Side Scatter (SSC - Granularity)</text>
+
+    <!-- Leukocyte Populations with Gate Outlines -->
+    <ellipse cx="130" cy="490" rx="40" ry="30" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,3"/>
+    <g fill="#38bdf8">
+      <circle cx="120" cy="490" r="3.5"/><circle cx="130" cy="480" r="3"/><circle cx="140" cy="500" r="4"/><circle cx="125" cy="470" r="3"/>
+      <circle cx="135" cy="495" r="2.5"/><circle cx="145" cy="485" r="3"/><circle cx="115" cy="485" r="3"/>
+    </g>
+    <text x="130" y="445" fill="#38bdf8" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">Gate R1</text>
+
+    <ellipse cx="220" cy="380" rx="35" ry="30" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4,3"/>
+    <g fill="#10b981">
+      <circle cx="210" cy="380" r="3.5"/><circle cx="220" cy="370" r="4"/><circle cx="230" cy="390" r="3"/><circle cx="215" cy="365" r="3.5"/>
+    </g>
+    <text x="220" y="335" fill="#10b981" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">Gate R2</text>
+
+    <ellipse cx="290" cy="220" rx="55" ry="45" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,3"/>
+    <g fill="#f59e0b">
+      <circle cx="270" cy="220" r="3.5"/><circle cx="290" cy="210" r="4"/><circle cx="280" cy="240" r="3"/><circle cx="310" cy="230" r="3.5"/>
+      <circle cx="300" cy="200" r="4"/><circle cx="265" cy="235" r="3"/><circle cx="315" cy="215" r="3.5"/>
+    </g>
+    <text x="290" y="165" fill="#f59e0b" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">Gate R3</text>
+  </g>
+
+  <!-- Panel B: Data Plot 2 -->
+  <g transform="translate(530, 160)">
+    <rect width="410" height="660" rx="14" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="20" y="20" width="110" height="36" rx="6" fill="#1e293b"/>
+    <text x="75" y="45" fill="#38bdf8" font-family="sans-serif" font-size="18" font-weight="800" text-anchor="middle">PANEL B</text>
+
+    <line x1="60" y1="560" x2="380" y2="560" stroke="#64748b" stroke-width="2.5"/>
+    <line x1="60" y1="560" x2="60" y2="100" stroke="#64748b" stroke-width="2.5"/>
+
+    <text x="220" y="605" fill="#94a3b8" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">Fluorescence Intensity (Log Scale)</text>
+    <text x="20" y="330" fill="#94a3b8" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle" transform="rotate(-90, 20, 330)">Cell Count (Events)</text>
+
+    <!-- Bimodal Fluorescence Peaks Curve -->
+    <path d="M 60 560 
+             Q 90 560 120 380 
+             Q 150 250 180 380 
+             Q 210 530 240 545 
+             Q 280 545 310 300 
+             Q 340 180 360 340 
+             Q 375 560 380 560 Z" 
+          fill="#38bdf8" fill-opacity="0.25" stroke="#38bdf8" stroke-width="3"/>
+    
+    <text x="150" y="230" fill="#cbd5e1" font-family="sans-serif" font-size="13" text-anchor="middle">Peak 1</text>
+    <text x="335" y="160" fill="#cbd5e1" font-family="sans-serif" font-size="13" text-anchor="middle">Peak 2</text>
+  </g>
+
+  <!-- Single Watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

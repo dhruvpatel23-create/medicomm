@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <rect width="1000" height="1000" fill="#000000"/>
+  <defs>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="15%" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="85%" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="etherGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="plugGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ca8a04" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#854d0e" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="formalinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="sedimentGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#451a03" stop-opacity="1.0"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Title Banner -->
+  <text x="500" y="80" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" letter-spacing="1">FORMOL-ETHER SEDIMENTATION TUBE</text>
+  <text x="500" y="115" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500">Centrifugation Separation Gradient for Stool Parasitology</text>
+
+  <!-- Centrifuge Tube Body -->
+  <g transform="translate(140, 20)">
+    <!-- Tube Outline Shadow -->
+    <path d="M 270 140 L 270 620 C 270 700 320 780 360 840 L 360 840 C 400 780 450 700 450 620 L 450 140 Z" fill="#0b1120" stroke="#334155" stroke-width="4"/>
+
+    <!-- Layer D: Bottom Ova Sediment (Bottom conical tip) -->
+    <path d="M 328 780 C 342 805 354 825 360 840 C 366 825 378 805 392 780 Z" fill="url(#sedimentGrad)"/>
+    <!-- Ova dots in sediment -->
+    <circle cx="358" cy="800" r="4" fill="#fde047" opacity="0.9"/>
+    <circle cx="366" cy="815" r="3.5" fill="#fde047" opacity="0.9"/>
+    <circle cx="352" cy="820" r="4.5" fill="#fde047" opacity="0.85"/>
+    <circle cx="362" cy="828" r="3" fill="#fde047" opacity="0.95"/>
+
+    <!-- Layer C: Formalin Solution Layer -->
+    <path d="M 272 400 L 448 400 L 448 620 C 448 680 415 740 392 780 L 328 780 C 305 740 272 680 272 620 Z" fill="url(#formalinGrad)"/>
+
+    <!-- Layer B: Fecal Debris Plug / Fatty Layer -->
+    <path d="M 272 355 L 448 355 L 448 400 L 272 400 Z" fill="url(#plugGrad)"/>
+    <!-- Plug texture -->
+    <line x1="280" y1="375" x2="440" y2="375" stroke="#713f12" stroke-width="3" stroke-dasharray="10 5" opacity="0.6"/>
+    <line x1="285" y1="388" x2="435" y2="388" stroke="#713f12" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"/>
+
+    <!-- Layer A: Top Ether Layer -->
+    <path d="M 272 200 L 448 200 L 448 355 L 272 355 Z" fill="url(#etherGrad)"/>
+    <ellipse cx="360" cy="200" rx="88" ry="12" fill="#38bdf8" opacity="0.4"/>
+
+    <!-- Glass Highlights and Graduations -->
+    <path d="M 270 140 L 270 620 C 270 700 320 780 360 840 C 400 780 450 700 450 620 L 450 140 Z" fill="url(#glassGrad)"/>
+    <path d="M 270 140 L 270 620 C 270 700 320 780 360 840 C 400 780 450 700 450 620 L 450 140 Z" fill="none" stroke="#64748b" stroke-width="4"/>
+
+    <!-- Graduation marks -->
+    <line x1="430" y1="240" x2="445" y2="240" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="435" y1="280" x2="445" y2="280" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="430" y1="320" x2="445" y2="320" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="430" y1="440" x2="445" y2="440" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="435" y1="480" x2="445" y2="480" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="430" y1="520" x2="445" y2="520" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="430" y1="560" x2="445" y2="560" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="435" y1="600" x2="445" y2="600" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="430" y1="640" x2="445" y2="640" stroke="#94a3b8" stroke-width="2"/>
+
+    <!-- Tube Rim -->
+    <ellipse cx="360" cy="140" rx="90" ry="15" fill="#1e293b" stroke="#94a3b8" stroke-width="4"/>
+  </g>
+
+  <!-- Callout Markers: A, B, C, D -->
+  <!-- Level A -->
+  <g transform="translate(180, 275)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="28" fill="#0284c7" stroke="#ffffff" stroke-width="3"/>
+    <text x="0" y="9" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="26" font-weight="800">A</text>
+    <line x1="32" y1="0" x2="220" y2="0" stroke="#38bdf8" stroke-width="3" stroke-dasharray="6 4"/>
+    <circle cx="220" cy="0" r="5" fill="#38bdf8"/>
+  </g>
+
+  <!-- Level B -->
+  <g transform="translate(180, 400)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="28" fill="#ca8a04" stroke="#ffffff" stroke-width="3"/>
+    <text x="0" y="9" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="26" font-weight="800">B</text>
+    <line x1="32" y1="0" x2="220" y2="0" stroke="#facc15" stroke-width="3" stroke-dasharray="6 4"/>
+    <circle cx="220" cy="0" r="5" fill="#facc15"/>
+  </g>
+
+  <!-- Level C -->
+  <g transform="translate(180, 560)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="28" fill="#475569" stroke="#ffffff" stroke-width="3"/>
+    <text x="0" y="9" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="26" font-weight="800">C</text>
+    <line x1="32" y1="0" x2="220" y2="0" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6 4"/>
+    <circle cx="220" cy="0" r="5" fill="#94a3b8"/>
+  </g>
+
+  <!-- Level D -->
+  <g transform="translate(180, 830)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="28" fill="#dc2626" stroke="#ffffff" stroke-width="3"/>
+    <text x="0" y="9" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="26" font-weight="800">D</text>
+    <line x1="32" y1="0" x2="310" y2="0" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 4"/>
+    <circle cx="310" cy="0" r="5" fill="#ef4444"/>
+  </g>
+
+  <!-- Instruction Legend -->
+  <rect x="660" y="240" width="280" height="260" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+  <text x="800" y="275" text-anchor="middle" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700">LAYER SEPARATION</text>
+  <line x1="680" y1="290" x2="920" y2="290" stroke="#334155" stroke-width="1.5"/>
+  
+  <text x="690" y="330" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600">Level A : <tspan fill="#38bdf8">Top Layer</tspan></text>
+  <text x="690" y="375" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600">Level B : <tspan fill="#facc15">Interphase Plug</tspan></text>
+  <text x="690" y="420" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600">Level C : <tspan fill="#e2e8f0">Aqueous Liquid</tspan></text>
+  <text x="690" y="465" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600">Level D : <tspan fill="#ef4444">Bottom Pellet</tspan></text>
+
+  <!-- Subtle medicomm watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

@@ -1,0 +1,53 @@
+.an-launch { border-color: #ddd4f0; background: linear-gradient(120deg, #f7f3ff, #eef4ff); color: #614399; }
+.an-launch:hover { border-color: #9674d0; background: #eee7fa; }
+.an-launch-icon { background: #fff; box-shadow: 0 2px 8px #7651ce12; }
+.an-launch:disabled { opacity: .5; cursor: not-allowed; }
+.an-overlay { z-index: 2000; }
+.an-dialog { z-index: 2001; inset: 3dvh max(16px, calc((100vw - 1080px) / 2)); background: #faf9fc; color: #283149; font-family: inherit; }
+.an-dialog button, .an-dialog select, .an-dialog input { font: inherit; }
+.an-dialog button { cursor: pointer; }
+.an-dialog button:disabled { opacity: .3; cursor: not-allowed; }
+.an-dialog :is(button, select, input):focus-visible, .an-launch:focus-visible { outline: 3px solid #a78bda; outline-offset: 3px; }
+.an-header, .an-toolbar, .an-footer { background: #fff; border-color: #e9e5f0; }
+.an-header h2, .an-dialog p { margin-bottom: 0; }
+.an-header h2 { margin: 0; }
+.an-header [id$="description"], .an-options, .an-footer, .an-sheet-caption { color: #72758a; }
+.an-accent { color: #7956b4; }
+.an-question { background: #f7f4fc; border-color: #e9e5f0; }
+.an-tool-group { background: #f2eff7; }
+.an-tool { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 44px; min-height: 44px; padding: 8px; border: 0; border-radius: 9px; color: #666c80; background: transparent; font-size: 12px !important; }
+.an-tool:hover { background: #eee8f8; }
+.an-tool[aria-pressed="true"] { background: #fff; color: #7956b4; box-shadow: 0 1px 5px #40305718; }
+.an-swatch { width: 40px; height: 44px; border: 0; background: transparent; display: grid; place-items: center; }
+.an-swatch > span { width: 23px; height: 23px; border-radius: 50%; display: grid; place-items: center; }
+.an-swatch[aria-pressed="true"] > span { outline: 2px solid #b7a4d6; outline-offset: 3px; }
+.an-dialog select { width: auto; min-height: 40px; border: 1px solid #e3deec; border-radius: 8px; background: #fff; padding: 5px 8px; color: #515971; font-size: 12px; }
+.an-options input { accent-color: #7956b4; width: 16px; height: 16px; }
+.an-workspace { background: #eeedf3; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.an-paper { width: 100%; max-width: 750px; aspect-ratio: 3 / 4; background-color: #fffefb; border-radius: 3px; }
+.an-paper-ruled { background-image: linear-gradient(#d6dce680 1px, transparent 1px); background-size: 100% 28px; }
+.an-paper-dotted { background-image: radial-gradient(#c8cfdb 1px, transparent 1px); background-size: 20px 20px; }
+.an-canvas { aspect-ratio: 3 / 4; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; cursor: crosshair; }
+.an-save { color: #fff; background: #7651b7; border: 1px solid #7651b7; box-shadow: 0 3px 8px #7651b725; }
+.an-save:hover { background: #64409f; }
+.an-clear { background: #fff2d8; color: #765111; }
+.an-clear button { padding: 8px; text-decoration: underline; }
+[data-theme="dark"] .an-launch { background: #2b263b; border-color: #4c3e66; color: #c9b3ee; }
+[data-theme="dark"] .an-launch-icon { background: #3a2f4e; }
+[data-theme="dark"] .an-dialog { background: #242333; color: #ede8f7; }
+[data-theme="dark"] :is(.an-header, .an-toolbar, .an-footer) { background: #242333; border-color: #3d384d; }
+[data-theme="dark"] .an-question, [data-theme="dark"] .an-tool-group { background: #2d293d; border-color: #3d384d; }
+[data-theme="dark"] .an-workspace { background: #1b1a27; }
+[data-theme="dark"] .an-accent { color: #c1a3ef; }
+[data-theme="dark"] :is(.an-options, .an-footer, .an-sheet-caption) { color: #b9b2c9; }
+[data-theme="dark"] .an-tool { color: #c7bfd5; }
+[data-theme="dark"] .an-tool[aria-pressed="true"], [data-theme="dark"] .an-tool:hover { background: #463759; }
+@media (max-width: 640px) {
+  .an-dialog { inset: 0; border-radius: 0; padding-bottom: env(safe-area-inset-bottom); }
+  .an-header h2 { font-size: 15px; }
+  .an-header { padding-top: max(16px, env(safe-area-inset-top)); }
+  .an-question p { font-size: 12px; }
+  .an-select-label { margin-left: auto; }
+  .an-swatch { width: 36px; }
+  .an-toolbar { gap: 4px; }
+}

@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdf2f8"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">GONADAL TUMOR: MICROSCOPIC HISTOMORPHOLOGY</text>
+  </g>
+
+  <!-- Histology Field -->
+  <g transform="translate(480, 345)" filter="url(#shadow)">
+    <rect x="-380" y="-240" width="760" height="480" rx="20" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+    <rect x="-372" y="-232" width="744" height="464" rx="16" fill="url(#fieldGrad)"/>
+
+    <g clip-path="url(#yolkClip)">
+      <clipPath id="yolkClip">
+        <rect x="-372" y="-232" width="744" height="464" rx="16"/>
+      </clipPath>
+
+      <!-- Loose Reticular / Microcystic Network of Tumor Cells -->
+      <path d="M -350,-210 Q -310,-230 -270,-210" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-330" cy="-210" r="4" fill="#581c87"/>
+                <circle cx="-290" cy="-218" r="4" fill="#581c87"/><path d="M -255,-210 Q -215,-230 -175,-210" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-235" cy="-210" r="4" fill="#581c87"/>
+                <circle cx="-195" cy="-218" r="4" fill="#581c87"/><path d="M -160,-210 Q -120,-230 -80,-210" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-140" cy="-210" r="4" fill="#581c87"/>
+                <circle cx="-100" cy="-218" r="4" fill="#581c87"/><path d="M -65,-210 Q -25,-230 15,-210" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-45" cy="-210" r="4" fill="#581c87"/>
+                <circle cx="-5" cy="-218" r="4" fill="#581c87"/><path d="M 30,-210 Q 70,-230 110,-210" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="50" cy="-210" r="4" fill="#581c87"/>
+                <circle cx="90" cy="-218" r="4" fill="#581c87"/><path d="M 125,-210 Q 165,-230 205,-210" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="145" cy="-210" r="4" fill="#581c87"/>
+                <circle cx="185" cy="-218" r="4" fill="#581c87"/><path d="M 220,-210 Q 260,-230 300,-210" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="240" cy="-210" r="4" fill="#581c87"/>
+                <circle cx="280" cy="-218" r="4" fill="#581c87"/><path d="M 315,-210 Q 355,-230 395,-210" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="335" cy="-210" r="4" fill="#581c87"/>
+                <circle cx="375" cy="-218" r="4" fill="#581c87"/><path d="M -350,-115 Q -310,-135 -270,-115" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-330" cy="-115" r="4" fill="#581c87"/>
+                <circle cx="-290" cy="-123" r="4" fill="#581c87"/><path d="M -255,-115 Q -215,-135 -175,-115" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-235" cy="-115" r="4" fill="#581c87"/>
+                <circle cx="-195" cy="-123" r="4" fill="#581c87"/><path d="M -160,-115 Q -120,-135 -80,-115" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-140" cy="-115" r="4" fill="#581c87"/>
+                <circle cx="-100" cy="-123" r="4" fill="#581c87"/><path d="M -65,-115 Q -25,-135 15,-115" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-45" cy="-115" r="4" fill="#581c87"/>
+                <circle cx="-5" cy="-123" r="4" fill="#581c87"/><path d="M 30,-115 Q 70,-135 110,-115" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="50" cy="-115" r="4" fill="#581c87"/>
+                <circle cx="90" cy="-123" r="4" fill="#581c87"/><path d="M 125,-115 Q 165,-135 205,-115" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="145" cy="-115" r="4" fill="#581c87"/>
+                <circle cx="185" cy="-123" r="4" fill="#581c87"/><path d="M 220,-115 Q 260,-135 300,-115" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="240" cy="-115" r="4" fill="#581c87"/>
+                <circle cx="280" cy="-123" r="4" fill="#581c87"/><path d="M 315,-115 Q 355,-135 395,-115" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="335" cy="-115" r="4" fill="#581c87"/>
+                <circle cx="375" cy="-123" r="4" fill="#581c87"/><path d="M -350,-20 Q -310,-40 -270,-20" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-330" cy="-20" r="4" fill="#581c87"/>
+                <circle cx="-290" cy="-28" r="4" fill="#581c87"/><path d="M -255,-20 Q -215,-40 -175,-20" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-235" cy="-20" r="4" fill="#581c87"/>
+                <circle cx="-195" cy="-28" r="4" fill="#581c87"/><path d="M -160,-20 Q -120,-40 -80,-20" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-140" cy="-20" r="4" fill="#581c87"/>
+                <circle cx="-100" cy="-28" r="4" fill="#581c87"/><path d="M -65,-20 Q -25,-40 15,-20" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-45" cy="-20" r="4" fill="#581c87"/>
+                <circle cx="-5" cy="-28" r="4" fill="#581c87"/><path d="M 30,-20 Q 70,-40 110,-20" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="50" cy="-20" r="4" fill="#581c87"/>
+                <circle cx="90" cy="-28" r="4" fill="#581c87"/><path d="M 125,-20 Q 165,-40 205,-20" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="145" cy="-20" r="4" fill="#581c87"/>
+                <circle cx="185" cy="-28" r="4" fill="#581c87"/><path d="M 220,-20 Q 260,-40 300,-20" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="240" cy="-20" r="4" fill="#581c87"/>
+                <circle cx="280" cy="-28" r="4" fill="#581c87"/><path d="M 315,-20 Q 355,-40 395,-20" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="335" cy="-20" r="4" fill="#581c87"/>
+                <circle cx="375" cy="-28" r="4" fill="#581c87"/><path d="M -350,75 Q -310,55 -270,75" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-330" cy="75" r="4" fill="#581c87"/>
+                <circle cx="-290" cy="67" r="4" fill="#581c87"/><path d="M -255,75 Q -215,55 -175,75" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-235" cy="75" r="4" fill="#581c87"/>
+                <circle cx="-195" cy="67" r="4" fill="#581c87"/><path d="M -160,75 Q -120,55 -80,75" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-140" cy="75" r="4" fill="#581c87"/>
+                <circle cx="-100" cy="67" r="4" fill="#581c87"/><path d="M -65,75 Q -25,55 15,75" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-45" cy="75" r="4" fill="#581c87"/>
+                <circle cx="-5" cy="67" r="4" fill="#581c87"/><path d="M 30,75 Q 70,55 110,75" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="50" cy="75" r="4" fill="#581c87"/>
+                <circle cx="90" cy="67" r="4" fill="#581c87"/><path d="M 125,75 Q 165,55 205,75" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="145" cy="75" r="4" fill="#581c87"/>
+                <circle cx="185" cy="67" r="4" fill="#581c87"/><path d="M 220,75 Q 260,55 300,75" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="240" cy="75" r="4" fill="#581c87"/>
+                <circle cx="280" cy="67" r="4" fill="#581c87"/><path d="M 315,75 Q 355,55 395,75" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="335" cy="75" r="4" fill="#581c87"/>
+                <circle cx="375" cy="67" r="4" fill="#581c87"/><path d="M -350,170 Q -310,150 -270,170" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-330" cy="170" r="4" fill="#581c87"/>
+                <circle cx="-290" cy="162" r="4" fill="#581c87"/><path d="M -255,170 Q -215,150 -175,170" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-235" cy="170" r="4" fill="#581c87"/>
+                <circle cx="-195" cy="162" r="4" fill="#581c87"/><path d="M -160,170 Q -120,150 -80,170" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-140" cy="170" r="4" fill="#581c87"/>
+                <circle cx="-100" cy="162" r="4" fill="#581c87"/><path d="M -65,170 Q -25,150 15,170" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="-45" cy="170" r="4" fill="#581c87"/>
+                <circle cx="-5" cy="162" r="4" fill="#581c87"/><path d="M 30,170 Q 70,150 110,170" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="50" cy="170" r="4" fill="#581c87"/>
+                <circle cx="90" cy="162" r="4" fill="#581c87"/><path d="M 125,170 Q 165,150 205,170" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="145" cy="170" r="4" fill="#581c87"/>
+                <circle cx="185" cy="162" r="4" fill="#581c87"/><path d="M 220,170 Q 260,150 300,170" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="240" cy="170" r="4" fill="#581c87"/>
+                <circle cx="280" cy="162" r="4" fill="#581c87"/><path d="M 315,170 Q 355,150 395,170" stroke="#db2777" stroke-width="3" fill="none" opacity="0.5"/>
+                <circle cx="335" cy="170" r="4" fill="#581c87"/>
+                <circle cx="375" cy="162" r="4" fill="#581c87"/>
+
+      <!-- Centerpiece: Classic Schiller-Duval Body (Glomeruloid-like structure) -->
+      <g transform="translate(0, 0)">
+        <!-- Outer cystic space lined by flattened endothelial-like cells -->
+        <ellipse cx="0" cy="0" rx="160" ry="120" fill="#ffffff" stroke="#be185d" stroke-width="2.5"/>
+        <ellipse cx="156" cy="0" rx="6" ry="3" fill="#831843"/><ellipse cx="150.68442890109466" cy="30.023009231892406" rx="6" ry="3" fill="#831843"/><ellipse cx="135.09996299037243" cy="57.99999999999999" rx="6" ry="3" fill="#831843"/><ellipse cx="110.30865786510142" cy="82.02438661763951" rx="6" ry="3" fill="#831843"/><ellipse cx="78.00000000000001" cy="100.45894683899488" rx="6" ry="3" fill="#831843"/><ellipse cx="40.37577103599324" cy="112.04739584953192" rx="6" ry="3" fill="#831843"/><ellipse cx="9.552245033349356e-15" cy="116" rx="6" ry="3" fill="#831843"/><ellipse cx="-40.37577103599325" cy="112.04739584953192" rx="6" ry="3" fill="#831843"/><ellipse cx="-77.99999999999997" cy="100.45894683899489" rx="6" ry="3" fill="#831843"/><ellipse cx="-110.30865786510141" cy="82.02438661763952" rx="6" ry="3" fill="#831843"/><ellipse cx="-135.09996299037243" cy="57.99999999999999" rx="6" ry="3" fill="#831843"/><ellipse cx="-150.68442890109463" cy="30.023009231892438" rx="6" ry="3" fill="#831843"/><ellipse cx="-156" cy="1.4205902870109298e-14" rx="6" ry="3" fill="#831843"/><ellipse cx="-150.68442890109466" cy="-30.023009231892413" rx="6" ry="3" fill="#831843"/><ellipse cx="-135.09996299037243" cy="-58.000000000000014" rx="6" ry="3" fill="#831843"/><ellipse cx="-110.30865786510144" cy="-82.02438661763951" rx="6" ry="3" fill="#831843"/><ellipse cx="-78.00000000000007" cy="-100.45894683899486" rx="6" ry="3" fill="#831843"/><ellipse cx="-40.37577103599322" cy="-112.04739584953192" rx="6" ry="3" fill="#831843"/><ellipse cx="-2.865673510004806e-14" cy="-116" rx="6" ry="3" fill="#831843"/><ellipse cx="40.37577103599317" cy="-112.04739584953194" rx="6" ry="3" fill="#831843"/><ellipse cx="78.00000000000001" cy="-100.45894683899488" rx="6" ry="3" fill="#831843"/><ellipse cx="110.30865786510138" cy="-82.02438661763954" rx="6" ry="3" fill="#831843"/><ellipse cx="135.09996299037238" cy="-58.00000000000005" rx="6" ry="3" fill="#831843"/><ellipse cx="150.68442890109466" cy="-30.0230092318924" rx="6" ry="3" fill="#831843"/>
+
+        <!-- Central core projecting into the space: blood vessel core surrounded by columnar tumor cells -->
+        <g transform="translate(0, 0)">
+          <!-- Core papilla mantle -->
+          <ellipse cx="0" cy="0" rx="85" ry="60" fill="#f472b6" stroke="#9d174d" stroke-width="2"/>
+          <!-- Central blood vessel containing erythrocytes -->
+          <ellipse cx="0" cy="0" rx="28" ry="18" fill="#fecdd3" stroke="#e11d48" stroke-width="2"/>
+          <circle cx="-10" cy="-2" r="5" fill="#dc2626"/>
+          <circle cx="6" cy="3" r="5.5" fill="#dc2626"/>
+
+          <!-- Columnar/cuboidal malignant epithelial cells lining the core papilla -->
+          <circle cx="65" cy="0" r="6.5" fill="#4c1d95"/><circle cx="60.05216961323364" cy="17.22075445642904" r="6.5" fill="#4c1d95"/><circle cx="45.96194077712559" cy="31.819805153394636" r="6.5" fill="#4c1d95"/><circle cx="24.87442310373084" cy="41.5745789630079" r="6.5" fill="#4c1d95"/><circle cx="3.980102097228898e-15" cy="45" r="6.5" fill="#4c1d95"/><circle cx="-24.874423103730834" cy="41.5745789630079" r="6.5" fill="#4c1d95"/><circle cx="-45.961940777125584" cy="31.81980515339464" r="6.5" fill="#4c1d95"/><circle cx="-60.05216961323364" cy="17.220754456429045" r="6.5" fill="#4c1d95"/><circle cx="-65" cy="5.5109105961630896e-15" r="6.5" fill="#4c1d95"/><circle cx="-60.052169613233644" cy="-17.220754456429034" r="6.5" fill="#4c1d95"/><circle cx="-45.9619407771256" cy="-31.819805153394636" r="6.5" fill="#4c1d95"/><circle cx="-24.874423103730816" cy="-41.57457896300791" r="6.5" fill="#4c1d95"/><circle cx="-1.1940306291686693e-14" cy="-45" r="6.5" fill="#4c1d95"/><circle cx="24.87442310373085" cy="-41.5745789630079" r="6.5" fill="#4c1d95"/><circle cx="45.96194077712558" cy="-31.819805153394647" r="6.5" fill="#4c1d95"/><circle cx="60.052169613233644" cy="-17.22075445642903" r="6.5" fill="#4c1d95"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Marker Arrow to Schiller-Duval Body -->
+    <g transform="translate(-180, -110)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#000000">!</text>
+      <line x1="16" y1="12" x2="85" y2="60" stroke="#f59e0b" stroke-width="3"/>
+      <polygon points="95,66 82,58 87,48" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

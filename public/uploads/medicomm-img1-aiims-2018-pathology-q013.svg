@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff1f2"/><stop offset="85%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fecdd3"/>
+    </radialGradient>
+    <radialGradient id="hostCyto" cx="45%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#fbcfe8"/><stop offset="70%" stop-color="#f472b6"/><stop offset="100%" stop-color="#db2777"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-370" y="-24" width="740" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">CYTOLOGY: INTACT CELL WITHIN HOST CYTOPLASM</text>
+  </g>
+  <g transform="translate(480, 360)">
+    <circle cx="0" cy="0" r="280" fill="url(#fieldGrad)" stroke="#334155" stroke-width="8"/>
+    <clipPath id="c1813"><circle cx="0" cy="0" r="276"/></clipPath>
+    <g clip-path="url(#c1813)">
+      <!-- Large Histiocyte (Host Cell) -->
+      <circle cx="0" cy="0" r="170" fill="url(#hostCyto)" stroke="#be123c" stroke-width="4"/>
+      <!-- Host Nucleus -->
+      <ellipse cx="-80" cy="-60" rx="42" ry="32" fill="#881337"/>
+
+      <!-- Intact, Viable Lymphocytes within Cytoplasm (Emperipolesis) -->
+      <g transform="translate(40, -40)">
+        <circle cx="0" cy="0" r="26" fill="#fdf4ff" stroke="#312e81" stroke-width="2"/>
+        <circle cx="0" cy="0" r="22" fill="#312e81"/>
+      </g>
+      <g transform="translate(-20, 60)">
+        <circle cx="0" cy="0" r="26" fill="#fdf4ff" stroke="#312e81" stroke-width="2"/>
+        <circle cx="0" cy="0" r="22" fill="#312e81"/>
+      </g>
+      <g transform="translate(60, 50)">
+        <circle cx="0" cy="0" r="26" fill="#fdf4ff" stroke="#312e81" stroke-width="2"/>
+        <circle cx="0" cy="0" r="22" fill="#312e81"/>
+      </g>
+    </g>
+  </g>
+  
+  <g transform="translate(740, 260)">
+    <rect x="-155" y="-26" width="310" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Intact Engulfed Cell</text>
+    <path d="M -143,0 L -220,60" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="-220" cy="60" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1448" height="1086" viewBox="0 0 1448 1086">
+<rect width="1448" height="1086" fill="#000000"/>
+<defs>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#f59e0b"/>
+  </marker>
+  <marker id="arrow-cyan" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#06b6d4"/>
+  </marker>
+  <marker id="arrow-white" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#f8fafc"/>
+  </marker>
+  <marker id="inhibit" markerWidth="10" markerHeight="14" refX="5" refY="7" orient="auto">
+    <line x1="5" y1="0" x2="5" y2="14" stroke="#f43f5e" stroke-width="4"/>
+  </marker>
+</defs>
+<text x="36" y="1050" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" letter-spacing="1">medicomm</text>
+<text x="724" y="70" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">Mycobacterial Cell Wall Architecture</text>
+<rect x="200" y="720" width="1048" height="120" fill="#1e1b4b" stroke="#6366f1" stroke-width="3" rx="10"/>
+<text x="724" y="785" fill="#c7d2fe" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle">Inner Plasma Membrane (Phospholipid Bilayer)</text>
+<rect x="200" y="570" width="1048" height="110" fill="#064e3b" stroke="#10b981" stroke-width="3" rx="10"/>
+<text x="724" y="630" fill="#a7f3d0" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle">Peptidoglycan Layer</text>
+<rect x="200" y="420" width="1048" height="110" fill="#164e63" stroke="#06b6d4" stroke-width="3" rx="10"/>
+<text x="724" y="480" fill="#a5f3fc" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle">Arabinogalactan Layer</text>
+<rect x="200" y="240" width="1048" height="140" fill="#881337" stroke="#f43f5e" stroke-width="4" rx="10"/>
+<line x1="230.0" y1="260.0" x2="230.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="260.0" y1="260.0" x2="260.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="290.0" y1="260.0" x2="290.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="320.0" y1="260.0" x2="320.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="350.0" y1="260.0" x2="350.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="380.0" y1="260.0" x2="380.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="410.0" y1="260.0" x2="410.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="440.0" y1="260.0" x2="440.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="470.0" y1="260.0" x2="470.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="500.0" y1="260.0" x2="500.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="530.0" y1="260.0" x2="530.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="560.0" y1="260.0" x2="560.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="590.0" y1="260.0" x2="590.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="620.0" y1="260.0" x2="620.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="650.0" y1="260.0" x2="650.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="680.0" y1="260.0" x2="680.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="710.0" y1="260.0" x2="710.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="740.0" y1="260.0" x2="740.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="770.0" y1="260.0" x2="770.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="800.0" y1="260.0" x2="800.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="830.0" y1="260.0" x2="830.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="860.0" y1="260.0" x2="860.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="890.0" y1="260.0" x2="890.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="920.0" y1="260.0" x2="920.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="950.0" y1="260.0" x2="950.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="980.0" y1="260.0" x2="980.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="1010.0" y1="260.0" x2="1010.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="1040.0" y1="260.0" x2="1040.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="1070.0" y1="260.0" x2="1070.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="1100.0" y1="260.0" x2="1100.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="1130.0" y1="260.0" x2="1130.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="1160.0" y1="260.0" x2="1160.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<line x1="1190.0" y1="260.0" x2="1190.0" y2="350.0" stroke="#fbcfe8" stroke-width="3"/>
+<text x="724" y="315" fill="#fbcfe8" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Mycolic Acid Layer (Outer Lipid Envelope)</text>
+<line x1="1320.0" y1="310.0" x2="1255.0" y2="310.0" stroke="#f59e0b" stroke-width="6" marker-end="url(#arrow)"/>
+<circle cx="1370" cy="310" r="32" fill="#78350f" stroke="#f59e0b" stroke-width="3"/>
+<text x="1370" y="320" fill="#f59e0b" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">?</text>
+<line x1="120.0" y1="800.0" x2="120.0" y2="260.0" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="80" y="530" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-anchor="middle" transform="rotate(-90 80 530)">Inside → Outside</text>
+</svg>

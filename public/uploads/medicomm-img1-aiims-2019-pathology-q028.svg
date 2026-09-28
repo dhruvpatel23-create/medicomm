@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-380" y="-24" width="760" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">PROCEDURAL INSTRUMENT: BONE MARROW TREPHINE NEEDLE</text>
+  </g>
+  <!-- Jamshidi Needle Graphic -->
+  <g transform="translate(480, 360)">
+    <!-- T-Bar Ergonomic Handle (Top) -->
+    <rect x="-120" y="-180" width="240" height="48" rx="24" fill="#334155" stroke="#94a3b8" stroke-width="3"/>
+    <rect x="-24" y="-132" width="48" height="40" fill="#475569" stroke="#94a3b8" stroke-width="2"/>
+
+    <!-- Stainless Steel Cannula / Shaft -->
+    <rect x="-14" y="-92" width="28" height="260" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
+    
+    <!-- Tapered Cutting Trocar Tip -->
+    <polygon points="-14,168 14,168 0,220" fill="#94a3b8" stroke="#475569" stroke-width="2"/>
+  </g>
+  
+  <g transform="translate(740, 280)">
+    <rect x="-150" y="-26" width="300" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Core Biopsy Cannula</text>
+    <path d="M -138,0 L -245,20" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="-245" cy="20" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

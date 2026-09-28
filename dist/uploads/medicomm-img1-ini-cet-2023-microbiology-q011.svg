@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <rect width="1000" height="1000" fill="#000000"/>
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Title Banner -->
+  <text x="500" y="65" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" letter-spacing="1">BACTERIAL CELL ENVELOPE</text>
+  <text x="500" y="98" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="500">Gram-Negative Diplococcus Envelope with Lipooligosaccharide (LOS)</text>
+
+  <!-- Envelope Layers Stack -->
+  <g transform="translate(100, 130)">
+    <!-- Capsule Layer (Outermost Halo) -->
+    <rect x="50" y="20" width="700" height="75" rx="10" fill="#701a75" fill-opacity="0.75" stroke="#d946ef" stroke-width="2.5"/>
+    <text x="400" y="65" text-anchor="middle" fill="#fae8ff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800">POLYSACCHARIDE CAPSULE (Antiphagocytic)</text>
+
+    <!-- Outer Membrane with LOS -->
+    <g transform="translate(50, 120)">
+      <!-- Short branched oligosaccharide chains of LOS (No long O-antigen repeating units) -->
+      <g stroke="#38bdf8" stroke-width="3.5" fill="none">
+        <path d="M 90 20 L 90 -10 M 90 -10 L 75 -25 M 90 -10 L 105 -25"/>
+        <path d="M 170 20 L 170 -10 M 170 -10 L 155 -25 M 170 -10 L 185 -25"/>
+        <path d="M 250 20 L 250 -10 M 250 -10 L 235 -25 M 250 -10 L 265 -25"/>
+        <path d="M 530 20 L 530 -10 M 530 -10 L 515 -25 M 530 -10 L 545 -25"/>
+        <path d="M 610 20 L 610 -10 M 610 -10 L 595 -25 M 610 -10 L 625 -25"/>
+      </g>
+      <!-- Core oligosaccharide + Lipid A -->
+      <rect x="0" y="20" width="700" height="90" rx="10" fill="#1e293b" stroke="#64748b" stroke-width="3"/>
+      
+      <!-- Porin (PorA / PorB) Channels -->
+      <rect x="320" y="10" width="140" height="100" rx="8" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/>
+      <text x="390" y="65" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700">PorA / PorB</text>
+
+      <!-- Label: LOS -->
+      <rect x="80" y="35" width="200" height="30" rx="6" fill="#0369a1" fill-opacity="0.8"/>
+      <text x="180" y="56" text-anchor="middle" fill="#e0f2fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="800">LIPOOLIGOSACCHARIDE (LOS)</text>
+    </g>
+
+    <!-- Periplasmic Space with Thin Peptidoglycan -->
+    <rect x="50" y="250" width="700" height="150" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+    <text x="90" y="285" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600">Periplasmic Space</text>
+    
+    <!-- Thin Peptidoglycan layer -->
+    <rect x="80" y="305" width="640" height="35" rx="6" fill="#10b981" fill-opacity="0.8" stroke="#059669" stroke-width="2"/>
+    <text x="400" y="329" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700">Thin Peptidoglycan Layer (Gram-negative)</text>
+
+    <!-- Inner / Cytoplasmic Membrane -->
+    <rect x="50" y="440" width="700" height="90" rx="10" fill="#1e293b" stroke="#64748b" stroke-width="3"/>
+    <text x="400" y="493" text-anchor="middle" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700">Inner Cytoplasmic Membrane</text>
+
+    <!-- Bacterial Cytoplasm -->
+    <rect x="50" y="555" width="700" height="90" rx="8" fill="#020617"/>
+    <text x="400" y="610" text-anchor="middle" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">BACTERIAL CYTOPLASM</text>
+  </g>
+
+  <!-- Key Clinical Identification Points (Bottom Box) -->
+  <rect x="120" y="810" width="760" height="100" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+  <text x="500" y="845" text-anchor="middle" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700">DIAGNOSTIC ULTRASTRUCTURAL HALLMARKS</text>
+  <text x="500" y="875" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">&#8226; <tspan fill="#d946ef" font-weight="700">Polysaccharide Capsule</tspan> (Serogroups A, B, C, Y, W-135) | &#8226; <tspan fill="#38bdf8" font-weight="700">LOS Endotoxin</tspan> (Lacks repeating O-antigen)</text>
+
+  <!-- Subtle medicomm watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

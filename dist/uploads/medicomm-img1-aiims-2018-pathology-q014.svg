@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff1f2"/><stop offset="85%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fecdd3"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="700" fill="#000000"/>
+  
+  <g transform="translate(480, 48)">
+    <rect x="-360" y="-24" width="720" height="48" rx="24" fill="#030712" stroke="#64748b" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#ffffff" text-rendering="geometricPrecision">LYMPH NODE: CASTLEMAN FOLLICLE (H&amp;E)</text>
+  </g>
+  <g transform="translate(480, 360)">
+    <circle cx="0" cy="0" r="280" fill="url(#fieldGrad)" stroke="#334155" stroke-width="8"/>
+    <clipPath id="c1814"><circle cx="0" cy="0" r="276"/></clipPath>
+    <g clip-path="url(#c1814)">
+      <!-- Expanded Mantle Zone: Concentric "Onion-Skin" Rings of Small Lymphocytes -->
+      <circle cx="0" cy="0" r="180" fill="none" stroke="#4338ca" stroke-width="4"/>
+      <circle cx="0" cy="0" r="150" fill="none" stroke="#4338ca" stroke-width="4"/>
+      <circle cx="0" cy="0" r="120" fill="none" stroke="#4338ca" stroke-width="4"/>
+      <circle cx="0" cy="0" r="90" fill="none" stroke="#4338ca" stroke-width="4"/>
+      <circle cx="0" cy="0" r="60" fill="#fbcfe8" stroke="#312e81" stroke-width="3"/>
+
+      <!-- Penetrating Hyalinized Arteriole ("Lollipop Stick") -->
+      <line x1="-160" y1="120" x2="0" y2="0" stroke="#be123c" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="16" fill="#be123c"/>
+    </g>
+  </g>
+  
+  <g transform="translate(740, 260)">
+    <rect x="-160" y="-26" width="320" height="52" rx="26" fill="#030712" stroke="#f59e0b" stroke-width="3.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="22" font-weight="900" fill="#fef08a" text-rendering="geometricPrecision">Onion-Skin Mantle Ring</text>
+    <path d="M -148,0 L -210,60" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="-210" cy="60" r="6" fill="#fde047"/>
+  </g>
+  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+</svg>

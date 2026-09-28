@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Pale Skin Gradient (Anemic Pallor) -->
+    <linearGradient id="paleSkin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf4ff"/>
+      <stop offset="30%" stop-color="#fae8ff"/>
+      <stop offset="70%" stop-color="#f5d0fe"/>
+      <stop offset="100%" stop-color="#e9d5ff"/>
+    </linearGradient>
+
+    <!-- Warm Pale Tone for Hand -->
+    <linearGradient id="anemicHand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf2e9"/>
+      <stop offset="50%" stop-color="#fae5d3"/>
+      <stop offset="100%" stop-color="#f0d3c0"/>
+    </linearGradient>
+
+    <!-- Knuckle Hyperpigmentation Radial Gradients -->
+    <radialGradient id="knuckleDark" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#451a03" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#78350f" stop-opacity="0.8"/>
+      <stop offset="80%" stop-color="#92400e" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="pipDark" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#451a03" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#78350f" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#92400e" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Drop Shadow -->
+    <filter id="handShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.75"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-310" y="-20" width="620" height="40" rx="20" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#f8fafc" letter-spacing="1">KNUCKLE HYPERPIGMENTATION IN VITAMIN B12 DEFICIENCY</text>
+  </g>
+
+  <!-- Hand Anatomical Illustration (Dorsal View, Right Hand) -->
+  <g transform="translate(280, 70)" filter="url(#handShadow)">
+    <!-- Base Palm & Dorsum Outline -->
+    <!-- Wrist to Finger Outlines -->
+    <path d="M 60,450 L 60,370 
+             C 40,330 20,290 10,240 
+             C 0,190 20,170 35,185 
+             C 50,200 65,240 75,260 
+             L 75,140 
+             C 75,100 95,95 105,110 
+             C 115,125 115,170 118,220 
+             L 125,70 
+             C 125,25 150,20 160,35 
+             C 170,50 170,120 172,215 
+             L 180,95 
+             C 180,55 205,50 215,65 
+             C 225,80 220,135 220,225 
+             L 230,160 
+             C 230,125 255,125 260,145 
+             C 265,165 258,220 255,270 
+             C 250,330 240,380 230,450 Z" 
+          fill="url(#anemicHand)" stroke="#d4b499" stroke-width="2"/>
+
+    <!-- Fingernails (Pale / Anemic) -->
+    <g fill="#fbeee4" stroke="#d5bdaf" stroke-width="1">
+      <ellipse cx="28" cy="188" rx="6" ry="8" transform="rotate(-20 28 188)"/>
+      <ellipse cx="94" cy="112" rx="7" ry="10"/>
+      <ellipse cx="145" cy="42" rx="8" ry="12"/>
+      <ellipse cx="200" cy="72" rx="8" ry="11"/>
+      <ellipse cx="247" cy="142" rx="6" ry="9"/>
+    </g>
+
+    <!-- Tendon lines on dorsum of hand (extensor tendons, pale) -->
+    <g stroke="#ffffff" stroke-width="1.5" opacity="0.3" fill="none">
+      <path d="M 80,450 C 95,350 100,260 100,240"/>
+      <path d="M 130,450 C 135,350 142,260 145,230"/>
+      <path d="M 160,450 C 165,350 180,260 185,235"/>
+      <path d="M 185,450 C 195,350 220,270 225,250"/>
+    </g>
+
+    <!-- Distinct Hyperpigmentation Patches on Knuckles -->
+    <!-- 1. Metacarpophalangeal (MCP) Knuckles (Primary feature in B12 deficiency) -->
+    <!-- Index MCP -->
+    <ellipse cx="98" cy="245" rx="19" ry="14" fill="url(#knuckleDark)"/>
+    <!-- Middle MCP (most prominent) -->
+    <ellipse cx="148" cy="235" rx="22" ry="16" fill="url(#knuckleDark)"/>
+    <!-- Ring MCP -->
+    <ellipse cx="192" cy="242" rx="20" ry="14" fill="url(#knuckleDark)"/>
+    <!-- Little MCP -->
+    <ellipse cx="232" cy="260" rx="17" ry="12" fill="url(#knuckleDark)"/>
+    <!-- Thumb MCP -->
+    <ellipse cx="52" cy="268" rx="18" ry="13" transform="rotate(-30 52 268)" fill="url(#knuckleDark)"/>
+
+    <!-- 2. Proximal Interphalangeal (PIP) Knuckles -->
+    <!-- Index PIP -->
+    <ellipse cx="96" cy="175" rx="14" ry="11" fill="url(#pipDark)"/>
+    <!-- Middle PIP -->
+    <ellipse cx="146" cy="135" rx="16" ry="12" fill="url(#pipDark)"/>
+    <!-- Ring PIP -->
+    <ellipse cx="196" cy="150" rx="15" ry="11" fill="url(#pipDark)"/>
+    <!-- Little PIP -->
+    <ellipse cx="240" cy="195" rx="13" ry="10" fill="url(#pipDark)"/>
+    <!-- Thumb IP -->
+    <ellipse cx="32" cy="210" rx="14" ry="10" transform="rotate(-25 32 210)" fill="url(#pipDark)"/>
+
+    <!-- 3. Distal Interphalangeal (DIP) Knuckles -->
+    <!-- Index DIP -->
+    <ellipse cx="95" cy="135" rx="11" ry="8" fill="url(#pipDark)" opacity="0.8"/>
+    <!-- Middle DIP -->
+    <ellipse cx="146" cy="85" rx="12" ry="9" fill="url(#pipDark)" opacity="0.8"/>
+    <!-- Ring DIP -->
+    <ellipse cx="198" cy="108" rx="11" ry="8" fill="url(#pipDark)" opacity="0.8"/>
+    <!-- Little DIP -->
+    <ellipse cx="244" cy="162" rx="10" ry="7" fill="url(#pipDark)" opacity="0.8"/>
+
+    <!-- Skin creases over pigmented knuckles -->
+    <g stroke="#3e2723" stroke-width="1.2" opacity="0.6">
+      <path d="M 85,242 Q 98,240 110,243 M 88,247 Q 98,245 108,248"/>
+      <path d="M 132,232 Q 148,230 162,233 M 135,237 Q 148,235 160,238"/>
+      <path d="M 178,240 Q 192,238 205,241 M 180,245 Q 192,243 203,246"/>
+      <path d="M 220,258 Q 232,256 242,259 M 222,263 Q 232,261 241,264"/>
+    </g>
+  </g>
+
+  <!-- Pointers and Callout Annotations -->
+  <!-- Callout 1: MCP Knuckle Pigmentation -->
+  <g transform="translate(180, 290)">
+    <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+    <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#0f172a">1</text>
+    <line x1="20" y1="5" x2="220" y2="25" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="-15" y="-5" text-anchor="end" font-family="sans-serif" font-size="14.5" font-weight="700" fill="#fbbf24">MCP KNUCKLE HYPERPIGMENTATION</text>
+    <text x="-15" y="15" text-anchor="end" font-family="sans-serif" font-size="12" fill="#cbd5e1">Prominent dark brown-black melanin deposition</text>
+  </g>
+
+  <!-- Callout 2: PIP / DIP Knuckle Pigmentation -->
+  <g transform="translate(760, 200)">
+    <circle cx="0" cy="0" r="16" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/>
+    <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#0f172a">2</text>
+    <line x1="-20" y1="5" x2="-260" y2="10" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="25" y="-5" text-anchor="start" font-family="sans-serif" font-size="14.5" font-weight="700" fill="#38bdf8">INTERPHALANGEAL (PIP/DIP) HYPERPIGMENTATION</text>
+    <text x="25" y="15" text-anchor="start" font-family="sans-serif" font-size="12" fill="#cbd5e1">Accentuates dorsal flexion creases</text>
+  </g>
+
+  <!-- Educational Concept Cards (Bottom) -->
+  <g transform="translate(70, 545)">
+    <rect x="0" y="0" width="390" height="115" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="25" font-family="sans-serif" font-size="13.5" font-weight="700" fill="#f59e0b">CLINICAL PRESENTATION &amp; TRIAD</text>
+    <text x="20" y="50" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#facc15">Triad of B12 Deficiency:</tspan> Megaloblastic anemia (pallor,</text>
+    <text x="32" y="68" font-family="sans-serif" font-size="11.5" fill="#cbd5e1">fatigue) + Neuropathy (SCDC) + Knuckle hyperpigmentation.</text>
+    <text x="20" y="90" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#38bdf8">Demographics:</tspan> Particularly common and striking in dark-skinned</text>
+    <text x="32" y="106" font-family="sans-serif" font-size="11.5" fill="#cbd5e1">individuals and strict vegetarians/vegans.</text>
+  </g>
+
+  <g transform="translate(500, 545)">
+    <rect x="0" y="0" width="390" height="115" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="25" font-family="sans-serif" font-size="13.5" font-weight="700" fill="#38bdf8">PATHOPHYSIOLOGY &amp; REVERSIBILITY</text>
+    <text x="20" y="50" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#f87171">Mechanism:</tspan> Decreased intracellular reduced glutathione (GSH)</text>
+    <text x="32" y="68" font-family="sans-serif" font-size="11.5" fill="#cbd5e1">removes physiological inhibition on tyrosinase → excess melanin.</text>
+    <text x="20" y="90" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#4ade80">Prognosis:</tspan> Highly responsive; hyperpigmentation completely</text>
+    <text x="32" y="106" font-family="sans-serif" font-size="11.5" fill="#cbd5e1">resolves within weeks following parenternal cyanocobalamin.</text>
+  </g>
+
+  <!-- Medicomm Watermark -->
+  <text x="32" y="680" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#ffffff" opacity="0.35" letter-spacing="1">medicomm</text>
+</svg>

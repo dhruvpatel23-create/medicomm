@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <rect width="1000" height="1000" fill="#030712"/>
+
+  <!-- Top Title Pill -->
+  <rect x="180" y="50" width="640" height="48" rx="24" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="500" y="81" fill="#38bdf8" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" letter-spacing="1">NATIONAL AIR QUALITY INDEX (NAQI) MONITORING</text>
+
+  <text x="500" y="135" fill="#94a3b8" font-family="sans-serif" font-size="16" text-anchor="middle">Delhi Ambient Air Quality Telemetry Report (4 Consecutive Days)</text>
+
+  <!-- Station Data Table Centered & Expanded -->
+  <g transform="translate(80, 180)">
+    <rect width="840" height="660" rx="14" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <rect x="0" y="0" width="840" height="75" rx="14" fill="#1e293b"/>
+    <text x="420" y="46" fill="#f8fafc" font-family="sans-serif" font-size="19" font-weight="800" text-anchor="middle">CENTRAL POLLUTION CONTROL BOARD (CPCB) MONITORING DATA</text>
+
+    <!-- Table Header -->
+    <text x="80" y="135" fill="#38bdf8" font-family="sans-serif" font-size="17" font-weight="700">Date</text>
+    <text x="240" y="135" fill="#38bdf8" font-family="sans-serif" font-size="17" font-weight="700">Station Name</text>
+    <text x="460" y="135" fill="#38bdf8" font-family="sans-serif" font-size="17" font-weight="700">PM 2.5 (µg/m³)</text>
+    <text x="680" y="135" fill="#38bdf8" font-family="sans-serif" font-size="17" font-weight="700">Calculated AQI</text>
+    <line x1="30" y1="165" x2="810" y2="165" stroke="#334155" stroke-width="2"/>
+
+    <!-- Row 1: Nov 20 -->
+    <text x="80" y="240" fill="#f8fafc" font-family="sans-serif" font-size="17">November 20</text>
+    <text x="240" y="240" fill="#cbd5e1" font-family="sans-serif" font-size="17">Anand Vihar</text>
+    <text x="480" y="240" fill="#cbd5e1" font-family="sans-serif" font-size="17">235</text>
+    <text x="700" y="240" fill="#f8fafc" font-family="sans-serif" font-size="19" font-weight="700">342</text>
+    <line x1="30" y1="280" x2="810" y2="280" stroke="#1e293b" stroke-width="1.5"/>
+
+    <!-- Row 2: Nov 21 -->
+    <text x="80" y="355" fill="#f8fafc" font-family="sans-serif" font-size="17">November 21</text>
+    <text x="240" y="355" fill="#cbd5e1" font-family="sans-serif" font-size="17">ITO Station</text>
+    <text x="480" y="355" fill="#cbd5e1" font-family="sans-serif" font-size="17">280</text>
+    <text x="700" y="355" fill="#f8fafc" font-family="sans-serif" font-size="19" font-weight="700">388</text>
+    <line x1="30" y1="395" x2="810" y2="395" stroke="#1e293b" stroke-width="1.5"/>
+
+    <!-- Row 3: Nov 22 -->
+    <text x="80" y="470" fill="#f8fafc" font-family="sans-serif" font-size="17">November 22</text>
+    <text x="240" y="470" fill="#cbd5e1" font-family="sans-serif" font-size="17">R.K. Puram</text>
+    <text x="480" y="470" fill="#cbd5e1" font-family="sans-serif" font-size="17">295</text>
+    <text x="700" y="470" fill="#f8fafc" font-family="sans-serif" font-size="19" font-weight="700">395</text>
+    <line x1="30" y1="510" x2="810" y2="510" stroke="#1e293b" stroke-width="1.5"/>
+
+    <!-- Row 4: Nov 23 (Target Row) -->
+    <rect x="20" y="540" width="800" height="85" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <text x="80" y="592" fill="#38bdf8" font-family="sans-serif" font-size="18" font-weight="800">November 23</text>
+    <text x="240" y="592" fill="#f8fafc" font-family="sans-serif" font-size="18" font-weight="700">Punjabi Bagh</text>
+    <text x="480" y="592" fill="#f8fafc" font-family="sans-serif" font-size="18" font-weight="700">355</text>
+    <text x="700" y="592" fill="#38bdf8" font-family="sans-serif" font-size="22" font-weight="900">407</text>
+  </g>
+
+  <!-- Single Watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

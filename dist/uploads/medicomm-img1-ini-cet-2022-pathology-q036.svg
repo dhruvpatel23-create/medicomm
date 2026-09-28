@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="smearGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdf2f8"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">PERIPHERAL BLOOD SMEAR: LEUKEMIA WORKUP</text>
+  </g>
+
+  <!-- Microscope Circular Field -->
+  <g transform="translate(480, 345)" filter="url(#shadow)">
+    <circle cx="0" cy="0" r="236" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+    <circle cx="0" cy="0" r="230" fill="url(#smearGrad)"/>
+
+    <g clip-path="url(#cllClip)">
+      <clipPath id="cllClip">
+        <circle cx="0" cy="0" r="230"/>
+      </clipPath>
+
+      <!-- Normal RBCs in background -->
+      <circle cx="60" cy="0" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="69.09495686401226" cy="38.299959999460626" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="51.93208789485408" cy="83.10871342332976" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="6.123306880424444" cy="116.83965556628515" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-59.618475963314545" cy="122.23599029668671" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-126.96856686479374" cy="88.90434763441212" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-173.04680979407956" cy="18.18795260857175" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-177.657436716321" cy="-75.4111077984298" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-130.52023276903952" cy="-167.0582797646251" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-11.889019343057559" cy="-75.06431388523046" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="32.49191361593856" cy="-89.27079897466129" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="86.036892145396" cy="-74.79072930491785" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="130.09363089759614" cy="-27.65225487876206" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="145.3583229063814" cy="44.44049911785597" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="118.78658134848858" cy="123.0071058579093" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="49.17561856947894" cy="183.525906994923" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-50.56167618033065" cy="202.79180679168323" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-49.785880284562346" cy="53.388820218199484" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-87.49719949915412" cy="28.429563482495197" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-108.9606173626907" cy="-21.17979848679649" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-99.5857776054671" cy="-83.56238925925018" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-53.39682448224984" cy="-139.10348354808303" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="23.381080961290955" cy="-166.36503554858382" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="112.53940932943307" cy="-149.34484037884374" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="188.1903642743757" cy="-83.78774847361505" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="69.7336288664222" cy="6.100901992336031" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="73.78434395739872" cy="49.76816840889646" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="49.03097397187102" cy="96.22870461234375" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-4.4322360812175035" cy="126.92263503142516" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-75.19555893686785" cy="125.14642590250844" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-142.89419162443238" cy="82.5" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-183.971975908776" cy="3.2112427844600795" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-179.23836135036208" cy="-95.302727245536" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-36.490815346006734" cy="-56.190928052343466" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-5.999056741994918" cy="-85.79050832234488" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="44.37491748277333" cy="-95.16231763884831" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="100.31810730249343" cy="-72.88537128426674" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="141.93409968470905" cy="-17.42731610693612" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="150.20378443981954" cy="60.68626813337778" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="113.9069907800205" cy="140.6634190237118" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="34.72963553338584" cy="196.96155060244166" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-20.83636188525791" cy="60.513188838356314" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-61.68102051462365" cy="55.53784032778532" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-99.38574660809397" cy="22.945007543074325" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/><circle cx="-116.3126652085366" cy="-33.352120053856844" r="15" fill="#f43f5e" opacity="0.5" stroke="#e11d48"/>
+
+      <!-- Small Mature Lymphocytes (Soccer-ball / clumped chromatin) -->
+      <g transform="translate(-160, -150)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(-43, -150)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(74, -150)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(191, -150)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(-132, -65)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(-45, -65)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(72, -65)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(189, -65)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(-134, 20)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(-47, 20)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(70, 20)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(187, 20)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(-136, 105)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g><g transform="translate(-49, 105)">
+          <circle cx="0" cy="0" r="20" fill="#312e81" stroke="#1e1b4b" stroke-width="1.5"/>
+          <path d="M -8,-8 L 8,8 M -8,8 L 8,-8" stroke="#4338ca" stroke-width="2"/>
+        </g>
+
+      <!-- Smudge Cell / Basket Cell (Gumprecht Shadow - fragile ruptured lymphocyte nucleus smeared across slide) -->
+      <g transform="translate(40, 20)">
+        <path d="M -50,-10 C -20,-35 40,-30 60,-5 C 75,20 20,40 -20,35 C -55,30 -70,5 -50,-10 Z"
+              fill="#4338ca" opacity="0.65" stroke="#312e81" stroke-width="2" stroke-dasharray="4 2"/>
+        <!-- Fine chromatin strands trailing out -->
+        <line x1="50" y1="0" x2="90" y2="15" stroke="#6366f1" stroke-width="2"/>
+        <line x1="-30" y1="25" x2="-60" y2="45" stroke="#6366f1" stroke-width="2"/>
+      </g>
+    </g>
+
+    <!-- Marker Arrow to Smudge Cell -->
+    <g transform="translate(-80, -90)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#000000">!</text>
+      <!-- Arrow pointing to smudge cell -->
+      <line x1="16" y1="12" x2="80" y2="65" stroke="#f59e0b" stroke-width="3"/>
+      <polygon points="90,72 76,65 82,54" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

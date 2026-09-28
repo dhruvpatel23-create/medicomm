@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#94a3b8" stop-opacity="0.3"/>
+      <stop offset="15%" stop-color="#cbd5e1" stop-opacity="0.1"/>
+      <stop offset="85%" stop-color="#cbd5e1" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#64748b" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="etherGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef08a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#fde047" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="formalinGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bae6fd" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-5%" width="120%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="720" fill="#000000"/>
+  <rect width="960" height="720" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">STOOL CONCENTRATION SEDIMENTATION TUBE</text>
+  </g>
+
+  <!-- Centrifuge Tube Container (Centered) -->
+  <g transform="translate(480, 110)" filter="url(#shadow)">
+    <!-- Tube Outer Glass Body (Conical centrifuge tube) -->
+    <!-- Cylinder width 140 (x from -70 to 70), height 360, then conical tip to y=490 -->
+    <path d="M -70 20 L -70 360 L 0 490 L 70 360 L 70 20 Z" fill="none" stroke="#64748b" stroke-width="3"/>
+    <!-- Tube Rim -->
+    <rect x="-78" y="10" width="156" height="12" rx="4" fill="#334155" stroke="#64748b" stroke-width="2"/>
+
+    <!-- Layer A: Top Ether Layer (y: 35 to 140) -->
+    <path d="M -67 35 L -67 140 L 67 140 L 67 35 Z" fill="url(#etherGrad)"/>
+    <!-- Meniscus at top -->
+    <ellipse cx="0" cy="35" rx="67" ry="6" fill="#fef08a" opacity="0.7"/>
+
+    <!-- Layer B: Debris Plug at Interface (y: 140 to 180) -->
+    <path d="M -67 140 L -67 180 L 67 180 L 67 140 Z" fill="#78350f" opacity="0.95"/>
+    <!-- Debris texture specs -->
+    <ellipse cx="-30" cy="155" rx="15" ry="6" fill="#451a03"/>
+    <ellipse cx="25" cy="165" rx="20" ry="5" fill="#451a03"/>
+    <ellipse cx="0" cy="150" rx="12" ry="4" fill="#92400e"/>
+    <ellipse cx="45" cy="158" rx="8" ry="4" fill="#451a03"/>
+
+    <!-- Layer C: Formalin Layer (y: 180 to 390) -->
+    <path d="M -67 180 L -67 360 L -45 400 L 45 400 L 67 360 L 67 180 Z" fill="url(#formalinGrad)"/>
+
+    <!-- Layer D: Bottom Sediment (y: 400 to 486) -->
+    <path d="M -45 400 L 0 486 L 45 400 Z" fill="#b45309"/>
+    <!-- Parasite ova dots in sediment -->
+    <circle cx="-12" cy="425" r="4" fill="#fef3c7" stroke="#78350f"/>
+    <circle cx="15" cy="430" r="5" fill="#fef3c7" stroke="#78350f"/>
+    <circle cx="-5" cy="445" r="4" fill="#fef3c7" stroke="#78350f"/>
+    <circle cx="8" cy="455" r="3.5" fill="#fef3c7" stroke="#78350f"/>
+    <circle cx="0" cy="470" r="3" fill="#fef3c7" stroke="#78350f"/>
+
+    <!-- Glass Reflection Overlay -->
+    <path d="M -70 20 L -70 360 L 0 490 L 70 360 L 70 20 Z" fill="url(#glassGrad)"/>
+    <line x1="-50" y1="30" x2="-50" y2="350" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
+  </g>
+
+  <!-- ================= LABELS & POINTERS ================= -->
+
+  <!-- Label A: Pointer to Ether Layer (y = 200 in canvas) -->
+  <g transform="translate(240, 200)">
+    <circle cx="0" cy="0" r="24" fill="#2563eb" stroke="#ffffff" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="20" font-weight="900" fill="#ffffff">A</text>
+    <line x1="28" y1="0" x2="160" y2="0" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="170,0 156,-5 156,5" fill="#ffffff"/>
+  </g>
+
+  <!-- Label B: Pointer to Debris Plug (y = 270 in canvas) -->
+  <g transform="translate(720, 270)">
+    <circle cx="0" cy="0" r="24" fill="#2563eb" stroke="#ffffff" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="20" font-weight="900" fill="#ffffff">B</text>
+    <line x1="-28" y1="0" x2="-160" y2="0" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="-170,0 -156,-5 -156,5" fill="#ffffff"/>
+  </g>
+
+  <!-- Label C: Pointer to Formalin Layer (y = 390 in canvas) -->
+  <g transform="translate(240, 390)">
+    <circle cx="0" cy="0" r="24" fill="#2563eb" stroke="#ffffff" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="20" font-weight="900" fill="#ffffff">C</text>
+    <line x1="28" y1="0" x2="160" y2="0" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="170,0 156,-5 156,5" fill="#ffffff"/>
+  </g>
+
+  <!-- Label D: Pointer to Sediment (y = 540 in canvas - TARGET) -->
+  <g transform="translate(720, 540)">
+    <circle cx="0" cy="0" r="24" fill="#2563eb" stroke="#ffffff" stroke-width="2.5"/>
+    <text x="0" y="8" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="20" font-weight="900" fill="#ffffff">D</text>
+    <line x1="-28" y1="0" x2="-185" y2="0" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="-195,0 -181,-5 -181,5" fill="#ffffff"/>
+  </g>
+
+  <!-- Watermark -->
+  <text x="36" y="692" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#475569" letter-spacing="1">medicomm</text>
+</svg>

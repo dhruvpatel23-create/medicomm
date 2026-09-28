@@ -1,0 +1,236 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+
+    <!-- Smear Field Vignette Clip & Gradient -->
+    <radialGradient id="smearLight" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="70%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </radialGradient>
+
+    <!-- Normal RBC Gradient (Biconcave with central pallor) -->
+    <radialGradient id="rbcNorm" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fee2e2" stop-opacity="0.9"/>
+      <stop offset="35%" stop-color="#fca5a5"/>
+      <stop offset="80%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </radialGradient>
+
+    <!-- Macro-ovalocyte Gradient (Large, hyperchromic, reduced/absent central pallor) -->
+    <radialGradient id="macroOval" cx="45%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#f87171"/>
+      <stop offset="70%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </radialGradient>
+
+    <!-- Neutrophil Cytoplasm -->
+    <radialGradient id="neutroCyto" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fae8ff"/>
+      <stop offset="70%" stop-color="#f5d0fe"/>
+      <stop offset="100%" stop-color="#e9d5ff"/>
+    </radialGradient>
+
+    <!-- Chromatin Nucleus Gradient (Deep purple-blue) -->
+    <linearGradient id="nucLobes" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#581c87"/>
+      <stop offset="50%" stop-color="#3b0764"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+
+    <!-- Drop Shadow -->
+    <filter id="shadowBox" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-310" y="-20" width="620" height="40" rx="20" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#f8fafc" letter-spacing="1">MEGALOBLASTIC ANEMIA: PERIPHERAL BLOOD SMEAR</text>
+  </g>
+
+  <!-- Microscopic Smear Circular Field (Center: 480, 310, r: 230) -->
+  <g transform="translate(480, 310)" filter="url(#shadowBox)">
+    <circle cx="0" cy="0" r="236" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+    <circle cx="0" cy="0" r="230" fill="url(#smearLight)"/>
+
+    <g clip-path="url(#smearClip)">
+      <clipPath id="smearClip">
+        <circle cx="0" cy="0" r="230"/>
+      </clipPath>
+
+      <!-- Background Red Blood Cells (Normocytes ~7.5um) -->
+      <g stroke="#991b1b" stroke-width="0.8">
+        <!-- Top Left -->
+        <circle cx="-160" cy="-150" r="22" fill="url(#rbcNorm)"/>
+        <circle cx="-110" cy="-170" r="21" fill="url(#rbcNorm)"/>
+        <circle cx="-180" cy="-100" r="23" fill="url(#rbcNorm)"/>
+        <circle cx="-140" cy="-70" r="21" fill="url(#rbcNorm)"/>
+
+        <!-- Top Right -->
+        <circle cx="120" cy="-160" r="22" fill="url(#rbcNorm)"/>
+        <circle cx="170" cy="-140" r="23" fill="url(#rbcNorm)"/>
+        <circle cx="130" cy="-100" r="21" fill="url(#rbcNorm)"/>
+        <circle cx="180" cy="-80" r="22" fill="url(#rbcNorm)"/>
+
+        <!-- Bottom Left -->
+        <circle cx="-170" cy="110" r="22" fill="url(#rbcNorm)"/>
+        <circle cx="-130" cy="150" r="21" fill="url(#rbcNorm)"/>
+        <circle cx="-170" cy="160" r="23" fill="url(#rbcNorm)"/>
+        <circle cx="-90" cy="170" r="22" fill="url(#rbcNorm)"/>
+
+        <!-- Bottom Right -->
+        <circle cx="110" cy="160" r="22" fill="url(#rbcNorm)"/>
+        <circle cx="160" cy="140" r="23" fill="url(#rbcNorm)"/>
+        <circle cx="170" cy="90" r="21" fill="url(#rbcNorm)"/>
+        <circle cx="140" cy="110" r="22" fill="url(#rbcNorm)"/>
+
+        <!-- Peripheral Rim Cells -->
+        <circle cx="-50" cy="-180" r="22" fill="url(#rbcNorm)"/>
+        <circle cx="30" cy="-180" r="21" fill="url(#rbcNorm)"/>
+        <circle cx="10" cy="180" r="22" fill="url(#rbcNorm)"/>
+        <circle cx="-40" cy="190" r="23" fill="url(#rbcNorm)"/>
+      </g>
+
+      <!-- Prominent Macro-Ovalocytes (Large, Oval, Hyperchromic RBCs > 10um) -->
+      <!-- Macro-ovalocyte 1 (Top Center, angled) -->
+      <g transform="translate(10, -115) rotate(-35)" stroke="#7f1d1d" stroke-width="1.2">
+        <ellipse cx="0" cy="0" rx="36" ry="24" fill="url(#macroOval)"/>
+      </g>
+
+      <!-- Macro-ovalocyte 2 (Left Midfield) -->
+      <g transform="translate(-135, 10) rotate(25)" stroke="#7f1d1d" stroke-width="1.2">
+        <ellipse cx="0" cy="0" rx="38" ry="25" fill="url(#macroOval)"/>
+      </g>
+
+      <!-- Macro-ovalocyte 3 (Bottom Center Left) -->
+      <g transform="translate(-60, 110) rotate(-15)" stroke="#7f1d1d" stroke-width="1.2">
+        <ellipse cx="0" cy="0" rx="35" ry="23" fill="url(#macroOval)"/>
+      </g>
+
+      <!-- Macro-ovalocyte 4 with Howell-Jolly Body (Right Midfield) -->
+      <g transform="translate(135, 10) rotate(45)" stroke="#7f1d1d" stroke-width="1.2">
+        <ellipse cx="0" cy="0" rx="36" ry="24" fill="url(#macroOval)"/>
+        <!-- Howell-Jolly Body (eccentric dark violet DNA sphere) -->
+        <circle cx="18" cy="-6" r="4.5" fill="#3b0764" stroke="#1e1b4b" stroke-width="1"/>
+      </g>
+
+      <!-- Teardrop Cell (Dacrocyte) in background -->
+      <g transform="translate(-80, -90) rotate(50)">
+        <path d="M 0,-25 C 15,-10 20,10 0,22 C -20,10 -15,-10 0,-25 Z" fill="url(#rbcNorm)" stroke="#7f1d1d" stroke-width="1"/>
+      </g>
+
+      <!-- Scant Platelets (Thrombocytopenia) -->
+      <g fill="#a855f7" stroke="#6b21a8" stroke-width="0.8">
+        <path d="M -85,45 Q -80,40 -78,46 Q -75,52 -82,50 Z"/>
+        <path d="M 75,-70 Q 80,-65 82,-72 Q 77,-75 75,-70 Z"/>
+      </g>
+
+      <!-- Dominant Feature: HYPERSEGMENTED NEUTROPHIL (Center: 0, 0) -->
+      <!-- Cell Diameter ~ 18-20 um, Cytoplasm -->
+      <g transform="translate(-5, 0)">
+        <!-- Cytoplasm with fine lilac/pink azurophilic granules -->
+        <circle cx="0" cy="0" r="70" fill="url(#neutroCyto)" stroke="#c084fc" stroke-width="2"/>
+        
+        <!-- Cytoplasmic fine granules -->
+        <g fill="#d946ef" opacity="0.6">
+          <circle cx="-40" cy="-20" r="1.5"/><circle cx="-35" cy="-35" r="1.5"/><circle cx="-20" cy="-45" r="1.5"/>
+          <circle cx="20" cy="-45" r="1.5"/><circle cx="35" cy="-35" r="1.5"/><circle cx="45" cy="-15" r="1.5"/>
+          <circle cx="48" cy="15" r="1.5"/><circle cx="35" cy="35" r="1.5"/><circle cx="15" cy="45" r="1.5"/>
+          <circle cx="-15" cy="45" r="1.5"/><circle cx="-35" cy="35" r="1.5"/><circle cx="-45" cy="15" r="1.5"/>
+          <circle cx="-10" cy="-10" r="1.5"/><circle cx="12" cy="10" r="1.5"/><circle cx="0" cy="0" r="1.5"/>
+        </g>
+
+        <!-- 6 Distinct Nuclear Lobes connected by thin chromatin filaments -->
+        <!-- Filaments connecting lobes -->
+        <g stroke="#3b0764" stroke-width="3" stroke-linecap="round" fill="none">
+          <!-- Lobe 1 to 2 -->
+          <path d="M -30,-22 Q -22,-36 -12,-38"/>
+          <!-- Lobe 2 to 3 -->
+          <path d="M 12,-38 Q 24,-34 32,-20"/>
+          <!-- Lobe 3 to 4 -->
+          <path d="M 36, -5 Q 40, 10 32, 22"/>
+          <!-- Lobe 4 to 5 -->
+          <path d="M 18, 34 Q 4, 38 -10, 32"/>
+          <!-- Lobe 5 to 6 -->
+          <path d="M -26, 22 Q -38, 10 -34, -4"/>
+          <!-- Extra cross filament -->
+          <path d="M -10, 32 Q -12, 10 -20, -5"/>
+        </g>
+
+        <!-- Lobes (1 through 6) with condensed coarse nuclear chromatin -->
+        <g fill="url(#nucLobes)" stroke="#1e1b4b" stroke-width="1.2">
+          <!-- Lobe 1: Upper Left -->
+          <ellipse cx="-32" cy="-22" rx="14" ry="11" transform="rotate(-20 -32 -22)"/>
+          <!-- Lobe 2: Top Center -->
+          <ellipse cx="0" cy="-38" rx="13" ry="11" transform="rotate(10 0 -38)"/>
+          <!-- Lobe 3: Upper Right -->
+          <ellipse cx="32" cy="-18" rx="12" ry="14" transform="rotate(25 32 -18)"/>
+          <!-- Lobe 4: Lower Right -->
+          <ellipse cx="26" cy="24" rx="13" ry="12" transform="rotate(-15 26 24)"/>
+          <!-- Lobe 5: Bottom Center -->
+          <ellipse cx="-12" cy="30" rx="14" ry="11" transform="rotate(15 -12 30)"/>
+          <!-- Lobe 6: Mid Left -->
+          <ellipse cx="-32" cy="6" rx="12" ry="13" transform="rotate(-10 -32 6)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- Pointers / Callouts -->
+  <!-- Callout 1: Hypersegmented Neutrophil -->
+  <g transform="translate(170, 190)">
+    <circle cx="0" cy="0" r="16" fill="#a855f7" stroke="#ffffff" stroke-width="2"/>
+    <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#ffffff">1</text>
+    <line x1="20" y1="5" x2="240" y2="70" stroke="#a855f7" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="-15" y="-5" text-anchor="end" font-family="sans-serif" font-size="14.5" font-weight="700" fill="#c084fc">HYPERSEGMENTED NEUTROPHIL</text>
+    <text x="-15" y="15" text-anchor="end" font-family="sans-serif" font-size="12" fill="#cbd5e1">≥ 5-6 lobes (Earliest &amp; most sensitive finding)</text>
+  </g>
+
+  <!-- Callout 2: Macro-ovalocyte -->
+  <g transform="translate(790, 200)">
+    <circle cx="0" cy="0" r="16" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+    <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#ffffff">2</text>
+    <line x1="-20" y1="5" x2="-230" y2="-10" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="25" y="-5" text-anchor="start" font-family="sans-serif" font-size="14.5" font-weight="700" fill="#f87171">MACRO-OVALOCYTE</text>
+    <text x="25" y="15" text-anchor="start" font-family="sans-serif" font-size="12" fill="#cbd5e1">Large oval RBC lacking central pallor (&gt;10 µm)</text>
+  </g>
+
+  <!-- Callout 3: Howell-Jolly Body -->
+  <g transform="translate(790, 360)">
+    <circle cx="0" cy="0" r="16" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/>
+    <text x="0" y="5" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="800" fill="#0f172a">3</text>
+    <line x1="-20" y1="-5" x2="-155" y2="-40" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="25" y="-5" text-anchor="start" font-family="sans-serif" font-size="14.5" font-weight="700" fill="#38bdf8">HOWELL-JOLLY BODY</text>
+    <text x="25" y="15" text-anchor="start" font-family="sans-serif" font-size="12" fill="#cbd5e1">Basophilic nuclear DNA remnant in RBC</text>
+  </g>
+
+  <!-- Educational Concept Cards (Bottom) -->
+  <g transform="translate(70, 560)">
+    <rect x="0" y="0" width="390" height="100" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="24" font-family="sans-serif" font-size="13" font-weight="700" fill="#38bdf8">DIAGNOSTIC CRITERIA</text>
+    <text x="20" y="46" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#facc15">Undritz Rule:</tspan> Presence of even a single neutrophil with</text>
+    <text x="32" y="64" font-family="sans-serif" font-size="11.5" fill="#cbd5e1">≥ 6 lobes or &gt;5% neutrophils with 5 lobes confirms megaloblastosis.</text>
+    <text x="20" y="84" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#f87171">RBC Indices:</tspan> MCV elevated (&gt;100-110 fL), Pancytopenia.</text>
+  </g>
+
+  <g transform="translate(500, 560)">
+    <rect x="0" y="0" width="390" height="100" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="24" font-family="sans-serif" font-size="13" font-weight="700" fill="#a855f7">PATHOGENESIS &amp; ETIOLOGY</text>
+    <text x="20" y="46" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#c084fc">Nuclear-Cytoplasmic Asynchrony:</tspan> Impaired DNA synthesis</text>
+    <text x="32" y="64" font-family="sans-serif" font-size="11.5" fill="#cbd5e1">with normal RNA/protein synthesis delays cell division.</text>
+    <text x="20" y="84" font-family="sans-serif" font-size="11.5" fill="#e2e8f0">• <tspan font-weight="700" fill="#38bdf8">Causes:</tspan> Vitamin B12 deficiency (pernicious anemia) &amp; Folate def.</text>
+  </g>
+
+  <!-- Medicomm Watermark -->
+  <text x="32" y="680" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#ffffff" opacity="0.35" letter-spacing="1">medicomm</text>
+</svg>

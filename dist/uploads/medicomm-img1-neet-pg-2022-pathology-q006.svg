@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdf2f8"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">BLADDER BIOPSY: HISTOPATHOLOGY OF TRIGONE PLAQUE</text>
+  </g>
+
+  <!-- Histology Field -->
+  <g transform="translate(480, 345)" filter="url(#shadow)">
+    <rect x="-380" y="-240" width="760" height="480" rx="20" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+    <rect x="-372" y="-232" width="744" height="464" rx="16" fill="url(#fieldGrad)"/>
+
+    <g clip-path="url(#malakoClip)">
+      <clipPath id="malakoClip">
+        <rect x="-372" y="-232" width="744" height="464" rx="16"/>
+      </clipPath>
+
+      <!-- Sheets of Plump, Foamy Histiocytes (Von Hansemann Cells) -->
+      <ellipse cx="-320" cy="-180" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-332" cy="-180" r="8" fill="#581c87"/><ellipse cx="-205" cy="-180" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-217" cy="-180" r="8" fill="#581c87"/><ellipse cx="-90" cy="-180" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-102" cy="-180" r="8" fill="#581c87"/><ellipse cx="25" cy="-180" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="13" cy="-180" r="8" fill="#581c87"/><ellipse cx="140" cy="-180" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="128" cy="-180" r="8" fill="#581c87"/><ellipse cx="255" cy="-180" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="243" cy="-180" r="8" fill="#581c87"/><ellipse cx="-320" cy="-80" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-332" cy="-80" r="8" fill="#581c87"/><ellipse cx="-205" cy="-80" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-217" cy="-80" r="8" fill="#581c87"/><ellipse cx="-90" cy="-80" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-102" cy="-80" r="8" fill="#581c87"/><ellipse cx="25" cy="-80" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="13" cy="-80" r="8" fill="#581c87"/><ellipse cx="140" cy="-80" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="128" cy="-80" r="8" fill="#581c87"/><ellipse cx="255" cy="-80" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="243" cy="-80" r="8" fill="#581c87"/><ellipse cx="-320" cy="20" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-332" cy="20" r="8" fill="#581c87"/><ellipse cx="-205" cy="20" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-217" cy="20" r="8" fill="#581c87"/><ellipse cx="-90" cy="20" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-102" cy="20" r="8" fill="#581c87"/><ellipse cx="25" cy="20" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="13" cy="20" r="8" fill="#581c87"/><ellipse cx="140" cy="20" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="128" cy="20" r="8" fill="#581c87"/><ellipse cx="255" cy="20" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="243" cy="20" r="8" fill="#581c87"/><ellipse cx="-320" cy="120" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-332" cy="120" r="8" fill="#581c87"/><ellipse cx="-205" cy="120" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-217" cy="120" r="8" fill="#581c87"/><ellipse cx="-90" cy="120" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="-102" cy="120" r="8" fill="#581c87"/><ellipse cx="25" cy="120" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="13" cy="120" r="8" fill="#581c87"/><ellipse cx="140" cy="120" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="128" cy="120" r="8" fill="#581c87"/><ellipse cx="255" cy="120" rx="48" ry="38" fill="#fbcfe8" opacity="0.75" stroke="#db2777" stroke-width="1.5"/>
+                <circle cx="243" cy="120" r="8" fill="#581c87"/>
+
+      <!-- Centerpiece: Michaelis-Gutmann Bodies (Concentric targetoid basophilic calcospherites inside and outside histiocytes) -->
+      <g transform="translate(10, 10)">
+        <!-- Targetoid Laminated Michaelis-Gutmann Body 1 -->
+        <g transform="translate(0, 0)">
+          <circle cx="0" cy="0" r="28" fill="#3b0764" stroke="#1e1b4b" stroke-width="2"/>
+          <circle cx="0" cy="0" r="20" fill="#6b21a8"/>
+          <circle cx="0" cy="0" r="12" fill="#3b0764"/>
+          <circle cx="0" cy="0" r="5" fill="#f5d0fe"/> <!-- Central target dot -->
+        </g>
+
+        <!-- Body 2 (upper left) -->
+        <g transform="translate(-90, -70)">
+          <circle cx="0" cy="0" r="22" fill="#3b0764" stroke="#1e1b4b" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="14" fill="#6b21a8"/>
+          <circle cx="0" cy="0" r="4" fill="#f5d0fe"/>
+        </g>
+
+        <!-- Body 3 (lower right) -->
+        <g transform="translate(80, 80)">
+          <circle cx="0" cy="0" r="24" fill="#3b0764" stroke="#1e1b4b" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="16" fill="#6b21a8"/>
+          <circle cx="0" cy="0" r="5" fill="#f5d0fe"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Marker Arrow to Michaelis-Gutmann Body -->
+    <g transform="translate(-140, -110)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#000000">!</text>
+      <!-- Arrow pointing to concentric Michaelis-Gutmann calcospherite -->
+      <line x1="16" y1="12" x2="115" y2="85" stroke="#f59e0b" stroke-width="3"/>
+      <polygon points="125,92 111,84 117,74" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

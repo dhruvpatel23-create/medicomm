@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <rect width="1000" height="1000" fill="#000000"/>
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+    <linearGradient id="bacGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+    <linearGradient id="pedestalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Title Banner -->
+  <text x="500" y="75" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" letter-spacing="1">INTESTINAL PATHOLOGY LESION</text>
+  <text x="500" y="110" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500">Attachment and Effacement Ultrastructure of Enterocyte Microvilli</text>
+
+  <!-- Enterocyte Cell Base -->
+  <rect x="80" y="680" width="840" height="230" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+  <text x="500" y="850" text-anchor="middle" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700">ENTEROCYTE CYTOPLASM</text>
+
+  <!-- Normal Intact Microvilli on Left -->
+  <g fill="#0284c7" stroke="#38bdf8" stroke-width="2.5">
+    <path d="M 90 680 L 90 420 C 90 405 115 405 115 420 L 115 680 Z"/>
+    <path d="M 125 680 L 125 410 C 125 395 150 395 150 410 L 150 680 Z"/>
+    <path d="M 160 680 L 160 415 C 160 400 185 400 185 415 L 185 680 Z"/>
+    <path d="M 195 680 L 195 420 C 195 405 220 405 220 420 L 220 680 Z"/>
+    <path d="M 230 680 L 230 425 C 230 410 255 410 255 425 L 255 680 Z"/>
+  </g>
+  <text x="170" y="370" text-anchor="middle" fill="#7dd3fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600">Normal Microvilli</text>
+  <line x1="170" y1="380" x2="170" y2="400" stroke="#38bdf8" stroke-width="2"/>
+
+  <!-- Effaced Microvilli Area (Transition Zone) -->
+  <path d="M 265 680 C 275 640 290 650 300 680" stroke="#f43f5e" stroke-width="2.5" fill="none" stroke-dasharray="4 3"/>
+  <path d="M 310 680 C 320 655 330 660 340 680" stroke="#f43f5e" stroke-width="2.5" fill="none" stroke-dasharray="4 3"/>
+  <text x="310" y="625" text-anchor="middle" fill="#fb7185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700">Microvilli Effacement</text>
+
+  <!-- Actin Pedestal (Central Elevated Structure) -->
+  <path d="M 360 680 C 370 540 400 480 430 450 L 570 450 C 600 480 630 540 640 680 Z" fill="url(#pedestalGrad)" stroke="#38bdf8" stroke-width="3"/>
+  
+  <!-- Actin Filament Meshwork inside pedestal -->
+  <g stroke="#facc15" stroke-width="2" opacity="0.8">
+    <line x1="450" y1="670" x2="480" y2="470"/>
+    <line x1="480" y1="670" x2="500" y2="465"/>
+    <line x1="510" y1="670" x2="510" y2="465"/>
+    <line x1="535" y1="670" x2="520" y2="465"/>
+    <line x1="560" y1="670" x2="535" y2="470"/>
+    <!-- Cross filaments -->
+    <line x1="420" y1="580" x2="580" y2="580"/>
+    <line x1="440" y1="520" x2="560" y2="520"/>
+  </g>
+  <rect x="420" y="540" width="160" height="30" rx="6" fill="#0f172a" fill-opacity="0.85" stroke="#facc15" stroke-width="1.5"/>
+  <text x="500" y="561" text-anchor="middle" fill="#fef08a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">ACTIN PEDESTAL</text>
+
+  <!-- Adherent Bacterium atop Pedestal -->
+  <rect x="400" y="270" width="200" height="175" rx="40" fill="url(#bacGrad)" stroke="#fda4af" stroke-width="4" filter="url(#glow)"/>
+  <text x="500" y="365" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800">BACTERIUM</text>
+
+  <!-- Molecular Binding Interface (Tir-Intimin) -->
+  <rect x="440" y="440" width="120" height="15" rx="4" fill="#e11d48"/>
+  <text x="500" y="435" text-anchor="middle" fill="#fecdd3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Intimin-Tir Complex</text>
+
+  <!-- Effaced Microvilli on Right -->
+  <g fill="#0284c7" stroke="#38bdf8" stroke-width="2.5">
+    <path d="M 750 680 L 750 425 C 750 410 775 410 775 425 L 775 680 Z"/>
+    <path d="M 785 680 L 785 415 C 785 400 810 400 810 415 L 810 680 Z"/>
+    <path d="M 820 680 L 820 410 C 820 395 845 395 845 410 L 845 680 Z"/>
+    <path d="M 855 680 L 855 420 C 855 405 880 405 880 420 L 880 680 Z"/>
+  </g>
+  <text x="815" y="370" text-anchor="middle" fill="#7dd3fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600">Normal Microvilli</text>
+  <line x1="815" y1="380" x2="815" y2="400" stroke="#38bdf8" stroke-width="2"/>
+
+  <!-- Legend Box -->
+  <rect x="220" y="890" width="560" height="60" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="500" y="925" text-anchor="middle" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Pathology: <tspan fill="#f43f5e" font-weight="700">Attachment and Effacement (A/E) Lesion</tspan></text>
+
+  <!-- Subtle medicomm watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

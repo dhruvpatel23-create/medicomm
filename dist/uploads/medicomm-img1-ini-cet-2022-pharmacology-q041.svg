@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1448" height="1086" viewBox="0 0 1448 1086">
+<rect width="1448" height="1086" fill="#000000"/>
+<defs>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#f59e0b"/>
+  </marker>
+  <marker id="arrow-cyan" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#06b6d4"/>
+  </marker>
+  <marker id="arrow-white" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#f8fafc"/>
+  </marker>
+  <marker id="inhibit" markerWidth="10" markerHeight="14" refX="5" refY="7" orient="auto">
+    <line x1="5" y1="0" x2="5" y2="14" stroke="#f43f5e" stroke-width="4"/>
+  </marker>
+</defs>
+<text x="36" y="1050" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" letter-spacing="1">medicomm</text>
+<text x="724" y="60" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">Platelet Activation &amp; Aggregation Drug Target Sites</text>
+<rect x="120" y="120" width="1208" height="880" fill="#0f172a" stroke="#334155" stroke-width="3" rx="24"/>
+<text x="724" y="170" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">Platelet Cytosol &amp; Surface Membrane</text>
+<rect x="180" y="240" width="360" height="380" fill="#1e1b4b" stroke="#4338ca" stroke-width="2" rx="14"/>
+<text x="360" y="290" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Pathway A (COX-1)</text>
+<text x="360" y="360" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Membrane Phospholipids</text>
+<line x1="360.0" y1="380.0" x2="360.0" y2="440.0" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="360" y="465" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-anchor="middle">Arachidonic Acid</text>
+<line x1="360.0" y1="490.0" x2="360.0" y2="550.0" stroke="#f43f5e" stroke-width="4" marker-end="url(#inhibit)"/>
+<circle cx="440" cy="510" r="26" fill="#881337" stroke="#f43f5e" stroke-width="3"/>
+<text x="440" y="519" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">A</text>
+<text x="360" y="580" fill="#f43f5e" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">Thromboxane A2 (TXA2)</text>
+<rect x="900" y="240" width="380" height="380" fill="#064e3b" stroke="#059669" stroke-width="2" rx="14"/>
+<text x="1090" y="290" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Target B (GPIIb/IIIa)</text>
+<rect x="950" y="360" width="280" height="100" fill="#0f172a" stroke="#10b981" stroke-width="3" rx="10"/>
+<text x="1090" y="400" fill="#10b981" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle">GPIIb/IIIa Receptor</text>
+<text x="1090" y="435" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">(Fibrinogen Binding)</text>
+<line x1="1090.0" y1="470.0" x2="1090.0" y2="540.0" stroke="#10b981" stroke-width="4" marker-end="url(#arrow)"/>
+<circle cx="1200" cy="410" r="26" fill="#064e3b" stroke="#10b981" stroke-width="3"/>
+<text x="1200" y="419" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">B</text>
+<text x="1090" y="580" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="normal" text-anchor="middle">Platelet Cross-linking</text>
+<rect x="540" y="660" width="380" height="280" fill="#164e63" stroke="#0891b2" stroke-width="2" rx="14"/>
+<text x="730" y="710" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Target C (PAR-1)</text>
+<rect x="590" y="760" width="280" height="90" fill="#0f172a" stroke="#06b6d4" stroke-width="3" rx="10"/>
+<text x="730" y="800" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle">Thrombin Receptor</text>
+<text x="730" y="830" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">(PAR-1 Receptor)</text>
+<circle cx="830" cy="805" r="26" fill="#164e63" stroke="#06b6d4" stroke-width="3"/>
+<text x="830" y="814" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">C</text>
+</svg>

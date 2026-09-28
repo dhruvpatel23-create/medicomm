@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <!-- Axes -->
+  <line x1="220" y1="120" x2="220" y2="750" stroke="#38b2ac" stroke-width="4" stroke-linecap="round"/>
+  <line x1="160" y1="700" x2="1060" y2="700" stroke="#38b2ac" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Axis Labels -->
+  <text x="80" y="435" fill="#ffffff" font-family="Arial, sans-serif" font-size="26" font-weight="bold" text-anchor="middle" transform="rotate(-90 80 435)">Gibbs Free Energy</text>
+  <text x="640" y="760" fill="#ffffff" font-family="Arial, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">Reaction Progress</text>
+  
+  <!-- Reactant and Product positions: Reactants at (380, 480), Products at (820, 550) -->
+  
+  <!-- Curve D (Cyan): dips downward directly into negative territory below reactants and products -->
+  <path d="M 380 480 Q 600 660 820 550" fill="none" stroke="#00e5ff" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- Line C (Orange): direct straight chord connecting reactants directly to products -->
+  <line x1="380" y1="480" x2="820" y2="550" stroke="#ff9800" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- Curve B (Royal Blue): rises to lower peak, then sharply plunges down to form an intermediate dip below products, then curves back up to products -->
+  <path d="M 380 480 C 440 470, 580 340, 640 340 C 680 340, 680 450, 685 570 C 690 620, 750 630, 820 550" fill="none" stroke="#3d7eff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Curve A (Green): smooth high uncatalyzed activation energy peak -->
+  <path d="M 380 480 C 460 460, 560 220, 660 220 C 760 220, 760 480, 820 550" fill="none" stroke="#76ff03" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- Labels A, B, C, D -->
+  <text x="660" y="195" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">A</text>
+  <text x="655" y="315" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">B</text>
+  <text x="600" y="505" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="bold" text-anchor="middle">C</text>
+  <text x="600" y="630" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="bold" text-anchor="middle">D</text>
+  
+  <!-- Watermark -->
+  <text x="40" y="860" fill="#718096" font-family="Arial, sans-serif" font-size="24" font-weight="normal">medicomm</text>
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1448" height="1086" viewBox="0 0 1448 1086">
+<rect width="1448" height="1086" fill="#000000"/>
+<defs>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#f59e0b"/>
+  </marker>
+  <marker id="arrow-cyan" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#06b6d4"/>
+  </marker>
+  <marker id="arrow-white" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 L2,5 Z" fill="#f8fafc"/>
+  </marker>
+  <marker id="inhibit" markerWidth="10" markerHeight="14" refX="5" refY="7" orient="auto">
+    <line x1="5" y1="0" x2="5" y2="14" stroke="#f43f5e" stroke-width="4"/>
+  </marker>
+</defs>
+<text x="36" y="1050" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" letter-spacing="1">medicomm</text>
+<text x="724" y="70" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">Steps in Bacterial Peptidoglycan Cell Wall Assembly</text>
+<rect x="40" y="240" width="300" height="580" fill="#0f172a" stroke="#334155" stroke-width="2" rx="12"/>
+<circle cx="190" cy="190" r="26" fill="#4c1d95" stroke="#a855f7" stroke-width="3"/>
+<text x="190" y="199" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">1</text>
+<text x="190" y="290" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Stage 1</text>
+<text x="190" y="340" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Cytoplasmic Precursor</text>
+<text x="190" y="370" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Synthesis (UDP-MurNAc)</text>
+<rect x="380" y="240" width="300" height="580" fill="#0f172a" stroke="#334155" stroke-width="2" rx="12"/>
+<circle cx="530" cy="190" r="26" fill="#4c1d95" stroke="#a855f7" stroke-width="3"/>
+<text x="530" y="199" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">2</text>
+<text x="530" y="290" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Stage 2</text>
+<text x="530" y="340" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Lipid Carrier (Bactoprenol)</text>
+<text x="530" y="370" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Membrane Transfer</text>
+<rect x="720" y="240" width="300" height="580" fill="#0f172a" stroke="#334155" stroke-width="2" rx="12"/>
+<circle cx="870" cy="190" r="26" fill="#4c1d95" stroke="#a855f7" stroke-width="3"/>
+<text x="870" y="199" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">3</text>
+<text x="870" y="290" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Stage 3</text>
+<text x="870" y="340" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Glycan Chain</text>
+<text x="870" y="370" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Elongation (Polymer)</text>
+<rect x="1060" y="240" width="300" height="580" fill="#0f172a" stroke="#334155" stroke-width="2" rx="12"/>
+<circle cx="1210" cy="190" r="26" fill="#4c1d95" stroke="#a855f7" stroke-width="3"/>
+<text x="1210" y="199" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">4</text>
+<text x="1210" y="290" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Stage 4</text>
+<text x="1210" y="340" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Transpeptidase</text>
+<text x="1210" y="370" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Cross-Linking (PBP Target)</text>
+<circle cx="190" cy="480" r="40" fill="#3b82f6" stroke="#f8fafc" stroke-width="2"/>
+<text x="190" y="487" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">NAM</text>
+<circle cx="190" cy="580" r="40" fill="#06b6d4" stroke="#f8fafc" stroke-width="2"/>
+<text x="190" y="587" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">NAG</text>
+<text x="190" y="680" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" text-anchor="middle">Pentapeptide tail</text>
+<rect x="420" y="500" width="220" height="50" fill="#4338ca" stroke="#f8fafc" stroke-width="2" rx="6"/>
+<text x="530" y="532" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Bactoprenol-PP</text>
+<line x1="530.0" y1="550.0" x2="530.0" y2="650.0" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="530" y="680" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="normal" text-anchor="middle">Lipid II Complex</text>
+<rect x="750" y="520" width="55" height="45" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="6"/>
+<text x="777" y="550" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">NAG</text>
+<rect x="810" y="520" width="55" height="45" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="6"/>
+<text x="837" y="550" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">NAM</text>
+<rect x="870" y="520" width="55" height="45" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="6"/>
+<text x="897" y="550" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">NAG</text>
+<rect x="930" y="520" width="55" height="45" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="6"/>
+<text x="957" y="550" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">NAM</text>
+<line x1="740.0" y1="620.0" x2="1000.0" y2="620.0" stroke="#f8fafc" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="870" y="660" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="normal" text-anchor="middle">Transglycosylase</text>
+<line x1="1090.0" y1="470.0" x2="1330.0" y2="470.0" stroke="#f59e0b" stroke-width="4"/>
+<line x1="1090.0" y1="550.0" x2="1330.0" y2="550.0" stroke="#06b6d4" stroke-width="4"/>
+<line x1="1130.0" y1="470.0" x2="1130.0" y2="550.0" stroke="#f43f5e" stroke-width="4"/>
+<circle cx="1130" cy="510" r="8" fill="#f43f5e" stroke="#f8fafc" stroke-width="1"/>
+<line x1="1210.0" y1="470.0" x2="1210.0" y2="550.0" stroke="#f43f5e" stroke-width="4"/>
+<circle cx="1210" cy="510" r="8" fill="#f43f5e" stroke="#f8fafc" stroke-width="1"/>
+<line x1="1290.0" y1="470.0" x2="1290.0" y2="550.0" stroke="#f43f5e" stroke-width="4"/>
+<circle cx="1290" cy="510" r="8" fill="#f43f5e" stroke="#f8fafc" stroke-width="1"/>
+<text x="1210" y="620" fill="#f43f5e" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">D-Ala-D-Ala Bridge</text>
+<text x="1210" y="660" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" text-anchor="middle">Cross-linking transpeptidase</text>
+</svg>

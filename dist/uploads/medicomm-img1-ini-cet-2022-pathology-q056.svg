@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="papuleGrad" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#fbcfe8"/>
+      <stop offset="80%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#db2777"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">DERMATOLOGICAL LESIONS: INNER THIGH EXAMINATION</text>
+  </g>
+
+  <!-- Skin Surface Display Frame -->
+  <g transform="translate(480, 350)" filter="url(#shadow)">
+    <rect x="-380" y="-240" width="760" height="480" rx="16" fill="#fbcfe8" opacity="0.45" stroke="#be185d" stroke-width="2"/>
+
+    <!-- Multiple Pearly Dome-Shaped Papules with Characteristic Central Umbilication (Dell) -->
+    <!-- Central Prominent Papule 1 -->
+    <g transform="translate(-40, -10)">
+      <circle cx="0" cy="0" r="55" fill="url(#papuleGrad)" stroke="#be185d" stroke-width="2"/>
+      <!-- Central dell / umbilication -->
+      <ellipse cx="0" cy="-2" rx="14" ry="10" fill="#831843" stroke="#500724" stroke-width="1.5"/>
+    </g>
+
+    <!-- Papule 2 (Right) -->
+    <g transform="translate(130, -50)">
+      <circle cx="0" cy="0" r="42" fill="url(#papuleGrad)" stroke="#be185d" stroke-width="2"/>
+      <ellipse cx="0" cy="-2" rx="10" ry="7" fill="#831843"/>
+    </g>
+
+    <!-- Papule 3 (Lower left) -->
+    <g transform="translate(-150, 70)">
+      <circle cx="0" cy="0" r="46" fill="url(#papuleGrad)" stroke="#be185d" stroke-width="2"/>
+      <ellipse cx="0" cy="-2" rx="11" ry="8" fill="#831843"/>
+    </g>
+
+    <!-- Papule 4 (Lower right) -->
+    <g transform="translate(80, 100)">
+      <circle cx="0" cy="0" r="38" fill="url(#papuleGrad)" stroke="#be185d" stroke-width="2"/>
+      <ellipse cx="0" cy="-2" rx="9" ry="6" fill="#831843"/>
+    </g>
+
+    <!-- Marker Arrow to Central Umbilication -->
+    <g transform="translate(-160, -130)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#000000">!</text>
+      <!-- Arrow pointing to central dell of primary papule -->
+      <line x1="16" y1="12" x2="85" y2="75" stroke="#f59e0b" stroke-width="3"/>
+      <polygon points="95,82 82,74 87,64" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

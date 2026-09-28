@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <rect width="1000" height="1000" fill="#000000"/>
+  <defs>
+    <filter id="cardGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowGold" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#facc15"/>
+    </marker>
+  </defs>
+
+  <!-- Title Banner -->
+  <text x="500" y="65" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" letter-spacing="1">PARASITE LIFE CYCLE</text>
+  <text x="500" y="98" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="500">Enteric Sexual Cycle &amp; Extra-Intestinal Asexual Transmission</text>
+
+  <!-- Section 1: Definitive Host (Top Box) -->
+  <rect x="260" y="130" width="480" height="150" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5" filter="url(#cardGlow)"/>
+  <text x="500" y="165" text-anchor="middle" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="800">DEFINITIVE HOST (FELIDAE)</text>
+  <text x="500" y="195" text-anchor="middle" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600">Enteric Sexual Cycle (Schizogony &amp; Gametogony)</text>
+  <text x="500" y="225" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">Shedding of unsporulated oocysts in cat feces</text>
+  <rect x="390" y="240" width="220" height="26" rx="6" fill="#0284c7" fill-opacity="0.3"/>
+  <text x="500" y="258" text-anchor="middle" fill="#7dd3fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700">OOCYST FECAL EXCRETION</text>
+
+  <!-- Arrow down to environment -->
+  <line x1="500" y1="280" x2="500" y2="350" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Section 2: Environment Stage -->
+  <rect x="300" y="355" width="400" height="95" rx="12" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+  <text x="500" y="388" text-anchor="middle" fill="#facc15" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="700">ENVIRONMENTAL PHASE (SOIL / WATER)</text>
+  <text x="500" y="415" text-anchor="middle" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">Oocysts sporulate in 1-5 days</text>
+  <text x="500" y="435" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">Infective: 2 sporocysts, each containing 4 sporozoites</text>
+
+  <!-- Branches to Intermediate Hosts -->
+  <path d="M 380 450 L 380 500 L 220 500 L 220 550" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M 620 450 L 620 500 L 780 500 L 780 550" fill="none" stroke="#facc15" stroke-width="3" marker-end="url(#arrowGold)"/>
+
+  <!-- Section 3: Intermediate Hosts (Left Box) -->
+  <rect x="60" y="555" width="380" height="230" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5" filter="url(#cardGlow)"/>
+  <text x="250" y="590" text-anchor="middle" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800">INTERMEDIATE HOSTS</text>
+  <text x="250" y="618" text-anchor="middle" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Rodents, Birds, Sheep, Swine</text>
+  <line x1="80" y1="632" x2="420" y2="632" stroke="#1e293b" stroke-width="2"/>
+  <text x="90" y="660" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">&#8226; Ingestion of sporulated oocysts</text>
+  <text x="90" y="690" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">&#8226; Sporozoites differentiate to <tspan fill="#38bdf8" font-weight="700">Tachyzoites</tspan></text>
+  <text x="90" y="720" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">&#8226; Rapid asexual replication in tissues</text>
+  <text x="90" y="750" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">&#8226; Chronic phase: <tspan fill="#a7f3d0" font-weight="700">Tissue Cysts (Bradyzoites)</tspan></text>
+
+  <!-- Section 4: Human Transmission (Right Box) -->
+  <rect x="560" y="555" width="380" height="230" rx="14" fill="#0f172a" stroke="#facc15" stroke-width="2.5" filter="url(#cardGlow)"/>
+  <text x="750" y="590" text-anchor="middle" fill="#facc15" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800">HUMAN TRANSMISSION</text>
+  <text x="750" y="618" text-anchor="middle" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Accidental Intermediate Host</text>
+  <line x1="580" y1="632" x2="920" y2="632" stroke="#1e293b" stroke-width="2"/>
+  <text x="580" y="660" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">&#8226; Ingestion of undercooked meat with cysts</text>
+  <text x="580" y="690" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">&#8226; Ingestion of oocyst-contaminated food/water</text>
+  <text x="580" y="720" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">&#8226; Transplacental congenital transmission</text>
+  <text x="580" y="750" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14">&#8226; Organ transplantation / blood transfusion</text>
+
+  <!-- Cycle Closure Arrow from Intermediate back to Cat -->
+  <path d="M 120 555 C 80 300 180 180 260 170" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="110" y="240" fill="#7dd3fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700">Carnivorism (Cat eats prey)</text>
+
+  <!-- Meat transmission to human -->
+  <line x1="440" y1="670" x2="560" y2="670" stroke="#facc15" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#arrowGold)"/>
+  <text x="500" y="660" text-anchor="middle" fill="#fde047" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Meat Ingestion</text>
+
+  <!-- Diagnostic Highlights Box -->
+  <rect x="220" y="820" width="560" height="90" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="500" y="852" text-anchor="middle" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700">KEY INFECTIVE MORPHOLOGIES</text>
+  <text x="500" y="880" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14"><tspan fill="#38bdf8" font-weight="600">Tachyzoites</tspan> (Crescent-shaped, acute phase) | <tspan fill="#a7f3d0" font-weight="600">Bradyzoites</tspan> (Slow dividing, encysted)</text>
+
+  <!-- Subtle medicomm watermark -->
+  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

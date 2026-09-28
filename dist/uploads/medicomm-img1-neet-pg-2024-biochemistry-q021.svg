@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <!-- Axis arrow marker -->
+    <marker id="axis-arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#38b2ac" />
+    </marker>
+    <!-- Text pointer arrow marker -->
+    <marker id="ptr-arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#ffffff" />
+    </marker>
+  </defs>
+
+  <!-- Axes: X-axis at y=600, Y-axis at x=440 -->
+  <line x1="120" y1="600" x2="1080" y2="600" stroke="#38b2ac" stroke-width="3.5" marker-end="url(#axis-arr)"/>
+  <line x1="440" y1="660" x2="440" y2="100" stroke="#38b2ac" stroke-width="3.5" marker-end="url(#axis-arr)"/>
+
+  <!-- Ticks on X axis -->
+  <line x1="180" y1="592" x2="180" y2="608" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="270" y1="592" x2="270" y2="608" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="350" y1="592" x2="350" y2="608" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="530" y1="592" x2="530" y2="608" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="620" y1="592" x2="620" y2="608" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="710" y1="592" x2="710" y2="608" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="800" y1="592" x2="800" y2="608" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="890" y1="592" x2="890" y2="608" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="980" y1="592" x2="980" y2="608" stroke="#38b2ac" stroke-width="2"/>
+
+  <!-- Ticks on Y axis -->
+  <line x1="432" y1="510" x2="448" y2="510" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="432" y1="420" x2="448" y2="420" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="432" y1="330" x2="448" y2="330" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="432" y1="240" x2="448" y2="240" stroke="#38b2ac" stroke-width="2"/>
+  <line x1="432" y1="150" x2="448" y2="150" stroke="#38b2ac" stroke-width="2"/>
+
+  <!-- Axis Labels -->
+  <text x="360" y="200" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">1</text>
+  <line x1="335" y1="212" x2="385" y2="212" stroke="#ffffff" stroke-width="2.5"/>
+  <text x="360" y="248" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle">V<tspan dy="6" font-size="20">0</tspan></text>
+
+  <text x="680" y="700" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">1</text>
+  <line x1="660" y1="712" x2="700" y2="712" stroke="#ffffff" stroke-width="2.5"/>
+  <text x="680" y="748" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle">[S]</text>
+
+  <!-- Competitive Lines: Common Y-intercept at x=440, y=510 -->
+  <!-- Blue Line: passes through (180, 600) and (440, 510) -> slope = -90/260 = -0.346 -->
+  <!-- Extends to x=1050, y = 510 - 0.346*(1050-440) = 510 - 211 = 299 -->
+  <line x1="180" y1="600" x2="1050" y2="299" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Red Line: passes through (310, 600) and (440, 510) -> slope = -90/130 = -0.692 -->
+  <!-- Extends to x=890, y = 510 - 0.692*(890-440) = 510 - 311 = 199 -->
+  <line x1="310" y1="600" x2="890" y2="199" stroke="#f43f5e" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Pointers to lines -->
+  <!-- Inhibitor pointer to red line -->
+  <text x="750" y="150" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle">Inhibitor</text>
+  <line x1="750" y1="165" x2="750" y2="280" stroke="#ffffff" stroke-width="2.5" marker-end="url(#ptr-arr)"/>
+
+  <!-- No inhibitor pointer to blue line -->
+  <text x="960" y="440" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle">No inhibitor</text>
+  <line x1="960" y1="415" x2="960" y2="340" stroke="#ffffff" stroke-width="2.5" marker-end="url(#ptr-arr)"/>
+
+  <!-- 1/Vmax pointer and label -->
+  <text x="360" y="380" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="bold" text-anchor="middle">1</text>
+  <line x1="335" y1="392" x2="385" y2="392" stroke="#ffffff" stroke-width="2.5"/>
+  <text x="360" y="428" fill="#ffffff" font-family="Arial, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">V<tspan dy="6" font-size="18">max</tspan></text>
+  
+  <path d="M 360 445 L 360 510 L 425 510" fill="none" stroke="#ffffff" stroke-width="2.5" marker-end="url(#ptr-arr)"/>
+  <circle cx="440" cy="510" r="5" fill="#ffffff"/>
+
+  <!-- -1/Km pointer and label -->
+  <text x="180" y="490" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="bold" text-anchor="middle">-1</text>
+  <line x1="155" y1="502" x2="205" y2="502" stroke="#ffffff" stroke-width="2.5"/>
+  <text x="180" y="538" fill="#ffffff" font-family="Arial, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">K<tspan dy="6" font-size="18">m</tspan></text>
+  <line x1="180" y1="552" x2="180" y2="588" stroke="#ffffff" stroke-width="2.5" marker-end="url(#ptr-arr)"/>
+  <circle cx="180" cy="600" r="5" fill="#38bdf8"/>
+
+  <!-- Watermark -->
+  <text x="40" y="860" fill="#718096" font-family="Arial, sans-serif" font-size="24" font-weight="normal">medicomm</text>
+</svg>

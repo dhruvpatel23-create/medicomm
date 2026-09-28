@@ -1,0 +1,396 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="90%" stop-color="#fdf2f8"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 40)">
+    <rect x="-280" y="-18" width="560" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">INTESTINAL POLYP: WHOLE-MOUNT HISTOPATHOLOGY</text>
+  </g>
+
+  <!-- Histology Field -->
+  <g transform="translate(480, 350)" filter="url(#shadow)">
+    <rect x="-380" y="-250" width="760" height="500" rx="20" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+    <rect x="-372" y="-242" width="744" height="484" rx="16" fill="url(#fieldGrad)"/>
+
+    <g clip-path="url(#polypClip)">
+      <clipPath id="polypClip">
+        <rect x="-372" y="-242" width="744" height="484" rx="16"/>
+      </clipPath>
+
+      <!-- Polyp Head with Lobulated Glandular Fronds (Pink / Violet H&E) -->
+      <!-- Base stalk / pedicle -->
+      <path d="M -60,240 C -50,150 -40,80 -20,20 C 20,20 40,150 50,240 Z" fill="#f43f5e" opacity="0.35"/>
+
+      <!-- Arborizing Christmas Tree Smooth Muscle Core (Muscularis Mucosae Branches) -->
+      <!-- Main trunk -->
+      <path d="M 0,220 C -5,140 0,60 0,-20" stroke="#be123c" stroke-width="26" stroke-linecap="round" fill="none"/>
+      <!-- Primary branches -->
+      <path d="M -2,70 C -60,50 -140,20 -180,-30" stroke="#be123c" stroke-width="18" stroke-linecap="round" fill="none"/>
+      <path d="M 2,60 C 70,40 150,10 190,-40" stroke="#be123c" stroke-width="18" stroke-linecap="round" fill="none"/>
+      <!-- Secondary branches -->
+      <path d="M -1,0 C -80,-30 -160,-80 -210,-120" stroke="#be123c" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <path d="M 1,-10 C 80,-40 170,-70 220,-110" stroke="#be123c" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <!-- Crown branching -->
+      <path d="M 0,-20 C -40,-80 -90,-140 -120,-190" stroke="#be123c" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <path d="M 0,-20 C 40,-80 80,-140 110,-190" stroke="#be123c" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <path d="M 0,-20 C 0,-90 0,-150 0,-200" stroke="#be123c" stroke-width="12" stroke-linecap="round" fill="none"/>
+
+      <!-- Mucosal Glandular Foliage covering all branches (lobulated pink-purple crypts & glands) -->
+      <g fill="#db2777" opacity="0.75" stroke="#9d174d" stroke-width="1">
+        <g transform="translate(-94.04564036679572, 63.55417527999326)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-128.40869690106047, 80.57251842152844)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-166.47343640444876, 93.82399180223305)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-207.70481804311098, 102.96227991842474)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-219.27733179399823, 88.75142378721517)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-157.1515679974814, 38.09075612770762)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-197.95526780511125, 42.14216728850221)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-203.45475173104424, 29.03756194100322)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-245.53848429135732, 25.930158110062536)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-288.02282341689926, 17.975736668134665)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-167.57343375838065, -17.10344237680276)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-207.12358792463, -24.74076121997032)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-245.97414092152465, -37.14656721342897)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-243.51852173649826, -52.256709412122)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-279.2344786217382, -71.51742069493403)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-190.40601037170805, -73.66233469577779)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-184.67255256737803, -84.86458436316289)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-215.18685941269786, -107.19816919458357)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-242.27998086056556, -133.50563062987467)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-230.79742668840632, -147.3954869338848)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-148.13709586085812, -121.80132352928646)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-169.30725159334972, -149.86261837886423)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-156.7407368657092, -158.89717616641906)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-170.26305752680193, -190.78777932790163)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-178.41076470250422, -224.92566989061123)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-90.42206371352053, -150.41405821734998)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-97.79599584264817, -182.31220483912347)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-99.44028993805883, -215.62255661418402)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-81.50155025950023, -219.73936206460405)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-74.06086590026173, -253.53255585728894)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-36.50407629720453, -189.16825917319088)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-21.758614508178766, -189.38929052846478)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(-8.736283566829501, -220.66486516099795)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(10.205216201960242, -251.04214337390908)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(30.323175537993812, -248.19145807690307)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(33.622175536898986, -177.3918176595179)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(56.94933009659123, -204.19651407076728)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(71.95325148432875, -198.68203094406465)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(102.74121242562933, -221.45235102461334)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(138.26330446719234, -241.20001373807108)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(87.68200117674724, -147.068177665309)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(120.9771623667666, -165.39480355596237)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(158.19717156033565, -180.10203118655429)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(198.8285273203905, -190.8232697666611)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(211.24574510729883, -177.07629449105985)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(152.25201519032643, -124.07358251621106)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(192.76339382589742, -129.69735425564159)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(199.04786531667278, -116.82061103792682)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(241.27011509908553, -115.34340182422993)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(284.18522338088746, -109.04031894227647)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(165.99498340097625, -69.3466507604216)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(205.96018281319698, -63.246891860093186)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(245.5145751933548, -52.35717424336882)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(243.97435115793502, -37.16976585397012)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(280.81178747473876, -19.311993577075043)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(192.2165857816719, -13.73630154986192)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(187.1663465301736, -2.3255313907407142)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(218.99378328688624, 18.802573449515187)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(247.64401907534338, 44.032145529999525)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(237.01370629580575, 58.34959043062837)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(152.90422832187375, 35.98019515128318)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(175.74433209960154, 63.190479358870974)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(163.73810473471522, 72.7001914685392)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(179.17056290987264, 104.03090643121706)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g><g transform="translate(189.37040149045262, 137.8140170660926)">
+            <circle cx="0" cy="0" r="14" fill="#f472b6" opacity="0.8"/>
+            <circle cx="-6" cy="-6" r="8" fill="#be185d"/>
+            <circle cx="6" cy="6" r="9" fill="#be185d"/>
+            <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+          </g>
+      </g>
+    </g>
+
+    <!-- Pointer Callout for Characteristic Arborizing Pattern -->
+    <g transform="translate(-240, -160)">
+      <rect x="-10" y="-16" width="220" height="32" rx="16" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+      <text x="100" y="5" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="800" fill="#f8fafc">ARBORIZING SMOOTH MUSCLE</text>
+      <line x1="100" y1="16" x2="60" y2="70" stroke="#f59e0b" stroke-width="2.5"/>
+      <polygon points="56,78 68,66 54,64" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <marker id="axis-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 L 2 5 Z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <!-- Watermark -->
+  <text x="40" y="860" fill="#475569" font-family="Arial, sans-serif" font-size="20" font-weight="bold" letter-spacing="1">medicomm</text>
+
+  <!-- Y-Axis -->
+  <line x1="200" y1="680" x2="200" y2="110" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#axis-arrow)"/>
+  <text x="75" y="395" fill="#f8fafc" font-family="Arial, sans-serif" font-size="26" font-weight="bold" text-anchor="middle" transform="rotate(-90 75 395)">Efficacy (%)</text>
+
+  <!-- X-Axis -->
+  <line x1="200" y1="680" x2="1120" y2="680" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#axis-arrow)"/>
+  <text x="660" y="735" fill="#f8fafc" font-family="Arial, sans-serif" font-size="26" font-weight="bold" text-anchor="middle">Log [concentration]</text>
+
+  <!-- Y-Axis Ticks -->
+  <line x1="190" y1="630.0" x2="200" y2="630.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="636.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">10</text>
+  <line x1="190" y1="580.0" x2="200" y2="580.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="586.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">20</text>
+  <line x1="190" y1="530.0" x2="200" y2="530.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="536.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">30</text>
+  <line x1="190" y1="480.0" x2="200" y2="480.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="486.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">40</text>
+  <line x1="190" y1="430.0" x2="200" y2="430.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="436.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">50</text>
+  <line x1="190" y1="380.0" x2="200" y2="380.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="386.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">60</text>
+  <line x1="190" y1="330.0" x2="200" y2="330.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="336.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">70</text>
+  <line x1="190" y1="280.0" x2="200" y2="280.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="286.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">80</text>
+  <line x1="190" y1="230.0" x2="200" y2="230.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="236.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">90</text>
+  <line x1="190" y1="180.0" x2="200" y2="180.0" stroke="#38bdf8" stroke-width="2"/>
+  <text x="180" y="186.0" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="end">100</text>
+
+  <!-- Dashed Reference Grid (50% Efficacy and ED50 Drops) -->
+  <line x1="200" y1="430" x2="610" y2="430" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6"/>
+  <line x1="350" y1="430" x2="350" y2="680" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6"/>
+  <line x1="610" y1="430" x2="610" y2="680" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <!-- ED50 Labels -->
+  <text x="365" y="475" fill="#f1f5f9" font-family="Arial, sans-serif" font-size="22" font-weight="bold">ED<tspan dy="5" font-size="16">50</tspan><tspan dy="-5"> [A]</tspan></text>
+  <text x="625" y="475" fill="#f1f5f9" font-family="Arial, sans-serif" font-size="22" font-weight="bold">ED<tspan dy="5" font-size="16">50</tspan><tspan dy="-5"> [B]</tspan></text>
+
+  <!-- Sigmoidal Dose-Response Curves -->
+  <!-- Drug A -->
+  <path d="M 200.0,678.3 L 203.0,678.1 L 206.0,677.9 L 209.0,677.7 L 212.0,677.4 L 215.0,677.1 L 218.0,676.7 L 221.0,676.3 L 224.0,675.9 L 227.0,675.4 L 230.0,674.8 L 233.0,674.2 L 236.0,673.5 L 239.0,672.7 L 242.0,671.9 L 245.0,670.9 L 248.0,669.8 L 251.0,668.6 L 254.0,667.3 L 257.0,665.8 L 260.0,664.2 L 263.0,662.3 L 266.0,660.3 L 269.0,658.0 L 272.0,655.5 L 275.0,652.7 L 278.0,649.6 L 281.0,646.1 L 284.0,642.4 L 287.0,638.2 L 290.0,633.6 L 293.0,628.6 L 296.0,623.1 L 299.0,617.1 L 302.0,610.5 L 305.0,603.4 L 308.0,595.7 L 311.0,587.4 L 314.0,578.5 L 317.0,569.0 L 320.0,558.8 L 323.0,548.1 L 326.0,536.7 L 329.0,524.8 L 332.0,512.3 L 335.0,499.4 L 338.0,486.0 L 341.0,472.3 L 344.0,458.4 L 347.0,444.2 L 350.0,430.0 L 353.0,415.8 L 356.0,401.6 L 359.0,387.7 L 362.0,374.0 L 365.0,360.6 L 368.0,347.7 L 371.0,335.2 L 374.0,323.3 L 377.0,311.9 L 380.0,301.2 L 383.0,291.0 L 386.0,281.5 L 389.0,272.6 L 392.0,264.3 L 395.0,256.6 L 398.0,249.5 L 401.0,242.9 L 404.0,236.9 L 407.0,231.4 L 410.0,226.4 L 413.0,221.8 L 416.0,217.6 L 419.0,213.9 L 422.0,210.4 L 425.0,207.3 L 428.0,204.5 L 431.0,202.0 L 434.0,199.7 L 437.0,197.7 L 440.0,195.8 L 443.0,194.2 L 446.0,192.7 L 449.0,191.4 L 452.0,190.2 L 455.0,189.1 L 458.0,188.1 L 461.0,187.3 L 464.0,186.5 L 467.0,185.8 L 470.0,185.2 L 473.0,184.6 L 476.0,184.1 L 479.0,183.7 L 482.0,183.3 L 485.0,182.9 L 488.0,182.6 L 491.0,182.3 L 494.0,182.1 L 497.0,181.9 L 500.0,181.7 L 503.0,181.5 L 506.0,181.3 L 509.0,181.2 L 512.0,181.1 L 515.0,180.9 L 518.0,180.8 L 521.0,180.8 L 524.0,180.0 L 527.0,180.0 L 530.0,180.0 L 533.0,180.0 L 536.0,180.0 L 539.0,180.0 L 542.0,180.0 L 545.0,180.0 L 548.0,180.0 L 551.0,180.0 L 554.0,180.0 L 557.0,180.0 L 560.0,180.0 L 563.0,180.0 L 566.0,180.0 L 569.0,180.0 L 572.0,180.0 L 575.0,180.0 L 578.0,180.0 L 581.0,180.0 L 584.0,180.0 L 587.0,180.0 L 590.0,180.0 L 593.0,180.0 L 596.0,180.0 L 599.0,180.0" fill="none" stroke="#38bdf8" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="520" y="150" fill="#f8fafc" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Drug A</text>
+
+  <!-- Drug B -->
+  <path d="M 475.0,677.1 L 478.0,676.7 L 481.0,676.3 L 484.0,675.9 L 487.0,675.4 L 490.0,674.8 L 493.0,674.2 L 496.0,673.5 L 499.0,672.7 L 502.0,671.9 L 505.0,670.9 L 508.0,669.8 L 511.0,668.6 L 514.0,667.3 L 517.0,665.8 L 520.0,664.2 L 523.0,662.3 L 526.0,660.3 L 529.0,658.0 L 532.0,655.5 L 535.0,652.7 L 538.0,649.6 L 541.0,646.1 L 544.0,642.4 L 547.0,638.2 L 550.0,633.6 L 553.0,628.6 L 556.0,623.1 L 559.0,617.1 L 562.0,610.5 L 565.0,603.4 L 568.0,595.7 L 571.0,587.4 L 574.0,578.5 L 577.0,569.0 L 580.0,558.8 L 583.0,548.1 L 586.0,536.7 L 589.0,524.8 L 592.0,512.3 L 595.0,499.4 L 598.0,486.0 L 601.0,472.3 L 604.0,458.4 L 607.0,444.2 L 610.0,430.0 L 613.0,415.8 L 616.0,401.6 L 619.0,387.7 L 622.0,374.0 L 625.0,360.6 L 628.0,347.7 L 631.0,335.2 L 634.0,323.3 L 637.0,311.9 L 640.0,301.2 L 643.0,291.0 L 646.0,281.5 L 649.0,272.6 L 652.0,264.3 L 655.0,256.6 L 658.0,249.5 L 661.0,242.9 L 664.0,236.9 L 667.0,231.4 L 670.0,226.4 L 673.0,221.8 L 676.0,217.6 L 679.0,213.9 L 682.0,210.4 L 685.0,207.3 L 688.0,204.5 L 691.0,202.0 L 694.0,199.7 L 697.0,197.7 L 700.0,195.8 L 703.0,194.2 L 706.0,192.7 L 709.0,191.4 L 712.0,190.2 L 715.0,189.1 L 718.0,188.1 L 721.0,187.3 L 724.0,186.5 L 727.0,185.8 L 730.0,185.2 L 733.0,184.6 L 736.0,184.1 L 739.0,183.7 L 742.0,183.3 L 745.0,182.9 L 748.0,182.6 L 751.0,182.3 L 754.0,182.1 L 757.0,181.9 L 760.0,181.7 L 763.0,181.5 L 766.0,181.3 L 769.0,181.2 L 772.0,181.1 L 775.0,180.9 L 778.0,180.8 L 781.0,180.8 L 784.0,180.0 L 787.0,180.0 L 790.0,180.0 L 793.0,180.0 L 796.0,180.0 L 799.0,180.0 L 802.0,180.0 L 805.0,180.0 L 808.0,180.0 L 811.0,180.0 L 814.0,180.0 L 817.0,180.0 L 820.0,180.0 L 823.0,180.0 L 826.0,180.0 L 829.0,180.0 L 832.0,180.0 L 835.0,180.0 L 838.0,180.0 L 841.0,180.0 L 844.0,180.0 L 847.0,180.0 L 850.0,180.0 L 853.0,180.0 L 856.0,180.0 L 859.0,180.0 L 862.0,180.0 L 865.0,180.0 L 868.0,180.0 L 871.0,180.0 L 874.0,180.0 L 877.0,180.0 L 880.0,180.0 L 883.0,180.0 L 886.0,180.0 L 889.0,180.0 L 892.0,180.0 L 895.0,180.0 L 898.0,180.0 L 901.0,180.0 L 904.0,180.0 L 907.0,180.0 L 910.0,180.0" fill="none" stroke="#22c55e" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="840" y="150" fill="#f8fafc" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Drug B</text>
+
+  <!-- Drug C (Partial Agonist) -->
+  <path d="M 675.0,676.7 L 678.0,676.4 L 681.0,676.0 L 684.0,675.6 L 687.0,675.2 L 690.0,674.8 L 693.0,674.2 L 696.0,673.7 L 699.0,673.1 L 702.0,672.4 L 705.0,671.7 L 708.0,670.9 L 711.0,670.0 L 714.0,669.1 L 717.0,668.0 L 720.0,666.9 L 723.0,665.7 L 726.0,664.4 L 729.0,662.9 L 732.0,661.4 L 735.0,659.7 L 738.0,657.9 L 741.0,656.0 L 744.0,653.9 L 747.0,651.7 L 750.0,649.3 L 753.0,646.8 L 756.0,644.1 L 759.0,641.3 L 762.0,638.3 L 765.0,635.1 L 768.0,631.8 L 771.0,628.3 L 774.0,624.7 L 777.0,620.9 L 780.0,617.0 L 783.0,613.0 L 786.0,608.9 L 789.0,604.6 L 792.0,600.4 L 795.0,596.0 L 798.0,591.7 L 801.0,587.3 L 804.0,582.9 L 807.0,578.6 L 810.0,574.3 L 813.0,570.0 L 816.0,565.9 L 819.0,561.8 L 822.0,557.9 L 825.0,554.1 L 828.0,550.4 L 831.0,546.9 L 834.0,543.5 L 837.0,540.3 L 840.0,537.2 L 843.0,534.3 L 846.0,531.6 L 849.0,529.0 L 852.0,526.6 L 855.0,524.3 L 858.0,522.2 L 861.0,520.2 L 864.0,518.4 L 867.0,516.6 L 870.0,515.1 L 873.0,513.6 L 876.0,512.2 L 879.0,511.0 L 882.0,509.8 L 885.0,508.8 L 888.0,507.8 L 891.0,506.9 L 894.0,506.1 L 897.0,505.3 L 900.0,504.6 L 903.0,504.0 L 906.0,503.4 L 909.0,502.9 L 912.0,502.4 L 915.0,502.0 L 918.0,501.6 L 921.0,501.2 L 924.0,500.9 L 927.0,500.6 L 930.0,500.3 L 933.0,500.1 L 936.0,499.8 L 939.0,499.6 L 942.0,499.4 L 945.0,499.2 L 948.0,499.1 L 951.0,498.9 L 954.0,498.8 L 957.0,498.7 L 960.0,498.6 L 963.0,498.5 L 966.0,498.4 L 969.0,498.3 L 972.0,498.2 L 975.0,498.2 L 978.0,498.1 L 981.0,498.1 L 984.0,498.0 L 987.0,497.5 L 990.0,497.5 L 993.0,497.5 L 996.0,497.5 L 999.0,497.5 L 1002.0,497.5 L 1005.0,497.5 L 1008.0,497.5 L 1011.0,497.5 L 1014.0,497.5 L 1017.0,497.5 L 1020.0,497.5 L 1023.0,497.5 L 1026.0,497.5 L 1029.0,497.5 L 1032.0,497.5 L 1035.0,497.5 L 1038.0,497.5 L 1041.0,497.5 L 1044.0,497.5 L 1047.0,497.5 L 1050.0,497.5 L 1053.0,497.5 L 1056.0,497.5 L 1059.0,497.5" fill="none" stroke="#14b8a6" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1010" y="470" fill="#f8fafc" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Drug C</text>
+</svg>

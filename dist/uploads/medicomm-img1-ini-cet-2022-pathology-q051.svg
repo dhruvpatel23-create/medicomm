@@ -1,0 +1,236 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="fieldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdf2f8"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="700" fill="#000000"/>
+  <rect width="960" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 42)">
+    <rect x="-260" y="-18" width="520" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">PERIPHERAL BLOOD SMEAR: SEVERE ANEMIA WORKUP</text>
+  </g>
+
+  <!-- Microscope Circular Field -->
+  <g transform="translate(480, 345)" filter="url(#shadow)">
+    <circle cx="0" cy="0" r="236" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+    <circle cx="0" cy="0" r="230" fill="url(#fieldGrad)"/>
+
+    <g clip-path="url(#idaClip)">
+      <clipPath id="idaClip">
+        <circle cx="0" cy="0" r="230"/>
+      </clipPath>
+
+      <!-- Microcytic Hypochromic RBCs (Exaggerated wide central pallor > 2/3 of cell diameter) -->
+      <g transform="translate(30, 0)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(43.502773777759195, 20.285676563553572)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(42.4239822393116, 50.55893324585255)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(21.740799788611742, 81.13776940828174)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-17.71211412202689, 100.45039080724521)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-68.82917236212553, 98.29824531467901)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-119.51150572225254, 68.99999999999999)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-155.4063729023123, 13.596295868634678)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-163.50651601674807, -59.51150493866635)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-135.76450198781714, -135.7645019878171)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-13.680805733026741, -37.58770483143634)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(5.055033079364158, -57.77929248932124)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(38.00000000000001, -65.81793068761733)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(77.00029216316521, -53.91618501699837)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(110.2984683373673, -19.448595898696205)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(125.57035741757889, 33.64647586332763)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(113.37457758160876, 95.13256623360779)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(70.15463144895608, 150.4470926480839)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(5.633375276077825e-14, 184)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-13.523784375702359, 29.00184918517281)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-38.30222215594892, 32.13938048432695)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-65.68295618765664, 17.599695066971414)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-84.6934667590499, -14.93374327935596)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-85.1918126060551, -59.65194938050886)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-60.99999999999998, -105.65509926170152)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-12.201803984672189, -139.4672577328444)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(54.03918264545553, -148.47143408417358)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(124.45079348883242, -124.45079348883232)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(182.3003684324662, -66.35190780517975)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(41.84017731985331, 3.6605411954016187)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(51.96152422706635, 29.999999999999943)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(44.73896203538158, 63.89385945454137)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(16.670225056025345, 94.54154428917197)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-29.50537114168727, 110.1155441969538)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-84.84796447862324, 101.11786649170507)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g><g transform="translate(-135.94616805549748, 63.392739261104936)">
+          <!-- Rim of hemoglobin -->
+          <circle cx="0" cy="0" r="16" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <!-- Wide clear central pallor -->
+          <circle cx="0" cy="0" r="12" fill="#ffffff" opacity="0.9"/>
+        </g>
+
+      <!-- Characteristic Pencil Cell / Cigar Cell (Elongated hypochromic red cell) -->
+      <g transform="translate(20, -30) rotate(35)">
+        <rect x="-28" y="-9" width="56" height="18" rx="9" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+        <rect x="-22" y="-5" width="44" height="10" rx="5" fill="#ffffff" opacity="0.9"/>
+      </g>
+    </g>
+
+    <!-- Marker Arrow to Pencil Cell -->
+    <g transform="translate(-110, -90)">
+      <circle cx="0" cy="0" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#000000">!</text>
+      <line x1="16" y1="12" x2="80" y2="50" stroke="#f59e0b" stroke-width="3"/>
+      <polygon points="90,56 76,49 82,39" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="32" y="678" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#64748b" letter-spacing="1.5">medicomm</text>
+</svg>

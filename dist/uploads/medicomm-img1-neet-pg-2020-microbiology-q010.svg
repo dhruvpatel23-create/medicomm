@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="cassetteGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="50%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <linearGradient id="stripGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.85"/>
+    </filter>
+    <filter id="recess" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#475569" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="720" fill="#000000"/>
+  <rect width="960" height="720" fill="url(#bgGrad)"/>
+
+  <!-- Title Badge -->
+  <g transform="translate(480, 48)">
+    <rect x="-240" y="-18" width="480" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#f8fafc" letter-spacing="1">RAPID DIAGNOSTIC MEMBRANE CASSETTE</text>
+  </g>
+
+  <!-- Horizontal Test Cassette (Centered at x=480, y=360) -->
+  <g transform="translate(480, 360)" filter="url(#shadow)">
+    <!-- Plastic Cassette Outer Body -->
+    <rect x="-360" y="-110" width="720" height="220" rx="24" fill="url(#cassetteGrad)" stroke="#94a3b8" stroke-width="2.5"/>
+
+    <!-- Subtle molded plastic bevel highlights -->
+    <rect x="-354" y="-104" width="708" height="10" rx="5" fill="#ffffff" opacity="0.6"/>
+    <rect x="-354" y="94" width="708" height="10" rx="5" fill="#94a3b8" opacity="0.4"/>
+
+    <!-- Top decorative groove -->
+    <line x1="-340" y1="-80" x2="340" y2="-80" stroke="#94a3b8" stroke-width="1.5" opacity="0.5"/>
+    <line x1="-340" y1="80" x2="340" y2="80" stroke="#94a3b8" stroke-width="1.5" opacity="0.5"/>
+
+    <!-- Left: Specimen Well "S" (Round funnel) -->
+    <g transform="translate(-230, 0)">
+      <!-- Outer indented well circle -->
+      <circle cx="0" cy="0" r="42" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" filter="url(#recess)"/>
+      <circle cx="0" cy="0" r="34" fill="#94a3b8"/>
+      <!-- Inner sample pad mesh -->
+      <circle cx="0" cy="0" r="28" fill="#e2e8f0"/>
+      <!-- Letter "S" below well -->
+      <circle cx="0" cy="62" r="16" fill="#1e293b"/>
+      <text x="0" y="68" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#ffffff">S</text>
+      <text x="0" y="-52" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#475569">Sample Well</text>
+    </g>
+
+    <!-- Center/Right: Nitrocellulose Read Window -->
+    <g transform="translate(80, 0)">
+      <!-- Recessed window bevel -->
+      <rect x="-180" y="-48" width="360" height="96" rx="12" fill="#94a3b8" filter="url(#recess)"/>
+      <!-- White Nitrocellulose Membrane Strip -->
+      <rect x="-172" y="-40" width="344" height="80" rx="8" fill="url(#stripGrad)"/>
+
+      <!-- Lateral Flow Direction Indicator arrow -->
+      <path d="M -150 0 L -120 0" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+      <polygon points="-115,0 -125,-6 -125,6" fill="#cbd5e1"/>
+
+      <!-- Test Line 'T' (Vibrant red-pink band) -->
+      <g transform="translate(-10, 0)">
+        <rect x="-6" y="-38" width="12" height="76" rx="3" fill="#e11d48"/>
+        <!-- Line letter mark 'T' above window -->
+        <circle cx="0" cy="-62" r="15" fill="#1e293b"/>
+        <text x="0" y="-56" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#f43f5e">T</text>
+        <text x="0" y="58" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#475569">Test Line</text>
+      </g>
+
+      <!-- Control Line 'C' (Vibrant red-pink band) -->
+      <g transform="translate(90, 0)">
+        <rect x="-6" y="-38" width="12" height="76" rx="3" fill="#e11d48"/>
+        <!-- Line letter mark 'C' above window -->
+        <circle cx="0" cy="-62" r="15" fill="#1e293b"/>
+        <text x="0" y="-56" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#38bdf8">C</text>
+        <text x="0" y="58" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#475569">Control Line</text>
+      </g>
+
+    </g>
+
+    <!-- Cassette Identification Label Strip -->
+    <g transform="translate(0, -96)">
+      <rect x="-100" y="-12" width="200" height="24" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="0" y="4" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="800" fill="#94a3b8" letter-spacing="2">RAPID TEST STRIP</text>
+    </g>
+
+  </g>
+
+  <!-- Watermark -->
+  <text x="36" y="692" font-family="-apple-system, sans-serif" font-size="14" font-weight="600" fill="#475569" letter-spacing="1">medicomm</text>
+</svg>
