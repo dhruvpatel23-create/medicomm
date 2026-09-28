@@ -4471,3 +4471,7 @@ main {
 .topic-directory-row:hover .directory-arrow { transform: translateX(4px); }
 .topic-directory-row .practice-progress-track { margin-top: 4px; width: 100%; }
 @media (max-width: 640px) { .topic-directory-row { grid-template-columns: 44px minmax(0, 1fr) 24px; gap: 12px; padding: 18px 16px; border-radius: 16px; } .directory-index { width: 42px; height: 42px; border-radius: 12px; } }
+.duel-review { margin-top: 24px; }
+.duel-review-list { display: grid; gap: 16px; margin-top: 16px; text-align: left; }
+.duel-review-options { padding-left: 28px; }
+.duel-review-options li { margin-bottom: 8px; }

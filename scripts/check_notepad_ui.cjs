@@ -20,7 +20,7 @@ const fs = require('node:fs');
       }
       return route.fulfill({ json: {} });
     });
-    await page.goto('http://127.0.0.1:4174', { waitUntil: 'domcontentloaded' });
+    await page.goto(process.env.NOTEPAD_TEST_URL || 'http://127.0.0.1:4174', { waitUntil: 'domcontentloaded' });
     await page.getByRole('button', { name: 'Explore as guest' }).click();
     await page.evaluate(() => localStorage.setItem('medicomm-session-token', 'notepad-test'));
     async function openQuestion() {
@@ -33,6 +33,12 @@ const fs = require('node:fs');
     }
     await openQuestion();
     await page.getByRole('button', { name: /Notepad Write/ }).click();
+    for (const viewport of [{ width: 1440, height: 1000 }, { width: 1024, height: 1366 }]) {
+      await page.setViewportSize(viewport);
+      const bounds = await page.getByRole('dialog').boundingBox();
+      assert(Math.abs(bounds.width - viewport.width * 0.8) < 2, 'Notepad must occupy 80% of viewport width');
+      assert(Math.abs(bounds.height - viewport.height * 0.8) < 2, 'Notepad must occupy 80% of viewport height');
+    }
     await page.getByRole('button', { name: 'Save answer', exact: true }).click();
     await page.getByRole('alert').filter({ hasText: 'Write your answer' }).waitFor();
     const canvas = page.locator('.an-canvas');

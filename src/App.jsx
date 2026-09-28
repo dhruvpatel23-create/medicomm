@@ -13,7 +13,7 @@ import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20260928-microbiology-2023-2024";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20260929-forensic-medicine-2017-2019";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -161,13 +161,6 @@ const features = [
 
 const navItems = ["Home", "Dashboard", "Practice", "Bookmarks", "Analytics", "Leaderboard", "Communities", "Reviews", "Compete", "Pricing", "Profile", "Settings"];
 
-const duelOpponents = [
-  { name: "Ava Patel", rating: 1538, specialty: "Cardiology" },
-  { name: "Noah Chen", rating: 1464, specialty: "Emergency Medicine" },
-  { name: "Maya Singh", rating: 1506, specialty: "Neurology" },
-  { name: "Liam Carter", rating: 1588, specialty: "Surgery" },
-];
-
 const emptyPracticeLibrary = {
   exam: {
     id: "neet-pg-pyqs",
@@ -274,45 +267,6 @@ function formatTime(totalSeconds) {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
-function createOpponentTimeline(opponentRating, questions = fallbackDuelQuestions) {
-  return questions.map((question, index) => {
-    const progressSeconds = 24 + index * 26 + (opponentRating % 11);
-    const skillGate = (opponentRating + index * 37) % 100;
-    const targetAccuracy = Math.min(86, Math.max(52, 58 + Math.round((opponentRating - 1400) / 6)));
-    return {
-      revealAt: Math.min(progressSeconds, DUEL_DURATION_SECONDS - 6),
-      correct: skillGate < targetAccuracy,
-      answer: question.answer,
-    };
-  });
-}
-
-function normalizeAnswerValue(value) {
-  return String(value ?? "").trim().replace(/\s+/g, " ").toLowerCase();
-}
-
-function isAnswerCorrect(question, selectedAnswer) {
-  if (!question || !selectedAnswer) return false;
-  const selected = normalizeAnswerValue(selectedAnswer);
-  const answer = normalizeAnswerValue(question.answer);
-  if (selected && answer && selected === answer) return true;
-
-  const answerIndex = Number(question.answerIndex);
-  if (Number.isInteger(answerIndex) && answerIndex >= 0) {
-    return selected === normalizeAnswerValue(question.options?.[answerIndex]);
-  }
-
-  return false;
-}
-
-function getDuelOpponentSnapshot(timeline, elapsedSeconds) {
-  const answeredSteps = timeline.filter((step) => step.revealAt <= elapsedSeconds);
-  return {
-    answered: answeredSteps.length,
-    correct: answeredSteps.filter((step) => step.correct).length,
-  };
-}
-
 function getPracticeImageUrl(imageUrl) {
   if (!imageUrl?.includes("/medicomm-atlas-")) return imageUrl;
   const separator = imageUrl.includes("?") ? "&" : "?";
@@ -335,25 +289,10 @@ function getQuestionImageUrls(question) {
     .filter((imageUrl, index, list) => list.indexOf(imageUrl) === index);
 }
 
-function getSeededClientRank(value) {
-  let hash = 2166136261;
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return hash >>> 0;
-}
-
 function formatDuration(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-}
-
-function pickOpponent(playerRating) {
-  return [...duelOpponents].sort(
-    (left, right) => Math.abs(left.rating - playerRating) - Math.abs(right.rating - playerRating),
-  )[0];
 }
 
 function getInitials(name) {
@@ -629,6 +568,11 @@ function App() {
   const [analyticsPeriod, setAnalyticsPeriod] = useState(30);
   const [practiceQuestionStartedAt, setPracticeQuestionStartedAt] = useState(Date.now());
   const [userRating, setUserRating] = useState(1480);
+  const duelDeadlineRef = useRef(0);
+  const loadedDuelRef = useRef(null);
+  const duelAnswerPendingRef = useRef(false);
+  const [duelAnswerBusy, setDuelAnswerBusy] = useState(false);
+  const [showDuelReview, setShowDuelReview] = useState(false);
   const [duelStatus, setDuelStatus] = useState("idle");
   const [duelQuestions, setDuelQuestions] = useState(fallbackDuelQuestions);
   const [duelMode, setDuelMode] = useState("rated");
@@ -638,7 +582,6 @@ function App() {
   const [duelIndex, setDuelIndex] = useState(0);
   const [duelSelections, setDuelSelections] = useState({});
   const [duelSubmitted, setDuelSubmitted] = useState({});
-  const [duelOpponentTimeline, setDuelOpponentTimeline] = useState([]);
   const [duelOpponentProgress, setDuelOpponentProgress] = useState({ answered: 0, correct: 0 });
   const [duelResult, setDuelResult] = useState(null);
   const [duelQueueInfo, setDuelQueueInfo] = useState(null);
@@ -820,14 +763,6 @@ function App() {
   const currentDuelSubmitted = Boolean(duelSubmitted[duelIndex]);
   const isDarkMode = theme === "dark";
 
-  const userDuelScore = useMemo(
-    () =>
-      duelQuestions.reduce((total, question, index) => {
-        if (!duelSubmitted[index]) return total;
-        return total + (isAnswerCorrect(question, duelSelections[index]) ? 1 : 0);
-      }, 0),
-    [duelQuestions, duelSelections, duelSubmitted],
-  );
   const userDuelAnswered = Object.keys(duelSubmitted).length;
   const signupCollegeOptions = authForm.medicalState && authForm.medicalState !== ABROAD_STATE
     ? medicalCollegesByState[authForm.medicalState] ?? []
@@ -1289,18 +1224,25 @@ async function fetchPracticeLibrary() {
   }, [selectedLeaderboardCollege, selectedLeaderboardCollegeOptions]);
 
   useEffect(() => {
+    if (!user?.id) return;
+    let cancelled = false;
+    const saved = localStorage.getItem(`medicomm-duel:${user.id}`);
+    if (saved) void loadDuelQuestions(saved).then(questions => {
+      if (cancelled) return;
+      const data = loadedDuelRef.current;
+      beginLiveDuel(data.opponent, { sessionId: saved, questions, mode: data.mode });
+    }).catch(error => { if (!cancelled) setDuelMessage(`Could not restore the previous match: ${error.message}`); });
+    return () => { cancelled = true; };
+  }, [user?.id]);
+
+  useEffect(() => {
     if (duelStatus !== "live") return undefined;
 
     const timer = window.setInterval(() => {
-      setDuelTimeLeft((current) => {
-        if (current <= 1) {
-          window.clearInterval(timer);
-          setDuelStatus("finished");
-          return 0;
-        }
-        return current - 1;
-      });
-    }, 1000);
+      const remaining = Math.max(0, Math.ceil((duelDeadlineRef.current - Date.now()) / 1000));
+      setDuelTimeLeft(remaining);
+      if (!remaining) setDuelStatus("finished");
+    }, 250);
 
     return () => window.clearInterval(timer);
   }, [duelStatus]);
@@ -1352,146 +1294,56 @@ async function fetchPracticeLibrary() {
   }, [duelQueueInfo?.ticketId, duelQuestions, duelStatus]);
 
   useEffect(() => {
-    if (duelStatus !== "live") return;
-
-    const elapsed = DUEL_DURATION_SECONDS - duelTimeLeft;
-    setDuelOpponentProgress(getDuelOpponentSnapshot(duelOpponentTimeline, elapsed));
-  }, [duelStatus, duelTimeLeft, duelOpponentTimeline]);
-
-  useEffect(() => {
-    if (duelStatus !== "finished" || !duelOpponent || duelResult) return;
-
-    const elapsed = DUEL_DURATION_SECONDS - duelTimeLeft;
-    const opponentSnapshot = getDuelOpponentSnapshot(duelOpponentTimeline, elapsed);
-    const opponentCorrect = opponentSnapshot.correct;
-    const opponentAnswered = opponentSnapshot.answered;
-    const userAnswered = Object.keys(duelSubmitted).length;
-    const userCompletedEarlier = userAnswered === duelQuestions.length && duelTimeLeft > 0;
-    const opponentCompletedEarlier =
-      opponentAnswered === duelQuestions.length &&
-      duelOpponentTimeline.every((step) => step.revealAt <= elapsed);
-
-    let verdict = duelForfeited ? "loss" : "draw";
-
-    if (!duelForfeited && userDuelScore > opponentCorrect) {
-      verdict = "win";
-    } else if (!duelForfeited && userDuelScore < opponentCorrect) {
-      verdict = "loss";
-    } else if (!duelForfeited && userCompletedEarlier && !opponentCompletedEarlier) {
-      verdict = "win";
-    } else if (!duelForfeited && !userCompletedEarlier && opponentCompletedEarlier) {
-      verdict = "loss";
-    }
-
-    setDuelOpponentProgress(opponentSnapshot);
-
-    const completeDuel = async () => {
+    if (!duelSessionId || !["live", "finished"].includes(duelStatus) || duelResult) return;
+    let cancelled = false;
+    let timer;
+    const syncMatch = async () => {
       try {
-        const data = await apiRequest("/api/duels/complete", {
-          method: "POST",
-          body: JSON.stringify({
-            mode: duelMode,
-            duelId: duelMode === "rated" ? duelSessionId : "",
-            sessionId: duelSessionId,
-            opponentId: duelOpponent.id,
-            opponentRating: duelOpponent.rating,
-            opponentScore: opponentCorrect,
-            forfeit: duelForfeited,
-            questionIds: duelQuestions.map((question) => question.id),
-            answers: duelQuestions.reduce(
-              (answers, question, index) => ({
-                ...answers,
-                [question.id]: duelSelections[index] ?? "",
-              }),
-              {},
-            ),
-          }),
+        const data = duelStatus === "finished"
+          ? await apiRequest("/api/duels/complete", { method: "POST", body: JSON.stringify({ sessionId: duelSessionId, forfeit: duelForfeited }) })
+          : await apiRequest(`/api/duels/status?session=${encodeURIComponent(duelSessionId)}`);
+        if (cancelled) return;
+        duelDeadlineRef.current = Date.now() + Math.max(0, data.expiresAt - data.serverNow);
+        setDuelOpponentProgress({ answered: data.opponentAnswered, correct: 0 });
+        const locked = {};
+        const selections = {};
+        duelQuestions.forEach((q, index) => {
+          if (Object.hasOwn(data.answers, q.id)) { locked[index] = true; selections[index] = q.options[data.answers[q.id]]; }
         });
-
-        const result = data.result ?? {};
-        const mergedUser = mergeUserPerformance(data.user);
-        const nextRating = mergedUser.rating ?? result.nextRating ?? userRating;
-        setUser(mergedUser);
-        setUserRating(nextRating);
-        setAnalyticsEvents((current) => {
-          const completedAt = new Date().toISOString();
-          const secondsPerAnswer = userAnswered ? Math.max(1, Math.round((DUEL_DURATION_SECONDS - duelTimeLeft) / userAnswered)) : 0;
-          const duelEvents = duelQuestions.flatMap((question, index) => duelSubmitted[index] ? [{
-            id: `${duelSessionId || completedAt}-${question.id}`,
-            questionId: question.id,
-            answeredAt: completedAt,
-            correct: isAnswerCorrect(question, duelSelections[index]),
-            subjectId: question.subjectId || "mixed-duel",
-            subject: question.subject || "Mixed battle",
-            topic: question.topic || "Battle review",
-            activity: "battle",
-            durationSeconds: secondsPerAnswer,
-          }] : []);
-          const nextEvents = [...current, ...duelEvents];
-          writeAnalyticsEvents(user, nextEvents);
-          return nextEvents;
-        });
-        setLeaderboardPlayers((current) =>
-          current.map((player) =>
-            player.id === user?.id
-              ? {
-                  ...player,
-                  score: nextRating,
-                  isCurrentUser: true,
-                }
-              : player,
-          ),
-        );
-        setDuelResult({
-          verdict: result.verdict ?? verdict,
-          delta: result.delta ?? 0,
-          previousRating: result.previousRating ?? userRating,
-          nextRating,
-          userScore: result.userScore ?? userDuelScore,
-          opponentScore: result.opponentScore ?? opponentCorrect,
-          userAnswered,
-          opponentAnswered,
-          ratingAffected: result.ratingAffected ?? duelMode !== "bot",
-          forfeited: result.forfeited ?? duelForfeited,
-        });
-        await fetchLeaderboard();
-        await fetchPlatformSummary();
+        setDuelSubmitted(current => ({ ...current, ...locked }));
+        setDuelSelections(current => ({ ...current, ...selections }));
+        if (data.finished) setDuelStatus("finished");
+        if (data.result) {
+          setDuelResult(data.result);
+          setDuelStatus("finished");
+          setDuelMessage("");
+          const mergedUser = mergeUserPerformance(data.user);
+          setUser(mergedUser);
+          setUserRating(data.user.rating);
+          setAnalyticsEvents(current => {
+            const existing = new Set(current.map(event => event.id));
+            const events = data.result.review.filter(q => q.selectedIndex !== null).map(q => ({
+              id: `${duelSessionId}-${q.id}`, questionId: q.id, correct: q.status === "correct",
+              subjectId: q.subjectId || "mixed-duel", subject: q.subjectTitle || "Mixed battle",
+              activity: "battle", answeredAt: data.result.completedAt, seconds: 0,
+            })).filter(event => !existing.has(event.id));
+            const next = [...current, ...events];
+            writeAnalyticsEvents(user, next);
+            return next;
+          });
+          void fetchLeaderboard();
+          void fetchPlatformSummary();
+          return;
+        }
+        setDuelMessage(duelStatus === "finished" ? "Answers saved. Waiting for your opponent or the match timer to finish." : "");
       } catch (error) {
-        setDuelMessage(error instanceof Error ? error.message : "Could not save the duel result.");
-        setDuelResult({
-          verdict,
-          delta: 0,
-          previousRating: userRating,
-          nextRating: userRating,
-          userScore: userDuelScore,
-          opponentScore: opponentCorrect,
-          userAnswered,
-          opponentAnswered,
-          ratingAffected: false,
-          forfeited: duelForfeited,
-        });
+        if (!cancelled) setDuelMessage(`${error.message} Retrying connection...`);
       }
+      if (!cancelled) timer = window.setTimeout(syncMatch, 2000);
     };
-
-    void completeDuel();
-  }, [
-    duelMode,
-    duelOpponent,
-    duelOpponentTimeline,
-    duelForfeited,
-    duelQuestions,
-    duelResult,
-    duelSelections,
-    duelSessionId,
-    duelStatus,
-    duelSubmitted,
-    duelTimeLeft,
-    fetchLeaderboard,
-    fetchPlatformSummary,
-    user,
-    userDuelScore,
-    userRating,
-  ]);
+    void syncMatch();
+    return () => { cancelled = true; window.clearTimeout(timer); };
+  }, [duelSessionId, duelStatus, duelForfeited, duelResult]);
 
   function handleSubmitAnswer() {
     if (!selectedOption || submitted || !currentPracticeQuestion || !user) return;
@@ -2296,36 +2148,10 @@ async function fetchPracticeLibrary() {
   }
 
   async function loadDuelQuestions(sessionId) {
-    let data;
-
-    try {
-      data = await apiRequest(`/api/duels/questions?count=${fallbackDuelQuestions.length}&session=${encodeURIComponent(sessionId)}`, {
-        cache: "no-store",
-      });
-    } catch (error) {
-      if (!(error instanceof Error) || !/route not found/i.test(error.message)) {
-        throw error;
-      }
-
-      const practiceData = await apiRequest(`/api/practice?source=official&session=${encodeURIComponent(sessionId)}`, {
-        cache: "no-store",
-      });
-      const practiceQuestions = Array.isArray(practiceData.questions) ? practiceData.questions : [];
-      data = {
-        questions: practiceQuestions
-          .filter((question) => question?.id && question?.prompt && Array.isArray(question.options) && question.options.length === 4)
-          .sort(
-            (left, right) =>
-              getSeededClientRank(`${sessionId}:${left.id}`) - getSeededClientRank(`${sessionId}:${right.id}`),
-          )
-          .slice(0, fallbackDuelQuestions.length),
-      };
-    }
-
-    if (!Array.isArray(data.questions) || !data.questions.length) {
-      throw new Error("Could not load fresh compete questions.");
-    }
-
+    const data = await apiRequest(`/api/duels/questions?session=${encodeURIComponent(sessionId)}`, { cache: "no-store" });
+    if (!Array.isArray(data.questions) || !data.questions.length) throw new Error("Could not load match questions.");
+    duelDeadlineRef.current = Date.now() + Math.max(0, data.expiresAt - data.serverNow);
+    loadedDuelRef.current = data;
     return data.questions;
   }
 
@@ -2336,8 +2162,8 @@ async function fetchPracticeLibrary() {
     setDuelMode(options.mode ?? "rated");
     setDuelSessionId(options.sessionId ?? "");
     setDuelOpponent(opponent);
-    setDuelOpponentTimeline(createOpponentTimeline(opponent.rating ?? userRating, questions));
-    setDuelTimeLeft(DUEL_DURATION_SECONDS);
+    setShowDuelReview(false);
+    setDuelTimeLeft(Math.max(0, Math.ceil((duelDeadlineRef.current - Date.now()) / 1000)));
     setDuelIndex(0);
     setDuelSelections({});
     setDuelSubmitted({});
@@ -2346,27 +2172,23 @@ async function fetchPracticeLibrary() {
     setDuelQueueInfo(null);
     setDuelMessage("");
     setDuelForfeited(false);
-    setDuelStatus("live");
+    const saved = loadedDuelRef.current;
+    if (saved) {
+      const selections = {};
+      const locked = {};
+      questions.forEach((q, index) => {
+        if (Object.hasOwn(saved.answers, q.id)) { selections[index] = q.options[saved.answers[q.id]]; locked[index] = true; }
+      });
+      setDuelSelections(selections);
+      setDuelSubmitted(locked);
+      const nextIndex = questions.findIndex((q, index) => !locked[index]);
+      setDuelIndex(nextIndex < 0 ? questions.length - 1 : nextIndex);
+    }
+    localStorage.setItem(`medicomm-duel:${user.id}`, options.sessionId);
+    setDuelStatus(saved?.finished || saved?.result ? "finished" : "live");
   }
 
   async function startDuel(preferredOpponent = null) {
-    if (preferredOpponent) {
-      try {
-        const sessionId = createDuelSessionId("challenge");
-        const questions = await loadDuelQuestions(sessionId);
-        beginLiveDuel(preferredOpponent, {
-          mode: "rated",
-          questions,
-          sessionId,
-        });
-      } catch (error) {
-        setActiveView("Compete");
-        setDuelStatus("idle");
-        setDuelMessage(error instanceof Error ? error.message : "Could not load fresh duel questions.");
-      }
-      return;
-    }
-
     if (!user) {
       setAuthMode("login");
       setActiveView("Profile");
@@ -2375,7 +2197,6 @@ async function fetchPracticeLibrary() {
 
     setActiveView("Compete");
     setDuelOpponent(null);
-    setDuelOpponentTimeline([]);
     setDuelTimeLeft(DUEL_DURATION_SECONDS);
     setDuelIndex(0);
     setDuelSelections({});
@@ -2456,9 +2277,22 @@ async function fetchPracticeLibrary() {
     }
   }
 
-  function submitDuelAnswer() {
-    if (!currentDuelSelection || currentDuelSubmitted || !currentDuelQuestion || !user) return;
-    setDuelSubmitted((current) => ({ ...current, [duelIndex]: true }));
+  async function submitDuelAnswer() {
+    if (!currentDuelSelection || currentDuelSubmitted || !currentDuelQuestion || !user || duelAnswerPendingRef.current) return;
+    const index = duelIndex;
+    const selection = currentDuelSelection;
+    duelAnswerPendingRef.current = true;
+    setDuelAnswerBusy(true);
+    try {
+      await apiRequest("/api/duels/answer", { method: "POST", body: JSON.stringify({
+        sessionId: duelSessionId, questionId: currentDuelQuestion.id,
+        optionIndex: currentDuelQuestion.options.indexOf(selection),
+      }) });
+      setDuelSelections(current => ({ ...current, [index]: selection }));
+      setDuelSubmitted(current => ({ ...current, [index]: true }));
+      setDuelMessage("");
+    } catch (error) { setDuelMessage(error.message); }
+    finally { duelAnswerPendingRef.current = false; setDuelAnswerBusy(false); }
   }
 
   function nextDuelQuestion() {
@@ -2476,6 +2310,8 @@ async function fetchPracticeLibrary() {
   }
 
   function resetDuel(syncServer = true) {
+    localStorage.removeItem(`medicomm-duel:${user?.id}`);
+    loadedDuelRef.current = null;
     if (syncServer && (duelStatus === "matchmaking" || duelStatus === "live" || duelStatus === "finished")) {
       void apiRequest("/api/duels/rated/queue", {
         method: "DELETE",
@@ -2490,7 +2326,6 @@ async function fetchPracticeLibrary() {
     setDuelIndex(0);
     setDuelSelections({});
     setDuelSubmitted({});
-    setDuelOpponentTimeline([]);
     setDuelOpponentProgress({ answered: 0, correct: 0 });
     setDuelResult(null);
     setDuelQueueInfo(null);
@@ -5599,7 +5434,7 @@ async function fetchPracticeLibrary() {
             <p>Opponent</p>
             <strong>{duelOpponent?.name ?? "Matching..."}</strong>
             <span className="panel-copy">
-              {duelOpponent?.ratingless ? "Ratingless" : `${duelOpponentProgress.correct} correct`}
+              {duelOpponent?.ratingless ? "Ratingless" : `${duelOpponentProgress.answered} locked`}
             </span>
           </div>
         </div>
@@ -5651,7 +5486,7 @@ async function fetchPracticeLibrary() {
                     (isActive ? " option-active" : "")
                   }
                   onClick={() => {
-                    if (currentDuelSubmitted) return;
+                    if (currentDuelSubmitted || duelAnswerBusy) return;
                     setDuelSelections((current) => ({ ...current, [duelIndex]: option }));
                   }}
                 >
@@ -5662,8 +5497,8 @@ async function fetchPracticeLibrary() {
           </div>
 
           <div className="quiz-actions">
-            <button className="button button-primary" onClick={submitDuelAnswer} disabled={!currentDuelSelection || currentDuelSubmitted}>
-              {currentDuelSubmitted ? "Locked" : "Lock answer"}
+            <button className="button button-primary" onClick={submitDuelAnswer} disabled={!currentDuelSelection || currentDuelSubmitted || duelAnswerBusy}>
+              {duelAnswerBusy ? "Saving..." : currentDuelSubmitted ? "Locked" : "Lock answer"}
             </button>
             <button className="button button-secondary" onClick={nextDuelQuestion} disabled={!currentDuelSubmitted}>
               {duelIndex === duelQuestions.length - 1 ? "Finish duel" : "Next question"}
@@ -5691,7 +5526,7 @@ async function fetchPracticeLibrary() {
           <div>
             <p className="eyebrow">Result</p>
             <h3>
-              {duelResult?.forfeited
+              {!duelResult ? "Verifying match result..." : duelResult?.forfeited
                 ? "You forfeited the duel"
                 : duelResult?.verdict === "win"
                 ? "You won the duel"
@@ -5712,11 +5547,11 @@ async function fetchPracticeLibrary() {
         <div className="duel-result-grid">
           <div>
             <span>Your score</span>
-            <strong>{duelResult?.userScore ?? userDuelScore}</strong>
+            <strong>{duelResult?.userScore ?? "Pending"}</strong>
           </div>
           <div>
             <span>Opponent score</span>
-            <strong>{duelResult?.opponentScore ?? duelOpponentProgress.correct}</strong>
+            <strong>{duelResult?.opponentScore ?? "Pending"}</strong>
           </div>
           <div>
             <span>New rating</span>
@@ -5724,8 +5559,34 @@ async function fetchPracticeLibrary() {
           </div>
         </div>
 
+        {duelResult?.review?.length ? (
+          <div className="duel-review">
+            <button className="button button-secondary" onClick={() => setShowDuelReview(value => !value)} aria-expanded={showDuelReview}>
+              {showDuelReview ? "Hide answer review" : "Review answers"}
+            </button>
+            {showDuelReview ? <div className="duel-review-list">
+              {duelResult.review.map((question, index) => (
+                <article className="card panel" key={question.id}>
+                  <p className="eyebrow">Question {index + 1} ? {question.status === "correct" ? "Correct" : question.status === "incorrect" ? "Incorrect" : "Unanswered"}</p>
+                  <h3>{question.prompt}</h3>
+                  <QuestionLaboratoryTable findings={question.laboratoryFindings} compact />
+                  {getQuestionImageUrls(question).map((url, i) => <img className="duel-question-image" key={url} src={getPracticeImageUrl(url)} alt={`Question ${index + 1} visual ${i + 1}`} />)}
+                  {question.leadIn ? <p>{question.leadIn}</p> : null}
+                  <ol className="duel-review-options" type="A">
+                    {question.options.map((option, optionIndex) => <li key={optionIndex} className={optionIndex === question.correctIndex ? "feedback-box feedback-good" : optionIndex === question.selectedIndex ? "feedback-box feedback-bad" : "feedback-box"}>
+                      {option}{optionIndex === question.selectedIndex ? " ? Your answer" : ""}{optionIndex === question.correctIndex ? " ? Correct answer" : ""}
+                    </li>)}
+                  </ol>
+                  {question.selectedIndex === null ? <p>You did not lock an answer.</p> : null}
+                  {question.explanation ? <p><strong>Explanation: </strong>{question.explanation}</p> : null}
+                </article>
+              ))}
+            </div> : null}
+          </div>
+        ) : null}
+
         <div className="quiz-actions">
-          <button className="button button-primary" onClick={resetDuel}>
+          <button className="button button-primary" onClick={() => resetDuel()} disabled={!duelResult}>
             Duel again
           </button>
           <button className="button button-secondary" onClick={() => setActiveView("Leaderboard")}>

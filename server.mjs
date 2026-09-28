@@ -1,3 +1,4 @@
+import { createMatch, validDuelQuestion, lockAnswer, settleMatch, matchProgress } from "./server/duels.mjs";
 import { createServer } from "node:http";
 import { createHash, randomBytes, pbkdf2Sync, timingSafeEqual } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync, unlinkSync } from "node:fs";
@@ -594,7 +595,6 @@ function sanitizeDuelQuestionForClient(question) {
     leadIn: sanitized.leadIn,
     laboratoryFindings: sanitized.laboratoryFindings,
     options: sanitized.options,
-    explanation: sanitized.explanation,
     subjectId: sanitized.subjectId,
     subjectTitle: sanitized.subjectTitle,
     imageUrls: sanitized.imageUrls,
@@ -603,60 +603,31 @@ function sanitizeDuelQuestionForClient(question) {
   };
 }
 
+let duelPoolBank = null;
+let duelPoolCache = [];
 function getDuelQuestionPool() {
-  const officialQuestions = getOfficialPracticeQuestions(readPracticeQuestionBank())
-    .map((question) => sanitizeDuelQuestion(question))
-    .filter(
-      (question) =>
-        question.prompt &&
-        question.options.length === 4 &&
-        question.answer &&
-        question.answerIndex >= 0 &&
-        question.answerIndex < question.options.length &&
-        question.options.includes(question.answer),
-    );
-
-  if (officialQuestions.length >= DUEL_QUESTION_COUNT) return officialQuestions;
-  return DUEL_FALLBACK_QUESTIONS.map((question, index) =>
-    sanitizeDuelQuestion({
-      ...question,
-      id: `clinical-fallback-${index + 1}`,
-      source: "official",
-      subjectTitle: "Clinical basics",
-    }),
-  );
+  const bank = readPracticeQuestionBank();
+  if (bank === duelPoolBank) return duelPoolCache;
+  // Validate the raw key before normalization can overwrite conflicting answer text.
+  const candidates = (bank.subjects ?? []).flatMap(subject => (subject.questions ?? [])
+    .filter(q => q.source !== "ai" && q.source !== "usmle")
+    .map(q => ({ ...q, subjectTitle: subject.title, answerIndex: Number.isInteger(q.answerIndex) ? q.answerIndex : q.options?.indexOf(q.answer) }))
+    .filter(validDuelQuestion).map(sanitizeDuelQuestion));
+  const counts = new Map();
+  for (const q of candidates) counts.set(q.id, (counts.get(q.id) ?? 0) + 1);
+  const unique = candidates.filter(q => counts.get(q.id) === 1);
+  duelPoolCache = unique.length >= DUEL_QUESTION_COUNT ? unique : DUEL_FALLBACK_QUESTIONS.map((q, i) =>
+    sanitizeDuelQuestion({ ...q, id: `clinical-fallback-${i + 1}`, source: "official", subjectTitle: "Clinical basics" }));
+  duelPoolBank = bank;
+  return duelPoolCache;
 }
 
-function getSeededQuestionRank(question, seed) {
-  return createHash("sha256")
-    .update(`${seed}:${question.id}`)
-    .digest("hex");
-}
-
-function pickDuelQuestions(count = DUEL_QUESTION_COUNT, seed = "") {
+function pickDuelQuestions(count = DUEL_QUESTION_COUNT) {
   const pool = getDuelQuestionPool();
-  const targetCount = Math.min(Math.max(1, count), pool.length);
-
-  if (seed) {
-    return [...pool]
-      .sort((left, right) => getSeededQuestionRank(left, seed).localeCompare(getSeededQuestionRank(right, seed)))
-      .slice(0, targetCount);
-  }
-
-  const shuffled = [...pool];
-
-  for (let index = shuffled.length - 1; index > 0; index -= 1) {
-    const swapIndex = randomBytes(4).readUInt32BE(0) % (index + 1);
-    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
-  }
-
-  return shuffled.slice(0, targetCount);
-}
-
-function getQuestionAnswerMap(questionIds = []) {
-  const pool = getDuelQuestionPool();
-  const byId = new Map(pool.map((question) => [question.id, question]));
-  return questionIds.map((questionId) => byId.get(String(questionId))).filter(Boolean);
+  const targetCount = Math.min(Math.max(1, count), DUEL_QUESTION_COUNT, pool.length);
+  const indexes = new Set();
+  while (indexes.size < targetCount) indexes.add(randomBytes(4).readUInt32BE(0) % pool.length);
+  return [...indexes].map(index => pool[index]);
 }
 
 function getValidSubjectIds(library) {
@@ -2945,7 +2916,7 @@ async function saveCommunityThreadImage(messageId, dataUrl) {
 }
 
 function findActiveRatedDuel(database, userId) {
-  return (database.duels ?? []).find((duel) => duel.status === "matched" && (duel.playerIds ?? []).includes(userId)) ?? null;
+  return (database.duels ?? []).find((duel) => duel.questions && duel.type === "rated" && duel.status === "matched" && (duel.playerIds ?? []).includes(userId)) ?? null;
 }
 
 function buildRatedDuelPayload(duel, currentUser, database) {
@@ -2964,187 +2935,70 @@ function buildRatedDuelPayload(duel, currentUser, database) {
   };
 }
 
-function calculateExpectedScore(playerRating, opponentRating) {
-  return 1 / (1 + 10 ** ((opponentRating - playerRating) / 400));
-}
-
-function calculateEloDelta(playerRating, opponentRating, actualScore) {
-  const expectedScore = calculateExpectedScore(playerRating, opponentRating);
-  return Math.round(DUEL_ELO_K_FACTOR * (actualScore - expectedScore));
-}
-
-function getActualScore(userScore, opponentScore) {
-  if (userScore > opponentScore) return { actualScore: 1, verdict: "win" };
-  if (userScore < opponentScore) return { actualScore: 0, verdict: "loss" };
-  return { actualScore: 0.5, verdict: "draw" };
-}
-
-function normalizeAnswerValue(value) {
-  return String(value ?? "").trim().replace(/\s+/g, " ").toLowerCase();
-}
-
-function isSubmittedAnswerCorrect(question, submittedAnswer) {
-  const selected = normalizeAnswerValue(submittedAnswer);
-  if (!selected) return false;
-
-  if (selected === normalizeAnswerValue(question.answer)) return true;
-
-  const answerIndex = Number(question.answerIndex);
-  if (Number.isInteger(answerIndex) && answerIndex >= 0) {
-    return selected === normalizeAnswerValue(question.options?.[answerIndex]);
+function expireDuels(database) {
+  let changed = false;
+  for (const duel of database.duels) {
+    if (duel.questions) changed = settleMatch(duel, database.users) || changed;
   }
-
-  return false;
+  const cutoff = Date.now() - 86400000 * 7;
+  const duelCount = database.duels.length;
+  const queueCount = database.duelQueue.length;
+  database.duels = database.duels.filter(d => d.questions && (d.status === "matched" || Date.parse(d.createdAt) > cutoff));
+  database.duelQueue = database.duelQueue.filter(e => Date.now() - Date.parse(e.createdAt) < 300000);
+  return changed || duelCount !== database.duels.length || queueCount !== database.duelQueue.length;
 }
 
-function scoreDuelAnswers(payload) {
-  const answers = payload.answers && typeof payload.answers === "object" ? payload.answers : {};
-  const questionIds = Array.isArray(payload.questionIds) ? payload.questionIds.map((id) => String(id)) : [];
-  const questions = getQuestionAnswerMap(questionIds);
-
-  if (!questions.length || questions.length !== questionIds.length) {
-    return { error: "Duel questions could not be verified. Start a fresh duel and try again." };
-  }
-
-  const correct = questions.reduce((total, question) => {
-    return total + (isSubmittedAnswerCorrect(question, answers[question.id]) ? 1 : 0);
-  }, 0);
-
-  return {
-    questions,
-    correct,
-    attempted: questions.filter((question) => String(answers[question.id] ?? "").trim()).length,
-    total: questions.length,
-  };
-}
-
-function sanitizeDuelResult(result) {
-  return {
-    id: result.id,
-    duelId: result.duelId,
-    mode: result.mode,
-    verdict: result.verdict,
-    delta: result.delta,
-    previousRating: result.previousRating,
-    nextRating: result.nextRating,
-    userScore: result.userScore,
-    opponentScore: result.opponentScore,
-    attemptedQuestions: result.attemptedQuestions,
-    correctAnswers: result.correctAnswers,
-    ratingAffected: result.ratingAffected,
-    forfeited: Boolean(result.forfeited),
-    completedAt: result.completedAt,
-  };
-}
-
-function handleDuelQuestions(request, response, url) {
+async function handleDuelQuestions(request, response, url) {
   const database = readDatabase();
   const currentUser = requireSessionUser(request, response, database);
-  if (!currentUser) return null;
-
-  const count = Number(url.searchParams.get("count") ?? DUEL_QUESTION_COUNT);
-  const seed = String(url.searchParams.get("session") ?? "").trim();
-  const questions = pickDuelQuestions(Number.isFinite(count) ? Math.round(count) : DUEL_QUESTION_COUNT, seed).map(
-    sanitizeDuelQuestionForClient,
-  );
-  return sendJson(response, 200, {
-    durationSeconds: DUEL_DURATION_SECONDS,
-    questions,
-  });
+  if (!currentUser) return;
+  let dirty = expireDuels(database);
+  const id = String(url.searchParams.get("session") ?? "");
+  if (!/^[a-zA-Z0-9-]{1,100}$/.test(id)) return sendJson(response, 422, { message: "A valid match session is required." });
+  let duel = database.duels.find(d => d.id === id);
+  if (!duel) {
+    if (!id.startsWith("bot-")) return sendJson(response, 404, { message: "Rated match not found. Join the rated queue." });
+    const active = database.duels.find(d => d.status === "matched" && d.playerIds.includes(currentUser.id));
+    if (active) return sendJson(response, 409, { message: "Finish your existing match first." });
+    duel = createMatch(id, [currentUser.id], pickDuelQuestions(), { [currentUser.id]: currentUser.rating }, Date.now(), "bot");
+    database.duels.push(duel);
+    dirty = true;
+  }
+  if (!duel.playerIds.includes(currentUser.id)) return sendJson(response, 403, { message: "You are not a participant." });
+  if (!duel.questions) return sendJson(response, 409, { message: "This older match has expired. Start a new match." });
+  if (dirty) await writeDatabase(database);
+  const opponent = database.users.find(u => u.id !== currentUser.id && duel.playerIds.includes(u.id));
+  return sendJson(response, 200, { ...matchProgress(duel, currentUser.id), mode: duel.type,
+    opponent: opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : { id: "medicomm-clinical-bot", name: "Clinical Bot", rating: currentUser.rating, ratingless: true }, durationSeconds: DUEL_DURATION_SECONDS,
+    questions: duel.questions.map(sanitizeDuelQuestionForClient) });
 }
 
-async function handleCompleteDuel(request, response) {
+async function handleDuelAction(request, response, url, action) {
+  // Read the body before the database snapshot: slow requests must not overwrite newer answers.
+  const payload = request.method === "POST" ? await parseRequestBody(request) : {};
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return sendJson(response, 422, { message: "A JSON object is required." });
   const database = readDatabase();
   const currentUser = requireSessionUser(request, response, database);
-  if (!currentUser) return null;
-
-  const payload = await parseRequestBody(request);
-  const mode = payload.mode === "bot" ? "bot" : "rated";
-  const forfeited = Boolean(payload.forfeit);
-  const duelId = String(payload.duelId ?? "").trim() || (mode === "bot" ? `bot-${currentUser.id}-${String(payload.sessionId ?? "")}` : "");
-  const resultKey = duelId ? `${duelId}:${currentUser.id}` : "";
-
-  if (resultKey) {
-    const previousResult = (database.duelResults ?? []).find((result) => result.resultKey === resultKey);
-    if (previousResult) {
-      return sendJson(response, 200, { result: sanitizeDuelResult(previousResult), user: sanitizeUser(currentUser) });
+  if (!currentUser) return;
+  const id = String(payload.sessionId || payload.duelId || url.searchParams.get("session") || "");
+  const duel = database.duels.find(d => d.id === id && d.playerIds.includes(currentUser.id));
+  if (!duel?.questions) return sendJson(response, 404, { message: "Match not found." });
+  let changed = settleMatch(duel, database.users);
+  if (action === "answer") {
+    try { lockAnswer(duel, currentUser.id, payload.questionId, payload.optionIndex); changed = true; }
+    catch (error) {
+      if (changed) await writeDatabase(database);
+      return sendJson(response, 409, { message: error.message });
     }
   }
-
-  const scored = scoreDuelAnswers(payload);
-  if (scored.error) {
-    return sendJson(response, 422, { message: scored.error });
+  if (action === "complete" && duel.status !== "completed" && (!duel.finished[currentUser.id] || (payload.forfeit === true && !duel.forfeits[currentUser.id]))) {
+    duel.finished[currentUser.id] = true;
+    duel.forfeits[currentUser.id] = duel.forfeits[currentUser.id] || payload.forfeit === true;
+    changed = true;
   }
-
-  const userIndex = database.users.findIndex((user) => user.id === currentUser.id);
-  if (userIndex === -1) {
-    return sendJson(response, 404, { message: "User not found." });
-  }
-
-  const totalQuestions = Number.isFinite(scored.total) ? scored.total : scored.questions.length;
-  const submittedOpponentScore = Math.max(0, Math.min(totalQuestions, Math.round(Number(payload.opponentScore ?? 0))));
-  const opponentScore = forfeited ? Math.min(totalQuestions, Math.max(submittedOpponentScore, scored.correct + 1)) : submittedOpponentScore;
-  const scoredOutcome = getActualScore(scored.correct, opponentScore);
-  const actualScore = forfeited ? 0 : scoredOutcome.actualScore;
-  const verdict = forfeited ? "loss" : scoredOutcome.verdict;
-  const previousRating = Number.isFinite(database.users[userIndex].rating)
-    ? database.users[userIndex].rating
-    : DEFAULT_USER_RATING;
-  const opponentRating = Number.isFinite(payload.opponentRating) ? Math.max(0, Math.round(payload.opponentRating)) : previousRating;
-  const delta = mode === "bot" ? 0 : calculateEloDelta(previousRating, opponentRating, actualScore);
-  const nextRating = Math.max(0, previousRating + delta);
-
-  const updatedUser = {
-    ...database.users[userIndex],
-    rating: nextRating,
-    correctAnswers: Math.max(
-      0,
-      Math.round((database.users[userIndex].correctAnswers ?? DEFAULT_CORRECT_ANSWERS) + scored.correct),
-    ),
-    attemptedQuestions: Math.max(
-      0,
-      Math.round((database.users[userIndex].attemptedQuestions ?? DEFAULT_ATTEMPTED_QUESTIONS) + scored.attempted),
-    ),
-  };
-
-  const completedAt = new Date().toISOString();
-  const result = {
-    id: randomBytes(10).toString("hex"),
-    resultKey,
-    duelId: duelId || null,
-    mode,
-    userId: currentUser.id,
-    opponentId: mode === "bot" ? null : String(payload.opponentId ?? "").trim() || null,
-    verdict,
-    delta,
-    previousRating,
-    nextRating,
-    userScore: scored.correct,
-    opponentScore,
-    attemptedQuestions: scored.attempted,
-    correctAnswers: scored.correct,
-    ratingAffected: mode !== "bot",
-    forfeited,
-    completedAt,
-  };
-
-  database.users[userIndex] = updatedUser;
-  database.duelResults = [result, ...(database.duelResults ?? []).slice(0, 499)];
-
-  const duelIndex = (database.duels ?? []).findIndex((duel) => duel.id === duelId);
-  if (duelIndex !== -1) {
-    const duel = database.duels[duelIndex];
-    const completedBy = new Set([...(duel.completedBy ?? []), currentUser.id]);
-    database.duels[duelIndex] = {
-      ...duel,
-      completedBy: [...completedBy],
-      lastCompletedAt: completedAt,
-      status: completedBy.size >= (duel.playerIds ?? []).length ? "completed" : duel.status,
-    };
-  }
-
-  await writeDatabase(database);
-  return sendJson(response, 200, { result: sanitizeDuelResult(result), user: sanitizeUser(updatedUser) });
+  changed = settleMatch(duel, database.users) || changed;
+  if (changed) await writeDatabase(database);
+  return sendJson(response, 200, { ...matchProgress(duel, currentUser.id), user: sanitizeUser(database.users.find(u => u.id === currentUser.id)) });
 }
 
 async function handleJoinRatedDuelQueue(request, response) {
@@ -3152,13 +3006,16 @@ async function handleJoinRatedDuelQueue(request, response) {
   const currentUser = requireSessionUser(request, response, database);
   if (!currentUser) return null;
 
+  let dirty = expireDuels(database);
   const activeDuel = findActiveRatedDuel(database, currentUser.id);
   if (activeDuel) {
+    if (dirty) await writeDatabase(database);
     return sendJson(response, 200, buildRatedDuelPayload(activeDuel, currentUser, database));
   }
 
   const existingQueueEntry = (database.duelQueue ?? []).find((entry) => entry.userId === currentUser.id);
   if (existingQueueEntry) {
+    if (dirty) await writeDatabase(database);
     return sendJson(response, 200, {
       status: "waiting",
       ticketId: existingQueueEntry.id,
@@ -3167,12 +3024,14 @@ async function handleJoinRatedDuelQueue(request, response) {
     });
   }
 
+  const busyPlayers = new Set(database.duels.filter(d => d.status === "matched").flatMap(d => d.playerIds));
+  if (busyPlayers.has(currentUser.id)) return sendJson(response, 409, { message: "Finish your existing match first." });
   const queuedOpponent = (database.duelQueue ?? [])
     .map((entry) => ({
       entry,
       user: database.users.find((user) => user.id === entry.userId),
     }))
-    .filter(({ user }) => user && user.id !== currentUser.id)
+    .filter(({ user }) => user && user.id !== currentUser.id && !busyPlayers.has(user.id))
     .sort(
       (left, right) =>
         Math.abs((left.user.rating ?? DEFAULT_USER_RATING) - (currentUser.rating ?? DEFAULT_USER_RATING)) -
@@ -3181,16 +3040,10 @@ async function handleJoinRatedDuelQueue(request, response) {
 
   if (queuedOpponent?.user) {
     const now = new Date().toISOString();
-    const duel = {
-      id: randomBytes(10).toString("hex"),
-      type: "rated",
-      status: "matched",
-      playerIds: [queuedOpponent.user.id, currentUser.id],
-      createdAt: now,
-      startedAt: now,
-    };
+    const duel = createMatch(randomBytes(10).toString("hex"), [queuedOpponent.user.id, currentUser.id],
+      pickDuelQuestions(), { [queuedOpponent.user.id]: queuedOpponent.user.rating, [currentUser.id]: currentUser.rating });
     database.duelQueue = (database.duelQueue ?? []).filter((entry) => entry.id !== queuedOpponent.entry.id);
-    database.duels = [duel, ...(database.duels ?? []).slice(0, 99)];
+    database.duels.push(duel);
     await writeDatabase(database);
     return sendJson(response, 201, buildRatedDuelPayload(duel, currentUser, database));
   }
@@ -3213,16 +3066,19 @@ async function handleJoinRatedDuelQueue(request, response) {
   });
 }
 
-function handleRatedDuelQueueStatus(request, response) {
+async function handleRatedDuelQueueStatus(request, response) {
   const database = readDatabase();
   const currentUser = requireSessionUser(request, response, database);
   if (!currentUser) return null;
 
+  let dirty = expireDuels(database);
   const activeDuel = findActiveRatedDuel(database, currentUser.id);
   if (activeDuel) {
+    if (dirty) await writeDatabase(database);
     return sendJson(response, 200, buildRatedDuelPayload(activeDuel, currentUser, database));
   }
 
+  if (dirty) await writeDatabase(database);
   const queuedEntry = (database.duelQueue ?? []).find((entry) => entry.userId === currentUser.id);
   return sendJson(response, 200, {
     status: queuedEntry ? "waiting" : "idle",
@@ -3237,15 +3093,8 @@ async function handleLeaveRatedDuelQueue(request, response) {
   const currentUser = requireSessionUser(request, response, database);
   if (!currentUser) return null;
 
-  const previousLength = database.duelQueue?.length ?? 0;
-  const previousDuelLength = database.duels?.length ?? 0;
-  database.duelQueue = (database.duelQueue ?? []).filter((entry) => entry.userId !== currentUser.id);
-  database.duels = (database.duels ?? []).filter(
-    (duel) => duel.status !== "matched" || !(duel.playerIds ?? []).includes(currentUser.id),
-  );
-  if (database.duelQueue.length !== previousLength || database.duels.length !== previousDuelLength) {
-    await writeDatabase(database);
-  }
+  database.duelQueue = database.duelQueue.filter(entry => entry.userId !== currentUser.id);
+  await writeDatabase(database);
 
   return sendJson(response, 200, { success: true });
 }
@@ -3649,10 +3498,12 @@ async function handleRequest(request, response) {
     if (request.method === "PATCH" && url.pathname === "/api/profile/question-bookmarks")
       return await handleQuestionBookmarkUpdate(request, response);
     if (request.method === "GET" && url.pathname === "/api/leaderboard") return handleLeaderboard(request, response);
-    if (request.method === "GET" && url.pathname === "/api/duels/questions") return handleDuelQuestions(request, response, url);
-    if (request.method === "POST" && url.pathname === "/api/duels/complete") return await handleCompleteDuel(request, response);
+    if (request.method === "GET" && url.pathname === "/api/duels/questions") return await handleDuelQuestions(request, response, url);
+    if (request.method === "POST" && url.pathname === "/api/duels/answer") return await handleDuelAction(request, response, url, "answer");
+    if (request.method === "GET" && url.pathname === "/api/duels/status") return await handleDuelAction(request, response, url, "status");
+    if (request.method === "POST" && url.pathname === "/api/duels/complete") return await handleDuelAction(request, response, url, "complete");
     if (request.method === "POST" && url.pathname === "/api/duels/rated/queue") return await handleJoinRatedDuelQueue(request, response);
-    if (request.method === "GET" && url.pathname === "/api/duels/rated/queue") return handleRatedDuelQueueStatus(request, response);
+    if (request.method === "GET" && url.pathname === "/api/duels/rated/queue") return await handleRatedDuelQueueStatus(request, response);
     if (request.method === "DELETE" && url.pathname === "/api/duels/rated/queue") return await handleLeaveRatedDuelQueue(request, response);
     if (request.method === "GET" && url.pathname === "/api/summary") return handleSummary(response);
     if (request.method === "GET" && url.pathname === "/api/storage/status") return handleStorageStatus(response);

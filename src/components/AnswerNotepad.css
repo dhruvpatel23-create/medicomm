@@ -3,7 +3,7 @@
 .an-launch-icon { background: #fff; box-shadow: 0 2px 8px #7651ce12; }
 .an-launch:disabled { opacity: .5; cursor: not-allowed; }
 .an-overlay { z-index: 2000; }
-.an-dialog { z-index: 2001; inset: 3dvh max(16px, calc((100vw - 1080px) / 2)); background: #faf9fc; color: #283149; font-family: inherit; }
+.an-dialog { z-index: 2001; inset: 10vh 10vw; inset: 10dvh 10vw; background: #faf9fc; color: #283149; font-family: inherit; }
 .an-dialog button, .an-dialog select, .an-dialog input { font: inherit; }
 .an-dialog button { cursor: pointer; }
 .an-dialog button:disabled { opacity: .3; cursor: not-allowed; }
