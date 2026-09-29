@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1150 820" width="1150" height="820">
+  <rect width="1150" height="820" fill="#030712"/>
+  <defs>
+    <filter id="tableShadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Subtitle -->
+  <text x="575" y="55" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" text-anchor="middle" letter-spacing="0.5">STATISTICAL ANALYSIS: RISK FACTOR ASSESSMENT</text>
+  <text x="575" y="85" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" text-anchor="middle">Odds Ratios (OR) &amp; 95% Confidence Intervals for Breast Cancer Study (n = 100)</text>
+
+  <!-- Card / Table Container -->
+  <rect x="50" y="115" width="1050" height="640" rx="16" fill="#0b0f19" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Table Headers -->
+  <text x="90" y="155" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="800" letter-spacing="1">VARIABLE / FACTOR</text>
+  <text x="575" y="155" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="800" text-anchor="middle" letter-spacing="1">ODDS RATIO (95% CI) PLOT</text>
+  <text x="1000" y="155" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="800" text-anchor="middle" letter-spacing="1">OR (95% CI)</text>
+
+  <line x1="70" y1="175" x2="1080" y2="175" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Plot Area: X from 380 to 780.
+       Line of No Effect (OR = 1.0) is at X = 560.
+       Scale: OR = 0.0 at X = 400. OR = 1.0 at X = 560 (160px for 1.0 -> 160px per unit of OR).
+       OR = 2.0 at X = 720.
+       OR = 3.0 at X = 880.
+  -->
+  <!-- Vertical Reference Line at OR = 1.0 -->
+  <line x1="560" y1="185" x2="560" y2="690" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <text x="560" y="715" fill="#f59e0b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" text-anchor="middle">1.0 (No Effect)</text>
+
+  <!-- ==================== ROW 1: Early menarche ==================== -->
+  <!-- OR: 1.3 (1.2 - 1.9). y = 220 -->
+  <text x="90" y="225" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Early menarche</text>
+  <!-- Whisker: from 1.2 (560 + 0.2*160 = 592) to 1.9 (560 + 0.9*160 = 704). Box at 1.3 (608) -->
+  <line x1="592" y1="220" x2="704" y2="220" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="592" y1="212" x2="592" y2="228" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="704" y1="212" x2="704" y2="228" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="600" y="210" width="16" height="20" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1000" y="225" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" text-anchor="middle">1.3 (1.2–1.9)</text>
+
+  <!-- ==================== ROW 2: Age < 50 yrs ==================== -->
+  <!-- OR: 0.04 (0.01 - 0.32). y = 280 -->
+  <text x="90" y="285" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Age &lt; 50 yrs</text>
+  <!-- Whisker: from 0.01 (401.6) to 0.32 (451.2). Box at 0.04 (406.4) -->
+  <line x1="402" y1="280" x2="451" y2="280" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="402" y1="272" x2="402" y2="288" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="451" y1="272" x2="451" y2="288" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="402" y="270" width="14" height="20" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1000" y="285" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" text-anchor="middle">0.04 (0.01–0.32)</text>
+
+  <!-- ==================== ROW 3: Smoking ==================== -->
+  <!-- OR: 0.5 (0.02 - 0.9). y = 340 -->
+  <text x="90" y="345" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Smoking</text>
+  <!-- Whisker: from 0.02 (403.2) to 0.9 (544). Box at 0.5 (480) -->
+  <line x1="403" y1="340" x2="544" y2="340" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="403" y1="332" x2="403" y2="348" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="544" y1="332" x2="544" y2="348" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="472" y="330" width="16" height="20" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1000" y="345" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" text-anchor="middle">0.5 (0.02–0.9)</text>
+
+  <!-- ==================== ROW 4: BRCA Mutation ==================== -->
+  <!-- OR: 1.9 (1.1 - 2.8). y = 400 -->
+  <text x="90" y="405" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">BRCA Mutation</text>
+  <!-- Whisker: from 1.1 (576) to 2.8 (848). Box at 1.9 (704) -->
+  <line x1="576" y1="400" x2="848" y2="400" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="576" y1="392" x2="576" y2="408" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="848" y1="392" x2="848" y2="408" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="696" y="390" width="16" height="20" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1000" y="405" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" text-anchor="middle">1.9 (1.1–2.8)</text>
+
+  <!-- ==================== ROW 5: Alcohol ==================== -->
+  <!-- OR: 1.0 (0.8 - 1.8). y = 460 -->
+  <text x="90" y="465" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Alcohol</text>
+  <!-- Whisker: from 0.8 (528) to 1.8 (688). Box at 1.0 (560) -->
+  <line x1="528" y1="460" x2="688" y2="460" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="528" y1="452" x2="528" y2="468" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="688" y1="452" x2="688" y2="468" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="552" y="450" width="16" height="20" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1000" y="465" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" text-anchor="middle">1.0 (0.8–1.8)</text>
+
+  <!-- ==================== ROW 6: High socioeconomic status ==================== -->
+  <!-- OR: 1.4 (0.5 - 3.5). y = 520 -->
+  <text x="90" y="525" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">High socioeconomic status</text>
+  <!-- Whisker: from 0.5 (480) to 3.5 (810). Box at 1.4 (624) -->
+  <line x1="480" y1="520" x2="810" y2="520" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="480" y1="512" x2="480" y2="528" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="810" y1="512" x2="810" y2="528" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="616" y="510" width="16" height="20" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1000" y="525" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" text-anchor="middle">1.4 (0.5–3.5)</text>
+
+  <!-- ==================== ROW 7: Obesity ==================== -->
+  <!-- OR: 1.25 (1.1 - 1.7). y = 580 -->
+  <text x="90" y="585" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Obesity</text>
+  <!-- Whisker: from 1.1 (576) to 1.7 (672). Box at 1.25 (600) -->
+  <line x1="576" y1="580" x2="672" y2="580" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="576" y1="572" x2="576" y2="588" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="672" y1="572" x2="672" y2="588" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="592" y="570" width="16" height="20" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1000" y="585" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" text-anchor="middle">1.25 (1.1–1.7)</text>
+
+  <!-- ==================== ROW 8: No family history of Ca. breast ==================== -->
+  <!-- OR: 0.3 (0.01 - 0.9). y = 640 -->
+  <text x="90" y="645" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">No family history of Ca. breast</text>
+  <!-- Whisker: from 0.01 (401.6) to 0.9 (544). Box at 0.3 (448) -->
+  <line x1="402" y1="640" x2="544" y2="640" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="402" y1="632" x2="402" y2="648" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="544" y1="632" x2="544" y2="648" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="440" y="630" width="16" height="20" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1000" y="645" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" text-anchor="middle">0.3 (0.01–0.9)</text>
+
+  <!-- Watermark -->
+  <text x="40" y="795" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" letter-spacing="1.5">medicomm</text>
+</svg>

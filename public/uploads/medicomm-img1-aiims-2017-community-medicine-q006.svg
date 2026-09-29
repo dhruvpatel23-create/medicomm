@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="1200" height="680">
+  <rect width="1200" height="680" fill="#030712"/>
+  <defs>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="25%" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="70%" stop-color="#38bdf8" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="capGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#cbd5e1"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+    <linearGradient id="liquidGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.45"/>
+    </linearGradient>
+    <filter id="vialShadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Subtitle -->
+  <text x="600" y="55" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" text-anchor="middle" letter-spacing="0.5">VACCINE VIAL MONITOR (VVM) STAGES</text>
+  <text x="600" y="85" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" text-anchor="middle">Colorimetric Indicator Changes Under Heat Exposure</text>
+
+  <!-- 4 Vials arranged side by side -->
+  <!-- Vial Centers at X = 180, 460, 740, 1020 -->
+
+  <!-- ==================== VIAL 1 ==================== -->
+  <g transform="translate(180, 130)" filter="url(#vialShadow)">
+    <!-- Vial Floor Shadow -->
+    <ellipse cx="0" cy="410" rx="90" ry="14" fill="#000000" opacity="0.6"/>
+
+    <!-- Rubber Stopper & Crimp Cap -->
+    <rect x="-40" y="0" width="80" height="24" rx="4" fill="url(#capGrad)" stroke="#475569" stroke-width="1.5"/>
+    <rect x="-25" y="24" width="50" height="20" fill="#334155" stroke="#475569" stroke-width="1"/>
+    
+    <!-- Vial Body Glass -->
+    <path d="M -25 44 C -45 55 -85 75 -85 105 L -85 370 C -85 395 -60 405 0 405 C 60 405 85 395 85 370 L 85 105 C 85 75 45 55 25 44 Z" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <!-- Liquid fill -->
+    <path d="M -83 170 L 83 170 L 83 370 C 83 393 60 403 0 403 C -60 403 -83 393 -83 370 Z" fill="url(#liquidGrad)"/>
+    <!-- Glass Sheen Overlay -->
+    <path d="M -85 105 L -85 370 C -85 395 -60 405 0 405 C 60 405 85 395 85 370 L 85 105 C 85 75 45 55 25 44 L -25 44 C -45 55 -85 75 -85 105 Z" fill="url(#glassGrad)"/>
+
+    <!-- VVM Indicator Label on Vial 1 -->
+    <!-- Outer circle: #2563eb, Inner square: #ffffff (White / much lighter) -->
+    <g transform="translate(0, 240)">
+      <circle cx="0" cy="0" r="44" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
+      <rect x="-20" y="-20" width="40" height="40" fill="#ffffff" rx="2" stroke="#e2e8f0" stroke-width="1"/>
+    </g>
+
+    <!-- Neutral Badge: Number 1 -->
+    <circle cx="0" cy="465" r="22" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <text x="0" y="472" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" text-anchor="middle">1</text>
+  </g>
+
+  <!-- ==================== VIAL 2 ==================== -->
+  <g transform="translate(460, 130)" filter="url(#vialShadow)">
+    <ellipse cx="0" cy="410" rx="90" ry="14" fill="#000000" opacity="0.6"/>
+    <rect x="-40" y="0" width="80" height="24" rx="4" fill="url(#capGrad)" stroke="#475569" stroke-width="1.5"/>
+    <rect x="-25" y="24" width="50" height="20" fill="#334155" stroke="#475569" stroke-width="1"/>
+    
+    <path d="M -25 44 C -45 55 -85 75 -85 105 L -85 370 C -85 395 -60 405 0 405 C 60 405 85 395 85 370 L 85 105 C 85 75 45 55 25 44 Z" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <path d="M -83 170 L 83 170 L 83 370 C 83 393 60 403 0 403 C -60 403 -83 393 -83 370 Z" fill="url(#liquidGrad)"/>
+    <path d="M -85 105 L -85 370 C -85 395 -60 405 0 405 C 60 405 85 395 85 370 L 85 105 C 85 75 45 55 25 44 L -25 44 C -45 55 -85 75 -85 105 Z" fill="url(#glassGrad)"/>
+
+    <!-- VVM Indicator Label on Vial 2 -->
+    <!-- Outer circle: #2563eb, Inner square: #93c5fd (Light blue / still distinctly lighter) -->
+    <g transform="translate(0, 240)">
+      <circle cx="0" cy="0" r="44" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
+      <rect x="-20" y="-20" width="40" height="40" fill="#93c5fd" rx="2" stroke="#60a5fa" stroke-width="1"/>
+    </g>
+
+    <!-- Neutral Badge: Number 2 -->
+    <circle cx="0" cy="465" r="22" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <text x="0" y="472" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" text-anchor="middle">2</text>
+  </g>
+
+  <!-- ==================== VIAL 3 ==================== -->
+  <g transform="translate(740, 130)" filter="url(#vialShadow)">
+    <ellipse cx="0" cy="410" rx="90" ry="14" fill="#000000" opacity="0.6"/>
+    <rect x="-40" y="0" width="80" height="24" rx="4" fill="url(#capGrad)" stroke="#475569" stroke-width="1.5"/>
+    <rect x="-25" y="24" width="50" height="20" fill="#334155" stroke="#475569" stroke-width="1"/>
+    
+    <path d="M -25 44 C -45 55 -85 75 -85 105 L -85 370 C -85 395 -60 405 0 405 C 60 405 85 395 85 370 L 85 105 C 85 75 45 55 25 44 Z" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <path d="M -83 170 L 83 170 L 83 370 C 83 393 60 403 0 403 C -60 403 -83 393 -83 370 Z" fill="url(#liquidGrad)"/>
+    <path d="M -85 105 L -85 370 C -85 395 -60 405 0 405 C 60 405 85 395 85 370 L 85 105 C 85 75 45 55 25 44 L -25 44 C -45 55 -85 75 -85 105 Z" fill="url(#glassGrad)"/>
+
+    <!-- VVM Indicator Label on Vial 3 -->
+    <!-- Outer circle: #2563eb, Inner square: #2563eb (Exact match / exposure stage 3) -->
+    <g transform="translate(0, 240)">
+      <circle cx="0" cy="0" r="44" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
+      <rect x="-20" y="-20" width="40" height="40" fill="#2563eb" rx="2" stroke="#1e40af" stroke-width="1.5"/>
+    </g>
+
+    <!-- Neutral Badge: Number 3 -->
+    <circle cx="0" cy="465" r="22" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <text x="0" y="472" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" text-anchor="middle">3</text>
+  </g>
+
+  <!-- ==================== VIAL 4 ==================== -->
+  <g transform="translate(1020, 130)" filter="url(#vialShadow)">
+    <ellipse cx="0" cy="410" rx="90" ry="14" fill="#000000" opacity="0.6"/>
+    <rect x="-40" y="0" width="80" height="24" rx="4" fill="url(#capGrad)" stroke="#475569" stroke-width="1.5"/>
+    <rect x="-25" y="24" width="50" height="20" fill="#334155" stroke="#475569" stroke-width="1"/>
+    
+    <path d="M -25 44 C -45 55 -85 75 -85 105 L -85 370 C -85 395 -60 405 0 405 C 60 405 85 395 85 370 L 85 105 C 85 75 45 55 25 44 Z" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <path d="M -83 170 L 83 170 L 83 370 C 83 393 60 403 0 403 C -60 403 -83 393 -83 370 Z" fill="url(#liquidGrad)"/>
+    <path d="M -85 105 L -85 370 C -85 395 -60 405 0 405 C 60 405 85 395 85 370 L 85 105 C 85 75 45 55 25 44 L -25 44 C -45 55 -85 75 -85 105 Z" fill="url(#glassGrad)"/>
+
+    <!-- VVM Indicator Label on Vial 4 -->
+    <!-- Outer circle: #2563eb, Inner square: #020617 (Dark black / darker than outer circle) -->
+    <g transform="translate(0, 240)">
+      <circle cx="0" cy="0" r="44" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
+      <rect x="-20" y="-20" width="40" height="40" fill="#020617" rx="2" stroke="#000000" stroke-width="1.5"/>
+    </g>
+
+    <!-- Neutral Badge: Number 4 -->
+    <circle cx="0" cy="465" r="22" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <text x="0" y="472" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="700" text-anchor="middle">4</text>
+  </g>
+
+  <!-- Watermark -->
+  <text x="40" y="655" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" letter-spacing="1.5">medicomm</text>
+</svg>

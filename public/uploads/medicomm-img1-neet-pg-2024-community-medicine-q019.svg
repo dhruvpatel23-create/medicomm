@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800">
+  <rect width="1000" height="800" fill="#030712"/>
+  <defs>
+    <filter id="girlShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.7"/>
+    </filter>
+    <linearGradient id="skirtGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="60%" stop-color="#db2777"/>
+      <stop offset="100%" stop-color="#be185d"/>
+    </linearGradient>
+    <linearGradient id="shirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="60%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Shadow Ellipse -->
+  <ellipse cx="500" cy="710" rx="200" ry="25" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+
+  <!-- Character Group: 'Sapana' School Girl Mascot -->
+  <g transform="translate(180, 40)" filter="url(#girlShadow)">
+    <!-- Legs & Feet with Blue Flip-Flops -->
+    <!-- Left Leg (back) -->
+    <path d="M 285 540 L 275 640 L 255 645" stroke="#fcd34d" stroke-width="22" stroke-linecap="round"/>
+    <ellipse cx="255" cy="655" rx="24" ry="9" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
+    <path d="M 245 650 Q 255 645 265 650" stroke="#38bdf8" stroke-width="3" fill="none"/>
+
+    <!-- Right Leg (forward) -->
+    <path d="M 370 540 L 400 635 L 430 645" stroke="#fcd34d" stroke-width="22" stroke-linecap="round"/>
+    <ellipse cx="420" cy="655" rx="26" ry="10" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
+    <path d="M 405 650 Q 420 645 435 650" stroke="#38bdf8" stroke-width="3" fill="none"/>
+
+    <!-- School Backpack on back (Green) -->
+    <path d="M 230 180 C 180 200, 180 320, 240 330 Z" fill="#15803d" stroke="#166534" stroke-width="3"/>
+    <path d="M 210 240 L 250 240" stroke="#facc15" stroke-width="3"/>
+
+    <!-- Flowing Traditional Flared Skirt (Magenta/Pink with Yellow Floral Pattern) -->
+    <path d="M 290 320 C 340 320, 370 330, 390 350 C 430 450, 470 520, 420 570 C 370 600, 230 580, 210 530 C 200 470, 240 380, 290 320 Z" fill="url(#skirtGrad)" stroke="#9d174d" stroke-width="3"/>
+
+    <!-- Yellow Five-Petaled Flowers on Skirt -->
+    <!-- Flower 1 -->
+    <g transform="translate(260, 400)">
+      <circle cx="0" cy="0" r="5" fill="#fef08a"/>
+      <circle cx="-12" cy="0" r="6" fill="#facc15"/>
+      <circle cx="12" cy="0" r="6" fill="#facc15"/>
+      <circle cx="0" cy="-12" r="6" fill="#facc15"/>
+      <circle cx="0" cy="12" r="6" fill="#facc15"/>
+    </g>
+    <!-- Flower 2 -->
+    <g transform="translate(340, 420)">
+      <circle cx="0" cy="0" r="5" fill="#fef08a"/>
+      <circle cx="-12" cy="0" r="6" fill="#facc15"/>
+      <circle cx="12" cy="0" r="6" fill="#facc15"/>
+      <circle cx="0" cy="-12" r="6" fill="#facc15"/>
+      <circle cx="0" cy="12" r="6" fill="#facc15"/>
+    </g>
+    <!-- Flower 3 -->
+    <g transform="translate(300, 490)">
+      <circle cx="0" cy="0" r="5" fill="#fef08a"/>
+      <circle cx="-12" cy="0" r="6" fill="#facc15"/>
+      <circle cx="12" cy="0" r="6" fill="#facc15"/>
+      <circle cx="0" cy="-12" r="6" fill="#facc15"/>
+      <circle cx="0" cy="12" r="6" fill="#facc15"/>
+    </g>
+    <!-- Flower 4 -->
+    <g transform="translate(380, 500)">
+      <circle cx="0" cy="0" r="5" fill="#fef08a"/>
+      <circle cx="-12" cy="0" r="6" fill="#facc15"/>
+      <circle cx="12" cy="0" r="6" fill="#facc15"/>
+      <circle cx="0" cy="-12" r="6" fill="#facc15"/>
+      <circle cx="0" cy="12" r="6" fill="#facc15"/>
+    </g>
+
+    <!-- Yellow T-Shirt / Blouse -->
+    <path d="M 270 210 L 375 210 L 390 330 L 270 330 Z" fill="url(#shirtGrad)" stroke="#ca8a04" stroke-width="2.5"/>
+    <!-- Collar & emblem badge on chest -->
+    <path d="M 305 210 Q 325 230 345 210" stroke="#ca8a04" stroke-width="2.5" fill="none"/>
+    <circle cx="355" cy="245" r="9" fill="#ea580c"/>
+
+    <!-- Left Arm & Hand Raised in Friendly Greeting Gesture -->
+    <path d="M 370 220 Q 430 200 450 140" stroke="#fcd34d" stroke-width="16" stroke-linecap="round" fill="none"/>
+    <!-- Wrist Bangle (Gold) -->
+    <ellipse cx="445" cy="155" rx="9" ry="5" fill="none" stroke="#f59e0b" stroke-width="3"/>
+    <!-- Open waving palm -->
+    <ellipse cx="455" cy="125" rx="14" ry="18" fill="#fcd34d" stroke="#d97706" stroke-width="1.5"/>
+    <path d="M 450 110 L 452 95 M 458 110 L 462 96 M 464 115 L 470 102 M 444 118 L 438 108" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Right Arm holding backpack strap -->
+    <path d="M 270 225 Q 260 270 310 290" stroke="#fcd34d" stroke-width="16" stroke-linecap="round" fill="none"/>
+
+    <!-- Head & Face -->
+    <circle cx="330" cy="140" r="45" fill="#fcd34d" stroke="#d97706" stroke-width="2"/>
+    <!-- Expressive, cheerful eyes -->
+    <ellipse cx="320" cy="135" rx="7" ry="10" fill="#ffffff" stroke="#1e293b" stroke-width="1.5"/>
+    <circle cx="321" cy="135" r="5" fill="#0f172a"/>
+    <ellipse cx="348" cy="135" rx="7" ry="10" fill="#ffffff" stroke="#1e293b" stroke-width="1.5"/>
+    <circle cx="347" cy="135" r="5" fill="#0f172a"/>
+    <!-- Cheerful smile -->
+    <path d="M 324 162 Q 335 174 346 162" stroke="#be123c" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+    <!-- Dark Hair with Two Braided Pigtails and Red Ribbon Bows -->
+    <path d="M 285 140 C 285 75, 375 75, 375 140 C 375 110, 285 110, 285 140 Z" fill="#0f172a"/>
+    <!-- Left Braided Pigtail -->
+    <path d="M 290 140 Q 255 170 250 220" stroke="#0f172a" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <!-- Red Ribbon Bow Left -->
+    <ellipse cx="250" cy="210" rx="10" ry="6" fill="#ef4444"/>
+    <circle cx="250" cy="210" r="3" fill="#ffffff"/>
+
+    <!-- Right Braided Pigtail -->
+    <path d="M 370 140 Q 405 170 410 210" stroke="#0f172a" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <!-- Red Ribbon Bow Right -->
+    <ellipse cx="410" cy="200" rx="10" ry="6" fill="#ef4444"/>
+    <circle cx="410" cy="200" r="3" fill="#ffffff"/>
+  </g>
+
+  <!-- Watermark -->
+  <text x="40" y="770" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="1000" height="600">
+  <rect width="1000" height="600" fill="#030712"/>
+  <defs>
+    <filter id="thermShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000" flood-opacity="0.8"/>
+    </filter>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="30%" stop-color="#cbd5e1" stop-opacity="0.4"/>
+      <stop offset="70%" stop-color="#94a3b8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="bulbSpiritGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e"/>
+      <stop offset="40%" stop-color="#e11d48"/>
+      <stop offset="80%" stop-color="#be123c"/>
+      <stop offset="100%" stop-color="#881337"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Diagonal Presentation of Kata Thermometer Bulb & Stem -->
+  <g transform="translate(180, 420) rotate(-32)" filter="url(#thermShadow)">
+    <!-- Outer Glass Tube Profile (Stem) -->
+    <rect x="140" y="-18" width="620" height="36" rx="10" fill="url(#glassGrad)" stroke="#64748b" stroke-width="2"/>
+
+    <!-- Central Capillary Bore with Red Alcohol Column -->
+    <rect x="140" y="-4" width="450" height="8" rx="3" fill="#be123c"/>
+
+    <!-- Safety Expansion Bulb at Upper Stem End -->
+    <ellipse cx="680" cy="0" rx="28" ry="24" fill="url(#glassGrad)" stroke="#64748b" stroke-width="2"/>
+    <ellipse cx="680" cy="0" rx="16" ry="12" fill="#be123c" opacity="0.3"/>
+
+    <!-- Large Cylindrical Reservoir Bulb (Approx 4 cm x 2 cm) at Bottom -->
+    <rect x="-10" y="-38" width="160" height="76" rx="38" fill="url(#bulbSpiritGrad)" stroke="#4c0519" stroke-width="3"/>
+    <!-- Glass Highlight Reflection on Bulb -->
+    <ellipse cx="70" cy="-20" rx="55" ry="10" fill="#ffffff" opacity="0.5"/>
+    <ellipse cx="70" cy="18" rx="45" ry="7" fill="#ffffff" opacity="0.2"/>
+
+    <!-- Etched Temperature Calibration Marks on Stem -->
+    <!-- 100°F upper mark -->
+    <line x1="380" y1="-18" x2="380" y2="-8" stroke="#f8fafc" stroke-width="3"/>
+    <text x="380" y="-24" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" text-anchor="middle">100°F</text>
+
+    <!-- 95°F lower mark -->
+    <line x1="500" y1="-18" x2="500" y2="-8" stroke="#f8fafc" stroke-width="3"/>
+    <text x="500" y="-24" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" text-anchor="middle">95°F</text>
+
+    <!-- Minor Graduation Ticks -->
+    <line x1="410" y1="-18" x2="410" y2="-12" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="440" y1="-18" x2="440" y2="-12" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="470" y1="-18" x2="470" y2="-12" stroke="#94a3b8" stroke-width="2"/>
+
+    <!-- Kata Factor Etching on glass stem -->
+    <text x="250" y="30" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-style="italic">Factor: F</text>
+  </g>
+
+  <!-- Watermark -->
+  <text x="40" y="570" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" width="1000" height="750">
+  <rect width="1000" height="750" fill="#030712"/>
+  <defs>
+    <linearGradient id="waterSurfaceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="larvaBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a3e635"/>
+      <stop offset="40%" stop-color="#65a30d"/>
+      <stop offset="80%" stop-color="#4d7c0f"/>
+      <stop offset="100%" stop-color="#365314"/>
+    </linearGradient>
+    <linearGradient id="siphonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#713f12"/>
+      <stop offset="50%" stop-color="#a16207"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </linearGradient>
+    <filter id="larvaGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Water Surface Meniscus -->
+  <line x1="80" y1="120" x2="920" y2="120" stroke="#38bdf8" stroke-width="3" stroke-dasharray="12,8"/>
+  <rect x="80" y="120" width="840" height="150" fill="url(#waterSurfaceGrad)"/>
+  <text x="860" y="110" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" text-anchor="end">WATER SURFACE</text>
+
+  <!-- Culex Larva suspended at ~45-degree angle from the water surface -->
+  <g transform="translate(180, 100)" filter="url(#larvaGlow)">
+    <!-- Respiratory Siphon Tube attached to surface film (Left/Tail end) -->
+    <!-- Siphon attached at surface (y = 20) -->
+    <path d="M 50 20 L 70 20 L 85 140 L 45 135 Z" fill="url(#siphonGrad)" stroke="#ca8a04" stroke-width="2"/>
+    <!-- Siphon hair tufts / pecten teeth -->
+    <path d="M 55 70 L 35 60 M 60 90 L 40 80 M 65 110 L 42 105" stroke="#ca8a04" stroke-width="2"/>
+
+    <!-- Anal Segment & Gills -->
+    <ellipse cx="45" cy="155" rx="14" ry="22" fill="#4d7c0f" stroke="#365314" stroke-width="2"/>
+    <path d="M 35 170 Q 20 190 25 210 M 42 172 Q 35 200 45 220 M 48 170 Q 55 200 65 215" stroke="#84cc16" stroke-width="2" fill="none"/>
+
+    <!-- Segmented Abdomen (8 Segments hanging down and curving rightwards) -->
+    <!-- Segment 8 -->
+    <path d="M 65 140 C 90 150, 110 165, 125 185 L 105 205 C 90 185, 75 170, 50 160 Z" fill="url(#larvaBodyGrad)" stroke="#365314" stroke-width="2"/>
+    <!-- Segment 7 -->
+    <path d="M 125 185 C 145 210, 170 235, 195 260 L 175 280 C 150 255, 125 230, 105 205 Z" fill="url(#larvaBodyGrad)" stroke="#365314" stroke-width="2"/>
+    <!-- Segment 6 -->
+    <path d="M 195 260 C 220 285, 250 310, 280 335 L 260 355 C 230 330, 200 305, 175 280 Z" fill="url(#larvaBodyGrad)" stroke="#365314" stroke-width="2"/>
+    <!-- Segment 5 -->
+    <path d="M 280 335 C 310 360, 345 385, 380 405 L 360 425 C 325 405, 290 380, 260 355 Z" fill="url(#larvaBodyGrad)" stroke="#365314" stroke-width="2"/>
+    <!-- Segment 4 -->
+    <path d="M 380 405 C 415 425, 455 445, 495 460 L 480 480 C 440 465, 400 445, 360 425 Z" fill="url(#larvaBodyGrad)" stroke="#365314" stroke-width="2"/>
+    <!-- Segment 3 -->
+    <path d="M 495 460 C 535 475, 575 485, 615 490 L 605 512 C 565 507, 525 497, 480 480 Z" fill="url(#larvaBodyGrad)" stroke="#365314" stroke-width="2"/>
+
+    <!-- Lateral Stellated Hair Tufts along abdomen -->
+    <path d="M 120 180 L 140 160 M 120 180 L 145 175 M 120 180 L 135 195" stroke="#bef264" stroke-width="2"/>
+    <path d="M 190 250 L 215 235 M 190 250 L 220 250 M 190 250 L 210 270" stroke="#bef264" stroke-width="2"/>
+    <path d="M 275 325 L 305 310 M 275 325 L 310 330 M 275 325 L 300 345" stroke="#bef264" stroke-width="2"/>
+    <path d="M 375 395 L 405 380 M 375 395 L 410 400 M 375 395 L 400 415" stroke="#bef264" stroke-width="2"/>
+    <path d="M 490 450 L 520 435 M 490 450 L 525 455 M 490 450 L 515 470" stroke="#bef264" stroke-width="2"/>
+
+    <!-- Thorax: Globular, broader than abdomen and head -->
+    <ellipse cx="645" cy="495" rx="45" ry="32" fill="url(#larvaBodyGrad)" stroke="#365314" stroke-width="2.5"/>
+    <!-- Thoracic hairs -->
+    <path d="M 645 465 L 655 435 M 645 465 L 675 445 M 645 465 L 635 435" stroke="#bef264" stroke-width="2"/>
+    <path d="M 645 525 L 655 555 M 645 525 L 675 545 M 645 525 L 635 555" stroke="#bef264" stroke-width="2"/>
+
+    <!-- Head: Rounded, darker, with eyes and prominent mouth brushes -->
+    <circle cx="705" cy="505" r="26" fill="#365314" stroke="#1a2e05" stroke-width="2"/>
+    <!-- Eye -->
+    <circle cx="712" cy="498" r="6" fill="#000000" stroke="#a3e635" stroke-width="1.5"/>
+    <!-- Antenna -->
+    <path d="M 725 490 Q 745 480 755 475" stroke="#a3e635" stroke-width="2.5" fill="none"/>
+    <!-- Prominent Mouth Brushes (feeding apparatus) -->
+    <path d="M 725 515 Q 755 525 765 545 M 720 520 Q 745 540 750 560 M 715 525 Q 735 550 735 570" stroke="#ca8a04" stroke-width="2.5" fill="none"/>
+  </g>
+
+  <!-- Watermark -->
+  <text x="40" y="720" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

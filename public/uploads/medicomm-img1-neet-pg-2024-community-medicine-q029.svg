@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800">
+  <rect width="1000" height="800" fill="#030712"/>
+  <defs>
+    <filter id="ilrShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.8"/>
+    </filter>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="iceLiningGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 3D Perspective Cutaway View of Ice-Lined Refrigerator (ILR) -->
+  <g transform="translate(100, 100)" filter="url(#ilrShadow)">
+    <!-- Outer Cabinet Body (Cutaway showing interior storage) -->
+    <!-- Outer top edge & lid hinge (open) -->
+    <polygon points="40,40 180,0 780,0 640,40" fill="#64748b" stroke="#94a3b8" stroke-width="2"/>
+    <!-- Outer Right Wall -->
+    <polygon points="780,0 780,500 640,560 640,40" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+    <!-- Outer Front Frame -->
+    <rect x="40" y="40" width="600" height="520" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+
+    <!-- Inner Chamber Lining (Ice lining surrounding sides and bottom) -->
+    <rect x="70" y="70" width="540" height="460" fill="#030712" stroke="#0284c7" stroke-width="3"/>
+    <!-- Ice-pack lining panels on walls -->
+    <rect x="75" y="75" width="25" height="450" fill="url(#iceLiningGrad)"/>
+    <rect x="580" y="75" width="25" height="450" fill="url(#iceLiningGrad)"/>
+    <rect x="75" y="495" width="530" height="30" fill="url(#iceLiningGrad)"/>
+
+    <!-- Suspended Wire Baskets holding Vaccine Compartments -->
+    <!-- Left Basket (Top Zone 1) -->
+    <rect x="110" y="90" width="230" height="200" fill="none" stroke="#94a3b8" stroke-width="2.5"/>
+    <line x1="110" y1="140" x2="340" y2="140" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="110" y1="190" x2="340" y2="190" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="110" y1="240" x2="340" y2="240" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="170" y1="90" x2="170" y2="290" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="230" y1="90" x2="230" y2="290" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="290" y1="90" x2="290" y2="290" stroke="#64748b" stroke-width="1.5"/>
+
+    <!-- Right Basket (Zone 2) -->
+    <rect x="360" y="90" width="210" height="200" fill="none" stroke="#94a3b8" stroke-width="2.5"/>
+    <line x1="360" y1="140" x2="570" y2="140" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="360" y1="190" x2="570" y2="190" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="360" y1="240" x2="570" y2="240" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="430" y1="90" x2="430" y2="290" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="500" y1="90" x2="500" y2="290" stroke="#64748b" stroke-width="1.5"/>
+
+    <!-- Multi-colored Vaccine Cartons & Vials inside Baskets -->
+    <!-- Top layer cartons (Upper Zone) -->
+    <rect x="120" y="100" width="55" height="35" rx="3" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.5"/>
+    <rect x="185" y="100" width="60" height="35" rx="3" fill="#60a5fa" stroke="#2563eb" stroke-width="1.5"/>
+    <rect x="255" y="100" width="70" height="35" rx="3" fill="#1e40af" stroke="#1d4ed8" stroke-width="1.5"/>
+
+    <rect x="370" y="100" width="60" height="35" rx="3" fill="#c084fc" stroke="#9333ea" stroke-width="1.5"/>
+    <rect x="440" y="100" width="55" height="35" rx="3" fill="#e879f9" stroke="#c026d3" stroke-width="1.5"/>
+    <rect x="505" y="100" width="55" height="35" rx="3" fill="#a855f7" stroke="#7e22ce" stroke-width="1.5"/>
+
+    <!-- Middle layer cartons -->
+    <rect x="120" y="150" width="65" height="35" rx="3" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+    <rect x="195" y="150" width="65" height="35" rx="3" fill="#fde047" stroke="#eab308" stroke-width="1.5"/>
+    <rect x="270" y="150" width="60" height="35" rx="3" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
+
+    <rect x="370" y="150" width="60" height="35" rx="3" fill="#4ade80" stroke="#16a34a" stroke-width="1.5"/>
+    <rect x="440" y="150" width="60" height="35" rx="3" fill="#22c55e" stroke="#15803d" stroke-width="1.5"/>
+    <rect x="510" y="150" width="50" height="35" rx="3" fill="#86efac" stroke="#22c55e" stroke-width="1.5"/>
+
+    <!-- Stem Thermometer in Right Basket -->
+    <rect x="365" y="95" width="8" height="90" rx="4" fill="#ffffff" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="369" cy="180" r="7" fill="#dc2626"/>
+
+    <!-- Deep Bottom Compartment (Zone 3 - Coldest bottom area) -->
+    <rect x="110" y="310" width="230" height="175" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+    <!-- Bottom vaccine boxes stacked at lowest floor (Heat-sensitive vaccines) -->
+    <rect x="120" y="380" width="65" height="40" rx="3" fill="#ec4899" stroke="#be185d" stroke-width="1.5"/>
+    <rect x="195" y="380" width="65" height="40" rx="3" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+    <rect x="270" y="380" width="60" height="40" rx="3" fill="#db2777" stroke="#9d174d" stroke-width="1.5"/>
+    <rect x="120" y="430" width="90" height="45" rx="3" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/>
+    <rect x="220" y="430" width="110" height="45" rx="3" fill="#fb7185" stroke="#e11d48" stroke-width="1.5"/>
+
+    <!-- Compressor base unit housing on bottom right -->
+    <rect x="350" y="310" width="230" height="175" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  </g>
+
+  <!-- Numbered Callout Pointers (1, 2, 3, 4) - NO SPOILER TEXT -->
+  <!-- Callout 1: Top of Basket (Upper Zone) -->
+  <g transform="translate(240, 40)">
+    <ellipse cx="0" cy="0" rx="45" ry="24" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+    <text x="0" y="7" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" text-anchor="middle">1</text>
+    <path d="M 0 24 L 50 180" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- Callout 2: Thermometer Location -->
+  <g transform="translate(480, 40)">
+    <ellipse cx="0" cy="0" rx="45" ry="24" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+    <text x="0" y="7" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" text-anchor="middle">2</text>
+    <path d="M 0 24 L -10 230" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- Callout 3: Deep Bottom Floor (Zone 3 - TARGET TESTED) -->
+  <g transform="translate(860, 420)">
+    <ellipse cx="0" cy="0" rx="45" ry="24" fill="#1e1b4b" stroke="#fbbf24" stroke-width="3"/>
+    <text x="0" y="8" fill="#fbbf24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800" text-anchor="middle">3</text>
+    <path d="M -45 0 C -120 0, -350 80, -500 110" fill="none" stroke="#fbbf24" stroke-width="3"/>
+    <circle cx="-500" cy="110" r="5" fill="#fbbf24"/>
+  </g>
+
+  <!-- Callout 4: Middle/Intermediate Zone -->
+  <g transform="translate(860, 560)">
+    <ellipse cx="0" cy="0" rx="45" ry="24" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+    <text x="0" y="7" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" text-anchor="middle">4</text>
+    <path d="M -45 0 C -100 0, -280 -100, -380 -150" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+    <circle cx="-380" cy="-150" r="4" fill="#38bdf8"/>
+  </g>
+
+  <!-- Watermark -->
+  <text x="40" y="770" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

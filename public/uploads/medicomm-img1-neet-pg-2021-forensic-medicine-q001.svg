@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#030712" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="podGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="40%" stop-color="#22c55e"/>
+      <stop offset="80%" stop-color="#15803d"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="50%" stop-color="#166534"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+    <linearGradient id="flowerGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#86efac"/>
+      <stop offset="35%" stop-color="#f8fafc"/>
+      <stop offset="70%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="seedGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f"/>
+      <stop offset="70%" stop-color="#451a03"/>
+      <stop offset="100%" stop-color="#292524"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="800" fill="#030712"/>
+  <rect width="1000" height="800" fill="url(#bgGlow)"/>
+
+  <!-- Badges & Header -->
+  <rect x="90" y="32" width="220" height="24" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <circle cx="106" cy="44" r="4" fill="#10b981"/>
+  <text x="120" y="48" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1">FORENSIC TOXICOLOGY</text>
+
+  <text x="500" y="74" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" text-anchor="middle" letter-spacing="0.5">BOTANICAL PLANT SPECIMEN</text>
+  <text x="500" y="98" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13.5" text-anchor="middle">Morphological Features of Fruit Capsule, Flower, Foliage, and Seeds</text>
+
+  <!-- Main Container Card -->
+  <rect x="90" y="120" width="820" height="610" rx="14" fill="#0b0f19" stroke="#1e293b" stroke-width="1.5" filter="url(#shadow)"/>
+
+  <!-- Botanical Specimen Sub-Cards -->
+  <!-- Left Panel: Spiny Fruit Capsule -->
+  <rect x="115" y="145" width="370" height="390" rx="10" fill="#030712" stroke="#1e293b" stroke-width="1"/>
+  <text x="300" y="175" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" text-anchor="middle" letter-spacing="1">SPECIMEN A: SPINY FRUIT CAPSULE</text>
+  
+  <!-- Stem -->
+  <path d="M 300 210 Q 300 230 300 260" fill="none" stroke="#3f6212" stroke-width="12" stroke-linecap="round"/>
+  <!-- Calyx Cup at base -->
+  <path d="M 260 270 Q 300 285 340 270 L 325 250 Q 300 260 275 250 Z" fill="#4d7c0f"/>
+
+  <!-- Spherical/ovoid spiny fruit body -->
+  <ellipse cx="300" cy="355" rx="85" ry="95" fill="url(#podGrad)"/>
+
+  <!-- Prominent Spines radiate outwards -->
+  <!-- Upper Spines -->
+  <path d="M 240 290 L 210 265 L 250 300 Z" fill="#65a30d"/>
+  <path d="M 270 275 L 255 240 L 285 285 Z" fill="#84cc16"/>
+  <path d="M 300 270 L 300 230 L 315 280 Z" fill="#84cc16"/>
+  <path d="M 330 275 L 345 240 L 320 285 Z" fill="#84cc16"/>
+  <path d="M 360 290 L 390 265 L 350 300 Z" fill="#65a30d"/>
+
+  <!-- Lateral Left Spines -->
+  <path d="M 220 320 L 175 305 L 225 335 Z" fill="#65a30d"/>
+  <path d="M 215 350 L 165 350 L 218 365 Z" fill="#4d7c0f"/>
+  <path d="M 220 380 L 175 395 L 225 395 Z" fill="#3f6212"/>
+  <path d="M 230 410 L 190 435 L 240 420 Z" fill="#3f6212"/>
+
+  <!-- Lateral Right Spines -->
+  <path d="M 380 320 L 425 305 L 375 335 Z" fill="#65a30d"/>
+  <path d="M 385 350 L 435 350 L 382 365 Z" fill="#4d7c0f"/>
+  <path d="M 380 380 L 425 395 L 375 395 Z" fill="#3f6212"/>
+  <path d="M 370 410 L 410 435 L 360 420 Z" fill="#3f6212"/>
+
+  <!-- Basal Spines -->
+  <path d="M 255 435 L 230 470 L 270 445 Z" fill="#3f6212"/>
+  <path d="M 285 448 L 280 485 L 300 450 Z" fill="#3f6212"/>
+  <path d="M 315 448 L 320 485 L 305 450 Z" fill="#3f6212"/>
+  <path d="M 345 435 L 370 470 L 330 445 Z" fill="#3f6212"/>
+
+  <!-- Interior surface spines (front facing) -->
+  <polygon points="260,330 245,320 270,340" fill="#a3e635"/>
+  <polygon points="340,330 355,320 330,340" fill="#a3e635"/>
+  <polygon points="300,340 300,315 310,350" fill="#bef264"/>
+  <polygon points="270,375 250,380 280,390" fill="#84cc16"/>
+  <polygon points="330,375 350,380 320,390" fill="#84cc16"/>
+  <polygon points="300,400 300,420 310,405" fill="#65a30d"/>
+
+  <text x="300" y="515" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" text-anchor="middle">Globose 4-valved spiny fruit capsule</text>
+
+  <!-- Right-Top Panel: Funnel/Trumpet-shaped Flower & Leaf -->
+  <rect x="505" y="145" width="380" height="235" rx="10" fill="#030712" stroke="#1e293b" stroke-width="1"/>
+  <text x="695" y="175" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" text-anchor="middle" letter-spacing="1">SPECIMEN B: FLOWER &amp; FOLIAGE</text>
+
+  <!-- Ovate, coarsely toothed leaf -->
+  <path d="M 540 295 Q 520 240 570 210 Q 600 230 610 215 Q 630 240 645 230 Q 660 270 635 300 Q 585 330 540 295 Z" fill="url(#leafGrad)"/>
+  <!-- Leaf Veins -->
+  <path d="M 545 290 Q 590 260 630 240" fill="none" stroke="#22c55e" stroke-width="2"/>
+  <path d="M 570 275 L 565 240" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+  <path d="M 590 260 L 600 230" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+  <path d="M 605 250 L 625 275" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+
+  <!-- Funnel / Trumpet Flower -->
+  <!-- Calyx tube -->
+  <path d="M 670 340 L 700 340 L 710 290 L 690 290 Z" fill="#4d7c0f"/>
+  <!-- Trumpet corolla expanding upwards -->
+  <path d="M 690 290 L 710 290 Q 730 250 780 220 Q 820 200 850 195 Q 810 235 770 260 Q 720 280 690 290 Z" fill="url(#flowerGrad)" filter="url(#shadow)"/>
+  <!-- 5 pointed lobes at corolla limb -->
+  <path d="M 780 220 Q 770 190 790 185 Q 820 185 850 195 Q 855 220 835 235 Q 805 245 770 260 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <!-- Petal tips with cusps -->
+  <circle cx="790" cy="185" r="2.5" fill="#a855f7"/>
+  <circle cx="850" cy="195" r="2.5" fill="#a855f7"/>
+
+  <text x="695" y="365" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" text-anchor="middle">Funnel-shaped solitary flower with toothed foliage</text>
+
+  <!-- Right-Bottom Panel: Extracted Reniform Seeds -->
+  <rect x="505" y="395" width="380" height="140" rx="10" fill="#030712" stroke="#1e293b" stroke-width="1"/>
+  <text x="695" y="425" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" text-anchor="middle" letter-spacing="1">SPECIMEN C: EXTRACTED SEEDS</text>
+  
+  <!-- Reniform (Kidney-shaped) Seeds with pitted/corrugated surface -->
+  <g transform="translate(540, 445)">
+    <path d="M 25 15 C 35 5, 55 10, 60 25 C 65 40, 45 55, 30 50 C 15 45, 10 30, 20 20 C 23 17, 20 16, 25 15 Z" fill="url(#seedGrad)"/>
+    <circle cx="35" cy="28" r="1.5" fill="#d97706"/>
+    <circle cx="45" cy="35" r="1.5" fill="#d97706"/>
+    <circle cx="30" cy="38" r="1.5" fill="#d97706"/>
+  </g>
+  <g transform="translate(615, 450) rotate(25)">
+    <path d="M 25 15 C 35 5, 55 10, 60 25 C 65 40, 45 55, 30 50 C 15 45, 10 30, 20 20 C 23 17, 20 16, 25 15 Z" fill="url(#seedGrad)"/>
+    <circle cx="35" cy="28" r="1.5" fill="#d97706"/>
+    <circle cx="45" cy="35" r="1.5" fill="#d97706"/>
+  </g>
+  <g transform="translate(690, 442) rotate(-20)">
+    <path d="M 25 15 C 35 5, 55 10, 60 25 C 65 40, 45 55, 30 50 C 15 45, 10 30, 20 20 C 23 17, 20 16, 25 15 Z" fill="url(#seedGrad)"/>
+    <circle cx="38" cy="30" r="1.5" fill="#d97706"/>
+    <circle cx="48" cy="25" r="1.5" fill="#d97706"/>
+  </g>
+  <g transform="translate(765, 452) rotate(45)">
+    <path d="M 25 15 C 35 5, 55 10, 60 25 C 65 40, 45 55, 30 50 C 15 45, 10 30, 20 20 C 23 17, 20 16, 25 15 Z" fill="url(#seedGrad)"/>
+    <circle cx="36" cy="32" r="1.5" fill="#d97706"/>
+  </g>
+  <text x="695" y="520" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" text-anchor="middle">Reniform, compressed brown seeds with reticulate-foveolate testae</text>
+
+  <!-- Clinical Findings Strip at Bottom of Card -->
+  <rect x="115" y="550" width="770" height="155" rx="10" fill="#030712" stroke="#1e293b" stroke-width="1"/>
+  <text x="140" y="580" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">FORENSIC TOXICOLOGY &amp; CLINICAL PROFILE</text>
+  
+  <rect x="140" y="595" width="220" height="92" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="155" y="620" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">BOTANICAL IDENTIFIERS</text>
+  <text x="155" y="642" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5">• 4-Valved spiny globose capsule</text>
+  <text x="155" y="660" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5">• Funnel trumpet white/violet flower</text>
+  <text x="155" y="678" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5">• Wedge-shaped reniform seeds</text>
+
+  <rect x="390" y="595" width="240" height="92" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="405" y="620" fill="#f59e0b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">CLINICAL TOXIDROME</text>
+  <text x="405" y="642" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5">• Hyperpyrexia, flushed dry hot skin</text>
+  <text x="405" y="660" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5">• Bilateral mydriasis, delirium</text>
+  <text x="405" y="678" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5">• Urinary retention, tachycardia</text>
+
+  <rect x="660" y="595" width="210" height="92" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="675" y="620" fill="#10b981" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">FORENSIC SIGNIFICANCE</text>
+  <text x="675" y="642" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5">• Accidental pediatric ingestion</text>
+  <text x="675" y="660" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5">• Stupefying road poison</text>
+  <text x="675" y="678" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5">• Differentiated from capsicum</text>
+
+  <!-- Watermark -->
+  <text x="40" y="768" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" letter-spacing="1.5">medicomm</text>
+  <text x="960" y="768" fill="#334155" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" text-anchor="end" letter-spacing="1">BOTANICAL TOXICOLOGY SPECIMEN</text>
+</svg>

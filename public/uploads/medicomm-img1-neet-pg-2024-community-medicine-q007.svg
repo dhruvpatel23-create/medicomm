@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" width="1000" height="750">
+  <rect width="1000" height="750" fill="#030712"/>
+  <defs>
+    <linearGradient id="iceTipGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="iceDeepGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.75"/>
+    </linearGradient>
+    <linearGradient id="waterDeepGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#082f49" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="iceShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0284c7" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Water Body Container -->
+  <rect x="80" y="240" width="840" height="420" rx="10" fill="url(#waterDeepGrad)" stroke="#0c4a6e" stroke-width="2"/>
+
+  <!-- Water Surface Line -->
+  <line x1="70" y1="240" x2="930" y2="240" stroke="#38bdf8" stroke-width="3" stroke-dasharray="10,6"/>
+  <text x="890" y="225" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" text-anchor="end">WATERLINE</text>
+
+  <!-- Iceberg Geometry (Submerged + Floating Tip) -->
+  <g filter="url(#iceShadow)">
+    <!-- Floating Tip of Iceberg (Above Waterline) -->
+    <polygon points="500,80 570,160 630,240 370,240 430,150" fill="url(#iceTipGrad)" stroke="#e0f2fe" stroke-width="2"/>
+    <!-- Shading facets on tip -->
+    <polygon points="500,80 570,160 540,240 500,240" fill="#bae6fd" opacity="0.6"/>
+
+    <!-- Massive Submerged Portion of Iceberg (Below Waterline) -->
+    <polygon points="370,240 630,240 730,350 710,480 620,580 500,640 380,590 280,470 270,340" fill="url(#iceDeepGrad)" stroke="#0284c7" stroke-width="3"/>
+    
+    <!-- Internal Crystal Facets for depth -->
+    <polygon points="500,240 540,360 480,480 500,640" fill="#0369a1" opacity="0.4"/>
+    <polygon points="630,240 540,360 620,450 710,480" fill="#0284c7" opacity="0.3"/>
+    <polygon points="370,240 420,350 480,480 380,590" fill="#0c4a6e" opacity="0.5"/>
+  </g>
+
+  <!-- Large Bracket highlighting the Submerged Portion -->
+  <path d="M 230 250 C 210 250, 200 440, 180 440 C 200 440, 210 630, 230 630" fill="none" stroke="#f59e0b" stroke-width="3"/>
+  <!-- Target Pointer to Submerged Portion -->
+  <circle cx="180" cy="440" r="16" fill="#f59e0b"/>
+  <circle cx="180" cy="440" r="8" fill="#030712"/>
+
+  <!-- Watermark -->
+  <text x="40" y="720" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+</svg>

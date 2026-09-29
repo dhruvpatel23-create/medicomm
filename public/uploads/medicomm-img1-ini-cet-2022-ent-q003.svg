@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <!-- Solid pure black #000000 background edge to edge -->
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <!-- Medical Cel Shading & Soft Gradients -->
+    <radialGradient id="glowSoft" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="heMatox" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#831843"/>
+      <stop offset="70%" stop-color="#4c0519"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </radialGradient>
+    <!-- Thin Gold Arrowhead for precise question markers -->
+    <marker id="goldArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#f59e0b"/>
+    </marker>
+    <marker id="cyanArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+
+  <g transform="translate(300, 100)">
+    <!-- Circular Otoscopic Field (External Auditory Canal View) -->
+    <circle cx="300" cy="350" r="320" fill="#090d16" stroke="#475569" stroke-width="6"/>
+
+    <!-- Outer Canal Wall Flesh Ring -->
+    <circle cx="300" cy="350" r="300" fill="none" stroke="#881337" stroke-width="16" opacity="0.7"/>
+
+    <!-- Tympanic Membrane Annulus Fibrosus -->
+    <circle cx="300" cy="350" r="285" fill="#1e293b" stroke="#cbd5e1" stroke-width="3.5"/>
+
+    <!-- Handle of Malleus (Foreshortened, Chalky White, Retracted Postero-Superiorly) -->
+    <!-- Lateral / Short Process of Malleus (Prominent, Tent-Pole Sign) -->
+    <circle cx="280" cy="210" r="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+    
+    <!-- Manubrium (Malleus Handle) -->
+    <polygon points="277,215 283,215 295,350 285,350" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <!-- Umbo -->
+    <ellipse cx="290" cy="355" rx="8" ry="6" fill="#cbd5e1"/>
+
+    <!-- Incus Long Process & Incudostapedial Joint (Posterior Superior Quadrant) -->
+    <!-- In Grade 2 Retraction, the TM is severely retracted and directly draped over the Incus -->
+    <path d="M 330 220 L 345 290 L 375 305" stroke="#94a3b8" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <ellipse cx="375" cy="305" rx="10" ry="7" fill="#cbd5e1"/>
+
+    <!-- Retraction Pocket / Draping Fold over Incus Long Process (Sade Grade 2) -->
+    <path d="M 285 220 C 330 210, 395 240, 390 320 C 385 360, 330 350, 290 355" 
+          fill="#312e81" opacity="0.6" stroke="#38bdf8" stroke-width="3" stroke-dasharray="6,4"/>
+
+    <!-- Cone of Light (Distorted / Damped due to altered TM angle) -->
+    <polygon points="295,365 330,440 310,445" fill="#fef08a" opacity="0.35"/>
+
+    <!-- Gold Arrow pointing to the retraction draping onto the incus -->
+    <g transform="translate(480, 260)">
+      <line x1="70" y1="-20" x2="10" y2="10" stroke="#f59e0b" stroke-width="4" marker-end="url(#goldArrow)"/>
+    </g>
+  </g>
+
+
+  <!-- Small exact lowercase 'medicomm' watermark in light gray at bottom-left with safe margin -->
+  <text x="40" y="865" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="normal">medicomm</text>
+</svg>

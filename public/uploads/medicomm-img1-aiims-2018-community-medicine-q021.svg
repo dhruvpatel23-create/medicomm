@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 800" width="900" height="800">
+  <rect width="900" height="800" fill="#030712"/>
+  <defs>
+    <linearGradient id="signYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="20%" stop-color="#facc15"/>
+      <stop offset="80%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <filter id="plaqueShadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Header -->
+  <text x="450" y="60" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" text-anchor="middle" letter-spacing="1">HAZARD IDENTIFICATION SYMBOL</text>
+  <text x="450" y="90" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" text-anchor="middle">Standard International Safety Warning Signage</text>
+
+  <!-- Warning Sign Plaque -->
+  <g transform="translate(150, 130)" filter="url(#plaqueShadow)">
+    <!-- Yellow Signboard Plaque with rounded corners -->
+    <rect x="0" y="0" width="600" height="560" rx="36" fill="url(#signYellow)" stroke="#09090b" stroke-width="14"/>
+    <!-- Inner Border Line -->
+    <rect x="20" y="20" width="560" height="520" rx="24" fill="none" stroke="#09090b" stroke-width="6"/>
+
+    <!-- Corner Rivets / Mounting Screws -->
+    <circle cx="45" cy="45" r="9" fill="#713f12" stroke="#ca8a04" stroke-width="2"/>
+    <circle cx="555" cy="45" r="9" fill="#713f12" stroke="#ca8a04" stroke-width="2"/>
+    <circle cx="45" cy="515" r="9" fill="#713f12" stroke="#ca8a04" stroke-width="2"/>
+    <circle cx="555" cy="515" r="9" fill="#713f12" stroke="#ca8a04" stroke-width="2"/>
+
+    <!-- Standard Trefoil Symbol -->
+    <!-- Center of Trefoil at (300, 280) -->
+    <g transform="translate(300, 280)">
+      <!-- Center solid circle: radius 32 -->
+      <circle cx="0" cy="0" r="32" fill="#09090b"/>
+
+      <!-- Three Blades: 60 degrees each, spaced by 60 degrees gap -->
+      <!-- Inner radius = 48, Outer radius = 175 -->
+      <!-- Blade 1: Top (centered at 90 deg / straight up: 60 deg to 120 deg -> angles 240 to 300 in svg) -->
+      <!-- SVG angles: 0 is right (3 o'clock). Straight up is 270 deg. Blade from 240 deg to 300 deg. -->
+      <!-- cos(240) = -0.5, sin(240) = -0.866. cos(300) = 0.5, sin(300) = -0.866 -->
+      <!-- Inner: (-24, -41.57) to (24, -41.57). Outer: (-87.5, -151.55) to (87.5, -151.55) -->
+      <g transform="rotate(0)">
+        <path d="M -24 -41.57 
+                 L -87.5 -151.55 
+                 A 175 175 0 0 1 87.5 -151.55 
+                 L 24 -41.57 
+                 A 48 48 0 0 0 -24 -41.57 Z" 
+              fill="#09090b"/>
+      </g>
+
+      <!-- Blade 2: Bottom Right (rotated 120 deg) -->
+      <g transform="rotate(120)">
+        <path d="M -24 -41.57 
+                 L -87.5 -151.55 
+                 A 175 175 0 0 1 87.5 -151.55 
+                 L 24 -41.57 
+                 A 48 48 0 0 0 -24 -41.57 Z" 
+              fill="#09090b"/>
+      </g>
+
+      <!-- Blade 3: Bottom Left (rotated 240 deg) -->
+      <g transform="rotate(240)">
+        <path d="M -24 -41.57 
+                 L -87.5 -151.55 
+                 A 175 175 0 0 1 87.5 -151.55 
+                 L 24 -41.57 
+                 A 48 48 0 0 0 -24 -41.57 Z" 
+              fill="#09090b"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Watermark -->
+  <text x="40" y="775" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" letter-spacing="1.5">medicomm</text>
+</svg>
