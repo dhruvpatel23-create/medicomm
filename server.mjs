@@ -5,6 +5,7 @@ import { promisify } from "node:util";
 import { HttpError, readJson, createLimiter, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
 import { createStateStore } from './server/stateStore.mjs';
 import { createUploads } from './server/uploads.mjs';
+import { deploymentConfig } from './server/config.mjs';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
@@ -59,14 +60,7 @@ const DEFAULT_CORRECT_ANSWERS = 0;
 const DEFAULT_ATTEMPTED_QUESTIONS = 0;
 const PASSWORD_HASH_ITERATIONS = 220000;
 const derivePassword = promisify(pbkdf2);
-const production = process.env.NODE_ENV === 'production';
-const allowedOrigins = new Set((process.env.APP_ORIGINS || (production ? '' : 'http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173,http://localhost:4174,http://127.0.0.1:4174')).split(',').map(s => s.trim()).filter(Boolean));
-const uploadBucket = process.env.SUPABASE_UPLOAD_BUCKET || '';
-if (production && (!isSupabaseEnabled || !uploadBucket || !allowedOrigins.size)) throw new Error('Production requires Supabase, SUPABASE_UPLOAD_BUCKET and APP_ORIGINS.');
-for (const origin of allowedOrigins) {
-  const parsed = new URL(origin);
-  if (parsed.origin !== origin || (production && parsed.protocol !== 'https:')) throw new Error('APP_ORIGINS must contain exact HTTPS origins in production.');
-}
+const { production, allowedOrigins, uploadBucket } = deploymentConfig();
 const uploads = createUploads({ url: supabaseUrl, key: supabaseServiceRoleKey, bucket: uploadBucket, directory: uploadsDir });
 const limitRequest = createLimiter();
 let stopping = false;

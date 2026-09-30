@@ -77,7 +77,7 @@ test('remote storage outages fail readiness and never acknowledge failed writes'
   await writeFile(path.join(directory, 'users.json'), local);
   const child = spawn(process.execPath, ['server.mjs'], {
     cwd: new URL('..', import.meta.url),
-    env: { ...process.env, NODE_ENV: 'production', RUNTIME_DATA_DIR: directory, PORT: '0', HOST: '127.0.0.1', SUPABASE_URL: `http://127.0.0.1:${remote.address().port}`, SUPABASE_SECRET_KEY: 'fake-test-key', SUPABASE_SERVICE_ROLE_KEY: '', SUPABASE_SERVICE_KEY: '', SUPABASE_UPLOAD_BUCKET: 'test-bucket', APP_ORIGINS: 'https://app.example' },
+    env: { ...process.env, NODE_ENV: 'production', RUNTIME_DATA_DIR: directory, PORT: '0', HOST: '127.0.0.1', SUPABASE_URL: `http://127.0.0.1:${remote.address().port}`, SUPABASE_SECRET_KEY: 'fake-test-key', SUPABASE_SERVICE_ROLE_KEY: '', SUPABASE_SERVICE_KEY: '', SUPABASE_UPLOAD_BUCKET: '', APP_ORIGINS: '', RENDER_EXTERNAL_URL: 'https://app.example' },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   t.after(async () => {
