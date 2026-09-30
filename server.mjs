@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import { createHash, randomBytes, pbkdf2, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import { HttpError, readJson, createLimiter, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
-import { createStateStore } from './server/stateStore.mjs';
+import { createStateStore, validateSupabaseState } from './server/stateStore.mjs';
 import { createUploads } from './server/uploads.mjs';
 import { deploymentConfig } from './server/config.mjs';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
@@ -226,9 +226,8 @@ async function requestSupabaseState(method, payload = null) {
 
 async function readSupabaseDatabase() {
   const response = await requestSupabaseState("GET");
-  const rows = await response.json().catch(() => []);
-  const row = Array.isArray(rows) ? rows[0] : null;
-  if (!row?.data || !Number.isSafeInteger(row.revision)) throw new Error('Missing database state or revision migration. Run the database setup before starting.');
+  const rows = await response.json();
+  const row = validateSupabaseState(rows, supabaseStateTable, supabaseStateKey);
   return { data: normalizeDatabase(row.data), revision: row.revision };
 }
 
