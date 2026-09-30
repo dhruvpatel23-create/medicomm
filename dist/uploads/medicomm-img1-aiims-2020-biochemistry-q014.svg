@@ -30,5 +30,5 @@
   <text x="600" y="630" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="bold" text-anchor="middle">D</text>
   
   <!-- Watermark -->
-  <text x="40" y="860" fill="#718096" font-family="Arial, sans-serif" font-size="24" font-weight="normal">medicomm</text>
+  
 </svg>

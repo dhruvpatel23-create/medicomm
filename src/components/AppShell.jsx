@@ -17,7 +17,7 @@ export function AppShell({
       <header className="topbar">
         <Button className="brand brand-button" variant="ghost" onClick={() => onNavigate("Home")}>
           <div className="brand-mark" aria-hidden="true"><BrandMark title="" /></div>
-          <span>MediComm</span>
+          <span>Medulla</span>
         </Button>
 
         <nav className="nav" aria-label="Primary">
@@ -71,7 +71,7 @@ export function AppShell({
       </nav>
 
       <div className="preview-pill">
-        <span>Practice, duels, communities, and profile data now use the MediComm backend session.</span>
+        <span>Practice, duels, communities, and profile data now use the Medulla backend session.</span>
         <button onClick={() => onNavigate("Profile")}>Open profile</button>
       </div>
     </div>

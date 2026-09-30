@@ -70,8 +70,8 @@ export default function WebsiteReviews({ canReview, onSignIn, compact = false, o
   }
 
   const reviews = compact ? data?.reviews.slice(0, 3) : data?.reviews;
-  return <section className={`website-reviews${compact ? " website-reviews-home" : ""}`} aria-label="MediComm ratings and reviews">
-    <div className="reviews-heading"><div><p className="eyebrow">From our learners</p><h2>Ratings & reviews</h2><p>Share your experience with MediComm.</p></div>
+  return <section className={`website-reviews${compact ? " website-reviews-home" : ""}`} aria-label="Medulla ratings and reviews">
+    <div className="reviews-heading"><div><p className="eyebrow">From our learners</p><h2>Ratings & reviews</h2><p>Share your experience with Medulla.</p></div>
       {compact && <button className="button button-secondary" onClick={onViewAll}>View all reviews</button>}
     </div>
     {loading ? <p role="status" className="card reviews-notice">Loading reviews…</p> : !data ? <div className="card reviews-notice"><p role="alert">{error}</p><button className="button button-secondary" onClick={() => setRetry(value => value + 1)}>Try again</button></div> : <>
@@ -100,7 +100,7 @@ export default function WebsiteReviews({ canReview, onSignIn, compact = false, o
       {message && <p role="status" className="reviews-message">{message}</p>}
       {reviews.length ? <div className="reviews-list">{reviews.map(review => <article className="card review-card" key={review.id}>
         <div className="review-author"><span className="review-avatar" aria-hidden="true">{review.name.slice(0, 1).toUpperCase()}</span><div><strong>{review.name}</strong><time dateTime={review.createdAt}>{new Date(review.createdAt).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}{review.updatedAt !== review.createdAt ? " · Edited" : ""}</time></div></div>
-        <Stars rating={review.rating} />{review.comment ? <p className="review-comment">{review.comment}</p> : <p className="reviews-public-note">Rated MediComm</p>}
+        <Stars rating={review.rating} />{review.comment ? <p className="review-comment">{review.comment}</p> : <p className="reviews-public-note">Rated Medulla</p>}
       </article>)}</div> : <p className="reviews-empty">Be the first to share your experience.</p>}
       {!compact && data.hasMore && <button className="button button-secondary reviews-load-more" disabled={loadingMore || busy || editing || confirmDelete} onClick={loadMore}>{loadingMore ? "Loading…" : "Load more reviews"}</button>}
     </>}

@@ -1,6 +1,6 @@
 # /img1 Image Completion Checklist
 
-Tracker for PYQ image batches completed using the new copyright-safe Medicomm `/img1` style.
+Tracker for PYQ image batches completed using the new copyright-safe Medulla `/img1` style.
 
 ## Pathology 2020 installation (Batch 1 of 5) — 2026-09-26
 

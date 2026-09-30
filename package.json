@@ -1,5 +1,5 @@
 {
-  "name": "medicomm",
+  "name": "medulla",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,6 +7,7 @@
     "node": "22.x"
   },
   "scripts": {
+    "test:backend": "node --test server",
     "test:duels": "node --test server/duels.test.mjs server/duels-api.test.mjs",
     "dev": "node scripts/dev.mjs",
     "client": "vite",

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <!-- Solid pure black #000000 background edge to edge -->
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <!-- Medical Cel Shading & Soft Gradients -->
+    <radialGradient id="glowSoft" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="heMatox" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#831843"/>
+      <stop offset="70%" stop-color="#4c0519"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </radialGradient>
+    <!-- Thin Gold Arrowhead for precise question markers -->
+    <marker id="goldArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#f59e0b"/>
+    </marker>
+    <marker id="cyanArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+
+  <g transform="translate(200, 100)">
+    <!-- High-Power Circular Microscopic Field (H&E Photomicrograph Representation) -->
+    <circle cx="400" cy="350" r="320" fill="url(#heMatox)" stroke="#475569" stroke-width="6"/>
+
+    <!-- Cellular Area with Nuclear Palisading around Eosinophilic Fibrillary Processes -->
+    <g transform="translate(220, 160)">
+      <!-- Organoid Unit 1: Upper Nuclear Palisade Row -->
+      <g fill="#312e81" opacity="0.9">
+        <ellipse cx="30" cy="40" rx="5" ry="14" transform="rotate(15 30 40)"/>
+        <ellipse cx="50" cy="38" rx="5" ry="13" transform="rotate(10 50 38)"/>
+        <ellipse cx="70" cy="42" rx="4.5" ry="14" transform="rotate(5 70 42)"/>
+        <ellipse cx="90" cy="40" rx="5" ry="15" transform="rotate(-5 90 40)"/>
+        <ellipse cx="110" cy="44" rx="4.8" ry="13" transform="rotate(12 110 44)"/>
+        <ellipse cx="130" cy="42" rx="5" ry="14" transform="rotate(-10 130 42)"/>
+        <ellipse cx="150" cy="46" rx="4.7" ry="13" transform="rotate(8 150 46)"/>
+        <ellipse cx="170" cy="44" rx="5.2" ry="15" transform="rotate(-15 170 44)"/>
+        <ellipse cx="190" cy="48" rx="4.8" ry="14" transform="rotate(5 190 48)"/>
+        <ellipse cx="210" cy="46" rx="5" ry="13" transform="rotate(-8 210 46)"/>
+      </g>
+      
+      <!-- Central Acellular Eosinophilic Fibrillary Zone (Acellular Core) -->
+      <path d="M 20 55 L 220 55 L 220 95 L 20 95 Z" fill="#9d174d" opacity="0.75"/>
+      <path d="M 25 65 Q 120 75 215 65 M 30 85 Q 120 75 210 85" stroke="#f472b6" stroke-width="2" opacity="0.6" fill="none"/>
+
+      <!-- Lower Nuclear Palisade Row -->
+      <g fill="#312e81" opacity="0.9">
+        <ellipse cx="30" cy="110" rx="5" ry="13" transform="rotate(-12 30 110)"/>
+        <ellipse cx="50" cy="112" rx="4.8" ry="14" transform="rotate(8 50 112)"/>
+        <ellipse cx="70" cy="108" rx="5.2" ry="13" transform="rotate(-5 70 108)"/>
+        <ellipse cx="90" cy="112" rx="4.7" ry="15" transform="rotate(15 90 112)"/>
+        <ellipse cx="110" cy="109" rx="5" ry="14" transform="rotate(-10 110 109)"/>
+        <ellipse cx="130" cy="113" rx="4.9" ry="13" transform="rotate(5 130 113)"/>
+        <ellipse cx="150" cy="110" rx="5.1" ry="14" transform="rotate(-12 150 110)"/>
+        <ellipse cx="170" cy="114" rx="4.8" ry="15" transform="rotate(10 170 114)"/>
+        <ellipse cx="190" cy="111" rx="5" ry="13" transform="rotate(-6 190 111)"/>
+        <ellipse cx="210" cy="115" rx="4.9" ry="14" transform="rotate(14 210 115)"/>
+      </g>
+    </g>
+
+    <!-- Organoid Unit 2: Curved Architecture -->
+    <g transform="translate(300, 340)">
+      <path d="M 30 60 Q 120 30 200 80" stroke="#be185d" stroke-width="36" stroke-linecap="round" fill="none"/>
+      <!-- Palisaded nuclei rows bounding the fibrillary zone -->
+      <g fill="#1e1b4b">
+        <circle cx="35" cy="38" r="5"/><circle cx="55" cy="30" r="5.5"/><circle cx="75" cy="24" r="5"/>
+        <circle cx="98" cy="22" r="5.2"/><circle cx="120" cy="24" r="5"/><circle cx="145" cy="32" r="5.4"/>
+        <circle cx="170" cy="45" r="5"/><circle cx="192" cy="62" r="5.2"/>
+        
+        <circle cx="35" cy="82" r="5"/><circle cx="55" cy="74" r="5.2"/><circle cx="75" cy="68" r="5"/>
+        <circle cx="98" cy="66" r="5.5"/><circle cx="120" cy="68" r="5.1"/><circle cx="145" cy="76" r="5.3"/>
+        <circle cx="170" cy="88" r="5"/><circle cx="192" cy="105" r="5.2"/>
+      </g>
+    </g>
+
+    <!-- Antoni B Area: Hypocellular, Loose Myxoid Stroma with Scattered Spindle Cells -->
+    <g transform="translate(140, 360)">
+      <ellipse cx="100" cy="140" rx="90" ry="70" fill="#701a75" opacity="0.35"/>
+      <!-- Loose, haphazardly arranged spindle cells with microcystic spaces -->
+      <g fill="#312e81" opacity="0.75">
+        <ellipse cx="50" cy="110" rx="3.5" ry="10" transform="rotate(45 50 110)"/>
+        <ellipse cx="80" cy="150" rx="3.2" ry="9" transform="rotate(-30 80 150)"/>
+        <ellipse cx="120" cy="120" rx="3.8" ry="11" transform="rotate(70 120 120)"/>
+        <ellipse cx="60" cy="170" rx="3.5" ry="10" transform="rotate(15 60 170)"/>
+        <ellipse cx="140" cy="160" rx="3.2" ry="9" transform="rotate(-60 140 160)"/>
+        <ellipse cx="100" cy="180" rx="3.5" ry="10" transform="rotate(10 100 180)"/>
+      </g>
+    </g>
+
+    <!-- Microscopic field perimeter scale -->
+    <line x1="600" y1="620" x2="680" y2="620" stroke="#f8fafc" stroke-width="3"/>
+    <text x="640" y="645" fill="#f8fafc" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">50 µm</text>
+  </g>
+
+
+  <!-- Small exact lowercase 'medicomm' watermark in light gray at bottom-left with safe margin -->
+  
+</svg>

@@ -37,7 +37,7 @@ Added 1,706 new questions and updated 397 existing questions without changing th
 
 ## Missing Visual Recovery and Atlas Conversion
 
-- [ ] Recover and import the 27 high-confidence missing question visuals from the selected subjects only, then convert all recovered visuals to the Medicomm atlas style.
+- [ ] Recover and import the 27 high-confidence missing question visuals from the selected subjects only, then convert all recovered visuals to the Medulla atlas style.
   - [x] Batch 1 - 10 missing visuals recovered, converted, linked, and verified.
   - [x] Batch 2 - 10 missing visuals generated, linked, and synchronized.
   - [x] Batch 3 - 7 missing visuals generated, linked, and synchronized.
@@ -49,7 +49,7 @@ Added 1,706 new questions and updated 397 existing questions without changing th
   - [ ] Anatomy - 2 missing visuals.
   - [ ] Verify each candidate against its source question and PDF page before extraction.
   - [ ] Preserve anatomy, orientation, labels, arrows, markers, and diagnostic details during conversion.
-  - [ ] Convert the restored source image for `ini-cet-2022-anatomy-q004` to Medicomm atlas style.
+  - [ ] Convert the restored source image for `ini-cet-2022-anatomy-q004` to Medulla atlas style.
   - [ ] Update `imageUrls`, `images`, `sourceImageUrls`, asset notes, and the atlas migration tracker.
   - [ ] Synchronize final assets across `public/uploads`, `dist/uploads`, and runtime data.
   - [ ] Verify every image on the website and confirm that no image-dependent question remains blank.
@@ -66,13 +66,13 @@ Added 1,706 new questions and updated 397 existing questions without changing th
   - [x] Batch 2 - 10 images converted, linked, synchronized, and verified (47 of 104 complete).
   - [x] Batch 3 - 10 images converted, linked, synchronized, and verified (57 of 104 complete).
   - [x] Batch 4 - 10 images converted, linked, synchronized, and verified (67 of 104 complete).
-  - [x] Batch 5 - 10 images converted, linked, synchronized, and verified with a slightly darker Medicomm watermark (77 of 104 complete); the blocked NEET PG 2021 q004 clinical source was left pending and INI-CET 2022 q023 was completed in its place.
-  - [x] Batch 6 - 10 images converted, linked, synchronized, and verified with the darker Medicomm watermark (87 of 104 complete).
-  - [x] Batch 7 - 10 images converted, linked, synchronized, and verified with the darker Medicomm watermark (97 of 104 complete); the blocked NEET PG 2021 q004 clinical source remains pending.
-  - [x] Final batch - 7 images converted, linked, synchronized, and verified with the darker Medicomm watermark (104 of 104 complete); NEET PG 2021 q004 was completed as a non-graphic medical cutaway.
+  - [x] Batch 5 - 10 images converted, linked, synchronized, and verified with a slightly darker Medulla watermark (77 of 104 complete); the blocked NEET PG 2021 q004 clinical source was left pending and INI-CET 2022 q023 was completed in its place.
+  - [x] Batch 6 - 10 images converted, linked, synchronized, and verified with the darker Medulla watermark (87 of 104 complete).
+  - [x] Batch 7 - 10 images converted, linked, synchronized, and verified with the darker Medulla watermark (97 of 104 complete); the blocked NEET PG 2021 q004 clinical source remains pending.
+  - [x] Final batch - 7 images converted, linked, synchronized, and verified with the darker Medulla watermark (104 of 104 complete); NEET PG 2021 q004 was completed as a non-graphic medical cutaway.
 - Pharmacology atlas conversion batches:
-  - [x] Batch 1 - 10 images converted, linked, synchronized, and verified with the darker Medicomm watermark (12 of 21 complete); legacy Marrow watermarks removed before import.
+  - [x] Batch 1 - 10 images converted, linked, synchronized, and verified with the darker Medulla watermark (12 of 21 complete); legacy Marrow watermarks removed before import.
 - ENT atlas conversion batches:
-  - [x] Batch 1 - 10 images converted, linked, synchronized, and verified with the darker Medicomm watermark (10 of 44 complete).
+  - [x] Batch 1 - 10 images converted, linked, synchronized, and verified with the darker Medulla watermark (10 of 44 complete).
 - Anesthesia atlas-image pass complete. The saved method is in `docs/medicomm-atlas-image-standard.md`.
 - Website sync verified: the latest ten atlas URLs and PNGs are present in both `public/` and `dist/`.

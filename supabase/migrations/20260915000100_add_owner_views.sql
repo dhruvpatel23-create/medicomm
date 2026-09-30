@@ -6,7 +6,7 @@ select
   state.key as app_key,
   review.item->>'id' as review_id,
   review.item->>'userId' as user_id,
-  coalesce(nullif(learner.item->>'name', ''), 'MediComm learner') as name,
+  coalesce(nullif(learner.item->>'name', ''), 'Medulla learner') as name,
   (review.item->>'rating')::integer as rating,
   review.item->>'comment' as comment,
   (review.item->>'createdAt')::timestamptz as created_at,

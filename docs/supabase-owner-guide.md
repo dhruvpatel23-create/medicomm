@@ -1,13 +1,13 @@
-# MediComm Supabase setup
+# Medulla Supabase setup
 
 ## Connect the website
 
 1. In your Supabase project's SQL Editor, run `scripts/supabase-schema.sql`.
 2. Run `supabase/migrations/20260915000100_add_owner_views.sql` in a new SQL query. It adds reports without changing existing app data.
 3. Put the project URL and server secret key in your Render service's Environment settings as `SUPABASE_URL` and `SUPABASE_SECRET_KEY`. Save and restart/redeploy the service. These credentials belong on the server; never use a `VITE_` prefix.
-4. Visit `https://YOUR-WEBSITE/api/storage/status`. Look for `supabaseConfigured: true`, `mode: "supabase"`, `lastError: null`, and `lastWriteStatus: "loaded"` or `"ok"`.
+4. Follow [the backend rollout guide](backend-production.md) to configure origins and private uploads before starting production. Visit `https://YOUR-WEBSITE/health/ready`; expect HTTP 200 with `{"status":"ready"}`. Internal storage details are no longer public.
 
-If the `medicomm` row already exists, the server loads it. Otherwise it initializes the row from that server's local data. Do not run `npm run seed:supabase` against an existing live database: that command replaces the saved app state with the local file.
+If the `medicomm` row already exists, the server loads it. Missing state now stops startup. For a new database only, explicitly initialize a reviewed source with `npm run seed:supabase`; this command now rejects an existing row instead of replacing it.
 
 For a local connection check, add the same two variables to `.env.local` and run `npm run check:supabase`. This command only reads data and reports counts; it does not start the app or replace its local database. The owner views use the default `public.app_state` table; adjust the SQL if you configured another table.
 
@@ -22,7 +22,7 @@ where app_key = 'medicomm'
 order by created_at desc;
 ```
 
-The report reads directly from saved app data, so new reviews appear when you run the query again. It includes reviews whose user account no longer exists, labelled "MediComm learner". The public website only shows reviews with an existing account.
+The report reads directly from saved app data, so new reviews appear when you run the query again. It includes reviews whose user account no longer exists, labelled "Medulla learner". The public website only shows reviews with an existing account.
 
 ## Check activity
 
@@ -36,10 +36,10 @@ This shows saved counts for users, reviews, communities, practice results, duel 
 
 ## Where data lives
 
-MediComm currently stores its database in `public.app_state`, inside the `data` column of the `medicomm` row. Accounts are in `data.users`; this app does not use Supabase Authentication for its website accounts. The two owner views display selected information from that JSON. They are restricted to database administrators and the server's service role.
+Medulla currently stores its database in `public.app_state`, inside the `data` column of the `medicomm` row. Accounts are in `data.users`; this app does not use Supabase Authentication for its website accounts. The two owner views display selected information from that JSON. They are restricted to database administrators and the server's service role.
 
-Use website controls to make changes. The server caches app data in memory, so edits made directly to the JSON can be overwritten by its next save. Keep only one running app server writing this state; connecting a local dev server to production creates another writer.
+Use website controls to make changes. The server caches committed app data in memory and uses revision checks to reject stale writes. Direct SQL edits and old binaries bypass this protection. Keep only one running app server; connecting a local dev server to production creates another writer.
 
-The app keeps a local copy at `runtime-data/users.json`, but that copy is not an independent backup on a host with temporary storage. Image uploads are stored separately in `runtime-data/uploads`; configuring this database does not move those files into Supabase Storage.
+Local development without Supabase uses `runtime-data/users.json`. Production does not fall back to or mirror that file. Production uploads use the configured private Supabase Storage bucket; existing local uploads need the migration in the rollout guide. Database backups and object backups must both be maintained independently of the app host.
 
 Supabase view permissions: https://supabase.com/docs/guides/database/postgres/row-level-security#views

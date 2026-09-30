@@ -11,7 +11,7 @@ os.makedirs(BRAIN_ASSETS_DIR, exist_ok=True)
 
 # -------------------------------------------------------------
 # 14 Clean Neutral SVGs (No Spoilers, No Hints, No Answers)
-# Single Watermark: <text x="40" y="970" fill="#475569" ...>medicomm</text>
+# Single Watermark: 
 # -------------------------------------------------------------
 
 SVGS = {}
@@ -98,7 +98,7 @@ SVGS["neet-pg-2020-community-medicine-q001"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="907" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">EXAMINATION PROMPT: Identify the designated color-coded container for disposal of these items.</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 2. neet-pg-2020-community-medicine-q008: Chemical Waste
@@ -195,7 +195,7 @@ SVGS["neet-pg-2020-community-medicine-q008"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="907" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">EXAMINATION PROMPT: Identify the designated color-coded bag for disposal of chemical waste.</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 3. neet-pg-2020-community-medicine-q012: Gaussian Normal Distribution
@@ -283,7 +283,7 @@ SVGS["neet-pg-2020-community-medicine-q012"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="885" fill="#94a3b8" font-family="sans-serif" font-size="14" text-anchor="middle">Apply the Empirical Rule to find the population boundaries for the specified percentage.</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 4. neet-pg-2020-community-medicine-q013: Blood Bag vs Other Waste Items
@@ -382,7 +382,7 @@ SVGS["neet-pg-2020-community-medicine-q013"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="897" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">EXAMINATION QUESTION: Which of the above items (A, B, C, or D) is segregated into the YELLOW bag?</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 5. ini-cet-2021-community-medicine-q004: NACO STI Kits Match
@@ -482,7 +482,7 @@ SVGS["ini-cet-2021-community-medicine-q004"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="854" fill="#f8fafc" font-family="sans-serif" font-size="15" font-weight="600" text-anchor="middle">Match each kit color (A, B, C, D) with its appropriate syndromic indication (1, 2, 3, 4).</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 6. ini-cet-2021-community-medicine-q006: Natural History Timeline (Point C = ?)
@@ -551,7 +551,7 @@ SVGS["ini-cet-2021-community-medicine-q006"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="812" fill="#38bdf8" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">What specific clinical milestone does the point labeled C denote?</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 7. ini-cet-2021-community-medicine-q007: Vaccine Forest Plot (Unbiased Data Only)
@@ -642,7 +642,7 @@ SVGS["ini-cet-2021-community-medicine-q007"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="867" fill="#f8fafc" font-family="sans-serif" font-size="15" font-weight="600" text-anchor="middle">Based on the confidence intervals shown, evaluate which vaccine(s) demonstrate comparable efficacy.</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 8. ini-cet-2021-community-medicine-q011: Hospital Ward Bins (No Text Spoilers on Bins)
@@ -738,7 +738,7 @@ SVGS["ini-cet-2021-community-medicine-q011"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="862" fill="#38bdf8" font-family="sans-serif" font-size="15" text-anchor="middle">A nurse keeps these bins in the hospital ward. Identify which category of waste belongs in the BLACK bin.</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 9. ini-cet-2021-community-medicine-q012: Scatter Plot (No Pooled Answer Box)
@@ -812,7 +812,7 @@ SVGS["ini-cet-2021-community-medicine-q012"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="905" fill="#f8fafc" font-family="sans-serif" font-size="14" font-weight="600" text-anchor="middle">Determine the total coefficient of correlation (r) for the combined homogenous population.</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 10. ini-cet-2021-community-medicine-q013: Flow Cytometry (Neutral Panels A & B)
@@ -895,7 +895,7 @@ SVGS["ini-cet-2021-community-medicine-q013"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="758" fill="#38bdf8" font-family="sans-serif" font-size="15" text-anchor="middle">Identify the graphical representations depicted in Panel A and Panel B.</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 11. ini-cet-2021-community-medicine-q015: Skewness Curves (Labeled 1, 2, 3, 4 only)
@@ -976,7 +976,7 @@ SVGS["ini-cet-2021-community-medicine-q015"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="874" fill="#f8fafc" font-family="sans-serif" font-size="15" font-weight="600" text-anchor="middle">Interpret and correctly order the four distribution profiles shown (1, 2, 3, 4).</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 12. neet-pg-2021-community-medicine-q001: Kata Thermometer (No Instrument Name Spoilers)
@@ -1047,7 +1047,7 @@ SVGS["neet-pg-2021-community-medicine-q001"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="907" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">EXAMINATION QUESTION: Identify the instrument shown above and its specific measurement utility.</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 13. neet-pg-2021-community-medicine-q002: Flea Vector Specimen (No Species Name)
@@ -1113,7 +1113,7 @@ SVGS["neet-pg-2021-community-medicine-q002"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="907" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">EXAMINATION QUESTION: Identify the insect vector shown in this whole mount preparation.</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # 14. neet-pg-2021-community-medicine-q005: AQI Delhi Data (No Category Answer Column, No Legend Scale)
@@ -1174,7 +1174,7 @@ SVGS["neet-pg-2021-community-medicine-q005"] = """<svg xmlns="http://www.w3.org/
   <text x="500" y="765" fill="#38bdf8" font-family="sans-serif" font-size="15" text-anchor="middle">Under the National Air Quality Index (NAQI) scale, classify the air quality recorded on November 23 (AQI = 407).</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 # Write all 14 SVGs to IMG_DIR
@@ -1193,28 +1193,28 @@ PROMPTS = {
         "A realistic clinical illustration showing contaminated sharps waste items (disposable hypodermic needle with syringe barrel, "
         "surgical scalpel blade, curved suture needle, and broken glass ampoule shard) arranged on a stainless steel surgical kidney dish. "
         "Objective question stimulus presenting only the waste objects to be evaluated. Must NOT show or label the disposal container, "
-        "must NOT reveal the correct color category, and must NOT contain answers or hints. Single clean medicomm watermark."
+        "must NOT reveal the correct color category, and must NOT contain answers or hints. Single clean medulla watermark."
     ),
     "neet-pg-2020-community-medicine-q008": (
         "/img1 Unbiased medical examination question visual for Hospital Waste Segregation: "
         "A detailed laboratory bench illustration displaying chemical waste containers: an amber chemical reagent bottle labeled 10% Formalin (Spent Fixative), "
         "a large blue liquid disinfectant carboy (Sodium Hypochlorite solution), and spent chemical solvent bottles with chemical hazard diamonds. "
         "Objective question stimulus presenting only the chemical waste containers on a laboratory counter. Must NOT show or label the disposal bag, "
-        "must NOT reveal the color code, and must NOT contain answers or hints. Single clean medicomm watermark."
+        "must NOT reveal the color code, and must NOT contain answers or hints. Single clean medulla watermark."
     ),
     "neet-pg-2020-community-medicine-q012": (
         "/img1 Unbiased biostatistics examination question visual of a Gaussian Normal Distribution Curve: "
         "A symmetrical bell-shaped normal curve on a dark background showing Mean (μ) = 200 at the center axis and standardized deviation ticks "
         "along the horizontal axis at 140 (μ-3σ), 160 (μ-2σ), 180 (μ-1σ), 200 (μ), 220 (μ+1σ), 240 (μ+2σ), and 260 (μ+3σ). "
         "Clean neutral mathematical diagram. Must NOT shade specific intervals, must NOT display percentages (no 68%, 95%, or 99.7% labels), "
-        "must NOT include calculation formulas, and must NOT reveal answers or hints. Single clean medicomm watermark."
+        "must NOT include calculation formulas, and must NOT reveal answers or hints. Single clean medulla watermark."
     ),
     "neet-pg-2020-community-medicine-q013": (
         "/img1 Unbiased medical examination question visual for Hospital Clinical Waste Segregation: "
         "A four-panel comparative exhibit displaying four common clinical hospital waste items labeled neutrally as Item A (Whole blood CPDA collection bag with tubing), "
         "Item B (Pair of disposable latex examination gloves), Item C (Hypodermic needle and syringe sharps), and Item D (Urinary drainage collector bag with graduated markings). "
         "Objective question stimulus. Must NOT show colored disposal bins, must NOT indicate segregation categories, and must NOT contain answers or hints. "
-        "Single clean medicomm watermark."
+        "Single clean medulla watermark."
     ),
     "ini-cet-2021-community-medicine-q004": (
         "/img1 Unbiased examination match-the-following challenge visual for NACO Syndromic STI/RTI Management: "
@@ -1222,42 +1222,42 @@ PROMPTS = {
         "Box C: Kit 3 (White), and Box D: Kit 4 (Blue). Column II displays four randomized target clinical syndromes numbered 1 to 4: "
         "1 (Vaginal Discharge / Vaginitis), 2 (Non-Herpetic Genital Ulcer in Penicillin Allergic), 3 (Non-Herpetic Genital Ulcer), and 4 (Urethral/Cervical/Anorectal Discharge). "
         "Unconnected question marks between columns. Must NOT draw matching lines, must NOT pair kits with syndromes, and must NOT reveal answers or hints. "
-        "Single clean medicomm watermark."
+        "Single clean medulla watermark."
     ),
     "ini-cet-2021-community-medicine-q006": (
         "/img1 Unbiased epidemiology examination question visual of the Natural History of Disease Timeline: "
         "A horizontal progression flowchart displaying the timeline from Point A (Exposure / Infection), through the incubation interval to Point B (Pathological Onset), "
         "leading to a prominently highlighted red marker labeled POINT C with a large question mark [?], followed by Point D (Medical Diagnosis) and disease outcomes. "
         "Displays stages of subclinical and clinical disease. Must NOT write 'Onset of Symptoms', must NOT label the identity of Point C, and must NOT contain answers or hints. "
-        "Single clean medicomm watermark."
+        "Single clean medulla watermark."
     ),
     "ini-cet-2021-community-medicine-q007": (
         "/img1 Unbiased biostatistics examination question visual of a Clinical Trial Vaccine Efficacy Forest Plot: "
         "A clean forest plot graph displaying comparator reference line (0) and pre-specified equivalence boundaries (-δ non-inferiority limit and +δ upper limit). "
         "Plots candidate Vaccines A, B, C, D, and E with point estimates and horizontal 95% confidence interval whiskers. "
         "Neutral statistical graph for candidate interpretation. Must NOT state which vaccines are equivalent or non-inferior, must NOT include an interpretation summary box, "
-        "and must NOT reveal answers or hints. Single clean medicomm watermark."
+        "and must NOT reveal answers or hints. Single clean medulla watermark."
     ),
     "ini-cet-2021-community-medicine-q011": (
         "/img1 Unbiased hospital ward examination question visual for Biomedical Waste Segregation Bins: "
         "A realistic hospital corridor scene showing four standard pedal bins standing side-by-side labeled only by their bin colors: "
         "Black Bin (General Waste symbol), Yellow Bin (Biohazard symbol), Red Bin (Biohazard symbol), and Blue Bin (Glassware symbol). "
         "Clean realistic depiction of hospital waste disposal station. Must NOT list specific waste items on any bin (no 'glove paper cover' text), "
-        "must NOT include disposal cheat sheets, and must NOT reveal answers or hints. Single clean medicomm watermark."
+        "must NOT include disposal cheat sheets, and must NOT reveal answers or hints. Single clean medulla watermark."
     ),
     "ini-cet-2021-community-medicine-q012": (
         "/img1 Unbiased biostatistics examination question visual of a Subgroup Bivariate Scattergram: "
         "Cartesian coordinate scatter plot of Height (X axis) versus Weight (Y axis) showing data points partitioned into four distinct homogenous color clusters: "
         "Sample 1 (r1 = 0.6), Sample 2 (r2 = 0.6), Sample 3 (r3 = 0.6), and Sample 4 (r4 = 0.6) along a linear regression trend. "
         "Objective statistical display. Must NOT state the pooled total correlation, must NOT show calculation formulas, and must NOT reveal answers or hints. "
-        "Single clean medicomm watermark."
+        "Single clean medulla watermark."
     ),
     "ini-cet-2021-community-medicine-q013": (
         "/img1 Unbiased laboratory examination question visual of a Flow Cytometry Data Acquisition Display: "
         "A dual-panel flow cytometry software monitor: Panel A displays a 2D bivariate plot of Forward Scatter (FSC - Cell Size) versus Side Scatter (SSC - Internal Granularity) "
         "with gated cell populations labeled R1, R2, and R3. Panel B displays a curve plotting Cell Count (Events) against Fluorescence Intensity (Log Scale). "
         "Must NOT title the panels as 'Dot Plot' or 'Histogram', must NOT provide diagnostic answers, and must NOT reveal answers or hints. "
-        "Single clean medicomm watermark."
+        "Single clean medulla watermark."
     ),
     "ini-cet-2021-community-medicine-q015": (
         "/img1 Unbiased biostatistics examination question visual of Four Frequency Distribution Curves: "
@@ -1265,14 +1265,14 @@ PROMPTS = {
         "Graph 1 (Symmetrical bell curve), Graph 2 (Asymmetrical curve with peak on left and tail to the right), Graph 3 (Asymmetrical curve with tail to the left and peak on the right), "
         "and Graph 4 (Symmetrical curve with isolated extreme outlier data points plotted on the baseline). "
         "Must NOT title panels with skewness names (no 'positively skewed' or 'normal' labels), and must NOT reveal answers or hints. "
-        "Single clean medicomm watermark."
+        "Single clean medulla watermark."
     ),
     "neet-pg-2021-community-medicine-q001": (
         "/img1 Unbiased environmental hygiene examination question visual of a Specialized Ventilation Thermometer: "
         "An accurate technical illustration of an environmental hygiene thermometer featuring a top reservoir bulb, glass capillary stem with only two graduation marks "
         "at 100°F (37.8°C) and 95°F (35.0°C), a red spirit column, and a large cylindrical silvered lower bulb (4 cm × 2 cm). Beside it, a digital stopwatch timing the interval. "
         "Objective instrument diagram. Must NOT print the name 'Kata Thermometer', must NOT state 'Air Velocity', and must NOT reveal answers or hints. "
-        "Single clean medicomm watermark."
+        "Single clean medulla watermark."
     ),
     "neet-pg-2021-community-medicine-q002": (
         "/img1 Unbiased medical entomology examination question visual of an Arthropod Vector Specimen: "
@@ -1280,7 +1280,7 @@ PROMPTS = {
         "Laterally compressed body, smooth rounded conical head, lack of genal and pronotal combs (smooth borders), thorax with vertical mesopleural suture, "
         "comma-shaped spermatheca in the abdomen, and enlarged saltatorial jumping hind legs. "
         "Must NOT print the species name ('Xenopsylla cheopis'), must NOT mention 'Plague' or 'Buboes', and must NOT reveal answers or hints. "
-        "Single clean medicomm watermark."
+        "Single clean medulla watermark."
     ),
     "neet-pg-2021-community-medicine-q005": (
         "/img1 Unbiased environmental health examination question visual of Ambient Air Quality Telemetry Data: "
@@ -1288,7 +1288,7 @@ PROMPTS = {
         "Nov 20 (Anand Vihar, PM2.5 = 235, AQI = 342), Nov 21 (ITO, PM2.5 = 280, AQI = 388), Nov 22 (R.K. Puram, PM2.5 = 295, AQI = 395), "
         "and Nov 23 (Punjabi Bagh, PM2.5 = 355, AQI = 407, highlighted row). "
         "Raw telemetry report format only. Must NOT include a category column (no 'Severe' or 'Poor' labels), must NOT show a color-coded AQI scale legend, "
-        "and must NOT reveal answers or hints. Single clean medicomm watermark."
+        "and must NOT reveal answers or hints. Single clean medulla watermark."
     )
 }
 
@@ -1444,7 +1444,7 @@ full_html = f"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community Medicine 2020-2021 /img1 Gallery (Unbiased Exam Questions) | MediComm</title>
+  <title>Community Medicine 2020-2021 /img1 Gallery (Unbiased Exam Questions) | Medulla</title>
   <style>
     :root {{
       --bg: #090d16;

@@ -9,7 +9,7 @@ export function createReviewHandler({ readDatabase, writeDatabase, getSessionUse
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     const serialize = review => ({
       id: review.id,
-      name: users.get(review.userId)?.name || "MediComm learner",
+      name: users.get(review.userId)?.name || "Medulla learner",
       rating: review.rating,
       comment: review.comment,
       createdAt: review.createdAt,
@@ -43,7 +43,7 @@ export function createReviewHandler({ readDatabase, writeDatabase, getSessionUse
     }
     // Authenticate before reading a body, and read fresh state after that await.
     if (!getSessionUser(request, readDatabase())) {
-      return sendJson(response, 401, { message: "Please sign in to rate MediComm." });
+      return sendJson(response, 401, { message: "Please sign in to rate Medulla." });
     }
     let payload;
     if (request.method === "PUT") {
@@ -61,7 +61,7 @@ export function createReviewHandler({ readDatabase, writeDatabase, getSessionUse
     }
     const database = readDatabase();
     const user = getSessionUser(request, database);
-    if (!user) return sendJson(response, 401, { message: "Please sign in to rate MediComm." });
+    if (!user) return sendJson(response, 401, { message: "Please sign in to rate Medulla." });
     database.websiteReviews ??= [];
     const existing = database.websiteReviews.find(review => review.userId === user.id);
     database.websiteReviews = database.websiteReviews.filter(review => review.userId !== user.id);

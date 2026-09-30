@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <!-- Solid pure black #000000 background edge to edge -->
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <!-- Medical Cel Shading & Soft Gradients -->
+    <radialGradient id="glowSoft" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="heMatox" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#831843"/>
+      <stop offset="70%" stop-color="#4c0519"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </radialGradient>
+    <!-- Thin Gold Arrowhead for precise question markers -->
+    <marker id="goldArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#f59e0b"/>
+    </marker>
+    <marker id="cyanArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+
+  <g transform="translate(300, 100)">
+    <!-- Rigid Endoscopic Circular Field -->
+    <circle cx="300" cy="350" r="320" fill="#020617" stroke="#475569" stroke-width="6"/>
+    
+    <!-- Nasal Cavity Structural Framework -->
+    <!-- Nasal Septum (Medial Border) -->
+    <path d="M 120 70 L 140 630" stroke="#94a3b8" stroke-width="14" stroke-linecap="round"/>
+    
+    <!-- Middle Turbinate (Superior-Lateral Landmark) -->
+    <path d="M 280 120 C 330 140, 360 220, 310 260 C 270 240, 260 170, 280 120 Z" 
+          fill="#334155" stroke="#64748b" stroke-width="3"/>
+
+    <!-- Large Fleshy, Lobulated, Pink-Gray Mass with Cerebriform / Papillomatous Surface -->
+    <!-- Arising from Lateral Nasal Wall / Middle Meatus -->
+    <g transform="translate(350, 340)">
+      <!-- Main Tumor Body -->
+      <ellipse cx="0" cy="0" rx="130" ry="145" fill="#881337" opacity="0.8" stroke="#be123c" stroke-width="3"/>
+      
+      <!-- Characteristic Cerebriform Lobulations / Convolutions -->
+      <path d="M -60 -80 C -30 -110, 40 -90, 60 -60 C 90 -40, 110 20, 80 60 C 60 100, -20 120, -60 90 C -100 60, -90 -40, -60 -80 Z" 
+            fill="#9f1239" stroke="#fda4af" stroke-width="3"/>
+      
+      <!-- Surface Fissures / Papillary Clefts -->
+      <path d="M -40 -30 Q 0 -10 30 -40 M -20 20 Q 20 40 50 10 M -50 40 Q -10 60 10 90" 
+            stroke="#4c0519" stroke-width="4" stroke-linecap="round" fill="none"/>
+            
+      <!-- Vascular Injection / Petechial Spots -->
+      <circle cx="-25" cy="-10" r="3.5" fill="#f43f5e"/><circle cx="15" cy="25" r="4" fill="#f43f5e"/>
+      <circle cx="35" cy="-25" r="3.5" fill="#f43f5e"/><circle cx="-15" cy="50" r="4" fill="#f43f5e"/>
+    </g>
+
+    <!-- Inferior Meatus / Floor of Nose Contour below -->
+    <path d="M 140 600 Q 320 630 500 550" stroke="#334155" stroke-width="10" fill="none"/>
+  </g>
+
+
+  <!-- Small exact lowercase 'medicomm' watermark in light gray at bottom-left with safe margin -->
+  
+</svg>

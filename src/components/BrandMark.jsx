@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-export function BrandMark({ className = "", title = "MediComm" }) {
+export function BrandMark({ className = "", title = "Medulla" }) {
   const rawId = useId().replace(/:/g, "");
   const leftId = `${rawId}-left`;
   const rightId = `${rawId}-right`;

@@ -114,5 +114,5 @@
     <circle cx="630" cy="38" r="15" fill="#1e293b" stroke="#94a3b8" stroke-width="2.5"/>
     <text x="655" y="44" font-family='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' font-size="16" font-weight="800" fill="#cbd5e1">Unaffected Female</text>
   </g>
-  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+  
 </svg>

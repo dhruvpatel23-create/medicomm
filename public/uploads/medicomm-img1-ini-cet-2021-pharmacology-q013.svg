@@ -14,7 +14,7 @@
     <line x1="5" y1="0" x2="5" y2="14" stroke="#f43f5e" stroke-width="4"/>
   </marker>
 </defs>
-<text x="36" y="1050" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" letter-spacing="1">medicomm</text>
+
 <text x="724" y="60" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">Bacterial Peptidoglycan Cell Wall Biosynthesis</text>
 <rect x="100" y="110" width="1248" height="220" fill="#0f172a" stroke="#334155" stroke-width="2" rx="12"/>
 <text x="180" y="150" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="middle">Cell Wall / Periplasm</text>

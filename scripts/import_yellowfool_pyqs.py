@@ -440,7 +440,7 @@ def attach_images_to_questions(
         question["sourceImageUrls"] = [image_url]
         question["atlasImageTargetUrls"] = [medicomm_atlas_image_url(question)]
         question["assetNote"] = (
-            "Pending Medicomm atlas conversion from the original PDF image; preserve question image order."
+            "Pending Medulla atlas conversion from the original PDF image; preserve question image order."
         )
 
 

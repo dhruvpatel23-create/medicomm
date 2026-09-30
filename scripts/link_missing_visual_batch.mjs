@@ -35,7 +35,7 @@ for (const file of files) {
     const url = `/uploads/medicomm-atlas-${questionId}.png`;
     question.imageUrls = [url];
     question.images = [url];
-    question.assetNote = `${assetNote} Subtle medicomm watermark lower-left.`;
+    question.assetNote = `${assetNote} No branding watermark.`;
   }
   fs.writeFileSync(file, `${JSON.stringify(database, null, 2)}\n`);
 }

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <!-- Solid pure black #000000 background edge to edge -->
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <!-- Medical Cel Shading & Soft Gradients -->
+    <radialGradient id="glowSoft" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="heMatox" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#831843"/>
+      <stop offset="70%" stop-color="#4c0519"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </radialGradient>
+    <!-- Thin Gold Arrowhead for precise question markers -->
+    <marker id="goldArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#f59e0b"/>
+    </marker>
+    <marker id="cyanArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+
+  <g transform="translate(300, 80)">
+    <!-- Child Head Lateral Profile -->
+    <path d="M 320 60 
+             C 200 60, 110 140, 90 260 
+             C 80 340, 90 420, 110 500 
+             C 140 600, 200 680, 280 720 
+             L 420 720 
+             C 450 640, 460 560, 450 480 
+             C 500 460, 520 400, 510 340 
+             C 500 300, 460 300, 440 330 
+             C 435 240, 420 120, 320 60 Z" 
+          fill="#1e293b" stroke="#334155" stroke-width="4"/>
+
+    <!-- Anterior Facial Features Demonstrating Chronic Nasal Obstruction Facies -->
+    <!-- Forehead to Bridge of Nose -->
+    <path d="M 120 220 C 110 260, 95 300, 80 340 L 50 390 L 75 405" 
+          fill="none" stroke="#64748b" stroke-width="5" stroke-linecap="round"/>
+    
+    <!-- Pinched Narrowed Ala Nasi (Hypoplastic Nasal Base) -->
+    <ellipse cx="80" cy="405" rx="8" ry="12" fill="#0f172a" stroke="#475569" stroke-width="2"/>
+
+    <!-- Open Mouth with Short Incompetent Upper Lip -->
+    <path d="M 80 425 C 75 440, 60 450, 55 455" fill="none" stroke="#64748b" stroke-width="4.5" stroke-linecap="round"/>
+    
+    <!-- Prominent / Protruding Crowded Maxillary Central Incisors -->
+    <path d="M 55 455 L 42 475 L 56 478 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+
+    <!-- Open Oral Aperture (Chronic Mouth Breathing Position) -->
+    <path d="M 58 478 C 50 495, 65 505, 80 500" fill="#090d16" stroke="#f43f5e" stroke-width="3"/>
+
+    <!-- Retrognathic Mandible / Receding Chin (Hypoplastic Lower Jaw) -->
+    <path d="M 80 505 C 80 540, 95 560, 110 570 C 130 585, 170 595, 200 600" 
+          fill="none" stroke="#64748b" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Dull, Sleepy Eye with Suborbital Venous Pooling -->
+    <path d="M 125 305 Q 155 295 185 315" stroke="#475569" stroke-width="3.5" fill="none"/>
+    <ellipse cx="155" cy="315" rx="14" ry="9" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+    <circle cx="155" cy="315" r="4" fill="#38bdf8"/>
+    <!-- Allergic Shiner / Infraorbital Fold -->
+    <path d="M 130 335 Q 160 350 185 335" stroke="#334155" stroke-width="2.5" fill="none"/>
+
+    <!-- Ear Pinna Contour -->
+    <path d="M 450 340 C 470 330, 480 370, 470 410 C 460 440, 440 450, 430 430" fill="none" stroke="#475569" stroke-width="4"/>
+  </g>
+
+
+  <!-- Small exact lowercase 'medicomm' watermark in light gray at bottom-left with safe margin -->
+  
+</svg>

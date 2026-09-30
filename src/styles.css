@@ -4293,20 +4293,6 @@ main {
   width: min(100%, 345px);
 }
 
-.practice-question-image-watermark {
-  position: absolute;
-  bottom: 12px;
-  left: 14px;
-  color: rgba(241, 245, 249, 0.42);
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  line-height: 1;
-  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.75);
-  pointer-events: none;
-  user-select: none;
-}
-
 .duel-question-image-frame {
   width: min(100%, 345px);
 }

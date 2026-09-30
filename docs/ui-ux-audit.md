@@ -1,4 +1,4 @@
-# MediComm UI/UX audit — pre-redesign
+# Medulla UI/UX audit — pre-redesign
 
 Audit date: 2026-06-28  
 Baseline checkpoint: `dda1452`

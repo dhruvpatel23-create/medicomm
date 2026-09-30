@@ -1,11 +1,11 @@
 # /img1
 
-Use `/img1` when replacing source/PYQ images from any subject with copyright-safe Medicomm educational illustrations that preserve the question's scientific content, visual logic, and exact marker targets while restyling marker appearance. This recipe works for anatomy, pathology, microbiology, pharmacology, physiology, biochemistry, ophthalmology, ENT, community medicine, forensic medicine, anesthesia, and other medical subjects.
+Use `/img1` when replacing source/PYQ images from any subject with copyright-safe Medulla educational illustrations that preserve the question's scientific content, visual logic, and exact marker targets while restyling marker appearance. This recipe works for anatomy, pathology, microbiology, pharmacology, physiology, biochemistry, ophthalmology, ENT, community medicine, forensic medicine, anesthesia, and other medical subjects.
 
 ## Base Prompt
 
 ```text
-Use case: scientific-educational. Generate ONE original Medicomm educational medical illustration from the provided source reference. Use the reference only to preserve factual medical/scientific content, viewing direction, crop, proportions, relationships, diagnostic features, graph/table/diagram layout when relevant, and the question's exact marked target; redraw everything with original design and rendering.
+Use case: scientific-educational. Generate ONE original Medulla educational medical illustration from the provided source reference. Use the reference only to preserve factual medical/scientific content, viewing direction, crop, proportions, relationships, diagnostic features, graph/table/diagram layout when relevant, and the question's exact marked target; redraw everything with original design and rendering.
 
 Style: slightly animated medical atlas style, restrained stylized 3D/cel shading, smooth rounded shading transitions, clear tasteful outlines, detailed believable anatomy, no faces or anthropomorphism unless the source requires a neutral anatomical body surface. Solid pure black #000000 background edge to edge, no panels, no borders, no UI.
 
@@ -15,7 +15,7 @@ Arrows and pointers must be precise and error-free. Keep arrow direction, endpoi
 
 Marker styling: Redesign arrows to look different from the original reference: use slim shafts and small, clean arrowheads with a visibly different shape/style. Keep every arrow's direction, endpoint, and target unchanged. Change the fill and/or outline colour of numbered label circles to a contrasting colour different from the source, with clearly legible numbers. Preserve the exact numbers, label positions, and structure associations. Do not add circles where none exist. Preserve any medically meaningful colour coding and line-pattern distinctions; restyle only decorative marker features.
 
-Watermark: add a small exact lowercase "medicomm" watermark in light gray at the bottom-left with safe margin. No publisher branding, no source watermark, no unrelated text.
+Watermark: add a small exact lowercase "medulla" watermark in light gray at the bottom-left with safe margin. No publisher branding, no source watermark, no unrelated text.
 
 Typography & Text Clarity: Render all text, numbers, axis labels, diagram annotations, and marker labels in crisp, large, high-contrast bold sans-serif lettering. Never use tiny, faint, or blurry fonts; all characters and numbers must be instantly legible and tack-sharp at high resolution across mobile and desktop displays.
 
@@ -33,7 +33,7 @@ Append a specific content block for every image:
 ```text
 Specific subject/content: [State the exact view, modality, specimen, diagram type, graph/table type, orientation, and crop.]
 
-The question marker targets [exact structure/region/feature/data point]. Place the arrow/label/highlight endpoint on [precise landmark or feature], not on [common wrong neighboring structures/features]. Preserve [letters/numbers/probes/key text/panel order/axes/stain pattern] exactly. Arrows must be clean, readable, correctly directed, and endpoint-accurate. Do not add answer labels. Keep the black background and bottom-left medicomm watermark.
+The question marker targets [exact structure/region/feature/data point]. Place the arrow/label/highlight endpoint on [precise landmark or feature], not on [common wrong neighboring structures/features]. Preserve [letters/numbers/probes/key text/panel order/axes/stain pattern] exactly. Arrows must be clean, readable, correctly directed, and endpoint-accurate. Do not add answer labels. Keep the black background and bottom-left medulla watermark.
 ```
 
 For realistic dissection or body-surface images that may trigger safety filtering, add:
@@ -64,7 +64,7 @@ Avoid: [neighboring wrong structures].
 - All text, numbers, letters, axis values, and markers are bold, high-contrast, crisp, and effortlessly legible with zero blurriness.
 - No answer text or new anatomy names were added.
 - No publisher/source branding remains.
-- Bottom-left `medicomm` watermark is subtle but visible.
+- Bottom-left `medulla` watermark is subtle but visible.
 - Image is usually 4:3 landscape on pure black background unless the source/question format requires otherwise.
 - Output is educational and copyright-safe, not a close copy of the source rendering.
 

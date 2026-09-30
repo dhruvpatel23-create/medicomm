@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <!-- Solid pure black #000000 background edge to edge -->
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <!-- Medical Cel Shading & Soft Gradients -->
+    <radialGradient id="glowSoft" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="heMatox" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#831843"/>
+      <stop offset="70%" stop-color="#4c0519"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </radialGradient>
+    <!-- Thin Gold Arrowhead for precise question markers -->
+    <marker id="goldArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#f59e0b"/>
+    </marker>
+    <marker id="cyanArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+
+  <g transform="translate(280, 80)">
+    <!-- Skull Radiographic Contour -->
+    <path d="M 80 160 C 190 50, 490 50, 600 160 C 640 270, 610 460, 490 520 L 140 520 Z" 
+          fill="#0f172a" stroke="#334155" stroke-width="4"/>
+
+    <!-- Cochlear Implant Internal Receiver-Stimulator Package -->
+    <circle cx="460" cy="240" r="60" fill="#1e293b" stroke="#cbd5e1" stroke-width="4"/>
+    <circle cx="460" cy="240" r="24" fill="#475569"/>
+
+    <!-- Main Active Intracochlear Array entering temporal bone / cochlea -->
+    <path d="M 420 275 C 320 350, 270 320, 240 380 C 220 415, 235 450, 270 435" fill="none" stroke="#94a3b8" stroke-width="5"/>
+    <circle cx="270" cy="435" r="14" fill="#38bdf8"/>
+    <text x="180" y="470" fill="#94a3b8" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Intracochlear Array</text>
+
+    <!-- SEPARATE EXTRACOCHLEAR REFERENCE LEAD (TARGET) -->
+    <path d="M 450 180 C 435 100, 350 90, 280 120" fill="none" stroke="#f59e0b" stroke-width="6"/>
+    <circle cx="280" cy="120" r="10" fill="#f59e0b"/>
+
+    <!-- Gold Arrow pointing to the Marked Extracochlear Ground Lead -->
+    <g transform="translate(200, 60)">
+      <line x1="-10" y1="-10" x2="65" y2="48" stroke="#f59e0b" stroke-width="4" marker-end="url(#goldArrow)"/>
+    </g>
+  </g>
+
+
+  <!-- Small exact lowercase 'medicomm' watermark in light gray at bottom-left with safe margin -->
+  
+</svg>

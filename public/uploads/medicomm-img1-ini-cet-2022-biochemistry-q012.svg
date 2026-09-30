@@ -43,5 +43,5 @@
   <text x="525" y="495" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="start">1/V<tspan dy="6" font-size="22">max</tspan></text>
 
   <!-- Watermark -->
-  <text x="40" y="860" fill="#718096" font-family="Arial, sans-serif" font-size="24" font-weight="normal">medicomm</text>
+  
 </svg>

@@ -16,7 +16,7 @@ PROMPTS = {
         "Illustrate contaminated sharps including disposable needles, scalpels, surgical blades, and syringes with fixed needles "
         "being safely dropped into the container. Include clinical annotation badges for disposal methods (Autoclaving / Dry Heat "
         "followed by shredding or encapsulation) and clear prohibition icons (no plastics, no gloves, no glassware). "
-        "Dark medical interface theme with single clean medicomm branding watermark."
+        "Dark medical interface theme with no branding or watermark."
     ),
     "neet-pg-2020-community-medicine-q008": (
         "/img1 High-yield PSM infographic for Biomedical Waste Color Coding focusing on Chemical Waste disposal in a YELLOW BAG: "
@@ -24,14 +24,14 @@ PROMPTS = {
         "Surround with categorized waste types: Chemical waste (disinfectants, formalin, laboratory reagents), human anatomical waste "
         "(tissues, organs, placenta), soiled cotton bandages, expired cytotoxic drugs, and microbiological cultures. "
         "Feature treatment methodology card: Incineration or Plasma Pyrolysis / Deep Burial, emphasizing non-chlorinated plastic bags "
-        "to prevent toxic dioxin and furan emissions. Single clean medicomm watermark."
+        "to prevent toxic dioxin and furan emissions. no branding or watermark."
     ),
     "neet-pg-2020-community-medicine-q012": (
         "/img1 High-yield biostatistics diagram of the Gaussian Normal Distribution Empirical Rule for population parameters Mean = 200 "
         "and SD = 20: Symmetrical bell-shaped normal curve on a dark background showing Mean (μ) = 200 at center, μ ± 1 SD [180 to 220] "
         "enclosing 68.27% of the population with highlighted green translucent fill, μ ± 2 SD [160 to 240] enclosing 95.45%, and μ ± 3 SD "
         "[140 to 260] enclosing 99.73%. Include percentage breakdowns (34.1% per half) and calculation summary table highlighting the correct "
-        "answer 180-220 for NEET-PG. Single clean medicomm watermark."
+        "answer 180-220 for NEET-PG. no branding or watermark."
     ),
     "neet-pg-2020-community-medicine-q013": (
         "/img1 Clinical BMW segregation guide illustrating BLOOD BAG DISPOSAL INTO YELLOW BAG: "
@@ -39,28 +39,28 @@ PROMPTS = {
         "Show direct deposit arrow into the yellow bag with clinical rationale: Blood and blood products are categorized as human anatomical / "
         "soiled biohazardous waste destined for high-temperature incineration. Display a comparative matrix distinguishing Yellow (Blood bags, tissues) "
         "from Red (Urine bags, IV bottles, gloves - recyclable plastics), White (sharps), and Blue (glass vials). "
-        "Highlight the classic exam trap: Urine bag goes to Red, Blood bag goes to Yellow. Single clean medicomm watermark."
+        "Highlight the classic exam trap: Urine bag goes to Red, Blood bag goes to Yellow. no branding or watermark."
     ),
     "ini-cet-2021-community-medicine-q004": (
         "/img1 Comprehensive medical chart of NACO 7 Color-Coded Syndromic STI Drug Kits: "
         "A structured high-yield grid displaying all 7 NACO STI management kits with their official colors, target clinical syndromes, and drug regimens: "
         "Kit 1 (Grey - Urethral/Cervical discharge), Kit 2 (Green - Vaginal discharge), Kit 3 (White - Non-herpetic genital ulcer), "
         "Kit 4 (Blue - Penicillin-allergic non-herpetic ulcer), Kit 5 (Red - Herpetic genital ulcer), Kit 6 (Yellow - Lower abdominal pain/PID), "
-        "and Kit 7 (Black - Inguinal bubo). Clean modern dark card layout with kit pills, medicine icons, and single medicomm watermark."
+        "and Kit 7 (Black - Inguinal bubo). Clean modern dark card layout with kit pills, medicine icons, and no branding or watermark."
     ),
     "ini-cet-2021-community-medicine-q006": (
         "/img1 High-yield epidemiology diagram illustrating the Natural History of Disease Timeline: "
         "Horizontal progression flowchart from Stage of Susceptibility (Point A: Exposure to etiologic agent), through Stage of Subclinical Disease "
         "(Point B: Pathologic changes begin / Incubation or Latency Period), to Stage of Clinical Disease with Point C prominently highlighted as "
         "ONSET OF SYMPTOMS (Diagnostic Horizon), followed by Point D (Usual Time of Medical Diagnosis), and Stage of Recovery, Disability, or Death. "
-        "Correlate with levels of prevention (Primary, Secondary, Tertiary). Dark UI with single medicomm watermark."
+        "Correlate with levels of prevention (Primary, Secondary, Tertiary). Dark UI with no branding or watermark."
     ),
     "ini-cet-2021-community-medicine-q007": (
         "/img1 Biostatistics clinical trial Forest Plot comparing newer vaccine efficacies against a standard comparator: "
         "Forest plot graph showing line of no difference (0) and pre-specified equivalence / non-inferiority margins (-Δ to +Δ). "
         "Plot 5 candidate vaccines (A, B, C, D, E) with point estimates and 95% confidence intervals demonstrating Inferiority (Vaccine A), "
         "Inconclusive efficacy (Vaccine B), Non-inferiority (Vaccine C), True Equivalence within delta bounds (Vaccine D), and Superiority (Vaccine E). "
-        "Highlighting that Vaccine D and E can be recommended with equal or superior efficacy. Single medicomm watermark."
+        "Highlighting that Vaccine D and E can be recommended with equal or superior efficacy. no branding or watermark."
     ),
     "ini-cet-2021-community-medicine-q011": (
         "/img1 Hospital ward Biomedical Waste (BMW 2016) 4-color bin segregation station: "
@@ -68,49 +68,49 @@ PROMPTS = {
         "Yellow Bin (Anatomical waste, soiled cotton, blood bags, expired drugs -> Incineration), "
         "Red Bin (Contaminated recyclable plastics: IV lines, catheters, gloves, urine bags -> Autoclave & shredding), "
         "White Translucent Container (Puncture-proof sharps: needles, blades, scalpels -> Autoclave & dry heat), "
-        "and Blue Box/Bin (Glassware: medicine ampoules, vials, orthopedic implants -> Disinfection). Single medicomm watermark."
+        "and Blue Box/Bin (Glassware: medicine ampoules, vials, orthopedic implants -> Disinfection). no branding or watermark."
     ),
     "ini-cet-2021-community-medicine-q012": (
         "/img1 Biostatistics scatter plot showing Pearson Correlation Coefficient r = 0.6: "
         "Cartesian coordinate scatter plot of Height (X axis) versus Weight (Y axis) with a moderate upward-sloping linear regression trendline. "
         "Data points partitioned into 4 colored demographic clusters (Red, Green, Blue, Purple) illustrating both intra-group and overall positive "
         "linear association. Annotation panel explaining r = +0.6 (moderate positive correlation), r^2 = 0.36 (36% shared variance), and scatter dispersion. "
-        "Single clean medicomm watermark."
+        "no branding or watermark."
     ),
     "ini-cet-2021-community-medicine-q013": (
         "/img1 Dual-panel Flow Cytometry clinical analysis diagram: "
         "Left panel: 2D bivariate Forward Scatter (FSC - cell size) vs Side Scatter (SSC - internal granularity) dot plot with gated lymphocyte, "
         "monocyte, and granulocyte leukocyte populations. Right panel: 1D fluorescence intensity histogram showing log fluorescence vs cell count "
         "with negative control background peak and positive fluorophore antibody staining peak. Quadrant gating and clinical diagnostic utility annotations. "
-        "Dark theme with single medicomm watermark."
+        "Dark theme with no branding or watermark."
     ),
     "ini-cet-2021-community-medicine-q015": (
         "/img1 Comprehensive Biostatistics comparison of Frequency Distribution Curves and Skewness: "
         "Three distinct comparative distribution curves: (1) Symmetrical Normal Distribution where Mean = Median = Mode (Skewness = 0), "
         "(2) Positively Skewed (Right-tailed) curve where Mode < Median < Mean (Mean pulled right by extreme positive outliers), and "
         "(3) Negatively Skewed (Left-tailed) curve where Mean < Median < Mode (Mean pulled left by extreme negative outliers). "
-        "Detailed explanation of outlier vulnerability of the Mean vs robustness of the Median. Single medicomm watermark."
+        "Detailed explanation of outlier vulnerability of the Mean vs robustness of the Median. no branding or watermark."
     ),
     "neet-pg-2021-community-medicine-q001": (
         "/img1 Environmental health technical illustration of the KATA THERMOMETER apparatus: "
         "Accurate diagram of the Kata thermometer featuring a large cylindrical alcohol bulb filled with red spirit, glass capillary stem "
         "with precise dual graduation marks at 100°F (37.8°C) and 95°F (35°C), and top expansion reservoir bulb. Beside it, render a stopwatch "
         "measuring cooling time T (seconds). Annotate Dry Kata vs Wet Kata (wet cotton sleeve), cooling power formula H = F / T (Kata Factor), "
-        "and clinical application in measuring low air velocities (< 1 m/s) in hospital wards, mines, and workplaces. Single medicomm watermark."
+        "and clinical application in measuring low air velocities (< 1 m/s) in hospital wards, mines, and workplaces. no branding or watermark."
     ),
     "neet-pg-2021-community-medicine-q002": (
         "/img1 Medical entomology morphological anatomy diagram of the ORIENTAL RAT FLEA (Xenopsylla cheopis): "
         "High-definition anatomical vector showing laterally compressed body, head, thorax, and abdomen. Prominently highlight key diagnostic features: "
         "ABSENCE of both pronotal comb and genal comb (ctenidia absent, distinguishing from dog/cat fleas), distinct vertical mesopleural rod on mesothorax, "
         "comma-shaped spermatheca in females, and elongated jumping hind legs. Annotate clinical significance as vector for Yersinia pestis (Bubonic plague) "
-        "via proventricular blockage and Rickettsia typhi (Endemic murine typhus). Single medicomm watermark."
+        "via proventricular blockage and Rickettsia typhi (Endemic murine typhus). no branding or watermark."
     ),
     "neet-pg-2021-community-medicine-q005": (
         "/img1 Environmental health infographic of the National Air Quality Index (NAQI - India) and Delhi AQI monitoring: "
         "Complete 6-tier NAQI color-coded scale: Good (0-50, Green), Satisfactory (51-100, Light Green), Moderately Polluted (101-200, Yellow), "
         "Poor (201-300, Orange), Very Poor (301-400, Red), and Severe (401-500, Maroon) with health impact descriptions. "
         "Includes a Delhi 4-day multi-station AQI trend table and list of the 8 monitored criteria air pollutants (PM10, PM2.5, NO2, SO2, CO, O3, NH3, Pb). "
-        "Single clean medicomm watermark."
+        "no branding or watermark."
     )
 }
 
@@ -230,7 +230,7 @@ for idx, item in enumerate(details, 1):
           </div>
           <div class="img-meta">
             <span class="file-tag">{svg_filename}</span>
-            <span class="watermark-tag">1x medicomm watermark verified</span>
+            <span class="watermark-tag">No branding watermark</span>
           </div>
         </div>
 
@@ -269,7 +269,7 @@ full_html = f"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community Medicine 2020-2021 /img1 Gallery | MediComm</title>
+  <title>Community Medicine 2020-2021 /img1 Gallery | Medulla</title>
   <style>
     :root {{
       --bg: #090d16;
@@ -507,7 +507,7 @@ full_html = f"""<!DOCTYPE html>
       <span class="stat-pill">NEET-PG 2020 (4)</span>
       <span class="stat-pill">INI-CET 2021 (7)</span>
       <span class="stat-pill">NEET-PG 2021 (3)</span>
-      <span class="stat-pill" style="color: #10b981;">✓ 1x medicomm watermark verified</span>
+      <span class="stat-pill" style="color: #10b981;">✓ No branding watermark</span>
     </div>
   </header>
 

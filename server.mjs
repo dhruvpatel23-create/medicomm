@@ -1,7 +1,11 @@
 import { createMatch, validDuelQuestion, lockAnswer, settleMatch, matchProgress } from "./server/duels.mjs";
 import { createServer } from "node:http";
-import { createHash, randomBytes, pbkdf2Sync, timingSafeEqual } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync, unlinkSync } from "node:fs";
+import { createHash, randomBytes, pbkdf2, timingSafeEqual } from "node:crypto";
+import { promisify } from "node:util";
+import { HttpError, readJson, createLimiter, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
+import { createStateStore } from './server/stateStore.mjs';
+import { createUploads } from './server/uploads.mjs';
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -18,7 +22,7 @@ import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mj
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-for (const envFileName of [".env.local", ".env"]) {
+for (const envFileName of (process.env.NODE_ENV === 'production' || process.env.LOAD_ENV_FILES === 'false' ? [] : [".env.local", ".env"])) {
   const envFilePath = path.join(__dirname, envFileName);
   if (!existsSync(envFilePath)) continue;
 
@@ -31,7 +35,7 @@ for (const envFileName of [".env.local", ".env"]) {
 }
 
 const dataDir = path.join(__dirname, "data");
-const runtimeDataDir = path.join(__dirname, "runtime-data");
+const runtimeDataDir = process.env.RUNTIME_DATA_DIR ? path.resolve(process.env.RUNTIME_DATA_DIR) : path.join(__dirname, "runtime-data");
 const legacyUploadsDir = path.join(dataDir, "uploads");
 const uploadsDir = path.join(runtimeDataDir, "uploads");
 const publicUploadsDir = path.join(__dirname, "public", "uploads");
@@ -45,7 +49,7 @@ const host = process.env.HOST ?? "0.0.0.0";
 const port = Number(process.env.PORT ?? 4174);
 const supabaseUrl = (process.env.SUPABASE_URL ?? "").replace(/\/$/, "");
 const supabaseServiceRoleKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_KEY ?? "";
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY || "";
 const supabaseStateTable = process.env.SUPABASE_STATE_TABLE ?? "app_state";
 const supabaseStateKey = process.env.SUPABASE_STATE_KEY ?? "medicomm";
 const isSupabaseEnabled = Boolean(supabaseUrl && supabaseServiceRoleKey);
@@ -53,7 +57,19 @@ const DEFAULT_USER_RATING = 1480;
 const DEFAULT_USER_STREAK = 1;
 const DEFAULT_CORRECT_ANSWERS = 0;
 const DEFAULT_ATTEMPTED_QUESTIONS = 0;
-const PASSWORD_HASH_ITERATIONS = 60000;
+const PASSWORD_HASH_ITERATIONS = 220000;
+const derivePassword = promisify(pbkdf2);
+const production = process.env.NODE_ENV === 'production';
+const allowedOrigins = new Set((process.env.APP_ORIGINS || (production ? '' : 'http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173,http://localhost:4174,http://127.0.0.1:4174')).split(',').map(s => s.trim()).filter(Boolean));
+const uploadBucket = process.env.SUPABASE_UPLOAD_BUCKET || '';
+if (production && (!isSupabaseEnabled || !uploadBucket || !allowedOrigins.size)) throw new Error('Production requires Supabase, SUPABASE_UPLOAD_BUCKET and APP_ORIGINS.');
+for (const origin of allowedOrigins) {
+  const parsed = new URL(origin);
+  if (parsed.origin !== origin || (production && parsed.protocol !== 'https:')) throw new Error('APP_ORIGINS must contain exact HTTPS origins in production.');
+}
+const uploads = createUploads({ url: supabaseUrl, key: supabaseServiceRoleKey, bucket: uploadBucket, directory: uploadsDir });
+const limitRequest = createLimiter();
+let stopping = false;
 const LEGACY_PASSWORD_HASH_ITERATIONS = 120000;
 const DUEL_DURATION_SECONDS = 180;
 const DUEL_QUESTION_COUNT = 5;
@@ -116,8 +132,7 @@ function getFastGeminiThinkingConfig(model) {
 ensureStorage();
 
 const seedCommunityIds = new Set(["community-usmle-step-1", "community-emergency-medicine", "community-radiology-rounds"]);
-let databaseCache = null;
-let supabaseWriteChain = Promise.resolve();
+let stateStore;
 const storageStatus = {
   mode: isSupabaseEnabled ? "supabase" : "local",
   table: supabaseStateTable,
@@ -189,18 +204,15 @@ function normalizeDatabase(parsed = {}) {
 }
 
 function readLocalDatabaseFile() {
-  try {
-    const raw = readFileSync(databasePath, "utf8");
-    return normalizeDatabase(JSON.parse(raw));
-  } catch {
-    return getEmptyDatabase();
-  }
+  const raw = readFileSync(databasePath, "utf8").replace(/^\uFEFF/, '');
+  return normalizeDatabase(JSON.parse(raw));
 }
 
 async function requestSupabaseState(method, payload = null) {
   const url = `${supabaseUrl}/rest/v1/${encodeURIComponent(supabaseStateTable)}?key=eq.${encodeURIComponent(supabaseStateKey)}`;
   const response = await fetch(url, {
     method,
+    signal: AbortSignal.timeout(10000),
     headers: {
       apikey: supabaseServiceRoleKey,
       Authorization: `Bearer ${supabaseServiceRoleKey}`,
@@ -222,23 +234,26 @@ async function readSupabaseDatabase() {
   const response = await requestSupabaseState("GET");
   const rows = await response.json().catch(() => []);
   const row = Array.isArray(rows) ? rows[0] : null;
-  return row?.data ? normalizeDatabase(row.data) : null;
+  if (!row?.data || !Number.isSafeInteger(row.revision)) throw new Error('Missing database state or revision migration. Run the database setup before starting.');
+  return { data: normalizeDatabase(row.data), revision: row.revision };
 }
 
-async function writeSupabaseDatabase(data) {
+async function writeSupabaseDatabase(data, revision) {
   const payload = {
     key: supabaseStateKey,
     data,
     updated_at: new Date().toISOString(),
+    revision: revision + 1,
   };
-  const url = `${supabaseUrl}/rest/v1/${encodeURIComponent(supabaseStateTable)}?on_conflict=key`;
+  const url = `${supabaseUrl}/rest/v1/${encodeURIComponent(supabaseStateTable)}?key=eq.${encodeURIComponent(supabaseStateKey)}&revision=eq.${revision}`;
   const response = await fetch(url, {
-    method: "POST",
+    method: "PATCH",
+    signal: AbortSignal.timeout(10000),
     headers: {
       apikey: supabaseServiceRoleKey,
       Authorization: `Bearer ${supabaseServiceRoleKey}`,
       "Content-Type": "application/json",
-      Prefer: "resolution=merge-duplicates,return=minimal",
+      Prefer: "return=representation",
     },
     body: JSON.stringify(payload),
   });
@@ -247,6 +262,8 @@ async function writeSupabaseDatabase(data) {
     const message = await response.text().catch(() => "");
     throw new Error(`Supabase write failed: ${message || response.statusText}`);
   }
+  const rows = await response.json();
+  if (!Array.isArray(rows) || rows.length !== 1) throw new HttpError(409, 'Data changed on another server. Please try again.');
 
   storageStatus.lastWriteAt = new Date().toISOString();
   storageStatus.lastWriteStatus = "ok";
@@ -254,65 +271,27 @@ async function writeSupabaseDatabase(data) {
 }
 
 async function initializeDatabaseStore() {
-  const localDatabase = readLocalDatabaseFile();
-
-  if (!isSupabaseEnabled) {
-    databaseCache = localDatabase;
-    storageStatus.loadedAt = new Date().toISOString();
-    console.log("Supabase is not configured; using local runtime-data/users.json.");
-    return;
-  }
-
-  try {
-    const remoteDatabase = await readSupabaseDatabase();
-    if (remoteDatabase) {
-      databaseCache = remoteDatabase;
-      writeFileSync(databasePath, JSON.stringify(databaseCache, null, 2));
-      storageStatus.loadedAt = new Date().toISOString();
-      storageStatus.lastWriteStatus = "loaded";
-      storageStatus.lastError = null;
-      console.log(`Loaded MediComm database from Supabase table "${supabaseStateTable}".`);
-      return;
-    }
-
-    databaseCache = localDatabase;
-    await writeSupabaseDatabase(databaseCache);
-    storageStatus.loadedAt = new Date().toISOString();
-    console.log(`Seeded Supabase table "${supabaseStateTable}" from local database backup.`);
-  } catch (error) {
-    databaseCache = localDatabase;
-    storageStatus.mode = "local-fallback";
-    storageStatus.loadedAt = new Date().toISOString();
-    storageStatus.lastWriteStatus = "error";
-    storageStatus.lastError = error instanceof Error ? error.message : "Could not connect to Supabase.";
-    console.warn(error instanceof Error ? error.message : "Could not connect to Supabase.");
-    console.warn("Falling back to local runtime-data/users.json for this process.");
-  }
-}
-
-function readDatabase() {
-  if (!databaseCache) {
-    databaseCache = readLocalDatabaseFile();
-  }
-  return structuredClone(databaseCache);
-}
-
-function writeDatabase(data) {
-  databaseCache = normalizeDatabase(data);
-  writeFileSync(databasePath, JSON.stringify(databaseCache, null, 2));
-
-  if (!isSupabaseEnabled) return Promise.resolve();
-
-  const databaseSnapshot = structuredClone(databaseCache);
-  supabaseWriteChain = supabaseWriteChain.catch(() => undefined).then(() => writeSupabaseDatabase(databaseSnapshot));
-
-  return supabaseWriteChain.catch((error) => {
-    storageStatus.lastWriteStatus = "error";
-    storageStatus.lastError = error instanceof Error ? error.message : "Could not write database to Supabase.";
-    console.warn(storageStatus.lastError);
-    throw error;
+  const loaded = isSupabaseEnabled ? await readSupabaseDatabase() : { data: readLocalDatabaseFile(), revision: 0 };
+  stateStore = createStateStore({
+    initial: loaded.data,
+    revision: loaded.revision,
+    reload: isSupabaseEnabled ? readSupabaseDatabase : undefined,
+    persist: async (data, revision) => {
+      if (isSupabaseEnabled) await writeSupabaseDatabase(data, revision);
+      else {
+        const temporary = `${databasePath}.tmp`;
+        await fs.writeFile(temporary, JSON.stringify(data, null, 2), { mode: 0o600 });
+        await fs.rename(temporary, databasePath);
+      }
+    },
   });
+  await uploads.check();
+  storageStatus.loadedAt = new Date().toISOString();
+  storageStatus.lastWriteStatus = 'loaded';
 }
+
+function readDatabase() { return stateStore.read(); }
+function writeDatabase(data) { return stateStore.write(data); }
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
 
@@ -670,6 +649,7 @@ async function requestGeminiQuestion(payload, library) {
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
     {
       method: "POST",
+      signal: AbortSignal.timeout(45000),
       headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
       body: JSON.stringify({
         generationConfig: {
@@ -747,6 +727,7 @@ async function requestGeminiQuestionBatch(payload, library, count) {
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
     {
       method: "POST",
+      signal: AbortSignal.timeout(45000),
       headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
       body: JSON.stringify({
         generationConfig: {
@@ -969,7 +950,8 @@ async function fetchGeminiWithRetry(url, options) {
   for (let attempt = 0; attempt <= GEMINI_MAX_RETRIES; attempt += 1) {
     let response;
     try {
-      response = await fetch(url, options);
+      const timeout = AbortSignal.timeout(45000);
+      response = await fetch(url, { ...options, signal: options.signal ? AbortSignal.any([options.signal, timeout]) : timeout });
     } catch (error) {
       lastError = error;
       if (attempt === GEMINI_MAX_RETRIES) throw error;
@@ -2002,11 +1984,8 @@ async function handleCreateClinicalCaseSession(request, response) {
   };
 
   database.clinicalCaseSessions = [session, ...(database.clinicalCaseSessions ?? [])].slice(0, 1000);
-  const initialWrite = writeDatabase(database);
+  await writeDatabase(database);
   sendJson(response, 202, { session: sanitizeClinicalCaseSession(session) });
-  void initialWrite.catch((error) => {
-    console.warn(`Could not persist pending Clinical Cases session ${session.id}: ${error instanceof Error ? error.message : "unknown error"}`);
-  });
   void completeClinicalCaseGeneration({
     sessionId: session.id,
     userId: currentUser.id,
@@ -2121,11 +2100,14 @@ function getAllPracticeQuestions(library) {
 }
 
 function sendJson(response, statusCode, payload, headers = {}) {
-  const body = gzipSync(JSON.stringify(payload));
+  const compress = /\bgzip\b/.test(response.req?.headers['accept-encoding'] ?? '');
+  const json = JSON.stringify(payload);
+  const body = compress ? gzipSync(json) : json;
   response.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
-    "Content-Encoding": "gzip",
+    ...(compress ? { "Content-Encoding": "gzip" } : {}),
+    Vary: 'Origin, Accept-Encoding',
     ...headers,
   });
   response.end(body);
@@ -2162,7 +2144,7 @@ async function serveStaticFile(response, requestPath) {
   const decodedPath = decodeURIComponent(requestPath);
   const normalizedPath = path.normalize(decodedPath).replace(/^(\.\.[/\\])+/, "");
   const requestedPath = path.join(distDir, normalizedPath);
-  const resolvedPath = requestedPath.startsWith(distDir) ? requestedPath : path.join(distDir, "index.html");
+  const resolvedPath = requestedPath.startsWith(distDir + path.sep) ? requestedPath : path.join(distDir, "index.html");
   const filePath = existsSync(resolvedPath) ? resolvedPath : path.join(distDir, "index.html");
 
   try {
@@ -2178,13 +2160,13 @@ async function serveStaticFile(response, requestPath) {
   }
 }
 
-function hashPassword(password, salt = randomBytes(16).toString("hex")) {
-  const hash = pbkdf2Sync(password, salt, PASSWORD_HASH_ITERATIONS, 64, "sha512").toString("hex");
+async function hashPassword(password, salt = randomBytes(16).toString("hex")) {
+  const hash = (await derivePassword(password, salt, PASSWORD_HASH_ITERATIONS, 64, "sha512")).toString("hex");
   return { salt, hash, iterations: PASSWORD_HASH_ITERATIONS };
 }
 
-function verifyPassword(password, salt, expectedHash, iterations = LEGACY_PASSWORD_HASH_ITERATIONS) {
-  const attempt = pbkdf2Sync(password, salt, iterations, 64, "sha512");
+async function verifyPassword(password, salt, expectedHash, iterations = LEGACY_PASSWORD_HASH_ITERATIONS) {
+  const attempt = await derivePassword(password, salt, iterations, 64, "sha512");
   const stored = Buffer.from(expectedHash, "hex");
   return stored.length === attempt.length && timingSafeEqual(attempt, stored);
 }
@@ -2292,7 +2274,7 @@ function sanitizeCommunity(community, users, currentUserId = null) {
     topic: community.topic,
     createdAt: community.createdAt,
     adminUserId: community.adminUserId,
-    adminName: users.find((user) => user.id === community.adminUserId)?.name ?? "MediComm",
+    adminName: users.find((user) => user.id === community.adminUserId)?.name ?? "Medulla",
     isAdmin: currentUserId ? community.adminUserId === currentUserId : false,
     isMember: currentUserId ? community.memberIds.includes(currentUserId) : false,
     memberCount: community.memberIds.length,
@@ -2351,38 +2333,9 @@ function sanitizeDirectConversation(conversation, users, currentUserId) {
   };
 }
 
-async function parseRequestBody(request) {
-  const chunks = [];
-
-  for await (const chunk of request) {
-    chunks.push(chunk);
-  }
-
-  const rawBody = Buffer.concat(chunks).toString("utf8");
-  if (!rawBody) return {};
-
-  try {
-    return JSON.parse(rawBody);
-  } catch {
-    throw new Error("Invalid JSON body.");
-  }
-}
-
-function getTokenFromRequest(request) {
-  const authorization = request.headers.authorization ?? "";
-  if (!authorization.startsWith("Bearer ")) return null;
-  return authorization.slice("Bearer ".length).trim();
-}
-
-function getSessionUser(request, database) {
-  const token = getTokenFromRequest(request);
-  if (!token) return null;
-
-  const userId = database.sessions[token];
-  if (!userId) return null;
-
-  return database.users.find((user) => user.id === userId) ?? null;
-}
+async function parseRequestBody(request) { return readJson(request); }
+function getTokenFromRequest(request) { return sessionToken(request); }
+function getSessionUser(request, database) { return sessionUser(request, database); }
 
 function validateSignupPayload(payload) {
   const requiredFields = [
@@ -2394,43 +2347,19 @@ function validateSignupPayload(payload) {
   ];
 
   for (const [field, label] of requiredFields) {
-    if (!String(payload[field] ?? "").trim()) {
+    if (typeof payload[field] !== "string" || !payload[field].trim() || payload[field].length > (field === "password" ? 128 : 254)) {
       return `${label} is required.`;
     }
   }
 
   if (!/^\S+@\S+\.\S+$/.test(payload.email)) return "Enter a valid email address.";
   if (normalizeContactNumber(payload.contactNumber).length < 8) return "Enter a valid mobile number.";
-  if (String(payload.password).length < 6) return "Password must be at least 6 characters.";
+  if (typeof payload.password !== "string" || payload.password.length < 12 || payload.password.length > 128) return "Password must contain 12 to 128 characters.";
   return null;
 }
 
 async function saveProfileImage(userId, dataUrl, existingFileName) {
-  const matches = String(dataUrl).match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
-  if (!matches) throw new Error("Profile photo must be a valid image.");
-
-  const mimeType = matches[1];
-  const base64Payload = matches[2];
-  const supportedTypes = {
-    "image/jpeg": "jpg",
-    "image/png": "png",
-    "image/webp": "webp",
-    "image/gif": "gif",
-  };
-
-  const extension = supportedTypes[mimeType];
-  if (!extension) throw new Error("Only PNG, JPG, WEBP, or GIF profile pictures are supported.");
-
-  const fileName = `${userId}-${Date.now()}.${extension}`;
-  const filePath = path.join(uploadsDir, fileName);
-  await fs.writeFile(filePath, Buffer.from(base64Payload, "base64"));
-
-  if (existingFileName) {
-    const existingPath = path.join(uploadsDir, existingFileName);
-    if (existsSync(existingPath)) unlinkSync(existingPath);
-  }
-
-  return fileName;
+  return uploads.save(dataUrl);
 }
 
 async function handlePublicUserProfile(request, response, userId) {
@@ -2468,7 +2397,7 @@ async function handleSignup(request, response) {
     return sendJson(response, 409, { message: "An account with this mobile number already exists." });
   }
 
-  const { hash, salt, iterations } = hashPassword(String(payload.password));
+  const { hash, salt, iterations } = await hashPassword(String(payload.password));
   const user = {
     id: randomBytes(12).toString("hex"),
     name: String(payload.name).trim(),
@@ -2487,15 +2416,13 @@ async function handleSignup(request, response) {
     createdAt: new Date().toISOString(),
   };
 
-  const token = randomBytes(24).toString("hex");
   database.users.push(user);
-  database.sessions[token] = user.id;
+  const token = issueSession(database, user.id);
   await writeDatabase(database);
 
   return sendJson(response, 201, {
-    token,
     user: sanitizeUser(user),
-  });
+  }, { "Set-Cookie": sessionCookie(token, production) });
 }
 
 async function handleLogin(request, response) {
@@ -2504,7 +2431,7 @@ async function handleLogin(request, response) {
   const email = String(payload.email ?? "").trim().toLowerCase();
   const password = String(payload.password ?? "");
 
-  if (!email || !password) {
+  if (!email || !password || email.length > 254 || password.length > 128) {
     return sendJson(response, 400, { message: "Email and password are required." });
   }
 
@@ -2513,25 +2440,24 @@ async function handleLogin(request, response) {
     ? user.passwordIterations
     : LEGACY_PASSWORD_HASH_ITERATIONS;
 
-  if (!user || !verifyPassword(password, user.passwordSalt, user.passwordHash, passwordIterations)) {
+  if (!user) await verifyPassword(password, "missing-user", "00".repeat(64), PASSWORD_HASH_ITERATIONS);
+  if (!user || !await verifyPassword(password, user.passwordSalt, user.passwordHash, passwordIterations)) {
     return sendJson(response, 401, { message: "Invalid email or password." });
   }
 
-  if (passwordIterations !== PASSWORD_HASH_ITERATIONS) {
-    const { hash, salt, iterations } = hashPassword(password);
+  if (passwordIterations < PASSWORD_HASH_ITERATIONS) {
+    const { hash, salt, iterations } = await hashPassword(password);
     user.passwordHash = hash;
     user.passwordSalt = salt;
     user.passwordIterations = iterations;
   }
 
-  const token = randomBytes(24).toString("hex");
-  database.sessions[token] = user.id;
+  const token = issueSession(database, user.id);
   await writeDatabase(database);
 
   return sendJson(response, 200, {
-    token,
     user: sanitizeUser(user),
-  });
+  }, { "Set-Cookie": sessionCookie(token, production) });
 }
 
 function handleSession(request, response) {
@@ -2549,12 +2475,12 @@ async function handleLogout(request, response) {
   const database = readDatabase();
   const token = getTokenFromRequest(request);
 
-  if (token && database.sessions[token]) {
-    delete database.sessions[token];
+  if (token && database.sessions[sessionHash(token)]) {
+    delete database.sessions[sessionHash(token)];
     await writeDatabase(database);
   }
 
-  return sendJson(response, 200, { success: true });
+  return sendJson(response, 200, { success: true }, { "Set-Cookie": sessionCookie("", production, true) });
 }
 
 async function handleProfileUpdate(request, response) {
@@ -2820,7 +2746,7 @@ async function handleOpenDirectConversation(request, response) {
         {
           id: randomBytes(8).toString("hex"),
           userId: null,
-          userName: "MediComm Bot",
+          userName: "Medulla Bot",
           text: `Private chat opened between ${currentUser.name} and ${targetUser.name}.`,
           type: "system",
           createdAt,
@@ -2893,26 +2819,7 @@ function handleLeaderboard(request, response) {
 }
 
 async function saveCommunityThreadImage(messageId, dataUrl) {
-  const matches = String(dataUrl).match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
-  if (!matches) throw new Error("Thread attachment must be a valid image.");
-
-  const supportedTypes = {
-    "image/jpeg": "jpg",
-    "image/png": "png",
-    "image/webp": "webp",
-    "image/gif": "gif",
-  };
-  const extension = supportedTypes[matches[1]];
-  if (!extension) throw new Error("Only PNG, JPG, WEBP, or GIF thread images are supported.");
-
-  const imageBuffer = Buffer.from(matches[2], "base64");
-  if (!imageBuffer.length || imageBuffer.length > COMMUNITY_THREAD_IMAGE_LIMIT_BYTES) {
-    throw new Error("Thread images must be 5 MB or smaller.");
-  }
-
-  const fileName = "community-thread-" + messageId + "-" + Date.now() + "." + extension;
-  await fs.writeFile(path.join(uploadsDir, fileName), imageBuffer);
-  return fileName;
+  return uploads.save(dataUrl);
 }
 
 function findActiveRatedDuel(database, userId) {
@@ -3121,15 +3028,12 @@ function handleSummary(response) {
   });
 }
 
-function handleStorageStatus(response) {
-  const database = readDatabase();
-  return sendJson(response, 200, {
-    ...storageStatus,
-    supabaseConfigured: isSupabaseEnabled,
-    users: database.users.length,
-    communities: database.communities.length,
-    questions: database.questions.length,
-  });
+async function handleStorageStatus(response) {
+  let ready = !stopping && stateStore.healthy;
+  if (ready && isSupabaseEnabled) {
+    try { await readSupabaseDatabase(); } catch { ready = false; }
+  }
+  return sendJson(response, ready ? 200 : 503, { status: ready ? 'ready' : 'unavailable' });
 }
 
 function handlePracticeQuestionBank(request, response, url) {
@@ -3295,7 +3199,7 @@ async function handleCreateCommunity(request, response) {
       {
         id: randomBytes(8).toString("hex"),
         userId: null,
-        userName: "MediComm Bot",
+        userName: "Medulla Bot",
         text: `${currentUser.name} created this community. Introduce yourself and start the discussion.`,
         createdAt: new Date().toISOString(),
       },
@@ -3327,7 +3231,7 @@ async function handleJoinCommunity(request, response, communityId) {
     community.messages.push({
       id: randomBytes(8).toString("hex"),
       userId: null,
-      userName: "MediComm Bot",
+      userName: "Medulla Bot",
       text: `${currentUser.name} joined the community.`,
       createdAt: new Date().toISOString(),
     });
@@ -3435,7 +3339,7 @@ async function handleRemoveCommunityMember(request, response, communityId, membe
   community.messages.push({
     id: randomBytes(8).toString("hex"),
     userId: null,
-    userName: "MediComm Bot",
+    userName: "Medulla Bot",
     text: `${removedUser?.name ?? "A member"} was removed by the admin.`,
     createdAt: new Date().toISOString(),
   });
@@ -3448,20 +3352,58 @@ async function handleRemoveCommunityMember(request, response, communityId, membe
 }
 
 async function handleRequest(request, response) {
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
-
-  if (request.method === "OPTIONS") {
-    response.writeHead(204);
-    response.end();
-    return;
-  }
-
-  const requestHost = request.headers.host ?? `${host}:${port}`;
-  const url = new URL(request.url, `http://${requestHost}`);
+  const requestId = randomBytes(12).toString('hex');
+  response.setHeader('X-Request-Id', requestId);
+  response.setHeader('X-Content-Type-Options', 'nosniff');
+  response.setHeader('X-Frame-Options', 'DENY');
+  response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  if (production) response.setHeader('Strict-Transport-Security', 'max-age=31536000');
+  const started = Date.now();
+  response.once('finish', () => console.log(JSON.stringify({ event: 'request', requestId, method: request.method, status: response.statusCode, durationMs: Date.now() - started })));
+  try {
+    const url = new URL(request.url, 'http://localhost');
+    if (url.pathname === '/health/live') return sendJson(response, stopping ? 503 : 200, { status: stopping ? 'stopping' : 'alive' });
+    if (url.pathname === '/health/ready') return await handleStorageStatus(response);
+    checkOrigin(request, response, allowedOrigins);
+    if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
+    if (stopping) throw new HttpError(503, 'Server is restarting.');
+    if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/user-')) {
+      if (!stateStore.healthy) throw new HttpError(503, 'Storage is unavailable.');
+      // Only trust a forwarded address when the deployment restricts direct access.
+      const peer = process.env.TRUST_PROXY === 'true'
+        ? String(request.headers['x-forwarded-for'] || request.socket.remoteAddress).split(',').at(-1).trim()
+        : request.socket.remoteAddress;
+      limitRequest(`api:${peer}`, 600, 60000);
+      if (url.pathname === '/api/auth/login' || url.pathname === '/api/auth/signup') limitRequest(`auth:${peer}`, 20, 15 * 60000);
+      const costly = request.method === 'POST' && /^\/api\/(?:generate-question|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname);
+      if (costly) {
+        const user = getSessionUser(request, readDatabase());
+        if (!user) throw new HttpError(401, 'Please sign in.');
+        limitRequest(`ai:${user.id}`, 60, 3600000);
+        limitRequest('ai:global', 1000, 3600000);
+      }
+      if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method)) {
+        const imageRoute = url.pathname === '/api/profile' || /\/(?:messages|answers)$/.test(url.pathname) || url.pathname === '/api/short-notes/reviews';
+        request.parsedBody = await readJson(request, imageRoute ? 8 * 1024 * 1024 : 256 * 1024);
+      }
+    }
 
   if (request.method === "GET" && url.pathname.startsWith("/uploads/")) {
+    const name = path.basename(url.pathname);
+    const database = readDatabase();
+    const profile = database.users.some(entry => entry.profileImagePath === name);
+    const attachment = database.communities.some(entry => (entry.messages ?? []).some(message => message.imagePath === name));
+    if (name.startsWith('user-') || profile || attachment) {
+      if (!/^[a-zA-Z0-9_-]+\.(png|jpg|jpeg|webp|gif)$/.test(name)) throw new HttpError(404, 'Not found.');
+      const user = getSessionUser(request, database);
+      if (!user) throw new HttpError(401, 'Please sign in.');
+      const community = database.communities.some(entry => (entry.memberIds ?? []).includes(user.id) && (entry.messages ?? []).some(message => message.imagePath === name));
+      if (!profile && !community) throw new HttpError(404, 'Not found.');
+      const bytes = uploadBucket ? await uploads.read(name) : await fs.readFile(path.join(uploadsDir, name));
+      response.writeHead(200, { 'Content-Type': getStaticMimeType(name), 'Cache-Control': 'private, no-store' });
+      response.end(bytes);
+      return;
+    }
     const requestedFile = /^\/uploads\/fmge\/[a-zA-Z0-9_-]+\.webp$/.test(url.pathname)
       ? path.join("fmge", path.basename(url.pathname))
       : path.basename(url.pathname);
@@ -3487,12 +3429,11 @@ async function handleRequest(request, response) {
     return;
   }
 
-  try {
     if (request.method === "POST" && url.pathname === "/api/auth/signup") return await handleSignup(request, response);
     if (url.pathname === "/api/reviews") return await handleWebsiteReviews(request, response, url);
     if (request.method === "POST" && url.pathname === "/api/auth/login") return await handleLogin(request, response);
     if (request.method === "GET" && url.pathname === "/api/auth/session") return handleSession(request, response);
-    if (request.method === "POST" && url.pathname === "/api/auth/logout") return handleLogout(request, response);
+    if (request.method === "POST" && url.pathname === "/api/auth/logout") return await handleLogout(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile") return await handleProfileUpdate(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile/stats") return await handleProfileStatsUpdate(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile/question-bookmarks")
@@ -3506,7 +3447,7 @@ async function handleRequest(request, response) {
     if (request.method === "GET" && url.pathname === "/api/duels/rated/queue") return await handleRatedDuelQueueStatus(request, response);
     if (request.method === "DELETE" && url.pathname === "/api/duels/rated/queue") return await handleLeaveRatedDuelQueue(request, response);
     if (request.method === "GET" && url.pathname === "/api/summary") return handleSummary(response);
-    if (request.method === "GET" && url.pathname === "/api/storage/status") return handleStorageStatus(response);
+    if (request.method === "GET" && url.pathname === "/api/storage/status") return await handleStorageStatus(response);
     if (request.method === "GET" && url.pathname === "/api/practice") return handlePracticeQuestionBank(request, response, url);
     if (request.method === "POST" && url.pathname === "/api/generate-question") return await handleGenerateQuestion(request, response);
     if (request.method === "POST" && url.pathname === "/api/generate-questions") return await handleGenerateQuestionBatch(request, response);
@@ -3551,7 +3492,7 @@ async function handleRequest(request, response) {
 
     const joinMatch = url.pathname.match(/^\/api\/communities\/([^/]+)\/join$/);
     if (request.method === "POST" && joinMatch) {
-      return handleJoinCommunity(request, response, joinMatch[1]);
+      return await handleJoinCommunity(request, response, joinMatch[1]);
     }
 
     const messagesMatch = url.pathname.match(/^\/api\/communities\/([^/]+)\/messages$/);
@@ -3561,7 +3502,7 @@ async function handleRequest(request, response) {
 
     const removeMemberMatch = url.pathname.match(/^\/api\/communities\/([^/]+)\/members\/([^/]+)$/);
     if (request.method === "DELETE" && removeMemberMatch) {
-      return handleRemoveCommunityMember(request, response, removeMemberMatch[1], removeMemberMatch[2]);
+      return await handleRemoveCommunityMember(request, response, removeMemberMatch[1], removeMemberMatch[2]);
     }
 
     const directMessageMatch = url.pathname.match(/^\/api\/direct-messages\/([^/]+)\/messages$/);
@@ -3580,12 +3521,25 @@ async function handleRequest(request, response) {
 
     sendJson(response, 404, { message: "Route not found." });
   } catch (error) {
-    sendJson(response, 500, { message: error instanceof Error ? error.message : "Unexpected server error." });
+    const status = error instanceof HttpError ? error.status : 500;
+    if (status >= 500) console.error(JSON.stringify({ event: 'request_failed', requestId, error: error.name }));
+    if (!response.headersSent) sendJson(response, status, { message: status >= 500 ? 'Service temporarily unavailable.' : error.message, requestId }, { ...(error.retryAfter ? { 'Retry-After': String(error.retryAfter) } : {}), ...(status === 413 ? { Connection: 'close' } : {}) });
+    else response.end();
   }
 }
 
 await initializeDatabaseStore();
 
-createServer(handleRequest).listen(port, host, () => {
-  console.log(`MediComm listening on http://${host}:${port}`);
+const server = createServer({ requestTimeout: 30000, headersTimeout: 15000, keepAliveTimeout: 5000, maxHeaderSize: 16384 }, handleRequest);
+server.maxRequestsPerSocket = 1000;
+server.listen(port, host, () => {
+  console.log(`Medulla listening on http://${host}:${server.address().port}`);
+});
+
+for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => {
+  stopping = true;
+  const deadline = setTimeout(() => process.exit(1), 30000);
+  deadline.unref();
+  server.close(async () => { await stateStore.drain(); clearTimeout(deadline); process.exit(0); });
+  server.closeIdleConnections();
 });

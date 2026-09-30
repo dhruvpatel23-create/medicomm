@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AppShell } from "./components/AppShellV2";
 import WebsiteReviews from "./components/WebsiteReviews";
+import CompeteArena from "./components/CompeteArena";
 import PracticeSelection from "./components/PracticeSelection";
 import UsmleModules from "./components/UsmleModules";
 import FmgeYears from "./components/FmgeYears";
@@ -26,7 +27,7 @@ const CLINICAL_CASE_GENERATION_POLL_MS = 2000;
 const CLINICAL_CASE_GENERATION_WAIT_MS = 4 * 60 * 1000;
 // Atlas artwork was replaced in place, so use a versioned URL to ensure clients
 // don't keep showing a previously cached source image.
-const ATLAS_IMAGE_VERSION = "20260912-q009-regenerated-v2";
+const ATLAS_IMAGE_VERSION = "20260930-no-watermarks";
 const MIND_MAP_ASSET_VERSION = "20260830-teacher-notes";
 
 const MIND_MAP_ASSETS = {
@@ -268,12 +269,12 @@ function formatTime(totalSeconds) {
 }
 
 function getPracticeImageUrl(imageUrl) {
-  if (!imageUrl?.includes("/medicomm-atlas-")) return imageUrl;
+  if (!imageUrl?.includes("/medicomm-")) return imageUrl;
   const separator = imageUrl.includes("?") ? "&" : "?";
   return `${imageUrl}${separator}v=${ATLAS_IMAGE_VERSION}`;
 }
 
-function isWatermarkedUsmleImage(imageUrl) {
+function isUsmleImage(imageUrl) {
   return String(imageUrl ?? "").includes("/usmle-");
 }
 
@@ -996,17 +997,12 @@ async function fetchPracticeLibrary() {
 }
 
   useEffect(() => {
-    const token = localStorage.getItem(SESSION_TOKEN_KEY);
     let isActive = true;
-
-    if (!token) {
-      setAuthStatus("unauthenticated");
-      return undefined;
-    }
 
     apiRequest("/api/auth/session", { timeoutMs: 3000 })
       .then((data) => {
         if (!isActive) return;
+        localStorage.setItem(SESSION_TOKEN_KEY, "true");
         const mergedUser = mergeUserPerformance(data.user);
         setUser(mergedUser);
         setUserRating(mergedUser.rating ?? 1480);
@@ -2528,7 +2524,7 @@ async function fetchPracticeLibrary() {
         timeoutMs: 20000,
       });
 
-      localStorage.setItem(SESSION_TOKEN_KEY, data.token);
+      localStorage.setItem(SESSION_TOKEN_KEY, "true");
       const mergedUser = mergeUserPerformance(data.user);
       setUser(mergedUser);
       setUserRating(mergedUser.rating ?? 1480);
@@ -2631,7 +2627,7 @@ async function fetchPracticeLibrary() {
     return (
       <div className="auth-shell">
         <section className="auth-hero">
-          <div className="auth-brand"><span className="brand-mark" aria-hidden="true"><BrandMark title="" /></span><strong><span className="brand-medi">Medi</span><span className="brand-comm">Comm</span></strong></div>
+          <div className="auth-brand"><span className="brand-mark" aria-hidden="true"><BrandMark title="" /></span><strong><span className="brand-medi">Med</span><span className="brand-comm">ulla</span></strong></div>
           <p className="eyebrow">Built for serious medical preparation</p>
           <h1>Study with clarity.<br /><span>Perform with confidence.</span></h1>
           <p>
@@ -2651,7 +2647,7 @@ async function fetchPracticeLibrary() {
 
         <section className="card auth-card">
           <div className="auth-card-heading">
-            <p className="eyebrow">Welcome to MediComm</p>
+            <p className="eyebrow">Welcome to Medulla</p>
             <h2>{isSignup ? "Create your study account" : "Continue your learning"}</h2>
             <p>{isSignup ? "Set up your profile in under a minute." : "Sign in to sync progress across devices."}</p>
           </div>
@@ -2754,7 +2750,7 @@ async function fetchPracticeLibrary() {
                   autoComplete={isSignup ? "new-password" : "current-password"}
                   value={authForm.password}
                   onChange={(event) => updateAuthField("password", event.target.value)}
-                  placeholder="At least 6 characters"
+                  placeholder="12 to 128 characters"
                 />
                 <button
                   type="button"
@@ -2838,7 +2834,7 @@ async function fetchPracticeLibrary() {
 
         <section className="features-section">
           <div className="section-heading">
-            <h2>Why Choose MediComm?</h2>
+            <h2>Why Choose Medulla?</h2>
             <p>Everything you need to excel in medical knowledge</p>
           </div>
 
@@ -3020,7 +3016,7 @@ async function fetchPracticeLibrary() {
           <article className="card panel">
             <h3>Account privacy</h3>
             <p className="panel-copy">
-              Your login and profile details are now loaded from the local MediComm database before the
+              Your login and profile details are now loaded from the local Medulla database before the
               app opens.
             </p>
             <button className="button button-secondary" onClick={handleLogout}>
@@ -4084,10 +4080,10 @@ async function fetchPracticeLibrary() {
             {currentPracticeQuestion.imageUrls?.length ? (
               <div className="practice-question-images">
                 {currentPracticeQuestion.imageUrls.map((imageUrl, index) => {
-                  const showWatermark = isWatermarkedUsmleImage(imageUrl);
+                  const isUsmle = isUsmleImage(imageUrl);
                   return (
                     <span
-                      className={`practice-question-image-frame${showWatermark ? " practice-question-image-frame-usmle" : ""}`}
+                      className={`practice-question-image-frame${isUsmle ? " practice-question-image-frame-usmle" : ""}`}
                       key={`${currentPracticeQuestion.questionNumber}-${imageUrl}`}
                     >
                       <img
@@ -4097,7 +4093,6 @@ async function fetchPracticeLibrary() {
                         loading="lazy"
                         decoding="async"
                       />
-                      {showWatermark ? <span className="practice-question-image-watermark" aria-hidden="true">medicomm</span> : null}
                     </span>
                   );
                 })}
@@ -5092,7 +5087,7 @@ async function fetchPracticeLibrary() {
           <div className="community-hero-orb community-hero-orb-large" aria-hidden="true" />
           <div className="community-hero-orb community-hero-orb-small" aria-hidden="true" />
           <div className="community-hero-content">
-            <p className="community-hero-kicker"><span /> MediComm community</p>
+            <p className="community-hero-kicker"><span /> Medulla community</p>
             <h2>Study together.<br />Get better, faster.</h2>
             <p>Find focused rooms, trade clinical insights, and keep your closest study partners one message away.</p>
             <div className="community-hero-actions">
@@ -5284,317 +5279,34 @@ async function fetchPracticeLibrary() {
   }
 
   function renderCompete() {
-    return (
-      <section className="app-view">
-        <div className="view-header">
-          <div>
-            <p className="eyebrow">Compete</p>
-            <h2>Live challenges and rated duels</h2>
-          </div>
-          <button className="button button-primary" onClick={() => setActiveView("Practice")}>
-            Warm up first
-          </button>
-        </div>
-
-        {duelStatus === "idle" ? renderDuelLobby() : null}
-        {duelStatus === "matchmaking" ? renderMatchmaking() : null}
-        {duelStatus === "live" ? renderLiveDuel() : null}
-        {duelStatus === "finished" ? renderDuelResult() : null}
-        {duelMessage ? <p className="form-message duel-message">{duelMessage}</p> : null}
-
-        {duelStatus === "idle" ? (
-          <div className="community-grid extra-top-gap">
-            <article className="card community-card">
-              <div className="community-top">
-                <div className="icon-badge purple">VS</div>
-                <span>{formatStatValue(platformSummary.users)} registered learners</span>
-              </div>
-              <h3>Real-user rated duels</h3>
-              <p>Your rating, rank, attempts, and accuracy update from completed practice and duel activity.</p>
-              <button className="button button-primary" onClick={() => setActiveView("Leaderboard")}>
-                View live ranks
-              </button>
-            </article>
-            <article className="card community-card">
-              <div className="community-top">
-                <div className="icon-badge cyan">MCQ</div>
-                <span>{formatStatValue(platformSummary.attemptedQuestions)} attempts</span>
-              </div>
-              <h3>Practice activity</h3>
-              <p>The challenge surface now reflects real attempts saved from user activity.</p>
-              <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
-                Practice questions
-              </button>
-            </article>
-          </div>
-        ) : null}
-      </section>
-    );
-  }
-
-  function renderDuelLobby() {
-    return (
-      <article className="card panel duel-matchmaking">
-        <div className="panel-heading-split">
-          <div>
-            <h3>Rated 1v1 duel</h3>
-            <p className="panel-copy">Face a live opponent, answer fast, and push your MediComm rating higher.</p>
-          </div>
-          <span className="rank-pill">Current rating {userRating}</span>
-        </div>
-
-        <div className="duel-stats">
-          <div className="duel-stat">
-            <span>Format</span>
-            <strong>{duelQuestions.length} timed MCQs</strong>
-          </div>
-          <div className="duel-stat">
-            <span>Duration</span>
-            <strong>{Math.floor(DUEL_DURATION_SECONDS / 60)} min duel</strong>
-          </div>
-          <div className="duel-stat">
-            <span>Scoring</span>
-            <strong>Server Elo update</strong>
-          </div>
-        </div>
-
-        <div className="quiz-actions">
-          <button className="button button-primary" onClick={() => startDuel()}>
-            Start rated duel
-          </button>
-          <button className="button button-secondary" onClick={startBotDuel}>
-            Compete with bot
-          </button>
-          <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
-            Practice first
-          </button>
-        </div>
-      </article>
-    );
-  }
-
-  function renderMatchmaking() {
-    return (
-      <article className="card panel duel-matchmaking duel-waiting-room">
-        <div className="duel-radar" aria-hidden="true">
-          <span />
-          <span />
-          <div className="duel-radar-core">VS</div>
-        </div>
-        <p className="eyebrow">Rated queue</p>
-        <h3>Waiting for another challenger</h3>
-        <p className="panel-copy">
-          You are locked into the live waiting list. The duel will start automatically as soon as one more learner presses
-          Start rated duel.
-        </p>
-        <div className="duel-waiting-grid">
-          <div>
-            <span>Queue status</span>
-            <strong>{duelQueueInfo?.ticketId ? "Ready" : "Joining..."}</strong>
-          </div>
-          <div>
-            <span>Waiting now</span>
-            <strong>{duelQueueInfo?.waitingCount ?? 1}</strong>
-          </div>
-          <div>
-            <span>Your rating</span>
-            <strong>{userRating}</strong>
-          </div>
-        </div>
-        <div className="duel-waiting-pulse">
-          <span />
-          <span />
-          <span />
-        </div>
-        <div className="quiz-actions centered-actions">
-          <button className="button button-secondary" onClick={leaveDuelQueue}>
-            Leave queue
-          </button>
-        </div>
-      </article>
-    );
-  }
-
-  function renderLiveDuel() {
-    const currentDuelImageUrls = getQuestionImageUrls(currentDuelQuestion);
-
-    return (
-      <section className="duel-live">
-        <div className="duel-scoreboard">
-          <div className="duel-player">
-            <p>You</p>
-            <strong>{user?.name ?? "Player"}</strong>
-            <span className="panel-copy">{userDuelAnswered} locked</span>
-          </div>
-          <div className="duel-timer">
-            <p>Time left</p>
-            <strong>{formatDuration(duelTimeLeft)}</strong>
-          </div>
-          <div className="duel-player">
-            <p>Opponent</p>
-            <strong>{duelOpponent?.name ?? "Matching..."}</strong>
-            <span className="panel-copy">
-              {duelOpponent?.ratingless ? "Ratingless" : `${duelOpponentProgress.answered} locked`}
-            </span>
-          </div>
-        </div>
-
-        <article className="card panel duel-quiz">
-          <div className="panel-heading-split">
-            <div>
-              <h3>{currentDuelQuestion.prompt}</h3>
-              <p className="panel-copy">
-                Question {duelIndex + 1} of {duelQuestions.length}
-              </p>
-            </div>
-            <span className="rank-pill">{duelMode === "bot" ? "Bot practice" : "Rated"}</span>
-          </div>
-
-          <QuestionLaboratoryTable findings={currentDuelQuestion.laboratoryFindings} compact />
-
-          {currentDuelImageUrls.length ? (
-            <div className="practice-question-images duel-question-images">
-              {currentDuelImageUrls.map((imageUrl, index) => {
-                const showWatermark = isWatermarkedUsmleImage(imageUrl);
-                return (
-                  <span
-                    className={`practice-question-image-frame duel-question-image-frame${showWatermark ? " practice-question-image-frame-usmle" : ""}`}
-                    key={`${currentDuelQuestion.id}-${imageUrl}`}
-                  >
-                    <img
-                      className="practice-question-image duel-question-image"
-                      src={getPracticeImageUrl(imageUrl)}
-                      alt={`Compete question ${duelIndex + 1} visual ${index + 1}`}
-                    />
-                    {showWatermark ? <span className="practice-question-image-watermark" aria-hidden="true">medicomm</span> : null}
-                  </span>
-                );
-              })}
-            </div>
-          ) : null}
-
-          {currentDuelQuestion.leadIn ? <h3 className="practice-question-lead-in">{currentDuelQuestion.leadIn}</h3> : null}
-
-          <div className="options-grid">
-            {currentDuelQuestion.options.map((option) => {
-              const isActive = currentDuelSelection === option;
-              return (
-                <button
-                  key={option}
-                  className={
-                    "option-card" +
-                    (isActive ? " option-active" : "")
-                  }
-                  onClick={() => {
-                    if (currentDuelSubmitted || duelAnswerBusy) return;
-                    setDuelSelections((current) => ({ ...current, [duelIndex]: option }));
-                  }}
-                >
-                  {option}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="quiz-actions">
-            <button className="button button-primary" onClick={submitDuelAnswer} disabled={!currentDuelSelection || currentDuelSubmitted || duelAnswerBusy}>
-              {duelAnswerBusy ? "Saving..." : currentDuelSubmitted ? "Locked" : "Lock answer"}
-            </button>
-            <button className="button button-secondary" onClick={nextDuelQuestion} disabled={!currentDuelSubmitted}>
-              {duelIndex === duelQuestions.length - 1 ? "Finish duel" : "Next question"}
-            </button>
-            <button className="button button-secondary" onClick={forfeitDuel}>
-              End match
-            </button>
-          </div>
-
-          {currentDuelSubmitted ? (
-            <div className="feedback-box feedback-good">
-              <strong>Answer locked in.</strong>
-              <p>Final score is verified by the server after the duel.</p>
-            </div>
-          ) : null}
-        </article>
-      </section>
-    );
-  }
-
-  function renderDuelResult() {
-    return (
-      <article className="card panel duel-result">
-        <div className="panel-heading-split">
-          <div>
-            <p className="eyebrow">Result</p>
-            <h3>
-              {!duelResult ? "Verifying match result..." : duelResult?.forfeited
-                ? "You forfeited the duel"
-                : duelResult?.verdict === "win"
-                ? "You won the duel"
-                : duelResult?.verdict === "loss"
-                  ? "You lost the duel"
-                  : "The duel ended in a draw"}
-            </h3>
-          </div>
-          <span className="rank-pill">
-            {duelResult?.ratingAffected === false
-              ? "Ratingless"
-              : duelResult
-                ? `${duelResult.delta > 0 ? "+" : ""}${duelResult.delta} rating`
-                : "Rated"}
-          </span>
-        </div>
-
-        <div className="duel-result-grid">
-          <div>
-            <span>Your score</span>
-            <strong>{duelResult?.userScore ?? "Pending"}</strong>
-          </div>
-          <div>
-            <span>Opponent score</span>
-            <strong>{duelResult?.opponentScore ?? "Pending"}</strong>
-          </div>
-          <div>
-            <span>New rating</span>
-            <strong>{duelResult?.nextRating ?? userRating}</strong>
-          </div>
-        </div>
-
-        {duelResult?.review?.length ? (
-          <div className="duel-review">
-            <button className="button button-secondary" onClick={() => setShowDuelReview(value => !value)} aria-expanded={showDuelReview}>
-              {showDuelReview ? "Hide answer review" : "Review answers"}
-            </button>
-            {showDuelReview ? <div className="duel-review-list">
-              {duelResult.review.map((question, index) => (
-                <article className="card panel" key={question.id}>
-                  <p className="eyebrow">Question {index + 1} ? {question.status === "correct" ? "Correct" : question.status === "incorrect" ? "Incorrect" : "Unanswered"}</p>
-                  <h3>{question.prompt}</h3>
-                  <QuestionLaboratoryTable findings={question.laboratoryFindings} compact />
-                  {getQuestionImageUrls(question).map((url, i) => <img className="duel-question-image" key={url} src={getPracticeImageUrl(url)} alt={`Question ${index + 1} visual ${i + 1}`} />)}
-                  {question.leadIn ? <p>{question.leadIn}</p> : null}
-                  <ol className="duel-review-options" type="A">
-                    {question.options.map((option, optionIndex) => <li key={optionIndex} className={optionIndex === question.correctIndex ? "feedback-box feedback-good" : optionIndex === question.selectedIndex ? "feedback-box feedback-bad" : "feedback-box"}>
-                      {option}{optionIndex === question.selectedIndex ? " ? Your answer" : ""}{optionIndex === question.correctIndex ? " ? Correct answer" : ""}
-                    </li>)}
-                  </ol>
-                  {question.selectedIndex === null ? <p>You did not lock an answer.</p> : null}
-                  {question.explanation ? <p><strong>Explanation: </strong>{question.explanation}</p> : null}
-                </article>
-              ))}
-            </div> : null}
-          </div>
-        ) : null}
-
-        <div className="quiz-actions">
-          <button className="button button-primary" onClick={() => resetDuel()} disabled={!duelResult}>
-            Duel again
-          </button>
-          <button className="button button-secondary" onClick={() => setActiveView("Leaderboard")}>
-            View leaderboard
-          </button>
-        </div>
-      </article>
-    );
+    return <CompeteArena
+      status={duelStatus} name={user?.name ?? "Challenger"} rating={userRating}
+      learners={platformSummary.users} attempts={platformSummary.attemptedQuestions}
+      questions={duelQuestions} minutes={DUEL_DURATION_SECONDS / 60}
+      queue={duelQueueInfo} message={duelMessage} mode={duelMode}
+      index={duelIndex} timeLeft={duelTimeLeft} answered={userDuelAnswered}
+      opponent={duelOpponent} opponentAnswered={duelOpponentProgress.answered}
+      selection={currentDuelSelection} locked={currentDuelSubmitted}
+      submitted={duelSubmitted} answerBusy={duelAnswerBusy}
+      result={duelResult} showReview={showDuelReview}
+      onStart={() => startDuel()} onBot={startBotDuel} onLeave={leaveDuelQueue}
+      onPractice={() => setActiveView("Practice")}
+      onLeaderboard={() => setActiveView("Leaderboard")}
+      onLock={submitDuelAnswer} onNext={nextDuelQuestion} onForfeit={forfeitDuel}
+      onAgain={() => resetDuel()} onToggleReview={() => setShowDuelReview(value => !value)}
+      onSelect={option => {
+        if (currentDuelSubmitted || duelAnswerBusy) return;
+        setDuelSelections(current => ({ ...current, [duelIndex]: option }));
+      }}
+      renderDetails={question => <>
+        <QuestionLaboratoryTable findings={question.laboratoryFindings} compact />
+        {getQuestionImageUrls(question).length > 0 && <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          {getQuestionImageUrls(question).map((imageUrl, index) => <span key={imageUrl} className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-700">
+            <img className="max-h-80 max-w-full object-contain" src={getPracticeImageUrl(imageUrl)} alt={`Question visual ${index + 1}`} />
+          </span>)}
+        </div>}
+      </>}
+    />;
   }
 
   function renderPublicProfile() {
@@ -5850,10 +5562,10 @@ async function fetchPracticeLibrary() {
         <div className="pricing-grid">{plans.map((plan) => <article className={`pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">★ Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} onClick={() => document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" })}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul></article>)}</div>
         <div className="pricing-assurance-strip">{assurances.map(([icon, title, copy]) => <div key={title}><span>{icon}</span><strong>{title}</strong><small>{copy}</small></div>)}</div>
         <article className="card panel payment-gateway-section" id="payment-gateway">
-          <div className="payment-copy"><p className="eyebrow">Payment gateway · future ready</p><h3>Secure checkout boundary</h3><p className="panel-copy">The interface is prepared for a PCI-compliant provider such as Razorpay or Stripe. MediComm will create orders and store payment status only. Raw card or UPI credentials will never touch the application server.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
-          <div className="payment-summary"><div><span>Selected plan</span><strong>MediComm Ultra</strong></div><div><span>Billing</span><strong>Annual</strong></div><div><span>Amount</span><strong>₹999</strong></div><button className="button button-primary" disabled>Checkout coming soon</button><small>No payment will be collected yet.</small></div>
+          <div className="payment-copy"><p className="eyebrow">Payment gateway · future ready</p><h3>Secure checkout boundary</h3><p className="panel-copy">The interface is prepared for a PCI-compliant provider such as Razorpay or Stripe. Medulla will create orders and store payment status only. Raw card or UPI credentials will never touch the application server.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
+          <div className="payment-summary"><div><span>Selected plan</span><strong>Medulla Ultra</strong></div><div><span>Billing</span><strong>Annual</strong></div><div><span>Amount</span><strong>₹999</strong></div><button className="button button-primary" disabled>Checkout coming soon</button><small>No payment will be collected yet.</small></div>
         </article>
-        <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using MediComm for free?</summary><p>Yes. Core daily practice and community features remain available on the free plan.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Sensitive payment collection will be hosted by a compliant payment provider; MediComm will retain only order and entitlement status.</p></details></div>
+        <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using Medulla for free?</summary><p>Yes. Core daily practice and community features remain available on the free plan.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Sensitive payment collection will be hosted by a compliant payment provider; Medulla will retain only order and entitlement status.</p></details></div>
       </section>
     );
   }
@@ -5915,7 +5627,7 @@ async function fetchPracticeLibrary() {
         <div className="card auth-card auth-loading-card">
           <div className="duel-loader" />
           <h2>Loading your session</h2>
-          <p className="panel-copy">Checking the local MediComm database and restoring your account.</p>
+          <p className="panel-copy">Checking the local Medulla database and restoring your account.</p>
         </div>
       </div>
     );

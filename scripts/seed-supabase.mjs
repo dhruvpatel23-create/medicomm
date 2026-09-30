@@ -10,7 +10,7 @@ const legacyDatabasePath = path.join(rootDir, "data", "users.json");
 
 const supabaseUrl = (process.env.SUPABASE_URL ?? "").replace(/\/$/, "");
 const serviceRoleKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_KEY ?? "";
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY || "";
 const tableName = process.env.SUPABASE_STATE_TABLE ?? "app_state";
 const stateKey = process.env.SUPABASE_STATE_KEY ?? "medicomm";
 
@@ -26,17 +26,20 @@ if (!existsSync(databasePath)) {
 }
 
 const data = JSON.parse(readFileSync(databasePath, "utf8"));
-const response = await fetch(`${supabaseUrl}/rest/v1/${encodeURIComponent(tableName)}?on_conflict=key`, {
+// Insert only: a duplicate key must fail rather than replace learner data.
+const response = await fetch(`${supabaseUrl}/rest/v1/${encodeURIComponent(tableName)}`, {
   method: "POST",
+  signal: AbortSignal.timeout(15000),
   headers: {
     apikey: serviceRoleKey,
     Authorization: `Bearer ${serviceRoleKey}`,
     "Content-Type": "application/json",
-    Prefer: "resolution=merge-duplicates,return=minimal",
+    Prefer: "return=minimal",
   },
   body: JSON.stringify({
     key: stateKey,
     data,
+    revision: 0,
     updated_at: new Date().toISOString(),
   }),
 });

@@ -42,8 +42,8 @@ If numbered labels exist, convert the numbers to Roman numerals inside teal circ
 retaining the original pointer lines. Marker text must be high contrast: use white or bright yellow
 numerals inside dark green/teal markers, never dark numerals on dark markers. Preserve letter labels. If arrows exist without numbered labels,
 preserve them and add no labels. If no arrows or labels exist, add none. Remove unrelated watermarks
-and non-anatomical clutter. Preserve anatomically important text only when necessary. Add a small,
-subtle light-gray "medicomm" watermark at about 20% opacity in the bottom-left corner.
+and non-anatomical clutter. Preserve anatomically important text only when necessary.
+Do not add any branding or watermark.
 
 The result must be a clean, scientifically faithful medical atlas image suitable for postgraduate
 medical education. Output only the finished image."""
@@ -201,7 +201,7 @@ def apply_generated(args: argparse.Namespace) -> None:
     row = find_row(args.question_id, args.image_slot)
     target_url = sync_generated_image(Path(args.generated_path), row["targetUrl"])
     note = args.note or (
-        "Medicomm atlas-style educational schematic generated from the original source image; "
+        "Medulla atlas-style educational schematic generated from the original source image; "
         "black background, source anatomy preserved."
     )
     update_bank(args.question_id, int(args.image_slot), row["sourceUrl"], target_url, note)
@@ -335,7 +335,7 @@ def batch_generate(args: argparse.Namespace) -> None:
                         image_slot=completed_row["imageSlot"],
                         generated_path=str(output_path),
                         note=(
-                            "Medicomm atlas-style educational image generated from the original source image "
+                            "Medulla atlas-style educational image generated from the original source image "
                             "with the OpenAI Images API; black background, source anatomy preserved."
                         ),
                     )
@@ -351,7 +351,7 @@ def batch_generate(args: argparse.Namespace) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Medicomm atlas image migration helper")
+    parser = argparse.ArgumentParser(description="Medulla atlas image migration helper")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     subparsers.add_parser("status")

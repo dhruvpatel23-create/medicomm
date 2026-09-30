@@ -62,7 +62,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
         id: "system-welcome-notifications",
         type: "system",
         title: "Notifications are now live",
-        text: "Messages and important MediComm updates will appear here.",
+        text: "Messages and important Medulla updates will appear here.",
         createdAt: "2026-07-29T17:00:00.000Z",
         destination: "Dashboard",
       },
@@ -121,7 +121,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
         <div className="sidebar-brand-row">
           <button className="brand brand-button" type="button" onClick={() => navigate("Home")}>
             <span className="brand-mark" aria-hidden="true"><BrandMark title="" /></span>
-            <span className="brand-copy"><strong><span className="brand-medi">Medi</span><span className="brand-comm">Comm</span></strong><small>Medical learning</small></span>
+            <span className="brand-copy"><strong><span className="brand-medi">Med</span><span className="brand-comm">ulla</span></strong><small>Medical learning</small></span>
           </button>
           <button className="icon-button sidebar-close" type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Close navigation"><X size={19} /></button>
         </div>
@@ -184,7 +184,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
                           {isUnread ? <i aria-label="Unread" /> : null}
                         </DropdownMenu.Item>
                       );
-                    }) : <div className="notification-empty"><Bell size={22} /><strong>No notifications</strong><span>New messages and MediComm updates will appear here.</span></div>}
+                    }) : <div className="notification-empty"><Bell size={22} /><strong>No notifications</strong><span>New messages and Medulla updates will appear here.</span></div>}
                   </div>
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
@@ -211,7 +211,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
       </nav>
 
       <Dialog.Root open={commandOpen} onOpenChange={setCommandOpen}><Dialog.Portal><Dialog.Overlay className="dialog-overlay" /><Dialog.Content className="command-dialog" aria-describedby={undefined}>
-        <Dialog.Title className="sr-only">Search MediComm</Dialog.Title>
+        <Dialog.Title className="sr-only">Search Medulla</Dialog.Title>
         <div className="command-input-wrap"><Search size={20} /><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search pages, subjects, or actions…" aria-label="Search" /><kbd>Esc</kbd></div>
         <div className="command-results"><p>Quick navigation</p>{commandResults.length ? commandResults.map((item) => { const Icon = iconMap[item] ?? Command; return <button key={item} type="button" onClick={() => navigate(item)}><span><Icon size={18} />{item}</span><small>Open</small></button>; }) : <div className="command-empty">No matching destination. Try “Practice” or “Analytics”.</div>}</div>
       </Dialog.Content></Dialog.Portal></Dialog.Root>

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <!-- Solid pure black #000000 background edge to edge -->
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <!-- Medical Cel Shading & Soft Gradients -->
+    <radialGradient id="glowSoft" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="heMatox" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#831843"/>
+      <stop offset="70%" stop-color="#4c0519"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </radialGradient>
+    <!-- Thin Gold Arrowhead for precise question markers -->
+    <marker id="goldArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#f59e0b"/>
+    </marker>
+    <marker id="cyanArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+
+  <g transform="translate(100, 100)">
+    <!-- Dual Panel: Left Anterior Rhinoscopy, Right High-Power Histopathology -->
+    
+    <!-- Left Panel: Strawberry-like Polypoid Mass with White Dots -->
+    <g transform="translate(50, 40)">
+      <circle cx="200" cy="300" r="220" fill="#020617" stroke="#475569" stroke-width="5"/>
+      
+      <!-- Fleshy Red Polyp -->
+      <g transform="translate(200, 300)">
+        <ellipse cx="0" cy="0" rx="100" ry="115" fill="#be123c" stroke="#e11d48" stroke-width="4"/>
+        <circle cx="-35" cy="-25" r="60" fill="#9f1239"/>
+        <circle cx="25" cy="35" r="70" fill="#881337"/>
+        
+        <!-- Macroscopic White Spots (Visible Mature Sporangia on Surface) -->
+        <circle cx="-30" cy="-40" r="6" fill="#ffffff"/><circle cx="15" cy="-55" r="5" fill="#ffffff"/>
+        <circle cx="-50" cy="0" r="5.5" fill="#ffffff"/><circle cx="0" cy="15" r="6.5" fill="#ffffff"/>
+        <circle cx="50" cy="-15" r="6" fill="#ffffff"/><circle cx="35" cy="40" r="5" fill="#ffffff"/>
+        <circle cx="-20" cy="55" r="6" fill="#ffffff"/><circle cx="65" cy="20" r="4.5" fill="#ffffff"/>
+        <circle cx="-15" cy="-20" r="5.5" fill="#ffffff"/>
+      </g>
+      <text x="200" y="560" fill="#94a3b8" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Anterior Rhinoscopy</text>
+    </g>
+
+    <!-- Right Panel: High-Power Histopathology with Giant Double-Walled Sporangia -->
+    <g transform="translate(550, 40)">
+      <circle cx="200" cy="300" r="220" fill="url(#heMatox)" stroke="#475569" stroke-width="5"/>
+      
+      <!-- Mature Sporangium 1: Packed with Hundreds of Endospores -->
+      <circle cx="160" cy="250" r="90" fill="#4c0519" stroke="#fda4af" stroke-width="6"/>
+      <g fill="#f43f5e">
+        <circle cx="130" cy="220" r="6"/><circle cx="160" cy="210" r="6"/><circle cx="190" cy="235" r="6"/>
+        <circle cx="145" cy="260" r="6"/><circle cx="175" cy="275" r="6"/><circle cx="205" cy="260" r="6"/>
+        <circle cx="125" cy="245" r="5.5"/><circle cx="170" cy="245" r="6"/><circle cx="140" cy="285" r="6"/>
+        <circle cx="115" cy="210" r="5"/><circle cx="195" cy="210" r="5.5"/><circle cx="180" cy="295" r="5"/>
+      </g>
+
+      <!-- Rupturing Sporangium 2 Releasing Endospores into Stroma -->
+      <path d="M 280 370 C 250 280, 340 230, 390 280 C 420 310, 400 390, 340 400" 
+            fill="#4c0519" stroke="#fda4af" stroke-width="6"/>
+      <g fill="#fb7185">
+        <circle cx="400" cy="390" r="6"/><circle cx="420" cy="405" r="6"/><circle cx="380" cy="420" r="6"/>
+        <circle cx="435" cy="385" r="5.5"/><circle cx="440" cy="425" r="5"/>
+      </g>
+
+      <!-- Small Immature Sporangium -->
+      <circle cx="270" cy="170" r="40" fill="#881337" stroke="#f43f5e" stroke-width="4"/>
+      
+      <text x="200" y="560" fill="#94a3b8" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Biopsy Histopathology (H&amp;E)</text>
+    </g>
+  </g>
+
+
+  <!-- Small exact lowercase 'medicomm' watermark in light gray at bottom-left with safe margin -->
+  
+</svg>

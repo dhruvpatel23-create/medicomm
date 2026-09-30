@@ -14,7 +14,7 @@
     <line x1="5" y1="0" x2="5" y2="14" stroke="#f43f5e" stroke-width="4"/>
   </marker>
 </defs>
-<text x="36" y="1050" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" letter-spacing="1">medicomm</text>
+
 <text x="724" y="60" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" text-anchor="middle">HIV Replication Cycle &amp; Drug Target Sites</text>
 <rect x="120" y="110" width="1208" height="900" fill="#0f172a" stroke="#334155" stroke-width="3" rx="16"/>
 <text x="280" y="150" fill="#06b6d4" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Host CD4+ T-Lymphocyte</text>

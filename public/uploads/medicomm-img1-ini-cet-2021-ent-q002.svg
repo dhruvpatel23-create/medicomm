@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <!-- Solid pure black #000000 background edge to edge -->
+  <rect width="1200" height="900" fill="#000000"/>
+  
+  <defs>
+    <!-- Medical Cel Shading & Soft Gradients -->
+    <radialGradient id="glowSoft" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="heMatox" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#831843"/>
+      <stop offset="70%" stop-color="#4c0519"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </radialGradient>
+    <!-- Thin Gold Arrowhead for precise question markers -->
+    <marker id="goldArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#f59e0b"/>
+    </marker>
+    <marker id="cyanArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <polygon points="0,1.5 8,4.5 0,7.5 2,4.5" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+
+  <g transform="translate(280, 80)">
+    <!-- Anterior Facial Symmetry / Asymmetry Outline -->
+    <path d="M 160 100 Q 320 40 480 100 C 560 180, 580 340, 560 520 C 540 680, 440 760, 320 780 C 200 760, 100 680, 80 520 C 60 340, 80 180, 160 100 Z" 
+          fill="#1e293b" stroke="#334155" stroke-width="4"/>
+
+    <!-- Right Eye & Orbit (Normal Side) -->
+    <g transform="translate(180, 280)">
+      <ellipse cx="0" cy="0" rx="35" ry="20" fill="#0f172a" stroke="#475569" stroke-width="3"/>
+      <circle cx="0" cy="0" r="10" fill="#38bdf8"/>
+      <path d="M -40 -20 Q 0 -35 40 -20" stroke="#64748b" stroke-width="3.5" fill="none"/>
+    </g>
+
+    <!-- Midline Nose -->
+    <path d="M 320 250 L 310 400 L 290 430 Q 320 445 350 430 L 330 400" stroke="#475569" stroke-width="3.5" fill="none"/>
+
+    <!-- Left Facial Tumefaction, Severe Periorbital Edema & Erythema (Pathology Side) -->
+    <!-- Diffuse Soft Tissue Swelling -->
+    <ellipse cx="440" cy="350" rx="100" ry="110" fill="#881337" opacity="0.6" stroke="#be123c" stroke-width="3"/>
+    
+    <!-- Proptosed, Tense, Chemotic Left Orbit -->
+    <g transform="translate(440, 280)">
+      <ellipse cx="0" cy="0" rx="46" ry="28" fill="#4c0519" stroke="#f43f5e" stroke-width="4"/>
+      <!-- Edematous, Chemotic Conjunctiva Extruding -->
+      <ellipse cx="0" cy="0" rx="32" ry="16" fill="#be123c" stroke="#fca5a5" stroke-width="2"/>
+      <circle cx="4" cy="0" r="9" fill="#000000"/>
+      <!-- Tense Swollen Upper & Lower Eyelids -->
+      <path d="M -50 -15 Q 0 -45 50 -15" stroke="#e11d48" stroke-width="6" fill="none"/>
+      <path d="M -50 15 Q 0 45 50 15" stroke="#e11d48" stroke-width="6" fill="none"/>
+    </g>
+
+    <!-- Necrotic Erythematous Midfacial Induration -->
+    <ellipse cx="420" cy="420" rx="65" ry="45" fill="#4c0519" opacity="0.8" stroke="#991b1b" stroke-width="3"/>
+
+    <!-- Mouth -->
+    <path d="M 260 580 Q 320 600 380 580" stroke="#475569" stroke-width="4" fill="none"/>
+
+    <!-- Gold Arrow pointing to the tense periorbital tumefaction -->
+    <g transform="translate(600, 280)">
+      <line x1="80" y1="-30" x2="10" y2="0" stroke="#f59e0b" stroke-width="4" marker-end="url(#goldArrow)"/>
+    </g>
+  </g>
+
+
+  <!-- Small exact lowercase 'medicomm' watermark in light gray at bottom-left with safe margin -->
+  
+</svg>

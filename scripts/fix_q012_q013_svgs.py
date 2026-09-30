@@ -113,7 +113,7 @@ svg_neet_2020_q012 = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100
   <text x="500" y="922" fill="#64748b" font-family="sans-serif" font-size="13" font-style="italic" text-anchor="middle">Symmetrical Bell Curve: Mean = Median = Mode | Total Area under normal curve = 1 (100%)</text>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 svg_neet_2020_q013 = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
@@ -289,7 +289,7 @@ svg_neet_2020_q013 = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100
   </g>
 
   <!-- Single Watermark -->
-  <text x="40" y="970" fill="#475569" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500" letter-spacing="1">medicomm</text>
+  
 </svg>"""
 
 out_dir = r"d:\medicomm\dhruv1\output\imagegen\community-medicine-2020-2021-img1"

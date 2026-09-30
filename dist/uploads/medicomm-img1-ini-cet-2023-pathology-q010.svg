@@ -66,5 +66,5 @@
     <path d="M -143,0 L -90,40" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
     <circle cx="-90" cy="40" r="6" fill="#fde047"/>
   </g>
-  <text x="40" y="675" font-family="monospace" font-size="14" font-weight="700" fill="#64748b" letter-spacing="1">medicomm</text>
+  
 </svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+<rect width="1200" height="900" fill="#000000"/>
+<text x="600" y="70" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle">PURE TONE AUDIOMETRIC THRESHOLD</text>
+<rect x="200" y="130.0" width="840" height="147.69230769230774" fill="#10b981" fill-opacity="0.08"/>
+<text x="1025" y="152.0" fill="#10b981" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="end" opacity="0.8">NORMAL HEARING (0-20 dB HL)</text>
+<line x1="200" y1="130.0" x2="1040" y2="130.0" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="136.0" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">-10</text>
+<line x1="200" y1="179.2" x2="1040" y2="179.2" stroke="#475569" stroke-width="2.5"/>
+<text x="180" y="185.2" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">0</text>
+<line x1="200" y1="228.5" x2="1040" y2="228.5" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="234.5" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">10</text>
+<line x1="200" y1="277.7" x2="1040" y2="277.7" stroke="#475569" stroke-width="1.5"/>
+<text x="180" y="283.7" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">20</text>
+<line x1="200" y1="326.9" x2="1040" y2="326.9" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="332.9" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">30</text>
+<line x1="200" y1="376.2" x2="1040" y2="376.2" stroke="#475569" stroke-width="1.5"/>
+<text x="180" y="382.2" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">40</text>
+<line x1="200" y1="425.4" x2="1040" y2="425.4" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="431.4" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">50</text>
+<line x1="200" y1="474.6" x2="1040" y2="474.6" stroke="#475569" stroke-width="1.5"/>
+<text x="180" y="480.6" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">60</text>
+<line x1="200" y1="523.8" x2="1040" y2="523.8" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="529.8" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">70</text>
+<line x1="200" y1="573.1" x2="1040" y2="573.1" stroke="#475569" stroke-width="1.5"/>
+<text x="180" y="579.1" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">80</text>
+<line x1="200" y1="622.3" x2="1040" y2="622.3" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="628.3" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">90</text>
+<line x1="200" y1="671.5" x2="1040" y2="671.5" stroke="#475569" stroke-width="1.5"/>
+<text x="180" y="677.5" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">100</text>
+<line x1="200" y1="720.8" x2="1040" y2="720.8" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="726.8" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">110</text>
+<line x1="200" y1="770.0" x2="1040" y2="770.0" stroke="#475569" stroke-width="1.5"/>
+<text x="180" y="776.0" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="end">120</text>
+<line x1="200.0" y1="130" x2="200.0" y2="770" stroke="#334155" stroke-width="1.5"/>
+<text x="200.0" y="110" fill="#38bdf8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">125</text>
+<line x1="340.0" y1="130" x2="340.0" y2="770" stroke="#334155" stroke-width="1.5"/>
+<text x="340.0" y="110" fill="#38bdf8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">250</text>
+<line x1="480.0" y1="130" x2="480.0" y2="770" stroke="#334155" stroke-width="1.5"/>
+<text x="480.0" y="110" fill="#38bdf8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">500</text>
+<line x1="620.0" y1="130" x2="620.0" y2="770" stroke="#334155" stroke-width="1.5"/>
+<text x="620.0" y="110" fill="#38bdf8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">1k</text>
+<line x1="760.0" y1="130" x2="760.0" y2="770" stroke="#334155" stroke-width="1.5"/>
+<text x="760.0" y="110" fill="#38bdf8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">2k</text>
+<line x1="900.0" y1="130" x2="900.0" y2="770" stroke="#334155" stroke-width="1.5"/>
+<text x="900.0" y="110" fill="#38bdf8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">4k</text>
+<line x1="1040.0" y1="130" x2="1040.0" y2="770" stroke="#334155" stroke-width="1.5"/>
+<text x="1040.0" y="110" fill="#38bdf8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">8k</text>
+<rect x="200" y="130" width="840" height="640" fill="none" stroke="#64748b" stroke-width="2.5"/>
+<text x="600" y="820" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">Frequency (Hz)</text>
+<text x="90" y="450" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" transform="rotate(-90 90 450)">Hearing Level (dB HL)</text>
+<path d="M 200.0 425.4 L 340.0 450.0 L 480.0 400.8 L 620.0 326.9 L 760.0 253.1 L 900.0 253.1 L 1040.0 228.5" fill="none" stroke="#ef4444" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="200.0" cy="425.4" r="8" fill="#000000" stroke="#ef4444" stroke-width="4"/>
+<circle cx="340.0" cy="450.0" r="8" fill="#000000" stroke="#ef4444" stroke-width="4"/>
+<circle cx="480.0" cy="400.8" r="8" fill="#000000" stroke="#ef4444" stroke-width="4"/>
+<circle cx="620.0" cy="326.9" r="8" fill="#000000" stroke="#ef4444" stroke-width="4"/>
+<circle cx="760.0" cy="253.1" r="8" fill="#000000" stroke="#ef4444" stroke-width="4"/>
+<circle cx="900.0" cy="253.1" r="8" fill="#000000" stroke="#ef4444" stroke-width="4"/>
+<circle cx="1040.0" cy="228.5" r="8" fill="#000000" stroke="#ef4444" stroke-width="4"/>
+<g transform="translate(240, 710)">
+<rect x="0" y="0" width="220" height="45" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+<line x1="20" y1="22" x2="60" y2="22" stroke="#ef4444" stroke-width="3.5"/>
+<circle cx="40" cy="22" r="6" fill="#000000" stroke="#ef4444" stroke-width="3"/>
+<text x="80" y="28" fill="#f8fafc" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Right Ear (AC)</text>
+</g>
+
+</svg>
