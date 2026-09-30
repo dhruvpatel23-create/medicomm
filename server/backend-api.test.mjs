@@ -93,6 +93,18 @@ test('remote storage outages fail readiness and never acknowledge failed writes'
     child.stdout.on('data', chunk => { output += chunk; const match = output.match(/listening on http:\/\/127.0.0.1:(\d+)/); if (match) resolve(`http://127.0.0.1:${match[1]}`); });
   });
   assert.equal((await fetch(address + '/health/ready')).status, 200);
+  // Module scripts send Origin even on the same site. Public custom domains
+  // must load the HTML's actual script, not receive a JSON origin rejection.
+  const html = await (await fetch(address + '/')).text();
+  const script = html.match(/<script[^>]+src="([^"]+)"/);
+  assert.ok(script, 'built HTML includes a module script');
+  for (const origin of ['https://medullaprep.com', 'https://www.medullaprep.com']) {
+    const asset = await fetch(address + script[1], { headers: { Origin: origin } });
+    assert.equal(asset.status, 200);
+    assert.match(asset.headers.get('content-type'), /javascript/);
+    assert.equal((await fetch(address + '/api/auth/session', { headers: { Origin: origin } })).status, 401);
+  }
+  assert.equal((await fetch(address + script[1], { headers: { Origin: 'https://untrusted.example' } })).status, 403);
   outage = true;
   assert.equal((await fetch(address + '/health/live')).status, 200);
   assert.equal((await fetch(address + '/health/ready')).status, 503);

@@ -1,9 +1,11 @@
 export function deploymentConfig(env = process.env) {
   const production = env.NODE_ENV === 'production';
   // Render provides this trusted service URL; never infer allowed origins from
-  // incoming Host / Origin headers. Custom domains remain explicitly configured.
+  // incoming Host / Origin headers. Include this app's known public domains.
   const renderOrigin = env.RENDER_EXTERNAL_URL || '';
-  const origins = env.APP_ORIGINS || renderOrigin || (production ? '' :
+  const renderOrigins = renderOrigin ?
+    [renderOrigin, 'https://medullaprep.com', 'https://www.medullaprep.com'].join(',') : '';
+  const origins = env.APP_ORIGINS || renderOrigins || (production ? '' :
     'http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173,http://localhost:4174,http://127.0.0.1:4174');
   const allowedOrigins = new Set(origins.split(',').map(value => value.trim()).filter(Boolean));
   const uploadBucket = env.SUPABASE_UPLOAD_BUCKET || (renderOrigin ? 'medicomm-uploads' : '');

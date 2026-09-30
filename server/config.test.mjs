@@ -11,7 +11,7 @@ const render = {
 
 test('existing Render services use the platform origin and private upload bucket default', () => {
   const config = deploymentConfig(render);
-  assert.deepEqual([...config.allowedOrigins], [render.RENDER_EXTERNAL_URL]);
+  assert.deepEqual([...config.allowedOrigins], [render.RENDER_EXTERNAL_URL, 'https://medullaprep.com', 'https://www.medullaprep.com']);
   assert.equal(config.uploadBucket, 'medicomm-uploads');
 });
 

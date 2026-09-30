@@ -14,7 +14,7 @@ services:
       - key: SUPABASE_SECRET_KEY
         sync: false
       - key: APP_ORIGINS
-        sync: false
+        value: https://medullaprep.com,https://www.medullaprep.com
       - key: SUPABASE_UPLOAD_BUCKET
         value: medicomm-uploads
       - key: TRUST_PROXY
