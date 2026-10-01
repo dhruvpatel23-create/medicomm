@@ -57,7 +57,7 @@ async function main() {
   const hasExistingClient = await isPortResponsive(4173);
 
   if (!hasExistingServer) {
-    serverProcess = spawn("node", ["server.mjs"], {
+    serverProcess = spawn("node", ["--watch", "server.mjs"], {
       cwd: rootDir,
       stdio: "inherit",
     });

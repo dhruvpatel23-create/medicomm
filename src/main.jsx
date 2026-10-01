@@ -6,6 +6,7 @@ import App from "./App";
 import "./styles.css";
 import "./redesign.css";
 import "./reviews.css";
+import "./light-theme.css";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1, refetchOnWindowFocus: false } },

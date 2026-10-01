@@ -1,0 +1,102 @@
+﻿/* Light-only refinements keep the established dark palette independent. */
+:root:not([data-theme="dark"]) {
+  color-scheme: light;
+  --ui-bg: #f0f3f8;
+  --ui-surface: #ffffff;
+  --ui-soft: #f5f7fb;
+  --ui-ink: #192a43;
+  --ui-muted: #596b82;
+  --ui-line: #dce3ee;
+  --ui-brand: #245dce;
+  --ui-brand-hover: #194bad;
+  --ui-brand-soft: #eaf1ff;
+  --ui-success: #087650;
+  --ui-shadow-sm: 0 1px 3px #20385806, 0 6px 22px #20385806;
+  --ui-shadow-md: 0 3px 8px #20385808, 0 18px 44px #2038580d;
+}
+:root:not([data-theme="dark"]) body {
+  background: radial-gradient(ellipse at 85% 0%, #e3ecfb 0, transparent 42rem), var(--ui-bg);
+}
+:root:not([data-theme="dark"]) .app-sidebar {
+  background: #fbfcfe;
+  border-right-color: var(--ui-line);
+  box-shadow: 4px 0 24px #20385804;
+}
+:root:not([data-theme="dark"]) .app-shell-v2 .topbar {
+  background: rgba(250, 252, 255, .9);
+  border-bottom-color: var(--ui-line);
+}
+:root:not([data-theme="dark"]) :is(.shell-nav-group > p, .page-context span) { color: #65758b; }
+:root:not([data-theme="dark"]) .shell-nav-link { color: #52647c; }
+:root:not([data-theme="dark"]) .shell-nav-link:hover { background: #edf2fa; color: #243f65; }
+:root:not([data-theme="dark"]) :is(.shell-nav-link-active, .shell-nav-link-active:hover) {
+  color: #1e50b1;
+  background: linear-gradient(110deg, #e2ecff, #edf3ff);
+  box-shadow: inset 3px 0 #306ad9, inset 0 0 0 1px #d5e3fc;
+}
+:root:not([data-theme="dark"]) :is(.command-trigger, .topbar-stat, .icon-button) {
+  background: #fff;
+  border-color: var(--ui-line);
+  color: var(--ui-muted);
+}
+:root:not([data-theme="dark"]) .topbar-stat > svg { color: #b86c08; }
+:root:not([data-theme="dark"]) :is(.command-trigger:hover, .icon-button:hover) {
+  background: var(--ui-brand-soft);
+  border-color: #b8ccef;
+  color: var(--ui-brand);
+}
+:root:not([data-theme="dark"]) .card {
+  background: var(--ui-surface);
+  border-color: var(--ui-line);
+  box-shadow: var(--ui-shadow-sm);
+}
+:root:not([data-theme="dark"]) .summary-card { background: linear-gradient(145deg, #fff 55%, #f5f8fe); }
+:root:not([data-theme="dark"]) :is(.summary-card > span, .panel-copy, .view-subtitle) { color: var(--ui-muted); }
+:root:not([data-theme="dark"]) .continue-card {
+  border-color: #c6d8f5;
+  background: radial-gradient(ellipse at top right, #dfeaff, transparent 70%), #fff;
+  box-shadow: 0 8px 28px #245dce0a;
+}
+:root:not([data-theme="dark"]) .exam-countdown-card {
+  background: linear-gradient(150deg, #fff, #edf4ff);
+  border-color: #ceddf3;
+}
+:root:not([data-theme="dark"]) .continue-progress { background: #dce6f6; }
+:root:not([data-theme="dark"]) .button-primary {
+  color: #fff;
+  background: linear-gradient(135deg, #2c69df, #2055bf);
+  box-shadow: 0 4px 10px #245dce24;
+}
+:root:not([data-theme="dark"]) .button-primary:hover {
+  background: linear-gradient(135deg, #245dce, #194bad);
+  box-shadow: 0 6px 16px #245dce30;
+}
+:root:not([data-theme="dark"]) .button-secondary { background: #fff; border-color: #ccd7e6; color: #334c6e; }
+:root:not([data-theme="dark"]) .button-secondary:hover { background: #edf3fd; border-color: #afc5e8; }
+:root:not([data-theme="dark"]) :is(.field input, .field select, .field textarea, .state-search-input) {
+  background: #fbfcfe;
+  border-color: #cad5e4;
+  color: var(--ui-ink);
+}
+:root:not([data-theme="dark"]) :is(input, textarea)::placeholder { color: #697b92; opacity: 1; }
+:root:not([data-theme="dark"]) :is(button, input, textarea, select, summary, a):focus-visible {
+  outline: 3px solid #306ad9;
+  outline-offset: 3px;
+}
+:root:not([data-theme="dark"]) .practice-year-section { background: #f8faff; border-color: #d6e0ef; }
+:root:not([data-theme="dark"]) .practice-subject-card { background: #fff; border-color: #d8e2ef; }
+:root:not([data-theme="dark"]) :is(.practice-subject-card:hover, .practice-subject-card-active) {
+  background: #f1f6ff;
+  border-color: #8baded;
+  box-shadow: 0 8px 24px #245dce12;
+}
+:root:not([data-theme="dark"]) :is(.account-menu, .command-dialog, .notification-menu) {
+  background: #fff;
+  border-color: #d3deed;
+  box-shadow: 0 18px 56px #20385826;
+}
+:root:not([data-theme="dark"]) .mobile-nav {
+  background: rgba(255, 255, 255, .97);
+  border-color: #d3deed;
+  box-shadow: 0 8px 32px #20385824;
+}

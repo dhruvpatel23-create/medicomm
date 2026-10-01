@@ -2689,6 +2689,35 @@ function handleUserSearch(request, response, url) {
   return sendJson(response, 200, { users });
 }
 
+async function handleFriends(request, response) {
+  // Read the latest snapshot after the request body has arrived.
+  const payload = request.method === "POST" ? await parseRequestBody(request) : null;
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return;
+
+  const friendIds = new Set(currentUser.friendIds ?? []);
+  if (request.method === "POST") {
+    const targetId = String(payload?.userId ?? "").trim();
+    if (!targetId || targetId === currentUser.id) {
+      return sendJson(response, 400, { message: "Choose another learner to add as a friend." });
+    }
+    if (!database.users.some(user => user.id === targetId)) {
+      return sendJson(response, 404, { message: "That learner could not be found." });
+    }
+    if (!friendIds.has(targetId)) {
+      friendIds.add(targetId);
+      currentUser.friendIds = [...friendIds];
+      await writeDatabase(database);
+    }
+  }
+  const friends = database.users
+    .filter(user => user.id !== currentUser.id && friendIds.has(user.id))
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map(user => sanitizeSearchableUser(user, currentUser.id));
+  return sendJson(response, 200, { friends });
+}
+
 function handleDirectConversationsList(request, response) {
   const database = readDatabase();
   const currentUser = requireSessionUser(request, response, database);
@@ -3472,6 +3501,7 @@ async function handleRequest(request, response) {
       return await handleAdvanceClinicalCaseSession(request, response, clinicalCaseAdvanceMatch[1]);
     }
     if (request.method === "GET" && url.pathname === "/api/users/search") return handleUserSearch(request, response, url);
+    if ((request.method === "GET" || request.method === "POST") && url.pathname === "/api/friends") return await handleFriends(request, response);
     if (request.method === "GET" && url.pathname === "/api/direct-messages") return handleDirectConversationsList(request, response);
     if (request.method === "POST" && url.pathname === "/api/direct-messages/open")
       return await handleOpenDirectConversation(request, response);

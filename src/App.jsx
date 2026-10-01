@@ -2,6 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AppShell } from "./components/AppShellV2";
 import WebsiteReviews from "./components/WebsiteReviews";
 import CompeteArena from "./components/CompeteArena";
+import Leaderboard from "./components/Leaderboard";
+import CommunityHub from "./components/CommunityHub";
+import { socialPage, surface as socialSurface, primary as socialPrimary, secondary as socialSecondary, field as socialField, avatar as socialAvatar } from "./components/SocialUI";
 import PracticeSelection from "./components/PracticeSelection";
 import UsmleModules from "./components/UsmleModules";
 import FmgeYears from "./components/FmgeYears";
@@ -590,7 +593,6 @@ function App() {
   const [duelForfeited, setDuelForfeited] = useState(false);
   const [selectedLeaderboardState, setSelectedLeaderboardState] = useState("");
   const [selectedLeaderboardCollege, setSelectedLeaderboardCollege] = useState("");
-  const [stateSearchTerm, setStateSearchTerm] = useState("");
   const [authStatus, setAuthStatus] = useState("loading");
   const [authMode, setAuthMode] = useState("login");
   const [authBusy, setAuthBusy] = useState(false);
@@ -855,12 +857,6 @@ function App() {
 
   const selectedStateEntry =
     leaderboardStateOptions.find((entry) => entry.state === selectedLeaderboardState) ?? leaderboardStateOptions[0];
-
-  const filteredStateLeaderboard = useMemo(() => {
-    const normalizedQuery = stateSearchTerm.trim().toLowerCase();
-    if (!normalizedQuery) return leaderboardStateOptions;
-    return leaderboardStateOptions.filter((entry) => entry.state.toLowerCase().includes(normalizedQuery));
-  }, [leaderboardStateOptions, stateSearchTerm]);
 
   const selectedLeaderboardCollegeOptions = selectedStateEntry?.state && selectedStateEntry.state !== ABROAD_STATE
     ? medicalCollegesByState[selectedStateEntry.state] ?? []
@@ -1193,16 +1189,8 @@ async function fetchPracticeLibrary() {
   }, [activeView, authStatus, directSearchTerm]);
 
   useEffect(() => {
-    if (!stateSearchTerm.trim()) return;
-    if (filteredStateLeaderboard.length === 1) {
-      setSelectedLeaderboardState(filteredStateLeaderboard[0].state);
-      setSelectedLeaderboardCollege("");
-    }
-  }, [filteredStateLeaderboard, stateSearchTerm]);
-
-  useEffect(() => {
-    if (!selectedStateEntry && filteredStateLeaderboard.length) {
-      setSelectedLeaderboardState(filteredStateLeaderboard[0].state);
+    if (!selectedStateEntry && leaderboardStateOptions.length) {
+      setSelectedLeaderboardState(leaderboardStateOptions[0].state);
       setSelectedLeaderboardCollege("");
       return;
     }
@@ -1210,7 +1198,7 @@ async function fetchPracticeLibrary() {
     if (!selectedLeaderboardState && currentUserLeaderboardEntry?.state) {
       setSelectedLeaderboardState(currentUserLeaderboardEntry.state);
     }
-  }, [currentUserLeaderboardEntry, filteredStateLeaderboard, selectedLeaderboardState, selectedStateEntry]);
+  }, [currentUserLeaderboardEntry, leaderboardStateOptions, selectedLeaderboardState, selectedStateEntry]);
 
   useEffect(() => {
     if (!selectedLeaderboardCollege) return;
@@ -4507,257 +4495,64 @@ async function fetchPracticeLibrary() {
   }
 
   function renderLeaderboard() {
-    return (
-      <section className="app-view">
-        <div className="view-header">
-          <div>
-            <p className="eyebrow">Leaderboard</p>
-            <h2>Weekly rankings</h2>
-            <p className="panel-copy">National ranks and state ranks, sorted by score.</p>
-          </div>
-          <button className="button button-secondary" onClick={() => setActiveView("Compete")}>
-            Join a challenge
-          </button>
-        </div>
-
-        {liveLeaderboard.length >= 3 ? (
-          <div className="leaderboard-podium" aria-label="Top three learners">
-            {[liveLeaderboard[1], liveLeaderboard[0], liveLeaderboard[2]].map((player, index) => {
-              const place = [2, 1, 3][index];
-              return (
-                <article className={`podium-card podium-${place}`} key={player.id || player.name}>
-                  <span className="podium-medal" aria-label={`Rank ${place}`}>{place}</span>
-                  <div className="podium-avatar">{getInitials(player.name)}</div>
-                  <strong title={player.name}>{player.isCurrentUser ? "You" : player.name}</strong>
-                  <small title={`${player.state}, ${player.college}`}>{player.state}</small>
-                  <em>{player.score} pts</em>
-                  <div className="podium-level">Level {Math.max(1, Math.floor(player.score / 250))}</div>
-                </article>
-              );
-            })}
-          </div>
-        ) : null}
-
-        <div className="leaderboard-shell">
-          <article className="card panel leaderboard-panel leaderboard-national-panel">
-            <div className="leaderboard-panel-head">
-              <div>
-                <h3>National</h3>
-                <p className="panel-copy">{liveLeaderboard.length} ranked learners</p>
-              </div>
-              <span className="rank-pill">This week</span>
-            </div>
-            <div className="leaderboard-table" role="table" aria-label="National leaderboard">
-              {liveLeaderboard.length ? (
-                liveLeaderboard.slice(liveLeaderboard.length >= 3 ? 3 : 0).map((player) => (
-                  <div
-                    className={`leaderboard-table-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
-                    key={`${player.rank}-${player.name}`}
-                    role="row"
-                  >
-                    <span className="leaderboard-rank" role="cell">#{player.rank}</span>
-                    <div className="leaderboard-person" role="cell">
-                      <div className="leaderboard-avatar">{getInitials(player.name)}</div>
-                      <div>
-                        <strong>{player.isCurrentUser ? "You" : player.name}</strong>
-                        <p title={`${player.state}, ${player.college}`}>{player.state} | {player.college}</p>
-                      </div>
-                    </div>
-                    <span className="leaderboard-streak" role="cell">{player.streak}d</span>
-                    <strong className="leaderboard-score" role="cell">{player.score}</strong>
-                  </div>
-                ))
-              ) : (
-                <div className="empty-community-state empty-community-state-compact">
-                  <h3>No ranked learners yet</h3>
-                  <p className="panel-copy">The leaderboard will fill from real signed-up users.</p>
-                </div>
-              )}
-              {liveLeaderboard.length > 0 && liveLeaderboard.length <= 3 ? (
-                <p className="leaderboard-all-on-podium">All ranked learners are on the podium.</p>
-              ) : null}
-            </div>
-          </article>
-
-          <article className="card panel leaderboard-panel leaderboard-state-panel">
-            <div className="leaderboard-panel-head">
-              <div>
-                <h3>College rankings</h3>
-                <p className="panel-copy">Choose a state, then narrow by college.</p>
-              </div>
-              <span className="rank-pill">{selectedStatePlayers.length} players</span>
-            </div>
-
-            <div className="leaderboard-directory-controls">
-              <label className="leaderboard-select-field">
-                <span>State</span>
-                <select
-                  value={selectedStateEntry?.state ?? ""}
-                  onChange={(event) => {
-                    setSelectedLeaderboardState(event.target.value);
-                    setSelectedLeaderboardCollege("");
-                  }}
-                >
-                  {leaderboardStateOptions.map((entry) => (
-                    <option key={entry.state} value={entry.state}>
-                      {entry.state} ({entry.players.length})
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              {selectedLeaderboardCollegeOptions.length ? (
-                <label className="leaderboard-select-field">
-                  <span>College</span>
-                  <select
-                    value={selectedLeaderboardCollege}
-                    onChange={(event) => setSelectedLeaderboardCollege(event.target.value)}
-                  >
-                    <option value="">All colleges in {selectedStateEntry?.state}</option>
-                    {selectedLeaderboardCollegeOptions.map((college) => (
-                      <option key={college} value={college}>{college}</option>
-                    ))}
-                  </select>
-                </label>
-              ) : null}
-            </div>
-
-            <div className="leaderboard-college-card">
-              <div className="leaderboard-college-icon">MC</div>
-              <div className="leaderboard-college-main">
-                <span>{selectedStateEntry?.state ?? "Select state"}</span>
-                <strong title={selectedLeaderboardCollege || undefined}>
-                  {selectedLeaderboardCollege || "All medical colleges"}
-                </strong>
-              </div>
-              <div className="leaderboard-college-metrics" aria-label="Selected college metrics">
-                <span><strong>{selectedLeaderboardCollegeOptions.length}</strong> colleges</span>
-                <span><strong>{selectedStateEntry?.players.length ?? 0}</strong> learners</span>
-              </div>
-            </div>
-
-            <div className="state-search-block">
-              <input
-                className="state-search-input"
-                type="text"
-                placeholder="Search states"
-                value={stateSearchTerm}
-                onChange={(event) => setStateSearchTerm(event.target.value)}
-              />
-            </div>
-
-            {filteredStateLeaderboard.length ? (
-              <div className="state-chip-list" aria-label="States">
-                {filteredStateLeaderboard.map((entry) => (
-                  <button
-                    type="button"
-                    key={entry.state}
-                    className={`state-rank-chip${selectedStateEntry?.state === entry.state ? " state-rank-chip-active" : ""}`}
-                    onClick={() => {
-                      setSelectedLeaderboardState(entry.state);
-                      setSelectedLeaderboardCollege("");
-                    }}
-                  >
-                    <strong>{entry.state}</strong>
-                    <span>{entry.players.length} players | {(medicalCollegesByState[entry.state] ?? []).length} colleges</span>
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div className="empty-community-state empty-community-state-compact">
-                <h3>No state found</h3>
-                <p className="panel-copy">Try a different state name.</p>
-              </div>
-            )}
-
-            {selectedStateEntry ? (
-              <div className="state-ranking-block">
-                <h4>{selectedLeaderboardCollege || selectedStateEntry.state}</h4>
-                <div className="leaderboard-table leaderboard-table-compact" role="table" aria-label={`${selectedStateEntry.state} leaderboard`}>
-                  {selectedStatePlayers.length ? (
-                    selectedStatePlayers.map((player, index) => (
-                      <div
-                        className={`leaderboard-table-row${player.isCurrentUser ? " leaderboard-self" : ""}`}
-                        key={`${selectedStateEntry.state}-${player.name}`}
-                        role="row"
-                      >
-                        <span className="leaderboard-rank" role="cell">#{index + 1}</span>
-                        <div className="leaderboard-person" role="cell">
-                          <div className="leaderboard-avatar">{getInitials(player.name)}</div>
-                          <div>
-                            <strong>{player.isCurrentUser ? "You" : player.name}</strong>
-                            <p>{player.college}</p>
-                          </div>
-                        </div>
-                        <span className="leaderboard-streak" role="cell">{player.streak}d</span>
-                        <strong className="leaderboard-score" role="cell">{player.score}</strong>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="empty-community-state empty-community-state-compact">
-                      <h3>No ranked learners here yet</h3>
-                      <p className="panel-copy">This state or college is ready for signups.</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : null}
-          </article>
-        </div>
-      </section>
-    );
+    return <Leaderboard players={liveLeaderboard} statePlayers={selectedStatePlayers}
+      state={selectedStateEntry} states={leaderboardStateOptions}
+      college={selectedLeaderboardCollege} colleges={selectedLeaderboardCollegeOptions}
+      onState={(value) => { setSelectedLeaderboardState(value); setSelectedLeaderboardCollege(""); }}
+      onCollege={setSelectedLeaderboardCollege} onCompete={() => setActiveView("Compete")}
+      onProfile={(id) => openPublicProfile(id, "Leaderboard")} />;
   }
 
   function renderCommunities() {
     if (communityStage === "direct" && selectedDirectConversation) {
       return (
-        <section className="app-view community-detail-view">
-          <div className="view-header">
+        <section className={socialPage}>
+          <div className="flex flex-wrap items-center justify-between gap-4 [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:tracking-tight">
             <div>
-              <p className="eyebrow">Messages</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-700 dark:text-cyan-300">Messages</p>
               <h2>{selectedDirectConversation.otherParticipant?.name ?? "Direct chat"}</h2>
-              <p className="panel-copy">Personal study chats, quick check-ins, and direct 1v1 challenges.</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">Personal study chats, quick check-ins, and direct 1v1 challenges.</p>
             </div>
-            <button className="button button-secondary" onClick={handleBackToCommunityHub}>
+            <button className={socialSecondary} onClick={handleBackToCommunityHub}>
               Back to community hub
             </button>
           </div>
 
-          {directMessagesMessage ? <p className="form-message community-message-banner">{directMessagesMessage}</p> : null}
+          {directMessagesMessage ? <p className="rounded-xl border border-cyan-200 bg-cyan-50 p-4 text-sm text-cyan-900 dark:border-cyan-900 dark:bg-cyan-950 dark:text-cyan-100">{directMessagesMessage}</p> : null}
 
-          <article className="card panel community-chat-shell">
-            <div className="community-chat-header">
+          <article className={`${socialSurface} overflow-hidden`}>
+            <div className="flex flex-wrap items-center justify-between gap-5 p-5 sm:p-6 [&_h3]:text-xl [&_h3]:font-semibold">
               <div>
-                <p className="eyebrow">Message</p>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-700 dark:text-cyan-300">Message</p>
                 <h3>{selectedDirectConversation.otherParticipant?.name ?? "Conversation"}</h3>
-                <p className="panel-copy">{selectedDirectConversation.otherParticipant?.medicalCollege}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{selectedDirectConversation.otherParticipant?.medicalCollege}</p>
               </div>
-              <div className="community-header-actions">
-                <span className="rank-pill">{selectedDirectConversation.otherParticipant?.rating ?? userRating} rating</span>
-                <button className="button button-primary" onClick={handleDirectChallenge}>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{selectedDirectConversation.otherParticipant?.rating ?? userRating} rating</span>
+                <button className={socialPrimary} onClick={handleDirectChallenge}>
                   Challenge to 1v1
                 </button>
               </div>
             </div>
 
-            <div className="community-chat-meta">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 border-y border-slate-100 bg-slate-50 px-5 py-3 text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-950/50 dark:text-slate-400">
               <span>State: {selectedDirectConversation.otherParticipant?.state ?? "Registered users"}</span>
               <span>Streak: {selectedDirectConversation.otherParticipant?.streak ?? 1} days</span>
             </div>
 
-            <div className="community-chat-body community-chat-shell-body">
-              <div className="community-messages-panel">
-                <div className="community-messages">
+            <div className="grid items-start lg:grid-cols-[minmax(0,1fr)_280px]">
+              <div className="min-w-0 p-5">
+                <div className="flex max-h-[60vh] min-h-64 flex-col gap-4 overflow-y-auto pb-5">
                   {selectedDirectConversation.messages.map((message) => (
                     <div
                       key={message.id}
-                      className={`community-message${message.isOwnMessage ? " community-message-own" : ""}`}
+                      className={`flex ${message.isOwnMessage ? "justify-end" : "justify-start"}`}
                     >
-                      <div className={`community-message-bubble${message.type === "challenge" ? " community-message-challenge" : ""}`}>
+                      <div className={`max-w-[90%] space-y-2 rounded-2xl p-4 text-sm [&_p]:whitespace-pre-wrap [&_p]:break-words [&>span]:block [&>span]:text-[10px] [&>span]:text-slate-500 dark:[&>span]:text-slate-400 ${message.isOwnMessage ? "bg-cyan-50 dark:bg-cyan-950" : "bg-slate-100 dark:bg-slate-800"} ${message.type === "challenge" ? "border border-cyan-300 dark:border-cyan-800" : ""}`}>
                         {message.userId ? (
                           <button
                             type="button"
-                            className="community-message-profile-button"
+                            className="text-xs font-semibold text-cyan-700 hover:underline dark:text-cyan-300"
                             onClick={() => openPublicProfile(message.userId, "Communities")}
                           >
                             {message.userName}
@@ -4772,38 +4567,38 @@ async function fetchPracticeLibrary() {
                   ))}
                 </div>
 
-                <form className="community-chat-form" onSubmit={handleSendDirectMessage}>
+                <form className="flex items-center gap-3 border-t border-slate-100 pt-4 dark:border-slate-800" onSubmit={handleSendDirectMessage}>
                   <input
-                    type="text"
+                    type="text" className={socialField} aria-label="Message"
                     value={directMessageDraft}
                     onChange={(event) => setDirectMessageDraft(event.target.value)}
                     placeholder="Write a message..."
                   />
-                  <button className="button button-primary" type="submit">
+                  <button className={socialPrimary} type="submit" disabled={!directMessageDraft.trim()}>
                     Send
                   </button>
                 </form>
               </div>
 
-              <aside className="community-members-panel community-sidecard">
-                <div className="panel-heading-split">
+              <aside className="min-w-0 border-t border-slate-100 bg-slate-50/60 p-5 lg:border-l lg:border-t-0 dark:border-slate-800 dark:bg-slate-950/30">
+                <div className="flex items-center justify-between gap-3 [&_h4]:font-semibold">
                   <div>
                     <h4>Profile snapshot</h4>
-                    <p className="panel-copy">Jump to profile details or launch a duel directly from here.</p>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">Jump to profile details or launch a duel directly from here.</p>
                   </div>
                 </div>
-                <div className="community-member-list">
-                  <div className="community-member-row">
+                <div className="mt-5 max-h-[600px] space-y-4 overflow-y-auto">
+                  <div className="space-y-2">
                     <button
                       type="button"
-                      className="community-member-trigger"
+                      className="w-full rounded-xl p-1 text-left transition hover:bg-slate-100 dark:hover:bg-slate-800 motion-reduce:transition-none"
                       onClick={() => openPublicProfile(selectedDirectConversation.otherParticipant?.id, "Communities")}
                     >
-                      <div className="community-member-main">
-                        <div className="avatar community-member-avatar">
+                      <div className="flex min-w-0 items-center gap-3 [&>div:last-child]:min-w-0 [&_strong]:block [&_strong]:text-sm [&_p]:mt-1 [&_p]:truncate [&_p]:text-xs [&_p]:text-slate-500 dark:[&_p]:text-slate-400">
+                        <div className={socialAvatar}>
                           {selectedDirectConversation.otherParticipant?.profileImageUrl ? (
                             <img
-                              className="avatar-image"
+                              className="h-full w-full object-cover"
                               src={selectedDirectConversation.otherParticipant.profileImageUrl}
                               alt={`${selectedDirectConversation.otherParticipant.name} profile`}
                             />
@@ -4839,32 +4634,32 @@ async function fetchPracticeLibrary() {
       const communityThreadWordCount = countWords(communityMessageDraft);
 
       return (
-        <section className="app-view community-detail-view">
-          <div className="view-header">
+        <section className={socialPage}>
+          <div className="flex flex-wrap items-center justify-between gap-4 [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:tracking-tight">
             <div>
-              <p className="eyebrow">Communities</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-700 dark:text-cyan-300">Communities</p>
               <h2>{selectedCommunity.name}</h2>
-              <p className="panel-copy">A focused feed of questions, clinical takes, and threaded replies.</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">A focused feed of questions, clinical takes, and threaded replies.</p>
             </div>
-            <button className="button button-secondary" onClick={handleBackToCommunityHub}>
+            <button className={socialSecondary} onClick={handleBackToCommunityHub}>
               Back to community hub
             </button>
           </div>
 
-          {communitiesMessage ? <p className="form-message community-message-banner">{communitiesMessage}</p> : null}
+          {communitiesMessage ? <p className="rounded-xl border border-cyan-200 bg-cyan-50 p-4 text-sm text-cyan-900 dark:border-cyan-900 dark:bg-cyan-950 dark:text-cyan-100">{communitiesMessage}</p> : null}
 
-          <article className="card panel community-chat-shell">
-            <div className="community-chat-header">
+          <article className={`${socialSurface} overflow-hidden`}>
+            <div className="flex flex-wrap items-center justify-between gap-5 p-5 sm:p-6 [&_h3]:text-xl [&_h3]:font-semibold">
               <div>
-                <p className="eyebrow">Community threads</p>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-700 dark:text-cyan-300">Community threads</p>
                 <h3>{selectedCommunity.name}</h3>
-                <p className="panel-copy">{selectedCommunity.description}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{selectedCommunity.description}</p>
               </div>
-              <div className="community-header-actions">
-                <span className="rank-pill">{selectedCommunity.memberCount} members</span>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{selectedCommunity.memberCount} members</span>
                 {selectedCommunity.isAdmin ? (
                   <button
-                    className="button button-secondary"
+                    className={socialSecondary}
                     type="button"
                     onClick={() => handleCopyCommunityInvite(selectedCommunity.id)}
                   >
@@ -4872,52 +4667,52 @@ async function fetchPracticeLibrary() {
                   </button>
                 ) : null}
                 {!selectedCommunity.isMember ? (
-                  <button className="button button-primary" onClick={() => handleJoinCommunity(selectedCommunity.id)}>
+                  <button className={socialPrimary} onClick={() => handleJoinCommunity(selectedCommunity.id)}>
                     Join community
                   </button>
                 ) : null}
               </div>
             </div>
 
-            <div className="community-chat-meta">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 border-y border-slate-100 bg-slate-50 px-5 py-3 text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-950/50 dark:text-slate-400">
               <span>Topic: {selectedCommunity.topic}</span>
               <span>Admin: {selectedCommunity.adminName}</span>
               <span>{communityThreadPosts.length} threads</span>
             </div>
 
-            <div className="community-chat-body community-chat-shell-body">
-              <div className="community-messages-panel community-thread-panel">
+            <div className="grid items-start lg:grid-cols-[minmax(0,1fr)_280px]">
+              <div className="min-w-0 p-4 sm:p-6">
                 {selectedCommunity.isMember ? (
-                  <form className="community-thread-composer" onSubmit={(event) => handleSendCommunityMessage(event)}>
-                    <div className="avatar community-thread-avatar">
-                      {user?.profileImageUrl ? <img className="avatar-image" src={user.profileImageUrl} alt="" /> : <span>{getInitials(user?.name)}</span>}
+                  <form className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 sm:p-4 dark:border-slate-700 dark:bg-slate-950/50" onSubmit={(event) => handleSendCommunityMessage(event)}>
+                    <div className={`${socialAvatar} hidden sm:flex`}>
+                      {user?.profileImageUrl ? <img className="h-full w-full object-cover" src={user.profileImageUrl} alt="" /> : <span>{getInitials(user?.name)}</span>}
                     </div>
-                    <div className="community-thread-composer-main">
-                      <textarea
+                    <div className="min-w-0 flex-1 space-y-3 [&>div:last-child]:flex [&>div:last-child]:flex-wrap [&>div:last-child]:items-center [&>div:last-child]:justify-between [&>div:last-child]:gap-3">
+                      <textarea className={socialField} aria-label="New discussion thread"
                         rows="3"
                         value={communityMessageDraft}
                         onChange={(event) => setCommunityMessageDraft(event.target.value)}
                         placeholder="Share a question, clinical pearl, or study update..."
                       />
                       {communityThreadImage ? (
-                        <div className="community-thread-image-preview">
+                        <div className="relative space-y-2 [&_img]:max-h-56 [&_img]:rounded-xl [&_button]:absolute [&_button]:right-2 [&_button]:top-2 [&_button]:rounded-lg [&_button]:bg-slate-900 [&_button]:px-3 [&_button]:py-1 [&_button]:text-white [&_span]:block [&_span]:truncate [&_span]:text-xs">
                           <img src={communityThreadImage.dataUrl} alt="Thread attachment preview" />
                           <button type="button" onClick={() => setCommunityThreadImage(null)} aria-label="Remove attached image">×</button>
                           <span>{communityThreadImage.name}</span>
                         </div>
                       ) : null}
                       <div>
-                        <div className="community-thread-composer-tools">
-                          <label className="community-thread-image-button">
+                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+                          <label className="relative inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-3 text-xs font-semibold hover:bg-white focus-within:ring-2 focus-within:ring-cyan-500 dark:border-slate-700 dark:hover:bg-slate-800 [&_input]:absolute [&_input]:inset-0 [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
                             <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handleCommunityThreadImageChange} />
                             <span aria-hidden="true">▧</span> Add image
                           </label>
-                          <span className={communityThreadWordCount > COMMUNITY_THREAD_WORD_LIMIT ? "community-word-count-over" : ""}>
+                          <span className={communityThreadWordCount > COMMUNITY_THREAD_WORD_LIMIT ? "font-semibold text-red-600 dark:text-red-400" : ""}>
                             {communityThreadWordCount}/{COMMUNITY_THREAD_WORD_LIMIT} words
                           </span>
                         </div>
                         <button
-                          className="button button-primary"
+                          className={socialPrimary}
                           type="submit"
                           disabled={(!communityMessageDraft.trim() && !communityThreadImage) || communityThreadWordCount > COMMUNITY_THREAD_WORD_LIMIT}
                         >
@@ -4927,26 +4722,26 @@ async function fetchPracticeLibrary() {
                     </div>
                   </form>
                 ) : (
-                  <div className="feedback-box feedback-bad">
+                  <div className="rounded-xl border border-cyan-200 bg-cyan-50 p-4 text-sm text-cyan-900 dark:border-cyan-800 dark:bg-cyan-950 dark:text-cyan-100 [&_p]:mt-2">
                     <strong>Join this group to publish and reply.</strong>
                     <p>You can still preview its threads, members, and discussion style before joining.</p>
                   </div>
                 )}
 
-                <div className="community-thread-feed-heading">
+                <div className="mb-2 mt-7 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 [&_h4]:mb-1 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-slate-900 dark:[&_h4]:text-slate-100">
                   <div><h4>Latest threads</h4><span>Newest conversations first</span></div>
                   <span>{communityThreadPosts.length}</span>
                 </div>
 
-                <div className="community-thread-feed">
+                <div className="divide-y divide-slate-100 dark:divide-slate-800">
                   {[...communityThreadPosts].reverse().map((message) => {
                     const replies = repliesByParent[message.id] ?? [];
                     const isExpanded = Boolean(expandedCommunityThreads[message.id]);
                     return (
-                      <article className="community-thread-card" key={message.id}>
-                        <div className="avatar community-thread-avatar"><span>{getInitials(message.userName)}</span></div>
-                        <div className="community-thread-content">
-                          <div className="community-thread-author">
+                      <article className="flex gap-3 py-6" key={message.id}>
+                        <div className={`${socialAvatar} hidden sm:flex`}><span>{getInitials(message.userName)}</span></div>
+                        <div className="min-w-0 flex-1 [&>p]:mt-3 [&>p]:whitespace-pre-wrap [&>p]:break-words [&>p]:text-sm [&>p]:leading-7">
+                          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs [&_button]:font-semibold [&_button]:hover:text-cyan-600 [&_strong]:font-semibold [&_span]:text-cyan-600 [&_time]:text-slate-400">
                             {message.userId ? (
                               <button type="button" onClick={() => openPublicProfile(message.userId, "Communities")}>{message.userName}</button>
                             ) : <strong>{message.userName}</strong>}
@@ -4955,31 +4750,32 @@ async function fetchPracticeLibrary() {
                           </div>
                           {message.text ? <p>{message.text}</p> : null}
                           {message.imageUrl ? (
-                            <a className="community-thread-image" href={message.imageUrl} target="_blank" rel="noreferrer">
+                            <a className="mt-4 block [&_img]:max-h-96 [&_img]:rounded-xl [&_img]:object-contain" href={message.imageUrl} target="_blank" rel="noreferrer">
                               <img src={message.imageUrl} alt={"Attached to " + message.userName + "'s thread"} />
                             </a>
                           ) : null}
-                          <div className="community-thread-actions">
+                          <div className="mt-4 flex gap-3 [&_button]:min-h-10 [&_button]:rounded-lg [&_button]:px-3 [&_button]:text-xs [&_button]:font-semibold [&_button]:text-cyan-700 [&_button]:hover:bg-cyan-50 dark:[&_button]:text-cyan-300 dark:[&_button]:hover:bg-cyan-950">
                             <button
                               type="button"
+                              aria-expanded={isExpanded}
                               onClick={() => toggleCommunityThread(message.id, true)}
                               disabled={!selectedCommunity.isMember}
                               title={selectedCommunity.isMember ? "Reply to this thread" : "Join the community to reply"}
                             >
                               <span aria-hidden="true">↩</span> Reply
                             </button>
-                            <button type="button" onClick={() => toggleCommunityThread(message.id)} disabled={!replies.length}>
+                            <button type="button" aria-expanded={isExpanded} onClick={() => toggleCommunityThread(message.id)} disabled={!replies.length}>
                               <span aria-hidden="true">◯</span> {replies.length} {replies.length === 1 ? "reply" : "replies"}
                             </button>
                           </div>
 
                           {isExpanded ? (
-                            <div className="community-thread-replies">
+                            <div className="mt-3 space-y-4 border-l-2 border-cyan-100 pl-3 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top-1 motion-safe:duration-200 dark:border-cyan-900 sm:pl-4">
                               {replies.map((reply) => (
-                                <div className="community-thread-reply" key={reply.id}>
-                                  <div className="avatar community-thread-reply-avatar"><span>{getInitials(reply.userName)}</span></div>
+                                <div className="flex gap-3 [&>div:last-child]:min-w-0 [&_p]:mt-2 [&_p]:whitespace-pre-wrap [&_p]:break-words [&_p]:text-sm [&_p]:leading-relaxed" key={reply.id}>
+                                  <div className={`${socialAvatar} hidden sm:flex`}><span>{getInitials(reply.userName)}</span></div>
                                   <div>
-                                    <div className="community-thread-author">
+                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs [&_button]:font-semibold [&_button]:hover:text-cyan-600 [&_strong]:font-semibold [&_span]:text-cyan-600 [&_time]:text-slate-400">
                                       {reply.userId ? <button type="button" onClick={() => openPublicProfile(reply.userId, "Communities")}>{reply.userName}</button> : <strong>{reply.userName}</strong>}
                                       {reply.isOwnMessage ? <span>You</span> : null}
                                       <time>{formatCommunityTimestamp(reply.createdAt)}</time>
@@ -4989,15 +4785,15 @@ async function fetchPracticeLibrary() {
                                 </div>
                               ))}
                               {selectedCommunity.isMember ? (
-                                <form className="community-thread-reply-form" onSubmit={(event) => handleSendCommunityMessage(event, message.id)}>
-                                  <div className="avatar community-thread-reply-avatar"><span>{getInitials(user?.name)}</span></div>
+                                <form className="flex flex-wrap items-center gap-2 pt-2 [&_input]:min-w-0 [&_input]:flex-1" onSubmit={(event) => handleSendCommunityMessage(event, message.id)}>
+                                  <div className={`${socialAvatar} hidden sm:flex`}><span>{getInitials(user?.name)}</span></div>
                                   <input
-                                    type="text"
+                                    type="text" className={socialField} aria-label="Message"
                                     value={communityReplyDrafts[message.id] ?? ""}
                                     onChange={(event) => setCommunityReplyDrafts((current) => ({ ...current, [message.id]: event.target.value }))}
                                     placeholder={`Reply to ${message.userName}...`}
                                   />
-                                  <button className="button button-primary" type="submit" disabled={!(communityReplyDrafts[message.id] ?? "").trim()}>Reply</button>
+                                  <button className={socialPrimary} type="submit" disabled={!(communityReplyDrafts[message.id] ?? "").trim()}>Reply</button>
                                 </form>
                               ) : null}
                             </div>
@@ -5007,34 +4803,34 @@ async function fetchPracticeLibrary() {
                     );
                   })}
                   {!communityThreadPosts.length ? (
-                    <div className="empty-community-state empty-community-state-compact">
+                    <div className="py-12 text-center [&_h3]:font-semibold">
                       <h3>No threads yet</h3>
-                      <p className="panel-copy">Start the first conversation in this room.</p>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">Start the first conversation in this room.</p>
                     </div>
                   ) : null}
                 </div>
               </div>
 
-              <aside className="community-members-panel community-sidecard">
-                <div className="panel-heading-split">
+              <aside className="min-w-0 border-t border-slate-100 bg-slate-50/60 p-5 lg:border-l lg:border-t-0 dark:border-slate-800 dark:bg-slate-950/30">
+                <div className="flex items-center justify-between gap-3 [&_h4]:font-semibold">
                   <div>
                     <h4>Members</h4>
-                    <p className="panel-copy">See who is studying inside this room right now.</p>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">Get to know the learners in this room.</p>
                   </div>
-                  <span className="rank-pill">{selectedCommunity.memberCount}</span>
+                  <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{selectedCommunity.memberCount}</span>
                 </div>
-                <div className="community-member-list">
+                <div className="mt-5 max-h-[600px] space-y-4 overflow-y-auto">
                   {selectedCommunity.members.map((member) => (
-                    <div className="community-member-row" key={member.id}>
+                    <div className="space-y-2" key={member.id}>
                       <button
                         type="button"
-                        className="community-member-trigger"
+                        className="w-full rounded-xl p-1 text-left transition hover:bg-slate-100 dark:hover:bg-slate-800 motion-reduce:transition-none"
                         onClick={() => openPublicProfile(member.id, "Communities")}
                       >
-                        <div className="community-member-main">
-                          <div className="avatar community-member-avatar">
+                        <div className="flex min-w-0 items-center gap-3 [&>div:last-child]:min-w-0 [&_strong]:block [&_strong]:text-sm [&_p]:mt-1 [&_p]:truncate [&_p]:text-xs [&_p]:text-slate-500 dark:[&_p]:text-slate-400">
+                          <div className={socialAvatar}>
                             {member.profileImageUrl ? (
-                              <img className="avatar-image" src={member.profileImageUrl} alt={`${member.name} profile`} />
+                              <img className="h-full w-full object-cover" src={member.profileImageUrl} alt={`${member.name} profile`} />
                             ) : (
                               <span>{getInitials(member.name)}</span>
                             )}
@@ -5048,22 +4844,22 @@ async function fetchPracticeLibrary() {
                         </div>
                       </button>
                       {selectedCommunity.isAdmin && member.id !== selectedCommunity.adminUserId ? (
-                        <div className="community-member-actions">
+                        <div className="flex flex-wrap gap-2">
                           <button
-                            className="button button-secondary community-remove-button"
+                            className={`${socialSecondary} !min-h-9 !px-3 !py-1.5 !text-xs`}
                             onClick={() => handleOpenDirectChat(member.id)}
                           >
                             Message
                           </button>
                           <button
-                            className="button button-secondary community-remove-button"
+                            className={`${socialSecondary} !min-h-9 !px-3 !py-1.5 !text-xs`}
                             onClick={() => handleRemoveCommunityMember(selectedCommunity.id, member.id)}
                           >
                             Remove
                           </button>
                         </div>
                       ) : member.id !== user?.id ? (
-                        <button className="button button-secondary community-remove-button" onClick={() => handleOpenDirectChat(member.id)}>
+                        <button className={`${socialSecondary} !min-h-9 !px-3 !py-1.5 !text-xs`} onClick={() => handleOpenDirectChat(member.id)}>
                           Message
                         </button>
                       ) : null}
@@ -5077,205 +4873,14 @@ async function fetchPracticeLibrary() {
       );
     }
 
-    const joinedCommunities = communities.filter((community) => community.isMember);
-    const totalCommunityMembers = communities.reduce((total, community) => total + (community.memberCount ?? 0), 0);
-    const totalCommunityMessages = communities.reduce((total, community) => total + (community.messages?.length ?? 0), 0);
-
-    return (
-      <section className="app-view community-hub-view">
-        <header className="community-landing-hero">
-          <div className="community-hero-orb community-hero-orb-large" aria-hidden="true" />
-          <div className="community-hero-orb community-hero-orb-small" aria-hidden="true" />
-          <div className="community-hero-content">
-            <p className="community-hero-kicker"><span /> Medulla community</p>
-            <h2>Study together.<br />Get better, faster.</h2>
-            <p>Find focused rooms, trade clinical insights, and keep your closest study partners one message away.</p>
-            <div className="community-hero-actions">
-              <button
-                className="button community-hero-primary"
-                onClick={() => document.getElementById("community-groups")?.scrollIntoView({ behavior: "smooth" })}
-              >
-                Explore study rooms
-              </button>
-              <button
-                className="button community-hero-secondary"
-                onClick={() => document.getElementById("community-create")?.scrollIntoView({ behavior: "smooth" })}
-              >
-                Start a community
-              </button>
-            </div>
-          </div>
-          <div className="community-hero-note" aria-label="Community status">
-            <span className="community-live-dot" />
-            <div><strong>Peer learning is live</strong><small>{joinedCommunities.length} of your rooms are ready</small></div>
-          </div>
-        </header>
-
-        {communitiesMessage ? <p className="form-message community-message-banner">{communitiesMessage}</p> : null}
-        {directMessagesMessage ? <p className="form-message community-message-banner">{directMessagesMessage}</p> : null}
-
-        <div className="community-stat-grid" aria-label="Community overview">
-          <div><span>Members across rooms</span><strong>{formatStatValue(totalCommunityMembers)}</strong><small>learning together</small></div>
-          <div><span>Study rooms</span><strong>{communities.length}</strong><small>{joinedCommunities.length} joined by you</small></div>
-          <div><span>Discussion posts</span><strong>{formatStatValue(totalCommunityMessages)}</strong><small>shared insights</small></div>
-          <div><span>Personal chats</span><strong>{directConversations.length}</strong><small>private and focused</small></div>
-        </div>
-
-        <div className="community-landing-grid">
-          <article className="community-directory-panel community-groups-panel" id="community-groups">
-            <div className="panel-heading-split">
-              <div>
-                <p className="community-section-kicker">Discover</p>
-                <h3>Study rooms worth joining</h3>
-                <p className="panel-copy">Subject-led groups for questions, cases, resources, and the occasional pre-exam rescue mission.</p>
-              </div>
-              <button className="community-text-button" type="button" onClick={() => fetchCommunities()}>Refresh rooms <span aria-hidden="true">↻</span></button>
-            </div>
-            {communitiesBusy ? <p className="panel-copy">Loading communities...</p> : null}
-
-            {communities.length ? (
-              <div className="community-directory-grid">
-              {communities.map((community) => (
-                <article
-                  key={community.id}
-                  className={`community-directory-card${selectedCommunity?.id === community.id ? " community-directory-card-active" : ""}`}
-                >
-                  <div className="community-top">
-                    <div className="community-room-avatar">{getInitials(community.name)}</div>
-                    <div className="community-room-presence"><span /> {community.memberCount} members</div>
-                  </div>
-                  <div className="community-room-tags">
-                    <span>{community.topic}</span>
-                    {community.isMember ? <span className="community-room-tag-joined">Joined</span> : null}
-                  </div>
-                  <strong>{community.name}</strong>
-                  <p>{community.description}</p>
-                  <div className="community-list-meta">
-                    <span>Hosted by <b>{community.adminName}</b></span>
-                    <span>{community.messages?.length ?? 0} posts</span>
-                  </div>
-                  <div className="community-directory-actions">
-                    <span className={`community-status-pill${community.isMember ? " community-status-pill-joined" : ""}`}>
-                      {community.isAdmin ? "Admin" : community.isMember ? "Joined" : "Open"}
-                    </span>
-                    {community.isAdmin ? (
-                      <button
-                        className="button button-secondary"
-                        type="button"
-                        onClick={() => handleCopyCommunityInvite(community.id)}
-                      >
-                        Copy invite
-                      </button>
-                    ) : null}
-                    <button className="button community-room-button" onClick={() => openCommunityChat(community.id)}>
-                      View room <span aria-hidden="true">→</span>
-                    </button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <div className="empty-community-state">
-              <h3>No communities yet</h3>
-              <p className="panel-copy">Create the first community to start group discussion and member-led study chats.</p>
-            </div>
-          )}
-          </article>
-
-          <aside className="community-landing-sidebar">
-            <article className="community-inbox-panel" id="personal-inbox">
-              <div className="community-inbox-heading">
-                <div>
-                  <p className="community-section-kicker">Personal</p>
-                  <h3>Your inbox</h3>
-                  <p>Study partners, without the group-chat noise.</p>
-                </div>
-                <span>{directConversations.length}</span>
-              </div>
-
-              <label className="community-user-search">
-                <span className="sr-only">Search users</span>
-                <span aria-hidden="true">⌕</span>
-                <input
-                  type="text"
-                  value={directSearchTerm}
-                  onChange={(event) => setDirectSearchTerm(event.target.value)}
-                  placeholder="Find a learner to message"
-                />
-              </label>
-              {directSearchBusy ? <p className="community-search-hint">Searching learners...</p> : null}
-              {directSearchTerm.trim().length > 0 && directSearchTerm.trim().length < 2 ? (
-                <p className="community-search-hint">Type at least 2 characters to search.</p>
-              ) : null}
-
-              {directSearchResults.length ? (
-                <div className="community-search-results">
-                  <p>People</p>
-                  {directSearchResults.map((result) => (
-                    <button type="button" key={result.id} onClick={() => handleOpenDirectChat(result.id)}>
-                      <div className="avatar community-member-avatar">
-                        {result.profileImageUrl ? <img className="avatar-image" src={result.profileImageUrl} alt="" /> : <span>{getInitials(result.name)}</span>}
-                      </div>
-                      <span><strong>{result.name}</strong><small>{result.medicalCollege}</small></span>
-                      <b>Message</b>
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-
-              <div className="community-inbox-list">
-                {directMessagesBusy ? <p className="community-search-hint">Loading messages...</p> : null}
-                {directConversations.length ? directConversations.map((conversation) => {
-                  const participant = conversation.otherParticipant;
-                  const latestMessage = conversation.messages.at(-1);
-                  return (
-                    <button type="button" key={conversation.id} onClick={() => openDirectConversation(conversation.id)}>
-                      <div className="avatar community-inbox-avatar">
-                        {participant?.profileImageUrl ? <img className="avatar-image" src={participant.profileImageUrl} alt="" /> : <span>{getInitials(participant?.name)}</span>}
-                        <i aria-hidden="true" />
-                      </div>
-                      <span className="community-inbox-copy">
-                        <span><strong>{participant?.name ?? "Private chat"}</strong><time>{formatCommunityTimestamp(latestMessage?.createdAt)}</time></span>
-                        <small>{latestMessage?.text ?? "Start the conversation"}</small>
-                      </span>
-                      <span className="community-inbox-arrow" aria-hidden="true">›</span>
-                    </button>
-                  );
-                }) : (
-                  <div className="empty-community-state empty-community-state-compact">
-                    <h3>Your inbox is ready</h3>
-                    <p className="panel-copy">Search for a learner above and start a focused study chat.</p>
-                  </div>
-                )}
-              </div>
-            </article>
-
-            <article className="community-create-panel" id="community-create">
-              <div className="community-create-heading">
-                <div className="community-create-icon">+</div>
-                <div><p className="community-section-kicker">Lead a room</p><h3>Create a community</h3></div>
-              </div>
-              <p className="panel-copy">Build the study space you wish already existed. You’ll be its admin.</p>
-              <form className="profile-form community-create-form" onSubmit={handleCreateCommunity}>
-                <label className="field">
-                  <span>Community name</span>
-                  <input type="text" value={createCommunityForm.name} onChange={(event) => updateCreateCommunityField("name", event.target.value)} placeholder="Ex: Final Year Surgery Prep" />
-                </label>
-                <label className="field">
-                  <span>Topic</span>
-                  <input type="text" value={createCommunityForm.topic} onChange={(event) => updateCreateCommunityField("topic", event.target.value)} placeholder="Ex: Case discussions" />
-                </label>
-                <label className="field">
-                  <span>Description</span>
-                  <input type="text" value={createCommunityForm.description} onChange={(event) => updateCreateCommunityField("description", event.target.value)} placeholder="What should members expect?" />
-                </label>
-                <button className="button button-primary" type="submit">Create my community <span aria-hidden="true">→</span></button>
-              </form>
-            </article>
-          </aside>
-        </div>
-      </section>
-    );
+    return <CommunityHub communities={communities} busy={communitiesBusy}
+      message={communitiesMessage} directMessage={directMessagesMessage}
+      onRefresh={fetchCommunities} onOpen={openCommunityChat} onInvite={handleCopyCommunityInvite}
+      conversations={directConversations} directBusy={directMessagesBusy}
+      search={directSearchTerm} onSearch={setDirectSearchTerm} searchBusy={directSearchBusy}
+      results={directSearchResults} onDirect={handleOpenDirectChat} onConversation={openDirectConversation}
+      timestamp={formatCommunityTimestamp} form={createCommunityForm}
+      onField={updateCreateCommunityField} onCreate={handleCreateCommunity} />;
   }
 
   function renderCompete() {
