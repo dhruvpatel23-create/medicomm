@@ -6,6 +6,7 @@ const fs = require('node:fs');
   const browser = await chromium.launch({ headless: true, channel: 'msedge' });
   try {
     const page = await browser.newPage({ viewport: { width: 1024, height: 1366 }, hasTouch: true });
+    page.setDefaultTimeout(90000);
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     let submitted;
@@ -55,11 +56,12 @@ const fs = require('node:fs');
         const bounds = element.getBoundingClientRect();
         const send = (name, x, y) => element.dispatchEvent(new PointerEvent(name, { pointerId: id, pointerType: type, clientX: bounds.x + x, clientY: bounds.y + y, pressure: 0.6, bubbles: true }));
         // Synthetic pointer events cannot capture, but exercise the same drawing handlers.
-        element.setPointerCapture = () => {};
+        element.closest('.an-workspace').setPointerCapture = () => {};
         send('pointerdown', 70, 80);
         for (let i = 0; i < 40; i++) send('pointermove', 70 + i * 5, 80 + Math.sin(i / 3) * 15);
         send('pointerup', 265, 80);
       }, { type, id });
+      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     }
     const inkCount = () => canvas.evaluate(el => {
       const pixels = el.getContext('2d').getImageData(0, 0, el.width, el.height).data;
@@ -124,6 +126,7 @@ const fs = require('node:fs');
     assert.equal(await page.getByRole('button', { name: 'Reset zoom' }).textContent(), '125%');
     await page.getByRole('button', { name: 'Move page', exact: true }).click();
     const workspace = page.locator('.an-workspace');
+    await workspace.evaluate(el => delete el.setPointerCapture);
     await workspace.evaluate(el => el.scrollTop = 0);
     const touchSession = await page.context().newCDPSession(page);
     const view = await workspace.boundingBox();
@@ -133,8 +136,24 @@ const fs = require('node:fs');
     await touchSession.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: touchX, y: touchY - 150 }] });
     await touchSession.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     assert((await workspace.evaluate(el => el.scrollTop)) >= 140, 'A finger drag must actually move the page');
-    await touchSession.detach();
     assert.equal(await inkCount(), secondPageInk, 'Panning must not add ink');
+    // Native two-finger gestures must zoom in both directions without changing the draft.
+    await page.getByRole('button', { name: 'Pen', exact: true }).click();
+    await page.getByRole('checkbox', { name: /Pencil only/ }).uncheck();
+    const draftBeforePinch = await page.evaluate(() => JSON.stringify(Object.entries(localStorage).filter(([key]) => key.startsWith('medicomm-notepad:'))));
+    const fingers = distance => [{ id: 11, x: touchX - distance / 2, y: touchY }, { id: 12, x: touchX + distance / 2, y: touchY }];
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: fingers(120).slice(0, 1) });
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: fingers(120) });
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: fingers(240) });
+    await page.waitForFunction(() => document.querySelector('[aria-label="Reset zoom"]').textContent === '250%');
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: fingers(96) });
+    await page.waitForFunction(() => document.querySelector('[aria-label="Reset zoom"]').textContent === '100%');
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: fingers(96).slice(0, 1) });
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ id: 11, x: touchX, y: touchY - 30 }] });
+    await touchSession.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    assert.equal(await inkCount(), secondPageInk, 'Pinching and lifting one finger must not leave a mark');
+    assert.equal(await page.evaluate(() => JSON.stringify(Object.entries(localStorage).filter(([key]) => key.startsWith('medicomm-notepad:')))), draftBeforePinch);
+    await touchSession.detach();
     await page.getByRole('button', { name: 'Zoom out', exact: true }).click();
     await page.getByRole('button', { name: 'Reset zoom', exact: true }).click();
     await page.getByRole('button', { name: 'Close notepad' }).click();
@@ -160,6 +179,6 @@ const fs = require('node:fs');
     await page.getByRole('button', { name: 'Submit for AI review' }).click();
     await page.getByRole('heading', { name: 'Exam-ready model answer' }).waitFor();
     assert.deepEqual(errors, []);
-    console.log('PASS: ink, eraser, undo/redo, clear/undo, palm touch rejection, question isolation, reload recovery, tablet/mobile layouts, PNG attachment, image-only review failure/retry/success. Review API mocked.');
+    console.log('PASS: ink, eraser, undo/redo, clear/undo, palm touch rejection, two-finger zoom, question isolation, reload recovery, tablet/mobile layouts, PNG attachment, image-only review failure/retry/success. Review API mocked.');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

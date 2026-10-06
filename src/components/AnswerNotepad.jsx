@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, Check, Eraser, Hand, Minus, Plus, NotebookPen, PenLine, Redo2, RotateCcw, Undo2, X } from "lucide-react";
 import "./AnswerNotepad.css";
@@ -100,6 +100,11 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
   const activeStroke = useRef(null);
   const workspaceRef = useRef(null);
   const panRef = useRef(null);
+  const touchesRef = useRef(new Map());
+  const pinchRef = useRef(null);
+  const zoomRef = useRef(1);
+  const zoomAnchorRef = useRef(null);
+  const toolRef = useRef("pen");
   const draftRef = useRef(draft);
   const currentPage = draft.pages[draft.pageIndex];
   const pageRef = () => draftRef.current.pages[draftRef.current.pageIndex];
@@ -113,8 +118,23 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
 
   const attachCanvas = useCallback(canvas => {
     canvasRef.current = canvas;
-    redraw(canvas, currentPage.strokes);
+    const current = draftRef.current;
+    redraw(canvas, current.pages[current.pageIndex].strokes);
+  }, []);
+
+  useLayoutEffect(() => {
+    redraw(canvasRef.current, currentPage.strokes);
   }, [currentPage.strokes]);
+
+  useLayoutEffect(() => {
+    const anchor = zoomAnchorRef.current;
+    if (!anchor) return;
+    const bounds = canvasRef.current.getBoundingClientRect();
+    const workspace = workspaceRef.current;
+    workspace.scrollLeft += bounds.left + anchor.x * bounds.width - anchor.clientX;
+    workspace.scrollTop += bounds.top + anchor.y * bounds.height - anchor.clientY;
+    zoomAnchorRef.current = null;
+  });
 
   function point(event) {
     const bounds = canvasRef.current.getBoundingClientRect();
@@ -126,10 +146,38 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     const current = draftRef.current;
     persist({ ...current, pages: current.pages.map((page, i) => i === current.pageIndex ? nextPage : page) });
   }
-  function chooseTool(next) { finish(); panRef.current = null; setTool(next); setConfirmClear(false); }
+  function releasePointer(id) {
+    if (workspaceRef.current?.hasPointerCapture(id)) workspaceRef.current.releasePointerCapture(id);
+  }
+  function chooseTool(next) { finish(); toolRef.current = next; setTool(next); setConfirmClear(false); }
+  function touchPair() {
+    const [a, b] = [...touchesRef.current.values()];
+    return { clientX: (a.x + b.x) / 2, clientY: (a.y + b.y) / 2, distance: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)) };
+  }
   function start(event) {
-    if (activeStroke.current || panRef.current || (event.pointerType === "mouse" && event.button !== 0)) return;
-    if (tool === "pan" || (pencilOnly && event.pointerType === "touch")) {
+    if (event.pointerType === "touch") {
+      // Ignore palms while a stylus is writing.
+      if (activeStroke.current?.pointerType === "pen") return;
+      touchesRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      event.currentTarget.setPointerCapture(event.pointerId);
+      if (touchesRef.current.size >= 2) {
+        event.preventDefault();
+        // The first finger may have begun a stroke. A pinch must never leave ink or erase it.
+        activeStroke.current = null;
+        panRef.current = null;
+        redraw(canvasRef.current, pageRef().strokes);
+        if (!pinchRef.current) {
+          const pair = touchPair();
+          const bounds = canvasRef.current.getBoundingClientRect();
+          pinchRef.current = { ...pair, zoom: zoomRef.current,
+            x: (pair.clientX - bounds.left) / bounds.width, y: (pair.clientY - bounds.top) / bounds.height };
+        }
+        return;
+      }
+      if (pinchRef.current) return;
+    }
+    if (activeStroke.current || panRef.current || pinchRef.current || (event.pointerType === "mouse" && event.button !== 0)) return;
+    if (toolRef.current === "pan" || (pencilOnly && event.pointerType === "touch") || event.target !== canvasRef.current) {
       event.preventDefault();
       event.currentTarget.setPointerCapture(event.pointerId);
       panRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY,
@@ -139,13 +187,26 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
     if (event.pointerType === "pen") setPencilOnly(true);
-    const selectedTool = event.pointerType === "pen" && (event.button === 5 || event.buttons === 32) ? "eraser" : tool;
+    const selectedTool = event.pointerType === "pen" && (event.button === 5 || (event.buttons & 32)) ? "eraser" : toolRef.current;
     const stroke = { tool: selectedTool, style: penStyle, color, size: selectedTool === "eraser" ? eraserSize : size, points: [point(event)] };
-    activeStroke.current = { pointerId: event.pointerId, stroke };
-    redraw(canvasRef.current, [...pageRef().strokes, stroke]);
+    activeStroke.current = { pointerId: event.pointerId, pointerType: event.pointerType, stroke };
+    if (stroke.style === "highlighter" && stroke.tool === "pen") redraw(canvasRef.current, [...pageRef().strokes, stroke]);
+    else drawSegment(canvasRef.current.getContext("2d"), stroke, stroke.points[0], stroke.points[0]);
     setMessage(""); setConfirmClear(false);
   }
   function move(event) {
+    if (touchesRef.current.has(event.pointerId)) {
+      touchesRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      if (pinchRef.current) {
+        event.preventDefault();
+        if (touchesRef.current.size >= 2) {
+          const pair = touchPair();
+          const pinch = pinchRef.current;
+          applyZoom(pinch.zoom * pair.distance / pinch.distance, { ...pinch, clientX: pair.clientX, clientY: pair.clientY });
+        }
+        return;
+      }
+    }
     const pan = panRef.current;
     if (pan?.id === event.pointerId) {
       event.preventDefault();
@@ -167,11 +228,23 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     if (active.stroke.style === "highlighter" && active.stroke.tool === "pen") redraw(canvasRef.current, [...pageRef().strokes, active.stroke]);
   }
   function finish(event) {
-    if (!event || panRef.current?.id === event.pointerId) panRef.current = null;
+    if (event) {
+      touchesRef.current.delete(event.pointerId);
+      if (!touchesRef.current.size) pinchRef.current = null;
+    } else {
+      const ids = [...touchesRef.current.keys()];
+      touchesRef.current.clear(); pinchRef.current = null;
+      ids.forEach(releasePointer);
+    }
+    if (!event || panRef.current?.id === event.pointerId) {
+      const pan = panRef.current;
+      panRef.current = null;
+      if (pan) releasePointer(pan.id);
+    }
     const active = activeStroke.current;
     if (!active || (event && event.pointerId !== active.pointerId)) return;
     activeStroke.current = null;
-    if (canvasRef.current?.hasPointerCapture(active.pointerId)) canvasRef.current.releasePointerCapture(active.pointerId);
+    releasePointer(active.pointerId);
     updatePage({ ...pageRef(), strokes: [...pageRef().strokes, active.stroke] });
     setRedo([]);
   }
@@ -196,14 +269,27 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     setRedo([]); setConfirmClear(false); setMessage("");
     workspaceRef.current.scrollTo(0, 0);
   }
+  function applyZoom(value, anchor) {
+    const next = Math.max(0.5, Math.min(3, value));
+    zoomRef.current = next;
+    zoomAnchorRef.current = anchor;
+    // A new anchor may also pan at the zoom limits.
+    if (next === zoom) {
+      const bounds = canvasRef.current.getBoundingClientRect();
+      workspaceRef.current.scrollLeft += bounds.left + anchor.x * bounds.width - anchor.clientX;
+      workspaceRef.current.scrollTop += bounds.top + anchor.y * bounds.height - anchor.clientY;
+      zoomAnchorRef.current = null;
+    }
+    setZoom(next);
+  }
   function changeZoom(value) {
     finish();
-    const next = Math.max(0.5, Math.min(3, value));
     const workspace = workspaceRef.current;
-    const centerX = (workspace.scrollLeft + workspace.clientWidth / 2) / zoom;
-    const centerY = (workspace.scrollTop + workspace.clientHeight / 2) / zoom;
-    setZoom(next);
-    requestAnimationFrame(() => workspace.scrollTo(Math.max(0, centerX * next - workspace.clientWidth / 2), Math.max(0, centerY * next - workspace.clientHeight / 2)));
+    const view = workspace.getBoundingClientRect();
+    const bounds = canvasRef.current.getBoundingClientRect();
+    const clientX = view.left + workspace.clientWidth / 2;
+    const clientY = view.top + workspace.clientHeight / 2;
+    applyZoom(value, { clientX, clientY, x: (clientX - bounds.left) / bounds.width, y: (clientY - bounds.top) / bounds.height });
   }
   function save() {
     finish();
@@ -251,8 +337,8 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
       <aside id="an-controls" className={`an-controls${toolsOpen ? " an-controls-open" : ""}`} aria-label="Notepad controls">
       <div className="an-toolbar flex flex-wrap items-center gap-2 border-b px-4 py-3 sm:px-7" aria-label="Writing tools">
         <div className="an-tool-group flex gap-1 rounded-xl p-1">
-          <button type="button" className="an-tool" aria-label="Pen" aria-pressed={tool === "pen"} onClick={() => chooseTool("pen")}><PenLine size={19} /><span className="hidden sm:inline">Pen</span></button>
-          <button type="button" className="an-tool" aria-label="Eraser" aria-pressed={tool === "eraser"} onClick={() => chooseTool("eraser")}><Eraser size={19} /><span className="hidden sm:inline">Eraser</span></button>
+          <button type="button" className="an-tool" aria-label="Pen" aria-pressed={tool === "pen"} onPointerDown={event => { if (event.button === 0) chooseTool("pen"); }} onClick={() => chooseTool("pen")}><PenLine size={19} /><span className="hidden sm:inline">Pen</span></button>
+          <button type="button" className="an-tool" aria-label="Eraser" aria-pressed={tool === "eraser"} onPointerDown={event => { if (event.button === 0) chooseTool("eraser"); }} onClick={() => chooseTool("eraser")}><Eraser size={19} /><span className="hidden sm:inline">Eraser</span></button>
         </div>
         <div className="flex items-center" aria-label="Ink colour">{inks.map(([label, ink]) => <button type="button" key={ink} className="an-swatch" aria-label={`${label} ink`} aria-pressed={color === ink} onClick={() => { finish(); setColor(ink); }}><span style={{ background: ink }}>{color === ink && <Check size={13} color="white" />}</span></button>)}</div>
         <label className="an-select-label flex items-center gap-2 text-xs">Pen style<select aria-label="Pen style" value={penStyle} onChange={event => { finish(); setPenStyle(event.target.value); chooseTool("pen"); }}>
@@ -275,13 +361,14 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
       </div>
       {confirmClear && <div role="alert" className="an-clear flex flex-wrap items-center justify-center gap-3 px-4 py-2 text-sm">Clear this sheet? You can undo this.<button type="button" onClick={() => { finish(); updatePage({ ...pageRef(), strokes: [...pageRef().strokes, { tool: "eraser", color, size: 38, points: [{ x: WIDTH / 2, y: HEIGHT / 2, pressure: 1 }], clear: true }] }); setRedo([]); setConfirmClear(false); }}>Clear</button><button type="button" onClick={() => setConfirmClear(false)}>Keep writing</button></div>}
       </aside>
-      <div className={`an-workspace${tool === "pan" ? " an-panning" : ""}`} ref={workspaceRef}>
+      <div className={`an-workspace${tool === "pan" ? " an-panning" : ""}`} ref={workspaceRef}
+        onPointerDown={start} onPointerMove={move} onPointerUp={finish} onPointerCancel={finish} onLostPointerCapture={finish}>
         <div className="an-page-scale" style={{ width: `${zoom * 100}%` }}>
         <div className={`an-paper an-paper-${currentPage.paper} relative mx-auto shadow-lg`}>
           {!currentPage.strokes.length && <div className="pointer-events-none absolute inset-x-0 top-20 text-center text-slate-400"><PenLine size={26} className="mx-auto mb-3 opacity-50" /><p className="text-sm">Every good answer starts here.</p><p className="mt-2 text-xs">Use your Pencil, finger, or mouse.</p></div>}
-          <canvas ref={attachCanvas} width={WIDTH} height={HEIGHT} className="an-canvas relative block w-full" aria-label="Handwritten answer sheet" onPointerDown={start} onPointerMove={move} onPointerUp={finish} onPointerCancel={finish} onLostPointerCapture={finish} onContextMenu={event => event.preventDefault()} />
+          <canvas ref={attachCanvas} width={WIDTH} height={HEIGHT} className="an-canvas relative block w-full" aria-label="Handwritten answer sheet" onContextMenu={event => event.preventDefault()} />
         </div>
-        <p className="an-sheet-caption mt-4 text-center text-xs">Page {draft.pageIndex + 1} of {draft.pages.length} · Use Move page to drag the sheet</p>
+        <p className="an-sheet-caption mt-4 text-center text-xs">Page {draft.pageIndex + 1} of {draft.pages.length} · Pinch with two fingers to zoom and move</p>
         </div>
       </div>
       <footer className="an-footer">

@@ -23,7 +23,7 @@
 .an-swatch[aria-pressed="true"] > span { outline: 2px solid #b7a4d6; outline-offset: 3px; }
 .an-dialog select { width: auto; min-height: 40px; border: 1px solid #e3deec; border-radius: 8px; background: #fff; padding: 5px 8px; color: #515971; font-size: 12px; }
 .an-options input { accent-color: #7956b4; width: 16px; height: 16px; }
-.an-workspace { grid-column: 2; grid-row: 2; min-height: 0; overflow: auto; padding: 8px; background: #eeedf3; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.an-workspace { grid-column: 2; grid-row: 2; min-height: 0; overflow: auto; padding: 8px; background: #eeedf3; overscroll-behavior: contain; touch-action: none; user-select: none; -webkit-overflow-scrolling: touch; }
 .an-paper { width: 100%; max-width: none; aspect-ratio: 3 / 4; background-color: #fffefb; border-radius: 3px; }
 .an-paper-ruled { background-image: linear-gradient(#d6dce680 1px, transparent 1px); background-size: 100% 28px; }
 .an-paper-dotted { background-image: radial-gradient(#c8cfdb 1px, transparent 1px); background-size: 20px 20px; }
