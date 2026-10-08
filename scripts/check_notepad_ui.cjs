@@ -12,6 +12,7 @@ const fs = require('node:fs');
     let submitted;
     let fail = true;
     await page.route('**/api/**', route => {
+      if (route.request().url().endsWith('/api/auth/session')) return route.fulfill({ json: { user: { id: 'notepad-test', name: 'Notepad tester', email: 'notepad@example.test', rating: 1480 } } });
       if (route.request().url().endsWith('/api/practice')) return route.fulfill({ path: 'public/practice-question-bank.json', contentType: 'application/json' });
       if (route.request().url().endsWith('/api/short-notes/reviews')) {
         if (route.request().method() === 'GET') return route.fulfill({ json: { reviews: [] } });
@@ -22,8 +23,6 @@ const fs = require('node:fs');
       return route.fulfill({ json: {} });
     });
     await page.goto(process.env.NOTEPAD_TEST_URL || 'http://127.0.0.1:4174', { waitUntil: 'domcontentloaded' });
-    await page.getByRole('button', { name: 'Explore as guest' }).click();
-    await page.evaluate(() => localStorage.setItem('medicomm-session-token', 'notepad-test'));
     async function openQuestion() {
       await page.locator('.shell-nav').getByRole('button', { name: 'Practice', exact: true }).click();
       await page.locator('.practice-path-card').filter({ hasText: 'THEORY' }).click();
@@ -33,7 +32,7 @@ const fs = require('node:fs');
       await page.locator('.sn-question-row').first().click();
     }
     await openQuestion();
-    await page.getByRole('button', { name: /Notepad Write/ }).click();
+    await page.getByRole('button', { name: /^Notepad/ }).click();
     fs.mkdirSync('output/notepad', { recursive: true });
     for (const viewport of [{ width: 1270, height: 587 }, { width: 1440, height: 1000 }, { width: 1024, height: 1366 }]) {
       await page.setViewportSize(viewport);
@@ -84,10 +83,10 @@ const fs = require('node:fs');
     await page.screenshot({ path: 'output/notepad/ipad.png' });
     await page.getByRole('button', { name: 'Close notepad' }).click();
     await page.getByRole('button', { name: 'Next question' }).click();
-    await page.getByRole('button', { name: /Notepad Write/ }).click(); assert.equal(await inkCount(), 0);
+    await page.getByRole('button', { name: /^Notepad/ }).click(); assert.equal(await inkCount(), 0);
     await page.getByRole('button', { name: 'Close notepad' }).click();
     await page.getByRole('button', { name: 'Previous question' }).click();
-    await page.getByRole('button', { name: /Notepad Write/ }).click(); assert.equal(await inkCount(), ink);
+    await page.getByRole('button', { name: /^Notepad/ }).click(); assert.equal(await inkCount(), ink);
     await page.getByRole('button', { name: 'Close notepad' }).click();
     // Restore a legacy single-page draft, including its original eraser semantics.
     await page.evaluate(() => {
@@ -96,9 +95,8 @@ const fs = require('node:fs');
         if (draft.version === 2 && draft.pages.length === 1) localStorage.setItem(key, JSON.stringify({ version: 1, ...draft.pages[0] }));
       }
     });
-    await page.reload(); await page.getByRole('button', { name: 'Explore as guest' }).click();
-    await page.evaluate(() => localStorage.setItem('medicomm-session-token', 'notepad-test'));
-    await openQuestion(); await page.getByRole('button', { name: /Notepad Write/ }).click();
+    await page.reload();
+    await openQuestion(); await page.getByRole('button', { name: /^Notepad/ }).click();
     assert.equal(await inkCount(), ink); assert.equal(await page.getByLabel('Paper style').inputValue(), 'dotted');
     // Tool switching must not leave a captured eraser stroke or change ink into erasing.
     await page.getByRole('button', { name: 'Pen', exact: true }).click();
@@ -157,7 +155,7 @@ const fs = require('node:fs');
     await page.getByRole('button', { name: 'Zoom out', exact: true }).click();
     await page.getByRole('button', { name: 'Reset zoom', exact: true }).click();
     await page.getByRole('button', { name: 'Close notepad' }).click();
-    await page.getByRole('button', { name: /Notepad Write/ }).click(); assert.equal(await inkCount(), secondPageInk);
+    await page.getByRole('button', { name: /^Notepad/ }).click(); assert.equal(await inkCount(), secondPageInk);
     await page.getByRole('button', { name: 'Previous page', exact: true }).click(); assert.equal(await inkCount(), ink);
     await page.evaluate(() => document.documentElement.dataset.theme = 'dark');
     await page.setViewportSize({ width: 390, height: 844 });

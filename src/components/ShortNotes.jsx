@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Camera, Check, CheckCircle2, ChevronRight, FileText, Layers3, Loader2, Search, Sparkles, Star, Upload, X } from "lucide-react";
 import { apiRequest } from "../lib/api";
-import { SESSION_TOKEN_KEY } from "../lib/clientStorage";
 import "./ShortNotes.css";
 import AnswerNotepad from "./AnswerNotepad";
+import TextbookSources from "./TextbookSources";
 
 const typeLabel = (kind) => kind === "long-answer" ? "Long answer" : "Short note";
 function loadDrafts(key) {
@@ -32,7 +32,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
   const [message, setMessage] = useState("");
   const mounted = useRef(true);
   const titleRef = useRef(null);
-  const signedIn = Boolean(localStorage.getItem(SESSION_TOKEN_KEY));
+  const signedIn = Boolean(userId);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
   useEffect(() => {
     const controller = new AbortController();
@@ -134,7 +134,9 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
         <div className="sn-review-top"><div className="sn-score"><strong>{review.score}</strong><span>/ 10</span></div><div><p className="sn-eyebrow"><Sparkles size={14} /> AI theory review</p><h3>{review.feedback}</h3></div></div>
         <div className="sn-feedback-grid"><section><h4><CheckCircle2 size={17} /> What you did well</h4>{review.strengths?.length ? <ul>{review.strengths.map((point, i) => <li key={i}>{point}</li>)}</ul> : <p>Use the suggestions alongside to build a stronger answer.</p>}</section><section><h4>How to improve</h4><ul>{review.improvements?.map((point, i) => <li key={i}>{point}</li>)}</ul></section></div>
         <section className="sn-model-answer"><p className="sn-eyebrow">Learn from your answer</p><h3>Exam-ready model answer</h3>{review.modelAnswerSections?.map((section, i) => <div key={i}><h4>{section.heading}</h4><ul>{section.points.map((point, index) => <li key={index}>{point}</li>)}</ul>{section.flowchart && <p className="sn-flowchart">{section.flowchart}</p>}</div>)}<small>AI-generated study feedback. Check important details against your textbook.</small></section>
+        <TextbookSources sources={review.textbookSources} />
         <details className="sn-submitted"><summary>Your submitted answer</summary>{review.answer && <p>{review.answer}</p>}{review.hasImage && <p>Your written-answer photo was included in this review.</p>}</details>
+        <AnswerNotepad key={question.id} draftId={`short-notes:${userId || "guest"}:${question.id}`} prompt={question.prompt} />
         <div className="sn-review-actions"><span><CheckCircle2 size={15} /> Review saved</span><button className="button button-secondary" type="button" onClick={() => { setDrafts(current => ({ ...current, [question.id]: "" })); setPrivacyAccepted(false); }}>Practise again</button></div>
       </article> : <form className="sn-writing-layout" onSubmit={submitAnswer}>
         <article className="sn-editor">

@@ -10,6 +10,7 @@ import UsmleModules from "./components/UsmleModules";
 import FmgeYears from "./components/FmgeYears";
 import ShortNotes from "./components/ShortNotes";
 import AnswerNotepad from "./components/AnswerNotepad";
+import TextbookSources from "./components/TextbookSources";
 import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
@@ -3393,6 +3394,8 @@ async function fetchPracticeLibrary() {
                   )}
                 </section>
 
+                <TextbookSources sources={currentClinicalEvaluation.textbookSources} />
+                <AnswerNotepad key={currentClinicalCase.id} draftId={`clinical:${user?.id || "guest"}:${clinicalSession.id}:${currentClinicalCase.id}`} prompt={currentClinicalCase.stem} />
                 <details className="viva-submitted-answer">
                   <summary>Your submitted response</summary>
                   {currentClinicalEvaluation.answer ? <p>{currentClinicalEvaluation.answer}</p> : null}

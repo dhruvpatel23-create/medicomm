@@ -18,6 +18,7 @@ import { readUsmleModules } from "./server/usmleModules.mjs";
 import { readFmgeSessions } from "./server/fmgeQuestions.mjs";
 import { loadShortNotes, createShortNotesHandler } from "./server/shortNotes.mjs";
 import { buildShortNoteReviewInstructions } from "./server/shortNotesPrompt.mjs";
+import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from "./server/theoryTextbooks.mjs";
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -1651,7 +1652,7 @@ async function requestClinicalCases(payload) {
   throw new Error(`Unsupported Clinical Cases AI provider: ${provider}.`);
 }
 
-function normalizeClinicalCaseEvaluation(generated, clinicalCase) {
+function normalizeClinicalCaseEvaluation(generated, clinicalCase, subjectTitle) {
   const score = Number(generated?.score);
   const feedback = String(generated?.feedback ?? "").trim();
   const strengths = Array.isArray(generated?.strengths)
@@ -1694,7 +1695,8 @@ function normalizeClinicalCaseEvaluation(generated, clinicalCase) {
     throw new Error("The AI examiner returned a poorly structured clinical-case model answer.");
   }
   if (modelAnswer.length < 120 || modelAnswer.length > 8000) throw new Error("The AI examiner returned an invalid clinical-case model answer.");
-  return { score, feedback, strengths, improvements, modelAnswer, modelAnswerSections };
+  const textbookSources = normalizeTextbookSources(generated?.textbookSources, subjectTitle);
+  return { score, feedback, strengths, improvements, modelAnswer, modelAnswerSections, textbookSources };
 }
 
 const handleShortNotes = createShortNotesHandler({
@@ -1721,15 +1723,16 @@ async function requestGeminiClinicalCaseEvaluation({ subjectTitle, clinicalCase,
         method: "POST",
         headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
         body: JSON.stringify({
-          ...(isShortNote ? { systemInstruction: { parts: [{ text: buildShortNoteReviewInstructions(subjectTitle, clinicalCase.kind) }] } } : {}),
+          systemInstruction: { parts: [{ text: isShortNote ? buildShortNoteReviewInstructions(subjectTitle, clinicalCase.kind) : buildTheoryTextbookInstructions(subjectTitle) }] },
           generationConfig: {
             ...(model.startsWith("gemini-3") ? { thinkingConfig: { thinkingLevel: "low" } } : {}),
             maxOutputTokens: 4096,
             responseMimeType: "application/json",
             responseSchema: {
               type: "object",
-              required: ["score", "feedback", "strengths", "improvements", "modelAnswerSections"],
+              required: ["score", "feedback", "strengths", "improvements", "modelAnswerSections", "textbookSources"],
               properties: {
+                textbookSources: textbookSourceSchema(subjectTitle),
                 score: { type: "integer", minimum: 1, maximum: 10 },
                 feedback: { type: "string" },
                 strengths: { type: "array", maxItems: 4, items: { type: "string" } },
@@ -1787,7 +1790,7 @@ async function requestGeminiClinicalCaseEvaluation({ subjectTitle, clinicalCase,
 
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error("Gemini returned an empty theory review.");
-  return normalizeClinicalCaseEvaluation(JSON.parse(text), clinicalCase);
+  return normalizeClinicalCaseEvaluation(JSON.parse(text), clinicalCase, subjectTitle);
 }
 
 async function requestClinicalCaseEvaluation(payload) {
@@ -1807,6 +1810,7 @@ function sanitizeClinicalCaseAnswer(answer) {
     strengths: answer.strengths,
     improvements: answer.improvements,
     modelAnswer: answer.modelAnswer,
+    textbookSources: answer.textbookSources ?? [],
     modelAnswerSections: Array.isArray(answer.modelAnswerSections)
       ? answer.modelAnswerSections.map((section) => ({
           label: section.label,

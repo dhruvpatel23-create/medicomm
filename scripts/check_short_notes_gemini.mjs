@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
 import { buildShortNoteReviewInstructions } from '../server/shortNotesPrompt.mjs';
+import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from '../server/theoryTextbooks.mjs';
 import { fetchGeminiReviewWithFallback, createGeminiReviewTransport } from '../server/geminiReviewTransport.mjs';
 for (const name of ['.env.local', '.env']) if (existsSync(name)) process.loadEnvFile(name);
 const source = readFileSync('server.mjs', 'utf8');
@@ -16,7 +17,7 @@ const liveTransport = process.env.TEST_GEMINI_OVERLOAD === '1'
     ? Promise.resolve(new Response('{"error":{"message":"Injected overload for recovery test"}}', { status: 503 }))
     : fetch(url, options) })
   : fetchGeminiReviewWithFallback;
-const context = vm.createContext({ process, buildShortNoteReviewInstructions,
+const context = vm.createContext({ process, buildShortNoteReviewInstructions, buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources,
  resolveGeminiModel: (configured, fallback) => { usedModel = (configured || fallback).replace(/^models\//, ''); return usedModel; },
  fetchGeminiReviewWithFallback: async (url, options) => { const response = await liveTransport(url, options); usedModel = response.geminiModel; return response; },
 });
@@ -31,4 +32,5 @@ const result = await context.requestGeminiClinicalCaseEvaluation({subjectTitle:'
 assert(Number.isInteger(result.score));assert(result.score>=1&&result.score<=10);
 assert.equal(result.modelAnswerSections.length,1);assert.equal(result.modelAnswerSections[0].label,'A');
 assert(result.improvements.length>0);assert(result.modelAnswerSections[0].points.length>=2);
+assert(result.textbookSources.length > 0);
 console.log(JSON.stringify({status:'PASS',provider:'Gemini',model:usedModel,score:result.score,strengths:result.strengths.length,improvements:result.improvements.length,modelAnswerPoints:result.modelAnswerSections[0].points.length,realApiCall:true,primaryOverloadInjected:process.env.TEST_GEMINI_OVERLOAD === "1",userDataWritten:false}));

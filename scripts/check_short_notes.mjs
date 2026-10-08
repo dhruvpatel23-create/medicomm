@@ -48,6 +48,7 @@ let calls = 0;
 let fail = false;
 let captured;
 const evaluation = { score: 7, feedback: 'A clear start with room for more detail.', strengths: ['Clear structure'], improvements: ['Cover all parts'], modelAnswerSections: [{ label: 'A', heading: 'Key points', points: ['First point', 'Second point'] }], modelAnswer: 'Model answer' };
+evaluation.textbookSources = [{ book: "B. D. Chaurasia's Human Anatomy", topic: 'Anatomy' }];
 const handler = createShortNotesHandler({questions,
  readDatabase: () => structuredClone(db), writeDatabase: async value => { db = value; },
  requireSessionUser: (req,res) => { if (!req.user) { res.status=401; return null; } return { id: req.user }; },
@@ -71,6 +72,7 @@ assert.equal(captured.clinicalCase.stem,items[0].prompt);
 assert.equal(captured.clinicalCase.kind,'short-note');
 assert(!('userId' in result.body.review));
 assert.equal((await request('GET')).body.reviews.length,1);
+assert.deepEqual((await request('GET')).body.reviews[0].textbookSources, evaluation.textbookSources);
 assert.equal((await request('GET',{},'other-user')).body.reviews[0].answer,'Private answer');
 result=await request('POST',{...payload,answer:'',answerImageDataUrl:'valid'});
 assert.equal(result.status,201);assert.equal(result.body.review.hasImage,true);

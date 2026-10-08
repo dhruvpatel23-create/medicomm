@@ -1,0 +1,6 @@
+.theory-textbook-sources { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--ui-line, #ddd4f0); }
+.theory-textbook-sources h4 { margin: 0 0 10px; font-size: 14px; }
+.theory-textbook-sources ul { padding-left: 20px; margin: 0 0 10px; }
+.theory-textbook-sources li { margin-bottom: 10px; font-size: 13px; line-height: 1.6; }
+.theory-textbook-sources li span { display: block; color: var(--ui-muted, #72758a); }
+.theory-textbook-sources small { color: var(--ui-muted, #72758a); font-size: 11px; }

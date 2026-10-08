@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, Check, Eraser, Hand, Minus, Plus, NotebookPen, PenLine, Redo2, RotateCcw, Undo2, X } from "lucide-react";
 import "./AnswerNotepad.css";
@@ -70,15 +70,21 @@ function redraw(canvas, strokes) {
 
 export default function AnswerNotepad({ draftId, prompt, disabled, onSave, hasImage }) {
   const [open, setOpen] = useState(false);
-  return <Dialog.Root open={open} onOpenChange={setOpen}>
+  const [savedPages, setSavedPages] = useState(() => readDraft(`medicomm-notepad:${draftId}`).pages);
+  const hasDraft = savedPages.some(page => page.strokes.length);
+  function changeOpen(value) {
+    setOpen(value);
+    if (!value) setSavedPages(readDraft(`medicomm-notepad:${draftId}`).pages);
+  }
+  return <Dialog.Root open={open} onOpenChange={changeOpen}>
     <Dialog.Trigger asChild>
       <button type="button" disabled={disabled} className="an-launch mt-4 flex w-full items-center gap-3 rounded-xl border p-4 text-left transition-colors">
         <span className="an-launch-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"><NotebookPen size={21} /></span>
-        <span className="min-w-0 flex-1"><strong className="block text-sm">Notepad</strong><span className="mt-1 block text-xs">Write on your iPad or tablet</span></span><ArrowRight size={16} className="shrink-0" />
+        <span className="min-w-0 flex-1"><strong className="block text-sm">Notepad</strong><span className="mt-1 block text-xs">{hasDraft ? `Continue your ${savedPages.length} saved ${savedPages.length === 1 ? "page" : "pages"}` : "Write on your iPad or tablet"}</span></span><ArrowRight size={16} className="shrink-0" />
       </button>
     </Dialog.Trigger>
     {open && <NotepadSheet key={draftId} storageKey={`medicomm-notepad:${draftId}`} prompt={prompt} hasImage={hasImage}
-      onSave={image => { onSave(image); setOpen(false); }} />}
+      onSave={onSave ? image => { onSave(image); changeOpen(false); } : undefined} />}
   </Dialog.Root>;
 }
 
@@ -105,9 +111,39 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
   const zoomRef = useRef(1);
   const zoomAnchorRef = useRef(null);
   const toolRef = useRef("pen");
+  const swipeRef = useRef(null);
+  const pageScaleRef = useRef(null);
+  const pageAnimationRef = useRef(null);
+  const previousPageRef = useRef(draft.pageIndex);
+  const flushRef = useRef(null);
   const draftRef = useRef(draft);
   const currentPage = draft.pages[draft.pageIndex];
   const pageRef = () => draftRef.current.pages[draftRef.current.pageIndex];
+  flushRef.current = () => finish();
+
+  useEffect(() => {
+    const flush = () => flushRef.current?.();
+    const hide = () => { if (document.visibilityState === "hidden") flush(); };
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", hide);
+    return () => {
+      flush();
+      pageAnimationRef.current?.cancel();
+      window.removeEventListener("pagehide", flush);
+      document.removeEventListener("visibilitychange", hide);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const previous = previousPageRef.current;
+    previousPageRef.current = draft.pageIndex;
+    if (previous === draft.pageIndex || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    pageAnimationRef.current?.cancel();
+    pageAnimationRef.current = pageScaleRef.current?.animate([
+      { transform: `translateX(${draft.pageIndex > previous ? "-" : ""}64px)`, opacity: 0.25 },
+      { transform: "translateX(0)", opacity: 1 },
+    ], { duration: 300, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
+  }, [draft.pageIndex]);
 
   function persist(next) {
     draftRef.current = next;
@@ -155,12 +191,14 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     return { clientX: (a.x + b.x) / 2, clientY: (a.y + b.y) / 2, distance: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)) };
   }
   function start(event) {
+    pageAnimationRef.current?.cancel();
     if (event.pointerType === "touch") {
       // Ignore palms while a stylus is writing.
       if (activeStroke.current?.pointerType === "pen") return;
       touchesRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
       event.currentTarget.setPointerCapture(event.pointerId);
       if (touchesRef.current.size >= 2) {
+        swipeRef.current = null;
         event.preventDefault();
         // The first finger may have begun a stroke. A pinch must never leave ink or erase it.
         activeStroke.current = null;
@@ -175,6 +213,13 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
         return;
       }
       if (pinchRef.current) return;
+      const bounds = workspaceRef.current.getBoundingClientRect();
+      const edge = event.clientX - bounds.left < 32 || bounds.right - event.clientX < 32;
+      if (zoomRef.current <= 1 && (edge || pencilOnly || toolRef.current === "pan")) {
+        swipeRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY };
+        // Reserve the page edge for turning pages, so a swipe cannot leave ink.
+        if (edge) { event.preventDefault(); return; }
+      }
     }
     if (activeStroke.current || panRef.current || pinchRef.current || (event.pointerType === "mouse" && event.button !== 0)) return;
     if (toolRef.current === "pan" || (pencilOnly && event.pointerType === "touch") || event.target !== canvasRef.current) {
@@ -228,6 +273,15 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     if (active.stroke.style === "highlighter" && active.stroke.tool === "pen") redraw(canvasRef.current, [...pageRef().strokes, active.stroke]);
   }
   function finish(event) {
+    const swipe = swipeRef.current;
+    if (!event || swipe?.id === event.pointerId) swipeRef.current = null;
+    if (swipe && event?.pointerId === swipe.id && event.type === "pointerup" && !pinchRef.current) {
+      const dx = event.clientX - swipe.x, dy = event.clientY - swipe.y;
+      if (Math.abs(dx) >= 80 && Math.abs(dx) > Math.abs(dy) * 2) {
+        changePage(draftRef.current.pageIndex + (dx > 0 ? 1 : -1));
+        return;
+      }
+    }
     if (event) {
       touchesRef.current.delete(event.pointerId);
       if (!touchesRef.current.size) pinchRef.current = null;
@@ -264,7 +318,7 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
   function changePage(index, add = false) {
     finish();
     const current = draftRef.current;
-    if (add && current.pages.length >= MAX_PAGES) return;
+    if (index < 0 || (!add && index >= current.pages.length) || (add && current.pages.length >= MAX_PAGES)) return;
     persist({ ...current, pages: add ? [...current.pages, emptyPage()] : current.pages, pageIndex: index });
     setRedo([]); setConfirmClear(false); setMessage("");
     workspaceRef.current.scrollTo(0, 0);
@@ -363,17 +417,17 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
       </aside>
       <div className={`an-workspace${tool === "pan" ? " an-panning" : ""}`} ref={workspaceRef}
         onPointerDown={start} onPointerMove={move} onPointerUp={finish} onPointerCancel={finish} onLostPointerCapture={finish}>
-        <div className="an-page-scale" style={{ width: `${zoom * 100}%` }}>
+        <div className="an-page-scale" ref={pageScaleRef} style={{ width: `${zoom * 100}%` }}>
         <div className={`an-paper an-paper-${currentPage.paper} relative mx-auto shadow-lg`}>
           {!currentPage.strokes.length && <div className="pointer-events-none absolute inset-x-0 top-20 text-center text-slate-400"><PenLine size={26} className="mx-auto mb-3 opacity-50" /><p className="text-sm">Every good answer starts here.</p><p className="mt-2 text-xs">Use your Pencil, finger, or mouse.</p></div>}
           <canvas ref={attachCanvas} width={WIDTH} height={HEIGHT} className="an-canvas relative block w-full" aria-label="Handwritten answer sheet" onContextMenu={event => event.preventDefault()} />
         </div>
-        <p className="an-sheet-caption mt-4 text-center text-xs">Page {draft.pageIndex + 1} of {draft.pages.length} · Pinch with two fingers to zoom and move</p>
+        <p className="an-sheet-caption mt-4 text-center text-xs">Page {draft.pageIndex + 1} of {draft.pages.length} · Pinch to zoom · Swipe right from the left edge for the next page; left from the right edge to go back</p>
         </div>
       </div>
       <footer className="an-footer">
         <div className="flex flex-wrap items-center justify-between gap-3"><div className="an-page-navigation"><button className="an-tool" type="button" aria-label="Previous page" disabled={draft.pageIndex === 0} onClick={() => changePage(draft.pageIndex - 1)}>&lsaquo;</button><span>{draft.pageIndex + 1}/{draft.pages.length}</span><button className="an-tool" type="button" aria-label="Next page" disabled={draft.pageIndex === draft.pages.length - 1} onClick={() => changePage(draft.pageIndex + 1)}>&rsaquo;</button><button className="an-tool" type="button" aria-label="Add page" disabled={draft.pages.length >= MAX_PAGES} onClick={() => changePage(draft.pages.length, true)}><Plus size={16} /><span className="hidden sm:inline">Page</span></button></div><div className="an-draft-status text-xs"><p className="flex items-center gap-1.5" role="status">{!storageError && <Check size={14} className="an-accent" />}{storageError ? "Draft could not save on this device. Keep this sheet open." : "Draft kept on this device"}</p><p className="sr-only">{hasImage ? "Saving replaces the currently attached image." : "Save, then submit your answer for AI review."}</p></div>
-          <button type="button" className="an-save flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold" onClick={save}>Save answer <ArrowRight size={16} /></button></div>
+          {onSave ? <button type="button" className="an-save flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold" onClick={save}>Save answer <ArrowRight size={16} /></button> : <Dialog.Close asChild><button type="button" className="an-save an-tool" onClick={() => finish()}>Done</button></Dialog.Close>}</div>
         {message && <p className="an-save-error text-sm text-red-600" role="alert">{message}</p>}
       </footer>
     </Dialog.Content>
