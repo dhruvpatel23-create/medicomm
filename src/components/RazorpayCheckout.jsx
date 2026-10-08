@@ -1,0 +1,78 @@
+import { useEffect, useRef, useState } from 'react';
+import { apiRequest } from '../lib/api';
+
+let checkoutScript;
+export function loadRazorpayCheckout() {
+  if (window.Razorpay) return Promise.resolve();
+  if (checkoutScript) return checkoutScript;
+  checkoutScript = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    const timer = setTimeout(() => fail(), 20000);
+    function fail() { clearTimeout(timer); script.remove(); checkoutScript = null; reject(new Error('Could not load secure checkout. Check your connection and try again.')); }
+    script.onload = () => { clearTimeout(timer); if (window.Razorpay) resolve(); else fail(); };
+    script.onerror = fail;
+    document.head.appendChild(script);
+  });
+  return checkoutScript;
+}
+
+export default function RazorpayCheckout({ plan, user, guest }) {
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState('');
+  const [pending, setPending] = useState(null);
+  const lock = useRef(false);
+  const checkout = useRef(null);
+  const storageKey = `medulla-payment-verification:${user?.id}`;
+  useEffect(() => {
+    try { const saved = JSON.parse(sessionStorage.getItem(storageKey) || 'null'); setPending(saved); if (saved) setMessage('A previous payment needs verification. Check its status before paying again.'); } catch { /* No recoverable callback. */ }
+    return () => checkout.current?.close();
+  }, [storageKey]);
+  function remember(value) {
+    setPending(value);
+    try { if (value) sessionStorage.setItem(storageKey, JSON.stringify(value)); else sessionStorage.removeItem(storageKey); } catch { /* The retry remains available in this tab. */ }
+  }
+  async function verify(result) {
+    setBusy(true); lock.current = true;
+    setMessage('Verifying your payment…');
+    try {
+      const data = await apiRequest('/api/verify-payment', { method: 'POST', body: JSON.stringify(result), timeoutMs: 30000 });
+      if (data.paid) { remember(null); setMessage(`${data.test_mode ? 'Test payment' : 'Payment'} confirmed. Reference: ${data.payment_id}.`); }
+      else setMessage('Payment authorized; capture is pending. Check payment status again before making another payment.');
+    } catch (error) { setMessage(`${error.message} Your payment is not confirmed here. Retry verification before paying again.`); }
+    finally { lock.current = false; setBusy(false); }
+  }
+  async function pay() {
+    if (lock.current || pending || guest) return;
+    lock.current = true; setBusy(true); setMessage('Opening secure checkout…');
+    try {
+      await loadRazorpayCheckout();
+      const order = await apiRequest('/api/create-order', { method: 'POST', body: JSON.stringify({ planId: plan.id, amount: plan.amount, currency: plan.currency }), timeoutMs: 30000 });
+      let completed = false;
+      let failed = false;
+      const modal = new window.Razorpay({
+        key: order.key_id, order_id: order.order_id, amount: order.amount, currency: order.currency,
+        name: 'Medulla', description: `${plan.name} — annual plan`,
+        prefill: { name: user?.name, email: user?.email, contact: user?.contactNumber },
+        theme: { color: '#2563eb' },
+        handler: result => { completed = true; remember(result); void verify(result); },
+        modal: { ondismiss: () => { if (!completed) { lock.current = false; setBusy(false); if (!failed) setMessage('Checkout cancelled. No payment was confirmed.'); } } },
+      });
+      modal.on('payment.failed', event => { failed = true; setMessage(event.error?.description || 'Payment failed. Please retry in checkout or close it.'); });
+      checkout.current = modal;
+      setMessage(order.test_mode ? 'Test mode: no real money will be collected.' : 'Complete your payment in the secure checkout window.');
+      modal.open();
+    } catch (error) { lock.current = false; setBusy(false); setMessage(error.message); }
+  }
+  return <div className="payment-summary">
+    <div><span>Selected plan</span><strong>Medulla {plan.name}</strong></div>
+    <div><span>Billing</span><strong>Annual · one-time payment</strong></div>
+    <div><span>Amount</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: plan.currency, maximumFractionDigits: 0 }).format(plan.amount / 100)}</strong></div>
+    <button className="button button-primary" disabled={busy || guest || Boolean(pending)} onClick={pay}>{busy ? 'Processing…' : 'Pay securely with Razorpay'}</button>
+    {pending && <button className="button button-secondary" disabled={busy} onClick={() => void verify(pending)}>Check payment status</button>}
+    {guest && <small>Sign in to make a payment and save it to your account.</small>}
+    {message && <p className="form-message" role="status">{message}</p>}
+    <small>Card and UPI details are collected by Razorpay.</small>
+  </div>;
+}

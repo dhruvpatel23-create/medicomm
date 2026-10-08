@@ -21,6 +21,7 @@ import { buildShortNoteReviewInstructions } from "./server/shortNotesPrompt.mjs"
 import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from "./server/theoryTextbooks.mjs";
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
 import { dashboardData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
+import { createPaymentHandler } from "./server/payments.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -163,6 +164,7 @@ function getEmptyDatabase() {
     duelResults: [],
     questions: [],
     practiceResults: [],
+    paymentOrders: [],
     vivaSessions: [],
     clinicalCaseSessions: [],
     shortNoteReviews: [],
@@ -192,6 +194,7 @@ function normalizeDatabase(parsed = {}) {
     duelResults: Array.isArray(parsed.duelResults) ? parsed.duelResults : [],
     questions: Array.isArray(parsed.questions) ? parsed.questions : [],
     practiceResults: Array.isArray(parsed.practiceResults) ? parsed.practiceResults : [],
+    paymentOrders: Array.isArray(parsed.paymentOrders) ? parsed.paymentOrders : [],
     vivaSessions: Array.isArray(parsed.vivaSessions) ? parsed.vivaSessions : [],
     clinicalCaseSessions: Array.isArray(parsed.clinicalCaseSessions) ? parsed.clinicalCaseSessions : [],
     shortNoteReviews: Array.isArray(parsed.shortNoteReviews) ? parsed.shortNoteReviews : [],
@@ -289,6 +292,7 @@ function readDatabase() { return stateStore.read(); }
 function writeDatabase(data) { return stateStore.write(data); }
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
+const handlePayment = createPaymentHandler({ readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson });
 
 function normalizeContactNumber(value) {
   return String(value ?? "").replace(/\D/g, "");
@@ -3484,6 +3488,7 @@ async function handleRequest(request, response) {
   }
 
     if (request.method === "POST" && url.pathname === "/api/auth/signup") return await handleSignup(request, response);
+    if (request.method === 'POST' && ['/api/create-order', '/api/verify-payment'].includes(url.pathname)) return await handlePayment(request, response, url);
     if (url.pathname === "/api/reviews") return await handleWebsiteReviews(request, response, url);
     if (request.method === "POST" && url.pathname === "/api/auth/login") return await handleLogin(request, response);
     if (request.method === "GET" && url.pathname === "/api/auth/session") return handleSession(request, response);

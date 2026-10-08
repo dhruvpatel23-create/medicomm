@@ -13,6 +13,8 @@ import AnswerNotepad from "./components/AnswerNotepad";
 import TextbookSources from "./components/TextbookSources";
 import { DashboardSummary, ProfileOverview } from "./components/AccountOverview";
 import DashboardActivity from "./components/DashboardActivity";
+import RazorpayCheckout from "./components/RazorpayCheckout";
+import { PAYMENT_PLANS } from "./data/paymentPlans";
 import { useAccountOverview, usePracticeRecorder } from "./lib/useAccountOverview";
 import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
@@ -578,6 +580,7 @@ function App() {
   const [practiceQuestionStartedAt, setPracticeQuestionStartedAt] = useState(Date.now());
   const [userRating, setUserRating] = useState(1480);
   const [profilePhotoPreparing, setProfilePhotoPreparing] = useState(false);
+  const [paymentPlanId, setPaymentPlanId] = useState("ultra");
   const duelDeadlineRef = useRef(0);
   const loadedDuelRef = useRef(null);
   const duelAnswerPendingRef = useRef(false);
@@ -4963,14 +4966,14 @@ async function fetchPracticeLibrary() {
     ];
     return (
       <section className="app-view pricing-page">
-        <div className="pricing-hero"><p className="eyebrow">Simple, affordable pricing</p><h2>Master Medicine,<br/>One Question at a Time<span>.</span></h2><p>Practice consistently, compete with friends, analyze your weaknesses, and prepare confidently for university exams and NEET PG.</p><div className="billing-toggle"><button>Monthly</button><button className="active">Annual</button><span>Save up to 30%</span></div></div>
-        <div className="pricing-grid">{plans.map((plan) => <article className={`pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">★ Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} onClick={() => document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" })}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul></article>)}</div>
+        <div className="pricing-hero"><p className="eyebrow">Simple, affordable pricing</p><h2>Master Medicine,<br/>One Question at a Time<span>.</span></h2><p>Practice consistently, compete with friends, analyze your weaknesses, and prepare confidently for university exams and NEET PG.</p><div className="billing-toggle"><span>Annual plans · one-time payment</span></div></div>
+        <div className="pricing-grid">{plans.map((plan) => <article className={`pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">★ Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} onClick={() => { setPaymentPlanId(plan.name.toLowerCase()); document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" }); }}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul></article>)}</div>
         <div className="pricing-assurance-strip">{assurances.map(([icon, title, copy]) => <div key={title}><span>{icon}</span><strong>{title}</strong><small>{copy}</small></div>)}</div>
         <article className="card panel payment-gateway-section" id="payment-gateway">
-          <div className="payment-copy"><p className="eyebrow">Payment gateway · future ready</p><h3>Secure checkout boundary</h3><p className="panel-copy">The interface is prepared for a PCI-compliant provider such as Razorpay or Stripe. Medulla will create orders and store payment status only. Raw card or UPI credentials will never touch the application server.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
-          <div className="payment-summary"><div><span>Selected plan</span><strong>Medulla Ultra</strong></div><div><span>Billing</span><strong>Annual</strong></div><div><span>Amount</span><strong>₹999</strong></div><button className="button button-primary" disabled>Checkout coming soon</button><small>No payment will be collected yet.</small></div>
+          <div className="payment-copy"><p className="eyebrow">Razorpay Checkout</p><h3>Complete your payment securely</h3><p className="panel-copy">Choose a plan above, then pay using Razorpay. Your payment is confirmed by our server and saved to your account.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
+          <RazorpayCheckout key={user?.id || "guest"} plan={PAYMENT_PLANS.find(plan => plan.id === paymentPlanId)} user={user} guest={authStatus !== "authenticated"} />
         </article>
-        <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using Medulla for free?</summary><p>Yes. Core daily practice and community features remain available on the free plan.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Sensitive payment collection will be hosted by a compliant payment provider; Medulla will retain only order and entitlement status.</p></details></div>
+        <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using Medulla for free?</summary><p>Yes. Core daily practice and community features remain available on the free plan.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Razorpay collects payment details securely. Medulla stores the order and verified payment status.</p></details></div>
       </section>
     );
   }
