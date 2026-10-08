@@ -1,0 +1,17 @@
+.payment-summary .checkout-coupon { display: block; margin: 14px 0; padding: 16px; border: 1px dashed #94a3b8; border-radius: 16px; background: rgba(59,130,246,.05); text-align: left; }
+.checkout-coupon label { display: block; font-size: 14px; font-weight: 700; }
+.checkout-coupon p { margin: 5px 0 12px; font-size: 12px; line-height: 1.5; color: var(--ui-muted, #64748b); }
+.payment-summary .checkout-coupon-input { display: flex; gap: 8px; align-items: stretch; }
+.checkout-coupon-input input { min-width: 0; width: 100%; padding: 11px 12px; border: 1px solid #94a3b8; border-radius: 9px; color: inherit; background: transparent; text-transform: uppercase; font-weight: 600; letter-spacing: .05em; }
+.checkout-coupon-input button { flex-shrink: 0; border: 0; border-radius: 9px; padding: 10px 14px; background: #2563eb; color: #fff; font-weight: 700; cursor: pointer; }
+.checkout-coupon-input button:disabled { opacity: .6; cursor: default; }
+.checkout-coupon-input input:focus-visible, .checkout-coupon-input button:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px; }
+.payment-summary .checkout-coupon-applied { border-color: #10b981; background: rgba(16,185,129,.08); }
+.checkout-coupon .checkout-coupon-feedback { margin: 10px 0 0; color: inherit; }
+.payment-summary .checkout-savings { color: #059669; }
+.payment-summary .checkout-total { padding-top: 14px; border-top: 1px solid #94a3b850; }
+.checkout-total strong { font-size: 27px; }
+.avatar.paid-avatar, .paid-avatar { background: linear-gradient(135deg,#fff3b0,#efb837,#b7780f) !important; color: #583700 !important; border-color: #f5cc65 !important; box-shadow: 0 0 0 3px #dca92b, 0 0 22px #dca92b40 !important; }
+.practice-access-lock { max-width: 640px; margin: 56px auto; padding: 40px 28px; border: 1px solid #d5ae5270; border-radius: 24px; text-align: center; background: linear-gradient(135deg,#dca92b0d,#3b82f60a); }
+.practice-access-lock .lock-symbol { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; background: #dca92b20; color: #b58015; font-size: 28px; margin-bottom: 18px; }
+.practice-access-lock p { line-height: 1.7; margin-bottom: 24px; }

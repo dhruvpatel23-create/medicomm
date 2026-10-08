@@ -1051,9 +1051,9 @@ async function fetchPracticeLibrary() {
 
   useEffect(() => {
     const needsPracticeLibrary = activeView === "Practice" || (activeView === "Bookmarks" && questionBookmarks.length > 0);
-    if (!needsPracticeLibrary || practiceLibraryStatus !== "idle") return;
+    if (!user?.hasPracticeAccess || !needsPracticeLibrary || practiceLibraryStatus !== "idle") return;
     fetchPracticeLibrary();
-  }, [activeView, practiceLibraryStatus, questionBookmarks.length]);
+  }, [activeView, practiceLibraryStatus, questionBookmarks.length, user?.hasPracticeAccess]);
 
   useEffect(() => {
     if (!dashboardPracticeTarget) return;
@@ -1572,6 +1572,7 @@ async function fetchPracticeLibrary() {
   }
 
   function openBookmarkedQuestion(entry) {
+    if (!user?.hasPracticeAccess) { setActiveView("Practice"); return; }
     if (!entry?.resolved) {
       setBookmarkMessage("That question is no longer available in the current practice library.");
       return;
@@ -2860,7 +2861,12 @@ async function fetchPracticeLibrary() {
     </section>;
   }
 
+  function renderPracticeLock() {
+    return <section className="app-view"><div className="practice-access-lock"><span className="lock-symbol" aria-hidden="true">🔒</span><p className="eyebrow">Your next chapter starts here</p><h2>Unlock your practice journey</h2><p>Get access to questions, theory and saved practice after your payment is verified. Use <strong>PRELAUNCH</strong> at checkout to start for just <strong>₹9</strong>.</p><button className="button button-primary" onClick={() => setActiveView("Pricing")}>View plans &amp; unlock Practice</button></div></section>;
+  }
+
   function renderPractice() {
+    if (!user?.hasPracticeAccess) return renderPracticeLock();
     const isTheory = practicePathTitle === "THEORY";
     const catalogTitle = isTheory ? "Cases and short notes by subject" : `${practiceLibrary.exam.title} by year and subject`;
     if (practiceStage === "selection") {
@@ -4253,6 +4259,7 @@ async function fetchPracticeLibrary() {
   }
 
   function renderBookmarks() {
+    if (!user?.hasPracticeAccess) return renderPracticeLock();
     const modeLabels = {
       pyq: "Previous Year Question",
       ai: "Topic-wise Question",
@@ -4971,7 +4978,7 @@ async function fetchPracticeLibrary() {
         <div className="pricing-assurance-strip">{assurances.map(([icon, title, copy]) => <div key={title}><span>{icon}</span><strong>{title}</strong><small>{copy}</small></div>)}</div>
         <article className="card panel payment-gateway-section" id="payment-gateway">
           <div className="payment-copy"><p className="eyebrow">Razorpay Checkout</p><h3>Complete your payment securely</h3><p className="panel-copy">Choose a plan above, then pay using Razorpay. Your payment is confirmed by our server and saved to your account.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
-          <RazorpayCheckout key={user?.id || "guest"} plan={PAYMENT_PLANS.find(plan => plan.id === paymentPlanId)} user={user} guest={authStatus !== "authenticated"} />
+          <RazorpayCheckout key={user?.id || "guest"} plan={PAYMENT_PLANS.find(plan => plan.id === paymentPlanId)} user={user} guest={authStatus !== "authenticated"} onVerified={payment => { if (payment.hasPracticeAccess) { setUser(current => current?.id === user?.id ? { ...current, hasPracticeAccess: true } : current); setPracticeLibraryStatus("idle"); } }} />
         </article>
         <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using Medulla for free?</summary><p>Yes. Core daily practice and community features remain available on the free plan.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Razorpay collects payment details securely. Medulla stores the order and verified payment status.</p></details></div>
       </section>

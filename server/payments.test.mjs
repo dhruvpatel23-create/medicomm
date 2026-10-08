@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHmac } from 'node:crypto';
-import { createPaymentHandler } from './payments.mjs';
+import { createPaymentHandler, hasPracticeAccess, paymentQuote } from './payments.mjs';
 
 function fixture() {
   let database = { users: [{ id: 'one' }, { id: 'two' }], paymentOrders: [] };
@@ -62,9 +62,27 @@ test('authorized remains pending, captured is paid, repeated verification is saf
   f.status('authorized');
   assert.equal((await f.call('/api/verify-payment', f.signed())).body.paid, false);
   assert.equal(f.state().paymentOrders[0].status, 'authorized');
+  assert.equal(hasPracticeAccess(f.state(), 'one'), false);
   f.status('captured');
   assert.equal((await f.call('/api/verify-payment', f.signed())).body.paid, true);
   assert.equal((await f.call('/api/verify-payment', f.signed())).body.paid, true);
   assert.equal(f.state().paymentOrders.length, 1);
   assert.equal(f.state().paymentOrders[0].paymentId, 'pay_test123');
+  assert.equal(hasPracticeAccess(f.state(), 'one'), true);
+  assert.equal(hasPracticeAccess(f.state(), 'two'), false);
+});
+
+test('PRELAUNCH charges exactly 900 paise and cannot be forged by changing the amount', async () => {
+  for (const planId of ['lite', 'ultra', 'premium']) assert.equal(paymentQuote({ planId, coupon: ' prelaunch ' }).amount, 900);
+  const f = fixture();
+  await rejects(f.call('/api/create-order', { ...order, amount: 900 }), 400);
+  await rejects(f.call('/api/create-order', { ...order, amount: 900, coupon: 'FAKE' }), 400);
+  await rejects(f.call('/api/create-order', { ...order, amount: 100, coupon: 'PRELAUNCH' }), 400);
+  const created = await f.call('/api/create-order', { ...order, amount: 900, coupon: 'PRELAUNCH' });
+  assert.equal(created.body.amount, 900);
+  assert.equal(f.state().paymentOrders[0].coupon, 'PRELAUNCH');
+  assert.equal(hasPracticeAccess(f.state(), 'one'), false);
+  f.amount(900);
+  const verified = await f.call('/api/verify-payment', f.signed());
+  assert.equal(verified.body.hasPracticeAccess, true);
 });

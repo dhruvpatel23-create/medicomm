@@ -3,6 +3,18 @@ import { createHmac, timingSafeEqual, randomUUID } from 'node:crypto';
 import { HttpError } from './security.mjs';
 import { PAYMENT_PLANS } from '../src/data/paymentPlans.js';
 
+export function hasPracticeAccess(database, userId) {
+  return Boolean(userId && (database.paymentOrders ?? []).some(order => order.userId === userId && order.status === 'paid' && order.paymentId && order.verifiedAt));
+}
+
+export function paymentQuote(payload) {
+  const plan = PAYMENT_PLANS.find(item => item.id === payload.planId);
+  if (!plan) throw new HttpError(400, 'Choose a valid plan.');
+  const coupon = String(payload.coupon ?? '').trim().toUpperCase();
+  if (coupon && coupon !== 'PRELAUNCH') throw new HttpError(400, 'That coupon code is not valid.');
+  return { planId: plan.id, originalAmount: plan.amount, amount: coupon ? 900 : plan.amount, currency: plan.currency, coupon };
+}
+
 export function validPaymentSignature(orderId, paymentId, signature, secret) {
   if (typeof signature !== 'string' || !/^[a-f0-9]{64}$/i.test(signature)) return false;
   const expected = createHmac('sha256', secret).update(`${orderId}|${paymentId}`).digest();
@@ -22,12 +34,13 @@ export function createPaymentHandler({ readDatabase, writeDatabase, requireSessi
     }
   }
   return async function handlePayment(request, response, url) {
+    if (url.pathname === '/api/payment-quote') return sendJson(response, 200, paymentQuote(await parseRequestBody(request)));
     const user = requireSessionUser(request, response, readDatabase());
     if (!user) return;
     if (!gateway) throw new HttpError(503, 'Checkout is not configured yet. Please try again later.');
     const payload = await parseRequestBody(request);
     if (url.pathname === '/api/create-order') {
-      const plan = PAYMENT_PLANS.find(item => item.id === payload.planId);
+      const plan = paymentQuote(payload);
       if (!Number.isSafeInteger(payload.amount) || payload.amount < 100) throw new HttpError(400, 'Amount must be an integer of at least 100 paise.');
       if (!plan || payload.amount !== plan.amount || payload.currency !== plan.currency) throw new HttpError(400, 'The selected plan or price is invalid. Please refresh and try again.');
       const receipt = `med_${randomUUID().replaceAll('-', '')}`;
@@ -35,7 +48,7 @@ export function createPaymentHandler({ readDatabase, writeDatabase, requireSessi
       if (!order.id || order.amount !== plan.amount || order.currency !== plan.currency) throw new HttpError(500, 'Razorpay returned an invalid order.');
       const database = readDatabase();
       database.paymentOrders ??= [];
-      database.paymentOrders.push({ orderId: order.id, userId: user.id, planId: plan.id, amount: plan.amount,
+      database.paymentOrders.push({ orderId: order.id, userId: user.id, planId: plan.planId, amount: plan.amount, coupon: plan.coupon, originalAmount: plan.originalAmount,
         currency: plan.currency, receipt, status: 'created', testMode: keyId.startsWith('rzp_test_'), createdAt: new Date().toISOString() });
       await writeDatabase(database);
       return sendJson(response, 200, { order_id: order.id, amount: plan.amount, currency: plan.currency, key_id: keyId, test_mode: keyId.startsWith('rzp_test_') });
@@ -60,6 +73,7 @@ export function createPaymentHandler({ readDatabase, writeDatabase, requireSessi
     order.verifiedAt = new Date().toISOString();
     await writeDatabase(database);
     return sendJson(response, 200, { success: true, paid: order.status === 'paid', status: order.status,
+      hasPracticeAccess: hasPracticeAccess(database, user.id),
       order_id: order.orderId, payment_id: paymentId, planId: order.planId, test_mode: order.testMode });
   };
 }

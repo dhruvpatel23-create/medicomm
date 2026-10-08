@@ -9,7 +9,10 @@ const assert = require('node:assert/strict');
 
 (async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'medulla-account-ui-'));
-  await fs.writeFile(path.join(root, 'users.json'), JSON.stringify({ users: [], sessions: {} }));
+  const { issueSession } = await import('../server/security.mjs');
+  const seed = { users: [{ id: 'account-ui-paid', name: 'Aanya Learner', email: 'account-ui@example.test', medicalCollege: 'Test Medical College, Kerala', contactNumber: '9000000088' }], sessions: {}, paymentOrders: [{ orderId: 'order_fixture', userId: 'account-ui-paid', status: 'paid', paymentId: 'pay_fixture', verifiedAt: new Date().toISOString() }] };
+  const token = issueSession(seed, 'account-ui-paid');
+  await fs.writeFile(path.join(root, 'users.json'), JSON.stringify(seed));
   const child = spawn(process.execPath, ['server.mjs'], { env: { ...process.env, NODE_ENV: 'test', LOAD_ENV_FILES: 'false', RUNTIME_DATA_DIR: root, PORT: '0', HOST: '127.0.0.1', SUPABASE_URL: '', SUPABASE_SECRET_KEY: '', SUPABASE_SERVICE_ROLE_KEY: '', SUPABASE_SERVICE_KEY: '', SUPABASE_UPLOAD_BUCKET: '', APP_ORIGINS: 'http://127.0.0.1:4190' }, stdio: ['ignore', 'pipe', 'pipe'] });
   let browser;
   try {
@@ -21,8 +24,7 @@ const assert = require('node:assert/strict');
     });
     browser = await chromium.launch({ headless: true, channel: 'msedge' });
     const context = await browser.newContext({ viewport: { width: 1440, height: 1050 } });
-    const signup = await context.request.post(`${backend}/api/auth/signup`, { data: { name: 'Aanya Learner', email: 'account-ui@example.test', medicalCollege: 'Test Medical College, Kerala', contactNumber: '9000000088', password: 'Secure-test-password-123' } });
-    assert.equal(signup.status(), 201);
+    await context.addCookies([{ name: 'medicomm_session', value: token, url: backend, httpOnly: true, sameSite: 'Lax' }]);
     const page = await context.newPage(); page.setDefaultTimeout(30000);
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     // Forward to a real isolated backend; do not mock account data or mutations.

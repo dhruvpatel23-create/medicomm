@@ -33,11 +33,17 @@ Add the two credentials to Render, enable automatic payment capture in Razorpay,
 and redeploy. For real payments, replace both test credentials with the matching
 live pair. Never put the secret in a VITE_ variable or commit `.env`.
 
-This integration records payments; it does not introduce subscription renewal,
-refund processing or feature-access enforcement. Annual checkout is a one-time
-payment. Before relying on payments to provision access automatically, add verified
-Razorpay webhooks/reconciliation for callbacks lost when the customer closes the tab,
-plus the product's entitlement rules. Pending callbacks received by this tab are
-kept in sessionStorage for verification retries after reload.
+Apply PRELAUNCH on Pricing to reduce any plan's total to ₹9 (900 paise).
+POST `/api/payment-quote` validates the code; order creation validates it again.
+Only a captured payment with a verified signature grants Practice access and a
+golden avatar. Access is derived from saved orders on each session/API request;
+pending, failed and forged payments do not unlock Practice. This also applies to
+test payments while testing with the configured test keys.
+
+Practice, theory APIs and raw practice JSON require paid access. Annual checkout
+is a one-time payment; automatic renewals, refunds and expiry are not implemented.
+Pending callbacks received by this tab are kept in sessionStorage for verification
+retries after reload. Webhook reconciliation for callbacks lost before reaching the
+browser is not yet implemented; verify the payment from the original checkout tab.
 
 Reference: https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/integration-steps/

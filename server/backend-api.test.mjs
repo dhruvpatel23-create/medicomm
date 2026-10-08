@@ -6,10 +6,13 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { once } from 'node:events';
 import { createServer } from 'node:http';
+import { issueSession } from './security.mjs';
 
 test('real HTTP: auth, persistence, origins, limits, uploads and logout', { timeout: 30000 }, async t => {
   const directory = await mkdtemp(path.join(tmpdir(), 'medicomm-test-'));
-  await writeFile(path.join(directory, 'users.json'), JSON.stringify({ users: [], sessions: {} }));
+  const seed = { users: [{ id: 'paid-fixture', name: 'Paid Learner', email: 'paid@example.test', medicalCollege: 'Test College' }], sessions: {}, paymentOrders: [{ orderId: 'order_fixture', userId: 'paid-fixture', status: 'paid', paymentId: 'pay_fixture', verifiedAt: new Date().toISOString() }] };
+  const paidToken = issueSession(seed, 'paid-fixture');
+  await writeFile(path.join(directory, 'users.json'), JSON.stringify(seed));
   const child = spawn(process.execPath, ['server.mjs'], {
     cwd: new URL('..', import.meta.url),
     env: { ...process.env, NODE_ENV: 'test', LOAD_ENV_FILES: 'false', RUNTIME_DATA_DIR: directory, PORT: '0', HOST: '127.0.0.1', SUPABASE_URL: '', SUPABASE_SECRET_KEY: '', SUPABASE_SERVICE_ROLE_KEY: '', SUPABASE_SERVICE_KEY: '', SUPABASE_UPLOAD_BUCKET: '', APP_ORIGINS: 'http://localhost:5173', TRUST_PROXY: 'false' },
@@ -43,6 +46,13 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   const emptyDashboard = await (await call('/api/dashboard')).json();
   assert.equal(emptyDashboard.stats.attempted, 0);
   assert.equal(emptyDashboard.stats.streak, 0);
+  assert.equal(result.user.hasPracticeAccess, false);
+  for (const route of ['/api/practice', '/short-notes.json', '/practice-question-bank.json', '/%73hort-notes.json']) assert.equal((await call(route)).status, 403);
+  assert.equal((await call('/api/practice/attempts', 'POST', {})).status, 403);
+  assert.equal((await call('/api/viva/sessions', 'POST', {})).status, 403);
+  const unpaidCookie = cookie; cookie = 'medicomm_session=' + paidToken;
+  assert.equal((await (await call('/api/auth/session')).json()).user.hasPracticeAccess, true);
+  assert.equal((await call('/short-notes.json')).headers.get('cache-control'), 'private, no-store');
   assert.equal((await call('/api/dashboard/goal', 'PATCH', { exam: 'Test exam', date: '2027-03-01', weeklyTarget: 150 })).status, 200);
   assert.equal((await call('/api/dashboard/goal', 'PATCH', { exam: 'Test exam', date: '2027-02-30', weeklyTarget: 150 })).status, 400);
   const bank = await (await call('/api/practice')).json();
@@ -56,8 +66,9 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   assert.equal(dashboard.today.seconds, 90); assert.equal(dashboard.goal.exam, 'Test exam');
   assert.equal(dashboard.recent[0].questionId, question.id);
   const saved = JSON.parse(await readFile(path.join(directory, 'users.json'), 'utf8'));
-  assert.equal(saved.users.length, 1);
-  assert.equal(saved.users[0].passwordIterations, 220000);
+  assert.equal(saved.users.length, 2);
+  assert.equal(saved.users.find(item => item.email === payload.email).passwordIterations, 220000);
+  cookie = unpaidCookie;
   assert.equal(JSON.stringify(saved).includes(cookie.split('=')[1]), false);
   const image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=';
   const profile = await call('/api/profile', 'PATCH', { ...payload, profileImageDataUrl: image });

@@ -191,7 +191,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
             </DropdownMenu.Root>
             <div className="topbar-stat" title="Current learning streak"><Zap size={16} /><strong>{user?.streak ?? 1}</strong><span>day streak</span></div>
             <DropdownMenu.Root>
-              <DropdownMenu.Trigger asChild><button className="user-chip" type="button" aria-label="Open account menu"><span className="avatar">{renderAvatar()}</span><span className="user-chip-copy"><strong>{user?.name || "Guest learner"}</strong><span>{user?.email === "guest@medicomm.local" ? "Guest session" : `${userRating} XP`}</span></span><ChevronDown size={15} /></button></DropdownMenu.Trigger>
+              <DropdownMenu.Trigger asChild><button className="user-chip" type="button" aria-label="Open account menu"><span className={`avatar${user?.hasPracticeAccess ? " paid-avatar" : ""}`}>{renderAvatar()}</span><span className="user-chip-copy"><strong>{user?.name || "Guest learner"}</strong><span>{user?.email === "guest@medicomm.local" ? "Guest session" : `${userRating} XP`}</span></span><ChevronDown size={15} /></button></DropdownMenu.Trigger>
               <DropdownMenu.Portal><DropdownMenu.Content className="account-menu" align="end" sideOffset={8}>
                 <DropdownMenu.Label><strong>{user?.name}</strong><span>{user?.medicalCollege}</span></DropdownMenu.Label><DropdownMenu.Separator />
                 <DropdownMenu.Item onSelect={() => navigate("Profile")}><UserRound size={16} /> Profile</DropdownMenu.Item>

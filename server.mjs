@@ -21,7 +21,7 @@ import { buildShortNoteReviewInstructions } from "./server/shortNotesPrompt.mjs"
 import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from "./server/theoryTextbooks.mjs";
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
 import { dashboardData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
-import { createPaymentHandler } from "./server/payments.mjs";
+import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -2137,7 +2137,7 @@ function getStaticMimeType(filePath) {
   return staticMimeTypes[path.extname(filePath).toLowerCase()] ?? "application/octet-stream";
 }
 
-async function serveStaticFile(response, requestPath) {
+async function serveStaticFile(response, requestPath, privateResource = false) {
   if (!existsSync(distDir)) {
     sendJson(response, 404, { message: "Frontend build not found. Run npm run build before starting the server." });
     return;
@@ -2153,7 +2153,7 @@ async function serveStaticFile(response, requestPath) {
     const file = await fs.readFile(filePath);
     response.writeHead(200, {
       "Content-Type": getStaticMimeType(filePath),
-      "Cache-Control": filePath.endsWith("index.html") ? "no-cache" : "public, max-age=31536000, immutable",
+      "Cache-Control": privateResource ? "private, no-store" : filePath.endsWith("index.html") ? "no-cache" : "public, max-age=31536000, immutable",
     });
     response.end(file);
   } catch {
@@ -2175,6 +2175,7 @@ async function verifyPassword(password, salt, expectedHash, iterations = LEGACY_
 
 function sanitizeUser(user) {
   return {
+    hasPracticeAccess: hasPracticeAccess(readDatabase(), user.id),
     id: user.id,
     name: user.name,
     email: user.email,
@@ -3425,6 +3426,14 @@ async function handleRequest(request, response) {
     checkOrigin(request, response, allowedOrigins);
     if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
     if (stopping) throw new HttpError(503, 'Server is restarting.');
+    const practiceResource = /^\/api\/(?:practice(?:\/|$)|generate-questions?(?:\/|$)|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname)
+      || /\/(?:practice-question-bank|topic-wise-question-bank|short-notes)\.json$/i.test(path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/')));
+    if (practiceResource) {
+      const database = readDatabase();
+      const user = getSessionUser(request, database);
+      if (!user) throw new HttpError(401, 'Sign in to unlock Practice.');
+      if (!hasPracticeAccess(database, user.id)) throw new HttpError(403, 'Practice unlocks after a verified payment. Choose a plan to continue.');
+    }
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/user-')) {
       if (!stateStore.healthy) throw new HttpError(503, 'Storage is unavailable.');
       // Only trust a forwarded address when the deployment restricts direct access.
@@ -3488,7 +3497,7 @@ async function handleRequest(request, response) {
   }
 
     if (request.method === "POST" && url.pathname === "/api/auth/signup") return await handleSignup(request, response);
-    if (request.method === 'POST' && ['/api/create-order', '/api/verify-payment'].includes(url.pathname)) return await handlePayment(request, response, url);
+    if (request.method === 'POST' && ['/api/payment-quote', '/api/create-order', '/api/verify-payment'].includes(url.pathname)) return await handlePayment(request, response, url);
     if (url.pathname === "/api/reviews") return await handleWebsiteReviews(request, response, url);
     if (request.method === "POST" && url.pathname === "/api/auth/login") return await handleLogin(request, response);
     if (request.method === "GET" && url.pathname === "/api/auth/session") return handleSession(request, response);
@@ -3577,7 +3586,7 @@ async function handleRequest(request, response) {
     }
 
     if (request.method === "GET" || request.method === "HEAD") {
-      return await serveStaticFile(response, url.pathname === "/" ? "/index.html" : url.pathname);
+      return await serveStaticFile(response, url.pathname === "/" ? "/index.html" : url.pathname, practiceResource);
     }
 
     sendJson(response, 404, { message: "Route not found." });
