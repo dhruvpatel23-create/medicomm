@@ -20,6 +20,7 @@ import { loadShortNotes, createShortNotesHandler } from "./server/shortNotes.mjs
 import { buildShortNoteReviewInstructions } from "./server/shortNotesPrompt.mjs";
 import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from "./server/theoryTextbooks.mjs";
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
+import { dashboardData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -2574,6 +2575,33 @@ async function handleProfileStatsUpdate(request, response) {
   return sendJson(response, 200, { user: sanitizeUser(updatedUser) });
 }
 
+async function handleDashboard(request, response, url) {
+  const initial = readDatabase();
+  const signedIn = requireSessionUser(request, response, initial);
+  if (!signedIn) return;
+  if (request.method === 'GET') return sendJson(response, 200, dashboardData(initial, signedIn, getLeaderboardRegion));
+  const payload = await parseRequestBody(request);
+  const database = readDatabase();
+  const user = database.users.find(item => item.id === signedIn.id);
+  if (!user) return sendJson(response, 401, { message: 'Please sign in again.' });
+  if (url.pathname === '/api/dashboard/goal') {
+    try { user.studyGoal = validateStudyGoal(payload); }
+    catch (error) { return sendJson(response, 400, { message: error.message }); }
+    await writeDatabase(database);
+    return sendJson(response, 200, { goal: user.studyGoal });
+  }
+  const library = buildPracticeLibrary(readPracticeQuestionBank(), database.questions ?? []);
+  const subjects = payload.mode === 'pyq' ? library.subjects : payload.mode === 'ai' ? library.aiSubjects
+    : payload.mode === 'fmge' ? library.fmgeSessions : payload.mode === 'usmle' ? [...(library.usmleSubjects ?? []), ...(library.usmleModules ?? [])] : [];
+  const subject = subjects?.find(item => item.id === payload.subjectId);
+  const question = subject?.questions.find(item => item.id === payload.questionId);
+  let result;
+  try { result = recordPracticeAttempt(database, user.id, payload, subject, question); }
+  catch (error) { return sendJson(response, 400, { message: error.message }); }
+  await writeDatabase(database);
+  return sendJson(response, 200, { user: sanitizeUser(result.user), attempt: result.attempt });
+}
+
 async function handleQuestionBookmarkUpdate(request, response) {
   const initialDatabase = readDatabase();
   const currentUser = requireSessionUser(request, response, initialDatabase);
@@ -3461,6 +3489,7 @@ async function handleRequest(request, response) {
     if (request.method === "GET" && url.pathname === "/api/auth/session") return handleSession(request, response);
     if (request.method === "POST" && url.pathname === "/api/auth/logout") return await handleLogout(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile") return await handleProfileUpdate(request, response);
+    if ((request.method === 'GET' && url.pathname === '/api/dashboard') || (request.method === 'PATCH' && url.pathname === '/api/dashboard/goal') || (request.method === 'POST' && url.pathname === '/api/practice/attempts')) return await handleDashboard(request, response, url);
     if (request.method === "PATCH" && url.pathname === "/api/profile/stats") return await handleProfileStatsUpdate(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile/question-bookmarks")
       return await handleQuestionBookmarkUpdate(request, response);

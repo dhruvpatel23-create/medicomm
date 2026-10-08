@@ -11,6 +11,9 @@ import FmgeYears from "./components/FmgeYears";
 import ShortNotes from "./components/ShortNotes";
 import AnswerNotepad from "./components/AnswerNotepad";
 import TextbookSources from "./components/TextbookSources";
+import { DashboardSummary, ProfileOverview } from "./components/AccountOverview";
+import DashboardActivity from "./components/DashboardActivity";
+import { useAccountOverview, usePracticeRecorder } from "./lib/useAccountOverview";
 import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
@@ -565,6 +568,7 @@ function App() {
   const [clinicalAnswerMessage, setClinicalAnswerMessage] = useState("");
   const [practiceStage, setPracticeStage] = useState("selection");
   const [practiceProgress, setPracticeProgress] = useState({});
+  const [dashboardPracticeTarget, setDashboardPracticeTarget] = useState(null);
   const [bookmarkMessage, setBookmarkMessage] = useState("");
   const [bookmarkBusyKeys, setBookmarkBusyKeys] = useState([]);
   const bookmarkPendingKeysRef = useRef(new Set());
@@ -573,6 +577,7 @@ function App() {
   const [analyticsPeriod, setAnalyticsPeriod] = useState(30);
   const [practiceQuestionStartedAt, setPracticeQuestionStartedAt] = useState(Date.now());
   const [userRating, setUserRating] = useState(1480);
+  const [profilePhotoPreparing, setProfilePhotoPreparing] = useState(false);
   const duelDeadlineRef = useRef(0);
   const loadedDuelRef = useRef(null);
   const duelAnswerPendingRef = useRef(false);
@@ -600,6 +605,12 @@ function App() {
   const [authMessage, setAuthMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [user, setUser] = useState(null);
+  const accountOverview = useAccountOverview(user?.id, activeView, `${user?.attemptedQuestions}:${user?.rating}:${user?.medicalCollege}`);
+  const practiceSync = usePracticeRecorder(authStatus === "authenticated" ? user?.id : null, savedUser => {
+    setUser(current => current?.id === savedUser.id ? { ...current, ...savedUser } : current);
+    setUserRating(savedUser.rating);
+    accountOverview.reload();
+  });
   const [profileState, setProfileState] = useState(createProfileState(null));
   const [profileBusy, setProfileBusy] = useState(false);
   const [profileMessage, setProfileMessage] = useState("");
@@ -776,15 +787,6 @@ function App() {
   const correctAnswers = user?.correctAnswers ?? 0;
   const accuracyRate = calculateAccuracy(correctAnswers, attemptedQuestions);
 
-  const quickStats = useMemo(
-    () => ({
-      questionsToday: attemptedQuestions,
-      timeSpent: "1h 18m",
-      weakArea: `${correctAnswers} correct overall`,
-    }),
-    [attemptedQuestions, correctAnswers],
-  );
-
   const homeStats = useMemo(
     () => [
       { icon: "MCQ", value: formatStatValue(platformSummary.practiceQuestions), label: "Medical MCQs", tint: "blue" },
@@ -883,21 +885,6 @@ function App() {
     if (!currentUserStateEntry || !currentUserLeaderboardEntry) return null;
     return currentUserStateEntry.players.findIndex((player) => player.id === currentUserLeaderboardEntry.id) + 1;
   }, [currentUserStateEntry, currentUserLeaderboardEntry]);
-
-  const summaryCards = useMemo(
-    () => [
-      { label: "Current streak", value: `${user?.streak ?? 1} days`, accent: "blue" },
-      { label: "Accuracy rate", value: `${accuracyRate}%`, accent: "green" },
-      { label: "Attempted questions", value: attemptedQuestions, accent: "cyan" },
-      { label: "Correct answers", value: correctAnswers, accent: "orange" },
-      {
-        label: "Rank this week",
-        value: `#${currentUserLeaderboardEntry?.rank ?? "-"}`,
-        accent: "purple",
-      },
-    ],
-    [accuracyRate, attemptedQuestions, correctAnswers, currentUserLeaderboardEntry, user],
-  );
 
   const selectedCommunity =
     communities.find((community) => community.id === selectedCommunityId) ?? communities[0] ?? null;
@@ -1064,6 +1051,15 @@ async function fetchPracticeLibrary() {
     if (!needsPracticeLibrary || practiceLibraryStatus !== "idle") return;
     fetchPracticeLibrary();
   }, [activeView, practiceLibraryStatus, questionBookmarks.length]);
+
+  useEffect(() => {
+    if (!dashboardPracticeTarget) return;
+    if (activeView !== "Practice") { setDashboardPracticeTarget(null); return; }
+    if (practiceLibraryStatus === "ready") {
+      setDashboardPracticeTarget(null);
+      continueDashboardPractice(dashboardPracticeTarget);
+    }
+  }, [dashboardPracticeTarget, practiceLibraryStatus, activeView]);
 
   useEffect(() => {
     if (activeView !== "Practice" || practiceStage !== "subject") return undefined;
@@ -1375,9 +1371,10 @@ async function fetchPracticeLibrary() {
       writePracticeProgress(user, nextProgress);
       return nextProgress;
     });
-    void saveUserStats(userRating, user?.streak ?? 1, {
-      correctAnswers: nextCorrectAnswers,
-      attemptedQuestions: nextAttemptedQuestions,
+    practiceSync.record({
+      id: crypto.randomUUID(), questionId: currentPracticeQuestion.id, subjectId: currentPracticeSubject.id,
+      mode: selectedPracticeMode, selectedAnswer: selectedOption,
+      durationSeconds: Math.max(1, Math.min(1800, Math.round((Date.now() - practiceQuestionStartedAt) / 1000))),
     });
   }
 
@@ -2456,37 +2453,20 @@ async function fetchPracticeLibrary() {
 
   async function handleProfilePhotoChange(event) {
     const file = event.target.files?.[0];
-    if (!file) return;
-
+    event.target.value = "";
+    if (!file || profileBusy || profilePhotoPreparing) return;
+    if (!["image/png", "image/jpeg", "image/webp", "image/gif"].includes(file.type) || file.size > 5 * 1024 * 1024) {
+      setProfileMessage("Choose a PNG, JPG, WebP or GIF image up to 5 MB."); return;
+    }
+    setProfilePhotoPreparing(true);
     try {
       const dataUrl = await convertFileToDataUrl(file);
+      await new Promise((resolve, reject) => { const image = new Image(); image.onload = resolve; image.onerror = () => reject(new Error("This image could not be opened. Please choose another photo.")); image.src = dataUrl; });
       updateProfileField("profileImageDataUrl", dataUrl);
-      setProfileMessage("New profile picture selected. Save profile to apply it.");
+      setProfileMessage("Preview ready. Save photo to update your account.");
     } catch (error) {
       setProfileMessage(error instanceof Error ? error.message : "Could not load that image.");
-    }
-  }
-
-  async function saveUserStats(nextRating, nextStreak = user?.streak ?? 1, nextStats = {}) {
-    try {
-      const data = await apiRequest("/api/profile/stats", {
-        method: "PATCH",
-        body: JSON.stringify({
-          rating: nextRating,
-          streak: nextStreak,
-          correctAnswers: nextStats.correctAnswers,
-          attemptedQuestions: nextStats.attemptedQuestions,
-        }),
-      });
-
-      const mergedUser = mergeUserPerformance(data.user);
-      setUser(mergedUser);
-      setUserRating(mergedUser.rating ?? nextRating);
-      await fetchLeaderboard();
-      await fetchPlatformSummary();
-    } catch {
-      // Keep the local score even if persistence fails.
-    }
+    } finally { setProfilePhotoPreparing(false); }
   }
 
   async function handleAuthSubmit(event) {
@@ -2574,8 +2554,9 @@ async function fetchPracticeLibrary() {
     }
   }
 
-  async function handleProfileSave(event) {
-    event.preventDefault();
+  async function handleProfileSave(event, photoOnly = false) {
+    event?.preventDefault();
+    if (profileBusy || profilePhotoPreparing) return;
     if (authStatus === "guest") {
       setProfileMessage("Create a free account to save profile changes across devices.");
       return;
@@ -2586,15 +2567,17 @@ async function fetchPracticeLibrary() {
     try {
       const data = await apiRequest("/api/profile", {
         method: "PATCH",
-        body: JSON.stringify(profileState),
+        body: JSON.stringify(photoOnly ? { ...createProfileState(user), profileImageDataUrl: profileState.profileImageDataUrl } : profileState),
+        timeoutMs: 30000,
       });
 
       const mergedUser = mergeUserPerformance(data.user);
       setUser(mergedUser);
       setUserRating(mergedUser.rating ?? userRating);
-      setProfileState(createProfileState(mergedUser));
+      setProfileState(current => photoOnly ? { ...current, profileImageDataUrl: "" } : createProfileState(mergedUser));
       await fetchLeaderboard();
-      setProfileMessage("Profile updated successfully.");
+      setProfileMessage(photoOnly ? "Profile photo saved." : "Profile updated successfully.");
+      accountOverview.reload();
     } catch (error) {
       setProfileMessage(error instanceof Error ? error.message : "Profile update failed.");
     } finally {
@@ -2851,170 +2834,27 @@ async function fetchPracticeLibrary() {
     );
   }
 
+  function continueDashboardPractice(entry) {
+    if (!entry) { setActiveView("Practice"); return; }
+    if (practiceLibraryStatus !== "ready") {
+      setDashboardPracticeTarget(entry);
+      setActiveView("Practice");
+      return;
+    }
+    const resolved = bookmarkQuestionIndex.get(getQuestionBookmarkKey(entry));
+    if (!resolved) { setActiveView("Practice"); return; }
+    const questions = resolved.subject.questions ?? [];
+    const index = questions.findIndex(question => question.id === resolved.question.id);
+    const next = !entry.topic ? questions[index + 1] : null;
+    setPracticePathTitle(entry.mode === "fmge" ? "FMGE" : entry.mode === "usmle" ? "USMLE–STEP 1" : "NEET PG / INICET");
+    openBookmarkedQuestion({ resolved: next ? { ...resolved, question: next } : resolved });
+  }
+
   function renderDashboard() {
-    return (
-      <section className="app-view">
-        <div className="view-header">
-          <div>
-            <p className="eyebrow">Dashboard</p>
-            <h2>Welcome back, {user?.name}</h2>
-          </div>
-          <button className="button button-primary" onClick={() => setActiveView("Practice")}>
-            Continue practice
-          </button>
-        </div>
-
-        <div className="summary-grid">
-          {summaryCards.map((card) => (
-            <article className="card summary-card" key={card.label}>
-              <div className={`mini-dot ${card.accent}`} />
-              <span>{card.label}</span>
-              <strong>{card.value}</strong>
-            </article>
-          ))}
-        </div>
-
-        <div className="dashboard-priority-grid">
-          <article className="card panel continue-card">
-            <div className="panel-heading-split">
-              <div><p className="eyebrow">Continue learning</p><h3>Pathology · Previous year questions</h3><p className="panel-copy">Pick up where you left off. Your local progress is saved automatically.</p></div>
-              <span className="rank-pill source-official">12 min left</span>
-            </div>
-            <div className="continue-progress"><span style={{ width: "68%" }} /></div>
-            <div className="continue-footer"><span>34 of 50 questions</span><button className="button button-primary" onClick={() => setActiveView("Practice")}>Resume session</button></div>
-          </article>
-
-          <article className="card panel exam-countdown-card">
-            <p className="eyebrow">Upcoming exam</p><h3>NEET PG</h3><strong className="countdown-number">42</strong><span>days remaining</span>
-            <div className="countdown-footer"><span>Weekly target</span><strong>4h 12m / 6h</strong></div>
-          </article>
-        </div>
-
-        <div className="dashboard-insight-grid">
-          <article className="card panel weekly-chart-card">
-            <div className="panel-heading-split"><div><h3>Weekly progress</h3><p className="panel-copy">Questions completed per day</p></div><span className="trend-positive">↑ 18% this week</span></div>
-            <div className="weekly-bars" aria-label="Weekly questions: Monday 18, Tuesday 26, Wednesday 20, Thursday 34, Friday 42, Saturday 30, Sunday 24">
-              {[18, 26, 20, 34, 42, 30, 24].map((value, index) => <div key={index}><span style={{ height: `${Math.max(18, value * 2)}px` }} /><small>{["M", "T", "W", "T", "F", "S", "S"][index]}</small></div>)}
-            </div>
-          </article>
-
-          <article className="card panel heatmap-card">
-            <div className="panel-heading-split"><div><h3>Study consistency</h3><p className="panel-copy">Last 8 weeks</p></div><strong>24 day streak</strong></div>
-            <div className="study-heatmap" aria-label="Study activity heatmap for the last eight weeks">
-              {Array.from({ length: 56 }, (_, index) => <span key={index} data-level={(index * 7 + index % 5) % 4} title={`Day ${index + 1}`} />)}
-            </div>
-            <div className="heatmap-legend"><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><span>More</span></div>
-          </article>
-        </div>
-
-        <div className="dashboard-action-grid">
-          <article className="card panel recommendation-card">
-            <div className="panel-heading-split"><div><h3>Recommended next</h3><p className="panel-copy">Based on recent accuracy</p></div><button className="text-button" onClick={() => setActiveView("Analytics")}>View analytics</button></div>
-            <div className="recommendation-list">
-              {[{title:"Glomerular disorders",subject:"Pathology",score:"54% mastery"},{title:"Autonomic pharmacology",subject:"Pharmacology",score:"61% mastery"},{title:"Cardiac murmurs",subject:"Medicine",score:"66% mastery"}].map((topic, index) => <button key={topic.title} type="button" onClick={() => setActiveView("Practice")}><span className="recommendation-index">0{index + 1}</span><span><strong>{topic.title}</strong><small>{topic.subject}</small></span><em>{topic.score}</em></button>)}
-            </div>
-          </article>
-          <article className="card panel recent-battles-card">
-            <div className="panel-heading-split"><div><h3>Recent battles</h3><p className="panel-copy">Your latest 1v1 sessions</p></div><button className="text-button" onClick={() => setActiveView("Compete")}>Battle now</button></div>
-            <div className="battle-list"><div><span className="battle-result win">W</span><span><strong>Ava Patel</strong><small>8–6 · 2h ago</small></span><em>+18 XP</em></div><div><span className="battle-result loss">L</span><span><strong>Noah Chen</strong><small>7–8 · Yesterday</small></span><em>−9 XP</em></div></div>
-          </article>
-        </div>
-
-        <div className="content-grid">
-          <article className="card panel user-profile-panel">
-            <div className="profile-overview">
-              <div className="profile-avatar-large">{renderAvatar()}</div>
-              <div>
-                <h3>{user?.name}</h3>
-                <p className="panel-copy">{user?.medicalCollege}</p>
-                <div className="profile-meta-list">
-                  <span>{user?.email}</span>
-                  <span>{user?.contactNumber}</span>
-                  <span>National rank #{currentUserLeaderboardEntry?.rank ?? "-"}</span>
-                  <span>
-                    {currentUserLeaderboardEntry?.state ?? "State"} rank #{currentUserStateRank ?? "-"}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <button className="button button-secondary" onClick={() => setActiveView("Profile")}>
-              Edit profile
-            </button>
-          </article>
-
-          <article className="card panel">
-            <h3>Today's snapshot</h3>
-            <div className="stack-list">
-              <div className="stack-row">
-                <span>Questions answered</span>
-                <strong>{quickStats.questionsToday}</strong>
-              </div>
-              <div className="stack-row">
-                <span>Study time</span>
-                <strong>{quickStats.timeSpent}</strong>
-              </div>
-              <div className="stack-row">
-                <span>Needs review</span>
-                <strong>{quickStats.weakArea}</strong>
-              </div>
-            </div>
-          </article>
-
-          <article className="card panel practice-status-panel">
-            <div className="panel-heading-split">
-              <div>
-                <h3>Practice storage</h3>
-                <p className="panel-copy">Backend question bank with official and supplemental sources separated.</p>
-              </div>
-              <span className="rank-pill source-ai">AI ready</span>
-            </div>
-            <div className="stack-list">
-              <div className="stack-row">
-                <span>Core source</span>
-                <strong>NEET PG PYQs</strong>
-              </div>
-              <div className="stack-row">
-                <span>Extra practice</span>
-                <strong>Gemini JSON validated</strong>
-              </div>
-              <div className="stack-row">
-                <span>Local storage</span>
-                <strong>Session + theme only</strong>
-              </div>
-            </div>
-            <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
-              Review subjects
-            </button>
-          </article>
-
-          <article className="card panel">
-            <h3>Recent activity</h3>
-            <div className="feed-list">
-              {activityFeed.map((item) => (
-                <div className="feed-item" key={item.title}>
-                  <div>
-                    <strong>{item.title}</strong>
-                    <p>{item.detail}</p>
-                  </div>
-                  <span>{item.time}</span>
-                </div>
-              ))}
-            </div>
-          </article>
-
-          <article className="card panel">
-            <h3>Account privacy</h3>
-            <p className="panel-copy">
-              Your login and profile details are now loaded from the local Medulla database before the
-              app opens.
-            </p>
-            <button className="button button-secondary" onClick={handleLogout}>
-              Logout
-            </button>
-          </article>
-        </div>
-      </section>
-    );
+    return <section className="app-view">
+      <DashboardSummary user={user} overview={accountOverview} guest={authStatus === "guest"} onContinue={() => continueDashboardPractice(accountOverview.data?.resume)} />
+      <DashboardActivity overview={accountOverview} guest={authStatus === "guest"} sync={practiceSync} onPractice={continueDashboardPractice} onCompete={() => setActiveView("Compete")} onProfile={() => setActiveView("Profile")} />
+    </section>;
   }
 
   function renderPractice() {
@@ -4989,55 +4829,12 @@ async function fetchPracticeLibrary() {
 
     return (
       <section className="app-view">
-        <div className="view-header">
-          <div>
-            <p className="eyebrow">Profile</p>
-            <h2>Your account information</h2>
-          </div>
-          <button className="button button-secondary" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-
+        <ProfileOverview user={user} overview={accountOverview} guest={authStatus === "guest"}
+          previewImage={previewImage} photoBusy={profileBusy || profilePhotoPreparing} pendingPhoto={Boolean(profileState.profileImageDataUrl)}
+          onPhoto={handleProfilePhotoChange} onSavePhoto={() => handleProfileSave(null, true)}
+          onCancelPhoto={() => { updateProfileField("profileImageDataUrl", ""); setProfileMessage(""); }}
+          onLogout={handleLogout} message={profileMessage} />
         <div className="content-grid profile-layout">
-          <article className="card panel profile-photo-card">
-            <h3>Profile picture</h3>
-            <div className="profile-avatar-xl">
-              {previewImage ? (
-                <img className="avatar-image" src={previewImage} alt={`${user?.name} profile`} />
-              ) : (
-                <span>{getInitials(user?.name)}</span>
-              )}
-            </div>
-            <label className="button button-secondary upload-button">
-              Change photo
-              <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handleProfilePhotoChange} />
-            </label>
-            <p className="panel-copy">Upload an image, then save profile to update the account avatar everywhere.</p>
-          </article>
-
-          <article className="card panel">
-            <h3>Your standing</h3>
-            <div className="stack-list">
-              <div className="stack-row">
-                <span>National rank</span>
-                <strong>#{currentUserLeaderboardEntry?.rank ?? "-"}</strong>
-              </div>
-              <div className="stack-row">
-                <span>{currentUserLeaderboardEntry?.state ?? "State"} rank</span>
-                <strong>#{currentUserStateRank ?? "-"}</strong>
-              </div>
-              <div className="stack-row">
-                <span>Rating</span>
-                <strong>{userRating}</strong>
-              </div>
-              <div className="stack-row">
-                <span>Streak</span>
-                <strong>{user?.streak ?? 1} days</strong>
-              </div>
-            </div>
-          </article>
-
           <article className="card panel">
             <h3>Personal details</h3>
             <form className="profile-form" onSubmit={handleProfileSave}>
