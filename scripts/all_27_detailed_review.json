@@ -1,0 +1,407 @@
+[
+  {
+    "index": 1,
+    "id": "aiims-2017-ophthalmology-q001",
+    "year": 2017,
+    "exam": "aiims-2017",
+    "prompt": "A 62-YEAR-OLD PRESENTED WITH DIMINISHED VISION 1 YEAR AFTER CATARACT SURGERY. THE FINDINGS ARE\nSHOWN BELOW. WHAT IS THE MOST LIKELY DIAGNOSIS?",
+    "options": [
+      "AFTER CATARACT",
+      "IRVINE-GASS SYNDROME",
+      "END OPHTHALMITIS",
+      "UVEITIS-GLAUCOMA-HYPHEMA SYNDROME"
+    ],
+    "answer": "AFTER CATARACT",
+    "source": "/uploads/yellowfool-aiims-2017-ophthalmology-q001-p2898-i1.jpg"
+  },
+  {
+    "index": 2,
+    "id": "aiims-2017-ophthalmology-q003",
+    "year": 2017,
+    "exam": "aiims-2017",
+    "prompt": "A 60-YEAR-OLD DIABETIC MALE PRESENTS WITH A HISTORY OF DECREASED VISION. FLUORESCEIN\nANGIOGRAPHY SHOWED THE FOLLOWING IMAGE. WHAT IS THE MOST LIKELY DIAGNOSIS?",
+    "options": [
+      "MILD NON-PROLIFERATIVE DIABETIC RETINOPATHY",
+      "SEVERE NON-PROLIFERATIVE DIABETIC RETINOPATHY",
+      "BIRD SHOT CHOROIDOPATHY",
+      "PROLIFERATIVE DIABETIC RETINOPATHY"
+    ],
+    "answer": "PROLIFERATIVE DIABETIC RETINOPATHY",
+    "source": "/uploads/yellowfool-aiims-2017-ophthalmology-q003-p2899-i1.jpg"
+  },
+  {
+    "index": 3,
+    "id": "aiims-2017-ophthalmology-q004",
+    "year": 2017,
+    "exam": "aiims-2017",
+    "prompt": "WHAT IS THE MOST PROBABLE DIAGNOSIS BASED ON THE GIVEN IMAGE?",
+    "options": [
+      "3RD CRANIAL PALSY",
+      "6TH NERVE PALSY",
+      "BELL'S PALSY",
+      "HORNER'S SYNDROME"
+    ],
+    "answer": "6TH NERVE PALSY",
+    "source": "/uploads/yellowfool-aiims-2017-ophthalmology-q004-p2899-i2.jpg"
+  },
+  {
+    "index": 4,
+    "id": "aiims-2017-ophthalmology-q006",
+    "year": 2017,
+    "exam": "aiims-2017",
+    "prompt": "IDENTIFY THE REFRACTIVE ERROR.",
+    "options": [
+      "MYOPIA",
+      "PRESBYOPIA",
+      "HYPERMETROPIA",
+      "ASTIGMATISM"
+    ],
+    "answer": "MYOPIA",
+    "source": "/uploads/yellowfool-aiims-2017-ophthalmology-q006-p2900-i1.jpg"
+  },
+  {
+    "index": 5,
+    "id": "aiims-2017-ophthalmology-q007",
+    "year": 2017,
+    "exam": "aiims-2017",
+    "prompt": "WHAT IS THE DIAGNOSIS OF THE CONDITION SEEN IN THE IMAGE?",
+    "options": [
+      "PINGUECULA",
+      "PTERYGIUM",
+      "CHEMICAL BURN",
+      "THERMAL BURN"
+    ],
+    "answer": "PTERYGIUM",
+    "source": "/uploads/yellowfool-aiims-2017-ophthalmology-q007-p2901-i1.jpg"
+  },
+  {
+    "index": 6,
+    "id": "aiims-2017-ophthalmology-q011",
+    "year": 2017,
+    "exam": "aiims-2017",
+    "prompt": "A PATIENT RECENTLY UNDERWENT LASIK SURGERY FOR HIS MYOPIA. HE IS NOW COMPLAINING OF\nHEADACHES AND EYE PAIN. IDENTIFY THE TEST BEING PERFORMED ON HIM.",
+    "options": [
+      "PACHYMETRY",
+      "TONOMETRY",
+      "AUTO REFRACTOMETERY",
+      "A SCAN"
+    ],
+    "answer": "TONOMETRY",
+    "source": "/uploads/yellowfool-aiims-2017-ophthalmology-q011-p2902-i1.jpg"
+  },
+  {
+    "index": 7,
+    "id": "aiims-2017-ophthalmology-q013",
+    "year": 2017,
+    "exam": "aiims-2017",
+    "prompt": "NAME THE LOCATION OF THE NUCLEUS SUPPLYING THE MUSCLE MARKED BY THE ARROW IN THE IMAGE\nGIVEN BELOW.",
+    "options": [
+      "SUPERIOR OLIVARY",
+      "INFERIOR COLLICULUS",
+      "SUPERIOR COLLICULUS",
+      "FACIAL COLLICULUS"
+    ],
+    "answer": "SUPERIOR COLLICULUS",
+    "source": "/uploads/yellowfool-aiims-2017-ophthalmology-q013-p2903-i1.jpg"
+  },
+  {
+    "index": 8,
+    "id": "aiims-2018-ophthalmology-q005",
+    "year": 2018,
+    "exam": "aiims-2018",
+    "prompt": "IDENTIFY THE LESION IN THE HISTOPATHOLOGICAL IMAGE OF RETINA.",
+    "options": [
+      "DRUSEN",
+      "HARD EXUDATES",
+      "COTTON WOOL SPOTS",
+      "MACULAR EDEMA"
+    ],
+    "answer": "DRUSEN",
+    "source": "/uploads/yellowfool-aiims-2018-ophthalmology-q005-p2926-i1.jpg"
+  },
+  {
+    "index": 9,
+    "id": "aiims-2018-ophthalmology-q006",
+    "year": 2018,
+    "exam": "aiims-2018",
+    "prompt": "IDENTIFY THE PICTURE",
+    "options": [
+      "MACULAR HOLE",
+      "CYSTOID MACULAR EDEMA",
+      "SMOKE STACK PATTERN",
+      "AGE RELATED MACULAR DEGENERATION"
+    ],
+    "answer": "CYSTOID MACULAR EDEMA",
+    "source": "/uploads/yellowfool-aiims-2018-ophthalmology-q006-p2927-i1.jpg"
+  },
+  {
+    "index": 10,
+    "id": "aiims-2018-ophthalmology-q009",
+    "year": 2018,
+    "exam": "aiims-2018",
+    "prompt": "A 5-YEAR-OLD BOY WAS BROUGHT WITH THE COMPLAINTS OF PROTRUSION OF THE RIGHT EYE WITH NO H/O\nFEVER. CT SCAN SHOWED A WELL-DEFINED MASS IN THE ORBIT WITH AN IRREGULAR BORDER AND ADJACENT\nBONY DESTRUCTION. BIOPSY SHOWED SMALL, ROUND CELLS WHICH WERE POSITIVE FOR DESMIN IN\nIMMUNOHISTOCHEMISTRY. WHAT IS THE PROBABLE DIAGNOSIS?",
+    "options": [
+      "RETINOBLASTOMA",
+      "CAVERNOUS HEMANGIOMA",
+      "ORBITAL CELLULITIS",
+      "RHABDOMYOSARCOMA"
+    ],
+    "answer": "RHABDOMYOSARCOMA",
+    "source": "/uploads/yellowfool-aiims-2018-ophthalmology-q009-p2928-i1.jpg"
+  },
+  {
+    "index": 11,
+    "id": "aiims-2018-ophthalmology-q013",
+    "year": 2018,
+    "exam": "aiims-2018",
+    "prompt": "IDENTIFY THE MARKED LAYER OF THE RETINA.",
+    "options": [
+      "INNER PLEXIFORM LAYER",
+      "EXTERNAL LIMITING LAYER",
+      "INTERNAL LIMITING LAYER",
+      "OUTER PLEXIFORM LAYER"
+    ],
+    "answer": "INNER PLEXIFORM LAYER",
+    "source": "/uploads/yellowfool-aiims-2018-ophthalmology-q013-p2929-i1.jpg"
+  },
+  {
+    "index": 12,
+    "id": "aiims-2018-ophthalmology-q014",
+    "year": 2018,
+    "exam": "aiims-2018",
+    "prompt": "THE SPECTACLES SHOWN IN THE IMAGE ARE NOT USED FOR THE MANAGEMENT OF WHICH OF THE\nFOLLOWING?",
+    "options": [
+      "PRESBYOPIA",
+      "APHAKIA",
+      "PEDIATRIC PSEUDOPHAKIA",
+      "HYPERMETROPIA"
+    ],
+    "answer": "HYPERMETROPIA",
+    "source": "/uploads/yellowfool-aiims-2018-ophthalmology-q014-p2930-i1.jpg"
+  },
+  {
+    "index": 13,
+    "id": "aiims-2018-ophthalmology-q015",
+    "year": 2018,
+    "exam": "aiims-2018",
+    "prompt": "A 6-YEAR-OLD GIRL IS ADMITTED FOR EVALUATION FOR RECURRENT SEIZURES. SHE HAS A LARGE PORT-WINE\nSTAIN ON THE RIGHT SIDE OF HER FACE AS SHOWN BELOW. THE MRI OF THE HEAD SHOWS A\nLEPTOMENINGEAL ANGIOMA. WHAT IS THE MOST COMMON OCULAR MANIFESTATION OF THE UNDERLYING\nCONDITION?",
+    "options": [
+      "UVEITIS",
+      "RETINITIS PIGMENTOSA",
+      "KERATITIS",
+      "GLAUCOMA"
+    ],
+    "answer": "GLAUCOMA",
+    "source": "/uploads/yellowfool-aiims-2018-ophthalmology-q015-p2931-i1.jpg"
+  },
+  {
+    "index": 14,
+    "id": "aiims-2018-ophthalmology-q017",
+    "year": 2018,
+    "exam": "aiims-2018",
+    "prompt": "THE FOLLOWING IMAGE INDICATES:",
+    "options": [
+      "TROCHLEAR NERVE PALSY",
+      "LATERAL RECTUS PALSY",
+      "INTERNUCLEAR OPHTHALMOPLEGIA",
+      "OCCULOMOTOR PALSY"
+    ],
+    "answer": "OCCULOMOTOR PALSY",
+    "source": "/uploads/yellowfool-aiims-2018-ophthalmology-q017-p2932-i1.jpg"
+  },
+  {
+    "index": 15,
+    "id": "neet-pg-2018-ophthalmology-q007",
+    "year": 2018,
+    "exam": "neet-pg-2018",
+    "prompt": "A PATIENT, 36 HOURS AFTER CATARACT SURGERY, PRESENTS WITH COMPLAINTS OF PAIN AND VISUAL\nDISTURBANCE. HIS EYE IS AS SHOWN BELOW. WHAT IS THE MANAGEMENT OF THIS CONDITION?",
+    "options": [
+      "INTRAVENOUS STEROIDS",
+      "INTRAVENOUS ANTIBIOTICS",
+      "BANDAGE AND PADDING OF THE EYE",
+      "INTRAVITREAL ANTIBIOTICS"
+    ],
+    "answer": "INTRAVITREAL ANTIBIOTICS",
+    "source": "/uploads/yellowfool-neet-pg-2018-ophthalmology-q007-p2992-i1.jpg"
+  },
+  {
+    "index": 16,
+    "id": "aiims-2019-ophthalmology-q001",
+    "year": 2019,
+    "exam": "aiims-2019",
+    "prompt": "A PATIENT PRESENTED WITH PAINLESS DECREASE IN VISION AND METAMORPHOPSIA. FUNDUS\nEXAMINATION REVEALED THE LESION SHOWN IN THE IMAGE. WHAT IS THE EXPECTED FINDING ON\nANGIOGRAPHY?",
+    "options": [
+      "SMOKE-STACK APPEARANCE",
+      "INKBLOT APPEARANCE",
+      "COLLARSTUD APPEARANCE",
+      "DOUBLE CIRCULATION"
+    ],
+    "answer": "DOUBLE CIRCULATION",
+    "source": "/uploads/yellowfool-aiims-2019-ophthalmology-q001-p2962-i1.jpg"
+  },
+  {
+    "index": 17,
+    "id": "aiims-2019-ophthalmology-q002",
+    "year": 2019,
+    "exam": "aiims-2019",
+    "prompt": "THE TEST GIVEN BELOW IN THE IMAGE IS USED FOR:",
+    "options": [
+      "OCULAR DEVIATION",
+      "STEREOPSIS TEST",
+      "REFRACTIVE ERRORS",
+      "COLOUR BLINDNESS"
+    ],
+    "answer": "STEREOPSIS TEST",
+    "source": "/uploads/yellowfool-aiims-2019-ophthalmology-q002-p2963-i1.jpg"
+  },
+  {
+    "index": 18,
+    "id": "aiims-2019-ophthalmology-q003",
+    "year": 2019,
+    "exam": "aiims-2019",
+    "prompt": "A PATIENT PRESENTS TO THE EMERGENCY AND HIS OCULAR EXAMINATION REVEALS THE FOLLOWING. WHICH\nOF THE FOLLOWING IS NOT DONE INITIALLY?",
+    "options": [
+      "REMOVAL OF THE FOREIGN BODY",
+      "CHECK FOR VISUAL ACUITY",
+      "GIVE ANTIBIOTICS",
+      "DO PRIMARY SURVEY"
+    ],
+    "answer": "REMOVAL OF THE FOREIGN BODY",
+    "source": "/uploads/yellowfool-aiims-2019-ophthalmology-q003-p2963-i2.jpg"
+  },
+  {
+    "index": 19,
+    "id": "aiims-2019-ophthalmology-q006",
+    "year": 2019,
+    "exam": "aiims-2019",
+    "prompt": "WHICH OF THE FOLLOWING IS CORRECT REGARDING THE IMAGE GIVEN BELOW:",
+    "options": [
+      "IT IS CALLED ARGYL ROBERTSON PUPIL",
+      "BOTH EYES ARE ABNORMAL",
+      "THE VISION IS NORMAL IN RIGHT EYE",
+      "SEEN IN OPTIC NEURITIS, THE PUPIL CAN PARADOXICALLY DILATE IN THE BOTH EYES"
+    ],
+    "answer": "SEEN IN OPTIC NEURITIS, THE PUPIL CAN PARADOXICALLY DILATE IN THE BOTH EYES",
+    "source": "/uploads/yellowfool-aiims-2019-ophthalmology-q006-p2965-i1.jpg"
+  },
+  {
+    "index": 20,
+    "id": "aiims-2019-ophthalmology-q009",
+    "year": 2019,
+    "exam": "aiims-2019",
+    "prompt": "A PATIENT WITH A HISTORY OF DIABETES AND HYPERTENSION UNDERWENT FUNDUS FLUORESCENT\nANGIOGRAPHY (FFA) TO EVALUATE HIS DECREASING VISION. THE FFA YIELDS AN IMAGE AS SHOWN\nBELOW, WHICH IS CHARACTERISTIC OF:",
+    "options": [
+      "MACULAR ISCHEMIA",
+      "MACULAR EDEMA",
+      "SUBMACULAR HAEMORRHAGE",
+      "PREMACULAR HAEMORRHAGE"
+    ],
+    "answer": "MACULAR ISCHEMIA",
+    "source": "/uploads/yellowfool-aiims-2019-ophthalmology-q009-p2966-i1.jpg"
+  },
+  {
+    "index": 21,
+    "id": "aiims-2019-ophthalmology-q011",
+    "year": 2019,
+    "exam": "aiims-2019",
+    "prompt": "IDENTIFY THE STRUCTURE MARKED WITH RED ARROW",
+    "options": [
+      "OUTER LIMITING MEMBRANE",
+      "INNER PLEXIFORM LAYER",
+      "OUTER PLEXIFORM LAYER",
+      "OUTER NUCLEAR LAYER\nAnswer Key\nQuestion No. Correct Option"
+    ],
+    "answer": "OUTER PLEXIFORM LAYER",
+    "source": "/uploads/yellowfool-aiims-2019-ophthalmology-q011-p2967-i1.jpg"
+  },
+  {
+    "index": 22,
+    "id": "aiims-2019-ophthalmology-q013",
+    "year": 2019,
+    "exam": "aiims-2019",
+    "prompt": "WHICH OF THE FOLLOWING PROCEDURE IS SHOWN IN THE IMAGE GIVEN BELOW?",
+    "options": [
+      "NASOLACRIMAL DUCT SYRINGING",
+      "ANTERIOR ETHMOIDAL NERVE BLOCK",
+      "INFRAORBITAL NERVE BLOCK",
+      "TREPHINATION OF FRONTAL SINUS"
+    ],
+    "answer": "ANTERIOR ETHMOIDAL NERVE BLOCK",
+    "source": "/uploads/yellowfool-aiims-2019-ophthalmology-q013-p2981-i1.jpg"
+  },
+  {
+    "index": 23,
+    "id": "neet-pg-2019-ophthalmology-q005",
+    "year": 2019,
+    "exam": "neet-pg-2019",
+    "prompt": "A PATIENT WITH A HISTORY OF TRAUMA, PRESENTED WITH DIPLOPIA, EPISTAXIS, AND RESTRICTED EYE\nMOVEMENTS. LOOKING AT THE CT IMAGE GIVEN BELOW, WHAT WILL BE YOUR DIAGNOSIS?",
+    "options": [
+      "LE- FORT FRACTURE",
+      "FRACTURE MAXILLA",
+      "FRACTURE ZYGOMATIC",
+      "BLOW OUT FRACTURE"
+    ],
+    "answer": "BLOW OUT FRACTURE",
+    "source": "/uploads/yellowfool-neet-pg-2019-ophthalmology-q005-p3010-i1.jpg"
+  },
+  {
+    "index": 24,
+    "id": "neet-pg-2019-ophthalmology-q006",
+    "year": 2019,
+    "exam": "neet-pg-2019",
+    "prompt": "WHAT IS THE LIKELY DIAGNOSIS FROM THE IMAGE GIVEN BELOW?",
+    "options": [
+      "PINGUECULA",
+      "CONCRETIONS",
+      "PTERYGIUM",
+      "BITOTS SPOTS"
+    ],
+    "answer": "PTERYGIUM",
+    "source": "/uploads/yellowfool-neet-pg-2019-ophthalmology-q006-p3011-i1.jpg"
+  },
+  {
+    "index": 25,
+    "id": "neet-pg-2019-ophthalmology-q009",
+    "year": 2019,
+    "exam": "neet-pg-2019",
+    "prompt": "A 50-YEAR-OLD MALE PRESENTED WITH PROGRESSIVE BLURRED VISION, PHOTOPHOBIA, AND EYE PAIN. ON\nEXAMINATION, THERE WAS CONJUNCTIVAL REDNESS, A MID-DILATED PUPIL, AND A SHALLOW ANTERIOR\nCHAMBER IN THE RIGHT EYE. HE HAS BEEN TREATED BOTH MEDICALLY AND SURGICALLY FOR THE CONDITION\nBUT SHOWED NO IMPROVEMENT. THE FOLLOWING PROCEDURE INCORPORATES A DEVICE TO AID DRAINAGE.\nIDENTIFY THE DEVICE.",
+    "options": [
+      "EX-PRESS™ IMPLANT",
+      "AHMED GLAUCOMA VALVE",
+      "MOLTENO IMPLANT",
+      "BAERVELDT IMPLANT"
+    ],
+    "answer": "EX-PRESS™ IMPLANT",
+    "source": "/uploads/yellowfool-neet-pg-2019-ophthalmology-q009-p3012-i1.jpg"
+  },
+  {
+    "index": 26,
+    "id": "neet-pg-2019-ophthalmology-q010",
+    "year": 2019,
+    "exam": "neet-pg-2019",
+    "prompt": "IDENTIFY THE INSTRUMENT.",
+    "options": [
+      "MADDOX WING",
+      "MADDOX GLASS",
+      "MADDOX ROD",
+      "PHOROPTER"
+    ],
+    "answer": "MADDOX ROD",
+    "source": "/uploads/yellowfool-neet-pg-2019-ophthalmology-q010-p3013-i1.jpg"
+  },
+  {
+    "index": 27,
+    "id": "neet-pg-2019-ophthalmology-q011",
+    "year": 2019,
+    "exam": "neet-pg-2019",
+    "prompt": "IDENTIFY THE TEST BEING SHOWN BELOW.",
+    "options": [
+      "OBSCURE TEST",
+      "PRISM TEST",
+      "COVER UNCOVER TEST",
+      "MADDOX ROD TEST\nAnswer Key\nQuestion No. Correct Option"
+    ],
+    "answer": "COVER UNCOVER TEST",
+    "source": "/uploads/yellowfool-neet-pg-2019-ophthalmology-q011-p3013-i2.jpg"
+  }
+]

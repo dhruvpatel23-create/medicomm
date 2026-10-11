@@ -21,7 +21,7 @@ Arrows and pointers must be precise and error-free. Keep arrow direction, endpoi
 
 Marker styling: Redesign arrows to look different from the original reference: use slim shafts and small, clean arrowheads with a visibly different shape/style. Keep every arrow's direction, endpoint, and target unchanged. Change the fill and/or outline colour of numbered label circles to a contrasting colour different from the source, with clearly legible numbers. Preserve the exact numbers, label positions, and structure associations. Do not add circles where none exist. Preserve any medically meaningful colour coding and line-pattern distinctions; restyle only decorative marker features.
 
-Watermark: add a small exact lowercase "medicomm" watermark in light gray at the bottom-left with safe margin. No publisher branding, no source watermark, no unrelated text.
+No watermarks: Do NOT add any watermark or logo. No publisher branding, no source watermark, no unrelated text.
 
 Typography & Text Clarity: Render all text, numbers, axis labels, diagram annotations, and marker labels in crisp, large, high-contrast bold sans-serif lettering. Never use tiny, faint, or blurry fonts; all characters and numbers must be instantly legible and tack-sharp at high resolution across mobile and desktop displays.
 
@@ -39,7 +39,7 @@ Append a specific content block for every image:
 ```text
 Specific subject/content: [State the exact view, modality, specimen, diagram type, graph/table type, orientation, and crop.]
 
-The question marker targets [exact structure/region/feature/data point]. Place the arrow/label/highlight endpoint on [precise landmark or feature], not on [common wrong neighboring structures/features]. Preserve [letters/numbers/probes/key text/panel order/axes/stain pattern] exactly. Arrows must be clean, readable, correctly directed, and endpoint-accurate. Do not add answer labels. Keep the black background and bottom-left medicomm watermark.
+The question marker targets [exact structure/region/feature/data point]. Place the arrow/label/highlight endpoint on [precise landmark or feature], not on [common wrong neighboring structures/features]. Preserve [letters/numbers/probes/key text/panel order/axes/stain pattern] exactly. Arrows must be clean, readable, correctly directed, and endpoint-accurate. Do not add answer labels. Keep the black background edge to edge. Do not add any watermark or branding.
 ```
 
 For realistic dissection or body-surface images that may trigger safety filtering, add:
@@ -53,7 +53,7 @@ This is a non-graphic medical teaching illustration for anatomy students, not a 
 Use this for targeted fixes when the generated image is mostly correct:
 
 ```text
-Change ONLY [the incorrect marker/endpoint/label/highlight/anatomical segment]. Keep all other anatomy, crop, background, style, watermark, labels, and existing correct markers unchanged.
+Change ONLY [the incorrect marker/endpoint/label/highlight/anatomical segment]. Keep all other anatomy, crop, background, style, labels, and existing correct markers unchanged.
 
 Current issue: [describe what is wrong and where it is].
 Correct target: [describe exact corrected location, preferably with visual coordinates if reviewing a generated image].
@@ -70,7 +70,7 @@ Avoid: [neighboring wrong structures].
 - All text, numbers, letters, axis values, and markers are bold, high-contrast, crisp, and effortlessly legible with zero blurriness.
 - No answer text or new anatomy names were added.
 - No publisher/source branding remains.
-- Bottom-left `medicomm` watermark is subtle but visible.
+- No watermark, logo, or branding is added or retained.
 - Image is usually 4:3 landscape on pure black background unless the source/question format requires otherwise.
 - Output is educational and copyright-safe, not a close copy of the source rendering.
 

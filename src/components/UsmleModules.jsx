@@ -22,13 +22,14 @@ export default function UsmleModules({ onBack, modules = [], progress = {}, stat
         {Array.from({ length: 10 }, (_, index) => {
           const module = modules.find((entry) => entry.moduleNumber === index + 1);
           const count = module?.questions.length ?? 0;
+          const comingSoon = index >= 5 && count === 0;
           const answered = module?.questions.filter((question) => progress[question.id]).length ?? 0;
           return (
           <article className="usmle-module-card" key={index} aria-labelledby={`usmle-module-${index + 1}`}>
-            <div className="usmle-module-topline"><span className="usmle-module-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><span className={`usmle-module-status${count ? " usmle-module-ready" : ""}`}>{count ? "Ready to practice" : loading ? "Loading…" : unavailable ? "Unavailable" : "Coming soon"}</span></div>
+            <div className="usmle-module-topline"><span className="usmle-module-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><span className={`usmle-module-status${count ? " usmle-module-ready" : ""}`}>{comingSoon ? "Coming soon" : count ? "Ready to practice" : loading ? "Loading…" : unavailable ? "Unavailable" : "Coming soon"}</span></div>
             <h4 id={`usmle-module-${index + 1}`}>Module {index + 1}</h4>
             {count > 0 && <p className="usmle-module-description">An integrated mix across basic sciences and clinical systems.</p>}
-            <div className="usmle-module-footer"><span><BookOpen size={15} aria-hidden="true" />{count} questions</span><span>{count ? `${answered} / ${count} answered` : "No questions yet"}</span></div>
+            <div className="usmle-module-footer"><span><BookOpen size={15} aria-hidden="true" />{comingSoon ? "Coming soon" : `${count} questions`}</span><span>{count ? `${answered} / ${count} answered` : comingSoon ? "Questions are being prepared" : "No questions yet"}</span></div>
             {count > 0 && <button type="button" className="usmle-module-start" onClick={() => onStart(module.id)} aria-label={`${answered ? "Review" : "Start"} Module ${index + 1}`}>{answered ? "Review module" : "Start module"}<ArrowRight size={17} aria-hidden="true" /></button>}
           </article>
         );})}

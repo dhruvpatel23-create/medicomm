@@ -6,6 +6,7 @@ import Leaderboard from "./components/Leaderboard";
 import CommunityHub from "./components/CommunityHub";
 import { socialPage, surface as socialSurface, primary as socialPrimary, secondary as socialSecondary, field as socialField, avatar as socialAvatar } from "./components/SocialUI";
 import PracticeSelection from "./components/PracticeSelection";
+import PracticeSubjectDirectory from "./components/PracticeSubjectDirectory";
 import UsmleModules from "./components/UsmleModules";
 import FmgeYears from "./components/FmgeYears";
 import ShortNotes from "./components/ShortNotes";
@@ -23,7 +24,7 @@ import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20260930-all-image-sync";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261010-revert-oph-2017-2019";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -4042,6 +4043,7 @@ async function fetchPracticeLibrary() {
 
     return (
       <section className="app-view">
+        {practicePathTitle !== "NEET PG / INICET" ? (
         <div className="view-header">
           <div>
             <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
@@ -4051,6 +4053,7 @@ async function fetchPracticeLibrary() {
             Back
           </button>
         </div>
+        ) : null}
 
         {aiPracticeMessage ? <p className="form-message practice-ai-message">{aiPracticeMessage}</p> : null}
 
@@ -4192,6 +4195,13 @@ async function fetchPracticeLibrary() {
           </div>
         ) : null}
 
+        {practicePathTitle === "NEET PG / INICET" ? <PracticeSubjectDirectory
+          years={groupedPracticeYears}
+          supplementalSubjects={supplementalAiPracticeSubjects}
+          topicCounts={aiPracticeQuestionCountsBySubject}
+          onSelect={handleSelectPracticeSubject}
+          onBack={() => setActiveView("Practice")}
+        /> : (
         <div className="practice-year-stack">
           {groupedPracticeYears.map((year) => (
             <section className="card panel practice-year-section" key={year.id}>
@@ -4254,6 +4264,7 @@ async function fetchPracticeLibrary() {
             </section>
           ) : null}
         </div>
+        )}
       </section>
     );
   }
@@ -5007,7 +5018,7 @@ async function fetchPracticeLibrary() {
         return <div className="app-view"><WebsiteReviews canReview={authStatus === "authenticated"} onSignIn={handleLogout} /></div>;
       case "Practice":
         return <>
-          {!["selection", "usmle-modules", "fmge-years"].includes(practiceStage) && <div className="practice-path-breadcrumb">
+          {!["selection", "usmle-modules", "fmge-years"].includes(practiceStage) && !(practiceStage === "catalog" && practicePathTitle === "NEET PG / INICET") && <div className="practice-path-breadcrumb">
             <button type="button" className="text-button" onClick={() => setActiveView("Practice")}>← All practice options</button>
             {practicePathTitle && <span>{practicePathTitle} practice</span>}
           </div>}
