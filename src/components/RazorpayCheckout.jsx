@@ -36,7 +36,11 @@ export default function RazorpayCheckout({ plan, user, guest, onVerified }) {
     try {
       if (!coupon.trim()) throw new Error('Enter your coupon code first.');
       const result = await apiRequest('/api/payment-quote', { method: 'POST', body: JSON.stringify({ planId: plan.id, coupon }) });
-      if (request === quoteRequest.current) { setQuote(result); setCoupon(result.coupon); setCouponMessage('Coupon applied. Your total is now ₹9.'); }
+      if (request === quoteRequest.current) {
+        setQuote(result); setCoupon(result.coupon);
+        const total = new Intl.NumberFormat('en-IN', { style: 'currency', currency: result.currency, maximumFractionDigits: 0 }).format(result.amount / 100);
+        setCouponMessage(`Coupon applied. Your total is now ${total}.`);
+      }
     } catch (error) { if (request === quoteRequest.current) setCouponMessage(error.message); }
     finally { if (request === quoteRequest.current) setCouponBusy(false); }
   }

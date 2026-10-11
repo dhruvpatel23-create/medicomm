@@ -48,7 +48,7 @@ const assert = require('node:assert/strict');
     await page.route('**/api/create-order', async route => {
       orderRequests++;
       const body = route.request().postDataJSON();
-      assert.equal(body.currency, 'INR'); assert.equal(body.planId, 'lite'); assert.equal(body.amount, 900); assert.equal(body.coupon, 'PRELAUNCH');
+      assert.equal(body.currency, 'INR'); assert.equal(body.amount, { lite: 6900, ultra: 9900, premium: 14900 }[body.planId]); assert.equal(body.coupon, 'PRELAUNCH');
       await route.fulfill({ json: { order_id: 'order_browser123', amount: body.amount, currency: body.currency, key_id: 'rzp_test_browser', test_mode: true } });
     });
     await page.route('**/api/verify-payment', async route => {
@@ -60,18 +60,28 @@ const assert = require('node:assert/strict');
     await navigate('Practice');
     await page.getByRole('heading', { name: 'Unlock your practice journey' }).waitFor();
     await navigate('Pricing');
+    for (const [action, amount] of [['Get Lite', 6900], ['Choose Ultra', 9900], ['Go Premium', 14900]]) {
+      await page.getByRole('button', { name: action, exact: true }).click();
+      await page.getByLabel('Have a coupon code?').fill('PRELAUNCH');
+      await page.getByRole('button', { name: 'Apply', exact: true }).click();
+      await page.getByText(`Coupon applied. Your total is now ₹${amount / 100}.`, { exact: true }).waitFor();
+      assert.equal(await page.locator('.checkout-total strong').innerText(), `₹${amount / 100}`);
+      await page.getByRole('button', { name: 'Pay securely with Razorpay', exact: true }).click();
+      await page.getByText('Checkout cancelled. No payment was confirmed.', { exact: true }).waitFor();
+      assert.equal(await page.evaluate(() => window.checkoutOptions.amount), amount);
+    }
     await page.getByRole('button', { name: 'Get Lite', exact: true }).click();
     await page.getByLabel('Have a coupon code?').fill('WRONG');
     await page.getByRole('button', { name: 'Apply', exact: true }).click();
     await page.getByText('That coupon code is not valid.', { exact: true }).waitFor();
     await page.getByLabel('Have a coupon code?').fill(' prelaunch ');
     await page.getByRole('button', { name: 'Apply', exact: true }).click();
-    await page.getByText('Coupon applied. Your total is now ₹9.', { exact: true }).waitFor();
+    await page.getByText('Coupon applied. Your total is now ₹69.', { exact: true }).waitFor();
     const pay = page.getByRole('button', { name: 'Pay securely with Razorpay', exact: true });
     await pay.click();
     await page.getByText('Checkout cancelled. No payment was confirmed.', { exact: true }).waitFor();
     const options = await page.evaluate(() => ({ key: window.checkoutOptions.key, amount: window.checkoutOptions.amount, email: window.checkoutOptions.prefill.email }));
-    assert.equal(options.key, 'rzp_test_browser'); assert.equal(options.amount, 900); assert.equal(options.email, 'account-ui@example.test');
+    assert.equal(options.key, 'rzp_test_browser'); assert.equal(options.amount, 6900); assert.equal(options.email, 'account-ui@example.test');
     await page.evaluate(() => window.checkoutMode = 'failure'); await pay.click();
     await page.getByText('Test bank declined payment', { exact: true }).waitFor();
     await page.evaluate(() => window.checkoutMode = 'success'); await pay.click();
@@ -81,7 +91,7 @@ const assert = require('node:assert/strict');
     await page.getByText('Test payment confirmed. Practice is unlocked. Reference: pay_browser123.', { exact: true }).waitFor();
     assert(await page.locator('.user-chip .paid-avatar').isVisible());
     assert(await page.getByRole('button', { name: 'Practice unlocked ✓', exact: true }).isDisabled());
-    assert.equal(orderRequests, 3); assert.equal(verifyRequests, 2);
+    assert.equal(orderRequests, 6); assert.equal(verifyRequests, 2);
     assert.deepEqual(errors, []);
     await fs.mkdir('output/razorpay', { recursive: true });
     await page.screenshot({ path: 'output/razorpay/checkout.png', fullPage: true, animations: 'disabled' });

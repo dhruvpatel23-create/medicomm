@@ -2357,7 +2357,9 @@ function validateSignupPayload(payload) {
 
   if (!/^\S+@\S+\.\S+$/.test(payload.email)) return "Enter a valid email address.";
   if (normalizeContactNumber(payload.contactNumber).length < 8) return "Enter a valid mobile number.";
-  if (typeof payload.password !== "string" || payload.password.length < 12 || payload.password.length > 128) return "Password must contain 12 to 128 characters.";
+  if (typeof payload.password !== "string" || payload.password.length < 8 || payload.password.length > 128) return "Password must contain 8 to 128 characters.";
+  if (!/[0-9]/.test(payload.password)) return "Password must contain at least one number.";
+  if (!/[^\p{L}\p{N}\s]/u.test(payload.password)) return "Password must contain at least one special character.";
   return null;
 }
 

@@ -2634,6 +2634,8 @@ async function fetchPracticeLibrary() {
               type="button"
               onClick={() => {
                 setAuthMode("login");
+                setAuthForm((current) => ({ ...current, email: "", password: "" }));
+                setPasswordVisible(false);
                 setAuthMessage("");
               }}
             >
@@ -2644,6 +2646,8 @@ async function fetchPracticeLibrary() {
               type="button"
               onClick={() => {
                 setAuthMode("signup");
+                setAuthForm((current) => ({ ...current, email: "", password: "" }));
+                setPasswordVisible(false);
                 setAuthMessage("");
               }}
             >
@@ -2651,7 +2655,7 @@ async function fetchPracticeLibrary() {
             </button>
           </div>
 
-          <form className="auth-form" onSubmit={handleAuthSubmit} autoComplete="off">
+          <form key={authMode} className="auth-form" onSubmit={handleAuthSubmit} autoComplete="off">
             {isSignup ? (
               <>
                 <label className="field">
@@ -2712,10 +2716,11 @@ async function fetchPracticeLibrary() {
               <span>Email</span>
               <input
                 type="email"
+                name={isSignup ? "signup-email" : "login-email"}
                 autoComplete="off"
                 value={authForm.email}
                 onChange={(event) => updateAuthField("email", event.target.value)}
-                placeholder="you@example.com"
+                placeholder="Enter your email"
               />
             </label>
 
@@ -2724,10 +2729,17 @@ async function fetchPracticeLibrary() {
               <div className="password-input-wrap">
                 <input
                   type={passwordVisible ? "text" : "password"}
+                  name={isSignup ? "signup-password" : "login-password"}
                   autoComplete={isSignup ? "new-password" : "current-password"}
                   value={authForm.password}
                   onChange={(event) => updateAuthField("password", event.target.value)}
-                  placeholder="12 to 128 characters"
+                  placeholder={isSignup ? "Create a password" : "Enter your password"}
+                  required
+                  minLength={isSignup ? 8 : undefined}
+                  maxLength={128}
+                  pattern={isSignup ? "(?=.*[0-9])(?=.*[^\\p{L}\\p{N}\\s]).{8,128}" : undefined}
+                  title={isSignup ? "Use 8 to 128 characters, including at least one number and one special character." : undefined}
+                  aria-describedby={isSignup ? "signup-password-requirements" : undefined}
                 />
                 <button
                   type="button"
@@ -2739,6 +2751,7 @@ async function fetchPracticeLibrary() {
                   {passwordVisible ? "Hide" : "Show"}
                 </button>
               </div>
+              {isSignup ? <small id="signup-password-requirements">8 to 128 characters, including at least one number and one special character.</small> : null}
             </label>
 
             {authMessage ? <p className="form-message" role="alert">{authMessage}</p> : null}

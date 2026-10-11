@@ -12,7 +12,7 @@ export function paymentQuote(payload) {
   if (!plan) throw new HttpError(400, 'Choose a valid plan.');
   const coupon = String(payload.coupon ?? '').trim().toUpperCase();
   if (coupon && coupon !== 'PRELAUNCH') throw new HttpError(400, 'That coupon code is not valid.');
-  return { planId: plan.id, originalAmount: plan.amount, amount: coupon ? 900 : plan.amount, currency: plan.currency, coupon };
+  return { planId: plan.id, originalAmount: plan.amount, amount: coupon ? plan.prelaunchAmount : plan.amount, currency: plan.currency, coupon };
 }
 
 export function validPaymentSignature(orderId, paymentId, signature, secret) {

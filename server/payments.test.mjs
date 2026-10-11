@@ -10,6 +10,7 @@ function fixture() {
   let paymentStatus = 'captured';
   let paymentAmount = 49900;
   let creates = 0;
+  let gatewayOrder;
   const keySecret = 'isolated-test-secret';
   const handler = createPaymentHandler({
     keyId: 'rzp_test_fixture', keySecret,
@@ -17,13 +18,13 @@ function fixture() {
     requireSessionUser: () => { if (!account) { const error = new Error('Sign in'); error.status = 401; throw error; } return { id: account }; },
     parseRequestBody: async request => request.body,
     sendJson: (response, status, body) => ({ status, body }),
-    client: { orders: { create: async input => { if (failure) throw failure; creates++; assert(input.receipt.length <= 40); return { ...input, id: 'order_test123' }; } },
+    client: { orders: { create: async input => { if (failure) throw failure; creates++; gatewayOrder = input; assert(input.receipt.length <= 40); return { ...input, id: 'order_test123' }; } },
       payments: { fetch: async () => { if (failure) throw failure; return { order_id: 'order_test123', amount: paymentAmount, currency: 'INR', status: paymentStatus }; } } },
   });
   return {
     call: (route, body) => handler({ body }, {}, { pathname: route }),
     signed: (signature) => ({ razorpay_order_id: 'order_test123', razorpay_payment_id: 'pay_test123', razorpay_signature: signature ?? createHmac('sha256', keySecret).update('order_test123|pay_test123').digest('hex') }),
-    state: () => database, creates: () => creates,
+    state: () => database, creates: () => creates, gatewayOrder: () => gatewayOrder,
     account: value => account = value, failure: value => failure = value,
     status: value => paymentStatus = value, amount: value => paymentAmount = value,
   };
@@ -72,17 +73,31 @@ test('authorized remains pending, captured is paid, repeated verification is saf
   assert.equal(hasPracticeAccess(f.state(), 'two'), false);
 });
 
-test('PRELAUNCH charges exactly 900 paise and cannot be forged by changing the amount', async () => {
-  for (const planId of ['lite', 'ultra', 'premium']) assert.equal(paymentQuote({ planId, coupon: ' prelaunch ' }).amount, 900);
-  const f = fixture();
-  await rejects(f.call('/api/create-order', { ...order, amount: 900 }), 400);
-  await rejects(f.call('/api/create-order', { ...order, amount: 900, coupon: 'FAKE' }), 400);
-  await rejects(f.call('/api/create-order', { ...order, amount: 100, coupon: 'PRELAUNCH' }), 400);
-  const created = await f.call('/api/create-order', { ...order, amount: 900, coupon: 'PRELAUNCH' });
-  assert.equal(created.body.amount, 900);
-  assert.equal(f.state().paymentOrders[0].coupon, 'PRELAUNCH');
-  assert.equal(hasPracticeAccess(f.state(), 'one'), false);
-  f.amount(900);
-  const verified = await f.call('/api/verify-payment', f.signed());
-  assert.equal(verified.body.hasPracticeAccess, true);
+test('PRELAUNCH sends each discounted price to Razorpay and rejects forged or stale amounts', async () => {
+  for (const [planId, originalAmount, amount] of [['lite', 49900, 6900], ['ultra', 99900, 9900], ['premium', 149900, 14900]]) {
+    assert.equal(paymentQuote({ planId }).amount, originalAmount);
+    const f = fixture();
+    const quote = await f.call('/api/payment-quote', { planId, coupon: ' prelaunch ' });
+    assert.deepEqual(quote.body, { planId, originalAmount, amount, currency: 'INR', coupon: 'PRELAUNCH' });
+    const discounted = { planId, amount, currency: 'INR', coupon: 'PRELAUNCH' };
+    await rejects(f.call('/api/create-order', { ...discounted, coupon: '' }), 400);
+    await rejects(f.call('/api/create-order', { ...discounted, coupon: 'FAKE' }), 400);
+    for (const invalidAmount of [100, 900, originalAmount, ...[6900, 9900, 14900].filter(price => price !== amount)]) {
+      await rejects(f.call('/api/create-order', { ...discounted, amount: invalidAmount }), 400);
+    }
+    assert.equal(f.creates(), 0);
+    const created = await f.call('/api/create-order', discounted);
+    assert.equal(created.body.amount, amount);
+    assert.equal(f.gatewayOrder().amount, amount);
+    assert.equal(f.gatewayOrder().currency, 'INR');
+    assert.equal(f.state().paymentOrders[0].amount, amount);
+    assert.equal(f.state().paymentOrders[0].originalAmount, originalAmount);
+    assert.equal(f.state().paymentOrders[0].coupon, 'PRELAUNCH');
+    assert.equal(hasPracticeAccess(f.state(), 'one'), false);
+    f.amount(originalAmount);
+    await rejects(f.call('/api/verify-payment', f.signed()), 400);
+    f.amount(amount);
+    const verified = await f.call('/api/verify-payment', f.signed());
+    assert.equal(verified.body.hasPracticeAccess, true);
+  }
 });

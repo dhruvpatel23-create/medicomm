@@ -34,7 +34,20 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   assert.equal((await call('/api/auth/login', 'POST', {}, { Origin: 'https://evil.example' })).status, 403);
   assert.equal((await call('/api/auth/login', 'POST', null)).status, 400);
   assert.equal((await call('/api/auth/login', 'POST', { password: 'x'.repeat(300000) })).status, 413);
-  const payload = { name: 'Test Learner', email: 'test@example.test', medicalCollege: 'Test College', contactNumber: '9000000001', password: 'A-long-test-password' };
+  const payload = { name: 'Test Learner', email: 'test@example.test', medicalCollege: 'Test College', contactNumber: '9000000001', password: 'study1!a' };
+  for (const [password, message] of [
+    ['short1!', /8 to 128 characters/],
+    ['password!', /at least one number/],
+    ['password1', /at least one special character/],
+    ['study12 ', /at least one special character/],
+    ['study12é', /at least one special character/],
+    ['a'.repeat(127) + '1!', /Password/],
+  ]) {
+    const rejected = await call('/api/auth/signup', 'POST', { ...payload, password });
+    assert.equal(rejected.status, 400, `Should reject invalid password: ${password}`);
+    assert.match((await rejected.json()).message, message);
+    assert.equal(rejected.headers.get('set-cookie'), null);
+  }
   const signup = await call('/api/auth/signup', 'POST', payload);
   assert.equal(signup.status, 201);
   const result = await signup.json();
@@ -135,7 +148,7 @@ test('remote storage outages fail readiness and never acknowledge failed writes'
   outage = true;
   assert.equal((await fetch(address + '/health/live')).status, 200);
   assert.equal((await fetch(address + '/health/ready')).status, 503);
-  const signup = await fetch(address + '/api/auth/signup', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://app.example' }, body: JSON.stringify({ name: 'Test', email: 'test@example.test', password: 'long-test-password', medicalCollege: 'College', contactNumber: '9000000001' }) });
+  const signup = await fetch(address + '/api/auth/signup', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://app.example' }, body: JSON.stringify({ name: 'Test', email: 'test@example.test', password: 'long-test-password1!', medicalCollege: 'College', contactNumber: '9000000001' }) });
   assert.equal(signup.status, 503);
   assert.equal(signup.headers.get('set-cookie'), null);
   assert.equal(await readFile(path.join(directory, 'users.json'), 'utf8'), local);
