@@ -32,11 +32,11 @@ export default function FmgeYears({ onBack, sessions = [], progress = {}, status
           const answered = answeredCount(session.questions);
           const parts = [...new Set(session.questions.map((question) => question.part).filter(Boolean))];
           return <article className="usmle-module-card" key={session.id} aria-labelledby={`${session.id}-title`}>
-            <div className="usmle-module-topline"><span className="usmle-module-number" aria-hidden="true"><CalendarDays size={20} /></span><span className="usmle-module-status usmle-module-ready">Ready to practice</span></div>
+            <div className="usmle-module-topline"><span className="usmle-module-number" aria-hidden="true"><CalendarDays size={20} /></span><span className={`usmle-module-status${count ? " usmle-module-ready" : ""}`}>{count ? "Ready to practice" : "Coming soon"}</span></div>
             <h4 id={`${session.id}-title`}>{session.month} {session.year}</h4>
             <p className="usmle-module-description">{parts.length > 1 ? `Parts ${parts.join(" & ")} · ` : parts.length ? `Part ${parts[0]} · ` : ""}Questions, images and answer explanations.</p>
             <div className="usmle-module-footer"><span><BookOpen size={15} aria-hidden="true" />{count} questions</span><span>{answered} / {count} answered</span></div>
-            <button type="button" className="usmle-module-start" onClick={() => onStart(session.id)} aria-label={`Start ${session.month} ${session.year}`}>{answered ? "Review session" : "Start practice"}<ArrowRight size={17} aria-hidden="true" /></button>
+            {count > 0 && <button type="button" className="usmle-module-start" onClick={() => onStart(session.id)} aria-label={`Start ${session.month} ${session.year}`}>{answered ? "Review session" : "Start practice"}<ArrowRight size={17} aria-hidden="true" /></button>}
           </article>;
         }) : years.map((year) => {
           const available = sessions.filter((session) => session.year === year);

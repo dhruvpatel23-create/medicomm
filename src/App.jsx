@@ -16,6 +16,7 @@ import { DashboardSummary, ProfileOverview } from "./components/AccountOverview"
 import DashboardActivity from "./components/DashboardActivity";
 import RazorpayCheckout from "./components/RazorpayCheckout";
 import { PAYMENT_PLANS } from "./data/paymentPlans";
+import { filterPracticeLibraryForUi } from "./lib/practiceImageVisibility";
 import { useAccountOverview, usePracticeRecorder } from "./lib/useAccountOverview";
 import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
@@ -24,7 +25,7 @@ import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261010-revert-oph-2017-2019";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261011-final-year-fmge-text-only";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -661,11 +662,12 @@ function App() {
     password: "",
   });
 
-  const practiceSubjects = practiceLibrary.subjects ?? [];
+  const visiblePracticeLibrary = useMemo(() => filterPracticeLibraryForUi(practiceLibrary), [practiceLibrary]);
+  const practiceSubjects = visiblePracticeLibrary.subjects;
   const aiPracticeSubjects = practiceLibrary.aiSubjects ?? [];
   const usmlePracticeSubjects = practiceLibrary.usmleSubjects ?? [];
   const usmleModules = practiceLibrary.usmleModules ?? [];
-  const fmgeSessions = practiceLibrary.fmgeSessions ?? [];
+  const fmgeSessions = visiblePracticeLibrary.fmgeSessions;
   const allUsmlePracticeSets = useMemo(() => [...usmlePracticeSubjects, ...usmleModules], [usmlePracticeSubjects, usmleModules]);
   const aiPracticeQuestionCountsBySubject = useMemo(
     () =>
@@ -706,7 +708,9 @@ function App() {
           .filter(Boolean)
       : basePracticeQuestions;
   const currentPracticeQuestion = currentPracticeQuestions[practiceQuestionIndex] ?? null;
-  const questionBookmarks = Array.isArray(user?.questionBookmarks) ? user.questionBookmarks : [];
+  const questionBookmarks = (Array.isArray(user?.questionBookmarks) ? user.questionBookmarks : []).filter(bookmark =>
+    !["pyq", "fmge"].includes(bookmark.mode) || !visiblePracticeLibrary.hiddenQuestionIds.has(bookmark.questionId),
+  );
   const bookmarkQuestionIndex = useMemo(() => {
     const index = new Map();
     const sources = [
