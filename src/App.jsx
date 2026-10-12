@@ -642,6 +642,7 @@ function App() {
   const [communityReplyDrafts, setCommunityReplyDrafts] = useState({});
   const [expandedCommunityThreads, setExpandedCommunityThreads] = useState({});
   const [directConversations, setDirectConversations] = useState([]);
+  const [incomingFriendRequests, setIncomingFriendRequests] = useState([]);
   const [directMessagesBusy, setDirectMessagesBusy] = useState(false);
   const [directMessagesMessage, setDirectMessagesMessage] = useState("");
   const [selectedDirectConversationId, setSelectedDirectConversationId] = useState("");
@@ -1130,11 +1131,23 @@ async function fetchPracticeLibrary() {
     }
   }
 
+  async function fetchFriendRequests() {
+    if (authStatus !== "authenticated") return;
+    try {
+      const data = await apiRequest("/api/friends");
+      setIncomingFriendRequests(data.incomingRequests ?? []);
+    } catch {}
+  }
+
   useEffect(() => {
     if (authStatus !== "authenticated") return undefined;
     fetchCommunities();
     fetchDirectConversations();
-    const messageInterval = window.setInterval(() => fetchDirectConversations({ silent: true }), 15000);
+    fetchFriendRequests();
+    const messageInterval = window.setInterval(() => {
+      fetchDirectConversations({ silent: true });
+      fetchFriendRequests();
+    }, 8000);
     return () => window.clearInterval(messageInterval);
   }, [authStatus]);
 
@@ -5125,6 +5138,7 @@ async function fetchPracticeLibrary() {
       user={user}
       userRating={userRating}
       directConversations={directConversations}
+      incomingFriendRequests={incomingFriendRequests}
     >
       {renderView()}
     </AppShell>

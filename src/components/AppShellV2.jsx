@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
@@ -6,7 +6,7 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import {
   Activity, BarChart3, Bell, Bookmark, BookOpen, ChevronDown, CircleHelp, Command, CreditCard,
   Check, Home, LayoutDashboard, Menu, MessageCircle, Moon, Search, Settings, Sparkles,
-  Megaphone, PanelLeftClose, PanelLeftOpen, Star, Sun, Swords, Trophy, UserRound, X, Zap,
+  Megaphone, PanelLeftClose, PanelLeftOpen, Star, Sun, Swords, Trophy, UserPlus, UserRound, X, Zap,
 } from "lucide-react";
 import { BrandMark } from "./BrandMark";
 
@@ -30,46 +30,135 @@ function NavButton({ active, item, onNavigate }) {
   );
 }
 
+function NotificationToast({ notification, onDismiss, onNavigate }) {
+  const getIcon = () => {
+    switch (notification.type) {
+      case "challenge":
+        return <Swords size={18} />;
+      case "friend_request":
+        return <UserPlus size={18} />;
+      case "message":
+        return <MessageCircle size={18} />;
+      default:
+        return <Megaphone size={18} />;
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -16, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -12, scale: 0.95 }}
+      transition={{ duration: 0.22, ease: "easeOut" }}
+      className="notification-toast"
+      onClick={() => onNavigate(notification)}
+      role="alert"
+    >
+      <span className={`notification-toast-icon notification-type-${notification.type}`}>
+        {getIcon()}
+      </span>
+      <div className="notification-toast-copy">
+        <strong className="notification-toast-title">{notification.title}</strong>
+        <p className="notification-toast-text">{notification.text}</p>
+      </div>
+      <button
+        type="button"
+        className="notification-toast-close"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDismiss(notification.id);
+        }}
+        aria-label="Dismiss notification popup"
+      >
+        <X size={14} />
+      </button>
+      <div className="notification-toast-progress" />
+    </motion.div>
+  );
+}
+
 export function AppShell({ activeView, children, isDarkMode, navItems, onNavigate, onToggleTheme,
-  renderAvatar, user, userRating, directConversations = [] }) {
+  renderAvatar, user, userRating, directConversations = [], incomingFriendRequests = [] }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [readNotificationIds, setReadNotificationIds] = useState([]);
   const notificationStorageKey = `medicomm-read-notifications-${user?.id ?? "guest"}`;
+  const clearedStorageKey = `medicomm-cleared-notifications-${user?.id ?? "guest"}`;
+  const [clearedNotificationIds, setClearedNotificationIds] = useState([]);
+  const [activeToasts, setActiveToasts] = useState([]);
+  const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
+  const [viewedInMenuIds, setViewedInMenuIds] = useState([]);
+  const seenToastIdsRef = useRef(new Set());
+  const initialLoadRef = useRef(true);
+
   const groupedItems = useMemo(() => ({
     learn: navItems.filter((item) => ["Home", "Dashboard", "Practice", "Bookmarks", "Analytics"].includes(item)),
     connect: navItems.filter((item) => ["Leaderboard", "Communities", "Reviews", "Compete"].includes(item)),
     account: navItems.filter((item) => ["Pricing", "Profile", "Settings"].includes(item)),
   }), [navItems]);
   const commandResults = navItems.filter((item) => item.toLowerCase().includes(query.trim().toLowerCase()));
+
+  useEffect(() => {
+    try {
+      const savedCleared = JSON.parse(window.localStorage.getItem(clearedStorageKey) ?? "[]");
+      setClearedNotificationIds(Array.isArray(savedCleared) ? savedCleared : []);
+    } catch {
+      setClearedNotificationIds([]);
+    }
+  }, [clearedStorageKey]);
+
+  const saveClearedNotificationIds = (ids) => {
+    const uniqueIds = [...new Set(ids)];
+    setClearedNotificationIds(uniqueIds);
+    try {
+      window.localStorage.setItem(clearedStorageKey, JSON.stringify(uniqueIds));
+    } catch {}
+  };
+
   const notifications = useMemo(() => {
     const messageNotifications = directConversations.flatMap((conversation) => {
       const latestMessage = conversation.messages?.at(-1);
       if (!latestMessage || latestMessage.isOwnMessage) return [];
+      const isChallenge = latestMessage.type === "challenge";
       return [{
         id: `message-${latestMessage.id}`,
-        type: "message",
-        title: conversation.otherParticipant?.name ?? latestMessage.userName ?? "New message",
+        type: isChallenge ? "challenge" : "message",
+        title: isChallenge
+          ? `${conversation.otherParticipant?.name ?? latestMessage.userName ?? "A learner"} challenged you to a 1v1 match!`
+          : (conversation.otherParticipant?.name ?? latestMessage.userName ?? "New message"),
         text: latestMessage.text,
         createdAt: latestMessage.createdAt,
-        destination: "Communities",
+        destination: isChallenge ? "Compete" : "Communities",
       }];
     });
+
+    const friendRequestNotifications = (incomingFriendRequests || []).map((req) => ({
+      id: `friend-request-${req.id}`,
+      type: "friend_request",
+      title: `${req.user?.name || "A learner"} sent you a friend request`,
+      text: `${req.user?.name || "Learner"}${req.user?.medicalCollege ? ` from ${req.user.medicalCollege}` : ""} wants to connect with you.`,
+      createdAt: req.createdAt,
+      destination: "Communities",
+    }));
+
     const systemNotifications = [
       {
         id: "system-welcome-notifications",
         type: "system",
         title: "Notifications are now live",
-        text: "Messages and important Medulla updates will appear here.",
+        text: "Messages, friend requests, and 1v1 challenges will appear here.",
         createdAt: "2026-07-29T17:00:00.000Z",
         destination: "Dashboard",
       },
     ];
-    return [...messageNotifications, ...systemNotifications]
+
+    return [...messageNotifications, ...friendRequestNotifications, ...systemNotifications]
+      .filter((n) => !clearedNotificationIds.includes(n.id))
       .sort((left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime());
-  }, [directConversations]);
+  }, [directConversations, incomingFriendRequests, clearedNotificationIds]);
+
   const unreadNotificationCount = notifications.filter((notification) => !readNotificationIds.includes(notification.id)).length;
 
   useEffect(() => {
@@ -86,15 +175,65 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
     setReadNotificationIds(uniqueIds);
     try {
       window.localStorage.setItem(notificationStorageKey, JSON.stringify(uniqueIds));
-    } catch {
-      // The panel still works when storage is unavailable; read state lasts for this session.
+    } catch {}
+  };
+
+  // Toast triggers for newly arrived notifications
+  useEffect(() => {
+    if (initialLoadRef.current) {
+      if (notifications.length > 0) {
+        notifications.forEach((n) => seenToastIdsRef.current.add(n.id));
+        initialLoadRef.current = false;
+      }
+      return;
+    }
+
+    const newNotifications = notifications.filter(
+      (n) => !seenToastIdsRef.current.has(n.id) && !clearedNotificationIds.includes(n.id)
+    );
+
+    if (newNotifications.length > 0) {
+      newNotifications.forEach((n) => seenToastIdsRef.current.add(n.id));
+      setActiveToasts((current) => [...current, ...newNotifications]);
+    }
+  }, [notifications, clearedNotificationIds]);
+
+  // 4-second auto-dismiss for popup toasts
+  useEffect(() => {
+    if (!activeToasts.length) return;
+    const oldest = activeToasts[0];
+    const timer = setTimeout(() => {
+      setActiveToasts((current) => current.filter((t) => t.id !== oldest.id));
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [activeToasts]);
+
+  // When user opens the menu, record viewed IDs; when closed, clear them from the list
+  const handleNotificationMenuOpenChange = (open) => {
+    setNotificationMenuOpen(open);
+    if (open) {
+      const currentIds = notifications.map((n) => n.id);
+      setViewedInMenuIds(currentIds);
+      saveReadNotificationIds([...readNotificationIds, ...currentIds]);
+    } else {
+      if (viewedInMenuIds.length > 0) {
+        saveClearedNotificationIds([...clearedNotificationIds, ...viewedInMenuIds]);
+        setViewedInMenuIds([]);
+      }
     }
   };
+
   const openNotification = (notification) => {
-    saveReadNotificationIds([...readNotificationIds, notification.id]);
+    saveClearedNotificationIds([...clearedNotificationIds, notification.id]);
+    setActiveToasts((current) => current.filter((t) => t.id !== notification.id));
+    setNotificationMenuOpen(false);
     navigate(notification.destination);
   };
-  const markAllNotificationsRead = () => saveReadNotificationIds(notifications.map((notification) => notification.id));
+
+  const clearAllNotifications = () => {
+    saveClearedNotificationIds([...clearedNotificationIds, ...notifications.map((n) => n.id)]);
+    setActiveToasts([]);
+  };
   const formatNotificationTime = (value) => {
     const timestamp = new Date(value).getTime();
     if (!Number.isFinite(timestamp)) return "";
@@ -153,7 +292,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
           </div>
           <div className="topbar-actions">
             <Tooltip.Root><Tooltip.Trigger asChild><button className="icon-button" type="button" onClick={onToggleTheme} aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}>{isDarkMode ? <Sun size={19} /> : <Moon size={19} />}</button></Tooltip.Trigger><Tooltip.Portal><Tooltip.Content className="tooltip-content" sideOffset={8}>{isDarkMode ? "Light mode" : "Dark mode"}</Tooltip.Content></Tooltip.Portal></Tooltip.Root>
-            <DropdownMenu.Root modal={false}>
+            <DropdownMenu.Root modal={false} open={notificationMenuOpen} onOpenChange={handleNotificationMenuOpenChange}>
               <DropdownMenu.Trigger asChild>
                 <button className="icon-button notification-button" type="button" aria-label={`Notifications${unreadNotificationCount ? `, ${unreadNotificationCount} unread` : ""}`}>
                   <Bell size={19} />
@@ -164,12 +303,19 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
                 <DropdownMenu.Content className="notification-menu" align="end" sideOffset={8}>
                   <div className="notification-menu-header">
                     <div><strong>Notifications</strong><span>{unreadNotificationCount ? `${unreadNotificationCount} unread` : "You are all caught up"}</span></div>
-                    {unreadNotificationCount ? <button type="button" onClick={markAllNotificationsRead}><Check size={14} /> Mark all read</button> : null}
+                    {notifications.length ? <button type="button" onClick={clearAllNotifications}><Check size={14} /> Clear all</button> : null}
                   </div>
                   <div className="notification-list">
                     {notifications.length ? notifications.map((notification) => {
                       const isUnread = !readNotificationIds.includes(notification.id);
-                      const NotificationIcon = notification.type === "message" ? MessageCircle : Megaphone;
+                      const NotificationIcon =
+                        notification.type === "challenge"
+                          ? Swords
+                          : notification.type === "friend_request"
+                          ? UserPlus
+                          : notification.type === "message"
+                          ? MessageCircle
+                          : Megaphone;
                       return (
                         <DropdownMenu.Item
                           className={`notification-item${isUnread ? " notification-item-unread" : ""}`}
@@ -184,7 +330,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
                           {isUnread ? <i aria-label="Unread" /> : null}
                         </DropdownMenu.Item>
                       );
-                    }) : <div className="notification-empty"><Bell size={22} /><strong>No notifications</strong><span>New messages and Medulla updates will appear here.</span></div>}
+                    }) : <div className="notification-empty"><Bell size={22} /><strong>No notifications</strong><span>New friend requests, 1v1 challenges, and messages will appear here.</span></div>}
                   </div>
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
@@ -216,6 +362,19 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
         <div className="command-input-wrap"><Search size={20} /><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search pages, subjects, or actions…" aria-label="Search" /><kbd>Esc</kbd></div>
         <div className="command-results"><p>Quick navigation</p>{commandResults.length ? commandResults.map((item) => { const Icon = iconMap[item] ?? Command; return <button key={item} type="button" onClick={() => navigate(item)}><span><Icon size={18} />{item}</span><small>Open</small></button>; }) : <div className="command-empty">No matching destination. Try “Practice” or “Analytics”.</div>}</div>
       </Dialog.Content></Dialog.Portal></Dialog.Root>
+      {/* 4-Second Popup Toasts */}
+      <aside aria-label="Notification alerts" className="notification-toast-container">
+        <AnimatePresence>
+          {activeToasts.map((toast) => (
+            <NotificationToast
+              key={toast.id}
+              notification={toast}
+              onDismiss={(id) => setActiveToasts((cur) => cur.filter((t) => t.id !== id))}
+              onNavigate={openNotification}
+            />
+          ))}
+        </AnimatePresence>
+      </aside>
     </div>
   );
 }
