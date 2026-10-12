@@ -1,33 +1,10 @@
 # Practice Question Inventory
 
-Total questions: 9480
+Total questions: 9890
 
 Source: `runtime-data/users.json`
 
-## Store Mismatches
-
-| Subject | Chapter | Topic | runtime-data | data |
-|---|---|---|---:|---:|
-| General Medicine | Cardinal Manifestations and Presentation of Diseases | Chest Pain, Dyspnea and Palpitations | 0 | 10 |
-| General Medicine | Cardinal Manifestations and Presentation of Diseases | Cough, Hemoptysis and Respiratory Presentations | 0 | 10 |
-| General Medicine | Cardinal Manifestations and Presentation of Diseases | Fatigue, Weight Change and Edema | 0 | 10 |
-| General Medicine | Cardinal Manifestations and Presentation of Diseases | Fever, Hyperthermia and Hypothermia | 0 | 10 |
-| General Medicine | Cardinal Manifestations and Presentation of Diseases | Gastrointestinal and Hepatobiliary Presentations | 0 | 10 |
-| General Medicine | Cardinal Manifestations and Presentation of Diseases | Hematologic, Immune and Skin Presentations | 0 | 10 |
-| General Medicine | Cardinal Manifestations and Presentation of Diseases | Pain and Headache Syndromes | 0 | 10 |
-| General Medicine | Cardinal Manifestations and Presentation of Diseases | Renal, Urinary and Fluid-Electrolyte Presentations | 0 | 10 |
-| General Medicine | Cardinal Manifestations and Presentation of Diseases | Syncope, Dizziness and Weakness | 0 | 10 |
-| General Medicine | Oncology and Hematology | Disorders of Hemostasis | 0 | 15 |
-| General Medicine | Oncology and Hematology | Hematopoietic Disorders | 0 | 15 |
-| General Medicine | Oncology and Hematology | Neoplastic Disorders | 0 | 15 |
-| General Medicine | Pharmacology | Pharmacodynamics, Adverse Effects and Interactions | 0 | 10 |
-| General Medicine | Pharmacology | Pharmacokinetics and Dose Individualization | 0 | 10 |
-| General Medicine | Pharmacology | Rational Prescribing and Special Populations | 0 | 10 |
-| General Medicine | The Profession of Medicine | Diagnostic Reasoning and Evidence | 0 | 10 |
-| General Medicine | The Profession of Medicine | Ethics, Consent and Confidentiality | 0 | 10 |
-| General Medicine | The Profession of Medicine | Patient-Centered Clinical Method | 0 | 10 |
-| General Medicine | The Profession of Medicine | Professionalism, Learning and Society | 0 | 10 |
-| General Medicine | The Profession of Medicine | Quality, Safety and Systems of Care | 0 | 10 |
+Store mismatch check: `runtime-data/users.json` and `data/users.json` match topic-wise.
 
 ## Anatomy (880)
 
@@ -560,13 +537,27 @@ Source: `runtime-data/users.json`
 | Mineral Acids and Corrosive Acid Poisoning | 10 |
 | Phosphorus and Related Irritant Poisons | 10 |
 
-## General Medicine (555)
+## General Medicine (770)
 
 ### Aging (15)
 
 | Topic | Questions |
 |---|---:|
 | Aging | 15 |
+
+### Cardinal Manifestations and Presentation of Diseases (90)
+
+| Topic | Questions |
+|---|---:|
+| Chest Pain, Dyspnea and Palpitations | 10 |
+| Cough, Hemoptysis and Respiratory Presentations | 10 |
+| Fatigue, Weight Change and Edema | 10 |
+| Fever, Hyperthermia and Hypothermia | 10 |
+| Gastrointestinal and Hepatobiliary Presentations | 10 |
+| Hematologic, Immune and Skin Presentations | 10 |
+| Pain and Headache Syndromes | 10 |
+| Renal, Urinary and Fluid-Electrolyte Presentations | 10 |
+| Syncope, Dizziness and Weakness | 10 |
 
 ### Consultative Medicine (15)
 
@@ -684,6 +675,22 @@ Source: `runtime-data/users.json`
 | Seizures, Stroke and Headache Disorders | 10 |
 | Spinal Cord and Demyelinating Disorders | 10 |
 
+### Oncology and Hematology (45)
+
+| Topic | Questions |
+|---|---:|
+| Disorders of Hemostasis | 15 |
+| Hematopoietic Disorders | 15 |
+| Neoplastic Disorders | 15 |
+
+### Pharmacology (30)
+
+| Topic | Questions |
+|---|---:|
+| Pharmacodynamics, Adverse Effects and Interactions | 10 |
+| Pharmacokinetics and Dose Individualization | 10 |
+| Rational Prescribing and Special Populations | 10 |
+
 ### Poisoning, Drug Overdose, and Envenomation (30)
 
 | Topic | Questions |
@@ -692,7 +699,94 @@ Source: `runtime-data/users.json`
 | Poisoning and Drug Overdose Management | 10 |
 | Snakebite, Marine and Arthropod Envenomation | 10 |
 
-## Microbiology (810)
+### The Profession of Medicine (50)
+
+| Topic | Questions |
+|---|---:|
+| Diagnostic Reasoning and Evidence | 10 |
+| Ethics, Consent and Confidentiality | 10 |
+| Patient-Centered Clinical Method | 10 |
+| Professionalism, Learning and Society | 10 |
+| Quality, Safety and Systems of Care | 10 |
+
+## General Surgery (135)
+
+### Abdominal Wall, Hernias and Urology (25)
+
+| Topic | Questions |
+|---|---:|
+| Inguinal and Ventral Hernias | 10 |
+| Spleen and Splenectomy | 5 |
+| Urinary Calculi, BPH and Bladder Tumors | 10 |
+
+### Breast, Arterial and Venous Surgery (20)
+
+| Topic | Questions |
+|---|---:|
+| Breast Carcinoma and Benign Diseases | 10 |
+| Varicose Veins, DVT and Arterial Disease | 10 |
+
+### Gastrointestinal Surgery (20)
+
+| Topic | Questions |
+|---|---:|
+| Esophagus, Stomach and Duodenum | 10 |
+| Liver, Biliary System and Pancreas | 10 |
+
+### Head, Neck and Endocrine Surgery (15)
+
+| Topic | Questions |
+|---|---:|
+| Salivary Gland Tumors and Neck Swellings | 5 |
+| Thyroid Disorders and Neoplasms | 10 |
+
+### Intestines, Appendix and Colorectal Surgery (30)
+
+| Topic | Questions |
+|---|---:|
+| Acute Appendicitis and Peritonitis | 10 |
+| Colorectal Carcinoma, Anal Canal and Hemorrhoids | 10 |
+| Intestinal Obstruction and Mesenteric Ischemia | 10 |
+
+### Metabolic Response, Shock and Fluid Balance (25)
+
+| Topic | Questions |
+|---|---:|
+| Burns and Wound Healing | 10 |
+| Shock and Resuscitation | 10 |
+| Surgical Infections and Gangrene | 5 |
+
+## Microbiology (830)
+
+### AETCOM in Microbiology (1)
+
+| Topic | Questions |
+|---|---:|
+| Confidentiality of an HIV Test Result | 1 |
+
+### Antimicrobial Agents and Antimicrobial Resistance (1)
+
+| Topic | Questions |
+|---|---:|
+| Methicillin Resistance in Staphylococcus aureus | 1 |
+
+### Bacterial Atypical Pneumonia (1)
+
+| Topic | Questions |
+|---|---:|
+| Laboratory Diagnosis of Legionella | 1 |
+
+### Bacterial Lobar Pneumonia (1)
+
+| Topic | Questions |
+|---|---:|
+| Pneumococcal Virulence | 1 |
+
+### Beta-Hemolytic Streptococcal Infections (1)
+
+| Topic | Questions |
+|---|---:|
+| Acute Rheumatic Fever | 1 |
 
 ### Bloodstream and Cardiovascular System Infections (110)
 
@@ -710,6 +804,12 @@ Source: `runtime-data/users.json`
 | Viral Hemorrhagic Fever (VHF) Arboviral VHF, Filoviral VHF, Hantaviral and Other Agents of VHF | 10 |
 | Visceral Leishmaniasis and Trypanosomiasis | 10 |
 
+### Cardiovascular System Infections (1)
+
+| Topic | Questions |
+|---|---:|
+| Streptococcus gallolyticus Endocarditis | 1 |
+
 ### Central Nervous System Infections (60)
 
 | Topic | Questions |
@@ -720,6 +820,30 @@ Source: `runtime-data/users.json`
 | Tetanus | 10 |
 | Viral Encephalitis and Encephalopathy | 10 |
 | Viral Meningitis and Myelitis: Poliomyelitis, Coxsackievirus Infections, and Others | 10 |
+
+### Cholera and Halophilic Vibrio Infections (1)
+
+| Topic | Questions |
+|---|---:|
+| Cholera Toxin Signaling | 1 |
+
+### Clostridioides difficile Infection (1)
+
+| Topic | Questions |
+|---|---:|
+| Toxin-Mediated Pseudomembranous Colitis | 1 |
+
+### Complement (1)
+
+| Topic | Questions |
+|---|---:|
+| Terminal Complement Deficiency | 1 |
+
+### Congenital Infections (1)
+
+| Topic | Questions |
+|---|---:|
+| Congenital Cytomegalovirus Infection | 1 |
 
 ### Gastrointestinal (GI) Infections (80)
 
@@ -747,6 +871,12 @@ Source: `runtime-data/users.json`
 | Microscopy | 10 |
 | Normal Human Microbiota | 10 |
 
+### HIV/AIDS (1)
+
+| Topic | Questions |
+|---|---:|
+| Detection During the HIV Window Period | 1 |
+
 ### Hepatobiliary System Infections (30)
 
 | Topic | Questions |
@@ -767,6 +897,12 @@ Source: `runtime-data/users.json`
 | Needle Stick Injury | 10 |
 | Sterilization and Disinfection | 10 |
 
+### Hypersensitivity (1)
+
+| Topic | Questions |
+|---|---:|
+| Tuberculin Delayed-Type Hypersensitivity | 1 |
+
 ### Immunology (120)
 
 | Topic | Questions |
@@ -784,6 +920,18 @@ Source: `runtime-data/users.json`
 | Immunoprophylaxis | 10 |
 | Transplant and Cancer Immunology | 10 |
 
+### Laboratory Diagnosis of Bacterial Infections (1)
+
+| Topic | Questions |
+|---|---:|
+| Diagnostic-Test Sensitivity | 1 |
+
+### Malaria and Babesiosis (1)
+
+| Topic | Questions |
+|---|---:|
+| Falciparum Malaria and Sequestration | 1 |
+
 ### Miscellaneous Infective Syndromes (40)
 
 | Topic | Questions |
@@ -792,6 +940,24 @@ Source: `runtime-data/users.json`
 | Ocular and Ear Infections | 10 |
 | Organisms with Oncogenic Potential | 10 |
 | Zoonotic Infections: Plague, Tularemia and Bite Wound Infections | 10 |
+
+### Miscellaneous Viral Respiratory Infections (1)
+
+| Topic | Questions |
+|---|---:|
+| Epstein-Barr Virus Infection | 1 |
+
+### Myxovirus Infections of the Respiratory Tract (1)
+
+| Topic | Questions |
+|---|---:|
+| Influenza Antigenic Shift | 1 |
+
+### Parasitic and Fungal Infections of the Respiratory Tract (1)
+
+| Topic | Questions |
+|---|---:|
+| Rhino-Orbital-Cerebral Mucormycosis | 1 |
 
 ### Respiratory Tract Infections (110)
 
@@ -823,12 +989,30 @@ Source: `runtime-data/users.json`
 | Staphylococcal Infections | 10 |
 | Viral Exanthems and Other Cutaneous Viral Infections | 10 |
 
+### Staphylococcal Infections (1)
+
+| Topic | Questions |
+|---|---:|
+| Toxic Shock Syndrome Toxin | 1 |
+
+### Tuberculosis and Nontuberculous Mycobacteria (1)
+
+| Topic | Questions |
+|---|---:|
+| Mycobacterial Acid Fastness | 1 |
+
 ### Urogenital Tract Infections (20)
 
 | Topic | Questions |
 |---|---:|
 | Infective Syndromes of Genital Tract and Sexually-transmitted Infections | 10 |
 | Infective Syndromes of Urinary Tract | 10 |
+
+### Viral Encephalitis and Encephalopathy (1)
+
+| Topic | Questions |
+|---|---:|
+| Rabies Postexposure Prophylaxis | 1 |
 
 ## Ophthalmology (310)
 
@@ -881,14 +1065,14 @@ Source: `runtime-data/users.json`
 | Community Opthalmology | 20 |
 | Systemic Ophthalmology | 20 |
 
-## Pathology (2835)
+## Pathology (2855)
 
-### Blood Vessels (100)
+### Blood Vessels (101)
 
 | Topic | Questions |
 |---|---:|
 | Aneurysms and Aortic Dissection | 10 |
-| Atherosclerosis: Risk Factors and Pathogenesis | 10 |
+| Atherosclerosis: Risk Factors and Pathogenesis | 11 |
 | Hypertension and Hypertensive Vascular Disease | 10 |
 | Large-Vessel Vasculitis | 10 |
 | Medium-Vessel Vasculitis | 10 |
@@ -898,13 +1082,13 @@ Source: `runtime-data/users.json`
 | Vascular Wall, Endothelial Cells, and Smooth Muscle Cells | 10 |
 | Veins, Varices, Thrombophlebitis, and Lymphatics | 10 |
 
-### Bones, Joints, and Soft Tissue Tumors (100)
+### Bones, Joints, and Soft Tissue Tumors (101)
 
 | Topic | Questions |
 |---|---:|
 | Benign Soft Tissue Tumors and Tumor-Like Lesions | 10 |
 | Bone Formation, Remodeling, and Metabolic Bone Disease | 10 |
-| Bone-Forming Tumors: Osteoma, Osteoid Osteoma, and Osteosarcoma | 10 |
+| Bone-Forming Tumors: Osteoma, Osteoid Osteoma, and Osteosarcoma | 11 |
 | Cartilage Tumors, Giant Cell Tumor, and Ewing Sarcoma | 10 |
 | Crystal Arthropathies and Synovial Lesions | 10 |
 | Fracture Healing, Osteonecrosis, and Osteomyelitis | 10 |
@@ -913,17 +1097,17 @@ Source: `runtime-data/users.json`
 | Osteoarthritis and Degenerative Joint Disease | 10 |
 | Rheumatoid Arthritis, Spondyloarthritis, and Septic Arthritis | 10 |
 
-### Cell Injury, Cell Death, and Adaptations (100)
+### Cell Injury, Cell Death, and Adaptations (102)
 
 | Topic | Questions |
 |---|---:|
-| Apoptosis and Other Regulated Cell-Death Pathways | 10 |
+| Apoptosis and Other Regulated Cell-Death Pathways | 11 |
 | Causes and Progression of Cell Injury | 10 |
 | Cellular Adaptations | 10 |
 | Cellular Aging | 10 |
 | General Mechanisms of Cell Injury | 10 |
 | Intracellular Accumulations and Pigments | 10 |
-| Ischemic, Reperfusion, and Toxic Injury | 10 |
+| Ischemic, Reperfusion, and Toxic Injury | 11 |
 | Necrosis | 10 |
 | Pathologic Calcification | 10 |
 | Reversible Cell Injury | 10 |
@@ -943,7 +1127,7 @@ Source: `runtime-data/users.json`
 | Teratogens, Timing, and Multifactorial Inheritance | 10 |
 | Wilms Tumor and Other Childhood Tumors | 10 |
 
-### Diseases of White Blood Cells, Lymph Nodes, Spleen, and Thymus (100)
+### Diseases of White Blood Cells, Lymph Nodes, Spleen, and Thymus (101)
 
 | Topic | Questions |
 |---|---:|
@@ -951,25 +1135,25 @@ Source: `runtime-data/users.json`
 | Aggressive B-Cell and T-Cell Lymphomas | 10 |
 | Hodgkin Lymphoma | 10 |
 | Mature Leukemias: CLL/SLL and Hairy Cell Leukemia | 10 |
-| Myeloproliferative Neoplasms and Myelodysplastic Syndromes | 10 |
+| Myeloproliferative Neoplasms and Myelodysplastic Syndromes | 11 |
 | Nonneoplastic Leukocyte Disorders and Leukopenia | 10 |
 | Normal Leukocyte Responses and Reactive Lymphadenitis | 10 |
 | Plasma Cell Neoplasms and Related Disorders | 10 |
 | Small B-Cell Non-Hodgkin Lymphomas | 10 |
 | Spleen and Thymus Disorders | 10 |
 
-### Diseases of the Immune System (100)
+### Diseases of the Immune System (103)
 
 | Topic | Questions |
 |---|---:|
 | Adaptive Immunity and Antigen Presentation | 10 |
-| Amyloidosis | 10 |
+| Amyloidosis | 11 |
 | HIV Infection and AIDS | 10 |
 | Innate Immunity | 10 |
-| Primary and Secondary Immunodeficiency Diseases | 10 |
+| Primary and Secondary Immunodeficiency Diseases | 11 |
 | Systemic Autoimmune Diseases | 10 |
 | T-Cell and B-Cell Effector Responses | 10 |
-| Transplantation Immunology | 10 |
+| Transplantation Immunology | 11 |
 | Type I and Type II Hypersensitivity | 10 |
 | Type III and Type IV Hypersensitivity | 10 |
 
@@ -1018,7 +1202,7 @@ Source: `runtime-data/users.json`
 | Salivary Glands: Inflammation and Benign Tumors | 10 |
 | Tonsils, Pharynx, and Lymphoid Lesions | 10 |
 
-### Hemodynamic Disorders, Thromboembolic Disease, and Shock (100)
+### Hemodynamic Disorders, Thromboembolic Disease, and Shock (101)
 
 | Topic | Questions |
 |---|---:|
@@ -1029,7 +1213,7 @@ Source: `runtime-data/users.json`
 | Hyperemia, Congestion, and Hemorrhage | 10 |
 | Infarction | 10 |
 | Normal Hemostasis | 10 |
-| Platelets, Coagulation Factors, and Anticoagulant Mechanisms | 10 |
+| Platelets, Coagulation Factors, and Anticoagulant Mechanisms | 11 |
 | Shock | 10 |
 | Thrombosis and Virchow Triad | 10 |
 
@@ -1123,12 +1307,12 @@ Source: `runtime-data/users.json`
 | Platelet Disorders and Immune Thrombocytopenia | 10 |
 | Sickle Cell Disease and Thalassemias | 10 |
 
-### The Breast (100)
+### The Breast (101)
 
 | Topic | Questions |
 |---|---:|
 | Atypical Hyperplasia, DCIS, and LCIS | 10 |
-| Breast Cancer Risk Factors and Molecular Subtypes | 10 |
+| Breast Cancer Risk Factors and Molecular Subtypes | 11 |
 | Breast Carcinoma Clinical Features, Spread, and Staging | 10 |
 | Fibroadenoma, Phyllodes Tumor, and Stromal Lesions | 10 |
 | Fibrocystic Change and Nonproliferative Breast Disease | 10 |
@@ -1165,7 +1349,7 @@ Source: `runtime-data/users.json`
 | Motor Neuron Disease, Prion Disease, and Ataxias | 10 |
 | Neurodegenerative Diseases and Dementia | 10 |
 
-### The Endocrine System (100)
+### The Endocrine System (101)
 
 | Topic | Questions |
 |---|---:|
@@ -1178,9 +1362,9 @@ Source: `runtime-data/users.json`
 | Parathyroid Disease and Calcium Disorders | 10 |
 | Pheochromocytoma, Paraganglioma, and MEN Syndromes | 10 |
 | Pituitary Adenomas and Hyperpituitarism | 10 |
-| Thyroid Nodules and Thyroid Tumors | 10 |
+| Thyroid Nodules and Thyroid Tumors | 11 |
 
-### The Eye (100)
+### The Eye (101)
 
 | Topic | Questions |
 |---|---:|
@@ -1193,13 +1377,13 @@ Source: `runtime-data/users.json`
 | Optic Nerve, Papilledema, and Inherited Optic Disorders | 10 |
 | Retinal Degeneration, Detachment, and Macular Disease | 10 |
 | Uveitis, Choroid, and Intraocular Inflammation | 10 |
-| Vascular Retinopathies and Retinal Ischemia | 10 |
+| Vascular Retinopathies and Retinal Ischemia | 11 |
 
-### The Female Genital Tract (100)
+### The Female Genital Tract (101)
 
 | Topic | Questions |
 |---|---:|
-| Cervicitis, HPV Infection, and Cervical Intraepithelial Neoplasia | 10 |
+| Cervicitis, HPV Infection, and Cervical Intraepithelial Neoplasia | 11 |
 | Endometrial Carcinoma and Precursors | 10 |
 | Endometriosis and Extrauterine Endometrial Lesions | 10 |
 | Endometrium: Abnormal Bleeding, Hyperplasia, and Polyps | 10 |
@@ -1210,28 +1394,28 @@ Source: `runtime-data/users.json`
 | Ovarian Surface Epithelial Tumors | 10 |
 | Vulva and Vagina: Inflammation, Cysts, and Neoplasia | 10 |
 
-### The Gastrointestinal Tract (100)
+### The Gastrointestinal Tract (102)
 
 | Topic | Questions |
 |---|---:|
 | Appendix, Peritoneum, and GI Neuroendocrine Tumors | 10 |
 | Colorectal Carcinoma and Molecular Pathways | 10 |
 | Congenital and Mechanical Intestinal Obstruction | 10 |
-| Esophagus: Reflux, Barrett Esophagus, and Tumors | 10 |
-| Gastric Polyps and Gastric Tumors | 10 |
+| Esophagus: Reflux, Barrett Esophagus, and Tumors | 11 |
+| Gastric Polyps and Gastric Tumors | 11 |
 | Infectious Enterocolitis and Pseudomembranous Colitis | 10 |
 | Inflammatory Bowel Disease | 10 |
 | Intestinal Polyps and Polyposis Syndromes | 10 |
 | Malabsorption, Celiac Disease, and Tropical Sprue | 10 |
 | Stomach: Gastritis, Gastropathy, and Peptic Ulcer Disease | 10 |
 
-### The Heart (100)
+### The Heart (101)
 
 | Topic | Questions |
 |---|---:|
 | Cardiac Adaptation, Hypertrophy, and Heart Failure | 10 |
 | Cardiomyopathies and Myocarditis | 10 |
-| Complications of Myocardial Infarction and Chronic IHD | 10 |
+| Complications of Myocardial Infarction and Chronic IHD | 11 |
 | Congenital Heart Disease | 10 |
 | Hypertensive, Valvular, and Calcific Heart Disease | 10 |
 | Infective and Noninfective Endocarditis | 10 |
@@ -1240,7 +1424,7 @@ Source: `runtime-data/users.json`
 | Pericardial Disease | 10 |
 | Rheumatic Fever and Rheumatic Heart Disease | 10 |
 
-### The Kidney (100)
+### The Kidney (101)
 
 | Topic | Questions |
 |---|---:|
@@ -1248,14 +1432,14 @@ Source: `runtime-data/users.json`
 | Lower Urinary Tract, Urothelial Tumors, and Obstructive Uropathy | 10 |
 | MPGN, Lupus Nephritis, and Hereditary Glomerular Disease | 10 |
 | Nephritic Glomerulonephritis and Rapidly Progressive GN | 10 |
-| Nephrotic Syndrome: Minimal Change, FSGS, and Membranous Nephropathy | 10 |
+| Nephrotic Syndrome: Minimal Change, FSGS, and Membranous Nephropathy | 11 |
 | Renal Anatomy, Injury Responses, and Clinical Syndromes | 10 |
 | Renal Tumors | 10 |
 | Renal Vascular Disease and Hypertension | 10 |
 | Tubular Injury, Acute Kidney Injury, and Chronic Kidney Disease | 10 |
 | Tubulointerstitial Nephritis, Pyelonephritis, and Papillary Necrosis | 10 |
 
-### The Lower Urinary Tract and Male Genital System (100)
+### The Lower Urinary Tract and Male Genital System (101)
 
 | Topic | Questions |
 |---|---:|
@@ -1263,20 +1447,20 @@ Source: `runtime-data/users.json`
 | Epididymis, Seminal Vesicles, Infertility, and Miscellaneous Lesions | 10 |
 | Penis, Scrotum, and Sexually Transmitted Lesions | 10 |
 | Prostatic Adenocarcinoma | 10 |
-| Prostatitis and Benign Prostatic Hyperplasia | 10 |
+| Prostatitis and Benign Prostatic Hyperplasia | 11 |
 | Sex Cord-Stromal Tumors and Testicular Lymphoma | 10 |
 | Squamous, Glandular, and Variant Bladder Tumors | 10 |
 | Testicular Developmental, Vascular, and Inflammatory Disorders | 10 |
 | Testicular Germ Cell Tumors: Seminoma and Nonseminoma | 10 |
 | Urothelial Neoplasia and Bladder Carcinoma | 10 |
 
-### The Lung (100)
+### The Lung (101)
 
 | Topic | Questions |
 |---|---:|
 | Asthma, Cystic Fibrosis, and Small Airway Disease | 10 |
 | Atelectasis, Pulmonary Edema, and Acute Lung Injury | 10 |
-| Lung Tumors and Carcinogenesis | 10 |
+| Lung Tumors and Carcinogenesis | 11 |
 | Neonatal, Pediatric, Occupational, and Environmental Lung Disease | 10 |
 | Obstructive Lung Disease: Emphysema, Chronic Bronchitis, Asthma, Bronchiectasis | 10 |
 | Pleural Disease, Pneumothorax, and Mesothelioma | 10 |
@@ -1285,7 +1469,7 @@ Source: `runtime-data/users.json`
 | Restrictive and Interstitial Lung Diseases | 10 |
 | Tuberculosis, Lung Abscess, and Opportunistic Infections | 10 |
 
-### The Pancreas (100)
+### The Pancreas (101)
 
 | Topic | Questions |
 |---|---:|
@@ -1297,7 +1481,7 @@ Source: `runtime-data/users.json`
 | Diabetes Mellitus and Islet Pathology | 10 |
 | Normal Pancreas, Developmental Anomalies, and Cystic Fibrosis | 10 |
 | Pancreatic Cancer Clinical Features, Spread, and Prognosis | 10 |
-| Pancreatic Ductal Adenocarcinoma: Risks and Morphology | 10 |
+| Pancreatic Ductal Adenocarcinoma: Risks and Morphology | 11 |
 | Pancreatic Neuroendocrine Tumors | 10 |
 
 ### The Skin (100)
@@ -1315,7 +1499,31 @@ Source: `runtime-data/users.json`
 | Pigmentary Disorders and Benign Melanocytic Nevi | 10 |
 | Skin Structure and Basic Reaction Patterns | 10 |
 
-## Pharmacology (705)
+## Pharmacology (725)
+
+### Adrenergic Agonists and Antagonists (1)
+
+| Topic | Questions |
+|---|---:|
+| Preoperative Treatment of Pheochromocytoma | 1 |
+
+### Antiarrhythmic Drugs (1)
+
+| Topic | Questions |
+|---|---:|
+| Adenosine and AV Nodal Reentry | 1 |
+
+### Anticholinesterase Inhibitors and Reactivators (1)
+
+| Topic | Questions |
+|---|---:|
+| Organophosphate Poisoning and Pralidoxime | 1 |
+
+### Blood Coagulation and Anticoagulant Drugs (1)
+
+| Topic | Questions |
+|---|---:|
+| Heparin-Induced Thrombocytopenia | 1 |
 
 ### Chemotherapy of Infectious Diseases (130)
 
@@ -1334,6 +1542,25 @@ Source: `runtime-data/users.json`
 | Miscellaneous Antibacterials: Aminoglycosides, Polymyxins, Urinary Antiseptics, Bacteriophages | 10 |
 | Protein Synthesis Inhibitors | 10 |
 | Treatment of Viral Hepatitis (HBV/HCV) | 10 |
+
+### Dermatological Pharmacology (1)
+
+| Topic | Questions |
+|---|---:|
+| Counseling About Isotretinoin Exposure | 1 |
+
+### Drugs Affecting Renal Excretory Function (2)
+
+| Topic | Questions |
+|---|---:|
+| Lithium-Induced Nephrogenic Diabetes Insipidus | 1 |
+| Thiazides and Urinary Calcium | 1 |
+
+### Endocrine Pancreas and Pharmacotherapy of Diabetes Mellitus (1)
+
+| Topic | Questions |
+|---|---:|
+| SGLT2 Inhibitor-Associated Ketoacidosis | 1 |
 
 ### Endocrine Pharmacology (70)
 
@@ -1382,6 +1609,12 @@ Source: `runtime-data/users.json`
 | Pharmacotherapy of Inflammation, Fever, Pain, and Gout | 10 |
 | Pulmonary Pharmacology | 10 |
 
+### Local Anesthetics (1)
+
+| Topic | Questions |
+|---|---:|
+| Bupivacaine Cardiotoxicity | 1 |
+
 ### Modulation of Pulmonary, Renal, and Cardiovascular (90)
 
 | Topic | Questions |
@@ -1395,6 +1628,12 @@ Source: `runtime-data/users.json`
 | Treatment of Hypertension | 10 |
 | Treatment of Ischemic Heart Disease | 10 |
 | Treatment of Pulmonary Arterial Hypertension | 10 |
+
+### Neuromuscular Junction and Autonomic Ganglia (1)
+
+| Topic | Questions |
+|---|---:|
+| Succinylcholine-Associated Hyperkalemia | 1 |
 
 ### Neuropharmacology (180)
 
@@ -1419,6 +1658,36 @@ Source: `runtime-data/users.json`
 | The Blood-Brain Barrier and Its Influence on Drug Transport to the Brain | 10 |
 | Treatment of Central Nervous System Degenerative Disorders | 10 |
 
+### Opioid Analgesics (1)
+
+| Topic | Questions |
+|---|---:|
+| Recognition and Reversal of Opioid Toxicity | 1 |
+
+### Pharmacodynamics: Molecular Mechanisms of Drug Action (1)
+
+| Topic | Questions |
+|---|---:|
+| Receptor Reserve and Irreversible Antagonism | 1 |
+
+### Pharmacogenetics and Pharmacogenomics (1)
+
+| Topic | Questions |
+|---|---:|
+| HLA-Associated Abacavir Hypersensitivity | 1 |
+
+### Pharmacokinetics: Absorption, Distribution, Metabolism, and Elimination (1)
+
+| Topic | Questions |
+|---|---:|
+| Loading Dose and Bioavailability | 1 |
+
+### Pharmacotherapy of Inflammation, Fever, Pain, and Gout (1)
+
+| Topic | Questions |
+|---|---:|
+| Acid-Base Effects of Salicylate Toxicity | 1 |
+
 ### Pharmacotherapy of Neoplastic Disease (50)
 
 | Topic | Questions |
@@ -1429,6 +1698,24 @@ Source: `runtime-data/users.json`
 | Hormones, Hormone Receptor Antagonists, and Related Agents in the Therapy of Cancer | 10 |
 | Protein Kinase Inhibitors and Pathway-Targeted Small Molecules | 10 |
 
+### Postmarketing Drug Safety (1)
+
+| Topic | Questions |
+|---|---:|
+| Limits of Spontaneous Adverse-Event Reports | 1 |
+
+### Protein Synthesis Inhibitors (1)
+
+| Topic | Questions |
+|---|---:|
+| Linezolid and Serotonin Syndrome | 1 |
+
+### Pulmonary Pharmacology (1)
+
+| Topic | Questions |
+|---|---:|
+| Biologic Therapy for Eosinophilic Asthma | 1 |
+
 ### Special Systems Pharmacology (30)
 
 | Topic | Questions |
@@ -1436,6 +1723,18 @@ Source: `runtime-data/users.json`
 | Dermatological Pharmacology | 10 |
 | Environmental Toxicology | 10 |
 | Ocular Pharmacology | 10 |
+
+### Therapy of Heart Failure (1)
+
+| Topic | Questions |
+|---|---:|
+| ACE and Neprilysin Inhibition | 1 |
+
+### Treatment of Central Nervous System Degenerative Disorders (1)
+
+| Topic | Questions |
+|---|---:|
+| Levodopa and Peripheral Decarboxylase Inhibition | 1 |
 
 ## Physiology (820)
 

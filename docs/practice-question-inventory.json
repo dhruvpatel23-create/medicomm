@@ -1,149 +1,8 @@
 {
   "generatedFrom": "runtime-data/users.json",
   "comparedWith": "data/users.json",
-  "totalQuestions": 9480,
-  "storeMismatches": [
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
-      "topicTitle": "Chest Pain, Dyspnea and Palpitations",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
-      "topicTitle": "Cough, Hemoptysis and Respiratory Presentations",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
-      "topicTitle": "Fatigue, Weight Change and Edema",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
-      "topicTitle": "Fever, Hyperthermia and Hypothermia",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
-      "topicTitle": "Gastrointestinal and Hepatobiliary Presentations",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
-      "topicTitle": "Hematologic, Immune and Skin Presentations",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
-      "topicTitle": "Pain and Headache Syndromes",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
-      "topicTitle": "Renal, Urinary and Fluid-Electrolyte Presentations",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
-      "topicTitle": "Syncope, Dizziness and Weakness",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Oncology and Hematology",
-      "topicTitle": "Disorders of Hemostasis",
-      "runtimeCount": 0,
-      "dataCount": 15
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Oncology and Hematology",
-      "topicTitle": "Hematopoietic Disorders",
-      "runtimeCount": 0,
-      "dataCount": 15
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Oncology and Hematology",
-      "topicTitle": "Neoplastic Disorders",
-      "runtimeCount": 0,
-      "dataCount": 15
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Pharmacology",
-      "topicTitle": "Pharmacodynamics, Adverse Effects and Interactions",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Pharmacology",
-      "topicTitle": "Pharmacokinetics and Dose Individualization",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "Pharmacology",
-      "topicTitle": "Rational Prescribing and Special Populations",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "The Profession of Medicine",
-      "topicTitle": "Diagnostic Reasoning and Evidence",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "The Profession of Medicine",
-      "topicTitle": "Ethics, Consent and Confidentiality",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "The Profession of Medicine",
-      "topicTitle": "Patient-Centered Clinical Method",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "The Profession of Medicine",
-      "topicTitle": "Professionalism, Learning and Society",
-      "runtimeCount": 0,
-      "dataCount": 10
-    },
-    {
-      "subjectTitle": "General Medicine",
-      "chapterTitle": "The Profession of Medicine",
-      "topicTitle": "Quality, Safety and Systems of Care",
-      "runtimeCount": 0,
-      "dataCount": 10
-    }
-  ],
+  "totalQuestions": 9890,
+  "storeMismatches": [],
   "subjects": [
     {
       "subjectTitle": "Anatomy",
@@ -1645,7 +1504,7 @@
     },
     {
       "subjectTitle": "General Medicine",
-      "count": 555,
+      "count": 770,
       "chapters": [
         {
           "chapterTitle": "Aging",
@@ -1654,6 +1513,48 @@
             {
               "topicTitle": "Aging",
               "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Cardinal Manifestations and Presentation of Diseases",
+          "count": 90,
+          "topics": [
+            {
+              "topicTitle": "Chest Pain, Dyspnea and Palpitations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Cough, Hemoptysis and Respiratory Presentations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fatigue, Weight Change and Edema",
+              "count": 10
+            },
+            {
+              "topicTitle": "Fever, Hyperthermia and Hypothermia",
+              "count": 10
+            },
+            {
+              "topicTitle": "Gastrointestinal and Hepatobiliary Presentations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Hematologic, Immune and Skin Presentations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pain and Headache Syndromes",
+              "count": 10
+            },
+            {
+              "topicTitle": "Renal, Urinary and Fluid-Electrolyte Presentations",
+              "count": 10
+            },
+            {
+              "topicTitle": "Syncope, Dizziness and Weakness",
+              "count": 10
             }
           ]
         },
@@ -1926,6 +1827,42 @@
           ]
         },
         {
+          "chapterTitle": "Oncology and Hematology",
+          "count": 45,
+          "topics": [
+            {
+              "topicTitle": "Disorders of Hemostasis",
+              "count": 15
+            },
+            {
+              "topicTitle": "Hematopoietic Disorders",
+              "count": 15
+            },
+            {
+              "topicTitle": "Neoplastic Disorders",
+              "count": 15
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Pharmacology",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Pharmacodynamics, Adverse Effects and Interactions",
+              "count": 10
+            },
+            {
+              "topicTitle": "Pharmacokinetics and Dose Individualization",
+              "count": 10
+            },
+            {
+              "topicTitle": "Rational Prescribing and Special Populations",
+              "count": 10
+            }
+          ]
+        },
+        {
           "chapterTitle": "Poisoning, Drug Overdose, and Envenomation",
           "count": 30,
           "topics": [
@@ -1942,13 +1879,191 @@
               "count": 10
             }
           ]
+        },
+        {
+          "chapterTitle": "The Profession of Medicine",
+          "count": 50,
+          "topics": [
+            {
+              "topicTitle": "Diagnostic Reasoning and Evidence",
+              "count": 10
+            },
+            {
+              "topicTitle": "Ethics, Consent and Confidentiality",
+              "count": 10
+            },
+            {
+              "topicTitle": "Patient-Centered Clinical Method",
+              "count": 10
+            },
+            {
+              "topicTitle": "Professionalism, Learning and Society",
+              "count": 10
+            },
+            {
+              "topicTitle": "Quality, Safety and Systems of Care",
+              "count": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "subjectTitle": "General Surgery",
+      "count": 135,
+      "chapters": [
+        {
+          "chapterTitle": "Abdominal Wall, Hernias and Urology",
+          "count": 25,
+          "topics": [
+            {
+              "topicTitle": "Inguinal and Ventral Hernias",
+              "count": 10
+            },
+            {
+              "topicTitle": "Spleen and Splenectomy",
+              "count": 5
+            },
+            {
+              "topicTitle": "Urinary Calculi, BPH and Bladder Tumors",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Breast, Arterial and Venous Surgery",
+          "count": 20,
+          "topics": [
+            {
+              "topicTitle": "Breast Carcinoma and Benign Diseases",
+              "count": 10
+            },
+            {
+              "topicTitle": "Varicose Veins, DVT and Arterial Disease",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Gastrointestinal Surgery",
+          "count": 20,
+          "topics": [
+            {
+              "topicTitle": "Esophagus, Stomach and Duodenum",
+              "count": 10
+            },
+            {
+              "topicTitle": "Liver, Biliary System and Pancreas",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Head, Neck and Endocrine Surgery",
+          "count": 15,
+          "topics": [
+            {
+              "topicTitle": "Salivary Gland Tumors and Neck Swellings",
+              "count": 5
+            },
+            {
+              "topicTitle": "Thyroid Disorders and Neoplasms",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Intestines, Appendix and Colorectal Surgery",
+          "count": 30,
+          "topics": [
+            {
+              "topicTitle": "Acute Appendicitis and Peritonitis",
+              "count": 10
+            },
+            {
+              "topicTitle": "Colorectal Carcinoma, Anal Canal and Hemorrhoids",
+              "count": 10
+            },
+            {
+              "topicTitle": "Intestinal Obstruction and Mesenteric Ischemia",
+              "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Metabolic Response, Shock and Fluid Balance",
+          "count": 25,
+          "topics": [
+            {
+              "topicTitle": "Burns and Wound Healing",
+              "count": 10
+            },
+            {
+              "topicTitle": "Shock and Resuscitation",
+              "count": 10
+            },
+            {
+              "topicTitle": "Surgical Infections and Gangrene",
+              "count": 5
+            }
+          ]
         }
       ]
     },
     {
       "subjectTitle": "Microbiology",
-      "count": 810,
+      "count": 830,
       "chapters": [
+        {
+          "chapterTitle": "AETCOM in Microbiology",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Confidentiality of an HIV Test Result",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Antimicrobial Agents and Antimicrobial Resistance",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Methicillin Resistance in Staphylococcus aureus",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Bacterial Atypical Pneumonia",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Laboratory Diagnosis of Legionella",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Bacterial Lobar Pneumonia",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Pneumococcal Virulence",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Beta-Hemolytic Streptococcal Infections",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Acute Rheumatic Fever",
+              "count": 1
+            }
+          ]
+        },
         {
           "chapterTitle": "Bloodstream and Cardiovascular System Infections",
           "count": 110,
@@ -2000,6 +2115,16 @@
           ]
         },
         {
+          "chapterTitle": "Cardiovascular System Infections",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Streptococcus gallolyticus Endocarditis",
+              "count": 1
+            }
+          ]
+        },
+        {
           "chapterTitle": "Central Nervous System Infections",
           "count": 60,
           "topics": [
@@ -2026,6 +2151,46 @@
             {
               "topicTitle": "Viral Meningitis and Myelitis: Poliomyelitis, Coxsackievirus Infections, and Others",
               "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Cholera and Halophilic Vibrio Infections",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Cholera Toxin Signaling",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Clostridioides difficile Infection",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Toxin-Mediated Pseudomembranous Colitis",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Complement",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Terminal Complement Deficiency",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Congenital Infections",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Congenital Cytomegalovirus Infection",
+              "count": 1
             }
           ]
         },
@@ -2106,6 +2271,16 @@
           ]
         },
         {
+          "chapterTitle": "HIV/AIDS",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Detection During the HIV Window Period",
+              "count": 1
+            }
+          ]
+        },
+        {
           "chapterTitle": "Hepatobiliary System Infections",
           "count": 30,
           "topics": [
@@ -2154,6 +2329,16 @@
             {
               "topicTitle": "Sterilization and Disinfection",
               "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Hypersensitivity",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Tuberculin Delayed-Type Hypersensitivity",
+              "count": 1
             }
           ]
         },
@@ -2212,6 +2397,26 @@
           ]
         },
         {
+          "chapterTitle": "Laboratory Diagnosis of Bacterial Infections",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Diagnostic-Test Sensitivity",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Malaria and Babesiosis",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Falciparum Malaria and Sequestration",
+              "count": 1
+            }
+          ]
+        },
+        {
           "chapterTitle": "Miscellaneous Infective Syndromes",
           "count": 40,
           "topics": [
@@ -2230,6 +2435,36 @@
             {
               "topicTitle": "Zoonotic Infections: Plague, Tularemia and Bite Wound Infections",
               "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Miscellaneous Viral Respiratory Infections",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Epstein-Barr Virus Infection",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Myxovirus Infections of the Respiratory Tract",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Influenza Antigenic Shift",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Parasitic and Fungal Infections of the Respiratory Tract",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Rhino-Orbital-Cerebral Mucormycosis",
+              "count": 1
             }
           ]
         },
@@ -2326,6 +2561,26 @@
           ]
         },
         {
+          "chapterTitle": "Staphylococcal Infections",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Toxic Shock Syndrome Toxin",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Tuberculosis and Nontuberculous Mycobacteria",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Mycobacterial Acid Fastness",
+              "count": 1
+            }
+          ]
+        },
+        {
           "chapterTitle": "Urogenital Tract Infections",
           "count": 20,
           "topics": [
@@ -2336,6 +2591,16 @@
             {
               "topicTitle": "Infective Syndromes of Urinary Tract",
               "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Viral Encephalitis and Encephalopathy",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Rabies Postexposure Prophylaxis",
+              "count": 1
             }
           ]
         }
@@ -2461,11 +2726,11 @@
     },
     {
       "subjectTitle": "Pathology",
-      "count": 2835,
+      "count": 2855,
       "chapters": [
         {
           "chapterTitle": "Blood Vessels",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Aneurysms and Aortic Dissection",
@@ -2473,7 +2738,7 @@
             },
             {
               "topicTitle": "Atherosclerosis: Risk Factors and Pathogenesis",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Hypertension and Hypertensive Vascular Disease",
@@ -2511,7 +2776,7 @@
         },
         {
           "chapterTitle": "Bones, Joints, and Soft Tissue Tumors",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Benign Soft Tissue Tumors and Tumor-Like Lesions",
@@ -2523,7 +2788,7 @@
             },
             {
               "topicTitle": "Bone-Forming Tumors: Osteoma, Osteoid Osteoma, and Osteosarcoma",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Cartilage Tumors, Giant Cell Tumor, and Ewing Sarcoma",
@@ -2557,11 +2822,11 @@
         },
         {
           "chapterTitle": "Cell Injury, Cell Death, and Adaptations",
-          "count": 100,
+          "count": 102,
           "topics": [
             {
               "topicTitle": "Apoptosis and Other Regulated Cell-Death Pathways",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Causes and Progression of Cell Injury",
@@ -2585,7 +2850,7 @@
             },
             {
               "topicTitle": "Ischemic, Reperfusion, and Toxic Injury",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Necrosis",
@@ -2649,7 +2914,7 @@
         },
         {
           "chapterTitle": "Diseases of White Blood Cells, Lymph Nodes, Spleen, and Thymus",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Acute Leukemias: ALL and AML",
@@ -2669,7 +2934,7 @@
             },
             {
               "topicTitle": "Myeloproliferative Neoplasms and Myelodysplastic Syndromes",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Nonneoplastic Leukocyte Disorders and Leukopenia",
@@ -2695,7 +2960,7 @@
         },
         {
           "chapterTitle": "Diseases of the Immune System",
-          "count": 100,
+          "count": 103,
           "topics": [
             {
               "topicTitle": "Adaptive Immunity and Antigen Presentation",
@@ -2703,7 +2968,7 @@
             },
             {
               "topicTitle": "Amyloidosis",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "HIV Infection and AIDS",
@@ -2715,7 +2980,7 @@
             },
             {
               "topicTitle": "Primary and Secondary Immunodeficiency Diseases",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Systemic Autoimmune Diseases",
@@ -2727,7 +2992,7 @@
             },
             {
               "topicTitle": "Transplantation Immunology",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Type I and Type II Hypersensitivity",
@@ -2879,7 +3144,7 @@
         },
         {
           "chapterTitle": "Hemodynamic Disorders, Thromboembolic Disease, and Shock",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Edema and Effusions",
@@ -2911,7 +3176,7 @@
             },
             {
               "topicTitle": "Platelets, Coagulation Factors, and Anticoagulant Mechanisms",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Shock",
@@ -3201,7 +3466,7 @@
         },
         {
           "chapterTitle": "The Breast",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Atypical Hyperplasia, DCIS, and LCIS",
@@ -3209,7 +3474,7 @@
             },
             {
               "topicTitle": "Breast Cancer Risk Factors and Molecular Subtypes",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Breast Carcinoma Clinical Features, Spread, and Staging",
@@ -3327,7 +3592,7 @@
         },
         {
           "chapterTitle": "The Endocrine System",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Adrenal Cortical Hyperfunction and Insufficiency",
@@ -3367,13 +3632,13 @@
             },
             {
               "topicTitle": "Thyroid Nodules and Thyroid Tumors",
-              "count": 10
+              "count": 11
             }
           ]
         },
         {
           "chapterTitle": "The Eye",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Cornea, Sclera, and Anterior Segment Inflammation",
@@ -3413,17 +3678,17 @@
             },
             {
               "topicTitle": "Vascular Retinopathies and Retinal Ischemia",
-              "count": 10
+              "count": 11
             }
           ]
         },
         {
           "chapterTitle": "The Female Genital Tract",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Cervicitis, HPV Infection, and Cervical Intraepithelial Neoplasia",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Endometrial Carcinoma and Precursors",
@@ -3465,7 +3730,7 @@
         },
         {
           "chapterTitle": "The Gastrointestinal Tract",
-          "count": 100,
+          "count": 102,
           "topics": [
             {
               "topicTitle": "Appendix, Peritoneum, and GI Neuroendocrine Tumors",
@@ -3481,11 +3746,11 @@
             },
             {
               "topicTitle": "Esophagus: Reflux, Barrett Esophagus, and Tumors",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Gastric Polyps and Gastric Tumors",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Infectious Enterocolitis and Pseudomembranous Colitis",
@@ -3511,7 +3776,7 @@
         },
         {
           "chapterTitle": "The Heart",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Cardiac Adaptation, Hypertrophy, and Heart Failure",
@@ -3523,7 +3788,7 @@
             },
             {
               "topicTitle": "Complications of Myocardial Infarction and Chronic IHD",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Congenital Heart Disease",
@@ -3557,7 +3822,7 @@
         },
         {
           "chapterTitle": "The Kidney",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Cystic Kidney Disease, Stones, and Obstruction",
@@ -3577,7 +3842,7 @@
             },
             {
               "topicTitle": "Nephrotic Syndrome: Minimal Change, FSGS, and Membranous Nephropathy",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Renal Anatomy, Injury Responses, and Clinical Syndromes",
@@ -3603,7 +3868,7 @@
         },
         {
           "chapterTitle": "The Lower Urinary Tract and Male Genital System",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Cystitis, Obstruction, and Bladder Injury Patterns",
@@ -3623,7 +3888,7 @@
             },
             {
               "topicTitle": "Prostatitis and Benign Prostatic Hyperplasia",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Sex Cord-Stromal Tumors and Testicular Lymphoma",
@@ -3649,7 +3914,7 @@
         },
         {
           "chapterTitle": "The Lung",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Asthma, Cystic Fibrosis, and Small Airway Disease",
@@ -3661,7 +3926,7 @@
             },
             {
               "topicTitle": "Lung Tumors and Carcinogenesis",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Neonatal, Pediatric, Occupational, and Environmental Lung Disease",
@@ -3695,7 +3960,7 @@
         },
         {
           "chapterTitle": "The Pancreas",
-          "count": 100,
+          "count": 101,
           "topics": [
             {
               "topicTitle": "Acinar Cell Carcinoma, Pancreatoblastoma, and Rare Tumors",
@@ -3731,7 +3996,7 @@
             },
             {
               "topicTitle": "Pancreatic Ductal Adenocarcinoma: Risks and Morphology",
-              "count": 10
+              "count": 11
             },
             {
               "topicTitle": "Pancreatic Neuroendocrine Tumors",
@@ -3789,8 +4054,48 @@
     },
     {
       "subjectTitle": "Pharmacology",
-      "count": 705,
+      "count": 725,
       "chapters": [
+        {
+          "chapterTitle": "Adrenergic Agonists and Antagonists",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Preoperative Treatment of Pheochromocytoma",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Antiarrhythmic Drugs",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Adenosine and AV Nodal Reentry",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Anticholinesterase Inhibitors and Reactivators",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Organophosphate Poisoning and Pralidoxime",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Blood Coagulation and Anticoagulant Drugs",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Heparin-Induced Thrombocytopenia",
+              "count": 1
+            }
+          ]
+        },
         {
           "chapterTitle": "Chemotherapy of Infectious Diseases",
           "count": 130,
@@ -3846,6 +4151,40 @@
             {
               "topicTitle": "Treatment of Viral Hepatitis (HBV/HCV)",
               "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Dermatological Pharmacology",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Counseling About Isotretinoin Exposure",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Drugs Affecting Renal Excretory Function",
+          "count": 2,
+          "topics": [
+            {
+              "topicTitle": "Lithium-Induced Nephrogenic Diabetes Insipidus",
+              "count": 1
+            },
+            {
+              "topicTitle": "Thiazides and Urinary Calcium",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Endocrine Pancreas and Pharmacotherapy of Diabetes Mellitus",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "SGLT2 Inhibitor-Associated Ketoacidosis",
+              "count": 1
             }
           ]
         },
@@ -3982,6 +4321,16 @@
           ]
         },
         {
+          "chapterTitle": "Local Anesthetics",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Bupivacaine Cardiotoxicity",
+              "count": 1
+            }
+          ]
+        },
+        {
           "chapterTitle": "Modulation of Pulmonary, Renal, and Cardiovascular",
           "count": 90,
           "topics": [
@@ -4020,6 +4369,16 @@
             {
               "topicTitle": "Treatment of Pulmonary Arterial Hypertension",
               "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Neuromuscular Junction and Autonomic Ganglia",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Succinylcholine-Associated Hyperkalemia",
+              "count": 1
             }
           ]
         },
@@ -4102,6 +4461,56 @@
           ]
         },
         {
+          "chapterTitle": "Opioid Analgesics",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Recognition and Reversal of Opioid Toxicity",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Pharmacodynamics: Molecular Mechanisms of Drug Action",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Receptor Reserve and Irreversible Antagonism",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Pharmacogenetics and Pharmacogenomics",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "HLA-Associated Abacavir Hypersensitivity",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Pharmacokinetics: Absorption, Distribution, Metabolism, and Elimination",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Loading Dose and Bioavailability",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Pharmacotherapy of Inflammation, Fever, Pain, and Gout",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Acid-Base Effects of Salicylate Toxicity",
+              "count": 1
+            }
+          ]
+        },
+        {
           "chapterTitle": "Pharmacotherapy of Neoplastic Disease",
           "count": 50,
           "topics": [
@@ -4128,6 +4537,36 @@
           ]
         },
         {
+          "chapterTitle": "Postmarketing Drug Safety",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Limits of Spontaneous Adverse-Event Reports",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Protein Synthesis Inhibitors",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Linezolid and Serotonin Syndrome",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Pulmonary Pharmacology",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Biologic Therapy for Eosinophilic Asthma",
+              "count": 1
+            }
+          ]
+        },
+        {
           "chapterTitle": "Special Systems Pharmacology",
           "count": 30,
           "topics": [
@@ -4142,6 +4581,26 @@
             {
               "topicTitle": "Ocular Pharmacology",
               "count": 10
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Therapy of Heart Failure",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "ACE and Neprilysin Inhibition",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "chapterTitle": "Treatment of Central Nervous System Degenerative Disorders",
+          "count": 1,
+          "topics": [
+            {
+              "topicTitle": "Levodopa and Peripheral Decarboxylase Inhibition",
+              "count": 1
             }
           ]
         }
