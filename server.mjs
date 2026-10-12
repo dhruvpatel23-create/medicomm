@@ -2330,6 +2330,7 @@ function sanitizeDirectConversation(conversation, users, currentUserId) {
       userName: message.userName,
       text: message.text,
       type: message.type ?? "text",
+      challengeId: message.challengeId ?? null,
       createdAt: message.createdAt,
       isOwnMessage: currentUserId ? message.userId === currentUserId : false,
     })),
@@ -2986,6 +2987,7 @@ async function handleSendDirectMessage(request, response, conversationId) {
     userName: currentUser.name,
     text,
     type,
+    challengeId: payload.challengeId ? String(payload.challengeId).trim() : null,
     createdAt,
   });
   conversation.updatedAt = createdAt;
@@ -3194,6 +3196,229 @@ async function handleLeaveRatedDuelQueue(request, response) {
   await writeDatabase(database);
 
   return sendJson(response, 200, { success: true });
+}
+
+
+async function handleCreateDuelChallenge(request, response) {
+  const payload = await parseRequestBody(request);
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return;
+
+  const opponentId = String(payload.opponentId ?? "").trim();
+  if (!opponentId || opponentId === currentUser.id) {
+    return sendJson(response, 400, { message: "A valid opponent is required." });
+  }
+
+  const opponent = database.users.find((u) => u.id === opponentId);
+  if (!opponent) {
+    return sendJson(response, 404, { message: "Opponent not found." });
+  }
+
+  if (!Array.isArray(database.challengeRooms)) database.challengeRooms = [];
+
+  const now = Date.now();
+  database.challengeRooms = database.challengeRooms.filter((r) => now - (r.createdAtMs || 0) < 600000);
+
+  database.challengeRooms.forEach((r) => {
+    if (r.challengerId === currentUser.id && r.status === "waiting") {
+      r.status = "cancelled";
+    }
+  });
+
+  const challengeId = "ch-" + randomBytes(8).toString("hex");
+  const room = {
+    id: challengeId,
+    challengerId: currentUser.id,
+    challengedId: opponent.id,
+    status: "waiting",
+    duelId: null,
+    createdAt: new Date().toISOString(),
+    createdAtMs: now,
+  };
+  database.challengeRooms.push(room);
+
+  let conversation = (database.directConversations ?? []).find(
+    (c) => (c.participantIds ?? []).includes(currentUser.id) && (c.participantIds ?? []).includes(opponent.id)
+  );
+
+  const createdAt = new Date().toISOString();
+  const challengeMsg = {
+    id: randomBytes(8).toString("hex"),
+    userId: currentUser.id,
+    userName: currentUser.name,
+    text: "I have challenged you to a 1v1 duel. Prove your rank.",
+    type: "challenge",
+    challengeId: room.id,
+    createdAt,
+  };
+
+  if (conversation) {
+    if (!Array.isArray(conversation.messages)) conversation.messages = [];
+    conversation.messages.push(challengeMsg);
+    conversation.updatedAt = createdAt;
+  }
+
+  await writeDatabase(database);
+  return sendJson(response, 201, {
+    challenge: {
+      id: room.id,
+      status: room.status,
+      opponent: sanitizeDuelOpponent(opponent, currentUser.id),
+    },
+    conversation: conversation ? sanitizeDirectConversation(conversation, database.users, currentUser.id) : null,
+  });
+}
+
+async function handleGetDuelChallengeStatus(request, response, url) {
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return;
+
+  const challengeId = String(url.searchParams.get("id") ?? "").trim();
+  if (!challengeId) return sendJson(response, 400, { message: "Challenge ID is required." });
+
+  const room = (database.challengeRooms ?? []).find((r) => r.id === challengeId);
+  if (!room) return sendJson(response, 404, { message: "Challenge not found or expired." });
+
+  if (room.challengerId !== currentUser.id && room.challengedId !== currentUser.id) {
+    return sendJson(response, 403, { message: "You are not part of this challenge." });
+  }
+
+  const opponentId = room.challengerId === currentUser.id ? room.challengedId : room.challengerId;
+  const opponent = database.users.find((u) => u.id === opponentId);
+
+  return sendJson(response, 200, {
+    id: room.id,
+    status: room.status,
+    duelId: room.duelId,
+    opponent: opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : null,
+  });
+}
+
+async function handleAcceptDuelChallenge(request, response) {
+  const payload = await parseRequestBody(request);
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return;
+
+  const challengeId = String(payload.challengeId ?? "").trim();
+  const room = (database.challengeRooms ?? []).find((r) => r.id === challengeId);
+  if (!room) return sendJson(response, 404, { message: "Challenge not found." });
+
+  if (room.challengedId !== currentUser.id) {
+    return sendJson(response, 403, { message: "Only the challenged player can accept this duel." });
+  }
+
+  if (room.status === "cancelled") {
+    return sendJson(response, 409, { message: "This challenge was cancelled by the host." });
+  }
+  if (room.status === "declined") {
+    return sendJson(response, 409, { message: "This challenge was declined." });
+  }
+
+  const challenger = database.users.find((u) => u.id === room.challengerId);
+  if (!challenger) return sendJson(response, 404, { message: "Challenger not found." });
+
+  if (room.status === "matched" && room.duelId) {
+    const existingDuel = database.duels.find((d) => d.id === room.duelId);
+    if (existingDuel) {
+      return sendJson(response, 200, {
+        status: "matched",
+        duel: {
+          id: existingDuel.id,
+          createdAt: existingDuel.createdAt,
+          startedAt: existingDuel.startedAt,
+          playerIds: existingDuel.playerIds,
+        },
+        opponent: sanitizeDuelOpponent(challenger, currentUser.id),
+      });
+    }
+  }
+
+  const duelId = "challenge-" + randomBytes(10).toString("hex");
+  const duel = createMatch(
+    duelId,
+    [room.challengerId, currentUser.id],
+    pickDuelQuestions(),
+    { [room.challengerId]: challenger.rating ?? DEFAULT_USER_RATING, [currentUser.id]: currentUser.rating ?? DEFAULT_USER_RATING },
+    Date.now(),
+    "challenge"
+  );
+
+  database.duels.push(duel);
+  room.status = "matched";
+  room.duelId = duel.id;
+
+  await writeDatabase(database);
+  return sendJson(response, 200, {
+    status: "matched",
+    duel: {
+      id: duel.id,
+      createdAt: duel.createdAt,
+      startedAt: duel.startedAt,
+      playerIds: duel.playerIds,
+    },
+    opponent: sanitizeDuelOpponent(challenger, currentUser.id),
+  });
+}
+
+async function handleDeclineDuelChallenge(request, response) {
+  const payload = await parseRequestBody(request);
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return;
+
+  const challengeId = String(payload.challengeId ?? "").trim();
+  const room = (database.challengeRooms ?? []).find((r) => r.id === challengeId);
+  if (!room) return sendJson(response, 404, { message: "Challenge not found." });
+
+  if (room.challengedId !== currentUser.id) {
+    return sendJson(response, 403, { message: "Only the challenged player can decline this challenge." });
+  }
+
+  room.status = "declined";
+
+  const challenger = database.users.find((u) => u.id === room.challengerId);
+  if (challenger) {
+    const conversation = (database.directConversations ?? []).find(
+      (c) => (c.participantIds ?? []).includes(currentUser.id) && (c.participantIds ?? []).includes(challenger.id)
+    );
+    if (conversation) {
+      const createdAt = new Date().toISOString();
+      conversation.messages.push({
+        id: randomBytes(8).toString("hex"),
+        userId: currentUser.id,
+        userName: currentUser.name,
+        text: `${currentUser.name} declined the 1v1 challenge.`,
+        type: "text",
+        createdAt,
+      });
+      conversation.updatedAt = createdAt;
+    }
+  }
+
+  await writeDatabase(database);
+  return sendJson(response, 200, { success: true, message: "Challenge declined." });
+}
+
+async function handleCancelDuelChallenge(request, response) {
+  const payload = await parseRequestBody(request);
+  const database = readDatabase();
+  const currentUser = requireSessionUser(request, response, database);
+  if (!currentUser) return;
+
+  const challengeId = String(payload.challengeId ?? "").trim();
+  const room = (database.challengeRooms ?? []).find((r) => r.id === challengeId);
+  if (!room) return sendJson(response, 404, { message: "Challenge not found." });
+
+  if (room.challengerId !== currentUser.id) {
+    return sendJson(response, 403, { message: "Only the host who initiated the challenge can cancel it." });
+  }
+
+  room.status = "cancelled";
+  await writeDatabase(database);
+  return sendJson(response, 200, { success: true, message: "Challenge cancelled." });
 }
 
 function handleSummary(response) {
@@ -3643,6 +3868,11 @@ async function handleRequest(request, response) {
     if (request.method === "POST" && url.pathname === "/api/duels/answer") return await handleDuelAction(request, response, url, "answer");
     if (request.method === "GET" && url.pathname === "/api/duels/status") return await handleDuelAction(request, response, url, "status");
     if (request.method === "POST" && url.pathname === "/api/duels/complete") return await handleDuelAction(request, response, url, "complete");
+    if (request.method === "POST" && url.pathname === "/api/duels/challenge/create") return await handleCreateDuelChallenge(request, response);
+    if (request.method === "GET" && url.pathname === "/api/duels/challenge/status") return await handleGetDuelChallengeStatus(request, response, url);
+    if (request.method === "POST" && url.pathname === "/api/duels/challenge/accept") return await handleAcceptDuelChallenge(request, response);
+    if (request.method === "POST" && url.pathname === "/api/duels/challenge/decline") return await handleDeclineDuelChallenge(request, response);
+    if (request.method === "POST" && url.pathname === "/api/duels/challenge/cancel") return await handleCancelDuelChallenge(request, response);
     if (request.method === "POST" && url.pathname === "/api/duels/rated/queue") return await handleJoinRatedDuelQueue(request, response);
     if (request.method === "GET" && url.pathname === "/api/duels/rated/queue") return await handleRatedDuelQueueStatus(request, response);
     if (request.method === "DELETE" && url.pathname === "/api/duels/rated/queue") return await handleLeaveRatedDuelQueue(request, response);

@@ -30,7 +30,7 @@ function NavButton({ active, item, onNavigate }) {
   );
 }
 
-function NotificationToast({ notification, onDismiss, onNavigate }) {
+function NotificationToast({ notification, onDismiss, onNavigate, onAccept, onDecline }) {
   const getIcon = () => {
     switch (notification.type) {
       case "challenge":
@@ -43,6 +43,8 @@ function NotificationToast({ notification, onDismiss, onNavigate }) {
         return <Megaphone size={18} />;
     }
   };
+
+  const showActions = (notification.type === "challenge" || notification.type === "friend_request") && (onAccept || onDecline);
 
   return (
     <motion.div
@@ -60,6 +62,30 @@ function NotificationToast({ notification, onDismiss, onNavigate }) {
       <div className="notification-toast-copy">
         <strong className="notification-toast-title">{notification.title}</strong>
         <p className="notification-toast-text">{notification.text}</p>
+        {showActions && (
+          <div className="notification-toast-actions" onClick={(e) => e.stopPropagation()}>
+            {onAccept && (
+              <button
+                type="button"
+                className="notification-action-btn notification-action-accept"
+                onClick={() => onAccept(notification)}
+              >
+                <Check size={12} />
+                Accept
+              </button>
+            )}
+            {onDecline && (
+              <button
+                type="button"
+                className="notification-action-btn notification-action-decline"
+                onClick={() => onDecline(notification)}
+              >
+                <X size={12} />
+                Decline
+              </button>
+            )}
+          </div>
+        )}
       </div>
       <button
         type="button"
@@ -78,7 +104,8 @@ function NotificationToast({ notification, onDismiss, onNavigate }) {
 }
 
 export function AppShell({ activeView, children, isDarkMode, navItems, onNavigate, onToggleTheme,
-  renderAvatar, user, userRating, directConversations = [], incomingFriendRequests = [] }) {
+  renderAvatar, user, userRating, directConversations = [], incomingFriendRequests = [],
+  onAcceptNotification, onDeclineNotification }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
@@ -131,6 +158,9 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
         text: latestMessage.text,
         createdAt: latestMessage.createdAt,
         destination: isChallenge ? "Compete" : "Communities",
+        challengeId: latestMessage.challengeId ?? null,
+        conversationId: conversation.id,
+        otherParticipant: conversation.otherParticipant,
       }];
     });
 
@@ -141,6 +171,8 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
       text: `${req.user?.name || "Learner"}${req.user?.medicalCollege ? ` from ${req.user.medicalCollege}` : ""} wants to connect with you.`,
       createdAt: req.createdAt,
       destination: "Communities",
+      requestId: req.id,
+      requestUser: req.user,
     }));
 
     const systemNotifications = [
@@ -221,6 +253,20 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
         setViewedInMenuIds([]);
       }
     }
+  };
+
+  const handleAccept = (notification) => {
+    saveClearedNotificationIds([...clearedNotificationIds, notification.id]);
+    setActiveToasts((current) => current.filter((t) => t.id !== notification.id));
+    setNotificationMenuOpen(false);
+    if (onAcceptNotification) onAcceptNotification(notification);
+  };
+
+  const handleDecline = (notification) => {
+    saveClearedNotificationIds([...clearedNotificationIds, notification.id]);
+    setActiveToasts((current) => current.filter((t) => t.id !== notification.id));
+    setNotificationMenuOpen(false);
+    if (onDeclineNotification) onDeclineNotification(notification);
   };
 
   const openNotification = (notification) => {
@@ -326,6 +372,36 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
                           <span className="notification-copy">
                             <span><strong>{notification.title}</strong><time>{formatNotificationTime(notification.createdAt)}</time></span>
                             <small>{notification.text}</small>
+                            {((notification.type === "challenge" || notification.type === "friend_request") && (onAcceptNotification || onDeclineNotification)) ? (
+                              <div className="notification-item-actions" onClick={(e) => e.stopPropagation()}>
+                                {onAcceptNotification && (
+                                  <button
+                                    type="button"
+                                    className="notification-action-btn notification-action-accept"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleAccept(notification);
+                                    }}
+                                  >
+                                    <Check size={12} />
+                                    Accept
+                                  </button>
+                                )}
+                                {onDeclineNotification && (
+                                  <button
+                                    type="button"
+                                    className="notification-action-btn notification-action-decline"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDecline(notification);
+                                    }}
+                                  >
+                                    <X size={12} />
+                                    Decline
+                                  </button>
+                                )}
+                              </div>
+                            ) : null}
                           </span>
                           {isUnread ? <i aria-label="Unread" /> : null}
                         </DropdownMenu.Item>
@@ -371,6 +447,8 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
               notification={toast}
               onDismiss={(id) => setActiveToasts((cur) => cur.filter((t) => t.id !== id))}
               onNavigate={openNotification}
+              onAccept={onAcceptNotification ? handleAccept : undefined}
+              onDecline={onDeclineNotification ? handleDecline : undefined}
             />
           ))}
         </AnimatePresence>

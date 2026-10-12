@@ -1550,3 +1550,61 @@ body {
   from { width: 100%; }
   to { width: 0%; }
 }
+
+
+.notification-toast-actions,
+.notification-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.notification-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.notification-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.notification-action-accept {
+  background: #0891b2;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(8, 145, 178, 0.25);
+}
+.notification-action-accept:hover:not(:disabled) {
+  background: #0e7490;
+}
+:root[data-theme="dark"] .notification-action-accept {
+  background: #06b6d4;
+  color: #020617;
+}
+:root[data-theme="dark"] .notification-action-accept:hover:not(:disabled) {
+  background: #22d3ee;
+}
+.notification-action-decline {
+  background: transparent;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+.notification-action-decline:hover:not(:disabled) {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+:root[data-theme="dark"] .notification-action-decline {
+  border-color: #334155;
+  color: #94a3b8;
+}
+:root[data-theme="dark"] .notification-action-decline:hover:not(:disabled) {
+  background: #1e293b;
+  color: #f8fafc;
+}

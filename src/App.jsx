@@ -603,6 +603,7 @@ function App() {
   const [duelQueueInfo, setDuelQueueInfo] = useState(null);
   const [duelMessage, setDuelMessage] = useState("");
   const [duelForfeited, setDuelForfeited] = useState(false);
+  const [activeChallenge, setActiveChallenge] = useState(null); // { id, opponent, role: 'host' | 'guest' }
   const [selectedLeaderboardState, setSelectedLeaderboardState] = useState("");
   const [selectedLeaderboardCollege, setSelectedLeaderboardCollege] = useState("");
   const [authStatus, setAuthStatus] = useState("loading");
@@ -1295,6 +1296,52 @@ async function fetchPracticeLibrary() {
       window.clearInterval(intervalId);
     };
   }, [duelQueueInfo?.ticketId, duelQuestions, duelStatus]);
+
+  useEffect(() => {
+    if (duelStatus !== "challenge_waiting" || !activeChallenge?.id) return undefined;
+
+    let cancelled = false;
+    const pollChallenge = async () => {
+      try {
+        const data = await apiRequest(`/api/duels/challenge/status?id=${encodeURIComponent(activeChallenge.id)}`);
+        if (cancelled) return;
+
+        if (data.status === "matched" && data.duelId) {
+          const questions = await loadDuelQuestions(data.duelId);
+          beginLiveDuel(data.opponent ?? activeChallenge.opponent, {
+            mode: "challenge",
+            questions,
+            sessionId: data.duelId,
+          });
+          return;
+        }
+
+        if (data.status === "declined") {
+          setDuelStatus("idle");
+          setActiveChallenge(null);
+          setDuelMessage(`${activeChallenge.opponent?.name || "The opponent"} declined your 1v1 challenge.`);
+          return;
+        }
+
+        if (data.status === "cancelled") {
+          setDuelStatus("idle");
+          setActiveChallenge(null);
+          setDuelMessage("This 1v1 challenge was cancelled.");
+          return;
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setDuelMessage(error instanceof Error ? error.message : "Could not check challenge status.");
+        }
+      }
+    };
+
+    const intervalId = window.setInterval(pollChallenge, 1500);
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+    };
+  }, [activeChallenge, duelStatus]);
 
   useEffect(() => {
     if (!duelSessionId || !["live", "finished"].includes(duelStatus) || duelResult) return;
@@ -2148,30 +2195,33 @@ async function fetchPracticeLibrary() {
 
   async function handleDirectChallenge() {
     if (!selectedDirectConversation?.otherParticipant) return;
-
     const opponentProfile = selectedDirectConversation.otherParticipant;
-    const challengeText = `I have challenged you to a 1v1 duel. Join me in Compete and prove your rank.`;
 
     try {
-      const data = await apiRequest(`/api/direct-messages/${selectedDirectConversation.id}/messages`, {
+      const data = await apiRequest("/api/duels/challenge/create", {
         method: "POST",
-        body: JSON.stringify({ text: challengeText, type: "challenge" }),
+        body: JSON.stringify({ opponentId: opponentProfile.id }),
       });
-      setDirectConversations((current) => {
-        const filtered = current.filter((conversation) => conversation.id !== data.conversation.id);
-        return [data.conversation, ...filtered];
-      });
-      setSelectedDirectConversationId(data.conversation.id);
-    } catch (error) {
-      setDirectMessagesMessage(error instanceof Error ? error.message : "Could not send duel challenge.");
-    }
 
-    startDuel({
-      id: opponentProfile.id,
-      name: opponentProfile.name,
-      rating: opponentProfile.rating ?? userRating,
-      specialty: opponentProfile.state || "Medical challenger",
-    });
+      if (data.conversation) {
+        setDirectConversations((current) => {
+          const filtered = current.filter((c) => c.id !== data.conversation.id);
+          return [data.conversation, ...filtered];
+        });
+      }
+
+      setActiveView("Compete");
+      setActiveChallenge({
+        id: data.challenge.id,
+        opponent: data.challenge.opponent,
+        role: "host",
+      });
+      setDuelOpponent(data.challenge.opponent);
+      setDuelStatus("challenge_waiting");
+      setDuelMessage("");
+    } catch (error) {
+      setDirectMessagesMessage(error instanceof Error ? error.message : "Could not create 1v1 challenge room.");
+    }
   }
 
   function createDuelSessionId(prefix = "duel") {
@@ -2344,14 +2394,102 @@ async function fetchPracticeLibrary() {
     setDuelStatus("finished");
   }
 
+  async function cancelDuelChallenge() {
+    if (activeChallenge?.id) {
+      try {
+        await apiRequest("/api/duels/challenge/cancel", {
+          method: "POST",
+          body: JSON.stringify({ challengeId: activeChallenge.id }),
+        });
+      } catch {}
+    }
+    setActiveChallenge(null);
+    setDuelStatus("idle");
+    setDuelMessage("");
+  }
+
+  async function handleAcceptNotification(notification) {
+    if (notification.type === "challenge") {
+      try {
+        const challengeId = notification.challengeId;
+        if (!challengeId) {
+          setActiveView("Compete");
+          return;
+        }
+        const data = await apiRequest("/api/duels/challenge/accept", {
+          method: "POST",
+          body: JSON.stringify({ challengeId }),
+        });
+
+        if (data.status === "matched" && data.duel) {
+          const questions = await loadDuelQuestions(data.duel.id);
+          beginLiveDuel(data.opponent ?? notification.otherParticipant, {
+            mode: "challenge",
+            questions,
+            sessionId: data.duel.id,
+          });
+        }
+      } catch (error) {
+        setDuelMessage(error instanceof Error ? error.message : "Could not join 1v1 challenge room.");
+        setActiveView("Compete");
+      }
+      return;
+    }
+
+    if (notification.type === "friend_request" && notification.requestId) {
+      try {
+        await apiRequest("/api/friends/accept", {
+          method: "POST",
+          body: JSON.stringify({ requestId: notification.requestId, userId: notification.requestUser?.id }),
+        });
+        fetchFriendRequests();
+      } catch {}
+      return;
+    }
+
+    setActiveView(notification.destination || "Dashboard");
+  }
+
+  async function handleDeclineNotification(notification) {
+    if (notification.type === "challenge") {
+      try {
+        if (notification.challengeId) {
+          await apiRequest("/api/duels/challenge/decline", {
+            method: "POST",
+            body: JSON.stringify({ challengeId: notification.challengeId }),
+          });
+        }
+      } catch {}
+      return;
+    }
+
+    if (notification.type === "friend_request" && notification.requestId) {
+      try {
+        await apiRequest("/api/friends/decline", {
+          method: "POST",
+          body: JSON.stringify({ requestId: notification.requestId, userId: notification.requestUser?.id }),
+        });
+        fetchFriendRequests();
+      } catch {}
+      return;
+    }
+  }
+
   function resetDuel(syncServer = true) {
     localStorage.removeItem(`medicomm-duel:${user?.id}`);
     loadedDuelRef.current = null;
+    if (syncServer && activeChallenge?.id && duelStatus === "challenge_waiting") {
+      void apiRequest("/api/duels/challenge/cancel", {
+        method: "POST",
+        body: JSON.stringify({ challengeId: activeChallenge.id }),
+      }).catch(() => undefined);
+    }
     if (syncServer && (duelStatus === "matchmaking" || duelStatus === "live" || duelStatus === "finished")) {
       void apiRequest("/api/duels/rated/queue", {
         method: "DELETE",
       }).catch(() => undefined);
     }
+    setActiveChallenge(null);
     setDuelStatus("idle");
     setDuelQuestions(fallbackDuelQuestions);
     setDuelMode("rated");
@@ -4829,6 +4967,8 @@ async function fetchPracticeLibrary() {
       selection={currentDuelSelection} locked={currentDuelSubmitted}
       submitted={duelSubmitted} answerBusy={duelAnswerBusy}
       result={duelResult} showReview={showDuelReview}
+      challengeOpponent={activeChallenge?.opponent ?? duelOpponent}
+      onCancelChallenge={cancelDuelChallenge}
       onStart={() => startDuel()} onBot={startBotDuel} onLeave={leaveDuelQueue}
       onPractice={() => setActiveView("Practice")}
       onLeaderboard={() => setActiveView("Leaderboard")}
@@ -5139,6 +5279,8 @@ async function fetchPracticeLibrary() {
       userRating={userRating}
       directConversations={directConversations}
       incomingFriendRequests={incomingFriendRequests}
+      onAcceptNotification={handleAcceptNotification}
+      onDeclineNotification={handleDeclineNotification}
     >
       {renderView()}
     </AppShell>

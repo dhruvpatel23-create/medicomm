@@ -91,6 +91,22 @@ export default function CompeteArena(p) {
         <button className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 px-5 py-2 text-sm text-slate-600 dark:text-slate-300 transition hover:border-slate-400 hover:text-slate-950 dark:hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300" onClick={p.onLeave}><X size={15} />Leave queue</button>
       </article>}
 
+      {p.status === 'challenge_waiting' && <article className="relative overflow-hidden rounded-[24px] border border-amber-300 dark:border-amber-600/40 bg-gradient-to-br from-white via-amber-50/60 to-orange-100/60 dark:bg-[#0b162b] dark:from-transparent dark:via-transparent dark:to-transparent px-5 py-8 text-center text-slate-900 dark:text-white sm:py-10">
+        <span className="inline-flex items-center gap-2 rounded-full border border-amber-600/20 dark:border-amber-300/20 bg-amber-600/10 dark:bg-amber-300/10 px-3 py-1.5 text-xs font-bold text-amber-700 dark:text-amber-200"><span className="h-1.5 w-1.5 rounded-full bg-amber-500 motion-safe:animate-pulse" />Private 1v1 Room</span>
+        <div className="mx-auto max-w-[270px]"><ArenaArt searching /></div>
+        <h3 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">Waiting for {p.challengeOpponent?.name ?? 'your opponent'}…</h3>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600 dark:text-slate-300" role="status">
+          Invitation sent! As soon as they accept the notification or popup, your private 1v1 match will begin immediately.
+        </p>
+        <div className="mx-auto my-7 grid max-w-lg grid-cols-2 divide-x divide-amber-200/70 dark:divide-white/10 rounded-2xl border border-amber-200/70 dark:border-white/10 bg-white/70 dark:bg-white/5 py-4">
+          <div><p className="text-[10px] text-slate-500 dark:text-slate-400">Opponent</p><p className="mt-1 text-lg font-bold truncate px-2">{p.challengeOpponent?.name ?? 'Challenger'}</p></div>
+          <div><p className="text-[10px] text-slate-500 dark:text-slate-400">Match format</p><p className="mt-1 text-lg font-bold tabular-nums">{total || 5} questions</p></div>
+        </div>
+        <button className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-rose-300 dark:border-rose-700/60 bg-white/80 dark:bg-rose-950/20 px-5 py-2 text-sm font-semibold text-rose-700 dark:text-rose-300 transition hover:bg-rose-50 dark:hover:bg-rose-900/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-400" onClick={p.onCancelChallenge}>
+          <X size={15} />Cancel challenge
+        </button>
+      </article>}
+
       {p.status === 'live' && question && <>
         <div className="relative overflow-hidden rounded-2xl border border-cyan-200 dark:border-slate-700 bg-gradient-to-br from-white via-cyan-50/70 to-sky-100/70 dark:bg-[#0b162b] dark:from-transparent dark:via-transparent dark:to-transparent p-4 text-slate-900 dark:text-white sm:p-6"><div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-6">
           <Player name={p.name} label="YOU" answered={p.answered} total={total} />
@@ -98,7 +114,7 @@ export default function CompeteArena(p) {
           <Player name={p.opponent?.name ?? 'Opponent'} label={p.mode === 'bot' ? 'CLINICAL BOT' : 'OPPONENT'} answered={p.opponentAnswered} total={total} opponent />
         </div><div className="mt-5 h-0.5 overflow-hidden rounded-full bg-slate-200 dark:bg-white/10"><div className="h-full bg-cyan-600 dark:bg-cyan-300 transition-[width] duration-1000 motion-reduce:transition-none" style={{ width: `${Math.max(0, Math.min(100, p.timeLeft / (p.minutes * 60) * 100))}%` }} /></div></div>
         <article className={`${surface} p-5 sm:p-8`}>
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3"><span className="text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">Question {p.index + 1} <span className="text-slate-500 dark:text-slate-400">/ {total}</span></span><div className="flex gap-1.5" aria-label={`Question ${p.index + 1} of ${total}`}>{p.questions.map((q, i) => <span key={q.id ?? i} className={`h-1.5 w-5 rounded-full sm:w-8 ${i === p.index ? 'bg-cyan-500' : p.submitted[i] ? 'bg-emerald-400' : 'bg-slate-200 dark:bg-slate-700'}`} />)}</div><span className={`rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold dark:bg-slate-800 ${muted}`}>{p.mode === 'bot' ? 'Bot practice · Unrated' : 'Rated duel'}</span></div>
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3"><span className="text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">Question {p.index + 1} <span className="text-slate-500 dark:text-slate-400">/ {total}</span></span><div className="flex gap-1.5" aria-label={`Question ${p.index + 1} of ${total}`}>{p.questions.map((q, i) => <span key={q.id ?? i} className={`h-1.5 w-5 rounded-full sm:w-8 ${i === p.index ? 'bg-cyan-500' : p.submitted[i] ? 'bg-emerald-400' : 'bg-slate-200 dark:bg-slate-700'}`} />)}</div><span className={`rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold dark:bg-slate-800 ${muted}`}>{p.mode === 'bot' ? 'Bot practice · Unrated' : p.mode === 'challenge' ? '1v1 Challenge · Private' : 'Rated duel'}</span></div>
           <AnimatePresence mode="wait" initial={false}><motion.div key={question.id} {...enter}><h3 className="text-lg font-semibold leading-relaxed tracking-tight sm:text-xl">{question.prompt}</h3>{p.renderDetails(question)}{question.leadIn && <p className="mt-4 font-semibold leading-7">{question.leadIn}</p>}
           <div className="mt-6 grid gap-3 sm:grid-cols-2">{question.options.map((option, i) => {
             const selected = p.selection === option;
