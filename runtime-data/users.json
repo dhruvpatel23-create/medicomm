@@ -7,15 +7,21 @@
       "rating": 1443,
       "streak": 1,
       "createdAt": "2026-03-29T12:55:51.548Z",
-      "passwordHash": "9aa130429935220abf890ba5f64adb8e90ee15bc149ef129c59037609ad746a13156f4b76f585467ca9e656605fa3fe6daba87b60f3ca6a1ae2cbce12cb9b77d",
-      "passwordSalt": "526276c55d24a06f19f22d4043d4a4c5",
+      "passwordHash": "ca5f9bf99c34f2a805bdfa7533db9246e8eefbe420e3631fa3f0173bb8e0d85974ca29b3599269e9440795b94e1b0e9f70e14674578d987b80e43b5aa0401c97",
+      "passwordSalt": "0791304eb7ed67ff037b67e2b849c833",
       "contactNumber": "9664552098",
-      "correctAnswers": 69,
+      "correctAnswers": 70,
       "medicalCollege": "bj medical college",
       "profileImagePath": "f56d35cb8fac18703d7db6b5-1776011537529.jpg",
-      "attemptedQuestions": 137,
+      "attemptedQuestions": 139,
       "passwordIterations": 220000,
-      "questionBookmarks": []
+      "questionBookmarks": [],
+      "friendIds": [
+        "9d92c400f7a8c61a0f0c8f72",
+        "a702192a65c051a66d9fa6fe"
+      ],
+      "hasPracticeAccess": true,
+      "plan": "ultra"
     },
     {
       "id": "9f09e0ba5307428adba3ebdb",
@@ -41,14 +47,14 @@
       "rating": 1480,
       "streak": 1,
       "createdAt": "2026-04-06T10:22:08.378Z",
-      "passwordHash": "1d31744c071d2c88c3115b9017886f141c98ecf6bbf3eb0fa995c3c21aa614086f014431f1ae32550176a5189c2d7478977e7f7d9e36093d4077681550dde3b1",
-      "passwordSalt": "8644784e6e3ce0aa94c55d9965df8159",
+      "passwordHash": "05fa6a69b8a1cf16bcd5d13350729ef61055940529264fa0aa501baa8a554200cfc524fec5728260fbbbcfa9283d2cd6707e5134a6dc6c68887d764f6b4df858",
+      "passwordSalt": "3c5a8451cb68b960f2eb5343f4dd8587",
       "contactNumber": "9106047169",
       "correctAnswers": 1,
       "medicalCollege": "sal medical college",
       "profileImagePath": null,
       "attemptedQuestions": 4,
-      "passwordIterations": 60000,
+      "passwordIterations": 220000,
       "questionBookmarks": []
     },
     {
@@ -121,9 +127,21 @@
     }
   ],
   "sessions": {
-    "74440bab77e428843da92fb652366434b6a0d8b40eba0e11fd3c15815d575ffb": {
+    "94ead1b1e68f9ad3c60c269764bf60a1bd07827570073ee59892d8ba6e8352b4": {
       "userId": "f56d35cb8fac18703d7db6b5",
-      "expiresAt": 1792417102274
+      "expiresAt": 1791869994824
+    },
+    "32474bad1a222c09c3cd2ac8f060b36a0a82b70834b320dc96df9cdbc50c26eb": {
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "expiresAt": 1791912944802
+    },
+    "ef890c37c5b1b20cebdcb128d0d4d84beace71b82378eb1f6036a389cb1a0f66": {
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "expiresAt": 1792326671941
+    },
+    "56595b2d222a4e6b7228027fd057f80b88fcdd365e0f94d56b2229c4ceca5f1f": {
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "expiresAt": 1792396258836
     }
   },
   "communities": [
@@ -66216,7 +66234,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-01",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "moderate",
       "prompt": "Penicillin kills susceptible bacteria by:",
       "options": [
@@ -66238,7 +66256,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-02",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "moderate",
       "prompt": "Adding clavulanate to amoxicillin helps when resistance is due to:",
       "options": [
@@ -66260,7 +66278,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-03",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "moderate",
       "prompt": "Piperacillin-tazobactam is selected for suspected Pseudomonas sepsis because piperacillin has:",
       "options": [
@@ -66282,7 +66300,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-04",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "high",
       "prompt": "Ceftriaxone is convenient for gonorrhea partly because it:",
       "options": [
@@ -66304,7 +66322,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-05",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "high",
       "prompt": "Cefepime is often chosen for neutropenic fever because it covers:",
       "options": [
@@ -66326,7 +66344,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-06",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "high",
       "prompt": "Aztreonam may be useful in severe IgE-mediated penicillin allergy because it:",
       "options": [
@@ -66348,7 +66366,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-07",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "high",
       "prompt": "Vancomycin treats MRSA by binding:",
       "options": [
@@ -66370,7 +66388,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-08",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "high",
       "prompt": "Vancomycin infusion causes flushing and hypotension. The prevention is:",
       "options": [
@@ -66392,7 +66410,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-09",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "very high",
       "prompt": "Daptomycin cannot treat pneumonia effectively because it is:",
       "options": [
@@ -66414,7 +66432,7 @@
       "source": "ai",
       "imageUrls": [],
       "id": "infectious-chemo-cell-envelope-disruptors-10",
-      "topic": "Cell Envelope Disruptors: β-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
+      "topic": "Cell Envelope Disruptors: \u03b2-Lactam, Glycopeptide, and Lipopeptide Antibacterials",
       "difficulty": "very high",
       "prompt": "A VRE isolate with D-Ala-D-Lac resistance reduces vancomycin binding by:",
       "options": [
@@ -70906,13 +70924,13 @@
       "difficulty": "high",
       "prompt": "Pneumocystis pneumonia prophylaxis is recommended when CD4 count falls below:",
       "options": [
-        "200 cells/µL",
-        "500 cells/µL",
-        "1000 cells/µL",
-        "800 cells/µL"
+        "200 cells/\u00b5L",
+        "500 cells/\u00b5L",
+        "1000 cells/\u00b5L",
+        "800 cells/\u00b5L"
       ],
       "answerIndex": 0,
-      "answer": "200 cells/µL",
+      "answer": "200 cells/\u00b5L",
       "explanation": "CD4 <200 is a major threshold for PCP prophylaxis.",
       "chapterOrder": 4,
       "topicOrder": 6
@@ -70928,13 +70946,13 @@
       "difficulty": "high",
       "prompt": "Toxoplasma encephalitis risk rises especially when CD4 count is below:",
       "options": [
-        "700 cells/µL",
-        "100 cells/µL",
-        "450 cells/µL",
-        "300 cells/µL"
+        "700 cells/\u00b5L",
+        "100 cells/\u00b5L",
+        "450 cells/\u00b5L",
+        "300 cells/\u00b5L"
       ],
       "answerIndex": 1,
-      "answer": "100 cells/µL",
+      "answer": "100 cells/\u00b5L",
       "explanation": "Toxoplasma prophylaxis is considered at CD4 <100 with IgG positivity.",
       "chapterOrder": 4,
       "topicOrder": 6
@@ -70950,13 +70968,13 @@
       "difficulty": "high",
       "prompt": "Disseminated MAC prophylaxis historically applies at CD4 count below:",
       "options": [
-        "600 cells/µL",
-        "350 cells/µL",
-        "50 cells/µL",
-        "200 cells/µL"
+        "600 cells/\u00b5L",
+        "350 cells/\u00b5L",
+        "50 cells/\u00b5L",
+        "200 cells/\u00b5L"
       ],
       "answerIndex": 2,
-      "answer": "50 cells/µL",
+      "answer": "50 cells/\u00b5L",
       "explanation": "MAC risk increases with profound immunosuppression.",
       "chapterOrder": 4,
       "topicOrder": 6
@@ -77772,13 +77790,13 @@
       "prompt": "Spontaneous bacterial peritonitis in cirrhosis is diagnosed when ascitic fluid shows:",
       "options": [
         "Only eosinophilia",
-        "Neutrophil count at or above 250 cells/µL",
+        "Neutrophil count at or above 250 cells/\u00b5L",
         "No cells but high glucose",
         "Acid-fast bacilli always"
       ],
       "answerIndex": 1,
-      "answer": "Neutrophil count at or above 250 cells/µL",
-      "explanation": "Ascitic PMN count >=250 cells/µL supports SBP and warrants empiric antibiotics.",
+      "answer": "Neutrophil count at or above 250 cells/\u00b5L",
+      "explanation": "Ascitic PMN count >=250 cells/\u00b5L supports SBP and warrants empiric antibiotics.",
       "chapterOrder": 8,
       "topicOrder": 1
     },
@@ -97177,7 +97195,7 @@
       "options": [
         "Diastolic BP + one-third pulse pressure",
         "Systolic BP only",
-        "Pulse pressure × HR",
+        "Pulse pressure \u00d7 HR",
         "Venous pressure"
       ],
       "answerIndex": 0,
@@ -98194,13 +98212,13 @@
       "imageUrls": [],
       "prompt": "Cardiac output equals:",
       "options": [
-        "Heart rate × stroke volume",
-        "BP × ESR",
-        "TPR ÷ HR",
-        "EDV − HR"
+        "Heart rate \u00d7 stroke volume",
+        "BP \u00d7 ESR",
+        "TPR \u00f7 HR",
+        "EDV \u2212 HR"
       ],
       "answerIndex": 0,
-      "answer": "Heart rate × stroke volume",
+      "answer": "Heart rate \u00d7 stroke volume",
       "explanation": "CO is HR multiplied by stroke volume.",
       "difficulty": "moderate",
       "tags": [],
@@ -113791,13 +113809,13 @@
       "imageUrls": [],
       "prompt": "How is Minute ventilation calculated?",
       "options": [
-        "Tidal volume × respiratory rate",
-        "Vital capacity × BP",
-        "Dead space ÷ rate",
-        "Residual volume × Hb"
+        "Tidal volume \u00d7 respiratory rate",
+        "Vital capacity \u00d7 BP",
+        "Dead space \u00f7 rate",
+        "Residual volume \u00d7 Hb"
       ],
       "answerIndex": 0,
-      "answer": "Tidal volume × respiratory rate",
+      "answer": "Tidal volume \u00d7 respiratory rate",
       "explanation": "Minute ventilation is total air breathed per minute.",
       "difficulty": "moderate",
       "tags": [],
@@ -121951,7 +121969,7 @@
       "id": "robbins-ch11-raynaud-fmd-9",
       "topic": "Raynaud Phenomenon, Fibromuscular Dysplasia, and Other Noninflammatory Disorders",
       "difficulty": "high",
-      "prompt": "A patient’s fingers turn white, then blue, then red after cold exposure. Nailfold capillaries are normal and no autoimmune disease is found. Which diagnosis best fits?",
+      "prompt": "A patient\u2019s fingers turn white, then blue, then red after cold exposure. Nailfold capillaries are normal and no autoimmune disease is found. Which diagnosis best fits?",
       "options": [
         "Primary Raynaud phenomenon",
         "Secondary Raynaud from systemic sclerosis",
@@ -122655,7 +122673,7 @@
       "id": "robbins-ch11-veins-lymphatics-10",
       "topic": "Veins, Varices, Thrombophlebitis, and Lymphatics",
       "difficulty": "high",
-      "prompt": "After axillary lymph node dissection and radiation therapy for breast cancer, a patient’s arm becomes chronically swollen with thickened skin and recurrent infections. Which process explains the swelling?",
+      "prompt": "After axillary lymph node dissection and radiation therapy for breast cancer, a patient\u2019s arm becomes chronically swollen with thickened skin and recurrent infections. Which process explains the swelling?",
       "options": [
         "Deep venous thrombosis with pulmonary embolism",
         "Fibromuscular dysplasia",
@@ -169781,7 +169799,7 @@
       "difficulty": "easy",
       "prompt": "A clinical finding associated with familial hypercholesterolemia is:",
       "options": [
-        "Café-au-lait spots only",
+        "Caf\u00e9-au-lait spots only",
         "Macroorchidism only",
         "Tendon xanthomas",
         "Webbed neck only"
@@ -171827,14 +171845,14 @@
       "difficulty": "moderate",
       "prompt": "AIDS is diagnosed clinically by opportunistic infections or tumors, often when CD4 count falls below:",
       "options": [
-        "2000 cells/µL",
-        "200 cells/µL",
-        "20,000 cells/µL",
-        "2 cells/µL only"
+        "2000 cells/\u00b5L",
+        "200 cells/\u00b5L",
+        "20,000 cells/\u00b5L",
+        "2 cells/\u00b5L only"
       ],
       "answerIndex": 1,
-      "answer": "200 cells/µL",
-      "explanation": "CD4 counts below 200/µL are associated with AIDS-defining opportunistic disease.",
+      "answer": "200 cells/\u00b5L",
+      "explanation": "CD4 counts below 200/\u00b5L are associated with AIDS-defining opportunistic disease.",
       "chapterOrder": 6,
       "topicOrder": 9
     },
@@ -171891,7 +171909,7 @@
       "id": "robbins-ch6-hiv-9",
       "topic": "HIV Infection and AIDS",
       "difficulty": "high",
-      "prompt": "An untreated HIV patient develops progressive weight loss, chronic diarrhea, oral candidiasis, and Kaposi sarcoma. CD4 count is 80/µL. Which mechanism best explains the broad susceptibility to infections and tumors?",
+      "prompt": "An untreated HIV patient develops progressive weight loss, chronic diarrhea, oral candidiasis, and Kaposi sarcoma. CD4 count is 80/\u00b5L. Which mechanism best explains the broad susceptibility to infections and tumors?",
       "options": [
         "Severe depletion and dysfunction of CD4+ helper T cells",
         "Excess IgE-mediated mast cell activation",
@@ -173079,7 +173097,7 @@
       "id": "robbins-ch6-systemic-autoimmune-3",
       "topic": "Systemic Autoimmune Diseases",
       "difficulty": "easy",
-      "prompt": "Sjögren syndrome primarily affects:",
+      "prompt": "Sj\u00f6gren syndrome primarily affects:",
       "options": [
         "Adrenal cortex only",
         "Aortic media only",
@@ -173145,7 +173163,7 @@
       "id": "robbins-ch6-systemic-autoimmune-6",
       "topic": "Systemic Autoimmune Diseases",
       "difficulty": "moderate",
-      "prompt": "Sjögren syndrome increases risk of:",
+      "prompt": "Sj\u00f6gren syndrome increases risk of:",
       "options": [
         "Hodgkin lymphoma only",
         "Osteosarcoma",
@@ -173154,7 +173172,7 @@
       ],
       "answerIndex": 2,
       "answer": "Extranodal marginal zone B-cell lymphoma",
-      "explanation": "Chronic B-cell stimulation in Sjögren syndrome predisposes to MALT-type lymphoma.",
+      "explanation": "Chronic B-cell stimulation in Sj\u00f6gren syndrome predisposes to MALT-type lymphoma.",
       "chapterOrder": 6,
       "topicOrder": 6
     },
@@ -173220,7 +173238,7 @@
       ],
       "answerIndex": 1,
       "answer": "MALT lymphoma",
-      "explanation": "Sjögren syndrome may evolve into extranodal marginal zone lymphoma from chronic B-cell activation.",
+      "explanation": "Sj\u00f6gren syndrome may evolve into extranodal marginal zone lymphoma from chronic B-cell activation.",
       "chapterOrder": 6,
       "topicOrder": 6
     },
@@ -173651,7 +173669,7 @@
       "id": "robbins-ch7-benign-malignant-9",
       "topic": "Characteristics of Benign and Malignant Neoplasms",
       "difficulty": "high",
-      "prompt": "A smoker’s bronchial biopsy shows replacement of ciliated columnar epithelium by squamous epithelium. A later biopsy shows pleomorphic basal-like cells and abnormal mitoses, but no invasion. Which sequence best describes the progression?",
+      "prompt": "A smoker\u2019s bronchial biopsy shows replacement of ciliated columnar epithelium by squamous epithelium. A later biopsy shows pleomorphic basal-like cells and abnormal mitoses, but no invasion. Which sequence best describes the progression?",
       "options": [
         "Anaplasia to hamartoma to choristoma",
         "Metaplasia to dysplasia to carcinoma in situ",
@@ -178955,14 +178973,14 @@
       "difficulty": "easy",
       "prompt": "Obesity is defined in adults by BMI greater than:",
       "options": [
-        "30 kg/m²",
-        "18.5 kg/m²",
-        "20 kg/m²",
-        "25 kg/m²"
+        "30 kg/m\u00b2",
+        "18.5 kg/m\u00b2",
+        "20 kg/m\u00b2",
+        "25 kg/m\u00b2"
       ],
       "answerIndex": 0,
-      "answer": "30 kg/m²",
-      "explanation": "BMI over 30 kg/m² is classified as obesity.",
+      "answer": "30 kg/m\u00b2",
+      "explanation": "BMI over 30 kg/m\u00b2 is classified as obesity.",
       "chapterOrder": 9,
       "topicOrder": 9
     },
@@ -179371,7 +179389,7 @@
       "id": "robbins-ch9-occupation-tobacco-9",
       "topic": "Occupational Exposures and Tobacco",
       "difficulty": "high",
-      "prompt": "A smoker’s lung cancer genome contains thousands of mutations with signatures typical of tobacco carcinogens. CYP metabolism generated electrophilic intermediates that formed DNA adducts repaired by error-prone pathways. Which exposure is most responsible?",
+      "prompt": "A smoker\u2019s lung cancer genome contains thousands of mutations with signatures typical of tobacco carcinogens. CYP metabolism generated electrophilic intermediates that formed DNA adducts repaired by error-prone pathways. Which exposure is most responsible?",
       "options": [
         "Cigarette smoke polycyclic hydrocarbons and nitrosamines",
         "Excess dietary fiber",
@@ -187786,7 +187804,7 @@
       "source": "ai",
       "sourcePdf": "ent 1",
       "imageUrls": [],
-      "prompt": "Sjögren syndrome is characterized by xerostomia, keratoconjunctivitis sicca and:",
+      "prompt": "Sj\u00f6gren syndrome is characterized by xerostomia, keratoconjunctivitis sicca and:",
       "options": [
         "Autoimmune salivary gland destruction",
         "Stapes fixation",
@@ -187813,14 +187831,14 @@
       "imageUrls": [],
       "prompt": "A woman has dry eyes, dry mouth, dental caries and parotid enlargement. What does this suggest?",
       "options": [
-        "Sjögren syndrome",
+        "Sj\u00f6gren syndrome",
         "Acute otitis media",
         "Choanal atresia",
         "Meniere disease"
       ],
       "answerIndex": 0,
-      "answer": "Sjögren syndrome",
-      "explanation": "Sicca symptoms with parotid enlargement point to Sjögren syndrome.",
+      "answer": "Sj\u00f6gren syndrome",
+      "explanation": "Sicca symptoms with parotid enlargement point to Sj\u00f6gren syndrome.",
       "difficulty": "high",
       "tags": [
         "clinical"
@@ -187838,7 +187856,7 @@
       "source": "ai",
       "sourcePdf": "ent 1",
       "imageUrls": [],
-      "prompt": "Sjögren syndrome increases risk of:",
+      "prompt": "Sj\u00f6gren syndrome increases risk of:",
       "options": [
         "Non-Hodgkin lymphoma",
         "Otosclerosis",
@@ -189746,7 +189764,7 @@
       "source": "ai",
       "sourcePdf": "ent 1",
       "imageUrls": [],
-      "prompt": "The fossa of Rosenmüller is an important site for:",
+      "prompt": "The fossa of Rosenm\u00fcller is an important site for:",
       "options": [
         "Nasopharyngeal carcinoma",
         "Ranula",
@@ -189850,13 +189868,13 @@
       "imageUrls": [],
       "prompt": "Endoscopic biopsy for suspected nasopharyngeal carcinoma should target the:",
       "options": [
-        "Nasopharyngeal mass or fossa of Rosenmüller",
+        "Nasopharyngeal mass or fossa of Rosenm\u00fcller",
         "Normal inferior turbinate only",
         "External canal",
         "Tonsillar crypt stone"
       ],
       "answerIndex": 0,
-      "answer": "Nasopharyngeal mass or fossa of Rosenmüller",
+      "answer": "Nasopharyngeal mass or fossa of Rosenm\u00fcller",
       "explanation": "Tissue diagnosis comes from the suspicious nasopharyngeal lesion.",
       "difficulty": "moderate",
       "tags": []
@@ -200684,7 +200702,7 @@
       "source": "ai",
       "sourcePdf": "ent 1",
       "imageUrls": [],
-      "prompt": "Sjögren syndrome causes dry mouth due to:",
+      "prompt": "Sj\u00f6gren syndrome causes dry mouth due to:",
       "options": [
         "Autoimmune salivary gland destruction",
         "Wharton duct trauma only",
@@ -200711,14 +200729,14 @@
       "imageUrls": [],
       "prompt": "A woman has dry eyes, dry mouth, recurrent dental caries and parotid enlargement. What does this suggest?",
       "options": [
-        "Sjögren syndrome",
+        "Sj\u00f6gren syndrome",
         "Atrophic rhinitis only",
         "Mucormycosis",
         "Otosclerosis"
       ],
       "answerIndex": 0,
-      "answer": "Sjögren syndrome",
-      "explanation": "Sicca symptoms with parotid involvement suggest Sjögren disease.",
+      "answer": "Sj\u00f6gren syndrome",
+      "explanation": "Sicca symptoms with parotid involvement suggest Sj\u00f6gren disease.",
       "difficulty": "high",
       "tags": [
         "clinical"
@@ -200761,7 +200779,7 @@
       "source": "ai",
       "sourcePdf": "ent 1",
       "imageUrls": [],
-      "prompt": "Behçet disease is associated with recurrent oral ulcers and:",
+      "prompt": "Beh\u00e7et disease is associated with recurrent oral ulcers and:",
       "options": [
         "Genital ulcers with uveitis",
         "Stapes fixation",
@@ -200770,7 +200788,7 @@
       ],
       "answerIndex": 0,
       "answer": "Genital ulcers with uveitis",
-      "explanation": "Recurrent oral-genital ulceration and eye disease suggest Behçet disease.",
+      "explanation": "Recurrent oral-genital ulceration and eye disease suggest Beh\u00e7et disease.",
       "difficulty": "moderate",
       "tags": []
     },
@@ -200788,13 +200806,13 @@
       "imageUrls": [],
       "prompt": "A patient has recurrent painful oral ulcers, genital ulcers and eye inflammation. What is the diagnosis?",
       "options": [
-        "Behçet disease",
+        "Beh\u00e7et disease",
         "Oral candidiasis",
         "Leukoplakia",
         "Ranula"
       ],
       "answerIndex": 0,
-      "answer": "Behçet disease",
+      "answer": "Beh\u00e7et disease",
       "explanation": "The recurrent oral-genital-ocular pattern is classic.",
       "difficulty": "high",
       "tags": [
@@ -235194,13 +235212,13 @@
       "prompt": "A 32-year-old male is brought to the emergency department following a high-speed vehicular collision. He has a heart rate of 126 bpm, blood pressure of 88/62 mmHg, respiratory rate of 34/min, and hourly urine output of 12 mL/hr. He appears anxious and confused. According to standard trauma life support hemorrhage classification, what class of hemorrhagic shock is present?",
       "options": [
         "Class I hemorrhage (blood loss < 15%)",
-        "Class II hemorrhage (blood loss 15–30%)",
-        "Class III hemorrhage (blood loss 30–40%)",
+        "Class II hemorrhage (blood loss 15\u201330%)",
+        "Class III hemorrhage (blood loss 30\u201340%)",
         "Class IV hemorrhage (blood loss > 40%)"
       ],
       "answerIndex": 2,
-      "answer": "Class III hemorrhage (blood loss 30–40%)",
-      "explanation": "Class III hemorrhagic shock represents an acute circulating volume loss of 30–40% (1500–2000 mL in a 70-kg adult). It is clinically demarcated by marked tachycardia (HR > 120 bpm), hypotension (< 90 mmHg systolic), tachypnea (RR 30–40/min), significant oliguria (5–15 mL/hr), and mental status changes including marked anxiety and confusion.",
+      "answer": "Class III hemorrhage (blood loss 30\u201340%)",
+      "explanation": "Class III hemorrhagic shock represents an acute circulating volume loss of 30\u201340% (1500\u20132000 mL in a 70-kg adult). It is clinically demarcated by marked tachycardia (HR > 120 bpm), hypotension (< 90 mmHg systolic), tachypnea (RR 30\u201340/min), significant oliguria (5\u201315 mL/hr), and mental status changes including marked anxiety and confusion.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -235221,7 +235239,7 @@
       "topic": "Shock and Resuscitation",
       "topicTitle": "Shock and Resuscitation",
       "topicOrder": 1,
-      "prompt": "During massive transfusion for a patient with traumatic hemoperitoneum, diffuse microvascular oozing develops across all raw peritoneal surfaces. Core body temperature is 34.6°C, arterial pH is 7.20, and base deficit is -9 mEq/L. Which pathophysiological triad is present, and what is the mandatory immediate surgical strategy?",
+      "prompt": "During massive transfusion for a patient with traumatic hemoperitoneum, diffuse microvascular oozing develops across all raw peritoneal surfaces. Core body temperature is 34.6\u00b0C, arterial pH is 7.20, and base deficit is -9 mEq/L. Which pathophysiological triad is present, and what is the mandatory immediate surgical strategy?",
       "options": [
         "Triad of Virchow; proceed with definitive anatomical visceral resection",
         "Lethal triad of trauma; abort definitive surgery and initiate Damage Control Surgery (DCS)",
@@ -235230,7 +235248,7 @@
       ],
       "answerIndex": 1,
       "answer": "Lethal triad of trauma; abort definitive surgery and initiate Damage Control Surgery (DCS)",
-      "explanation": "The lethal triad of trauma comprises hypothermia (< 35°C), progressive metabolic acidosis (pH < 7.25), and dilutional/consumptive coagulopathy. Once this triad develops, prolonged anatomical reconstruction leads to near 100% mortality. The mandatory principle is Damage Control Surgery (DCS): rapid surgical control of hemorrhage and contamination, temporary abdominal closure (laparostomy), and urgent transfer to the ICU for rewarming and correction of acidosis and coagulopathy.",
+      "explanation": "The lethal triad of trauma comprises hypothermia (< 35\u00b0C), progressive metabolic acidosis (pH < 7.25), and dilutional/consumptive coagulopathy. Once this triad develops, prolonged anatomical reconstruction leads to near 100% mortality. The mandatory principle is Damage Control Surgery (DCS): rapid surgical control of hemorrhage and contamination, temporary abdominal closure (laparostomy), and urgent transfer to the ICU for rewarming and correction of acidosis and coagulopathy.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -235253,14 +235271,14 @@
       "topicOrder": 1,
       "prompt": "A 45-year-old polytrauma patient receives 12 units of packed red blood cells over 3 hours. On continuous ECG monitoring, widening of the QRS complex, prolonged PR interval, and tall, peaked, tented T waves appear. Serum potassium is 6.8 mEq/L. What is the most appropriate first-line drug to stabilize the myocardial membrane against life-threatening arrhythmias?",
       "options": [
-        "10% Calcium gluconate 10 mL IV over 3–5 minutes",
+        "10% Calcium gluconate 10 mL IV over 3\u20135 minutes",
         "Sodium polystyrene sulfonate 30 g orally",
         "Regular insulin 10 units with 50 mL 50% dextrose",
         "Intravenous furosemide 40 mg bolus"
       ],
       "answerIndex": 0,
-      "answer": "10% Calcium gluconate 10 mL IV over 3–5 minutes",
-      "explanation": "In acute severe hyperkalemia with cardiotoxicity (tall peaked T waves, widened QRS, prolonged PR), the immediate priority is cardioprotection. Intravenous calcium gluconate (10 mL of 10% solution administered over 3–5 minutes) antagonizes the membrane actions of hyperkalemia and restores myocardial resting membrane threshold potential without shifting serum potassium levels.",
+      "answer": "10% Calcium gluconate 10 mL IV over 3\u20135 minutes",
+      "explanation": "In acute severe hyperkalemia with cardiotoxicity (tall peaked T waves, widened QRS, prolonged PR), the immediate priority is cardioprotection. Intravenous calcium gluconate (10 mL of 10% solution administered over 3\u20135 minutes) antagonizes the membrane actions of hyperkalemia and restores myocardial resting membrane threshold potential without shifting serum potassium levels.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -235345,7 +235363,7 @@
       "options": [
         "Systolic blood pressure above 140 mmHg",
         "Hourly urine output of at least 0.5 mL/kg/hr alongside normalisation of serum lactate and base deficit",
-        "Central venous pressure strictly maintained at 18–20 cm H2O",
+        "Central venous pressure strictly maintained at 18\u201320 cm H2O",
         "Immediate elevation of hematocrit above 45%"
       ],
       "answerIndex": 1,
@@ -235434,13 +235452,13 @@
       "prompt": "A 60-kg adult male is placed on nil-by-mouth following an uneventful open appendectomy. In calculating his daily baseline maintenance fluid and electrolyte requirements, which prescription is physiologically accurate?",
       "options": [
         "1000 mL water, 20 mmol sodium, 10 mmol potassium per day",
-        "2000–2500 mL water, 60–120 mmol sodium, 40–60 mmol potassium per day",
-        "4000–5000 mL water, 250 mmol sodium, 150 mmol potassium per day",
+        "2000\u20132500 mL water, 60\u2013120 mmol sodium, 40\u201360 mmol potassium per day",
+        "4000\u20135000 mL water, 250 mmol sodium, 150 mmol potassium per day",
         "3000 mL water with zero electrolytes for the first 72 hours"
       ],
       "answerIndex": 1,
-      "answer": "2000–2500 mL water, 60–120 mmol sodium, 40–60 mmol potassium per day",
-      "explanation": "Basal maintenance requirements in an adult are: Water: 30–35 mL/kg/day (approximately 2000–2500 mL for a 60–70 kg adult); Sodium: 1–2 mmol/kg/day (60–120 mmol/day); Potassium: 0.5–1 mmol/kg/day (40–60 mmol/day). Potassium is safely commenced once adequate urine output (> 0.5 mL/kg/hr) is confirmed postoperatively.",
+      "answer": "2000\u20132500 mL water, 60\u2013120 mmol sodium, 40\u201360 mmol potassium per day",
+      "explanation": "Basal maintenance requirements in an adult are: Water: 30\u201335 mL/kg/day (approximately 2000\u20132500 mL for a 60\u201370 kg adult); Sodium: 1\u20132 mmol/kg/day (60\u2013120 mmol/day); Potassium: 0.5\u20131 mmol/kg/day (40\u201360 mmol/day). Potassium is safely commenced once adequate urine output (> 0.5 mL/kg/hr) is confirmed postoperatively.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -235463,14 +235481,14 @@
       "topicOrder": 1,
       "prompt": "A 54-year-old male with decompensated liver cirrhosis and severe ascites develops sudden hematemesis from ruptured esophageal varices. Terlipressin is administered. In transfusing blood products, what is the target hemoglobin level recommended to avoid worsening portal venous pressure and re-bleeding?",
       "options": [
-        "Target hemoglobin of 7–8 g/dL (restrictive transfusion strategy)",
-        "Target hemoglobin of 13–14 g/dL (hyper-normovolemic strategy)",
+        "Target hemoglobin of 7\u20138 g/dL (restrictive transfusion strategy)",
+        "Target hemoglobin of 13\u201314 g/dL (hyper-normovolemic strategy)",
         "Target hematocrit strictly above 50%",
         "Target hemoglobin above 11 g/dL before endoscopy"
       ],
       "answerIndex": 0,
-      "answer": "Target hemoglobin of 7–8 g/dL (restrictive transfusion strategy)",
-      "explanation": "In acute variceal hemorrhage, a restrictive transfusion strategy targeting a hemoglobin of 7–8 g/dL is standard. Overzealous transfusion raises central venous pressure and portal venous pressure, dislodging fresh hemostatic clots at the variceal rupture site and significantly increasing re-bleeding rates and mortality.",
+      "answer": "Target hemoglobin of 7\u20138 g/dL (restrictive transfusion strategy)",
+      "explanation": "In acute variceal hemorrhage, a restrictive transfusion strategy targeting a hemoglobin of 7\u20138 g/dL is standard. Overzealous transfusion raises central venous pressure and portal venous pressure, dislodging fresh hemostatic clots at the variceal rupture site and significantly increasing re-bleeding rates and mortality.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -235530,7 +235548,7 @@
       ],
       "answerIndex": 1,
       "answer": "Total 12,600 mL; infuse 6,300 mL in the first 8 hours",
-      "explanation": "The Parkland formula dictates: 4 mL × Body weight in kg × % TBSA burn. Here: 4 mL × 70 kg × 45 = 12,600 mL of Ringer's lactate in the first 24 hours. Half of this total volume (6,300 mL) must be infused within the first 8 hours calculated from the exact time of burn injury, and the remaining half (6,300 mL) is infused over the subsequent 16 hours.",
+      "explanation": "The Parkland formula dictates: 4 mL \u00d7 Body weight in kg \u00d7 % TBSA burn. Here: 4 mL \u00d7 70 kg \u00d7 45 = 12,600 mL of Ringer's lactate in the first 24 hours. Half of this total volume (6,300 mL) must be infused within the first 8 hours calculated from the exact time of burn injury, and the remaining half (6,300 mL) is infused over the subsequent 16 hours.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -235620,7 +235638,7 @@
       ],
       "answerIndex": 1,
       "answer": "Marjolin's ulcer",
-      "explanation": "Marjolin's ulcer is a malignant transformation—classically aggressive squamous cell carcinoma (rarely basal cell carcinoma or melanoma)—arising in chronic, non-healing burn scars, chronic venous ulcers, or sinus tracts of chronic osteomyelitis. Characterized by dense, avascular fibrous scar tissue, it exhibits late regional lymph node metastasis, but once metastasis occurs, the prognosis is poor.",
+      "explanation": "Marjolin's ulcer is a malignant transformation\u2014classically aggressive squamous cell carcinoma (rarely basal cell carcinoma or melanoma)\u2014arising in chronic, non-healing burn scars, chronic venous ulcers, or sinus tracts of chronic osteomyelitis. Characterized by dense, avascular fibrous scar tissue, it exhibits late regional lymph node metastasis, but once metastasis occurs, the prognosis is poor.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -235680,7 +235698,7 @@
       ],
       "answerIndex": 1,
       "answer": "Keloid",
-      "explanation": "Keloids characteristically extend beyond the confines of the original wound margin and invade surrounding normal tissue without spontaneous regression, occurring preferentially over presternal skin, deltoid, and ear lobes. Hypertrophic scars remain confined within the boundaries of the original incision, contain predominantly type III collagen parallel to the epidermis, and frequently regress over 1–2 years.",
+      "explanation": "Keloids characteristically extend beyond the confines of the original wound margin and invade surrounding normal tissue without spontaneous regression, occurring preferentially over presternal skin, deltoid, and ear lobes. Hypertrophic scars remain confined within the boundaries of the original incision, contain predominantly type III collagen parallel to the epidermis, and frequently regress over 1\u20132 years.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -235734,12 +235752,12 @@
       "prompt": "Which phase of normal surgical wound healing is characterized by peak fibroblast proliferation, capillary endothelial sprouting, and conversion of type III collagen to robust type I collagen?",
       "options": [
         "Hemostasis phase (Day 0)",
-        "Inflammatory phase (Days 1–4)",
-        "Proliferative phase (Days 4–21)",
+        "Inflammatory phase (Days 1\u20134)",
+        "Proliferative phase (Days 4\u201321)",
         "Remodeling/maturation phase (Day 21 to 1 year)"
       ],
       "answerIndex": 2,
-      "answer": "Proliferative phase (Days 4–21)",
+      "answer": "Proliferative phase (Days 4\u201321)",
       "explanation": "The proliferative phase (days 4 to 21) encompasses angiogenesis, fibroplasia, granulation tissue formation, and epithelialization. Fibroblasts synthesize large quantities of ground substance and extracellular matrix (primarily type III collagen initially), laying the structural lattice for subsequent wound contraction and remodeling.",
       "difficulty": "easy",
       "subjectId": "general-surgery",
@@ -235764,13 +235782,13 @@
       "prompt": "An electrician suffers an entry electrical burn on his right hand and an exit wound on his right heel from a 11,000-volt power line. Despite minimal skin surface burns, his urine is dark reddish-brown. Urine dipstick is positive for blood, but microscopy shows no red blood cells. What is the urgent priority to prevent acute kidney injury?",
       "options": [
         "Immediate hemodialysis within 1 hour",
-        "Aggressive fluid resuscitation targeting urine output of 1.5–2 mL/kg/hr, urinary alkalinization with sodium bicarbonate, and intravenous mannitol",
+        "Aggressive fluid resuscitation targeting urine output of 1.5\u20132 mL/kg/hr, urinary alkalinization with sodium bicarbonate, and intravenous mannitol",
         "Fluid restriction to 500 mL/day to avoid pulmonary edema",
         "Immediate bilateral lower-extremity fasciotomy without intravenous fluids"
       ],
       "answerIndex": 1,
-      "answer": "Aggressive fluid resuscitation targeting urine output of 1.5–2 mL/kg/hr, urinary alkalinization with sodium bicarbonate, and intravenous mannitol",
-      "explanation": "High-voltage electrical injury generates massive internal resistance heating and deep muscular necrosis, releasing myoglobin into the circulation. In acidic urine, myoglobin precipitates as ferrihemate casts, causing acute tubular necrosis. Management requires higher fluid rates targeting urine output of 1.5–2.0 mL/kg/hr (75–100 mL/hr in adults), intravenous sodium bicarbonate to alkalinize urine (pH > 6.5) to keep myoglobin soluble, and osmotic diuresis with mannitol.",
+      "answer": "Aggressive fluid resuscitation targeting urine output of 1.5\u20132 mL/kg/hr, urinary alkalinization with sodium bicarbonate, and intravenous mannitol",
+      "explanation": "High-voltage electrical injury generates massive internal resistance heating and deep muscular necrosis, releasing myoglobin into the circulation. In acidic urine, myoglobin precipitates as ferrihemate casts, causing acute tubular necrosis. Management requires higher fluid rates targeting urine output of 1.5\u20132.0 mL/kg/hr (75\u2013100 mL/hr in adults), intravenous sodium bicarbonate to alkalinize urine (pH > 6.5) to keep myoglobin soluble, and osmotic diuresis with mannitol.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -235950,7 +235968,7 @@
       ],
       "answerIndex": 1,
       "answer": "Papillary thyroid carcinoma; lymphatic metastasis to regional cervical lymph nodes",
-      "explanation": "The cytological features (Orphan Annie eye ground-glass nuclei, nuclear pseudoinclusions, and longitudinal grooves) together with microcalcifications (psammoma bodies) are diagnostic of papillary thyroid carcinoma (PTC). PTC is the most common thyroid malignancy (80–85%) and predominantly metastasizes via lymphatic pathways to ipsilateral and central compartment (Level VI) cervical lymph nodes.",
+      "explanation": "The cytological features (Orphan Annie eye ground-glass nuclei, nuclear pseudoinclusions, and longitudinal grooves) together with microcalcifications (psammoma bodies) are diagnostic of papillary thyroid carcinoma (PTC). PTC is the most common thyroid malignancy (80\u201385%) and predominantly metastasizes via lymphatic pathways to ipsilateral and central compartment (Level VI) cervical lymph nodes.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236160,7 +236178,7 @@
       ],
       "answerIndex": 1,
       "answer": "Anaplastic thyroid carcinoma; extremely aggressive with median survival under 6 months",
-      "explanation": "Anaplastic thyroid carcinoma is an undifferentiated tumor that accounts for 1–2% of thyroid malignancies, typically presenting in elderly females as a rapidly growing, fixed, invasive thyroid mass causing tracheal and esophageal compression. It is one of the most lethal human solid tumors, with median survival typically under 6 months; treatment is mostly palliative (airway protection, radiation, chemotherapy).",
+      "explanation": "Anaplastic thyroid carcinoma is an undifferentiated tumor that accounts for 1\u20132% of thyroid malignancies, typically presenting in elderly females as a rapidly growing, fixed, invasive thyroid mass causing tracheal and esophageal compression. It is one of the most lethal human solid tumors, with median survival typically under 6 months; treatment is mostly palliative (airway protection, radiation, chemotherapy).",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236181,7 +236199,7 @@
       "topic": "Thyroid Disorders and Neoplasms",
       "topicTitle": "Thyroid Disorders and Neoplasms",
       "topicOrder": 1,
-      "prompt": "In the preoperative preparation of a patient with primary hyperthyroidism (Graves' disease) scheduled for subtotal or total thyroidectomy, what is the rationale for administering Lugol's iodine (or saturated solution of potassium iodide) for 10–14 days immediately preceding surgery?",
+      "prompt": "In the preoperative preparation of a patient with primary hyperthyroidism (Graves' disease) scheduled for subtotal or total thyroidectomy, what is the rationale for administering Lugol's iodine (or saturated solution of potassium iodide) for 10\u201314 days immediately preceding surgery?",
       "options": [
         "To stimulate iodine uptake and increase postoperative hormone synthesis",
         "To induce the Wolff-Chaikoff effect, reducing thyroid vascularity, friability, and glandular blood flow to minimize operative hemorrhage",
@@ -236220,7 +236238,7 @@
       ],
       "answerIndex": 1,
       "answer": "Primary hyperparathyroidism due to a solitary parathyroid adenoma; focused targeted minimally invasive parathyroidectomy with intraoperative PTH monitoring",
-      "explanation": "Hypercalcemia, hypophosphatemia, and elevated intact PTH indicate primary hyperparathyroidism, which is caused by a single benign parathyroid adenoma in 85–90% of cases. Accurate localization with 99mTc-Sestamibi and ultrasound permits targeted, minimally invasive parathyroidectomy. Complete excision is confirmed intraoperatively by demonstrating a > 50% fall in PTH level 10 minutes post-excision compared to baseline (Miami criterion).",
+      "explanation": "Hypercalcemia, hypophosphatemia, and elevated intact PTH indicate primary hyperparathyroidism, which is caused by a single benign parathyroid adenoma in 85\u201390% of cases. Accurate localization with 99mTc-Sestamibi and ultrasound permits targeted, minimally invasive parathyroidectomy. Complete excision is confirmed intraoperatively by demonstrating a > 50% fall in PTH level 10 minutes post-excision compared to baseline (Miami criterion).",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236250,7 +236268,7 @@
       ],
       "answerIndex": 1,
       "answer": "The tumor possesses microscopic pseudopodial extensions penetrating through its false capsule; enucleation results in high recurrence rates and facial nerve injury",
-      "explanation": "Pleomorphic adenoma (benign mixed tumor) has a delicate, pseudocapsule with microscopic projections (pseudopodia) extending into surrounding salivary parenchyma. Simple enucleation breaches this capsule, seeding tumor cells and leading to recurrence rates of 20–45% in a scarred field where facial nerve branches are at high risk. The standard minimum oncologic procedure is superficial parotidectomy with anatomical facial nerve dissection.",
+      "explanation": "Pleomorphic adenoma (benign mixed tumor) has a delicate, pseudocapsule with microscopic projections (pseudopodia) extending into surrounding salivary parenchyma. Simple enucleation breaches this capsule, seeding tumor cells and leading to recurrence rates of 20\u201345% in a scarred field where facial nerve branches are at high risk. The standard minimum oncologic procedure is superficial parotidectomy with anatomical facial nerve dissection.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236310,7 +236328,7 @@
       ],
       "answerIndex": 1,
       "answer": "Branchial cleft cyst (second branchial cleft anomaly)",
-      "explanation": "A branchial cyst arises from the persistence of the cervical sinus of the second branchial cleft. It typically presents in young adults (20–30 years) as a painless, non-transilluminant cyst at the junction of the upper third and lower two-thirds of the anterior border of the sternocleidomastoid muscle. Needle aspiration typically yields characteristic opalescent, straw-colored fluid containing cholesterol crystals.",
+      "explanation": "A branchial cyst arises from the persistence of the cervical sinus of the second branchial cleft. It typically presents in young adults (20\u201330 years) as a painless, non-transilluminant cyst at the junction of the upper third and lower two-thirds of the anterior border of the sternocleidomastoid muscle. Needle aspiration typically yields characteristic opalescent, straw-colored fluid containing cholesterol crystals.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236400,7 +236418,7 @@
       ],
       "answerIndex": 0,
       "answer": "Clinical breast examination, digital bilateral mammography (with ultrasound), and core needle biopsy (or FNAC)",
-      "explanation": "Triple assessment is the gold standard diagnostic triad for evaluating all discrete breast lumps, achieving an overall diagnostic accuracy > 99%. It consists of: 1. Clinical examination; 2. Imaging (bilateral digital mammography in women > 35–40 years, ultrasound for younger/dense breasts); 3. Pathological evaluation (core needle biopsy is preferred over FNAC because it provides tissue architecture, invasive vs in-situ status, and ER/PR/HER2 receptor status).",
+      "explanation": "Triple assessment is the gold standard diagnostic triad for evaluating all discrete breast lumps, achieving an overall diagnostic accuracy > 99%. It consists of: 1. Clinical examination; 2. Imaging (bilateral digital mammography in women > 35\u201340 years, ultrasound for younger/dense breasts); 3. Pathological evaluation (core needle biopsy is preferred over FNAC because it provides tissue architecture, invasive vs in-situ status, and ER/PR/HER2 receptor status).",
       "difficulty": "easy",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236460,7 +236478,7 @@
       ],
       "answerIndex": 1,
       "answer": "The first lymph node(s) in the regional lymphatic basin that directly receives lymphatic drainage from the primary tumor",
-      "explanation": "The sentinel lymph node (SLN) is the initial lymph node (or group of nodes) that receives primary lymphatic drainage directly from the tumor bed. If the sentinel node is histopathologically negative for micrometastatic and macrometastatic disease on serial sectioning/immunohistochemistry, the remaining axillary nodes are highly likely to be uninvolved (> 95–98%), sparing the patient the morbidity of axillary lymph node dissection (lymphedema, nerve injury).",
+      "explanation": "The sentinel lymph node (SLN) is the initial lymph node (or group of nodes) that receives primary lymphatic drainage directly from the tumor bed. If the sentinel node is histopathologically negative for micrometastatic and macrometastatic disease on serial sectioning/immunohistochemistry, the remaining axillary nodes are highly likely to be uninvolved (> 95\u201398%), sparing the patient the morbidity of axillary lymph node dissection (lymphedema, nerve injury).",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236490,7 +236508,7 @@
       ],
       "answerIndex": 1,
       "answer": "Winged scapula due to paralysis of the serratus anterior muscle (long thoracic nerve of Bell injury)",
-      "explanation": "The long thoracic nerve of Bell (arising from C5, C6, C7 roots) descends along the medial wall of the axilla directly on the fascia of the serratus anterior muscle. Inadvertent transection or traction injury paralyzes the serratus anterior, resulting in 'winging of the scapula'—the vertebral border and inferior angle of the scapula project backwards when the patient pushes forward against a wall with outstretched arms.",
+      "explanation": "The long thoracic nerve of Bell (arising from C5, C6, C7 roots) descends along the medial wall of the axilla directly on the fascia of the serratus anterior muscle. Inadvertent transection or traction injury paralyzes the serratus anterior, resulting in 'winging of the scapula'\u2014the vertebral border and inferior angle of the scapula project backwards when the patient pushes forward against a wall with outstretched arms.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236520,7 +236538,7 @@
       ],
       "answerIndex": 1,
       "answer": "Underlying intraductal carcinoma (DCIS) or invasive ductal carcinoma in the deeper breast parenchyma",
-      "explanation": "Paget's disease of the nipple is an intraepithelial adenocarcinoma presenting as an eczematous, pruritic, eroding lesion of the nipple-areolar complex. In over 95–98% of cases, it is associated with an underlying ductal carcinoma in situ (DCIS) or invasive ductal carcinoma located elsewhere in the breast, representing malignant cells migrating along lactiferous ducts into the epidermis.",
+      "explanation": "Paget's disease of the nipple is an intraepithelial adenocarcinoma presenting as an eczematous, pruritic, eroding lesion of the nipple-areolar complex. In over 95\u201398% of cases, it is associated with an underlying ductal carcinoma in situ (DCIS) or invasive ductal carcinoma located elsewhere in the breast, representing malignant cells migrating along lactiferous ducts into the epidermis.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236580,7 +236598,7 @@
       ],
       "answerIndex": 0,
       "answer": "Fibroadenoma (Breast mouse)",
-      "explanation": "Fibroadenoma is the most common benign breast neoplasm in young females (15–30 years), arising from the terminal duct lobular unit as an aberration of normal development and involution (ANDI). Because of its lack of fixation, firm rubbery consistency, and extreme mobility within the surrounding mobile breast parenchyma, it is clinically termed the 'breast mouse'.",
+      "explanation": "Fibroadenoma is the most common benign breast neoplasm in young females (15\u201330 years), arising from the terminal duct lobular unit as an aberration of normal development and involution (ANDI). Because of its lack of fixation, firm rubbery consistency, and extreme mobility within the surrounding mobile breast parenchyma, it is clinically termed the 'breast mouse'.",
       "difficulty": "easy",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236610,7 +236628,7 @@
       ],
       "answerIndex": 0,
       "answer": "Solitary intraductal papilloma in a major lactiferous duct",
-      "explanation": "A solitary benign intraductal papilloma arising within the primary lactiferous ducts just beneath the areola is the single most common cause (approx. 50–70%) of spontaneous, single-pore bloody or serosanguinous nipple discharge. Definitive management is microdochectomy (selective excision of the involved single duct and papilloma) or subareolar duct excision (Hadfield's operation) in older women.",
+      "explanation": "A solitary benign intraductal papilloma arising within the primary lactiferous ducts just beneath the areola is the single most common cause (approx. 50\u201370%) of spontaneous, single-pore bloody or serosanguinous nipple discharge. Definitive management is microdochectomy (selective excision of the involved single duct and papilloma) or subareolar duct excision (Hadfield's operation) in older women.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236664,7 +236682,7 @@
       "prompt": "A 55-year-old female presents with a massive 12-cm rapidly growing, lobulated, bosselated, painless breast lump. Overlying skin is thinned with prominent dilated superficial veins, but is not fixed. Axillary lymph nodes are non-palpable. Core needle biopsy confirms a low-grade Phyllodes tumor. What is the definitive surgical treatment of choice?",
       "options": [
         "Wide local excision with a mandatory clear surgical margin of at least 1 cm (or simple mastectomy if breast-to-tumor ratio is unfavorable), without routine axillary lymphadenectomy",
-        "Modified radical mastectomy with complete Level I–III axillary clearance",
+        "Modified radical mastectomy with complete Level I\u2013III axillary clearance",
         "Neoadjuvant chemotherapy followed by lumpectomy without margins",
         "Incisional biopsy and primary whole-breast radiation therapy"
       ],
@@ -236700,7 +236718,7 @@
       ],
       "answerIndex": 0,
       "answer": "Brodie-Trendelenburg test (Part 1)",
-      "explanation": "The Brodie-Trendelenburg test evaluates saphenofemoral junction competence. The patient lies supine and the leg is elevated to empty the varicose veins. A tourniquet is placed just below the saphenofemoral junction (approx. 2.5–3.5 cm below the pubic tubercle). The patient stands. If the veins remain collapsed and then fill rapidly from above downwards upon release of the tourniquet within 30 seconds, saphenofemoral junction incompetence is confirmed (Trendelenburg positive/test 1).",
+      "explanation": "The Brodie-Trendelenburg test evaluates saphenofemoral junction competence. The patient lies supine and the leg is elevated to empty the varicose veins. A tourniquet is placed just below the saphenofemoral junction (approx. 2.5\u20133.5 cm below the pubic tubercle). The patient stands. If the veins remain collapsed and then fill rapidly from above downwards upon release of the tourniquet within 30 seconds, saphenofemoral junction incompetence is confirmed (Trendelenburg positive/test 1).",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -236754,12 +236772,12 @@
       "prompt": "During classical flush ligation of the saphenofemoral junction (Trendelenburg operation), what anatomical rule must be strictly observed to prevent recurrence of varicose veins from collateral tributaries?",
       "options": [
         "Ligate the great saphenous vein 5 cm distal to the femoral vein without dividing any tributaries",
-        "Divide and ligate all 5–6 named tributaries (superficial circumflex iliac, superficial epigastric, superficial external pudendal, deep external pudendal, and lateral/medial accessory saphenous) flush with the anterior wall of the femoral vein",
+        "Divide and ligate all 5\u20136 named tributaries (superficial circumflex iliac, superficial epigastric, superficial external pudendal, deep external pudendal, and lateral/medial accessory saphenous) flush with the anterior wall of the femoral vein",
         "Ligate the superficial femoral artery alongside the vein",
         "Strip the saphenous nerve alongside the vein into the foot"
       ],
       "answerIndex": 1,
-      "answer": "Divide and ligate all 5–6 named tributaries (superficial circumflex iliac, superficial epigastric, superficial external pudendal, deep external pudendal, and lateral/medial accessory saphenous) flush with the anterior wall of the femoral vein",
+      "answer": "Divide and ligate all 5\u20136 named tributaries (superficial circumflex iliac, superficial epigastric, superficial external pudendal, deep external pudendal, and lateral/medial accessory saphenous) flush with the anterior wall of the femoral vein",
       "explanation": "A true flush ligation demands dissecting the saphenofemoral junction until the glistening white adventitia of the femoral vein is cleanly visualized, followed by individual identification, division, and ligation of all terminal tributaries. Leaving any tributary intact permits retrograde venous reflux into superficial venous networks, which is the primary cause of postoperative recurrent varicosities.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
@@ -236940,7 +236958,7 @@
       ],
       "answerIndex": 1,
       "answer": "Thromboangiitis obliterans (TAO / Buerger's disease)",
-      "explanation": "Thromboangiitis obliterans (TAO or Buerger's disease) is a non-atherosclerotic, segmental, inflammatory vasculitis that predominantly affects small- and medium-sized arteries and veins of the extremities in young male smokers (< 40–45 years). It typically presents with digital ischemia, rest pain, superficial thrombophlebitis migrans, and Raynaud's phenomenon. Pathognomonically, the internal elastic lamina remains intact without medial calcification.",
+      "explanation": "Thromboangiitis obliterans (TAO or Buerger's disease) is a non-atherosclerotic, segmental, inflammatory vasculitis that predominantly affects small- and medium-sized arteries and veins of the extremities in young male smokers (< 40\u201345 years). It typically presents with digital ischemia, rest pain, superficial thrombophlebitis migrans, and Raynaud's phenomenon. Pathognomonically, the internal elastic lamina remains intact without medial calcification.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237000,7 +237018,7 @@
       ],
       "answerIndex": 1,
       "answer": "Laparoscopic Heller's cardiomyotomy with partial anterior fundoplication (Dor) or posterior (Toupet)",
-      "explanation": "Achalasia cardia is an esophageal motility disorder caused by degeneration of inhibitory ganglion cells in the myenteric (Auerbach's) plexus, leading to incomplete LES relaxation and aperistalsis. The gold standard surgical management is laparoscopic Heller's cardiomyotomy (dividing the circular and longitudinal muscle fibers of the lower esophagus 5–6 cm above and 2–3 cm onto the gastric cardia) combined with a partial fundoplication (Dor anterior 180° or Toupet posterior 270°) to prevent severe gastroesophageal reflux.",
+      "explanation": "Achalasia cardia is an esophageal motility disorder caused by degeneration of inhibitory ganglion cells in the myenteric (Auerbach's) plexus, leading to incomplete LES relaxation and aperistalsis. The gold standard surgical management is laparoscopic Heller's cardiomyotomy (dividing the circular and longitudinal muscle fibers of the lower esophagus 5\u20136 cm above and 2\u20133 cm onto the gastric cardia) combined with a partial fundoplication (Dor anterior 180\u00b0 or Toupet posterior 270\u00b0) to prevent severe gastroesophageal reflux.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237081,7 +237099,7 @@
       "topic": "Esophagus, Stomach and Duodenum",
       "topicTitle": "Esophagus, Stomach and Duodenum",
       "topicOrder": 1,
-      "prompt": "A 56-year-old male with a long-standing history of recurrent peptic ulcer disease presents with severe projectile vomiting of foul-smelling, undigested food ingested 24–48 hours earlier, devoid of bile. Physical examination reveals a visible gastric peristaltic wave moving from left to right and a positive succession splash elicited 4 hours after meals. What is the diagnosis and the classic metabolic abnormality expected on blood gas analysis?",
+      "prompt": "A 56-year-old male with a long-standing history of recurrent peptic ulcer disease presents with severe projectile vomiting of foul-smelling, undigested food ingested 24\u201348 hours earlier, devoid of bile. Physical examination reveals a visible gastric peristaltic wave moving from left to right and a positive succession splash elicited 4 hours after meals. What is the diagnosis and the classic metabolic abnormality expected on blood gas analysis?",
       "options": [
         "Acute pancreatitis; hypercalcemia and metabolic acidosis",
         "Gastric outlet obstruction (pyloric stenosis); hypochloremic, hypokalemic metabolic alkalosis with paradoxical aciduria",
@@ -237143,13 +237161,13 @@
       "topicOrder": 1,
       "prompt": "What is the defining criterion and standard surgical clearance for a 'D2 lymphadenectomy' in the radical curative resection of gastric adenocarcinoma?",
       "options": [
-        "Resection of perigastric lymph nodes only along the lesser and greater curvatures (stations 1–6)",
-        "Resection of all perigastric lymph nodes (stations 1–6) PLUS second-tier lymph nodes along the left gastric artery, common hepatic artery, celiac axis, splenic hilum, and splenic artery (stations 7–12a)",
+        "Resection of perigastric lymph nodes only along the lesser and greater curvatures (stations 1\u20136)",
+        "Resection of all perigastric lymph nodes (stations 1\u20136) PLUS second-tier lymph nodes along the left gastric artery, common hepatic artery, celiac axis, splenic hilum, and splenic artery (stations 7\u201312a)",
         "Para-aortic lymph node dissection from diaphragm to aortic bifurcation (stations 16a/b)",
         "Complete mesenteric lymphadenectomy down to the ileocolic vessels"
       ],
       "answerIndex": 1,
-      "answer": "Resection of all perigastric lymph nodes (stations 1–6) PLUS second-tier lymph nodes along the left gastric artery, common hepatic artery, celiac axis, splenic hilum, and splenic artery (stations 7–12a)",
+      "answer": "Resection of all perigastric lymph nodes (stations 1\u20136) PLUS second-tier lymph nodes along the left gastric artery, common hepatic artery, celiac axis, splenic hilum, and splenic artery (stations 7\u201312a)",
       "explanation": "According to the Japanese Gastric Cancer Association (JGCA) classifications, D1 lymphadenectomy removes tier-1 perigastric stations (1 to 6). A standard D2 lymphadenectomy requires en-bloc resection of stations 1 through 6 plus tier-2 stations along the branches of the celiac trunk: left gastric artery (7), common hepatic artery (8a), celiac axis (9), splenic artery (11p/11d), and hepatoduodenal ligament (12a). D2 clearance is the global standard for curative-intent gastrectomy.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
@@ -237171,7 +237189,7 @@
       "topic": "Esophagus, Stomach and Duodenum",
       "topicTitle": "Esophagus, Stomach and Duodenum",
       "topicOrder": 1,
-      "prompt": "A 50-year-old male undergoes a distal gastrectomy with Billroth II gastrojejunostomy for gastric carcinoma. Two weeks after resuming meals, he complains of palpitations, diaphoresis, epigastric fullness, flushing, and explosive watery diarrhea occurring 20–30 minutes after every meal. What is this syndrome, and what physiological mechanism causes it?",
+      "prompt": "A 50-year-old male undergoes a distal gastrectomy with Billroth II gastrojejunostomy for gastric carcinoma. Two weeks after resuming meals, he complains of palpitations, diaphoresis, epigastric fullness, flushing, and explosive watery diarrhea occurring 20\u201330 minutes after every meal. What is this syndrome, and what physiological mechanism causes it?",
       "options": [
         "Late dumping syndrome; reactive hypoglycemia due to exaggerated insulin surge",
         "Early dumping syndrome; rapid transit of hyperosmolar carbohydrate-rich chyme into the proximal jejunum, drawing massive fluid shifts from the intravascular space into the bowel lumen",
@@ -237180,7 +237198,7 @@
       ],
       "answerIndex": 1,
       "answer": "Early dumping syndrome; rapid transit of hyperosmolar carbohydrate-rich chyme into the proximal jejunum, drawing massive fluid shifts from the intravascular space into the bowel lumen",
-      "explanation": "Early dumping syndrome occurs 15–30 minutes postprandially following gastrectomy with loss of pyloric sphincter function. Rapid emptying of hypertonic chyme into the jejunum creates an osmotic gradient that shifts large volumes of extracellular fluid into the intestinal lumen, causing acute hypovolemia (palpitations, dizziness, diaphoresis, hypotension) alongside vasoactive neurohormone release (serotonin, neurotensin, bradykinin). Late dumping occurs 2–3 hours postprandially due to reactive hyperinsulinemic hypoglycemia.",
+      "explanation": "Early dumping syndrome occurs 15\u201330 minutes postprandially following gastrectomy with loss of pyloric sphincter function. Rapid emptying of hypertonic chyme into the jejunum creates an osmotic gradient that shifts large volumes of extracellular fluid into the intestinal lumen, causing acute hypovolemia (palpitations, dizziness, diaphoresis, hypotension) alongside vasoactive neurohormone release (serotonin, neurotensin, bradykinin). Late dumping occurs 2\u20133 hours postprandially due to reactive hyperinsulinemic hypoglycemia.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237270,7 +237288,7 @@
       ],
       "answerIndex": 1,
       "answer": "Zollinger-Ellison Syndrome (Gastrinoma); Passaro's triangle (Gastrinoma triangle)",
-      "explanation": "Zollinger-Ellison Syndrome (ZES) is caused by a gastrin-secreting neuroendocrine tumor (gastrinoma) driving hyperchlorhydria, refractory atypical peptic ulceration, and diarrhea. Over 85–90% of gastrinomas reside within the **Gastrinoma Triangle of Passaro**, anatomically demarcated by: 1. Superiorly: Junction of cystic duct and common bile duct; 2. Inferiorly: Junction of the second and third parts of the duodenum; 3. Medially: Junction of the neck and body of the pancreas.",
+      "explanation": "Zollinger-Ellison Syndrome (ZES) is caused by a gastrin-secreting neuroendocrine tumor (gastrinoma) driving hyperchlorhydria, refractory atypical peptic ulceration, and diarrhea. Over 85\u201390% of gastrinomas reside within the **Gastrinoma Triangle of Passaro**, anatomically demarcated by: 1. Superiorly: Junction of cystic duct and common bile duct; 2. Inferiorly: Junction of the second and third parts of the duodenum; 3. Medially: Junction of the neck and body of the pancreas.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237390,7 +237408,7 @@
       ],
       "answerIndex": 1,
       "answer": "Aggressive resuscitation, broad-spectrum IV antibiotics, and urgent biliary decompression via Endoscopic Retrograde Cholangiopancreatography (ERCP) with biliary sphincterotomy and stenting",
-      "explanation": "Reynold's pentad (fever, jaundice, RUQ pain, confusion, septic shock) indicates acute suppurative ascending cholangitis, a life-threatening emergency caused by infected biliary obstruction under high pressure. Immediate management requires aggressive fluid resuscitation, broad-spectrum intravenous antibiotics, and urgent emergent biliary drainage—optimally via therapeutic ERCP with biliary sphincterotomy and stent placement (or percutaneous transhepatic biliary drainage if ERCP fails).",
+      "explanation": "Reynold's pentad (fever, jaundice, RUQ pain, confusion, septic shock) indicates acute suppurative ascending cholangitis, a life-threatening emergency caused by infected biliary obstruction under high pressure. Immediate management requires aggressive fluid resuscitation, broad-spectrum intravenous antibiotics, and urgent emergent biliary drainage\u2014optimally via therapeutic ERCP with biliary sphincterotomy and stent placement (or percutaneous transhepatic biliary drainage if ERCP fails).",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237450,7 +237468,7 @@
       ],
       "answerIndex": 1,
       "answer": "Pancreatic pseudocyst; internal drainage (cystogastrostomy or cystojejunostomy) once the mature fibrous wall has formed (> 6 weeks)",
-      "explanation": "A pancreatic pseudocyst is a localized collection of amylase-rich pancreatic fluid enclosed by a non-epithelial wall composed of granulation tissue and dense collagenous fibrosis, typically located in the lesser sac following pancreatitis or trauma. Maturation of the cyst wall requires at least 4–6 weeks. Symptomatic, persistent, or enlarging (> 6 cm) pseudocysts are managed by internal drainage: endoscopic or surgical cystogastrostomy (connecting the pseudocyst into the posterior gastric wall) or Roux-en-Y cystojejunostomy.",
+      "explanation": "A pancreatic pseudocyst is a localized collection of amylase-rich pancreatic fluid enclosed by a non-epithelial wall composed of granulation tissue and dense collagenous fibrosis, typically located in the lesser sac following pancreatitis or trauma. Maturation of the cyst wall requires at least 4\u20136 weeks. Symptomatic, persistent, or enlarging (> 6 cm) pseudocysts are managed by internal drainage: endoscopic or surgical cystogastrostomy (connecting the pseudocyst into the posterior gastric wall) or Roux-en-Y cystojejunostomy.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237510,7 +237528,7 @@
       ],
       "answerIndex": 1,
       "answer": "Non-crushing vascular cross-clamping of the hepatoduodenal ligament, occluding the proper hepatic artery and the portal vein to control intraoperative hepatic parenchymal hemorrhage",
-      "explanation": "The Pringle maneuver (described by J. Hogarth Pringle in 1908) involves compressing the hepatoduodenal ligament across the foramen of Winslow with an atraumatic vascular clamp (or tourniquet). This occludes both incoming afferent blood supplies to the liver—the hepatic artery and the portal vein—to arrest torrential liver hemorrhage during trauma or parenchymal liver transection. Continuous ischemic clamp time is typically limited to 15–20 minutes to prevent warm ischemia-reperfusion injury.",
+      "explanation": "The Pringle maneuver (described by J. Hogarth Pringle in 1908) involves compressing the hepatoduodenal ligament across the foramen of Winslow with an atraumatic vascular clamp (or tourniquet). This occludes both incoming afferent blood supplies to the liver\u2014the hepatic artery and the portal vein\u2014to arrest torrential liver hemorrhage during trauma or parenchymal liver transection. Continuous ischemic clamp time is typically limited to 15\u201320 minutes to prevent warm ischemia-reperfusion injury.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237540,7 +237558,7 @@
       ],
       "answerIndex": 0,
       "answer": "Pancreaticojejunostomy, followed by Hepaticojejunostomy, followed by Gastrojejunostomy (or Duodenojejunostomy)",
-      "explanation": "The classic Whipple reconstruction brings a single loop of jejunum through the retrocolic window and performs the anastomoses in precise proximal-to-distal sequence: 1. Pancreaticojejunostomy (end-to-end or end-to-side, to protect the vulnerable pancreatic anastomosis from digestive enzymes); 2. Hepaticojejunostomy (biliary drainage, approx. 10–15 cm downstream); 3. Gastrojejunostomy or duodenojejunostomy (approx. 40–50 cm downstream, to prevent biliary reflux into the stomach).",
+      "explanation": "The classic Whipple reconstruction brings a single loop of jejunum through the retrocolic window and performs the anastomoses in precise proximal-to-distal sequence: 1. Pancreaticojejunostomy (end-to-end or end-to-side, to protect the vulnerable pancreatic anastomosis from digestive enzymes); 2. Hepaticojejunostomy (biliary drainage, approx. 10\u201315 cm downstream); 3. Gastrojejunostomy or duodenojejunostomy (approx. 40\u201350 cm downstream, to prevent biliary reflux into the stomach).",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237570,7 +237588,7 @@
       ],
       "answerIndex": 1,
       "answer": "Rigler's triad: Mechanical small bowel obstruction, pneumobilia (gas in the biliary tree), and an ectopic radio-opaque gallstone in the intestinal lumen; Gallstone ileus",
-      "explanation": "Gallstone ileus occurs when a large gallstone erodes through the gallbladder wall into the adjacent duodenum via a cholecystoduodenal fistula. The stone traverses the small bowel until it impacts at the narrowest point—classically the ileocecal valve. Rigler's triad on plain radiograph or CT comprises: 1. Pneumobilia (air in the biliary tree); 2. Dilated small bowel loops indicating mechanical obstruction; 3. An aberrantly located calcified gallstone in the right iliac fossa/pelvis.",
+      "explanation": "Gallstone ileus occurs when a large gallstone erodes through the gallbladder wall into the adjacent duodenum via a cholecystoduodenal fistula. The stone traverses the small bowel until it impacts at the narrowest point\u2014classically the ileocecal valve. Rigler's triad on plain radiograph or CT comprises: 1. Pneumobilia (air in the biliary tree); 2. Dilated small bowel loops indicating mechanical obstruction; 3. An aberrantly located calcified gallstone in the right iliac fossa/pelvis.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237595,7 +237613,7 @@
       "options": [
         "Somatic sensory afferents from the parietal peritoneum via the L1 iliohypogastric nerve",
         "Visceral sympathetic afferent fibers travelling via the lesser splanchnic nerves to the T10 spinal cord segment responding to appendiceal luminal distension",
-        "Phrenic nerve sensory dermatome C3–C5",
+        "Phrenic nerve sensory dermatome C3\u2013C5",
         "Parasympathetic vagal afferents terminating in the nucleus tractus solitarius"
       ],
       "answerIndex": 1,
@@ -237714,13 +237732,13 @@
       "prompt": "A 22-year-old male has an Alvarado score calculated for suspected acute appendicitis. Which two clinical parameters in the 10-point Alvarado (MANTRELS) scoring system are awarded 2 points each, with all other parameters carrying 1 point?",
       "options": [
         "Migration of pain and Anorexia",
-        "Localized tenderness in the right lower quadrant and Leukocytosis (WBC count > 10,000/μL)",
+        "Localized tenderness in the right lower quadrant and Leukocytosis (WBC count > 10,000/\u03bcL)",
         "Nausea/vomiting and Elevated temperature",
         "Rebound tenderness and Shift of neutrophils to the left"
       ],
       "answerIndex": 1,
-      "answer": "Localized tenderness in the right lower quadrant and Leukocytosis (WBC count > 10,000/μL)",
-      "explanation": "The Alvarado (MANTRELS) score totals 10 points: Symptoms: Migration of pain (1), Anorexia (1), Nausea/vomiting (1); Signs: Tenderness in RLQ (2 points), Rebound tenderness (1), Elevation of temperature (1); Laboratory: Leukocytosis > 10,000/μL (2 points), Shift to left of neutrophils > 75% (1). A score ≥ 7 strongly predicts acute appendicitis warranting surgical intervention.",
+      "answer": "Localized tenderness in the right lower quadrant and Leukocytosis (WBC count > 10,000/\u03bcL)",
+      "explanation": "The Alvarado (MANTRELS) score totals 10 points: Symptoms: Migration of pain (1), Anorexia (1), Nausea/vomiting (1); Signs: Tenderness in RLQ (2 points), Rebound tenderness (1), Elevation of temperature (1); Laboratory: Leukocytosis > 10,000/\u03bcL (2 points), Shift to left of neutrophils > 75% (1). A score \u2265 7 strongly predicts acute appendicitis warranting surgical intervention.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237744,13 +237762,13 @@
       "prompt": "A 30-year-old male presents on day 5 of acute right iliac fossa pain with high fever. On examination, a well-defined, tender, firm, non-mobile 6-cm mass is palpated in the right iliac fossa without generalized peritonitis. Ultrasound confirms an appendicular mass (phlegmon). What is the standard classical management strategy?",
       "options": [
         "Immediate emergency right hemicolectomy",
-        "Ochsner-Sherren conservative regimen (bed rest, IV fluids, analgesia, broad-spectrum antibiotics, serial abdominal charting) followed by interval appendectomy after 6–8 weeks",
+        "Ochsner-Sherren conservative regimen (bed rest, IV fluids, analgesia, broad-spectrum antibiotics, serial abdominal charting) followed by interval appendectomy after 6\u20138 weeks",
         "Immediate CT-guided percutaneous loop ileostomy",
         "Oral laxatives and immediate discharge"
       ],
       "answerIndex": 1,
-      "answer": "Ochsner-Sherren conservative regimen (bed rest, IV fluids, analgesia, broad-spectrum antibiotics, serial abdominal charting) followed by interval appendectomy after 6–8 weeks",
-      "explanation": "An appendicular mass comprises the inflamed appendix walled off by the greater omentum, cecum, and loops of terminal ileum. Emergency surgery in this friable, inflamed mass carries high risk of fecal fistula, iatrogenic bowel perforation, and conversion to right hemicolectomy. The Ochsner-Sherren regimen conserves the patient while resolution occurs. Failure of conservative treatment (rising pulse, spreading mass, increasing peritonitis) prompts drainage of an abscess or surgery. Interval appendectomy is typically performed 6–8 weeks later.",
+      "answer": "Ochsner-Sherren conservative regimen (bed rest, IV fluids, analgesia, broad-spectrum antibiotics, serial abdominal charting) followed by interval appendectomy after 6\u20138 weeks",
+      "explanation": "An appendicular mass comprises the inflamed appendix walled off by the greater omentum, cecum, and loops of terminal ileum. Emergency surgery in this friable, inflamed mass carries high risk of fecal fistula, iatrogenic bowel perforation, and conversion to right hemicolectomy. The Ochsner-Sherren regimen conserves the patient while resolution occurs. Failure of conservative treatment (rising pulse, spreading mass, increasing peritonitis) prompts drainage of an abscess or surgery. Interval appendectomy is typically performed 6\u20138 weeks later.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237930,7 +237948,7 @@
       ],
       "answerIndex": 1,
       "answer": "Postoperative peritoneal adhesions and bands",
-      "explanation": "Postoperative peritoneal adhesions and bands account for approximately 60–75% of all mechanical small bowel obstructions in adults with prior abdominopelvic surgery. In unoperated virgin abdomens, strangulated or incarcerated external hernias remain the leading cause of intestinal obstruction.",
+      "explanation": "Postoperative peritoneal adhesions and bands account for approximately 60\u201375% of all mechanical small bowel obstructions in adults with prior abdominopelvic surgery. In unoperated virgin abdomens, strangulated or incarcerated external hernias remain the leading cause of intestinal obstruction.",
       "difficulty": "easy",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -237990,7 +238008,7 @@
       ],
       "answerIndex": 1,
       "answer": "Cecum",
-      "explanation": "According to Laplace's law (Wall tension = Pressure × Radius), wall tension is directly proportional to the radius of the cylinder. Because the cecum has the largest diameter (greatest radius) of any segment of the colon, it experiences the highest intramural wall tension during distal closed-loop obstruction. When the cecal diameter exceeds 10–12 cm, intramural capillary perfusion ceases, predisposing to gangrenous ischemic perforation (diastatic perforation of the cecum).",
+      "explanation": "According to Laplace's law (Wall tension = Pressure \u00d7 Radius), wall tension is directly proportional to the radius of the cylinder. Because the cecum has the largest diameter (greatest radius) of any segment of the colon, it experiences the highest intramural wall tension during distal closed-loop obstruction. When the cecal diameter exceeds 10\u201312 cm, intramural capillary perfusion ceases, predisposing to gangrenous ischemic perforation (diastatic perforation of the cecum).",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238050,7 +238068,7 @@
       ],
       "answerIndex": 1,
       "answer": "Idiopathic ileocolic intussusception",
-      "explanation": "Intussusception is the invagination of a proximal bowel segment (intussuscipiens) into an immediately distal segment (intussusceptum), most commonly ileocolic in infants aged 3–12 months secondary to hypertrophied Peyer's patches following viral gastroenteritis. The triad of episodic colicky abdominal pain, a sausage-shaped abdominal mass with an empty right iliac fossa (Dance's sign), and passage of 'red currant jelly' stools (blood and mucus from venous engorgement) is pathognomonic. Ultrasound shows the 'target' or 'donut' sign.",
+      "explanation": "Intussusception is the invagination of a proximal bowel segment (intussuscipiens) into an immediately distal segment (intussusceptum), most commonly ileocolic in infants aged 3\u201312 months secondary to hypertrophied Peyer's patches following viral gastroenteritis. The triad of episodic colicky abdominal pain, a sausage-shaped abdominal mass with an empty right iliac fossa (Dance's sign), and passage of 'red currant jelly' stools (blood and mucus from venous engorgement) is pathognomonic. Ultrasound shows the 'target' or 'donut' sign.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238110,7 +238128,7 @@
       ],
       "answerIndex": 0,
       "answer": "Color changes from dark purple/black to pink, visible active peristalsis elicited by tapping or warm saline packs, and palpable or Doppler-detectable arterial pulsations in adjacent mesenteric arcades",
-      "explanation": "Assessing bowel viability after releasing strangulation involves wrapping the loop in warm saline-soaked pads for 10–15 minutes and delivering 100% oxygen. Definite criteria of viability are: 1. Color: return of normal pink sheen from dark purple; 2. Peristalsis: presence of active contraction waves spontaneously or upon gentle flicking; 3. Arterial pulsations: palpable or acoustic Doppler pulsation in the marginal mesenteric arcades; 4. Bleeding: bright red active bleeding from cut serosa or margins.",
+      "explanation": "Assessing bowel viability after releasing strangulation involves wrapping the loop in warm saline-soaked pads for 10\u201315 minutes and delivering 100% oxygen. Definite criteria of viability are: 1. Color: return of normal pink sheen from dark purple; 2. Peristalsis: presence of active contraction waves spontaneously or upon gentle flicking; 3. Arterial pulsations: palpable or acoustic Doppler pulsation in the marginal mesenteric arcades; 4. Bleeding: bright red active bleeding from cut serosa or margins.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238140,7 +238158,7 @@
       ],
       "answerIndex": 0,
       "answer": "Ogilvie's syndrome (Acute colonic pseudo-obstruction)",
-      "explanation": "Ogilvie's syndrome (acute colonic pseudo-obstruction) is massive functional dilatation of the colon without an underlying mechanical obstruction, typically occurring in elderly, debilitated, hospitalized patients with neurological disorders, metabolic derangements, or trauma. It is mediated by autonomic imbalance (excess sympathetic suppression or deficient parasympathetic tone). Intravenous neostigmine (acetylcholinesterase inhibitor) or colonoscopic decompression is used if cecal diameter exceeds 10–12 cm.",
+      "explanation": "Ogilvie's syndrome (acute colonic pseudo-obstruction) is massive functional dilatation of the colon without an underlying mechanical obstruction, typically occurring in elderly, debilitated, hospitalized patients with neurological disorders, metabolic derangements, or trauma. It is mediated by autonomic imbalance (excess sympathetic suppression or deficient parasympathetic tone). Intravenous neostigmine (acetylcholinesterase inhibitor) or colonoscopic decompression is used if cecal diameter exceeds 10\u201312 cm.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238230,7 +238248,7 @@
       ],
       "answerIndex": 1,
       "answer": "Ileocolic artery, right colic artery, and the right branch of the middle colic artery",
-      "explanation": "A formal oncologic right hemicolectomy requires high ligation of the ileocolic artery, right colic artery, and the right branch of the middle colic artery near their take-off from the superior mesenteric artery. The resection encompasses the terminal 10–15 cm of ileum, the cecum, ascending colon, hepatic flexure, and proximal third of the transverse colon with its draining lymph nodes, followed by ileotransverse anastomosis.",
+      "explanation": "A formal oncologic right hemicolectomy requires high ligation of the ileocolic artery, right colic artery, and the right branch of the middle colic artery near their take-off from the superior mesenteric artery. The resection encompasses the terminal 10\u201315 cm of ileum, the cecum, ascending colon, hepatic flexure, and proximal third of the transverse colon with its draining lymph nodes, followed by ileotransverse anastomosis.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238253,14 +238271,14 @@
       "topicOrder": 3,
       "prompt": "In modern rectal cancer surgery, what is the surgical principle of Total Mesorectal Excision (TME) pioneered by R.J. Heald, and what distal clear surgical margin is considered oncologically safe for mid-to-low rectal adenocarcinoma?",
       "options": [
-        "Sharp, complete, en-bloc excision of the rectum and intact mesorectum within the visceral pelvic fascial envelope (the 'holy plane'), achieving at least a 1–2 cm distal mural margin and negative circumferential resection margin (CRM)",
+        "Sharp, complete, en-bloc excision of the rectum and intact mesorectum within the visceral pelvic fascial envelope (the 'holy plane'), achieving at least a 1\u20132 cm distal mural margin and negative circumferential resection margin (CRM)",
         "Blunt finger dissection of the rectum leaving mesorectal fat behind with a 10-cm distal margin",
         "Simple local transanal mucosectomy",
         "Removal of the bladder and prostate in all cases"
       ],
       "answerIndex": 0,
-      "answer": "Sharp, complete, en-bloc excision of the rectum and intact mesorectum within the visceral pelvic fascial envelope (the 'holy plane'), achieving at least a 1–2 cm distal mural margin and negative circumferential resection margin (CRM)",
-      "explanation": "Total Mesorectal Excision (TME) requires precise sharp dissection under direct vision along the embryological plane between the visceral mesorectal fascia and the parietal presacral fascia ('the holy plane'). Removing the intact mesorectal envelope intact prevents tumor breach and clears all perirectal lymph nodes, reducing local recurrence rates from 30% to < 5%. For mid and low rectal tumors, a distal mural clearance of 1–2 cm (and a negative circumferential resection margin > 1 mm) is oncologically acceptable.",
+      "answer": "Sharp, complete, en-bloc excision of the rectum and intact mesorectum within the visceral pelvic fascial envelope (the 'holy plane'), achieving at least a 1\u20132 cm distal mural margin and negative circumferential resection margin (CRM)",
+      "explanation": "Total Mesorectal Excision (TME) requires precise sharp dissection under direct vision along the embryological plane between the visceral mesorectal fascia and the parietal presacral fascia ('the holy plane'). Removing the intact mesorectal envelope intact prevents tumor breach and clears all perirectal lymph nodes, reducing local recurrence rates from 30% to < 5%. For mid and low rectal tumors, a distal mural clearance of 1\u20132 cm (and a negative circumferential resection margin > 1 mm) is oncologically acceptable.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238290,7 +238308,7 @@
       ],
       "answerIndex": 1,
       "answer": "Abdominoperineal Resection (APR / Miles' operation) with permanent end colostomy",
-      "explanation": "When a rectal cancer directly infiltrates the external anal sphincter or levator ani musculature, or when an adequate 1–2 cm distal margin cannot be achieved without compromising sphincteric continence, sphincter preservation is impossible. Abdominoperineal resection (APR / Miles' procedure) is required, entailing en-bloc removal of the rectum, mesorectum, anal canal, and sphincter apparatus with creation of a permanent left iliac end colostomy.",
+      "explanation": "When a rectal cancer directly infiltrates the external anal sphincter or levator ani musculature, or when an adequate 1\u20132 cm distal margin cannot be achieved without compromising sphincteric continence, sphincter preservation is impossible. Abdominoperineal resection (APR / Miles' procedure) is required, entailing en-bloc removal of the rectum, mesorectum, anal canal, and sphincter apparatus with creation of a permanent left iliac end colostomy.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238470,7 +238488,7 @@
       ],
       "answerIndex": 1,
       "answer": "Nigro protocol (concurrent chemoradiotherapy using external beam radiation, 5-Fluorouracil, and Mitomycin-C)",
-      "explanation": "Unlike rectal adenocarcinoma (which is surgical), primary squamous cell carcinoma of the anal canal is treated with primary chemoradiotherapy (the Nigro protocol: definitive external beam radiation therapy combined with 5-fluorouracil and mitomycin-C). This achieves complete cure rates exceeding 80–90% while preserving anal sphincter function. Abdominoperineal resection (APR) is reserved for persistent or recurrent disease after chemoradiotherapy (salvage APR).",
+      "explanation": "Unlike rectal adenocarcinoma (which is surgical), primary squamous cell carcinoma of the anal canal is treated with primary chemoradiotherapy (the Nigro protocol: definitive external beam radiation therapy combined with 5-fluorouracil and mitomycin-C). This achieves complete cure rates exceeding 80\u201390% while preserving anal sphincter function. Abdominoperineal resection (APR) is reserved for persistent or recurrent disease after chemoradiotherapy (salvage APR).",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238553,14 +238571,14 @@
       "topicOrder": 1,
       "prompt": "In the open tension-free mesh repair of an inguinal hernia described by Irving Lichtenstein, what anatomical structures are used to anchor the prosthetic polypropylene mesh inferiorly and medially?",
       "options": [
-        "Inferiorly to the shelving edge of the inguinal ligament (down to the pubic tubercle with a 1.5–2 cm medial overlap) and superiorly to the conjoint tendon/internal oblique aponeurosis",
+        "Inferiorly to the shelving edge of the inguinal ligament (down to the pubic tubercle with a 1.5\u20132 cm medial overlap) and superiorly to the conjoint tendon/internal oblique aponeurosis",
         "Anchored directly to the femoral nerve and femoral vein",
         "Sutured exclusively to the subcutaneous Dartos fascia",
         "Fixed to the psoas minor tendon and iliopectineal line"
       ],
       "answerIndex": 0,
-      "answer": "Inferiorly to the shelving edge of the inguinal ligament (down to the pubic tubercle with a 1.5–2 cm medial overlap) and superiorly to the conjoint tendon/internal oblique aponeurosis",
-      "explanation": "Lichtenstein's tension-free hernioplasty places a flat polypropylene mesh (approx. 7.5 × 15 cm) over the posterior wall of the inguinal canal. The inferior border is sutured with continuous nonabsorbable suture (prolene) to the shelving margin of the inguinal ligament, starting 1.5–2 cm medial to the pubic tubercle over the rectus sheath. The superior edge is anchored to the internal oblique aponeurosis/conjoint tendon with interrupted sutures, and the lateral tails are split around the spermatic cord and tacked to the inguinal ligament.",
+      "answer": "Inferiorly to the shelving edge of the inguinal ligament (down to the pubic tubercle with a 1.5\u20132 cm medial overlap) and superiorly to the conjoint tendon/internal oblique aponeurosis",
+      "explanation": "Lichtenstein's tension-free hernioplasty places a flat polypropylene mesh (approx. 7.5 \u00d7 15 cm) over the posterior wall of the inguinal canal. The inferior border is sutured with continuous nonabsorbable suture (prolene) to the shelving margin of the inguinal ligament, starting 1.5\u20132 cm medial to the pubic tubercle over the rectus sheath. The superior edge is anchored to the internal oblique aponeurosis/conjoint tendon with interrupted sutures, and the lateral tails are split around the spermatic cord and tacked to the inguinal ligament.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238581,7 +238599,7 @@
       "topic": "Inguinal and Ventral Hernias",
       "topicTitle": "Inguinal and Ventral Hernias",
       "topicOrder": 1,
-      "prompt": "Why is a femoral hernia associated with a substantially higher risk of incarceration, obstruction, and strangulation (up to 30–40%) compared to an indirect inguinal hernia?",
+      "prompt": "Why is a femoral hernia associated with a substantially higher risk of incarceration, obstruction, and strangulation (up to 30\u201340%) compared to an indirect inguinal hernia?",
       "options": [
         "Because the femoral canal contains the inferior epigastric artery",
         "Because the femoral ring is small, narrow, rigid, and surrounded by unyielding ligamentous structures (lacunar ligament medially, inguinal ligament anteriorly, and pectineal ligament posteriorly)",
@@ -238620,7 +238638,7 @@
       ],
       "answerIndex": 0,
       "answer": "Triangle of Doom (containing external iliac vessels) and Triangle of Pain (containing lateral femoral cutaneous and femoral branch of genitofemoral nerves)",
-      "explanation": "In posterior laparoscopic inguinal anatomy: 1. **Triangle of Doom**: bounded medially by the vas deferens and laterally by the spermatic vessels, with apex at the deep ring; it contains the external iliac artery and vein—tacks placed here risk fatal vascular injury. 2. **Triangle of Pain**: bounded by the spermatic vessels medially and the iliopubic tract laterally/superiorly; it contains the lateral cutaneous nerve of the thigh and the femoral branch of the genitofemoral nerve—staples or tacks here cause severe chronic inguinodynia.",
+      "explanation": "In posterior laparoscopic inguinal anatomy: 1. **Triangle of Doom**: bounded medially by the vas deferens and laterally by the spermatic vessels, with apex at the deep ring; it contains the external iliac artery and vein\u2014tacks placed here risk fatal vascular injury. 2. **Triangle of Pain**: bounded by the spermatic vessels medially and the iliopubic tract laterally/superiorly; it contains the lateral cutaneous nerve of the thigh and the femoral branch of the genitofemoral nerve\u2014staples or tacks here cause severe chronic inguinodynia.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238764,13 +238782,13 @@
       "prompt": "An infant presents with a small 1-cm umbilical hernia at 6 months of age. The mother states the swelling bulges outward when the infant cries but easily reduces with gentle pressure. What is the standard management?",
       "options": [
         "Immediate emergency herniotomy with mesh placement",
-        "Reassurance and conservative observation; over 80–90% of congenital indirect umbilical hernias spontaneously close by 2 to 3 years of age",
+        "Reassurance and conservative observation; over 80\u201390% of congenital indirect umbilical hernias spontaneously close by 2 to 3 years of age",
         "Application of an umbilical adhesive coin binder",
         "Immediate laparoscopic suture repair"
       ],
       "answerIndex": 1,
-      "answer": "Reassurance and conservative observation; over 80–90% of congenital indirect umbilical hernias spontaneously close by 2 to 3 years of age",
-      "explanation": "Congenital umbilical hernia in infants results from delayed contraction of the umbilical ring. The vast majority (> 80–90%) close spontaneously as the rectus abdominis muscles approximate in the midline by 2–3 years of age. Strangulation is extremely rare. Conservative observation is standard; surgical repair (simple Mayo or direct suture herniotomy) is indicated only if the hernia persists beyond 3–4 years of age, is unusually large (> 1.5–2 cm), or becomes symptomatic.",
+      "answer": "Reassurance and conservative observation; over 80\u201390% of congenital indirect umbilical hernias spontaneously close by 2 to 3 years of age",
+      "explanation": "Congenital umbilical hernia in infants results from delayed contraction of the umbilical ring. The vast majority (> 80\u201390%) close spontaneously as the rectus abdominis muscles approximate in the midline by 2\u20133 years of age. Strangulation is extremely rare. Conservative observation is standard; surgical repair (simple Mayo or direct suture herniotomy) is indicated only if the hernia persists beyond 3\u20134 years of age, is unusually large (> 1.5\u20132 cm), or becomes symptomatic.",
       "difficulty": "easy",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238851,7 +238869,7 @@
       "topic": "Urinary Calculi, BPH and Bladder Tumors",
       "topicTitle": "Urinary Calculi, BPH and Bladder Tumors",
       "topicOrder": 2,
-      "prompt": "What is the single most common chemical type of renal calculus encountered in global clinical surgical practice (approx. 70–80%), and what is its appearance on plain abdominal radiography?",
+      "prompt": "What is the single most common chemical type of renal calculus encountered in global clinical surgical practice (approx. 70\u201380%), and what is its appearance on plain abdominal radiography?",
       "options": [
         "Uric acid calculus; completely radiolucent",
         "Calcium oxalate calculus (monohydrate/dihydrate); densely radio-opaque with sharp, spiky, mulberry-like surface",
@@ -238860,7 +238878,7 @@
       ],
       "answerIndex": 1,
       "answer": "Calcium oxalate calculus (monohydrate/dihydrate); densely radio-opaque with sharp, spiky, mulberry-like surface",
-      "explanation": "Calcium stones (predominantly calcium oxalate, either monohydrate/Whewellite or dihydrate/Weddellite, often mixed with calcium phosphate) account for 75–80% of all urinary tract calculi. Because calcium has a high atomic number, they are sharply radio-opaque on plain radiography. Calcium oxalate monohydrate stones are dark, extremely hard, and jagged ('mulberry stones'), causing hematuria as they traverse the ureter.",
+      "explanation": "Calcium stones (predominantly calcium oxalate, either monohydrate/Whewellite or dihydrate/Weddellite, often mixed with calcium phosphate) account for 75\u201380% of all urinary tract calculi. Because calcium has a high atomic number, they are sharply radio-opaque on plain radiography. Calcium oxalate monohydrate stones are dark, extremely hard, and jagged ('mulberry stones'), causing hematuria as they traverse the ureter.",
       "difficulty": "easy",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238890,7 +238908,7 @@
       ],
       "answerIndex": 0,
       "answer": "BPH originates in the Transition Zone; Carcinoma originates in the Peripheral Zone",
-      "explanation": "According to McNeal's zonal anatomy: BPH originates in the **Transition Zone** (surrounding the proximal prostatic urethra), explaining why even modest adenomatous enlargement causes early circumferential compression of the urethra and lower urinary tract symptoms (LUTS). Carcinoma of the prostate originates predominantly (70–75%) in the **Peripheral Zone** (posterolateral aspect of the gland), which explains why it is palpable on digital rectal examination (DRE) but may not produce early obstructive urinary symptoms.",
+      "explanation": "According to McNeal's zonal anatomy: BPH originates in the **Transition Zone** (surrounding the proximal prostatic urethra), explaining why even modest adenomatous enlargement causes early circumferential compression of the urethra and lower urinary tract symptoms (LUTS). Carcinoma of the prostate originates predominantly (70\u201375%) in the **Peripheral Zone** (posterolateral aspect of the gland), which explains why it is palpable on digital rectal examination (DRE) but may not produce early obstructive urinary symptoms.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -238950,7 +238968,7 @@
       ],
       "answerIndex": 0,
       "answer": "Urothelial (Transitional cell) carcinoma (> 90%)",
-      "explanation": "Urothelial carcinoma (formerly transitional cell carcinoma) accounts for over 90–95% of all bladder cancers. Painless, intermittent, gross total hematuria is the cardinal presenting sign in > 80% of patients. Squamous cell carcinoma accounts for < 5% generally, though it is the predominant histological subtype in areas endemic for Schistosoma haematobium infection due to chronic irritation.",
+      "explanation": "Urothelial carcinoma (formerly transitional cell carcinoma) accounts for over 90\u201395% of all bladder cancers. Painless, intermittent, gross total hematuria is the cardinal presenting sign in > 80% of patients. Squamous cell carcinoma accounts for < 5% generally, though it is the predominant histological subtype in areas endemic for Schistosoma haematobium infection due to chronic irritation.",
       "difficulty": "easy",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -239003,14 +239021,14 @@
       "topicOrder": 2,
       "prompt": "What is the classical triad of clinical presentation in Renal Cell Carcinoma (RCC / Grawitz's tumor), and what percentage of patients present with all three features simultaneously?",
       "options": [
-        "Flank pain, palpable abdominal mass, and gross hematuria; seen in only 10–15% of patients (Too late triad)",
+        "Flank pain, palpable abdominal mass, and gross hematuria; seen in only 10\u201315% of patients (Too late triad)",
         "Fever, jaundice, and weight loss; seen in 80% of patients",
         "Oliguria, hypertension, and edema; seen in 90% of patients",
         "Dysuria, frequency, and strangury; seen in 50% of patients"
       ],
       "answerIndex": 0,
-      "answer": "Flank pain, palpable abdominal mass, and gross hematuria; seen in only 10–15% of patients (Too late triad)",
-      "explanation": "The classic Guyon's triad of renal cell carcinoma consists of: 1. Gross hematuria; 2. Flank pain; 3. Palpable abdominal/flank mass. Today, more than 60% of RCCs are discovered incidentally on cross-sectional imaging for unrelated indications (incidentalomas). The complete triad occurs in only 10–15% of cases and almost always indicates locally advanced or metastatic disease (hence termed the 'too-late triad').",
+      "answer": "Flank pain, palpable abdominal mass, and gross hematuria; seen in only 10\u201315% of patients (Too late triad)",
+      "explanation": "The classic Guyon's triad of renal cell carcinoma consists of: 1. Gross hematuria; 2. Flank pain; 3. Palpable abdominal/flank mass. Today, more than 60% of RCCs are discovered incidentally on cross-sectional imaging for unrelated indications (incidentalomas). The complete triad occurs in only 10\u201315% of cases and almost always indicates locally advanced or metastatic disease (hence termed the 'too-late triad').",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -239100,7 +239118,7 @@
       ],
       "answerIndex": 1,
       "answer": "Grade II",
-      "explanation": "According to the American Association for the Surgery of Trauma (AAST) Splenic Injury Scale: Grade I: Subcapsular hematoma < 10% surface area, laceration < 1 cm depth; Grade II: Subcapsular hematoma 10–50% surface area, parenchymal laceration 1–3 cm depth not involving trabecular vessels; Grade III: Subcapsular hematoma > 50% surface area, parenchymal laceration > 3 cm depth or involving trabecular vessels; Grade IV: Laceration involving segmental or hilar vessels producing > 25% devascularization; Grade V: Completely shattered spleen or hilar vascular avulsion.",
+      "explanation": "According to the American Association for the Surgery of Trauma (AAST) Splenic Injury Scale: Grade I: Subcapsular hematoma < 10% surface area, laceration < 1 cm depth; Grade II: Subcapsular hematoma 10\u201350% surface area, parenchymal laceration 1\u20133 cm depth not involving trabecular vessels; Grade III: Subcapsular hematoma > 50% surface area, parenchymal laceration > 3 cm depth or involving trabecular vessels; Grade IV: Laceration involving segmental or hilar vessels producing > 25% devascularization; Grade V: Completely shattered spleen or hilar vascular avulsion.",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -239130,7 +239148,7 @@
       ],
       "answerIndex": 0,
       "answer": "Streptococcus pneumoniae, Neisseria meningitidis, and Haemophilus influenzae type b",
-      "explanation": "The spleen is essential for phagocytosis of unopsonized encapsulated bacteria via splenic macrophages and for IgM memory B-cell generation. In asplenic individuals, encapsulated organisms can rapidly cause fatal bacteremia and septic shock (OPSI, with mortality up to 50–70%). The three primary pathogens are Streptococcus pneumoniae (approx. 50–70%), Neisseria meningitidis, and Haemophilus influenzae type b. Patients require vaccination against all three pathogens (optimally 2 weeks prior to elective surgery or 14 days post-emergency splenectomy).",
+      "explanation": "The spleen is essential for phagocytosis of unopsonized encapsulated bacteria via splenic macrophages and for IgM memory B-cell generation. In asplenic individuals, encapsulated organisms can rapidly cause fatal bacteremia and septic shock (OPSI, with mortality up to 50\u201370%). The three primary pathogens are Streptococcus pneumoniae (approx. 50\u201370%), Neisseria meningitidis, and Haemophilus influenzae type b. Patients require vaccination against all three pathogens (optimally 2 weeks prior to elective surgery or 14 days post-emergency splenectomy).",
       "difficulty": "moderate",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -239186,7 +239204,7 @@
         "Howell-Jolly bodies (nuclear DNA remnants), Heinz bodies, Pappenheimer bodies, and target cells",
         "Auer rods",
         "Russell bodies",
-        "Döhle bodies"
+        "D\u00f6hle bodies"
       ],
       "answerIndex": 0,
       "answer": "Howell-Jolly bodies (nuclear DNA remnants), Heinz bodies, Pappenheimer bodies, and target cells",
@@ -239211,7 +239229,7 @@
       "topic": "Spleen and Splenectomy",
       "topicTitle": "Spleen and Splenectomy",
       "topicOrder": 3,
-      "prompt": "A 22-year-old female presents with severe recurrent epistaxis, petechiae, and a platelet count of 18,000/μL. Bone marrow shows megakaryocytic hyperplasia, and anti-platelet IgG antibodies are present, confirming Immune Thrombocytopenic Purpura (ITP). First-line high-dose corticosteroid and IVIG therapies fail. If splenectomy is performed for refractory ITP, why must a meticulous search for an accessory spleen (splenunculus) be carried out?",
+      "prompt": "A 22-year-old female presents with severe recurrent epistaxis, petechiae, and a platelet count of 18,000/\u03bcL. Bone marrow shows megakaryocytic hyperplasia, and anti-platelet IgG antibodies are present, confirming Immune Thrombocytopenic Purpura (ITP). First-line high-dose corticosteroid and IVIG therapies fail. If splenectomy is performed for refractory ITP, why must a meticulous search for an accessory spleen (splenunculus) be carried out?",
       "options": [
         "Because an overlooked accessory spleen will rapidly hypertrophy and cause disease recurrence in up to 15% of patients",
         "Because accessory spleens invariably undergo malignant transformation",
@@ -239220,7 +239238,7 @@
       ],
       "answerIndex": 0,
       "answer": "Because an overlooked accessory spleen will rapidly hypertrophy and cause disease recurrence in up to 15% of patients",
-      "explanation": "In hematological conditions where splenectomy is performed for antibody-mediated cytopenia (e.g., ITP, hereditary spherocytosis), accessory spleens (splenunculi, present in 15–20% of the population, most commonly in the splenic hilum, gastrosplenic ligament, or greater omentum) must be scrupulously identified and excised. If left behind, an accessory spleen can undergo compensatory hypertrophy under reticuloendothelial drive, causing late relapse of thrombocytopenia.",
+      "explanation": "In hematological conditions where splenectomy is performed for antibody-mediated cytopenia (e.g., ITP, hereditary spherocytosis), accessory spleens (splenunculi, present in 15\u201320% of the population, most commonly in the splenic hilum, gastrosplenic ligament, or greater omentum) must be scrupulously identified and excised. If left behind, an accessory spleen can undergo compensatory hypertrophy under reticuloendothelial drive, causing late relapse of thrombocytopenia.",
       "difficulty": "hard",
       "subjectId": "general-surgery",
       "subjectTitle": "General Surgery",
@@ -239236,7 +239254,22 @@
     }
   ],
   "practiceResults": [],
-  "paymentOrders": [],
+  "paymentOrders": [
+    {
+      "orderId": "order_TlR4yeX5qxcjwP",
+      "userId": "f56d35cb8fac18703d7db6b5",
+      "planId": "ultra",
+      "amount": 99900,
+      "currency": "INR",
+      "receipt": "med_1fa46aaec9e24f75a15aa622e60f113a",
+      "status": "paid",
+      "testMode": true,
+      "createdAt": "2026-10-08T13:47:41.688Z",
+      "paymentId": "pay_TlR7xe5ylcbA7t",
+      "signature": "2ad47314660cfbf5cb84481b6a82843d4a467782b1bb7e28ca6ecdb6f802b64e",
+      "verifiedAt": "2026-10-08T13:50:53.821Z"
+    }
+  ],
   "vivaSessions": [
     {
       "id": "79bf074c4b70b8ef9819eff5",
@@ -239536,7 +239569,7 @@
             "Explain the underlying mechanisms for necrosis, such as ATP depletion, mitochondrial damage, and membrane rupture.",
             "Structure the answer to clearly differentiate between the two processes across various aspects."
           ],
-          "modelAnswer": "Definition:\n• Apoptosis: Programmed, regulated cell death, often physiological, without inflammation.\n• Necrosis: Accidental, unregulated cell death, typically pathological, leading to inflammation.\n\nMorphological Features:\nApoptosis:\n• Cell shrinkage and condensation.\n• Chromatin condensation (pyknosis) and nuclear fragmentation (karyorrhexis).\n• Formation of apoptotic bodies (membrane-bound fragments).\n• Plasma membrane remains intact initially, with blebbing.\n\nNecrosis:\n• Cell swelling (oncosis).\n• Rupture of plasma and organelle membranes.\n• Denaturation of intracellular proteins.\n• Enzymatic digestion of cellular components by lysosomal enzymes.\n• Nuclear changes: pyknosis → karyorrhexis → karyolysis.\n\nUnderlying Mechanisms:\nApoptosis:\n• Activation of a caspase cascade (cysteine-aspartic proteases).\n• Intrinsic (mitochondrial) pathway: Release of cytochrome c from mitochondria.\n• Extrinsic (death receptor) pathway: Ligand binding to cell surface death receptors (e.g., Fas, TNF receptors).\n• An active, energy-dependent process.\n\nNecrosis:\n• ATP depletion leading to failure of ion pumps and cell swelling.\n• Mitochondrial damage and dysfunction, leading to ROS production.\n• Loss of plasma membrane integrity, allowing influx of ions and water.\n• Uncontrolled release of intracellular enzymes (e.g., lysosomal hydrolases).\n• A passive, energy-independent process.\n\nInflammatory Response:\n• Apoptosis: No inflammation; apoptotic bodies are rapidly phagocytosed by macrophages.\n• Necrosis: Significant inflammation due to the release of cellular contents and DAMPs (Damage-Associated Molecular Patterns).\n\nComparison Summary (Schematic):\n• Apoptosis: Programmed → Cell shrinkage → Apoptotic bodies → Phagocytosis → No inflammation\n• Necrosis: Accidental → Cell swelling → Membrane rupture → Enzyme release → Inflammation",
+          "modelAnswer": "Definition:\n\u2022 Apoptosis: Programmed, regulated cell death, often physiological, without inflammation.\n\u2022 Necrosis: Accidental, unregulated cell death, typically pathological, leading to inflammation.\n\nMorphological Features:\nApoptosis:\n\u2022 Cell shrinkage and condensation.\n\u2022 Chromatin condensation (pyknosis) and nuclear fragmentation (karyorrhexis).\n\u2022 Formation of apoptotic bodies (membrane-bound fragments).\n\u2022 Plasma membrane remains intact initially, with blebbing.\n\nNecrosis:\n\u2022 Cell swelling (oncosis).\n\u2022 Rupture of plasma and organelle membranes.\n\u2022 Denaturation of intracellular proteins.\n\u2022 Enzymatic digestion of cellular components by lysosomal enzymes.\n\u2022 Nuclear changes: pyknosis \u2192 karyorrhexis \u2192 karyolysis.\n\nUnderlying Mechanisms:\nApoptosis:\n\u2022 Activation of a caspase cascade (cysteine-aspartic proteases).\n\u2022 Intrinsic (mitochondrial) pathway: Release of cytochrome c from mitochondria.\n\u2022 Extrinsic (death receptor) pathway: Ligand binding to cell surface death receptors (e.g., Fas, TNF receptors).\n\u2022 An active, energy-dependent process.\n\nNecrosis:\n\u2022 ATP depletion leading to failure of ion pumps and cell swelling.\n\u2022 Mitochondrial damage and dysfunction, leading to ROS production.\n\u2022 Loss of plasma membrane integrity, allowing influx of ions and water.\n\u2022 Uncontrolled release of intracellular enzymes (e.g., lysosomal hydrolases).\n\u2022 A passive, energy-independent process.\n\nInflammatory Response:\n\u2022 Apoptosis: No inflammation; apoptotic bodies are rapidly phagocytosed by macrophages.\n\u2022 Necrosis: Significant inflammation due to the release of cellular contents and DAMPs (Damage-Associated Molecular Patterns).\n\nComparison Summary (Schematic):\n\u2022 Apoptosis: Programmed \u2192 Cell shrinkage \u2192 Apoptotic bodies \u2192 Phagocytosis \u2192 No inflammation\n\u2022 Necrosis: Accidental \u2192 Cell swelling \u2192 Membrane rupture \u2192 Enzyme release \u2192 Inflammation",
           "submittedAt": "2026-08-21T09:21:13.589Z"
         }
       ]

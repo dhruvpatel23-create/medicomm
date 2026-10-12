@@ -2174,8 +2174,12 @@ async function verifyPassword(password, salt, expectedHash, iterations = LEGACY_
 }
 
 function sanitizeUser(user) {
+  const practiceAccess = hasPracticeAccess(readDatabase(), user.id);
   return {
-    hasPracticeAccess: hasPracticeAccess(readDatabase(), user.id),
+    hasPracticeAccess: practiceAccess,
+    isSubscribed: practiceAccess,
+    plan: user.plan || (practiceAccess ? 'ultra' : null),
+    subscription: user.subscription || (practiceAccess ? 'ultra' : null),
     id: user.id,
     name: user.name,
     email: user.email,

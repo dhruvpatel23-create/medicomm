@@ -4,7 +4,10 @@ import { HttpError } from './security.mjs';
 import { PAYMENT_PLANS } from '../src/data/paymentPlans.js';
 
 export function hasPracticeAccess(database, userId) {
-  return Boolean(userId && (database.paymentOrders ?? []).some(order => order.userId === userId && order.status === 'paid' && order.paymentId && order.verifiedAt));
+  if (!userId) return false;
+  const user = (database.users ?? []).find(item => item.id === userId);
+  if (user && (user.hasPracticeAccess || user.isSubscribed || user.subscription || user.plan)) return true;
+  return Boolean((database.paymentOrders ?? []).some(order => order.userId === userId && order.status === 'paid' && order.paymentId && order.verifiedAt));
 }
 
 export function paymentQuote(payload) {
