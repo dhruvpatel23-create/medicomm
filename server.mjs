@@ -2728,33 +2728,162 @@ function handleUserSearch(request, response, url) {
   return sendJson(response, 200, { users });
 }
 
-async function handleFriends(request, response) {
+async function handleFriends(request, response, url = null) {
   // Read the latest snapshot after the request body has arrived.
   const payload = request.method === "POST" ? await parseRequestBody(request) : null;
   const database = readDatabase();
   const currentUser = requireSessionUser(request, response, database);
   if (!currentUser) return;
 
-  const friendIds = new Set(currentUser.friendIds ?? []);
+  database.friendRequests = Array.isArray(database.friendRequests) ? database.friendRequests : [];
+  currentUser.friendIds = Array.isArray(currentUser.friendIds) ? currentUser.friendIds : [];
+
+  const getPayload = () => {
+    const friendIds = new Set(currentUser.friendIds ?? []);
+    const friends = database.users
+      .filter(user => user.id !== currentUser.id && friendIds.has(user.id))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(user => sanitizeSearchableUser(user, currentUser.id));
+
+    const allRequests = database.friendRequests ?? [];
+    const userMap = new Map(database.users.map(u => [u.id, u]));
+
+    const incomingRequests = allRequests
+      .filter(req => req.toUserId === currentUser.id && req.status === "pending")
+      .map(req => {
+        const fromUser = userMap.get(req.fromUserId);
+        return {
+          id: req.id,
+          user: fromUser ? sanitizeSearchableUser(fromUser, currentUser.id) : null,
+          createdAt: req.createdAt,
+        };
+      })
+      .filter(req => req.user);
+
+    const outgoingRequests = allRequests
+      .filter(req => req.fromUserId === currentUser.id && req.status === "pending")
+      .map(req => {
+        const toUser = userMap.get(req.toUserId);
+        return {
+          id: req.id,
+          user: toUser ? sanitizeSearchableUser(toUser, currentUser.id) : null,
+          createdAt: req.createdAt,
+        };
+      })
+      .filter(req => req.user);
+
+    return { friends, incomingRequests, outgoingRequests };
+  };
+
+  if (request.method === "GET") {
+    return sendJson(response, 200, getPayload());
+  }
+
   if (request.method === "POST") {
+    let pathname = "/api/friends";
+    if (url?.pathname) pathname = url.pathname;
+    else if (request.url) {
+      try { pathname = new URL(request.url, "http://localhost").pathname; } catch {}
+    }
+
+    const action = payload?.action || (pathname.endsWith("/accept") ? "accept" : pathname.endsWith("/decline") ? "decline" : pathname.endsWith("/cancel") ? "cancel" : "request");
+
+    if (action === "accept") {
+      const requestId = String(payload?.requestId ?? "").trim();
+      const targetUserId = String(payload?.userId ?? "").trim();
+      const requestIndex = database.friendRequests.findIndex(
+        req => req.toUserId === currentUser.id && req.status === "pending" && (req.id === requestId || req.fromUserId === targetUserId)
+      );
+      if (requestIndex === -1) {
+        return sendJson(response, 404, { message: "Friend request not found or already handled." });
+      }
+      const matched = database.friendRequests[requestIndex];
+      const sender = database.users.find(u => u.id === matched.fromUserId);
+      if (sender) {
+        sender.friendIds = [...new Set([...(sender.friendIds ?? []), currentUser.id])];
+      }
+      currentUser.friendIds = [...new Set([...(currentUser.friendIds ?? []), matched.fromUserId])];
+      database.friendRequests.splice(requestIndex, 1);
+      await writeDatabase(database);
+      return sendJson(response, 200, { message: "Friend request accepted.", ...getPayload() });
+    }
+
+    if (action === "decline") {
+      const requestId = String(payload?.requestId ?? "").trim();
+      const targetUserId = String(payload?.userId ?? "").trim();
+      const requestIndex = database.friendRequests.findIndex(
+        req => req.toUserId === currentUser.id && req.status === "pending" && (req.id === requestId || req.fromUserId === targetUserId)
+      );
+      if (requestIndex === -1) {
+        return sendJson(response, 404, { message: "Friend request not found." });
+      }
+      database.friendRequests.splice(requestIndex, 1);
+      await writeDatabase(database);
+      return sendJson(response, 200, { message: "Friend request declined.", ...getPayload() });
+    }
+
+    if (action === "cancel") {
+      const requestId = String(payload?.requestId ?? "").trim();
+      const targetUserId = String(payload?.userId ?? "").trim();
+      const requestIndex = database.friendRequests.findIndex(
+        req => req.fromUserId === currentUser.id && req.status === "pending" && (req.id === requestId || req.toUserId === targetUserId)
+      );
+      if (requestIndex === -1) {
+        return sendJson(response, 404, { message: "Friend request not found." });
+      }
+      database.friendRequests.splice(requestIndex, 1);
+      await writeDatabase(database);
+      return sendJson(response, 200, { message: "Friend request cancelled.", ...getPayload() });
+    }
+
+    // Default: send friend request
     const targetId = String(payload?.userId ?? "").trim();
     if (!targetId || targetId === currentUser.id) {
       return sendJson(response, 400, { message: "Choose another learner to add as a friend." });
     }
-    if (!database.users.some(user => user.id === targetId)) {
+    const targetUser = database.users.find(user => user.id === targetId);
+    if (!targetUser) {
       return sendJson(response, 404, { message: "That learner could not be found." });
     }
-    if (!friendIds.has(targetId)) {
-      friendIds.add(targetId);
-      currentUser.friendIds = [...friendIds];
-      await writeDatabase(database);
+    const friendIds = new Set(currentUser.friendIds ?? []);
+    if (friendIds.has(targetId)) {
+      return sendJson(response, 400, { message: "You are already friends with this learner." });
     }
+
+    // Check if target user already sent a request to current user -> auto-accept
+    const incomingIndex = database.friendRequests.findIndex(
+      req => req.fromUserId === targetId && req.toUserId === currentUser.id && req.status === "pending"
+    );
+    if (incomingIndex !== -1) {
+      currentUser.friendIds = [...new Set([...(currentUser.friendIds ?? []), targetId])];
+      targetUser.friendIds = [...new Set([...(targetUser.friendIds ?? []), currentUser.id])];
+      database.friendRequests.splice(incomingIndex, 1);
+      await writeDatabase(database);
+      return sendJson(response, 200, { message: "Mutual request accepted! You are now friends.", accepted: true, ...getPayload() });
+    }
+
+    // Check if already requested
+    const alreadySent = database.friendRequests.some(
+      req => req.fromUserId === currentUser.id && req.toUserId === targetId && req.status === "pending"
+    );
+    if (alreadySent) {
+      return sendJson(response, 400, { message: "Friend request already sent." });
+    }
+
+    const reqId = typeof randomBytes === "function" ? randomBytes(8).toString("hex") : ("req_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
+    database.friendRequests.push({
+      id: reqId,
+      fromUserId: currentUser.id,
+      toUserId: targetId,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+    });
+    await writeDatabase(database);
+    return sendJson(response, 200, {
+      message: `Friend request sent to ${targetUser.name}.`,
+      ...getPayload(),
+    });
   }
-  const friends = database.users
-    .filter(user => user.id !== currentUser.id && friendIds.has(user.id))
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(user => sanitizeSearchableUser(user, currentUser.id));
-  return sendJson(response, 200, { friends });
 }
 
 function handleDirectConversationsList(request, response) {
@@ -3550,7 +3679,7 @@ async function handleRequest(request, response) {
       return await handleAdvanceClinicalCaseSession(request, response, clinicalCaseAdvanceMatch[1]);
     }
     if (request.method === "GET" && url.pathname === "/api/users/search") return handleUserSearch(request, response, url);
-    if ((request.method === "GET" || request.method === "POST") && url.pathname === "/api/friends") return await handleFriends(request, response);
+    if ((request.method === "GET" || request.method === "POST") && (url.pathname === "/api/friends" || url.pathname.startsWith("/api/friends/"))) return await handleFriends(request, response, url);
     if (request.method === "GET" && url.pathname === "/api/direct-messages") return handleDirectConversationsList(request, response);
     if (request.method === "POST" && url.pathname === "/api/direct-messages/open")
       return await handleOpenDirectConversation(request, response);

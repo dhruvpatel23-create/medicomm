@@ -1,8 +1,8 @@
 import { useMemo, useRef, useState } from 'react';
-import { ArrowDown, ArrowDownUp, ArrowRight, ArrowUpRight, BookOpen, Brain, Check, ChevronDown, ChevronRight, Compass, FlaskConical, HeartPulse, Loader2, MessageCircle, MessagesSquare, Plus, RefreshCw, Search, Stethoscope, Users } from 'lucide-react';
+import { ArrowDown, ArrowDownUp, ArrowRight, ArrowUpRight, BookOpen, Brain, Check, ChevronDown, ChevronRight, Compass, FlaskConical, HeartPulse, Loader2, MessageCircle, MessagesSquare, Plus, RefreshCw, Search, Stethoscope, UserCheck, UserPlus, Users } from 'lucide-react';
 import { Avatar, EmptyState, SearchField, field, initials, number, socialPage } from './SocialUI';
 import { Button } from './ui/button';
-import { AddFriendDialog, FriendsPanel, useFriends } from './CommunityFriends';
+import { AddFriendDialog, FriendsPanel, RequestsPanel, useFriends } from './CommunityFriends';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from './ui/dropdown-menu';
@@ -126,23 +126,42 @@ export default function CommunityHub(p) {
       <div ref={directory} className="min-w-0 scroll-mt-24">
         <div className="mb-4 flex items-center justify-between gap-3"><div><p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-teal-700 dark:text-teal-300">A little curiosity goes a long way</p><h3 className="text-2xl font-semibold tracking-tight">Discover your next circle</h3></div><Button variant="ghost" size="icon" aria-label="Refresh study rooms" onClick={() => p.onRefresh()} disabled={p.busy}><RefreshCw size={16} className={p.busy ? 'motion-safe:animate-spin' : ''} /></Button></div>
         <Tabs value={filter} onValueChange={setFilter}>
-          <div className="flex items-center gap-3 overflow-x-auto border-b border-slate-200 dark:border-slate-800">
+          <div className="flex min-h-12 items-center justify-between gap-3 overflow-x-auto overflow-y-hidden border-b border-slate-200 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden dark:border-slate-800">
             <TabsList aria-label="Community sections" className="shrink-0 gap-3 border-0 sm:gap-5">
               <TabsTrigger value="all"><Compass size={15} />Explore<span className="rounded-md bg-slate-200/60 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">{p.communities.length}</span></TabsTrigger>
               <TabsTrigger value="joined"><Users size={15} />My rooms<span className="rounded-md bg-slate-200/60 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">{joined.length}</span></TabsTrigger>
               <TabsTrigger value="friends"><Users size={15} />Friends{friendsModel.friends.length > 0 && <span className="rounded-md bg-slate-200/60 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">{friendsModel.friends.length}</span>}</TabsTrigger>
+              <TabsTrigger value="requests">
+                <UserCheck size={15} />Requests
+                {friendsModel.incomingRequests.length > 0 && (
+                  <span className="rounded-md bg-teal-600 px-1.5 py-0.5 text-[10px] font-semibold text-white dark:bg-teal-500">
+                    {friendsModel.incomingRequests.length}
+                  </span>
+                )}
+              </TabsTrigger>
             </TabsList>
-            <AddFriendDialog model={friendsModel} open={addFriendOpen} onOpenChange={setAddFriendOpen} />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setAddFriendOpen(true)}
+              className="shrink-0 gap-1.5 text-xs font-semibold text-teal-700 hover:bg-teal-50 hover:text-teal-800 dark:text-teal-300 dark:hover:bg-teal-950 dark:hover:text-teal-200"
+            >
+              <UserPlus size={15} />
+              Add friend
+            </Button>
           </div>
-          {filter !== 'friends' && <div className="mt-5 flex flex-wrap items-center gap-2"><div className="min-w-0 flex-1 basis-48"><SearchField value={query} onChange={setQuery} placeholder="Search rooms, subjects, or topics" /></div>
+          <AddFriendDialog model={friendsModel} open={addFriendOpen} onOpenChange={setAddFriendOpen} />
+          {filter !== 'friends' && filter !== 'requests' && <div className="mt-5 flex flex-wrap items-center gap-2"><div className="min-w-0 flex-1 basis-48"><SearchField value={query} onChange={setQuery} placeholder="Search rooms, subjects, or topics" /></div>
             <DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" aria-label="Sort study rooms"><ArrowDownUp size={13} />{sortLabels[sort]}<ChevronDown size={13} /></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuRadioGroup value={sort} onValueChange={setSort}>{Object.entries(sortLabels).map(([value, label]) => <DropdownMenuRadioItem key={value} value={value}>{label}</DropdownMenuRadioItem>)}</DropdownMenuRadioGroup></DropdownMenuContent></DropdownMenu>
           </div>}
           <TabsContent value="friends"><FriendsPanel model={friendsModel} onAdd={() => setAddFriendOpen(true)} onMessage={p.onDirect} /></TabsContent>
+          <TabsContent value="requests"><RequestsPanel model={friendsModel} onAdd={() => setAddFriendOpen(true)} /></TabsContent>
           {['all', 'joined'].map(tab => <TabsContent value={tab} key={tab}>
             {p.busy && !p.communities.length ? <div role="status" className="grid grid-cols-1 gap-4 sm:grid-cols-2"><span className="sr-only">Loading study rooms</span>{[0, 1].map(item => <div key={item} className={`${panel} overflow-hidden`}><div className="h-28 bg-slate-200 dark:bg-slate-800 motion-safe:animate-pulse" /><div className="space-y-4 p-5"><div className="h-4 w-3/4 rounded bg-slate-100 dark:bg-slate-800" /><div className="h-16 rounded bg-slate-100 dark:bg-slate-800" /></div></div>)}</div> : rooms.length ? <div className="grid gap-5 sm:grid-cols-2">{rooms.map(room => <RoomCard key={room.id} room={room} onOpen={p.onOpen} onInvite={p.onInvite} />)}</div> : <div className={`${panel} border-dashed`}><EmptyState icon={query ? Search : Compass} title={query ? 'No matching rooms' : filter === 'joined' ? 'Your circle starts here' : 'Every great circle starts with someone.'}>{query ? 'Try a subject or a shorter search.' : filter === 'joined' ? 'Explore the rooms and join a discussion that interests you.' : 'Be the first to bring your study group together.'}<Button variant="ghost" className="mt-4" onClick={() => { if (query || filter === 'joined') { setQuery(''); setFilter('all'); } else setCreateOpen(true); }}>{query ? 'Clear search' : filter === 'joined' ? 'Explore rooms' : 'Create a room'}<ArrowRight size={14} /></Button></EmptyState></div>}
           </TabsContent>)}
         </Tabs>
-        {filter !== 'friends' && <p role="status" className="mt-4 text-xs text-slate-400">{rooms.length} {rooms.length === 1 ? 'circle' : 'circles'}{query ? ` matching “${query}”` : filter === 'joined' ? ' you belong to' : ' to discover'}</p>}
+        {filter !== 'friends' && filter !== 'requests' && <p role="status" className="mt-4 text-xs text-slate-400">{rooms.length} {rooms.length === 1 ? 'circle' : 'circles'}{query ? ` matching “${query}”` : filter === 'joined' ? ' you belong to' : ' to discover'}</p>}
         <button onClick={() => setCreateOpen(true)} className="mt-6 flex w-full items-center gap-4 rounded-2xl border border-dashed border-teal-800/20 bg-[#eef3e9] p-5 text-left transition hover:border-teal-700/50 hover:bg-[#e7efdf] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-teal-600/30 dark:bg-teal-950/30 dark:hover:bg-teal-950/60 motion-reduce:transition-none"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/80 text-teal-800 dark:bg-teal-900 dark:text-teal-200"><Plus size={22} strokeWidth={1.5} /></span><span className="min-w-0 flex-1"><strong className="block text-sm font-semibold text-teal-950 dark:text-teal-100">Can’t find your people? Bring them together.</strong><span className="mt-1 block text-xs leading-relaxed text-teal-800/70 dark:text-teal-200/60">Start a room for your subject, exam, or study group.</span></span><ArrowUpRight size={20} className="shrink-0 text-teal-700 dark:text-teal-300" /></button>
       </div>
 

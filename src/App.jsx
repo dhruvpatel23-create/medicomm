@@ -800,7 +800,6 @@ function App() {
   const homeStats = useMemo(
     () => [
       { icon: "MCQ", value: formatStatValue(platformSummary.practiceQuestions), label: "Medical MCQs", tint: "blue" },
-      { icon: "ACT", value: formatStatValue(platformSummary.users), label: "Registered learners", tint: "green" },
       { icon: "HUB", value: formatStatValue(platformSummary.communities), label: "Communities", tint: "purple" },
     ],
     [platformSummary],
@@ -5035,17 +5034,10 @@ async function fetchPracticeLibrary() {
       { name: "Ultra", price: "₹999", cadence: "/ year", copy: "For MBBS students preparing consistently throughout the year.", features: ["Unlimited Battle Points", "Create Communities", "Custom Battles", "Detailed Analytics", "Explanation Access", "Unlock Any 3 Subjects"], action: "Choose Ultra", featured: true },
       { name: "Premium", price: "₹1499", cadence: "/ year", copy: "Built for serious NEET PG aspirants.", features: ["All Subjects Unlocked", "Custom Modules", "Custom Practice", "NEET PG Exam Mode", "Clinical Cases", "Everything in Ultra"], action: "Go Premium" },
     ];
-    const assurances = [
-      ["◇", "Secure & Trusted", "Your data is safe with us."],
-      ["↻", "Cancel Anytime", "No questions asked."],
-      ["☏", "24/7 Support", "We're here to help."],
-      ["✪", "Loved by Medicos", "Join thousands of students."],
-    ];
     return (
       <section className="app-view pricing-page">
         <div className="pricing-hero"><p className="eyebrow">Simple, affordable pricing</p><h2>Master Medicine,<br/>One Question at a Time<span>.</span></h2><p>Practice consistently, compete with friends, analyze your weaknesses, and prepare confidently for university exams and NEET PG.</p><div className="billing-toggle"><span>Annual plans · one-time payment</span></div></div>
         <div className="pricing-grid">{plans.map((plan) => <article className={`pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">★ Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} onClick={() => { setPaymentPlanId(plan.name.toLowerCase()); document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" }); }}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul></article>)}</div>
-        <div className="pricing-assurance-strip">{assurances.map(([icon, title, copy]) => <div key={title}><span>{icon}</span><strong>{title}</strong><small>{copy}</small></div>)}</div>
         <article className="card panel payment-gateway-section" id="payment-gateway">
           <div className="payment-copy"><p className="eyebrow">Razorpay Checkout</p><h3>Complete your payment securely</h3><p className="panel-copy">Choose a plan above, then pay using Razorpay. Your payment is confirmed by our server and saved to your account.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
           <RazorpayCheckout key={user?.id || "guest"} plan={PAYMENT_PLANS.find(plan => plan.id === paymentPlanId)} user={user} guest={authStatus !== "authenticated"} onVerified={payment => { if (payment.hasPracticeAccess) { setUser(current => current?.id === user?.id ? { ...current, hasPracticeAccess: true } : current); setPracticeLibraryStatus("idle"); } }} />
