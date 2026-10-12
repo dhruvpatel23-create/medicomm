@@ -7,6 +7,7 @@ import CommunityHub from "./components/CommunityHub";
 import { socialPage, surface as socialSurface, primary as socialPrimary, secondary as socialSecondary, field as socialField, avatar as socialAvatar } from "./components/SocialUI";
 import PracticeSelection from "./components/PracticeSelection";
 import PracticeSubjectDirectory from "./components/PracticeSubjectDirectory";
+import CustomModules from "./components/CustomModules";
 import UsmleModules from "./components/UsmleModules";
 import FmgeYears from "./components/FmgeYears";
 import ShortNotes from "./components/ShortNotes";
@@ -699,7 +700,8 @@ function App() {
       : null;
   const basePracticeQuestions =
     selectedPracticeMode !== "pyq" && selectedPracticeTopic
-      ? (currentPracticeSubject?.questions ?? []).filter((question) => question.topic === selectedPracticeTopic)
+      ? (currentPracticeSubject?.questions ?? []).filter((question) => question.topic === selectedPracticeTopic
+          && (selectedPracticeMode !== "ai" || !selectedPracticeChapter || (question.chapterTitle || "General Pathology") === selectedPracticeChapter))
       : currentPracticeQuestionSet?.questions ?? currentPracticeSubject?.questions ?? [];
   const currentPracticeQuestions =
     selectedPracticeMode === "usmle" && usmlePracticeQuestionIds.length
@@ -1387,8 +1389,38 @@ async function fetchPracticeLibrary() {
   }
 
   function handleSelectPracticeSubject(subjectId) {
+    if (practicePathTitle === "TOPIC WISE questions") {
+      if (aiPracticeQuestionCountsBySubject[subjectId] > 0) handleStartAiPractice(subjectId);
+      return;
+    }
     setPracticeChoicePanel("formats");
     setPracticeChoiceSubjectId(subjectId);
+  }
+
+  function handleCustomModuleComplete(session) {
+    const answeredAt = new Date(session.finishedAt).toISOString();
+    const answered = session.questions.filter(question => Number.isInteger(session.answers[question.id]));
+    const durationSeconds = Math.max(1, Math.min(1800, Math.round((session.finishedAt - session.startedAt) / 1000 / Math.max(1, answered.length))));
+    const events = answered.map((question, index) => ({
+      id: `${session.id}-${index}`, questionId: question.id, subjectId: question.subjectId,
+      subject: question.subjectTitle, topic: question.topic, activity: "revision", answeredAt,
+      correct: session.answers[question.id] === question.answerIndex, durationSeconds,
+    }));
+    setAnalyticsEvents(current => {
+      const next = [...current, ...events];
+      writeAnalyticsEvents(user, next);
+      return next;
+    });
+    setPracticeProgress(current => {
+      const next = { ...current };
+      for (const event of events) next[event.questionId] = { answeredAt, correct: event.correct, subjectId: event.subjectId };
+      writePracticeProgress(user, next);
+      return next;
+    });
+    for (const [index, question] of answered.entries()) practiceSync.record({
+      id: `${session.id}-${index}`, questionId: question.id, subjectId: question.subjectId,
+      mode: "ai", selectedAnswer: question.options[session.answers[question.id]], durationSeconds,
+    });
   }
 
   function closePracticeChoice() {
@@ -1620,7 +1652,7 @@ async function fetchPracticeLibrary() {
   }
 
   function handleStartAiPractice(subjectId) {
-    const subject = practiceSubjects.find((entry) => entry.id === subjectId);
+    const subject = aiPracticeSubjects.find((entry) => entry.id === subjectId);
     if (!subject) return;
 
     setAiPracticeMessage("");
@@ -2886,11 +2918,12 @@ async function fetchPracticeLibrary() {
   function renderPractice() {
     if (!user?.hasPracticeAccess) return renderPracticeLock();
     const isTheory = practicePathTitle === "THEORY";
-    const catalogTitle = isTheory ? "Cases and short notes by subject" : `${practiceLibrary.exam.title} by year and subject`;
+    const isTopicWise = practicePathTitle === "TOPIC WISE questions";
+    const catalogTitle = isTheory ? "Cases and short notes by subject" : isTopicWise ? "Topic-wise questions by subject" : `${practiceLibrary.exam.title} by year and subject`;
     if (practiceStage === "selection") {
       return <PracticeSelection onSelect={(title, id) => {
         setPracticePathTitle(title);
-        setPracticeStage(id === "usmle" ? "usmle-modules" : id === "fmge" ? "fmge-years" : "catalog");
+        setPracticeStage(id === "usmle" ? "usmle-modules" : id === "fmge" ? "fmge-years" : id === "custom-modules" ? "custom-modules" : "catalog");
         scrollPracticeViewToTop();
       }} />;
     }
@@ -2953,6 +2986,12 @@ async function fetchPracticeLibrary() {
           </article>
         </section>
       );
+    }
+
+    if (practiceStage === "custom-modules") {
+      return <CustomModules key={user.id} subjects={aiPracticeSubjects} userId={user.id}
+        onBack={() => { setPracticeStage("selection"); scrollPracticeViewToTop(); }}
+        onComplete={handleCustomModuleComplete} syncMessage={practiceSync.message} />;
     }
 
     if (!practiceSubjects.length && !currentPracticeSubject?.moduleNumber && selectedPracticeMode !== "fmge") {
@@ -4065,6 +4104,7 @@ async function fetchPracticeLibrary() {
           <div>
             <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
             <h2>{catalogTitle}</h2>
+            {isTopicWise && <p className="view-subtitle">Choose a subject, then a chapter and topic to practise prepared questions.</p>}
           </div>
           <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
             Back
@@ -4237,12 +4277,13 @@ async function fetchPracticeLibrary() {
                     <button
                       key={subject.id}
                       className="practice-subject-card"
+                      disabled={isTopicWise && aiQuestionCount === 0}
                       onClick={() => handleSelectPracticeSubject(subject.id)}
                     >
                       <span className="practice-subject-label">{subject.title}</span>
-                      <p className="practice-subject-copy">{isTheory ? "Study this subject through cases and short notes." : "Choose PYQs, topic-wise questions, USMLE practice, Mind Maps, an AI viva, or Clinical Cases."}</p>
+                      <p className="practice-subject-copy">{isTheory ? "Study this subject through cases and short notes." : isTopicWise ? aiQuestionCount ? "Browse chapters, choose a topic, and practise its questions." : "Topic-wise questions are being prepared." : "Choose PYQs, topic-wise questions, USMLE practice, Mind Maps, an AI viva, or Clinical Cases."}</p>
                       <span className="practice-subject-counts">
-                        {isTheory ? <><strong>Cases</strong><strong>Short Notes</strong></> : <><strong>{subject.questions.length} PYQs</strong><strong>{aiQuestionCount} Topic Wise</strong></>}
+                        {isTheory ? <><strong>Cases</strong><strong>Short Notes</strong></> : isTopicWise ? <strong>{aiQuestionCount ? `${aiQuestionCount} questions` : "Coming soon"}</strong> : <><strong>{subject.questions.length} PYQs</strong><strong>{aiQuestionCount} Topic Wise</strong></>}
                       </span>
                     </button>
                   );
@@ -4267,12 +4308,13 @@ async function fetchPracticeLibrary() {
                     <button
                       key={subject.id}
                       className="practice-subject-card"
+                      disabled={isTopicWise && aiQuestionCount === 0}
                       onClick={() => handleSelectPracticeSubject(subject.id)}
                     >
                       <span className="practice-subject-label">{subject.title}</span>
                       <p className="practice-subject-copy">Practise topic-wise questions.</p>
                       <span className="practice-subject-counts">
-                        <strong>{aiQuestionCount} Topic Wise</strong>
+                        <strong>{isTopicWise && !aiQuestionCount ? "Coming soon" : `${aiQuestionCount} Topic Wise`}</strong>
                       </span>
                     </button>
                   );
@@ -5035,7 +5077,7 @@ async function fetchPracticeLibrary() {
         return <div className="app-view"><WebsiteReviews canReview={authStatus === "authenticated"} onSignIn={handleLogout} /></div>;
       case "Practice":
         return <>
-          {!["selection", "usmle-modules", "fmge-years"].includes(practiceStage) && !(practiceStage === "catalog" && practicePathTitle === "NEET PG / INICET") && <div className="practice-path-breadcrumb">
+          {!["selection", "usmle-modules", "fmge-years", "custom-modules"].includes(practiceStage) && !(practiceStage === "catalog" && practicePathTitle === "NEET PG / INICET") && <div className="practice-path-breadcrumb">
             <button type="button" className="text-button" onClick={() => setActiveView("Practice")}>← All practice options</button>
             {practicePathTitle && <span>{practicePathTitle} practice</span>}
           </div>}

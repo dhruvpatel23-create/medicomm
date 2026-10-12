@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import http from "node:http";
+import net from "node:net";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -8,26 +8,16 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 const windowsCommandShell = process.env.ComSpec || "C:\\Windows\\System32\\cmd.exe";
 
-function isPortResponsive(port) {
+function isPortInUse(port) {
   return new Promise((resolve) => {
-    const request = http.get(
-      {
-        host: "127.0.0.1",
-        port,
-        path: "/",
-        timeout: 1000,
-      },
-      () => {
-        request.destroy();
-        resolve(true);
-      },
-    );
-
-    request.on("error", () => resolve(false));
-    request.on("timeout", () => {
-      request.destroy();
-      resolve(false);
-    });
+    // A slow first page load still means the port is occupied. Do not launch a
+    // second frontend that could fall back onto the API's port.
+    const socket = net.createConnection({ host: "127.0.0.1", port });
+    const finish = (inUse) => { socket.destroy(); resolve(inUse); };
+    socket.setTimeout(1000);
+    socket.once("connect", () => finish(true));
+    socket.once("error", () => finish(false));
+    socket.once("timeout", () => finish(true));
   });
 }
 
@@ -53,8 +43,8 @@ function shutdown(exitCode = 0) {
 }
 
 async function main() {
-  const hasExistingServer = await isPortResponsive(4174);
-  const hasExistingClient = await isPortResponsive(4173);
+  const hasExistingServer = await isPortInUse(4174);
+  const hasExistingClient = await isPortInUse(4173);
 
   if (!hasExistingServer) {
     serverProcess = spawn("node", ["--watch", "server.mjs"], {
