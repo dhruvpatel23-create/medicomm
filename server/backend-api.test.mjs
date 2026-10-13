@@ -53,6 +53,10 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   const result = await signup.json();
   assert.equal(result.token, undefined);
   assert.equal(result.user.passwordHash, undefined);
+  assert.equal(result.user.username, payload.name);
+  const duplicate = await call('/api/auth/signup', 'POST', { ...payload, username: ' test  LEARNER ', email: 'other@example.test', contactNumber: '9000000002' });
+  assert.equal(duplicate.status, 409);
+  assert.match((await duplicate.json()).message, /username is already taken/);
   cookie = signup.headers.get('set-cookie').split(';')[0];
   assert.match(signup.headers.get('set-cookie'), /HttpOnly/);
   assert.equal((await call('/api/auth/session')).status, 200);
@@ -84,6 +88,9 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   cookie = unpaidCookie;
   assert.equal(JSON.stringify(saved).includes(cookie.split('=')[1]), false);
   const image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=';
+  const duplicateProfile = await call('/api/profile', 'PATCH', { ...payload, name: 'paid learner' });
+  assert.equal(duplicateProfile.status, 409);
+  assert.match((await duplicateProfile.json()).message, /username is already taken/);
   const profile = await call('/api/profile', 'PATCH', { ...payload, profileImageDataUrl: image });
   assert.equal(profile.status, 200);
   const imageUrl = (await profile.json()).user.profileImageUrl;

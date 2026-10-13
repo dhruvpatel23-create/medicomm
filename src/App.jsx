@@ -2670,6 +2670,7 @@ async function fetchPracticeLibrary() {
       authMode === "signup"
         ? {
             ...authForm,
+            username: authForm.name,
             medicalCollege: authForm.medicalState === ABROAD_STATE ? ABROAD_STATE : authForm.medicalCollege,
           }
         : {
@@ -2845,14 +2846,17 @@ async function fetchPracticeLibrary() {
             {isSignup ? (
               <>
                 <label className="field">
-                  <span>Name</span>
+                  <span>Username</span>
                   <input
                     type="text"
                     autoComplete="off"
                     value={authForm.name}
+                    maxLength={254}
+                    required
                     onChange={(event) => updateAuthField("name", event.target.value)}
-                    placeholder="Enter your full name"
+                    placeholder="Choose a unique username"
                   />
+                  <small>Your username must be unique. Capitalisation does not make it different.</small>
                 </label>
                 <div className="auth-location-fields">
                   <label className="field">
@@ -5079,10 +5083,12 @@ async function fetchPracticeLibrary() {
             <h3>Personal details</h3>
             <form className="profile-form" onSubmit={handleProfileSave}>
               <label className="field">
-                <span>Name</span>
+                <span>Username</span>
                 <input
                   type="text"
                   value={profileState.name}
+                  maxLength={254}
+                  required
                   onChange={(event) => updateProfileField("name", event.target.value)}
                 />
               </label>

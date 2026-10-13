@@ -23,6 +23,7 @@ import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mj
 import { dashboardData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
 import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
 import { reconcileSubscriptions, subscriptionDetails } from "./server/subscriptions.mjs";
+import { cleanUsername, requireAvailableUsername, reconcileUsernames, assertUniqueUsernames } from "./server/usernames.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -294,6 +295,7 @@ async function initializeDatabaseStore() {
     revision: loaded.revision,
     reload: isSupabaseEnabled ? readSupabaseDatabase : undefined,
     persist: async (data, revision) => {
+      assertUniqueUsernames(data);
       if (isSupabaseEnabled) await writeSupabaseDatabase(data, revision);
       else {
         const temporary = `${databasePath}.tmp`;
@@ -303,7 +305,9 @@ async function initializeDatabaseStore() {
     },
   });
   const subscriptionSnapshot = stateStore.read();
-  if (reconcileSubscriptions(subscriptionSnapshot)) await stateStore.write(subscriptionSnapshot);
+  const subscriptionsChanged = reconcileSubscriptions(subscriptionSnapshot);
+  const usernamesChanged = reconcileUsernames(subscriptionSnapshot);
+  if (subscriptionsChanged || usernamesChanged) await stateStore.write(subscriptionSnapshot);
   await uploads.check();
   storageStatus.loadedAt = new Date().toISOString();
   storageStatus.lastWriteStatus = 'loaded';
@@ -2205,6 +2209,7 @@ function sanitizeUser(user) {
     subscription: membership.plan || null,
     id: user.id,
     name: user.name,
+    username: user.username ?? user.name,
     email: user.email,
     medicalCollege: user.medicalCollege,
     contactNumber: user.contactNumber,
@@ -2370,7 +2375,7 @@ function getSessionUser(request, database) { return sessionUser(request, databas
 
 function validateSignupPayload(payload) {
   const requiredFields = [
-    ["name", "Name"],
+    ["name", "Username"],
     ["email", "Email"],
     ["medicalCollege", "Medical college"],
     ["contactNumber", "Contact number"],
@@ -2413,13 +2418,16 @@ async function handlePublicUserProfile(request, response, userId) {
 }
 
 async function handleSignup(request, response) {
-  const database = readDatabase();
   const payload = await parseRequestBody(request);
+  const database = readDatabase();
+  payload.name = payload.username ?? payload.name;
   const validationMessage = validateSignupPayload(payload);
 
   if (validationMessage) {
     return sendJson(response, 400, { message: validationMessage });
   }
+
+  requireAvailableUsername(database.users, payload.name);
 
   const email = String(payload.email).trim().toLowerCase();
   const contactNumber = normalizeContactNumber(payload.contactNumber);
@@ -2433,7 +2441,8 @@ async function handleSignup(request, response) {
   const { hash, salt, iterations } = await hashPassword(String(payload.password));
   const user = {
     id: randomBytes(12).toString("hex"),
-    name: String(payload.name).trim(),
+    name: cleanUsername(payload.name),
+    username: cleanUsername(payload.name),
     email,
     medicalCollege: String(payload.medicalCollege).trim(),
     contactNumber,
@@ -2451,7 +2460,12 @@ async function handleSignup(request, response) {
 
   database.users.push(user);
   const token = issueSession(database, user.id);
-  await writeDatabase(database);
+  try {
+    await writeDatabase(database);
+  } catch (error) {
+    if (error.status === 409) requireAvailableUsername(readDatabase().users, user.username);
+    throw error;
+  }
 
   return sendJson(response, 201, {
     user: sanitizeUser(user),
@@ -2526,19 +2540,20 @@ async function handleProfileUpdate(request, response) {
   }
 
   const payload = await parseRequestBody(request);
-  const name = String(payload.name ?? "").trim();
+  const name = cleanUsername(payload.username ?? payload.name);
   const medicalCollege = String(payload.medicalCollege ?? "").trim();
   const contactNumber = String(payload.contactNumber ?? "").trim();
   const normalizedContactNumber = normalizeContactNumber(contactNumber);
 
   if (!name || !medicalCollege || !normalizedContactNumber) {
-    return sendJson(response, 400, { message: "Name, medical college, and contact number are required." });
+    return sendJson(response, 400, { message: "Username, medical college, and contact number are required." });
   }
   if (normalizedContactNumber.length < 8) {
     return sendJson(response, 400, { message: "Enter a valid mobile number." });
   }
 
   const userIndex = database.users.findIndex((user) => user.id === sessionUser.id);
+  requireAvailableUsername(database.users, name, sessionUser.id);
   if (
     database.users.some(
       (user) => user.id !== sessionUser.id && normalizeContactNumber(user.contactNumber) === normalizedContactNumber,
@@ -2549,6 +2564,7 @@ async function handleProfileUpdate(request, response) {
   const updatedUser = {
     ...database.users[userIndex],
     name,
+    username: name,
     medicalCollege,
     contactNumber: normalizedContactNumber,
   };
