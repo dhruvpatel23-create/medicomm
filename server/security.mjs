@@ -60,7 +60,9 @@ export function issueSession(database, userId, now = Date.now()) {
   const own = Object.entries(database.sessions).filter(([, s]) => s.userId === userId).sort((a, b) => a[1].expiresAt - b[1].expiresAt);
   for (const [key] of own.slice(0, Math.max(0, own.length - 4))) delete database.sessions[key];
   const token = randomBytes(32).toString('hex');
-  database.sessions[sessionHash(token)] = { userId, expiresAt: now + SESSION_SECONDS * 1000 };
+  database.sessions[sessionHash(token)] = { userId, createdAt: new Date(now).toISOString(), expiresAt: now + SESSION_SECONDS * 1000 };
+  const user = database.users.find(item => item.id === userId);
+  if (user) user.lastLoginAt = new Date(now).toISOString();
   return token;
 }
 export function sessionToken(request) {

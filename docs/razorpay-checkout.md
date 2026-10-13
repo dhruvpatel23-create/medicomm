@@ -33,7 +33,7 @@ Add the two credentials to Render, enable automatic payment capture in Razorpay,
 and redeploy. For real payments, replace both test credentials with the matching
 live pair. Never put the secret in a VITE_ variable or commit `.env`.
 
-Apply PRELAUNCH on Pricing to reduce Lite from ₹499 to ₹69 (6900 paise), Ultra from ₹999 to ₹99 (9900 paise), and Premium from ₹1499 to ₹149 (14900 paise). The server calculates the discounted total and sends that same amount to Razorpay when creating the order.
+Apply TEST1 on Pricing to reduce Lite from ₹499 to ₹69 (6900 paise), Ultra from ₹999 to ₹99 (9900 paise), and Premium from ₹1499 to ₹149 (14900 paise). The server calculates the discounted total and sends that same amount to Razorpay when creating the order.
 POST `/api/payment-quote` validates the code; order creation validates it again.
 Only a captured payment with a verified signature grants Practice access and a
 golden avatar. Access is derived from saved orders on each session/API request;

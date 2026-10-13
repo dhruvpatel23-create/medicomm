@@ -66,22 +66,31 @@ test('authorized remains pending, captured is paid, repeated verification is saf
   assert.equal(hasPracticeAccess(f.state(), 'one'), false);
   f.status('captured');
   assert.equal((await f.call('/api/verify-payment', f.signed())).body.paid, true);
+  const firstPurchase = f.state().paymentOrders[0].purchasedAt;
+  const firstExpiry = f.state().paymentOrders[0].expiresAt;
   assert.equal((await f.call('/api/verify-payment', f.signed())).body.paid, true);
+  assert.equal(f.state().paymentOrders[0].purchasedAt, firstPurchase);
+  assert.equal(f.state().paymentOrders[0].expiresAt, firstExpiry);
+  assert.equal(f.state().users[0].subscriptionExpiresAt, firstExpiry);
   assert.equal(f.state().paymentOrders.length, 1);
   assert.equal(f.state().paymentOrders[0].paymentId, 'pay_test123');
   assert.equal(hasPracticeAccess(f.state(), 'one'), true);
   assert.equal(hasPracticeAccess(f.state(), 'two'), false);
 });
 
-test('PRELAUNCH sends each discounted price to Razorpay and rejects forged or stale amounts', async () => {
+test('TEST1 sends each discounted price to Razorpay and rejects forged or stale amounts', async () => {
   for (const [planId, originalAmount, amount] of [['lite', 49900, 6900], ['ultra', 99900, 9900], ['premium', 149900, 14900]]) {
     assert.equal(paymentQuote({ planId }).amount, originalAmount);
     const f = fixture();
-    const quote = await f.call('/api/payment-quote', { planId, coupon: ' prelaunch ' });
-    assert.deepEqual(quote.body, { planId, originalAmount, amount, currency: 'INR', coupon: 'PRELAUNCH' });
-    const discounted = { planId, amount, currency: 'INR', coupon: 'PRELAUNCH' };
+    const quote = await f.call('/api/payment-quote', { planId, coupon: ' test1 ' });
+    assert.deepEqual(quote.body, { planId, originalAmount, amount, currency: 'INR', coupon: 'TEST1' });
+    const discounted = { planId, amount, currency: 'INR', coupon: 'TEST1' };
     await rejects(f.call('/api/create-order', { ...discounted, coupon: '' }), 400);
     await rejects(f.call('/api/create-order', { ...discounted, coupon: 'FAKE' }), 400);
+    for (const expiredCode of ['PRELAUNCH', ' prelaunch ']) {
+      await rejects(f.call('/api/payment-quote', { planId, coupon: expiredCode }), 400);
+      await rejects(f.call('/api/create-order', { ...discounted, coupon: expiredCode }), 400);
+    }
     for (const invalidAmount of [100, 900, originalAmount, ...[6900, 9900, 14900].filter(price => price !== amount)]) {
       await rejects(f.call('/api/create-order', { ...discounted, amount: invalidAmount }), 400);
     }
@@ -92,7 +101,7 @@ test('PRELAUNCH sends each discounted price to Razorpay and rejects forged or st
     assert.equal(f.gatewayOrder().currency, 'INR');
     assert.equal(f.state().paymentOrders[0].amount, amount);
     assert.equal(f.state().paymentOrders[0].originalAmount, originalAmount);
-    assert.equal(f.state().paymentOrders[0].coupon, 'PRELAUNCH');
+    assert.equal(f.state().paymentOrders[0].coupon, 'TEST1');
     assert.equal(hasPracticeAccess(f.state(), 'one'), false);
     f.amount(originalAmount);
     await rejects(f.call('/api/verify-payment', f.signed()), 400);

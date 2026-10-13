@@ -2,20 +2,18 @@ import Razorpay from 'razorpay';
 import { createHmac, timingSafeEqual, randomUUID } from 'node:crypto';
 import { HttpError } from './security.mjs';
 import { PAYMENT_PLANS } from '../src/data/paymentPlans.js';
+import { annualExpiry, reconcileSubscriptions, subscriptionDetails } from './subscriptions.mjs';
 
 export function hasPracticeAccess(database, userId) {
-  if (!userId) return false;
-  const user = (database.users ?? []).find(item => item.id === userId);
-  if (user && (user.hasPracticeAccess || user.isSubscribed || user.subscription || user.plan)) return true;
-  return Boolean((database.paymentOrders ?? []).some(order => order.userId === userId && order.status === 'paid' && order.paymentId && order.verifiedAt));
+  return subscriptionDetails(database, userId).hasPracticeAccess;
 }
 
 export function paymentQuote(payload) {
   const plan = PAYMENT_PLANS.find(item => item.id === payload.planId);
   if (!plan) throw new HttpError(400, 'Choose a valid plan.');
   const coupon = String(payload.coupon ?? '').trim().toUpperCase();
-  if (coupon && coupon !== 'PRELAUNCH') throw new HttpError(400, 'That coupon code is not valid.');
-  return { planId: plan.id, originalAmount: plan.amount, amount: coupon ? plan.prelaunchAmount : plan.amount, currency: plan.currency, coupon };
+  if (coupon && coupon !== 'TEST1') throw new HttpError(400, 'That coupon code is not valid.');
+  return { planId: plan.id, originalAmount: plan.amount, amount: coupon ? plan.discountedAmount : plan.amount, currency: plan.currency, coupon };
 }
 
 export function validPaymentSignature(orderId, paymentId, signature, secret) {
@@ -72,11 +70,18 @@ export function createPaymentHandler({ readDatabase, writeDatabase, requireSessi
     if (order.paymentId && order.paymentId !== paymentId) throw new HttpError(400, 'This order already has a verified payment.');
     order.paymentId = paymentId;
     order.signature = signature;
-    order.status = payment.status === 'captured' ? 'paid' : 'authorized';
-    order.verifiedAt = new Date().toISOString();
+    order.status = order.status === 'paid' || payment.status === 'captured' ? 'paid' : 'authorized';
+    order.verifiedAt ||= new Date().toISOString();
+    if (order.status === 'paid' && !order.purchasedAt) {
+      const providerTime = Number.isFinite(payment.created_at) && payment.created_at > 0 ? payment.created_at * 1000 : null;
+      order.purchasedAt = providerTime ? new Date(providerTime).toISOString() : order.verifiedAt;
+      order.purchaseDateSource = providerTime ? 'razorpay_payment' : 'saved_verification';
+      order.expiresAt = annualExpiry(order.purchasedAt);
+    }
+    reconcileSubscriptions(database);
     await writeDatabase(database);
     return sendJson(response, 200, { success: true, paid: order.status === 'paid', status: order.status,
-      hasPracticeAccess: hasPracticeAccess(database, user.id),
+      ...subscriptionDetails(database, user.id),
       order_id: order.orderId, payment_id: paymentId, planId: order.planId, test_mode: order.testMode });
   };
 }

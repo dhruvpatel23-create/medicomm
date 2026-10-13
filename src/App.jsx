@@ -3062,7 +3062,7 @@ async function fetchPracticeLibrary() {
   }
 
   function renderPracticeLock() {
-    return <section className="app-view"><div className="practice-access-lock"><span className="lock-symbol" aria-hidden="true">🔒</span><p className="eyebrow">Your next chapter starts here</p><h2>Unlock your practice journey</h2><p>Get access to questions, theory and saved practice after your payment is verified. Use <strong>PRELAUNCH</strong> at checkout to start for just <strong>₹9</strong>.</p><button className="button button-primary" onClick={() => setActiveView("Pricing")}>View plans &amp; unlock Practice</button></div></section>;
+    return <section className="app-view"><div className="practice-access-lock"><span className="lock-symbol" aria-hidden="true">🔒</span><p className="eyebrow">Your next chapter starts here</p><h2>Unlock your practice journey</h2><p>Get access to questions, theory and saved practice after your payment is verified. Use <strong>TEST1</strong> at checkout to start for just <strong>₹69</strong>.</p><button className="button button-primary" onClick={() => setActiveView("Pricing")}>View plans &amp; unlock Practice</button></div></section>;
   }
 
   function renderPractice() {
@@ -5066,6 +5066,14 @@ async function fetchPracticeLibrary() {
           onPhoto={handleProfilePhotoChange} onSavePhoto={() => handleProfileSave(null, true)}
           onCancelPhoto={() => { updateProfileField("profileImageDataUrl", ""); setProfileMessage(""); }}
           onLogout={handleLogout} message={profileMessage} />
+        {authStatus !== "guest" && (user?.hasPracticeAccess || user?.subscriptionExpiresAt) && <article className="card panel">
+          <h3>Your subscription</h3>
+          <div className="stack-list">
+            {user.subscriptionPurchasedAt && <div className="stack-row"><span>Purchased on</span><strong>{new Date(user.subscriptionPurchasedAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' })}</strong></div>}
+            <div className="stack-row"><span>{user.subscriptionStatus === 'expired' ? 'Expired on' : 'Expires on'}</span><strong>{user.subscriptionExpiresAt ? new Date(user.subscriptionExpiresAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' }) : 'Purchase date awaiting verification'}</strong></div>
+          </div>
+          <p className="panel-copy">{user.subscriptionExpiresAt ? 'Your annual membership dates are saved to your account.' : 'Your existing access is preserved while the purchase date is confirmed.'}</p>
+        </article>}
         <div className="content-grid profile-layout">
           <article className="card panel">
             <h3>Personal details</h3>
@@ -5193,7 +5201,7 @@ async function fetchPracticeLibrary() {
         <div className="pricing-grid">{plans.map((plan) => <article className={`pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">★ Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} onClick={() => { setPaymentPlanId(plan.name.toLowerCase()); document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" }); }}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul></article>)}</div>
         <article className="card panel payment-gateway-section" id="payment-gateway">
           <div className="payment-copy"><p className="eyebrow">Razorpay Checkout</p><h3>Complete your payment securely</h3><p className="panel-copy">Choose a plan above, then pay using Razorpay. Your payment is confirmed by our server and saved to your account.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
-          <RazorpayCheckout key={user?.id || "guest"} plan={PAYMENT_PLANS.find(plan => plan.id === paymentPlanId)} user={user} guest={authStatus !== "authenticated"} onVerified={payment => { if (payment.hasPracticeAccess) { setUser(current => current?.id === user?.id ? { ...current, hasPracticeAccess: true } : current); setPracticeLibraryStatus("idle"); } }} />
+          <RazorpayCheckout key={user?.id || "guest"} plan={PAYMENT_PLANS.find(plan => plan.id === paymentPlanId)} user={user} guest={authStatus !== "authenticated"} onVerified={payment => { if (payment.hasPracticeAccess) { setUser(current => current?.id === user?.id ? { ...current, hasPracticeAccess: true, subscriptionPurchasedAt: payment.subscriptionPurchasedAt, subscriptionExpiresAt: payment.subscriptionExpiresAt, subscriptionStatus: payment.subscriptionStatus, plan: payment.plan } : current); setPracticeLibraryStatus("idle"); } }} />
         </article>
         <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using Medulla for free?</summary><p>Yes. Core daily practice and community features remain available on the free plan.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Razorpay collects payment details securely. Medulla stores the order and verified payment status.</p></details></div>
       </section>

@@ -22,6 +22,7 @@ import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextboo
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
 import { dashboardData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
 import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
+import { reconcileSubscriptions, subscriptionDetails } from "./server/subscriptions.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -263,6 +264,24 @@ async function writeSupabaseDatabase(data, revision) {
   const rows = await response.json();
   if (!Array.isArray(rows) || rows.length !== 1) throw new HttpError(409, 'Data changed on another server. Please try again.');
 
+  // The database ledger may restore membership dates omitted by an older writer.
+  const savedUsers = new Map((rows[0].data?.users ?? []).map(user => [user.id, user]));
+  const savedOrders = new Map((rows[0].data?.paymentOrders ?? []).map(order => [order.orderId, order]));
+  for (const order of data.paymentOrders ?? []) {
+    const saved = savedOrders.get(order.orderId);
+    if (!saved?.purchasedAt) continue;
+    for (const key of ['purchasedAt', 'expiresAt', 'purchaseDateSource']) {
+      if (saved[key] !== undefined) order[key] = saved[key];
+    }
+  }
+  for (const user of data.users ?? []) {
+    const saved = savedUsers.get(user.id);
+    if (!saved?.subscriptionOrderId) continue;
+    for (const key of ['subscriptionPurchasedAt', 'subscriptionExpiresAt', 'subscriptionOrderId', 'plan']) {
+      if (saved[key] !== undefined) user[key] = saved[key];
+    }
+  }
+
   storageStatus.lastWriteAt = new Date().toISOString();
   storageStatus.lastWriteStatus = "ok";
   storageStatus.lastError = null;
@@ -283,13 +302,15 @@ async function initializeDatabaseStore() {
       }
     },
   });
+  const subscriptionSnapshot = stateStore.read();
+  if (reconcileSubscriptions(subscriptionSnapshot)) await stateStore.write(subscriptionSnapshot);
   await uploads.check();
   storageStatus.loadedAt = new Date().toISOString();
   storageStatus.lastWriteStatus = 'loaded';
 }
 
 function readDatabase() { return stateStore.read(); }
-function writeDatabase(data) { return stateStore.write(data); }
+function writeDatabase(data) { reconcileSubscriptions(data); return stateStore.write(data); }
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
 const handlePayment = createPaymentHandler({ readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson });
@@ -2174,12 +2195,14 @@ async function verifyPassword(password, salt, expectedHash, iterations = LEGACY_
 }
 
 function sanitizeUser(user) {
-  const practiceAccess = hasPracticeAccess(readDatabase(), user.id);
+  const membership = subscriptionDetails(readDatabase(), user.id);
+  const practiceAccess = membership.hasPracticeAccess;
   return {
+    ...membership,
     hasPracticeAccess: practiceAccess,
     isSubscribed: practiceAccess,
-    plan: user.plan || (practiceAccess ? 'ultra' : null),
-    subscription: user.subscription || (practiceAccess ? 'ultra' : null),
+    plan: membership.plan || null,
+    subscription: membership.plan || null,
     id: user.id,
     name: user.name,
     email: user.email,

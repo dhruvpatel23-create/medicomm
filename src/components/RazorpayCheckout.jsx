@@ -98,7 +98,7 @@ export default function RazorpayCheckout({ plan, user, guest, onVerified }) {
       {couponMessage && <p role="status" className="checkout-coupon-feedback">{couponMessage}</p>}
     </form>
     {quote && <div><span>Plan price</span><del>₹{plan.amount / 100}</del></div>}
-    {quote && <div className="checkout-savings"><span>PRELAUNCH savings</span><strong>−₹{(plan.amount - amount) / 100}</strong></div>}
+    {quote && <div className="checkout-savings"><span>{quote.coupon} savings</span><strong>−₹{(plan.amount - amount) / 100}</strong></div>}
     <div className="checkout-total"><span>Total payable</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: plan.currency, maximumFractionDigits: 0 }).format(amount / 100)}</strong></div>
     <button className="button button-primary" disabled={busy || couponBusy || guest || Boolean(pending) || user?.hasPracticeAccess} onClick={pay}>{user?.hasPracticeAccess ? 'Practice unlocked ✓' : busy ? 'Processing…' : 'Pay securely with Razorpay'}</button>
     {pending && <button className="button button-secondary" disabled={busy} onClick={() => void verify(pending)}>Check payment status</button>}

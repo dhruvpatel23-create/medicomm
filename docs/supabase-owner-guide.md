@@ -1,5 +1,8 @@
 # Medulla Supabase setup
 
+For the member directory, login sessions, subject/topic progress and protected
+annual subscription dates, follow [Member administration](member-administration.md).
+
 ## Connect the website
 
 1. In your Supabase project's SQL Editor, run `scripts/supabase-schema.sql`.
