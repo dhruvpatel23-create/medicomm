@@ -10,7 +10,7 @@ const yearStyles = [
   { Icon: GraduationCap, icon: "bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300", line: "from-amber-500/70 via-orange-400/30 to-transparent", hover: "hover:border-amber-300 hover:shadow-amber-900/10 dark:hover:border-amber-500/50 dark:hover:shadow-amber-950/40" },
 ];
 
-export default function PracticeSubjectDirectory({ years, supplementalSubjects, topicCounts, onSelect, onBack }) {
+export default function PracticeSubjectDirectory({ years, onSelect, onBack }) {
   const [query, setQuery] = useState("");
   const [selectedYear, setSelectedYear] = useState("all");
   const headingId = useId();
@@ -21,11 +21,8 @@ export default function PracticeSubjectDirectory({ years, supplementalSubjects, 
   };
   const groups = [
     ...years.map((year) => ({ ...year, subjects: year.subjects.map((subject) => ({
-      ...subject, pyqCount: subject.questions.length, topicCount: topicCounts[subject.id] ?? 0,
-    })) })),
-    ...(supplementalSubjects.length ? [{ id: "supplemental", title: "More subjects", subtitle: "Topic-wise question banks", subjects: supplementalSubjects.map((subject) => ({
-      ...subject, pyqCount: 0, topicCount: subject.questions?.length ?? 0,
-    })) }] : []),
+      ...subject, pyqCount: subject.questions.length,
+    })).filter(subject => subject.pyqCount > 0) })),
   ].filter((group) => group.subjects.length);
   const subjects = groups.flatMap((group) => group.subjects);
   const normalizedQuery = query.trim().toLowerCase();
@@ -48,13 +45,12 @@ export default function PracticeSubjectDirectory({ years, supplementalSubjects, 
         <div className="mt-3 flex flex-col justify-between gap-6 xl:flex-row xl:items-end">
           <div>
             <h2 id={headingId} className="m-0 text-3xl font-semibold tracking-tight sm:text-4xl">Choose a subject</h2>
-            <p className="mb-0 mt-3 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-400">Start with a subject, then choose your practice format.</p>
+            <p className="mb-0 mt-3 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-400">Choose a subject and exam year to practise NEET PG and INI-CET previous year questions.</p>
           </div>
           <dl className="m-0 flex shrink-0 gap-3 rounded-xl border border-white/70 bg-white/50 px-3 py-3 shadow-sm sm:gap-7 sm:px-4 dark:border-slate-700/50 dark:bg-slate-950/30 dark:shadow-inner">
             {[
               ["Subjects", subjects.length],
               ["Previous year questions", subjects.reduce((sum, subject) => sum + subject.pyqCount, 0)],
-              ["Topic-wise questions", subjects.reduce((sum, subject) => sum + subject.topicCount, 0)],
             ].map(([label, value]) => (
               <div key={label} className="flex flex-col gap-1">
                 <dd className="m-0 text-xl font-semibold tabular-nums tracking-tight sm:text-2xl">{number(value)}</dd>
@@ -111,7 +107,6 @@ export default function PracticeSubjectDirectory({ years, supplementalSubjects, 
                   </span>
                   <span className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
                     {subject.pyqCount > 0 && <span><span className="font-medium tabular-nums text-slate-700 dark:text-slate-300">{number(subject.pyqCount)}</span> PYQs</span>}
-                    <span><span className="font-medium tabular-nums text-slate-700 dark:text-slate-300">{number(subject.topicCount)}</span> topic-wise</span>
                   </span>
                 </motion.button>
               ))}

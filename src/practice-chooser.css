@@ -1,0 +1,63 @@
+/* Shared chooser: portal to body keeps fixed positioning outside app transforms. */
+.practice-choice-backdrop {
+  z-index: 1500;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  background: rgb(15 23 42 / .48);
+}
+.practice-choice-modal {
+  box-sizing: border-box;
+  width: min(720px, 100%);
+  min-width: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: auto;
+  padding: clamp(20px, 4vw, 36px);
+  border: 1px solid var(--ui-line);
+  border-radius: 20px;
+  background: var(--ui-surface);
+  color: var(--ui-ink);
+  box-shadow: 0 24px 80px rgb(0 0 0 / .25);
+  animation: practice-chooser-enter 160ms ease-out;
+}
+.practice-choice-close { top: 10px; right: 10px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 10px; color: var(--ui-muted); }
+.practice-choice-close:hover { background: var(--ui-soft); color: var(--ui-ink); }
+.practice-choice-heading { padding-right: 34px; gap: 12px; }
+.practice-choice-heading > div { min-width: 0; }
+.practice-choice-heading h3 { font-size: clamp(21px, 3vw, 28px); color: var(--ui-ink); overflow-wrap: anywhere; }
+.practice-choice-heading p { font-size: 15px; line-height: 1.6; color: var(--ui-muted); }
+.practice-choice-modal :is(.practice-choice-grid, .practice-year-choice-grid) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
+.practice-choice-modal :is(.practice-choice-card, .practice-year-choice-card) {
+  --chooser-accent: #2563eb;
+  min-width: 0; height: auto; min-height: 140px; padding: 22px 18px;
+  border-radius: 12px; border-color: var(--ui-line);
+  background: var(--ui-soft); color: var(--ui-ink);
+  overflow-wrap: anywhere;
+}
+.practice-choice-modal .practice-choice-card-clinical { --chooser-accent: #0369a1; }
+.practice-choice-modal .practice-choice-card-mind-maps { --chooser-accent: #be185d; }
+.practice-choice-modal .practice-choice-card-viva { --chooser-accent: #7e22ce; }
+.practice-choice-modal .practice-choice-card-usmle { --chooser-accent: #c2410c; }
+.practice-choice-modal :is(.practice-choice-card, .practice-year-choice-card):hover { background: var(--ui-surface); border-color: var(--chooser-accent); transform: none; }
+.practice-choice-modal :is(button, a):focus-visible { outline: 3px solid var(--ui-brand, #3b82f6); outline-offset: 3px; }
+.practice-choice-modal .practice-choice-card strong { font-size: 22px; color: var(--ui-ink); }
+.practice-choice-modal :is(.practice-choice-card p, .practice-year-choice-exams, .practice-choice-section-heading span) { color: var(--ui-muted); font-size: 14px; line-height: 1.6; }
+.practice-choice-modal :is(.practice-choice-icon, .practice-choice-card small, .practice-year-choice-topline small, .practice-progress-copy) { color: var(--chooser-accent); }
+.practice-choice-modal .practice-choice-back-link { color: var(--ui-brand, #2563eb); }
+[data-theme="dark"] .practice-choice-modal :is(.practice-choice-card, .practice-year-choice-card) { --chooser-accent: #93c5fd; }
+[data-theme="dark"] .practice-choice-modal .practice-choice-card-mind-maps { --chooser-accent: #f9a8d4; }
+[data-theme="dark"] .practice-choice-modal .practice-choice-card-viva { --chooser-accent: #d8b4fe; }
+[data-theme="dark"] .practice-choice-modal .practice-choice-card-usmle { --chooser-accent: #fdba74; }
+@media (max-width: 480px) {
+  .practice-choice-modal :is(.practice-choice-grid, .practice-year-choice-grid) { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .practice-choice-modal .practice-choice-card { min-height: 0; padding: 18px; }
+  .practice-choice-modal .practice-choice-icon { margin-bottom: 10px; }
+  .practice-choice-modal .practice-choice-card strong { font-size: 20px; }
+  .practice-choice-modal .practice-year-choice-card { min-height: 110px; padding: 16px; }
+}
+@keyframes practice-chooser-enter { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .practice-choice-modal, .practice-choice-modal * { animation: none !important; transition: none !important; } }

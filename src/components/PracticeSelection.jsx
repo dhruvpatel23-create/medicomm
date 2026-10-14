@@ -1,7 +1,7 @@
 import { ArrowRight, BookOpen, Globe2, GraduationCap, ListTree, SlidersHorizontal, Stethoscope } from "lucide-react";
 
 const practicePaths = [
-  { id: "neet", title: "NEET PG / INICET", label: "Postgraduate entrance", description: "Build confidence for your next chapter in medicine.", icon: Stethoscope, color: "blue" },
+  { id: "neet", title: "NEET PG / INICET", label: "Postgraduate entrance", description: "Practise previous year questions by subject and exam year.", icon: Stethoscope, color: "blue" },
   { id: "fmge", title: "FMGE", label: "Medical licensing", description: "Strengthen your foundations, one practice session at a time.", icon: GraduationCap, color: "teal" },
   { id: "theory", title: "THEORY", label: "Concepts & revision", description: "Deepen your understanding and connect the essentials.", icon: BookOpen, color: "violet" },
   { id: "usmle", title: "USMLE–STEP 1", label: "Your global pathway", description: "Make time for the core science behind clinical medicine.", icon: Globe2, color: "red" },

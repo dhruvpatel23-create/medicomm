@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AppShell } from "./components/AppShellV2";
 import WebsiteReviews from "./components/WebsiteReviews";
 import CompeteArena from "./components/CompeteArena";
@@ -1025,6 +1026,18 @@ async function fetchPracticeLibrary() {
     if (!practiceChoiceSubject) return undefined;
 
     const scrollY = window.scrollY;
+    const previousFocus = document.activeElement;
+    const modal = document.querySelector('.practice-choice-modal');
+    modal?.querySelector('button')?.focus({ preventScroll: true });
+    const handleKey = event => {
+      if (event.key === 'Escape') { event.preventDefault(); closePracticeChoice(); }
+      if (event.key !== 'Tab') return;
+      const controls = [...(modal?.querySelectorAll('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), [tabindex="0"]') || [])].filter(element => element.getClientRects().length);
+      const first = controls[0], last = controls.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    document.addEventListener('keydown', handleKey);
     const previousBodyStyles = {
       overflow: document.body.style.overflow,
       position: document.body.style.position,
@@ -1043,6 +1056,8 @@ async function fetchPracticeLibrary() {
       document.documentElement.style.overflow = previousHtmlOverflow;
       Object.assign(document.body.style, previousBodyStyles);
       window.scrollTo(0, scrollY);
+      document.removeEventListener('keydown', handleKey);
+      if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
     };
   }, [practiceChoiceSubject]);
 
@@ -1452,7 +1467,7 @@ async function fetchPracticeLibrary() {
       if (aiPracticeQuestionCountsBySubject[subjectId] > 0) handleStartAiPractice(subjectId);
       return;
     }
-    setPracticeChoicePanel("formats");
+    setPracticeChoicePanel(practicePathTitle === "NEET PG / INICET" ? "pyq" : "formats");
     setPracticeChoiceSubjectId(subjectId);
   }
 
@@ -1675,8 +1690,7 @@ async function fetchPracticeLibrary() {
     }
 
     const { mode, subject, question } = entry.resolved;
-    if (mode === "fmge") setPracticePathTitle("FMGE");
-    if (subject.moduleNumber) setPracticePathTitle("USMLE–STEP 1");
+    setPracticePathTitle(mode === "fmge" ? "FMGE" : mode === "usmle" ? "USMLE–STEP 1" : mode === "ai" ? "TOPIC WISE questions" : "NEET PG / INICET");
     setSelectedPracticeSubjectId(subject.id);
     setSelectedPracticeMode(mode);
     setSelectedPracticeTopic("");
@@ -3072,6 +3086,7 @@ async function fetchPracticeLibrary() {
   function renderPractice() {
     if (!user?.hasPracticeAccess) return renderPracticeLock();
     const isTheory = practicePathTitle === "THEORY";
+    const isPyqOnly = practicePathTitle === "NEET PG / INICET";
     const isTopicWise = practicePathTitle === "TOPIC WISE questions";
     const catalogTitle = isTheory ? "Cases and short notes by subject" : isTopicWise ? "Topic-wise questions by subject" : `${practiceLibrary.exam.title} by year and subject`;
     if (practiceStage === "selection") {
@@ -4268,9 +4283,9 @@ async function fetchPracticeLibrary() {
 
         {aiPracticeMessage ? <p className="form-message practice-ai-message">{aiPracticeMessage}</p> : null}
 
-        {practiceChoiceSubject ? (
-          <div className="practice-choice-backdrop" role="dialog" aria-modal="true" aria-labelledby="practice-choice-title">
-            <article className="practice-choice-modal">
+        {practiceChoiceSubject ? createPortal(
+          <div className="practice-choice-backdrop" onClick={event => { if (event.target === event.currentTarget) closePracticeChoice(); }}>
+            <article className="practice-choice-modal" role="dialog" aria-modal="true" aria-labelledby="practice-choice-title">
               <button className="practice-choice-close" type="button" onClick={closePracticeChoice} aria-label="Close practice chooser">
                 x
               </button>
@@ -4304,11 +4319,11 @@ async function fetchPracticeLibrary() {
                     <p>Choose a topic, write a theory answer, and get AI feedback.</p>
                   </button>
                 </div>
-              ) : practiceChoicePanel === "pyq" ? (
+              ) : isPyqOnly || practiceChoicePanel === "pyq" ? (
                 <div className="practice-year-picker">
                   <div className="practice-choice-section-heading">
-                    <button className="practice-choice-back-link" type="button" onClick={() => setPracticeChoicePanel("formats")}>
-                      ← All practice modes
+                    <button className="practice-choice-back-link" type="button" onClick={isPyqOnly ? closePracticeChoice : () => setPracticeChoicePanel("formats")}>
+                      {isPyqOnly ? "← All subjects" : "← All practice modes"}
                     </button>
                     <span>{practiceChoiceSubject.questions.length} official questions</span>
                   </div>
@@ -4403,13 +4418,11 @@ async function fetchPracticeLibrary() {
                 </div>
               )}
             </article>
-          </div>
+          </div>, document.body
         ) : null}
 
         {practicePathTitle === "NEET PG / INICET" ? <PracticeSubjectDirectory
           years={groupedPracticeYears}
-          supplementalSubjects={supplementalAiPracticeSubjects}
-          topicCounts={aiPracticeQuestionCountsBySubject}
           onSelect={handleSelectPracticeSubject}
           onBack={() => setActiveView("Practice")}
         /> : (

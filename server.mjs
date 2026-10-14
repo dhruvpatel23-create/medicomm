@@ -521,7 +521,7 @@ function buildPracticeLibrary(library, storedQuestions = []) {
       return {
         ...subject,
         questions: (subject.questions ?? [])
-          .filter((question) => question.source !== "ai" && question.source !== "usmle")
+          .filter((question) => !question.source || question.source === "official")
           .map((question) => normalizeQuestion(question, subject, library.exam)),
       };
     }),

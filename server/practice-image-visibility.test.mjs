@@ -41,7 +41,7 @@ test('only final-year PYQ and FMGE image questions are hidden, including treated
   assert.deepEqual(filterPracticeLibraryForUi(JSON.parse(JSON.stringify(library))).subjects, visible.subjects);
 });
 
-test('actual banks preserve every record and all earlier-year image questions', () => {
+test('actual banks preserve stored records while showing only PYQs and eligible images', () => {
   const bank = JSON.parse(readFileSync(new URL('../data/practice-question-bank.json', import.meta.url)));
   const fmge = JSON.parse(readFileSync(new URL('../data/fmge-question-bank.json', import.meta.url)));
   const library = { ...bank, fmgeSessions: fmge.sessions };
@@ -49,8 +49,8 @@ test('actual banks preserve every record and all earlier-year image questions', 
   const visible = filterPracticeLibraryForUi(library);
   for (const [index, subject] of library.subjects.entries()) {
     const shown = visible.subjects[index];
-    if (subject.yearId !== 'final-year') assert.strictEqual(shown, subject);
-    else assert.deepEqual(shown.questions, subject.questions.filter(q => !hasQuestionImage(q)));
+    assert.deepEqual(shown.questions, subject.questions.filter(q => (!q.source || q.source === 'official')
+      && (subject.yearId !== 'final-year' || !hasQuestionImage(q))));
   }
   for (const [index, session] of library.fmgeSessions.entries()) {
     assert.deepEqual(visible.fmgeSessions[index].questions, session.questions.filter(q => !hasQuestionImage(q)));

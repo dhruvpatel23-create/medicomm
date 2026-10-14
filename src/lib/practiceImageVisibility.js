@@ -22,7 +22,17 @@ export function filterPracticeLibraryForUi(library) {
     });
     return { ...set, questions, questionCount: questions.length };
   });
-  const subjects = filterSets(library.subjects, subject => subject.yearId === 'final-year' || finalYearSubjectIds.has(subject.id));
+  const pyqSubjects = (library.subjects ?? []).map(subject => {
+    const questions = (subject.questions ?? []).filter(question => {
+      // Legacy PYQs can lack a source field; explicitly supplemental sources
+      // must never enter this path, including from an older browser cache.
+      if (!question.source || question.source === 'official') return true;
+      hiddenQuestionIds.add(question.id);
+      return false;
+    });
+    return questions.length === (subject.questions ?? []).length ? subject : { ...subject, questions, questionCount: questions.length };
+  });
+  const subjects = filterSets(pyqSubjects, subject => subject.yearId === 'final-year' || finalYearSubjectIds.has(subject.id));
   const fmgeSessions = filterSets(library.fmgeSessions, () => true);
   return {
     ...library,
