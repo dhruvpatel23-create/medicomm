@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, Check, Eraser, Hand, Minus, Plus, NotebookPen, PenLine, Redo2, RotateCcw, Undo2, X } from "lucide-react";
 import "./AnswerNotepad.css";
+import { drawSmoothStroke } from "./notepadInk.js";
 
 const WIDTH = 1200;
 const HEIGHT = 1600;
@@ -53,9 +54,11 @@ function drawSegment(context, stroke, from, to) {
 function redraw(canvas, strokes) {
   const context = canvas?.getContext("2d");
   if (!context) return;
+  context.setTransform(canvas.width / WIDTH, 0, 0, canvas.height / HEIGHT, 0, 0);
   context.clearRect(0, 0, WIDTH, HEIGHT);
   for (const stroke of strokes) {
     if (stroke.clear) { context.clearRect(0, 0, WIDTH, HEIGHT); continue; }
+    if (stroke.smooth) { drawSmoothStroke(context, stroke); continue; }
     if (stroke.style === "highlighter" && stroke.tool !== "eraser") {
       context.save(); context.globalAlpha = 0.25; context.strokeStyle = stroke.color;
       context.lineWidth = stroke.size * 4; context.lineCap = "round"; context.lineJoin = "round";
@@ -103,6 +106,9 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
   const [confirmClear, setConfirmClear] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const canvasRef = useRef(null);
+  const inkFrameRef = useRef(null);
+  const committedCanvasRef = useRef(null);
+  const displayScale = useRef(Math.min(2, Math.max(1, window.devicePixelRatio || 1))).current;
   const activeStroke = useRef(null);
   const workspaceRef = useRef(null);
   const panRef = useRef(null);
@@ -128,6 +134,7 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     document.addEventListener("visibilitychange", hide);
     return () => {
       flush();
+      cancelAnimationFrame(inkFrameRef.current);
       pageAnimationRef.current?.cancel();
       window.removeEventListener("pagehide", flush);
       document.removeEventListener("visibilitychange", hide);
@@ -177,6 +184,35 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     return { x: Math.max(0, Math.min(WIDTH, (event.clientX - bounds.left) * WIDTH / bounds.width)),
       y: Math.max(0, Math.min(HEIGHT, (event.clientY - bounds.top) * HEIGHT / bounds.height)),
       pressure: event.pointerType === "pen" ? event.pressure || 0.5 : 0.5 };
+  }
+  function paintActive() {
+    inkFrameRef.current = null;
+    const canvas = canvasRef.current;
+    const active = activeStroke.current;
+    if (!canvas || !active) return;
+    const context = canvas.getContext("2d");
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(committedCanvasRef.current, 0, 0);
+    context.setTransform(canvas.width / WIDTH, 0, 0, canvas.height / HEIGHT, 0, 0);
+    drawSmoothStroke(context, active.stroke);
+  }
+  function scheduleInk() {
+    if (inkFrameRef.current === null) inkFrameRef.current = requestAnimationFrame(paintActive);
+  }
+  function addSamples(event) {
+    const active = activeStroke.current;
+    const samples = event.nativeEvent?.getCoalescedEvents?.() || [];
+    for (const sample of samples.length ? samples : [event]) {
+      const next = point(sample);
+      const previous = active.stroke.points.at(-1);
+      if (event.type === "pointerup") next.pressure = previous.pressure;
+      const distance = Math.hypot(next.x - previous.x, next.y - previous.y);
+      if (distance < .15) continue;
+      // Stabilize sensor pressure without delaying the position of the nib.
+      next.pressure = previous.pressure + (next.pressure - previous.pressure) * Math.min(.65, .18 + distance / 24);
+      active.stroke.points.push(next);
+    }
   }
   function updatePage(nextPage) {
     const current = draftRef.current;
@@ -233,10 +269,14 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     event.currentTarget.setPointerCapture(event.pointerId);
     if (event.pointerType === "pen") setPencilOnly(true);
     const selectedTool = event.pointerType === "pen" && (event.button === 5 || (event.buttons & 32)) ? "eraser" : toolRef.current;
-    const stroke = { tool: selectedTool, style: penStyle, color, size: selectedTool === "eraser" ? eraserSize : size, points: [point(event)] };
+    const canvas = canvasRef.current;
+    const base = committedCanvasRef.current || document.createElement("canvas");
+    base.width = canvas.width; base.height = canvas.height;
+    base.getContext("2d").drawImage(canvas, 0, 0);
+    committedCanvasRef.current = base;
+    const stroke = { tool: selectedTool, style: penStyle, smooth: true, color, size: selectedTool === "eraser" ? eraserSize : size, points: [point(event)] };
     activeStroke.current = { pointerId: event.pointerId, pointerType: event.pointerType, stroke };
-    if (stroke.style === "highlighter" && stroke.tool === "pen") redraw(canvasRef.current, [...pageRef().strokes, stroke]);
-    else drawSegment(canvasRef.current.getContext("2d"), stroke, stroke.points[0], stroke.points[0]);
+    paintActive();
     setMessage(""); setConfirmClear(false);
   }
   function move(event) {
@@ -262,15 +302,8 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     const active = activeStroke.current;
     if (!active || event.pointerId !== active.pointerId) return;
     event.preventDefault();
-    const samples = event.nativeEvent.getCoalescedEvents?.() || [];
-    for (const sample of samples.length ? samples : [event]) {
-      const next = point(sample);
-      const previous = active.stroke.points.at(-1);
-      if (Math.hypot(next.x - previous.x, next.y - previous.y) < 0.5) continue;
-      active.stroke.points.push(next);
-      if (active.stroke.style !== "highlighter" || active.stroke.tool === "eraser") drawSegment(canvasRef.current.getContext("2d"), active.stroke, previous, next);
-    }
-    if (active.stroke.style === "highlighter" && active.stroke.tool === "pen") redraw(canvasRef.current, [...pageRef().strokes, active.stroke]);
+    addSamples(event);
+    scheduleInk();
   }
   function finish(event) {
     const swipe = swipeRef.current;
@@ -297,6 +330,10 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     }
     const active = activeStroke.current;
     if (!active || (event && event.pointerId !== active.pointerId)) return;
+    // Pointer-up can contain a final position that was never delivered as a move.
+    if (event?.type === "pointerup") addSamples(event);
+    cancelAnimationFrame(inkFrameRef.current);
+    inkFrameRef.current = null;
     activeStroke.current = null;
     releasePointer(active.pointerId);
     updatePage({ ...pageRef(), strokes: [...pageRef().strokes, active.stroke] });
@@ -364,23 +401,38 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
       output.width = WIDTH * columns; output.height = (HEIGHT + labelHeight) * Math.ceil(pages.length / columns);
       const context = output.getContext("2d");
       context.fillStyle = "#ffffff"; context.fillRect(0, 0, output.width, output.height);
+      const answerPages = [];
+      const pageImage = document.createElement("canvas"); pageImage.width = WIDTH; pageImage.height = HEIGHT;
+      const pageContext = pageImage.getContext("2d");
       pages.forEach((page, index) => {
         redraw(scratch, page.strokes);
+        pageContext.fillStyle = "#ffffff"; pageContext.fillRect(0, 0, WIDTH, HEIGHT);
+        pageContext.drawImage(scratch, 0, 0);
+        answerPages.push({ dataUrl: pageImage.toDataURL("image/png"), name: `Notepad page ${index + 1}`, source: "notepad" });
         const x = (index % columns) * WIDTH; const y = Math.floor(index / columns) * (HEIGHT + labelHeight);
         if (labelHeight) { context.fillStyle = "#555555"; context.font = "20px sans-serif"; context.fillText(`Page ${index + 1}`, x + 16, y + 24); }
         context.drawImage(scratch, x, y + labelHeight);
       });
       const dataUrl = output.toDataURL("image/png");
-      if (!dataUrl.startsWith("data:image/png") || (dataUrl.length - dataUrl.indexOf(",") - 1) * 0.75 > 5 * 1024 * 1024) {
+      if (!dataUrl.startsWith("data:image/png") || (dataUrl.length - dataUrl.indexOf(",") - 1) * 0.75 > 5 * 1024 * 1024
+        || answerPages.reduce((bytes, page) => bytes + page.dataUrl.split(",")[1].length * .75, 0) > 5 * 1024 * 1024) {
         setMessage("These pages are too large to attach. Your draft is saved; reduce the amount of ink and try again."); return;
       }
-      onSave({ dataUrl, name: "Notepad answer.png", width: output.width, height: output.height });
+      onSave({ dataUrl, name: "Notepad answer.png", width: output.width, height: output.height, pages: answerPages });
     } catch { setMessage("Your answer could not be attached. Your pages are still saved here. Please try again."); }
   }
 
   return <Dialog.Portal>
     <Dialog.Overlay className="an-overlay fixed inset-0 bg-slate-950/50 backdrop-blur-sm" />
     <Dialog.Content className="an-dialog fixed overflow-hidden shadow-2xl" onEscapeKeyDown={() => finish()}
+      onKeyDown={event => {
+        if (!(event.ctrlKey || event.metaKey) || /INPUT|SELECT|TEXTAREA/.test(event.target.tagName)) return;
+        const key = event.key.toLowerCase();
+        if (key === "z" || key === "y") {
+          event.preventDefault();
+          if (key === "y" || event.shiftKey) redoStroke(); else undoStroke();
+        }
+      }}
       onInteractOutside={event => event.preventDefault()} onOpenAutoFocus={event => { event.preventDefault(); document.getElementById("an-close")?.focus(); }}>
       <header className="an-header">
         <NotebookPen size={20} className="an-accent" />
@@ -398,6 +450,13 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
         <label className="an-select-label flex items-center gap-2 text-xs">Pen style<select aria-label="Pen style" value={penStyle} onChange={event => { finish(); setPenStyle(event.target.value); chooseTool("pen"); }}>
           <option value="ballpoint">Ballpoint</option><option value="fountain">Fountain</option><option value="brush">Brush</option><option value="pencil">Pencil</option><option value="highlighter">Highlighter</option>
         </select></label>
+        <div className="an-ink-preview" aria-hidden="true">
+          <svg viewBox="0 0 150 42" key={`${penStyle}-${color}-${tool}`}>
+            <path d="M12 29 C27 29 30 8 44 12 S52 34 68 26 S84 6 96 16 S115 34 138 12"
+              fill="none" stroke={tool === "eraser" ? "#abb2c0" : color} strokeWidth={tool === "eraser" ? 10 : penStyle === "highlighter" ? size * 3 : size}
+              strokeLinecap="round" strokeLinejoin="round" opacity={penStyle === "highlighter" ? .3 : penStyle === "pencil" ? .7 : 1} pathLength="1" />
+          </svg>
+        </div>
         <label className="an-thickness text-xs">{tool === "eraser" ? "Eraser size" : "Tip thickness"}<output>{tool === "eraser" ? eraserSize : size} px</output>
           <input type="range" aria-label={tool === "eraser" ? "Eraser size" : "Tip thickness"} min={tool === "eraser" ? 8 : 1} max={tool === "eraser" ? 96 : 20} step="1" value={tool === "eraser" ? eraserSize : size} onChange={event => { finish(); (tool === "eraser" ? setEraserSize : setSize)(Number(event.target.value)); }} />
         </label>
@@ -420,7 +479,7 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
         <div className="an-page-scale" ref={pageScaleRef} style={{ width: `${zoom * 100}%` }}>
         <div className={`an-paper an-paper-${currentPage.paper} relative mx-auto shadow-lg`}>
           {!currentPage.strokes.length && <div className="pointer-events-none absolute inset-x-0 top-20 text-center text-slate-400"><PenLine size={26} className="mx-auto mb-3 opacity-50" /><p className="text-sm">Every good answer starts here.</p><p className="mt-2 text-xs">Use your Pencil, finger, or mouse.</p></div>}
-          <canvas ref={attachCanvas} width={WIDTH} height={HEIGHT} className="an-canvas relative block w-full" aria-label="Handwritten answer sheet" onContextMenu={event => event.preventDefault()} />
+          <canvas ref={attachCanvas} width={WIDTH * displayScale} height={HEIGHT * displayScale} className="an-canvas relative block w-full" aria-label="Handwritten answer sheet" onContextMenu={event => event.preventDefault()} />
         </div>
         <p className="an-sheet-caption mt-4 text-center text-xs">Page {draft.pageIndex + 1} of {draft.pages.length} · Pinch to zoom · Swipe right from the left edge for the next page; left from the right edge to go back</p>
         </div>

@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { writeFile } from 'node:fs/promises';
+import { writeFile, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import { HttpError } from './security.mjs';
 
@@ -36,6 +36,13 @@ export function createUploads({ url, key, bucket, directory, fetchImpl = fetch }
       const bytes = Buffer.from(await response.arrayBuffer());
       if (bytes.length > 5 * 1024 * 1024) throw new HttpError(502, 'Invalid stored image.');
       return bytes;
+    },
+    async remove(name) {
+      if (!/^user-[a-f0-9]{48}\.(png|jpg|gif|webp)$/.test(name)) throw new Error('Invalid upload name.');
+      if (bucket) {
+        const response = await fetchImpl(endpoint(name), { method: 'DELETE', headers, signal: AbortSignal.timeout(15000) });
+        if (!response.ok && response.status !== 404) throw new HttpError(503, 'Image storage is unavailable.');
+      } else await unlink(path.join(directory, name)).catch(error => { if (error.code !== 'ENOENT') throw error; });
     },
     async check() {
       if (!bucket) return;

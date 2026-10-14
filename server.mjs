@@ -16,7 +16,7 @@ import { VIVA_CHAPTER_FALLBACKS } from "./src/data/vivaChapters.js";
 import { createReviewHandler } from "./server/reviews.mjs";
 import { readUsmleModules } from "./server/usmleModules.mjs";
 import { readFmgeSessions } from "./server/fmgeQuestions.mjs";
-import { loadShortNotes, createShortNotesHandler } from "./server/shortNotes.mjs";
+import { loadShortNotes, createShortNotesHandler, ownsTheoryAnswerImage } from "./server/shortNotes.mjs";
 import { buildShortNoteReviewInstructions } from "./server/shortNotesPrompt.mjs";
 import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from "./server/theoryTextbooks.mjs";
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
@@ -1719,7 +1719,7 @@ function normalizeClinicalCaseEvaluation(generated, clinicalCase, subjectTitle) 
     throw new Error("The AI examiner returned an incomplete clinical-case model answer.");
   }
   if (modelAnswerSections.some((section) => section.heading.length < 3 || section.heading.length > 160
-    || section.points.length < 2 || section.points.length > 8
+    || section.points.length < 2 || section.points.length > (["short-note", "long-answer"].includes(clinicalCase.kind) ? 24 : 8)
     || section.points.some((point) => point.length < 3 || point.length > 700)
     || section.flowchart.length > 1000)) {
     throw new Error("The AI examiner returned a poorly structured clinical-case model answer.");
@@ -1733,9 +1733,10 @@ const handleShortNotes = createShortNotesHandler({
   questions: loadShortNotes(path.join(__dirname, "public", "short-notes.json")),
   readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson,
   parseAnswerImage: parseVivaAnswerImage, evaluate: requestClinicalCaseEvaluation,
+  saveAnswerImage: dataUrl => uploads.save(dataUrl), removeAnswerImage: name => uploads.remove(name),
 });
 
-async function requestGeminiClinicalCaseEvaluation({ subjectTitle, clinicalCase, studentAnswer, studentAnswerImage }) {
+async function requestGeminiClinicalCaseEvaluation({ subjectTitle, clinicalCase, studentAnswer, studentAnswerImage, studentAnswerImages }) {
   const isShortNote = ["short-note", "long-answer"].includes(clinicalCase.kind);
   const apiKey = [process.env.GEMINI_API_KEY, process.env.GOOGLE_API_KEY, process.env.GOOGLE_AI_STUDIO_API_KEY].find(value => value?.trim())?.trim();
   if (!apiKey) throw new Error(`${isShortNote ? "Short Notes" : "Clinical Cases"} is not configured yet. Add GEMINI_API_KEY to the server environment.`);
@@ -1777,8 +1778,8 @@ async function requestGeminiClinicalCaseEvaluation({ subjectTitle, clinicalCase,
                     properties: {
                       label: { type: "string", enum: subquestionLabels },
                       heading: { type: "string" },
-                      points: { type: "array", minItems: 2, maxItems: 8, items: { type: "string" } },
-                      flowchart: { type: "string" },
+                      points: { type: "array", minItems: 2, maxItems: isShortNote ? 24 : 8, items: { type: "string" } },
+                      ...(!isShortNote ? { flowchart: { type: "string" } } : {}),
                     },
                   },
                 },
@@ -1801,7 +1802,7 @@ async function requestGeminiClinicalCaseEvaluation({ subjectTitle, clinicalCase,
                   privateMarkingPoints: clinicalCase.keyPoints,
                   typedStudentAnswer: studentAnswer || "No typed response was submitted; use the attached written answer image.",
                 })}`,
-            }, ...(studentAnswerImage ? [{ inlineData: { mimeType: studentAnswerImage.mimeType, data: studentAnswerImage.data } }] : [])],
+            }, ...(studentAnswerImages ?? (studentAnswerImage ? [studentAnswerImage] : [])).map(image => ({ inlineData: { mimeType: image.mimeType, data: image.data } }))],
           }],
         }),
       },
@@ -3864,7 +3865,7 @@ async function handleRequest(request, response) {
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Please sign in.');
       const community = database.communities.some(entry => (entry.memberIds ?? []).includes(user.id) && (entry.messages ?? []).some(message => message.imagePath === name));
-      if (!profile && !community) throw new HttpError(404, 'Not found.');
+      if (!profile && !community && !ownsTheoryAnswerImage(database, user.id, name)) throw new HttpError(404, 'Not found.');
       const bytes = uploadBucket ? await uploads.read(name) : await fs.readFile(path.join(uploadsDir, name));
       response.writeHead(200, { 'Content-Type': getStaticMimeType(name), 'Cache-Control': 'private, no-store' });
       response.end(bytes);

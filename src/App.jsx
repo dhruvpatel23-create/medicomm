@@ -3066,7 +3066,7 @@ async function fetchPracticeLibrary() {
   }
 
   function renderPracticeLock() {
-    return <section className="app-view"><div className="practice-access-lock"><span className="lock-symbol" aria-hidden="true">🔒</span><p className="eyebrow">Your next chapter starts here</p><h2>Unlock your practice journey</h2><p>Get access to questions, theory and saved practice after your payment is verified. Use <strong>TEST1</strong> at checkout to start for just <strong>₹69</strong>.</p><button className="button button-primary" onClick={() => setActiveView("Pricing")}>View plans &amp; unlock Practice</button></div></section>;
+    return <section className="app-view"><div className="practice-access-lock"><span className="lock-symbol" aria-hidden="true">🔒</span><p className="eyebrow">Your next chapter starts here</p><h2>Unlock your practice journey</h2><p>Get access to questions, theory and saved practice after your payment is verified.</p><button className="button button-primary" onClick={() => setActiveView("Pricing")}>View plans &amp; unlock Practice</button></div></section>;
   }
 
   function renderPractice() {

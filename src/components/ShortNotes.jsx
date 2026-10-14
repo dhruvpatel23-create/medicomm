@@ -4,6 +4,7 @@ import { apiRequest } from "../lib/api";
 import "./ShortNotes.css";
 import AnswerNotepad from "./AnswerNotepad";
 import TextbookSources from "./TextbookSources";
+import SavedTheoryAnswer from "./SavedTheoryAnswer";
 
 const typeLabel = (kind) => kind === "long-answer" ? "Long answer" : "Short note";
 function loadDrafts(key) {
@@ -24,8 +25,15 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
   const [reviewLoadError, setReviewLoadError] = useState("");
   const draftKey = `medicomm-short-note-drafts:${userId || "guest"}`;
   const [drafts, setDrafts] = useState(() => loadDrafts(draftKey));
+  const draftOwner = useRef(draftKey);
   const [draftError, setDraftError] = useState("");
-  const [answerImage, setAnswerImage] = useState(null);
+  const [answerImages, setAnswerImages] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const [attempts, setAttempts] = useState([]);
+  const [attemptIndex, setAttemptIndex] = useState(0);
+  const [historyError, setHistoryError] = useState("");
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyReload, setHistoryReload] = useState(0);
   const [imageBusy, setImageBusy] = useState(false);
   const [busy, setBusy] = useState(false);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
@@ -48,12 +56,30 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
   }, [reload]);
   useEffect(() => {
     let active = true;
+    setReviews({}); setReviewLoadError("");
     if (signedIn) apiRequest("/api/short-notes/reviews").then(data => {
       if (active) { setReviews(Object.fromEntries((data.reviews || []).map(review => [review.questionId, review]))); setReviewLoadError(""); }
     }).catch(() => { if (active) setReviewLoadError("Saved reviews could not be loaded. You can still write an answer."); });
     return () => { active = false; };
   }, [signedIn, userId, reload]);
   useEffect(() => {
+    let active = true;
+    setAttempts([]); setAttemptIndex(0); setHistoryError("");
+    if (!questionId || !signedIn) { setHistoryLoading(false); return; }
+    setHistoryLoading(true);
+    apiRequest(`/api/short-notes/reviews?questionId=${encodeURIComponent(questionId)}`).then(data => {
+      if (active) setAttempts((data.reviews || []).filter(item => item.questionId === questionId));
+    }).catch(() => { if (active) setHistoryError("Earlier attempts could not load."); })
+      .finally(() => { if (active) setHistoryLoading(false); });
+    return () => { active = false; };
+  }, [questionId, userId, signedIn, historyReload]);
+  useEffect(() => {
+    if (draftOwner.current !== draftKey) {
+      draftOwner.current = draftKey;
+      setDrafts(loadDrafts(draftKey));
+      setAnswerImages([]); setEditing(false);
+      return;
+    }
     try { localStorage.setItem(draftKey, JSON.stringify(drafts)); setDraftError(""); }
     catch { setDraftError("This browser could not save your draft. Keep this page open while writing."); }
   }, [draftKey, drafts]);
@@ -65,39 +91,49 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
   const allQuestions = subject?.topics.flatMap(item => item.questions) ?? [];
   const totalReviewed = allQuestions.filter(item => reviews[item.id]).length;
   const topicReviewed = topic?.questions.filter(item => reviews[item.id]).length ?? 0;
-  const review = question && !Object.hasOwn(drafts, question.id) && reviews[question.id];
+  const savedReview = question && (attempts[attemptIndex] || reviews[question.id]);
+  const review = !editing && savedReview;
   const draft = question && typeof drafts[question.id] === "string" ? drafts[question.id] : "";
   const locked = busy || imageBusy;
   const normalizedSearch = search.toLowerCase().trim();
   const visibleQuestions = topic?.questions.filter(item =>
     item.prompt.toLowerCase().includes(normalizedSearch)
-    && (filter === "all" || filter === item.kind || (filter === "unreviewed" && !reviews[item.id]))
+    && (filter === "all" || filter === item.kind || (filter === "unreviewed" && !reviews[item.id]) || (filter === "saved" && reviews[item.id]))
     && (!starred || item.emphasis > 0)) ?? [];
   const visibleTopics = subject?.topics.filter(item => item.title.toLowerCase().includes(normalizedSearch)
     || item.questions.some(q => q.prompt.toLowerCase().includes(normalizedSearch))) ?? [];
 
   function openQuestion(id) {
     if (locked) return;
-    setQuestionId(id); setAnswerImage(null); setMessage(""); setPrivacyAccepted(false);
+    setQuestionId(id); setAnswerImages([]); setMessage(""); setPrivacyAccepted(false); setEditing(false); setAttempts([]); setAttemptIndex(0);
   }
-  function backToList() { if (!locked) { setQuestionId(""); setAnswerImage(null); setMessage(""); } }
+  function backToList() { if (!locked) { setQuestionId(""); setAnswerImages([]); setMessage(""); setEditing(false); } }
   async function pickImage(event) {
-    const file = event.target.files?.[0]; event.target.value = "";
-    if (!file || locked) return;
+    const files = [...(event.target.files || [])]; event.target.value = "";
+    if (!files.length || locked) return;
+    if (answerImages.length + files.length > 8) { setMessage("Attach up to 8 pages per answer."); return; }
     setImageBusy(true); setMessage("");
-    try { const image = await prepareImage(file); if (mounted.current) setAnswerImage(image); }
+    try {
+      const images = [];
+      for (const file of files) images.push({ ...await prepareImage(file), source: "upload" });
+      const next = [...answerImages, ...images];
+      if (next.reduce((bytes, image) => bytes + image.dataUrl.split(",")[1].length * .75, 0) > 5 * 1024 * 1024) throw new Error("Prepared answer pages must total 5 MB or less. Try smaller photos.");
+      if (mounted.current) setAnswerImages(next);
+    }
     catch (error) { if (mounted.current) setMessage(error.message); }
     finally { if (mounted.current) setImageBusy(false); }
   }
   async function submitAnswer(event) {
     event.preventDefault();
-    if (!question || locked || !privacyAccepted || (!answerImage && draft.trim().length < 3)) return;
+    if (!question || locked || !privacyAccepted || (!answerImages.length && draft.trim().length < 3)) return;
     setBusy(true); setMessage("");
     try {
       const data = await apiRequest("/api/short-notes/reviews", { method: "POST", timeoutMs: 150000,
-        body: JSON.stringify({ questionId: question.id, answer: draft, answerImageDataUrl: answerImage?.dataUrl ?? null, privacyAccepted: true }) });
+        body: JSON.stringify({ questionId: question.id, answer: draft, answerPages: answerImages.map(({ dataUrl, name, source }) => ({ dataUrl, name, source })), privacyAccepted: true }) });
       if (mounted.current) {
-        setReviews(current => ({ ...current, [question.id]: data.review })); setAnswerImage(null);
+        setReviews(current => ({ ...current, [question.id]: data.review })); setAnswerImages([]); setEditing(false);
+        setAttempts(current => [data.review, ...current]); setAttemptIndex(0);
+        setHistoryReload(value => value + 1);
         setDrafts(current => { const next = { ...current }; delete next[question.id]; return next; });
         onNavigate();
       }
@@ -114,7 +150,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
   return <section className="app-view short-notes-view">
     <nav className="sn-breadcrumbs" aria-label="Short notes navigation">
       <button type="button" onClick={onBack} disabled={locked}>Theory</button><ChevronRight size={14} />
-      <button type="button" disabled={locked} onClick={() => { setTopicId(""); setQuestionId(""); setSearch(""); setAnswerImage(null); }}>{subject.title}</button>
+      <button type="button" disabled={locked} onClick={() => { setTopicId(""); setQuestionId(""); setSearch(""); setAnswerImages([]); setEditing(false); }}>{subject.title}</button>
       <ChevronRight size={14} /><span>Short Notes</span>
       {topic && <><ChevronRight size={14} /><button type="button" onClick={backToList} disabled={locked}>{topic.title}</button></>}
     </nav>
@@ -126,19 +162,23 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
         <span>Question {topic.questions.indexOf(question) + 1} of {topic.questions.length}</span>
       </div>
       <article className="sn-prompt-card">
-        <div className="sn-question-meta"><span className="sn-badge">{typeLabel(question.kind)}</span>{question.emphasis > 0 && <span className="sn-star-label"><Star size={13} /> Starred in source</span>}<span>{topic.title}</span></div>
+        <div className="sn-question-meta"><span className="sn-badge">{typeLabel(question.kind)}</span>{question.emphasis > 0 && <span className="sn-star-label"><Star size={13} /> Starred</span>}<span>{topic.title}</span></div>
         <h2 ref={titleRef} tabIndex={-1}>{question.prompt}</h2>
-        <div className="sn-source"><BookOpen size={14} /> {(bank.sources?.find(source => source.id === subject.sourceId) || bank.source).title} · PDF page {question.sourcePage}<span>AI practice review / 10</span></div>
+        <div className="sn-source"><span>AI practice review / 10</span></div>
       </article>
-      {review ? <article className="card panel sn-review" aria-live="polite">
+      {historyLoading && !review && !editing ? <p className="sn-notice" role="status">Opening your saved answer...</p> : review ? <article className="card panel sn-review" aria-live="polite">
+        {attempts.length > 1 && <label className="sn-attempt-picker">Saved attempts<select aria-label="Saved attempt" value={attemptIndex} onChange={event => setAttemptIndex(Number(event.target.value))}>{attempts.map((item, index) => <option key={item.id || item.submittedAt || index} value={index}>{index === 0 ? "Latest" : `Attempt ${attempts.length - index}`} · {item.submittedAt ? new Date(item.submittedAt).toLocaleDateString() : "Saved"} · {item.score}/10</option>)}</select></label>}
+        {historyLoading && <p role="status">Loading saved attempts...</p>}
+        {historyError && <p className="sn-notice" role="status">{historyError} <button type="button" onClick={() => setHistoryReload(value => value + 1)}>Retry</button></p>}
+        <SavedTheoryAnswer key={`${question.id}:${review.id || review.submittedAt || attemptIndex}`} review={review} />
+        {review.hasImage && !review.answerPages?.length && <AnswerNotepad key={question.id} draftId={`short-notes:${userId || "guest"}:${question.id}`} prompt={question.prompt} />}
         <div className="sn-review-top"><div className="sn-score"><strong>{review.score}</strong><span>/ 10</span></div><div><p className="sn-eyebrow"><Sparkles size={14} /> AI theory review</p><h3>{review.feedback}</h3></div></div>
         <div className="sn-feedback-grid"><section><h4><CheckCircle2 size={17} /> What you did well</h4>{review.strengths?.length ? <ul>{review.strengths.map((point, i) => <li key={i}>{point}</li>)}</ul> : <p>Use the suggestions alongside to build a stronger answer.</p>}</section><section><h4>How to improve</h4><ul>{review.improvements?.map((point, i) => <li key={i}>{point}</li>)}</ul></section></div>
         <section className="sn-model-answer"><p className="sn-eyebrow">Learn from your answer</p><h3>Exam-ready model answer</h3>{review.modelAnswerSections?.map((section, i) => <div key={i}><h4>{section.heading}</h4><ul>{section.points.map((point, index) => <li key={index}>{point}</li>)}</ul>{section.flowchart && <p className="sn-flowchart">{section.flowchart}</p>}</div>)}<small>AI-generated study feedback. Check important details against your textbook.</small></section>
         <TextbookSources sources={review.textbookSources} />
-        <details className="sn-submitted"><summary>Your submitted answer</summary>{review.answer && <p>{review.answer}</p>}{review.hasImage && <p>Your written-answer photo was included in this review.</p>}</details>
-        <AnswerNotepad key={question.id} draftId={`short-notes:${userId || "guest"}:${question.id}`} prompt={question.prompt} />
-        <div className="sn-review-actions"><span><CheckCircle2 size={15} /> Review saved</span><button className="button button-secondary" type="button" onClick={() => { setDrafts(current => ({ ...current, [question.id]: "" })); setPrivacyAccepted(false); }}>Practise again</button></div>
+        <div className="sn-review-actions"><span><CheckCircle2 size={15} /> Answer and review saved</span><button className="button button-secondary" type="button" onClick={() => { setEditing(true); setDrafts(current => ({ ...current, [question.id]: current[question.id] || "" })); setPrivacyAccepted(false); }}>Practise again</button></div>
       </article> : <form className="sn-writing-layout" onSubmit={submitAnswer}>
+        {savedReview && <button type="button" className="sn-back" onClick={() => setEditing(false)} disabled={locked}><ArrowLeft size={16} /> Back to saved answer</button>}
         <article className="sn-editor">
           <div className="sn-editor-heading"><h3><FileText size={19} /> Your answer</h3><span>{draftError ? "Draft not saved" : draft ? "Draft saved on this device" : "Make this concept yours"}</span></div>
           <label htmlFor="short-note-answer" className="sr-only">Your theory answer</label>
@@ -148,20 +188,21 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
         </article>
         <aside className="sn-answer-aside">
           <section className="sn-upload-card"><span className="sn-aside-icon"><Camera size={22} /></span><h3>Prefer pen & paper?</h3><p>Write your answer, then upload a clear photo for the same AI review.</p>
-            {answerImage ? <div className="sn-photo"><img src={answerImage.dataUrl} alt="Your handwritten answer" /><span>{answerImage.name}</span><button type="button" onClick={() => setAnswerImage(null)} disabled={locked}><X size={14} /> Remove photo</button></div> : <div className="sn-upload-actions">
-              <label className={`button button-secondary ${locked ? "sn-disabled" : ""}`}><Upload size={15} /> Upload answer<input type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" onChange={pickImage} disabled={locked} /></label>
+            {answerImages.map((image, index) => <div className="sn-photo" key={`${index}:${image.name}`}><img src={image.dataUrl} alt={`Your handwritten answer page ${index + 1}`} /><span>Page {index + 1} · {image.name}</span><button type="button" onClick={() => setAnswerImages(current => current.filter((_, i) => i !== index))} disabled={locked}><X size={14} /> Remove page {index + 1}</button></div>)}
+            {answerImages.length < 8 && <div className="sn-upload-actions">
+              <label className={`button button-secondary ${locked ? "sn-disabled" : ""}`}><Upload size={15} /> {answerImages.length ? "Add pages" : "Upload answer"}<input type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif" onChange={pickImage} disabled={locked} /></label>
               <label className={`sn-camera-link ${locked ? "sn-disabled" : ""}`}><Camera size={15} /> Take a photo<input type="file" accept="image/*" capture="environment" onChange={pickImage} disabled={locked} /></label>
             </div>}
             {imageBusy && <p role="status"><Loader2 size={15} className="sn-spin" /> Preparing photo...</p>}<small>JPG, PNG or WebP · up to 12 MB</small>
           </section>
-          <AnswerNotepad key={question.id} draftId={`short-notes:${userId || "guest"}:${question.id}`} prompt={question.prompt} disabled={locked} hasImage={Boolean(answerImage)} onSave={image => { setAnswerImage(image); setMessage("Notepad answer attached. You can now submit it for AI review."); }} />
+          <AnswerNotepad key={question.id} draftId={`short-notes:${userId || "guest"}:${question.id}`} prompt={question.prompt} disabled={locked} hasImage={Boolean(answerImages.length)} onSave={image => { setAnswerImages(image.pages || [{ ...image, source: "notepad" }]); setMessage("Notepad pages attached. Submit them to save your answer and review in your library."); }} />
           <section className="sn-review-info"><Sparkles size={19} /><h3>A little feedback goes a long way.</h3><p>Get a score, specific improvements, and a structured model answer.</p><span>Medical accuracy · Coverage · Structure</span></section>
         </aside>
         <div className="sn-submit-area">
           {!signedIn && <p className="sn-notice">You can write and save a draft as a guest. Sign in to submit it for AI review.</p>}
-          <label className="sn-consent"><input type="checkbox" checked={privacyAccepted} onChange={event => setPrivacyAccepted(event.target.checked)} disabled={locked} /><span>I agree to send this answer and any photo to Gemini for review. I haven't included patient-identifying information.</span></label>
+          <label className="sn-consent"><input type="checkbox" checked={privacyAccepted} onChange={event => setPrivacyAccepted(event.target.checked)} disabled={locked} /><span>I agree to send this answer and its pages to Gemini for review and save them privately in my answer library. I haven't included patient-identifying information.</span></label>
           {message && <p className="form-message" role="alert">{message}</p>}
-          <div className="sn-submit-row"><span>{busy ? "Reviewing your answer. This can take a little time..." : "Your own words. A clearer understanding."}</span><button className="button button-primary sn-submit" type="submit" disabled={!signedIn || locked || !privacyAccepted || (!answerImage && draft.trim().length < 3)}>{busy ? <Loader2 className="sn-spin" size={17} /> : <Sparkles size={17} />}{busy ? "Reviewing answer..." : "Submit for AI review"}</button></div>
+          <div className="sn-submit-row"><span>{busy ? "Reviewing your answer. This can take a little time..." : "Your answer and review will be saved together."}</span><button className="button button-primary sn-submit" type="submit" disabled={!signedIn || locked || !privacyAccepted || (!answerImages.length && draft.trim().length < 3)}>{busy ? <Loader2 className="sn-spin" size={17} /> : <Sparkles size={17} />}{busy ? "Reviewing answer..." : "Submit for AI review"}</button></div>
         </div>
       </form>}
       <div className="sn-question-pagination"><button className="sn-back" type="button" disabled={locked || topic.questions[0].id === question.id} onClick={() => openQuestion(topic.questions[topic.questions.indexOf(question) - 1].id)}><ArrowLeft size={16} /> Previous question</button><button className="sn-back" type="button" disabled={locked || topic.questions.at(-1).id === question.id} onClick={() => openQuestion(topic.questions[topic.questions.indexOf(question) + 1].id)}>Next question <ArrowRight size={16} /></button></div>
@@ -170,15 +211,15 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
         <div className="sn-hero-copy"><p className="sn-eyebrow"><BookOpen size={15} /> Theory / Short Notes</p><h2 ref={titleRef} tabIndex={-1}>{topic ? topic.title : <>{subject.title}<span>One concept at a time.</span></>}</h2><p>{topic ? "Choose a question. Write your answer. Get feedback that helps it stick." : "Build answers worth remembering. Choose a topic to begin your theory practice."}</p></div>
         <div className="sn-progress-summary"><span className="sn-progress-icon"><Layers3 size={24} /></span><strong>{topic ? topicReviewed : totalReviewed}<span> / {topic ? topic.questions.length : allQuestions.length}</span></strong><small>questions reviewed</small><div className="sn-progress-track"><span style={{ width: `${100 * (topic ? topicReviewed / topic.questions.length : totalReviewed / allQuestions.length)}%` }} /></div></div>
       </header>
-      <div className="sn-section-heading"><div><h3>{topic ? "Theory questions" : "Explore topics"}</h3><p>{topic ? `${visibleQuestions.length} of ${topic.questions.length} questions` : `${subject.topics.length} topics · ${allQuestions.length} questions · ${(bank.sources?.find(source => source.id === subject.sourceId) || bank.source).title}`}</p></div><button className="sn-back" type="button" onClick={topic ? () => { setTopicId(""); setSearch(""); setFilter("all"); setStarred(false); } : onBack}><ArrowLeft size={15} /> {topic ? "All topics" : "Subjects"}</button></div>
+      <div className="sn-section-heading"><div><h3>{topic ? "Theory questions" : "Explore topics"}</h3><p>{topic ? `${visibleQuestions.length} of ${topic.questions.length} questions` : `${subject.topics.length} topics · ${allQuestions.length} questions`}</p></div><button className="sn-back" type="button" onClick={topic ? () => { setTopicId(""); setSearch(""); setFilter("all"); setStarred(false); } : onBack}><ArrowLeft size={15} /> {topic ? "All topics" : "Subjects"}</button></div>
       <div className="sn-toolbar"><label className="sn-search"><Search size={18} /><input aria-label={topic ? "Search questions" : "Search topics or questions"} value={search} onChange={event => setSearch(event.target.value)} placeholder={topic ? "Find a question in this topic..." : "Find a topic or concept..."} />{search && <button type="button" aria-label="Clear search" onClick={() => setSearch("")}><X size={16} /></button>}</label>
-        {topic && <button className={`sn-filter-star ${starred ? "is-active" : ""}`} type="button" aria-pressed={starred} onClick={() => setStarred(value => !value)}><Star size={15} /> Starred in source</button>}
+        {topic && <button className={`sn-filter-star ${starred ? "is-active" : ""}`} type="button" aria-pressed={starred} onClick={() => setStarred(value => !value)}><Star size={15} /> Starred</button>}
       </div>
       {topic ? <>
-        <div className="sn-filters" aria-label="Filter questions">{[["all", "All questions"], ["short-note", "Short notes"], ["long-answer", "Long answers"], ["unreviewed", "To practise"]].map(([value, label]) => <button key={value} type="button" aria-pressed={filter === value} className={filter === value ? "is-active" : ""} onClick={() => setFilter(value)}>{label}</button>)}</div>
+        <div className="sn-filters" aria-label="Filter questions">{[["all", "All questions"], ["saved", "My answers"], ["short-note", "Short notes"], ["long-answer", "Long answers"], ["unreviewed", "To practise"]].map(([value, label]) => <button key={value} type="button" aria-pressed={filter === value} className={filter === value ? "is-active" : ""} onClick={() => setFilter(value)}>{label}</button>)}</div>
         <div className="sn-question-list">{visibleQuestions.map(item => <button className={`sn-question-row ${reviews[item.id] ? "is-reviewed" : ""}`} type="button" key={item.id} onClick={() => openQuestion(item.id)}>
           <span className="sn-row-number">{reviews[item.id] ? <Check size={19} /> : String(topic.questions.indexOf(item) + 1).padStart(2, "0")}</span>
-          <span className="sn-row-body"><span className="sn-row-meta"><span>{typeLabel(item.kind)}</span>{item.emphasis > 0 && <span className="sn-star-label" title={`${item.emphasis} source stars`}><Star size={12} /> {item.emphasis > 1 ? `${item.emphasis} stars` : "Starred"}</span>}<span>PDF p. {item.sourcePage}</span></span><strong>{item.prompt}</strong></span>
+          <span className="sn-row-body"><span className="sn-row-meta"><span>{typeLabel(item.kind)}</span>{item.emphasis > 0 && <span className="sn-star-label" title={`${item.emphasis} stars`}><Star size={12} /> {item.emphasis > 1 ? `${item.emphasis} stars` : "Starred"}</span>}</span><strong>{item.prompt}</strong></span>
           <span className="sn-row-action">{reviews[item.id] ? <span>{reviews[item.id].score}/10</span> : <span>{drafts[item.id] ? "Continue" : "Write answer"}</span>}<ArrowRight size={18} /></span>
         </button>)}</div>
         {!visibleQuestions.length && <div className="sn-empty"><Search size={28} /><h3>No matching questions</h3><p>Try another keyword or reset your filters.</p><button className="button button-secondary" onClick={() => { setSearch(""); setFilter("all"); setStarred(false); }}>Reset filters</button></div>}
@@ -186,7 +227,6 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
         const reviewed = item.questions.filter(q => reviews[q.id]).length;
         return <button className="sn-topic-card" type="button" key={item.id} onClick={() => { setTopicId(item.id); setSearch(""); setFilter("all"); setStarred(false); }}><span className="sn-topic-top"><span className="sn-topic-number">{String(subject.topics.indexOf(item) + 1).padStart(2, "0")}</span><ArrowRight size={18} /></span><h4>{item.title}</h4><p>{item.questions.length} questions<span>{item.questions.filter(q => q.kind === "long-answer").length} long answers</span></p><div className="sn-progress-track"><span style={{ width: `${100 * reviewed / item.questions.length}%` }} /></div><small>{reviewed ? `${reviewed} reviewed` : "Ready when you are"}</small></button>;
       })}{!visibleTopics.length && <div className="sn-empty"><h3>No matching topics</h3><p>Try another topic or question keyword.</p></div>}</div>}
-      <p className="sn-library-footer"><BookOpen size={14} /> Questions from {(bank.sources?.find(source => source.id === subject.sourceId) || bank.source).title}. Star markers follow the original PDF.</p>
     </>}
   </section>;
 }

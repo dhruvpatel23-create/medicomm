@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { once } from 'node:events';
@@ -12,6 +12,11 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   const directory = await mkdtemp(path.join(tmpdir(), 'medicomm-test-'));
   const seed = { users: [{ id: 'paid-fixture', name: 'Paid Learner', email: 'paid@example.test', medicalCollege: 'Test College' }], sessions: {}, paymentOrders: [{ orderId: 'order_fixture', userId: 'paid-fixture', status: 'paid', paymentId: 'pay_fixture', verifiedAt: new Date().toISOString() }] };
   const paidToken = issueSession(seed, 'paid-fixture');
+  const savedPage = 'user-theory-private.png';
+  const savedPng = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==', 'base64');
+  seed.shortNoteReviews = [{ userId: 'paid-fixture', questionId: 'fixture', answer: 'Private answer', answerPages: [{ imagePath: savedPage }] }];
+  await mkdir(path.join(directory, 'uploads'));
+  await writeFile(path.join(directory, 'uploads', savedPage), savedPng);
   await writeFile(path.join(directory, 'users.json'), JSON.stringify(seed));
   const child = spawn(process.execPath, ['server.mjs'], {
     cwd: new URL('..', import.meta.url),
@@ -30,6 +35,11 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   const call = (route, method = 'GET', payload, extra = {}) => fetch(address + route, { method, headers: { 'Content-Type': 'application/json', Origin: 'http://localhost:5173', ...(cookie ? { Cookie: cookie } : {}), ...extra }, body: payload === undefined ? undefined : JSON.stringify(payload) });
   assert.equal((await call('/health/ready')).status, 200);
   assert.equal((await call('/api/auth/session')).status, 401);
+  assert.equal((await call(`/uploads/${savedPage}`)).status, 401);
+  const ownPage = await call(`/uploads/${savedPage}`, 'GET', undefined, { Cookie: 'medicomm_session=' + paidToken });
+  assert.equal(ownPage.status, 200);
+  assert.equal(ownPage.headers.get('cache-control'), 'private, no-store');
+  assert.deepEqual(Buffer.from(await ownPage.arrayBuffer()), savedPng);
   assert.equal((await call('/api/dashboard')).status, 401);
   assert.equal((await call('/api/auth/login', 'POST', {}, { Origin: 'https://evil.example' })).status, 403);
   assert.equal((await call('/api/auth/login', 'POST', null)).status, 400);
@@ -68,6 +78,7 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   assert.equal((await call('/api/practice/attempts', 'POST', {})).status, 403);
   assert.equal((await call('/api/viva/sessions', 'POST', {})).status, 403);
   const unpaidCookie = cookie; cookie = 'medicomm_session=' + paidToken;
+  assert.equal((await call(`/uploads/${savedPage}`, 'GET', undefined, { Cookie: unpaidCookie })).status, 404);
   assert.equal((await (await call('/api/auth/session')).json()).user.hasPracticeAccess, true);
   assert.equal((await call('/short-notes.json')).headers.get('cache-control'), 'private, no-store');
   assert.equal((await call('/api/dashboard/goal', 'PATCH', { exam: 'Test exam', date: '2027-03-01', weeklyTarget: 150 })).status, 200);

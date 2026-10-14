@@ -116,11 +116,12 @@ const assert = require('node:assert/strict');
       textbookSources: [{ book: "B. D. Chaurasia's Human Anatomy", topic: 'Triangles of the neck' }] };
     let reviews = [];
     await page.route('**/short-notes.json', route => route.fulfill({ json: { source: { title: 'Test questions' }, subjects: [{ id: 'anatomy', title: 'Anatomy', topics: [{ id: 'neck', title: 'Neck', questions: [fixtureQuestion, { ...fixtureQuestion, id: 'question-two', prompt: 'Another question' }] }] }] } }));
-    await page.route('**/api/short-notes/reviews', route => {
+    await page.route('**/api/short-notes/reviews*', route => {
       if (route.request().method() === 'GET') return route.fulfill({ json: { reviews } });
       const submitted = route.request().postDataJSON();
       assert.equal(submitted.questionId, fixtureQuestion.id);
-      assert(submitted.answerImageDataUrl.startsWith('data:image/png;'));
+      assert.equal(submitted.answerPages.length, 2);
+      assert(submitted.answerPages.every(page => page.dataUrl.startsWith('data:image/png;') && page.source === 'notepad'));
       reviews = [fixtureReview];
       return route.fulfill({ status: 201, json: { review: fixtureReview } });
     });

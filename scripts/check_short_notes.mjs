@@ -54,7 +54,8 @@ const handler = createShortNotesHandler({questions,
  requireSessionUser: (req,res) => { if (!req.user) { res.status=401; return null; } return { id: req.user }; },
  parseRequestBody: async req => req.body,
  sendJson: (res,status,body) => Object.assign(res,{status,body}),
- parseAnswerImage: value => { if (value === 'bad') throw new Error('Invalid image'); return value ? { mimeType: 'image/png', data: 'test' } : null; },
+ parseAnswerImage: value => { if (value === 'bad') throw new Error('Invalid image'); return value ? { mimeType: 'image/png', data: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==' } : null; },
+ saveAnswerImage: async () => 'user-test.png', removeAnswerImage: async () => {},
  evaluate: async value => { calls++; captured=value; if (fail) throw new Error('AI unavailable'); return evaluation; },
 });
 async function request(method, body={}, user='learner') { const res={}; await handler({method,body,user},res); return res; }
@@ -76,10 +77,10 @@ assert.deepEqual((await request('GET')).body.reviews[0].textbookSources, evaluat
 assert.equal((await request('GET',{},'other-user')).body.reviews[0].answer,'Private answer');
 result=await request('POST',{...payload,answer:'',answerImageDataUrl:'valid'});
 assert.equal(result.status,201);assert.equal(result.body.review.hasImage,true);
-assert.equal(db.shortNoteReviews.length,2); // Latest review replaces only this user's same question.
+assert.equal(db.shortNoteReviews.length,3); // Every attempt is retained; list view selects the latest.
 fail=true;
 result=await request('POST',payload);assert.equal(result.status,502);
-assert.equal(db.shortNoteReviews.length,2);
+assert.equal(db.shortNoteReviews.length,3);
 fail=false;
 assert.equal((await request('POST',payload)).status,201); // Retry releases lock after failure.
 console.log('PASS: 3,330 prompts / 540 topics across fifteen subjects; extraction edge cases; auth, consent, validation, canonical prompts, user isolation, image answers, persistence, failure and retry. AI evaluator stubbed.');
