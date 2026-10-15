@@ -16,6 +16,9 @@ export async function apiRequest(path, options = {}) {
     });
 
     const data = await response.json().catch(() => ({}));
+    if (/^\/api\/(duels|short-notes|clinical-cases|verify-payment)/.test(path)) {
+      window.dispatchEvent(new Event('tokens-changed'));
+    }
     if (!response.ok) {
       throw new Error(data.message ?? data.error ?? "Request failed.");
     }

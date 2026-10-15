@@ -5,6 +5,7 @@ import WebsiteReviews from "./components/WebsiteReviews";
 import CompeteArena from "./components/CompeteArena";
 import Leaderboard from "./components/Leaderboard";
 import CommunityHub from "./components/CommunityHub";
+import CommunityThreads from "./components/CommunityThreads";
 import { socialPage, surface as socialSurface, primary as socialPrimary, secondary as socialSecondary, field as socialField, avatar as socialAvatar } from "./components/SocialUI";
 import PracticeSelection from "./components/PracticeSelection";
 import PracticeSubjectDirectory from "./components/PracticeSubjectDirectory";
@@ -27,7 +28,7 @@ import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261011-final-year-fmge-text-only";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261015-img1-visibility-fix";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -87,9 +88,42 @@ const PATHOLOGY_CHAPTER_ORDER = new Map([
   "The Eye",
 ].map((title, index) => [title, index + 1]));
 
+const GENERAL_SURGERY_CHAPTER_ORDER = new Map([
+  "BASIC PRINCIPLES OF SURGERY",
+  "GENERAL SURGERY",
+  "GASTROINTESTINAL SURGERY",
+  "UROLOGY",
+  "SPECIALITIES",
+].map((title, index) => [title, index + 1]));
+
+const OBGYN_CHAPTER_ORDER = new Map([
+  "BASIC SCIENCES, ANATOMY, EMBRYOLOGY & DIAGNOSTICS",
+  "REPRODUCTIVE ENDOCRINOLOGY, INFERTILITY & CONTRACEPTION",
+  "GYNAECOLOGICAL INFECTIONS, PELVIC PAIN & UROGYNAECOLOGY",
+  "BENIGN GYNAECOLOGICAL DISORDERS & EARLY PREGNANCY",
+  "GYNAECOLOGIC ONCOLOGY & THERAPEUTICS",
+].map((title, index) => [title, index + 1]));
+
+const PEDIATRICS_CHAPTER_ORDER = new Map([
+  "INTRODUCTION, GROWTH, DEVELOPMENT & ADOLESCENCE",
+  "FLUIDS, ELECTROLYTES, NUTRITION & MICRONUTRIENTS",
+  "NEWBORN INFANTS (NEONATOLOGY) - CARE & INFECTIONS",
+  "NEWBORN INFANTS - SYSTEMIC DISORDERS",
+  "IMMUNIZATION & IMMUNODEFICIENCY",
+].map((title, index) => [title, index + 1]));
+
 function getPracticeChapterOrder(question, subjectId) {
   if (subjectId === "pathology") {
     return PATHOLOGY_CHAPTER_ORDER.get(question.chapterTitle) ?? directoryOrder(question.chapterOrder);
+  }
+  if (subjectId === "general-surgery") {
+    return GENERAL_SURGERY_CHAPTER_ORDER.get(question.chapterTitle) ?? directoryOrder(question.chapterOrder);
+  }
+  if (subjectId === "obgyn") {
+    return OBGYN_CHAPTER_ORDER.get(question.chapterTitle) ?? directoryOrder(question.chapterOrder);
+  }
+  if (subjectId === "pediatrics") {
+    return PEDIATRICS_CHAPTER_ORDER.get(question.chapterTitle) ?? directoryOrder(question.chapterOrder);
   }
   return directoryOrder(question.chapterOrder);
 }
@@ -1921,7 +1955,7 @@ async function fetchPracticeLibrary() {
       });
       let readySession = data.session;
       const generationDeadline = Date.now() + CLINICAL_CASE_GENERATION_WAIT_MS;
-      setClinicalSessionMessage("Gemini is preparing the cases. This page will open them automatically when they are ready.");
+      setClinicalSessionMessage("AI is preparing the cases. This page will open them automatically when they are ready.");
 
       while (readySession?.status === "generating" && Date.now() < generationDeadline) {
         await new Promise((resolve) => window.setTimeout(resolve, CLINICAL_CASE_GENERATION_POLL_MS));
@@ -1935,7 +1969,7 @@ async function fetchPracticeLibrary() {
       }
 
       if (readySession?.status === "generation_failed") {
-        throw new Error(readySession.generationError || "Gemini could not prepare these clinical cases.");
+        throw new Error(readySession.generationError || "AI could not prepare these clinical cases.");
       }
       if (readySession?.status !== "active") {
         throw new Error("Clinical Case generation is still running. Press Start clinical cases again to reconnect to it.");
@@ -3013,7 +3047,7 @@ async function fetchPracticeLibrary() {
               <h2>Official PYQs and topic-wise questions, together.</h2>
               <p className="panel-copy">
                 The practice library now loads from the backend, keeps NEET PG PYQs as the core bank, and labels
-                Gemini-generated MCQs separately so they never look like official exam material.
+                AI-generated MCQs separately so they never look like official exam material.
               </p>
             </div>
             <div className="practice-upgrade-actions">
@@ -3329,7 +3363,7 @@ async function fetchPracticeLibrary() {
             <div>
               <p className="eyebrow">{clinicalSession.subjectTitle} · Clinical Cases complete</p>
               <h2>Your final score is {clinicalSession.averageScore} / 10</h2>
-              <p className="view-subtitle">Gemini reviewed all three theory responses against case-specific marking points.</p>
+              <p className="view-subtitle">AI reviewed all three theory responses against case-specific marking points.</p>
             </div>
             <button className="button button-secondary" type="button" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
           </div>
@@ -3422,7 +3456,7 @@ async function fetchPracticeLibrary() {
                     <span>/ 10</span>
                   </div>
                   <div>
-                    <p className="eyebrow">Gemini theory review</p>
+                    <p className="eyebrow">AI theory review</p>
                     <h4>{currentClinicalEvaluation.feedback}</h4>
                   </div>
                 </div>
@@ -3474,7 +3508,7 @@ async function fetchPracticeLibrary() {
                 <details className="viva-submitted-answer">
                   <summary>Your submitted response</summary>
                   {currentClinicalEvaluation.answer ? <p>{currentClinicalEvaluation.answer}</p> : null}
-                  {currentClinicalEvaluation.hasImage ? <p className="viva-submitted-image-note">A photographed written answer was included in Gemini&apos;s review.</p> : null}
+                  {currentClinicalEvaluation.hasImage ? <p className="viva-submitted-image-note">A photographed written answer was included in AI&apos;s review.</p> : null}
                 </details>
 
                 {clinicalAnswerMessage ? <p className="form-message" role="alert">{clinicalAnswerMessage}</p> : null}
@@ -3514,7 +3548,7 @@ async function fetchPracticeLibrary() {
                   <div className="viva-image-answer-heading">
                     <div>
                       <strong id="clinical-image-answer-title">Upload your written theory answer</strong>
-                      <span>Gemini can review clear handwriting from a photographed answer sheet.</span>
+                      <span>AI can review clear handwriting from a photographed answer sheet.</span>
                     </div>
                     <span className="viva-image-optional">Optional</span>
                   </div>
@@ -3546,7 +3580,7 @@ async function fetchPracticeLibrary() {
 
                 {clinicalAnswerMessage ? <p className="form-message" role="alert">{clinicalAnswerMessage}</p> : null}
                 <div className="viva-answer-actions">
-                  <p>Gemini will grade diagnosis, reasoning, morphology, and investigations against private case-specific marking points.</p>
+                  <p>AI will grade diagnosis, reasoning, morphology, and investigations against private case-specific marking points.</p>
                   <button
                     className="button button-primary"
                     type="button"
@@ -3554,7 +3588,7 @@ async function fetchPracticeLibrary() {
                     onClick={handleSubmitClinicalCaseAnswer}
                     aria-busy={clinicalAnswerBusy}
                   >
-                    {clinicalAnswerBusy ? "Gemini is reviewing..." : "Submit case for AI review"}
+                    {clinicalAnswerBusy ? "AI is reviewing..." : "Submit case for AI review"}
                   </button>
                 </div>
               </>
@@ -3574,7 +3608,7 @@ async function fetchPracticeLibrary() {
             <div>
               <p className="eyebrow">{clinicalSubject?.title ?? "Practice"} · Clinical Cases</p>
               <h2>Choose one or more chapters</h2>
-              <p className="view-subtitle">Gemini will create three applied theory cases in the selected chapters.</p>
+              <p className="view-subtitle">AI will create three applied theory cases in the selected chapters.</p>
             </div>
             <button className="button button-secondary" type="button" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
           </div>
@@ -3638,7 +3672,7 @@ async function fetchPracticeLibrary() {
                 onClick={handleCreateClinicalCaseSession}
                 aria-busy={clinicalSessionBusy}
               >
-                {clinicalSessionBusy ? "Preparing clinical cases..." : "Start clinical cases"}
+                {clinicalSessionBusy ? "Preparing clinical cases..." : "Generate 3 cases (30 tokens)"}
               </button>
             </div>
             <p className="viva-build-note">Preparing three applied cases usually takes a few seconds.</p>
@@ -3654,7 +3688,7 @@ async function fetchPracticeLibrary() {
             <div>
               <p className="eyebrow">{vivaSession.subjectTitle} · AI Viva complete</p>
               <h2>Your final score is {vivaSession.averageScore} / 10</h2>
-              <p className="view-subtitle">Gemini reviewed all five responses against the question-specific marking points.</p>
+              <p className="view-subtitle">AI reviewed all five responses against the question-specific marking points.</p>
             </div>
             <button className="button button-secondary" type="button" onClick={handleBackToPracticeDirectory}>Back to subjects</button>
           </div>
@@ -3735,7 +3769,7 @@ async function fetchPracticeLibrary() {
                     <span>/ 10</span>
                   </div>
                   <div>
-                    <p className="eyebrow">Gemini review</p>
+                    <p className="eyebrow">AI review</p>
                     <h4>{currentVivaEvaluation.feedback}</h4>
                   </div>
                 </div>
@@ -3763,7 +3797,7 @@ async function fetchPracticeLibrary() {
                 <details className="viva-submitted-answer">
                   <summary>Your submitted response</summary>
                   {currentVivaEvaluation.answer ? <p>{currentVivaEvaluation.answer}</p> : null}
-                  {currentVivaEvaluation.hasImage ? <p className="viva-submitted-image-note">A photographed written answer was included in Gemini&apos;s review.</p> : null}
+                  {currentVivaEvaluation.hasImage ? <p className="viva-submitted-image-note">A photographed written answer was included in AI&apos;s review.</p> : null}
                 </details>
 
                 {vivaAnswerMessage ? <p className="form-message" role="alert">{vivaAnswerMessage}</p> : null}
@@ -3803,7 +3837,7 @@ async function fetchPracticeLibrary() {
                   <div className="viva-image-answer-heading">
                     <div>
                       <strong id="viva-image-answer-title">Upload your written answer</strong>
-                      <span>Skip lengthy typing—Gemini can read clear handwriting from a photo.</span>
+                      <span>Skip lengthy typing—AI can read clear handwriting from a photo.</span>
                     </div>
                     <span className="viva-image-optional">Optional</span>
                   </div>
@@ -3853,7 +3887,7 @@ async function fetchPracticeLibrary() {
 
                 {vivaAnswerMessage ? <p className="form-message" role="alert">{vivaAnswerMessage}</p> : null}
                 <div className="viva-answer-actions">
-                  <p>Gemini will review your typed response, uploaded answer, or both against the private marking points and prepare a score and model answer.</p>
+                  <p>AI will review your typed response, uploaded answer, or both against the private marking points and prepare a score and model answer.</p>
                   <button
                     className="button button-primary"
                     type="button"
@@ -3861,7 +3895,7 @@ async function fetchPracticeLibrary() {
                     onClick={handleSubmitVivaAnswer}
                     aria-busy={vivaAnswerBusy}
                   >
-                    {vivaAnswerBusy ? "Gemini is reviewing..." : "Submit for AI review"}
+                    {vivaAnswerBusy ? "AI is reviewing..." : "Submit for AI review"}
                   </button>
                 </div>
               </>
@@ -3934,7 +3968,7 @@ async function fetchPracticeLibrary() {
               />
               <span>
                 <strong>AI privacy notice</strong>
-                <small>Your selected chapters, typed responses, and any uploaded answer images will be sent to the configured AI provider. Answer images are not saved in your Viva history. With Gemini&apos;s free tier, Google may use submitted content to improve its products. Do not include names, contact details, or patient-identifiable information.</small>
+                <small>Your selected chapters, typed responses, and any uploaded answer images will be sent to the configured AI provider. Answer images are not saved in your Viva history. With the free tier, the AI service may process submitted content according to standard AI terms. Do not include names, contact details, or patient-identifiable information.</small>
               </span>
             </label>
 
@@ -4413,7 +4447,7 @@ async function fetchPracticeLibrary() {
                     <span className="practice-choice-icon">CASE</span>
                     <strong>Clinical Cases</strong>
                     <p>Applied theory cases with diagnosis and structured follow-up questions</p>
-                    <small>Type or photograph answers · Gemini theory review</small>
+                    <small>Type or photograph answers · AI theory review</small>
                   </button>
                 </div>
               )}
@@ -4631,7 +4665,7 @@ async function fetchPracticeLibrary() {
             </div>
 
             <div className="grid items-start lg:grid-cols-[minmax(0,1fr)_280px]">
-              <div className="min-w-0 p-5">
+              <div className="direct-chat-wallpaper min-w-0 p-5">
                 <div className="flex max-h-[60vh] min-h-64 flex-col gap-4 overflow-y-auto pb-5">
                   {selectedDirectConversation.messages.map((message) => (
                     <div
@@ -4712,255 +4746,15 @@ async function fetchPracticeLibrary() {
     }
 
     if (communityStage === "detail" && selectedCommunity) {
-      const communityMessageIds = new Set(selectedCommunity.messages.map((message) => message.id));
-      const communityThreadPosts = selectedCommunity.messages.filter(
-        (message) => !message.parentMessageId || !communityMessageIds.has(message.parentMessageId),
-      );
-      const repliesByParent = selectedCommunity.messages.reduce((threads, message) => {
-        if (!message.parentMessageId) return threads;
-        threads[message.parentMessageId] = [...(threads[message.parentMessageId] ?? []), message];
-        return threads;
-      }, {});
-      const communityThreadWordCount = countWords(communityMessageDraft);
-
-      return (
-        <section className={socialPage}>
-          <div className="flex flex-wrap items-center justify-between gap-4 [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:tracking-tight">
-            <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-700 dark:text-cyan-300">Communities</p>
-              <h2>{selectedCommunity.name}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">A focused feed of questions, clinical takes, and threaded replies.</p>
-            </div>
-            <button className={socialSecondary} onClick={handleBackToCommunityHub}>
-              Back to community hub
-            </button>
-          </div>
-
-          {communitiesMessage ? <p className="rounded-xl border border-cyan-200 bg-cyan-50 p-4 text-sm text-cyan-900 dark:border-cyan-900 dark:bg-cyan-950 dark:text-cyan-100">{communitiesMessage}</p> : null}
-
-          <article className={`${socialSurface} overflow-hidden`}>
-            <div className="flex flex-wrap items-center justify-between gap-5 p-5 sm:p-6 [&_h3]:text-xl [&_h3]:font-semibold">
-              <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-700 dark:text-cyan-300">Community threads</p>
-                <h3>{selectedCommunity.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{selectedCommunity.description}</p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{selectedCommunity.memberCount} members</span>
-                {selectedCommunity.isAdmin ? (
-                  <button
-                    className={socialSecondary}
-                    type="button"
-                    onClick={() => handleCopyCommunityInvite(selectedCommunity.id)}
-                  >
-                    Copy invite link
-                  </button>
-                ) : null}
-                {!selectedCommunity.isMember ? (
-                  <button className={socialPrimary} onClick={() => handleJoinCommunity(selectedCommunity.id)}>
-                    Join community
-                  </button>
-                ) : null}
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-x-6 gap-y-2 border-y border-slate-100 bg-slate-50 px-5 py-3 text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-950/50 dark:text-slate-400">
-              <span>Topic: {selectedCommunity.topic}</span>
-              <span>Admin: {selectedCommunity.adminName}</span>
-              <span>{communityThreadPosts.length} threads</span>
-            </div>
-
-            <div className="grid items-start lg:grid-cols-[minmax(0,1fr)_280px]">
-              <div className="min-w-0 p-4 sm:p-6">
-                {selectedCommunity.isMember ? (
-                  <form className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 sm:p-4 dark:border-slate-700 dark:bg-slate-950/50" onSubmit={(event) => handleSendCommunityMessage(event)}>
-                    <div className={`${socialAvatar} hidden sm:flex`}>
-                      {user?.profileImageUrl ? <img className="h-full w-full object-cover" src={user.profileImageUrl} alt="" /> : <span>{getInitials(user?.name)}</span>}
-                    </div>
-                    <div className="min-w-0 flex-1 space-y-3 [&>div:last-child]:flex [&>div:last-child]:flex-wrap [&>div:last-child]:items-center [&>div:last-child]:justify-between [&>div:last-child]:gap-3">
-                      <textarea className={socialField} aria-label="New discussion thread"
-                        rows="3"
-                        value={communityMessageDraft}
-                        onChange={(event) => setCommunityMessageDraft(event.target.value)}
-                        placeholder="Share a question, clinical pearl, or study update..."
-                      />
-                      {communityThreadImage ? (
-                        <div className="relative space-y-2 [&_img]:max-h-56 [&_img]:rounded-xl [&_button]:absolute [&_button]:right-2 [&_button]:top-2 [&_button]:rounded-lg [&_button]:bg-slate-900 [&_button]:px-3 [&_button]:py-1 [&_button]:text-white [&_span]:block [&_span]:truncate [&_span]:text-xs">
-                          <img src={communityThreadImage.dataUrl} alt="Thread attachment preview" />
-                          <button type="button" onClick={() => setCommunityThreadImage(null)} aria-label="Remove attached image">×</button>
-                          <span>{communityThreadImage.name}</span>
-                        </div>
-                      ) : null}
-                      <div>
-                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-                          <label className="relative inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-3 text-xs font-semibold hover:bg-white focus-within:ring-2 focus-within:ring-cyan-500 dark:border-slate-700 dark:hover:bg-slate-800 [&_input]:absolute [&_input]:inset-0 [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
-                            <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handleCommunityThreadImageChange} />
-                            <span aria-hidden="true">▧</span> Add image
-                          </label>
-                          <span className={communityThreadWordCount > COMMUNITY_THREAD_WORD_LIMIT ? "font-semibold text-red-600 dark:text-red-400" : ""}>
-                            {communityThreadWordCount}/{COMMUNITY_THREAD_WORD_LIMIT} words
-                          </span>
-                        </div>
-                        <button
-                          className={socialPrimary}
-                          type="submit"
-                          disabled={(!communityMessageDraft.trim() && !communityThreadImage) || communityThreadWordCount > COMMUNITY_THREAD_WORD_LIMIT}
-                        >
-                          Post thread
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                ) : (
-                  <div className="rounded-xl border border-cyan-200 bg-cyan-50 p-4 text-sm text-cyan-900 dark:border-cyan-800 dark:bg-cyan-950 dark:text-cyan-100 [&_p]:mt-2">
-                    <strong>Join this group to publish and reply.</strong>
-                    <p>You can still preview its threads, members, and discussion style before joining.</p>
-                  </div>
-                )}
-
-                <div className="mb-2 mt-7 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 [&_h4]:mb-1 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-slate-900 dark:[&_h4]:text-slate-100">
-                  <div><h4>Latest threads</h4><span>Newest conversations first</span></div>
-                  <span>{communityThreadPosts.length}</span>
-                </div>
-
-                <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {[...communityThreadPosts].reverse().map((message) => {
-                    const replies = repliesByParent[message.id] ?? [];
-                    const isExpanded = Boolean(expandedCommunityThreads[message.id]);
-                    return (
-                      <article className="flex gap-3 py-6" key={message.id}>
-                        <div className={`${socialAvatar} hidden sm:flex`}><span>{getInitials(message.userName)}</span></div>
-                        <div className="min-w-0 flex-1 [&>p]:mt-3 [&>p]:whitespace-pre-wrap [&>p]:break-words [&>p]:text-sm [&>p]:leading-7">
-                          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs [&_button]:font-semibold [&_button]:hover:text-cyan-600 [&_strong]:font-semibold [&_span]:text-cyan-600 [&_time]:text-slate-400">
-                            {message.userId ? (
-                              <button type="button" onClick={() => openPublicProfile(message.userId, "Communities")}>{message.userName}</button>
-                            ) : <strong>{message.userName}</strong>}
-                            {message.isOwnMessage ? <span>You</span> : null}
-                            <time>{formatCommunityTimestamp(message.createdAt)}</time>
-                          </div>
-                          {message.text ? <p>{message.text}</p> : null}
-                          {message.imageUrl ? (
-                            <a className="mt-4 block [&_img]:max-h-96 [&_img]:rounded-xl [&_img]:object-contain" href={message.imageUrl} target="_blank" rel="noreferrer">
-                              <img src={message.imageUrl} alt={"Attached to " + message.userName + "'s thread"} />
-                            </a>
-                          ) : null}
-                          <div className="mt-4 flex gap-3 [&_button]:min-h-10 [&_button]:rounded-lg [&_button]:px-3 [&_button]:text-xs [&_button]:font-semibold [&_button]:text-cyan-700 [&_button]:hover:bg-cyan-50 dark:[&_button]:text-cyan-300 dark:[&_button]:hover:bg-cyan-950">
-                            <button
-                              type="button"
-                              aria-expanded={isExpanded}
-                              onClick={() => toggleCommunityThread(message.id, true)}
-                              disabled={!selectedCommunity.isMember}
-                              title={selectedCommunity.isMember ? "Reply to this thread" : "Join the community to reply"}
-                            >
-                              <span aria-hidden="true">↩</span> Reply
-                            </button>
-                            <button type="button" aria-expanded={isExpanded} onClick={() => toggleCommunityThread(message.id)} disabled={!replies.length}>
-                              <span aria-hidden="true">◯</span> {replies.length} {replies.length === 1 ? "reply" : "replies"}
-                            </button>
-                          </div>
-
-                          {isExpanded ? (
-                            <div className="mt-3 space-y-4 border-l-2 border-cyan-100 pl-3 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top-1 motion-safe:duration-200 dark:border-cyan-900 sm:pl-4">
-                              {replies.map((reply) => (
-                                <div className="flex gap-3 [&>div:last-child]:min-w-0 [&_p]:mt-2 [&_p]:whitespace-pre-wrap [&_p]:break-words [&_p]:text-sm [&_p]:leading-relaxed" key={reply.id}>
-                                  <div className={`${socialAvatar} hidden sm:flex`}><span>{getInitials(reply.userName)}</span></div>
-                                  <div>
-                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs [&_button]:font-semibold [&_button]:hover:text-cyan-600 [&_strong]:font-semibold [&_span]:text-cyan-600 [&_time]:text-slate-400">
-                                      {reply.userId ? <button type="button" onClick={() => openPublicProfile(reply.userId, "Communities")}>{reply.userName}</button> : <strong>{reply.userName}</strong>}
-                                      {reply.isOwnMessage ? <span>You</span> : null}
-                                      <time>{formatCommunityTimestamp(reply.createdAt)}</time>
-                                    </div>
-                                    <p>{reply.text}</p>
-                                  </div>
-                                </div>
-                              ))}
-                              {selectedCommunity.isMember ? (
-                                <form className="flex flex-wrap items-center gap-2 pt-2 [&_input]:min-w-0 [&_input]:flex-1" onSubmit={(event) => handleSendCommunityMessage(event, message.id)}>
-                                  <div className={`${socialAvatar} hidden sm:flex`}><span>{getInitials(user?.name)}</span></div>
-                                  <input
-                                    type="text" className={socialField} aria-label="Message"
-                                    value={communityReplyDrafts[message.id] ?? ""}
-                                    onChange={(event) => setCommunityReplyDrafts((current) => ({ ...current, [message.id]: event.target.value }))}
-                                    placeholder={`Reply to ${message.userName}...`}
-                                  />
-                                  <button className={socialPrimary} type="submit" disabled={!(communityReplyDrafts[message.id] ?? "").trim()}>Reply</button>
-                                </form>
-                              ) : null}
-                            </div>
-                          ) : null}
-                        </div>
-                      </article>
-                    );
-                  })}
-                  {!communityThreadPosts.length ? (
-                    <div className="py-12 text-center [&_h3]:font-semibold">
-                      <h3>No threads yet</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">Start the first conversation in this room.</p>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-
-              <aside className="min-w-0 border-t border-slate-100 bg-slate-50/60 p-5 lg:border-l lg:border-t-0 dark:border-slate-800 dark:bg-slate-950/30">
-                <div className="flex items-center justify-between gap-3 [&_h4]:font-semibold">
-                  <div>
-                    <h4>Members</h4>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">Get to know the learners in this room.</p>
-                  </div>
-                  <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{selectedCommunity.memberCount}</span>
-                </div>
-                <div className="mt-5 max-h-[600px] space-y-4 overflow-y-auto">
-                  {selectedCommunity.members.map((member) => (
-                    <div className="space-y-2" key={member.id}>
-                      <button
-                        type="button"
-                        className="w-full rounded-xl p-1 text-left transition hover:bg-slate-100 dark:hover:bg-slate-800 motion-reduce:transition-none"
-                        onClick={() => openPublicProfile(member.id, "Communities")}
-                      >
-                        <div className="flex min-w-0 items-center gap-3 [&>div:last-child]:min-w-0 [&_strong]:block [&_strong]:text-sm [&_p]:mt-1 [&_p]:truncate [&_p]:text-xs [&_p]:text-slate-500 dark:[&_p]:text-slate-400">
-                          <div className={socialAvatar}>
-                            {member.profileImageUrl ? (
-                              <img className="h-full w-full object-cover" src={member.profileImageUrl} alt={`${member.name} profile`} />
-                            ) : (
-                              <span>{getInitials(member.name)}</span>
-                            )}
-                          </div>
-                          <div>
-                            <strong>
-                              {member.id === selectedCommunity.adminUserId ? `${member.name} (Admin)` : member.name}
-                            </strong>
-                            <p>{member.medicalCollege}</p>
-                          </div>
-                        </div>
-                      </button>
-                      {selectedCommunity.isAdmin && member.id !== selectedCommunity.adminUserId ? (
-                        <div className="flex flex-wrap gap-2">
-                          <button
-                            className={`${socialSecondary} !min-h-9 !px-3 !py-1.5 !text-xs`}
-                            onClick={() => handleOpenDirectChat(member.id)}
-                          >
-                            Message
-                          </button>
-                          <button
-                            className={`${socialSecondary} !min-h-9 !px-3 !py-1.5 !text-xs`}
-                            onClick={() => handleRemoveCommunityMember(selectedCommunity.id, member.id)}
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      ) : member.id !== user?.id ? (
-                        <button className={`${socialSecondary} !min-h-9 !px-3 !py-1.5 !text-xs`} onClick={() => handleOpenDirectChat(member.id)}>
-                          Message
-                        </button>
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </aside>
-            </div>
-          </article>
-        </section>
-      );
+      return <CommunityThreads key={selectedCommunity.id} room={selectedCommunity} user={user}
+        message={communitiesMessage} timestamp={formatCommunityTimestamp} limit={COMMUNITY_THREAD_WORD_LIMIT}
+        draft={communityMessageDraft} onDraft={setCommunityMessageDraft}
+        image={communityThreadImage} onImage={handleCommunityThreadImageChange} onRemoveImage={() => setCommunityThreadImage(null)}
+        replyDrafts={communityReplyDrafts} onReplyDraft={(id, value) => setCommunityReplyDrafts(current => ({ ...current, [id]: value }))}
+        expanded={expandedCommunityThreads} onToggle={toggleCommunityThread} onSend={handleSendCommunityMessage}
+        onBack={handleBackToCommunityHub} onJoin={handleJoinCommunity} onInvite={handleCopyCommunityInvite}
+        onProfile={id => openPublicProfile(id, "Communities")} onDirect={handleOpenDirectChat}
+        onRemoveMember={handleRemoveCommunityMember} />;
     }
 
     return <CommunityHub communities={communities} busy={communitiesBusy}

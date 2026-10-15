@@ -1,0 +1,31 @@
+/* Quiet medical line art: decorative only, with opaque message surfaces. */
+.direct-chat-wallpaper {
+  background-color: #f3f8fa;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='240' viewBox='0 0 300 240'%3E%3Cg fill='none' stroke='%236999a7' stroke-opacity='.16' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M38 32h8v9h9v8h-9v9h-8v-9h-9v-8h9zM177 50h17l5-10 8 24 7-17 5 3h18M91 159c-18-14-27-23-19-31 6-6 13-3 19 3 6-6 13-9 19-3 8 8-1 17-19 31zM227 153l18-18a8 8 0 0 1 12 12l-18 18a8 8 0 0 1-12-12zm9-9 12 12M157 204h5m-2.5-2.5v5M275 83h5m-2.5-2.5v5'%3E%3C/path%3E%3Ccircle cx='144' cy='99' r='2'/%3E%3Ccircle cx='31' cy='201' r='2'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse at top left, rgba(204, 235, 238, .42), transparent 70%);
+}
+.direct-chat-wallpaper > form {
+  padding: 14px;
+  border: 1px solid #e1ebef;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgba(32, 67, 82, .035);
+}
+.direct-chat-wallpaper > div > div > div {
+  box-shadow: 0 1px 3px rgba(32, 67, 82, .06);
+  border: 1px solid rgba(128, 158, 171, .13);
+}
+:root[data-theme="dark"] .direct-chat-wallpaper {
+  background-color: #101d29;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='240' viewBox='0 0 300 240'%3E%3Cg fill='none' stroke='%238bc6d4' stroke-opacity='.10' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M38 32h8v9h9v8h-9v9h-8v-9h-9v-8h9zM177 50h17l5-10 8 24 7-17 5 3h18M91 159c-18-14-27-23-19-31 6-6 13-3 19 3 6-6 13-9 19-3 8 8-1 17-19 31zM227 153l18-18a8 8 0 0 1 12 12l-18 18a8 8 0 0 1-12-12zm9-9 12 12M157 204h5m-2.5-2.5v5M275 83h5m-2.5-2.5v5'%3E%3C/path%3E%3Ccircle cx='144' cy='99' r='2'/%3E%3Ccircle cx='31' cy='201' r='2'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse at top left, rgba(29, 79, 88, .25), transparent 70%);
+}
+:root[data-theme="dark"] .direct-chat-wallpaper > form {
+  border-color: #293b4b;
+  background: #142230;
+}
+@media (max-width: 480px) {
+  .direct-chat-wallpaper > form { padding: 10px; gap: 8px; }
+}

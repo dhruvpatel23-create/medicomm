@@ -56,7 +56,7 @@ test('Gemini request requires sources and returns validated sources with the mod
       assert(!instructions.includes('Format it as A -> B -> C'));
       const properties = requestBody.generationConfig.responseSchema.properties.modelAnswerSections.items.properties;
       assert.equal(properties.points.maxItems, 24);
-      assert.equal(properties.flowchart, undefined);
+      assert.equal(properties.flowchart.type, 'string');
     }
   }
   const images = [{ mimeType: 'image/png', data: 'page-one' }, { mimeType: 'image/jpeg', data: 'page-two' }];

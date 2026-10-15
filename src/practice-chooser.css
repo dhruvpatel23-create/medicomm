@@ -61,3 +61,7 @@
 }
 @keyframes practice-chooser-enter { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .practice-choice-modal, .practice-choice-modal * { animation: none !important; transition: none !important; } }
+.topbar-stat.topbar-token-balance { display: flex; flex-shrink: 0; }
+@media (max-width: 480px) {
+  .topbar-stat.topbar-token-balance { padding: 0 6px; gap: 3px; }
+}

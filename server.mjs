@@ -23,6 +23,7 @@ import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mj
 import { dashboardData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
 import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
 import { reconcileSubscriptions, subscriptionDetails } from "./server/subscriptions.mjs";
+import { tokenStatus, requireTokens, chargeTokens, refundTokens, updateTokenState } from './server/tokens.mjs';
 import { cleanUsername, requireAvailableUsername, reconcileUsernames, assertUniqueUsernames } from "./server/usernames.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -417,6 +418,7 @@ function normalizeQuestion(question, subject, exam = {}) {
     tags: Array.isArray(question.tags) ? question.tags.map((tag) => String(tag).trim()).filter(Boolean) : [],
     imageUrls,
     images,
+    imageReviewStatus: String(question.imageReviewStatus ?? ""),
     createdAt: question.createdAt ?? null,
   };
 }
@@ -1729,11 +1731,60 @@ function normalizeClinicalCaseEvaluation(generated, clinicalCase, subjectTitle) 
   return { score, feedback, strengths, improvements, modelAnswer, modelAnswerSections, textbookSources };
 }
 
+async function requestGeminiShortNotePrompt({ subjectTitle, topic, kind }) {
+  const apiKey = [process.env.GEMINI_API_KEY, process.env.GOOGLE_API_KEY, process.env.GOOGLE_AI_STUDIO_API_KEY].find(value => value?.trim())?.trim();
+  const cleanTopic = String(topic || "").trim();
+  const fallback = kind === "long-answer"
+    ? `${cleanTopic} – Etiopathogenesis, Clinical Features, Investigations, and Management`
+    : `${cleanTopic} – Key Features, Pathophysiology, and Applied Significance`;
+  if (!apiKey || !cleanTopic) return fallback;
+
+  try {
+    const model = resolveGeminiModel(process.env.SHORT_NOTES_EVALUATION_MODEL || process.env.CLINICAL_CASE_EVALUATION_MODEL, "gemini-3.5-flash");
+    const response = await fetchGeminiReviewWithFallback(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+        body: JSON.stringify({
+          generationConfig: {
+            maxOutputTokens: 256,
+            responseMimeType: "application/json",
+            responseSchema: {
+              type: "object",
+              required: ["prompt"],
+              properties: {
+                prompt: { type: "string" },
+              },
+            },
+          },
+          contents: [{
+            role: "user",
+            parts: [{
+              text: `Act as an Indian medical-university professor and examiner for ${subjectTitle}. Write an authentic, examination-ready ${kind === "long-answer" ? "long answer (LAQ)" : "short note (SAQ)"} question prompt based on the topic: "${cleanTopic}". Focus on core undergraduate Indian MBBS curriculum expectations. Return JSON: {"prompt": "..."}. The prompt must be concise, direct, and under 160 characters.`,
+            }],
+          }],
+        }),
+      }
+    );
+    if (!response.ok) return fallback;
+    const data = await response.json();
+    const candidate = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!candidate) return fallback;
+    const parsed = JSON.parse(candidate);
+    return parsed.prompt?.trim() || fallback;
+  } catch (err) {
+    console.warn("Could not generate short note prompt:", err?.message);
+    return fallback;
+  }
+}
+
 const handleShortNotes = createShortNotesHandler({
   questions: loadShortNotes(path.join(__dirname, "public", "short-notes.json")),
   readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson,
   parseAnswerImage: parseVivaAnswerImage, evaluate: requestClinicalCaseEvaluation,
   saveAnswerImage: dataUrl => uploads.save(dataUrl), removeAnswerImage: name => uploads.remove(name),
+  generatePrompt: requestGeminiShortNotePrompt,
 });
 
 async function requestGeminiClinicalCaseEvaluation({ subjectTitle, clinicalCase, studentAnswer, studentAnswerImage, studentAnswerImages }) {
@@ -1779,7 +1830,7 @@ async function requestGeminiClinicalCaseEvaluation({ subjectTitle, clinicalCase,
                       label: { type: "string", enum: subquestionLabels },
                       heading: { type: "string" },
                       points: { type: "array", minItems: 2, maxItems: isShortNote ? 24 : 8, items: { type: "string" } },
-                      ...(!isShortNote ? { flowchart: { type: "string" } } : {}),
+                      flowchart: { type: "string" },
                     },
                   },
                 },
@@ -1901,36 +1952,27 @@ async function completeClinicalCaseGeneration({ sessionId, userId, subjectTitle,
     generatedCases = await requestClinicalCases({ subjectTitle, subjectId, chapters, previousStems });
   } catch (error) {
     const message = error instanceof Error ? error.message : "The AI examiner could not prepare these clinical cases.";
-    const database = readDatabase();
-    const sessionIndex = (database.clinicalCaseSessions ?? []).findIndex(
-      (session) => session.id === sessionId && session.userId === userId,
-    );
-    if (sessionIndex !== -1 && database.clinicalCaseSessions[sessionIndex].status === "generating") {
-      database.clinicalCaseSessions[sessionIndex].status = "generation_failed";
-      database.clinicalCaseSessions[sessionIndex].generationError = message;
-      database.clinicalCaseSessions[sessionIndex].updatedAt = new Date().toISOString();
-      await writeDatabase(database).catch(() => undefined);
-    }
+    await updateTokenState(readDatabase, writeDatabase, database => {
+      const session = (database.clinicalCaseSessions ?? []).find(item => item.id === sessionId && item.userId === userId);
+      if (session?.status !== "generating") return;
+      session.status = "generation_failed";
+      session.generationError = message;
+      session.updatedAt = new Date().toISOString();
+      refundTokens(database, userId, `clinical:${sessionId}`);
+    }).catch(error => console.warn('Could not refund failed case generation:', error.message));
     console.warn(`Clinical Case generation failed for session ${sessionId}: ${message}`);
     return;
   }
 
-  const database = readDatabase();
-  const sessionIndex = (database.clinicalCaseSessions ?? []).findIndex(
-    (session) => session.id === sessionId && session.userId === userId,
-  );
-  if (sessionIndex === -1 || database.clinicalCaseSessions[sessionIndex].status !== "generating") return;
-
-  const session = database.clinicalCaseSessions[sessionIndex];
-  session.status = "active";
-  session.generationError = null;
-  session.currentCaseIndex = 0;
-  session.cases = generatedCases.map((clinicalCase) => ({ ...clinicalCase, id: randomBytes(10).toString("hex") }));
-  session.updatedAt = new Date().toISOString();
-  database.clinicalCaseSessions[sessionIndex] = session;
-  await writeDatabase(database).catch((error) => {
-    console.warn(`Could not persist generated Clinical Cases session ${sessionId}: ${error instanceof Error ? error.message : "unknown error"}`);
-  });
+  await updateTokenState(readDatabase, writeDatabase, database => {
+    const session = (database.clinicalCaseSessions ?? []).find(item => item.id === sessionId && item.userId === userId);
+    if (session?.status !== "generating") return;
+    session.status = "active";
+    session.generationError = null;
+    session.currentCaseIndex = 0;
+    session.cases = generatedCases.map(clinicalCase => ({ ...clinicalCase, id: randomBytes(10).toString("hex") }));
+    session.updatedAt = new Date().toISOString();
+  }).catch(error => console.warn(`Could not persist generated Clinical Cases session ${sessionId}: ${error.message}`));
 }
 
 function handleGetClinicalCaseSession(request, response, sessionId) {
@@ -2012,6 +2054,7 @@ async function handleCreateClinicalCaseSession(request, response) {
   };
 
   database.clinicalCaseSessions = [session, ...(database.clinicalCaseSessions ?? [])].slice(0, 1000);
+  chargeTokens(database, currentUser.id, CLINICAL_CASE_COUNT * 10, `clinical:${session.id}`);
   await writeDatabase(database);
   sendJson(response, 202, { session: sanitizeClinicalCaseSession(session) });
   void completeClinicalCaseGeneration({
@@ -2204,6 +2247,7 @@ function sanitizeUser(user) {
   const practiceAccess = membership.hasPracticeAccess;
   return {
     ...membership,
+    tokens: tokenStatus(readDatabase(), user.id),
     hasPracticeAccess: practiceAccess,
     isSubscribed: practiceAccess,
     plan: membership.plan || null,
@@ -3104,6 +3148,7 @@ async function handleDuelQuestions(request, response, url) {
     const active = database.duels.find(d => d.status === "matched" && d.playerIds.includes(currentUser.id));
     if (active) return sendJson(response, 409, { message: "Finish your existing match first." });
     duel = createMatch(id, [currentUser.id], pickDuelQuestions(), { [currentUser.id]: currentUser.rating }, Date.now(), "bot");
+    chargeTokens(database, currentUser.id, 5, `battle:${duel.id}`);
     database.duels.push(duel);
     dirty = true;
   }
@@ -3168,13 +3213,14 @@ async function handleJoinRatedDuelQueue(request, response) {
   }
 
   const busyPlayers = new Set(database.duels.filter(d => d.status === "matched").flatMap(d => d.playerIds));
+  requireTokens(database, currentUser.id, 5);
   if (busyPlayers.has(currentUser.id)) return sendJson(response, 409, { message: "Finish your existing match first." });
   const queuedOpponent = (database.duelQueue ?? [])
     .map((entry) => ({
       entry,
       user: database.users.find((user) => user.id === entry.userId),
     }))
-    .filter(({ user }) => user && user.id !== currentUser.id && !busyPlayers.has(user.id))
+    .filter(({ user }) => user && user.id !== currentUser.id && !busyPlayers.has(user.id) && tokenStatus(database, user.id).remaining >= 5)
     .sort(
       (left, right) =>
         Math.abs((left.user.rating ?? DEFAULT_USER_RATING) - (currentUser.rating ?? DEFAULT_USER_RATING)) -
@@ -3187,6 +3233,7 @@ async function handleJoinRatedDuelQueue(request, response) {
       pickDuelQuestions(), { [queuedOpponent.user.id]: queuedOpponent.user.rating, [currentUser.id]: currentUser.rating });
     database.duelQueue = (database.duelQueue ?? []).filter((entry) => entry.id !== queuedOpponent.entry.id);
     database.duels.push(duel);
+    for (const playerId of duel.playerIds) chargeTokens(database, playerId, 5, `battle:${duel.id}`);
     await writeDatabase(database);
     return sendJson(response, 201, buildRatedDuelPayload(duel, currentUser, database));
   }
@@ -3393,6 +3440,7 @@ async function handleAcceptDuelChallenge(request, response) {
   database.duels.push(duel);
   room.status = "matched";
   room.duelId = duel.id;
+  for (const playerId of duel.playerIds) chargeTokens(database, playerId, 5, `battle:${duel.id}`);
 
   await writeDatabase(database);
   return sendJson(response, 200, {
@@ -3901,6 +3949,12 @@ async function handleRequest(request, response) {
     if (url.pathname === "/api/reviews") return await handleWebsiteReviews(request, response, url);
     if (request.method === "POST" && url.pathname === "/api/auth/login") return await handleLogin(request, response);
     if (request.method === "GET" && url.pathname === "/api/auth/session") return handleSession(request, response);
+    if (request.method === 'GET' && url.pathname === '/api/tokens') {
+      const database = readDatabase();
+      const user = requireSessionUser(request, response, database);
+      if (!user) return;
+      return sendJson(response, 200, { tokens: tokenStatus(database, user.id) });
+    }
     if (request.method === "POST" && url.pathname === "/api/auth/logout") return await handleLogout(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile") return await handleProfileUpdate(request, response);
     if ((request.method === 'GET' && url.pathname === '/api/dashboard') || (request.method === 'PATCH' && url.pathname === '/api/dashboard/goal') || (request.method === 'POST' && url.pathname === '/api/practice/attempts')) return await handleDashboard(request, response, url);
@@ -3934,7 +3988,7 @@ async function handleRequest(request, response) {
     if (request.method === "POST" && vivaAdvanceMatch) {
       return await handleAdvanceVivaSession(request, response, vivaAdvanceMatch[1]);
     }
-    if ((request.method === "GET" || request.method === "POST") && url.pathname === "/api/short-notes/reviews") {
+    if (url.pathname.startsWith("/api/short-notes/")) {
       return await handleShortNotes(request, response);
     }
     if (request.method === "POST" && url.pathname === "/api/clinical-cases/sessions") {

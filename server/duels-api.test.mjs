@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { randomBytes } from 'node:crypto';
 import { createMatch, lockAnswer, settleMatch, matchProgress } from './duels.mjs';
+import { requireTokens, chargeTokens, tokenStatus } from './tokens.mjs';
 
 // Exercise the actual route handlers with isolated persistence and authentication.
 // No live users or production data are touched.
@@ -15,7 +16,7 @@ function fixture() {
   let db = { users: ['alice', 'bob', 'eve'].map(id => ({ id, rating: 1480 })), duels: [], duelQueue: [] };
   let writes = 0;
   const dependencies = {
-    createMatch, lockAnswer, settleMatch, matchProgress, randomBytes,
+    createMatch, lockAnswer, settleMatch, matchProgress, randomBytes, requireTokens, chargeTokens, tokenStatus,
     readDatabase: () => structuredClone(db),
     writeDatabase: data => { db = structuredClone(data); writes++; return Promise.resolve(); },
     requireSessionUser: (req, res, data) => data.users.find(u => u.id === req.user),

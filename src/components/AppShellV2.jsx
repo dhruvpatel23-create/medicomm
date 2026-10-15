@@ -9,6 +9,7 @@ import {
   Megaphone, PanelLeftClose, PanelLeftOpen, Star, Sun, Swords, Trophy, UserPlus, UserRound, X, Zap,
 } from "lucide-react";
 import { BrandMark } from "./BrandMark";
+import { TokenBalance } from './TokenBalance';
 
 const iconMap = {
   Home, Dashboard: LayoutDashboard, Practice: BookOpen, Bookmarks: Bookmark, Analytics: BarChart3,
@@ -411,7 +412,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
             </DropdownMenu.Root>
-            <div className="topbar-stat" title="Current learning streak"><Zap size={16} /><strong>{user?.streak ?? 1}</strong><span>day streak</span></div>
+            <TokenBalance user={user} />
             {/* Keep the header menu from locking body scroll and shifting the page. */}
             <DropdownMenu.Root modal={false}>
               <DropdownMenu.Trigger asChild><button className="user-chip" type="button" aria-label="Open account menu"><span className={`avatar${user?.hasPracticeAccess ? " paid-avatar" : ""}`}>{renderAvatar()}</span><span className="user-chip-copy"><strong>{user?.name || "Guest learner"}</strong><span>{user?.email === "guest@medicomm.local" ? "Guest session" : `${userRating} XP`}</span></span><ChevronDown size={15} /></button></DropdownMenu.Trigger>

@@ -17,6 +17,12 @@ export function filterPracticeLibraryForUi(library) {
     if (!shouldFilter(set)) return set;
     const questions = (set.questions ?? []).filter(question => {
       if (!hasQuestionImage(question)) return true;
+      // Only displayed assets count; source references and planned atlas targets
+      // do not prove that a replacement was installed. The URL fallback also
+      // supports API responses from before review metadata was preserved.
+      const displayedImages = [question.imageUrl, question.image, ...(question.imageUrls ?? []), ...(question.images ?? []), ...(question.explanationImageUrls ?? [])].filter(Boolean);
+      if (question.imageReviewStatus === 'img1-visually-verified' ||
+          (displayedImages.length > 0 && displayedImages.every(url => /^\/uploads\/medicomm-img1-[^/]+\.(png|webp|jpg|svg)$/i.test(String(url))))) return true;
       hiddenQuestionIds.add(question.id);
       return false;
     });

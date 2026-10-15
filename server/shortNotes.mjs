@@ -1,7 +1,8 @@
-﻿import { readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 
 import { randomUUID } from 'node:crypto';
 import { decodeImage } from './uploads.mjs';
+import { chargeTokens, refundTokens, updateTokenState } from './tokens.mjs';
 
 export function ownsTheoryAnswerImage(database, userId, name) {
   return (database.shortNoteReviews ?? []).some(review => review.userId === userId
@@ -23,14 +24,91 @@ export function loadShortNotes(file) {
   return questions;
 }
 
-export function createShortNotesHandler({ questions, readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson, parseAnswerImage, evaluate, saveAnswerImage, removeAnswerImage }) {
+export function createShortNotesHandler({ questions, readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson, parseAnswerImage, evaluate, saveAnswerImage, removeAnswerImage, generatePrompt }) {
   const pending = new Set();
   return async function handleShortNotes(request, response) {
     const database = readDatabase();
     const user = requireSessionUser(request, response, database);
     if (!user) return;
+    const url = new URL(request.url || '/api/short-notes/reviews', 'http://localhost');
+
+    if (url.pathname === '/api/short-notes/custom') {
+      if (request.method === 'GET') {
+        const subjectId = url.searchParams.get('subjectId');
+        const custom = (database.customShortNotes ?? [])
+          .filter(q => q.userId === user.id && (!subjectId || q.subjectId === subjectId));
+        return sendJson(response, 200, { questions: custom });
+      }
+      if (request.method === 'POST') {
+        const payload = await parseRequestBody(request);
+        const prompt = String(payload?.prompt ?? '').trim();
+        if (prompt.length < 3 || prompt.length > 1000) {
+          return sendJson(response, 400, { message: 'Write a question between 3 and 1,000 characters.' });
+        }
+        const subjectId = String(payload?.subjectId ?? '').trim();
+        const subjectTitle = String(payload?.subjectTitle ?? '').trim() || 'Theory';
+        const kind = payload?.kind === 'long-answer' ? 'long-answer' : 'short-note';
+        const newQuestion = {
+          id: `custom-${randomUUID()}`,
+          userId: user.id,
+          subjectId,
+          subjectTitle,
+          topicTitle: 'Custom Notes',
+          prompt,
+          kind,
+          isCustom: true,
+          createdAt: new Date().toISOString(),
+        };
+        await updateTokenState(readDatabase, writeDatabase, latest => {
+          latest.customShortNotes = [newQuestion, ...(latest.customShortNotes ?? [])];
+        });
+        return sendJson(response, 201, { question: newQuestion });
+      }
+      if (request.method === 'DELETE') {
+        let questionId = url.searchParams.get('questionId');
+        if (!questionId) {
+          try {
+            const body = await parseRequestBody(request);
+            questionId = body?.questionId;
+          } catch { /* empty */ }
+        }
+        if (!questionId) return sendJson(response, 400, { message: 'Specify a question ID to delete.' });
+        await updateTokenState(readDatabase, writeDatabase, latest => {
+          latest.customShortNotes = (latest.customShortNotes ?? []).filter(q => !(q.id === questionId && q.userId === user.id));
+        });
+        return sendJson(response, 200, { ok: true });
+      }
+      return sendJson(response, 405, { message: 'Method not allowed.' });
+    }
+
+    if (url.pathname === '/api/short-notes/generate-prompt') {
+      if (request.method !== 'POST') return sendJson(response, 405, { message: 'Method not allowed.' });
+      const payload = await parseRequestBody(request);
+      const topic = String(payload?.topic ?? '').trim();
+      const subjectTitle = String(payload?.subjectTitle ?? '').trim() || 'Theory';
+      const kind = payload?.kind === 'long-answer' ? 'long-answer' : 'short-note';
+      if (!topic) return sendJson(response, 400, { message: 'Please provide a topic or concept.' });
+      if (!generatePrompt) {
+        return sendJson(response, 200, {
+          prompt: kind === 'long-answer'
+            ? `${topic} – Etiopathogenesis, Clinical Features, Investigations, and Management`
+            : `${topic} – Key Features, Pathophysiology, and Applied Significance`,
+        });
+      }
+      try {
+        const prompt = await generatePrompt({ subjectTitle, topic, kind });
+        return sendJson(response, 200, { prompt: prompt || topic });
+      } catch {
+        return sendJson(response, 200, {
+          prompt: kind === 'long-answer'
+            ? `${topic} – Etiopathogenesis, Clinical Features, Investigations, and Management`
+            : `${topic} – Key Features, Pathophysiology, and Applied Significance`,
+        });
+      }
+    }
+
     if (request.method === 'GET') {
-      const questionId = new URL(request.url || '/api/short-notes/reviews', 'http://localhost').searchParams.get('questionId');
+      const questionId = url.searchParams.get('questionId');
       const own = (database.shortNoteReviews ?? []).filter(review => review.userId === user.id);
       if (questionId) return sendJson(response, 200, { reviews: own.filter(review => review.questionId === questionId).map(review => publicReview(review)) });
       const groups = new Map();
@@ -41,7 +119,37 @@ export function createShortNotesHandler({ questions, readDatabase, writeDatabase
       return sendJson(response, 200, { reviews: [...groups.values()].map(group => publicReview(group[0], group.length)) });
     }
     const payload = await parseRequestBody(request);
-    const question = questions.get(String(payload.questionId ?? ''));
+    let question = questions.get(String(payload.questionId ?? ''));
+    if (!question) {
+      const customList = database.customShortNotes ?? [];
+      const custom = customList.find(q => q.id === payload.questionId && (q.userId === user.id || !q.userId));
+      if (custom) {
+        question = {
+          ...custom,
+          topicTitle: custom.topicTitle || 'Custom Notes',
+          subjectTitle: custom.subjectTitle || 'Theory',
+        };
+      } else if (payload.customQuestion && payload.customQuestion.prompt) {
+        const cq = payload.customQuestion;
+        question = {
+          id: String(payload.questionId || `custom-${randomUUID()}`),
+          userId: user.id,
+          subjectId: String(cq.subjectId || '').trim(),
+          subjectTitle: String(cq.subjectTitle || '').trim() || 'Theory',
+          topicTitle: 'Custom Notes',
+          prompt: String(cq.prompt || '').trim(),
+          kind: cq.kind === 'long-answer' ? 'long-answer' : 'short-note',
+          isCustom: true,
+          createdAt: new Date().toISOString(),
+        };
+        await updateTokenState(readDatabase, writeDatabase, latest => {
+          const list = latest.customShortNotes ?? [];
+          if (!list.some(item => item.id === question.id)) {
+            latest.customShortNotes = [question, ...list];
+          }
+        });
+      }
+    }
     if (!question) return sendJson(response, 400, { message: 'Choose a question from the Short Notes library.' });
     if (payload.privacyAccepted !== true) return sendJson(response, 400, { message: 'Please accept the AI review notice before submitting.' });
     const answer = String(payload.answer ?? '').trim();
@@ -68,8 +176,11 @@ export function createShortNotesHandler({ questions, readDatabase, writeDatabase
     if (recent.length >= 60) return sendJson(response, 429, { message: 'You have reached the hourly review limit. Please try again later.' });
     pending.add(user.id);
     const savedPages = [];
+    const reviewId = randomUUID();
+    const tokenKey = `review:${reviewId}`;
     let committed = false;
     try {
+      await updateTokenState(readDatabase, writeDatabase, latest => chargeTokens(latest, user.id, 10, tokenKey));
       // The trusted source prompt is selected on the server; clients cannot substitute a rubric.
       const clinicalCase = {
         id: question.id, kind: question.kind, chapterTitle: question.topicTitle,
@@ -83,16 +194,24 @@ export function createShortNotesHandler({ questions, readDatabase, writeDatabase
       }
       const evaluation = await evaluate({ subjectTitle: question.subjectTitle, clinicalCase, studentAnswer: answer,
         studentAnswerImage: images[0]?.parsed ?? null, studentAnswerImages: images.map(image => image.parsed) });
-      const review = { ...evaluation, id: randomUUID(), questionId: question.id, userId: user.id, answer,
+      const review = { ...evaluation, id: reviewId, questionId: question.id, userId: user.id, answer,
         answerPages: savedPages, hasImage: images.length > 0, submittedAt: new Date().toISOString() };
+      await updateTokenState(readDatabase, writeDatabase, latest => {
+        latest.shortNoteReviews = [review, ...(latest.shortNoteReviews ?? []).filter(item => item.id !== reviewId)];
+      });
       const latest = readDatabase();
-      latest.shortNoteReviews = [review, ...(latest.shortNoteReviews ?? [])];
-      await writeDatabase(latest);
       committed = true;
       return sendJson(response, 201, { review: publicReview(review, latest.shortNoteReviews.filter(item => item.userId === user.id && item.questionId === question.id).length) });
     } catch (error) {
-      return sendJson(response, 502, { message: error instanceof Error ? error.message : 'Could not review your answer. Your draft is still here.' });
+      return sendJson(response, error.status || 502, { message: error instanceof Error ? error.message : 'Could not review your answer. Your draft is still here.' });
     } finally {
+      if (!committed) {
+        try {
+          await updateTokenState(readDatabase, writeDatabase, latest => {
+            if (!(latest.shortNoteReviews ?? []).some(review => review.id === reviewId)) refundTokens(latest, user.id, tokenKey);
+          });
+        } catch (error) { console.warn('Could not reconcile review tokens:', error.message); }
+      }
       if (!committed && removeAnswerImage) {
         // A remote write can succeed even if its response is interrupted. Only
         // remove files confirmed unreferenced by the recovered database state.
