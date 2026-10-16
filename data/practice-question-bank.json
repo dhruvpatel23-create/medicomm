@@ -443957,22 +443957,23 @@
             "Surgery INI-CET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2022-general-surgery-q034-p4949-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2022-general-surgery-q034-cecdacb033.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2022-general-surgery-q034-p4949-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2022-general-surgery-q034-cecdacb033.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2022-general-surgery-q034-p4949-i1.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-ini-cet-2022-general-surgery-q034.png"
+            "/uploads/medicomm-img1-ini-cet-2022-general-surgery-q034-cecdacb033.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order.",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch.",
           "sourceQuestionId": "ini-cet-2022-general-surgery-q034",
           "sourceQuestionIds": [
             "ini-cet-2022-general-surgery-q034"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified"
         },
         {
           "id": "ini-cet-2022-general-surgery-q035",
@@ -445694,22 +445695,23 @@
             "Surgery NEET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-neet-pg-2022-general-surgery-q021-p5007-i2.jpg"
+            "/uploads/medicomm-img1-neet-pg-2022-q179-c69066dabc.png"
           ],
           "images": [
-            "/uploads/yellowfool-neet-pg-2022-general-surgery-q021-p5007-i2.jpg"
+            "/uploads/medicomm-img1-neet-pg-2022-q179-c69066dabc.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-neet-pg-2022-general-surgery-q021-p5007-i2.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-neet-pg-2022-general-surgery-q021.png"
+            "/uploads/medicomm-img1-neet-pg-2022-q179-c69066dabc.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order.",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch.",
           "sourceQuestionId": "neet-pg-2022-general-surgery-q021",
           "sourceQuestionIds": [
             "neet-pg-2022-general-surgery-q021"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified"
         },
         {
           "id": "neet-pg-2022-q181",
@@ -446012,21 +446014,23 @@
             "Surgery INI-CET 2023"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2023-general-surgery-q002-p5074-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2023-general-surgery-q002-c9186dfe30.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2023-general-surgery-q002-p5074-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2023-general-surgery-q002-c9186dfe30.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2023-general-surgery-q002-p5074-i1.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-ini-cet-2023-general-surgery-q002.png"
+            "/uploads/medicomm-img1-ini-cet-2023-general-surgery-q002-c9186dfe30.png"
           ],
           "sourceQuestionId": "ini-cet-2023-general-surgery-q002",
           "sourceQuestionIds": [
             "ini-cet-2023-general-surgery-q002"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch."
         },
         {
           "id": "ini-cet-2023-general-surgery-q003",
@@ -446474,22 +446478,23 @@
             "Surgery INI-CET 2023"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2023-general-surgery-q012-p5078-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2023-general-surgery-q012-29191daec2.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2023-general-surgery-q012-p5078-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2023-general-surgery-q012-29191daec2.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2023-general-surgery-q012-p5078-i1.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-ini-cet-2023-general-surgery-q012.png"
+            "/uploads/medicomm-img1-ini-cet-2023-general-surgery-q012-29191daec2.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order.",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch.",
           "sourceQuestionId": "ini-cet-2023-general-surgery-q012",
           "sourceQuestionIds": [
             "ini-cet-2023-general-surgery-q012"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified"
         },
         {
           "id": "ini-cet-2023-general-surgery-q013",
@@ -446583,22 +446588,23 @@
             "Surgery INI-CET 2023"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2023-general-surgery-q014-p5079-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2023-general-surgery-q014-bfb4175324.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2023-general-surgery-q014-p5079-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2023-general-surgery-q014-bfb4175324.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2023-general-surgery-q014-p5079-i1.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-ini-cet-2023-general-surgery-q014.png"
+            "/uploads/medicomm-img1-ini-cet-2023-general-surgery-q014-bfb4175324.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order.",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch.",
           "sourceQuestionId": "ini-cet-2023-general-surgery-q014",
           "sourceQuestionIds": [
             "ini-cet-2023-general-surgery-q014"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified"
         },
         {
           "id": "ini-cet-2023-general-surgery-q015",
@@ -448770,23 +448776,24 @@
             "Surgery INI-CET 2024"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2024-general-surgery-q003-p5113-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2024-general-surgery-q003-bc1e6fda1c.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2024-general-surgery-q003-p5113-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2024-general-surgery-q003-bc1e6fda1c.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2024-general-surgery-q003-p5113-i1.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-ini-cet-2024-general-surgery-q003.png"
+            "/uploads/medicomm-img1-ini-cet-2024-general-surgery-q003-bc1e6fda1c.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order.",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch.",
           "sourceExplanationStatus": "missing-in-pdf",
           "sourceQuestionId": "ini-cet-2024-general-surgery-q003",
           "sourceQuestionIds": [
             "ini-cet-2024-general-surgery-q003"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified"
         },
         {
           "id": "ini-cet-2024-general-surgery-q004",
