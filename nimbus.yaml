@@ -1,0 +1,48 @@
+  # ==============================================================================
+# Nimbus Deployment Specification — Medulla
+# React 18 + Vite 5 frontend / Node.js 22 Native ESM backend
+# ==============================================================================
+
+version: 1
+
+# 1. Runtime
+runtime:
+  node: 22
+
+# 2. Dependency Installation
+# Dependencies are explicitly installed here because Nimbus must be able to
+# provision the Medulla stack from the deployment specification.
+install:
+  - npm install
+  - npm install react@^18.3.1 react-dom@^18.3.1
+  - npm install framer-motion@^12.42.0 lucide-react@^1.21.0
+  - npm install @radix-ui/react-dialog@^1.1.17 @radix-ui/react-dropdown-menu@^2.1.18
+  - npm install @radix-ui/react-tabs@^1.1.15 @radix-ui/react-tooltip@^1.2.10
+  - npm install @radix-ui/react-progress@^1.1.10 @radix-ui/react-switch@^1.3.1
+  - npm install @tanstack/react-query@^5.101.2
+  - npm install tailwindcss@^3.4.17 tailwindcss-animate@^1.0.7
+  - npm install clsx@^2.1.1 tailwind-merge@^3.6.0 class-variance-authority@^0.7.1
+  - npm install zod@^4.4.3 react-hook-form@^7.80.0 @hookform/resolvers@^5.4.0
+  - npm install razorpay@^2.9.8
+  - npm install postcss@^8.5.16 autoprefixer@^10.5.2
+  - npm install -D typescript@^6.0.3 vite@5.4.10
+
+# 3. Build & Preparation
+build:
+  - npm run build
+
+# 4. Environment Variables
+env:
+  NODE_ENV: production
+  PORT: "3000"
+
+# 6. PM2 Process Manager
+# Medulla's backend is specified as server.mjs in the technical document.
+pm2:
+  name: medulla
+  script: server.mjs
+  instances: max
+  exec_mode: cluster
+  env:
+    PORT: 3000
+    NODE_ENV: production
