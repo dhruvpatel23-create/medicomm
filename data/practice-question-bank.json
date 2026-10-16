@@ -435515,22 +435515,23 @@
             "Surgery AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2019-general-surgery-q024-p4704-i1.jpg"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q024-5e51e43ce5.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2019-general-surgery-q024-p4704-i1.jpg"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q024-5e51e43ce5.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-general-surgery-q024-p4704-i1.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-general-surgery-q024.png"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q024-5e51e43ce5.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order.",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch.",
           "sourceQuestionId": "aiims-2019-general-surgery-q024",
           "sourceQuestionIds": [
             "aiims-2019-general-surgery-q024"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified"
         },
         {
           "id": "aiims-2019-general-surgery-q025",
@@ -437140,22 +437141,23 @@
             "Surgery AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2019-general-surgery-q058-p4740-i1.jpg"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q058-ab4a0a8d92.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2019-general-surgery-q058-p4740-i1.jpg"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q058-ab4a0a8d92.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-general-surgery-q058-p4740-i1.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-general-surgery-q058.png"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q058-ab4a0a8d92.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order.",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch.",
           "sourceQuestionId": "aiims-2019-general-surgery-q058",
           "sourceQuestionIds": [
             "aiims-2019-general-surgery-q058"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified"
         },
         {
           "id": "aiims-2019-general-surgery-q059",
@@ -437839,21 +437841,23 @@
             "Surgery AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2019-general-surgery-q073-p4745-i1.jpg"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q073-7439505287.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2019-general-surgery-q073-p4745-i1.jpg"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q073-7439505287.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-general-surgery-q073-p4745-i1.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-general-surgery-q073.png"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q073-7439505287.png"
           ],
           "sourceQuestionId": "aiims-2019-general-surgery-q073",
           "sourceQuestionIds": [
             "aiims-2019-general-surgery-q073"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch."
         },
         {
           "id": "aiims-2019-general-surgery-q074",
@@ -437893,22 +437897,23 @@
             "Surgery AIIMS 2019 (May & Nov)"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-aiims-2019-general-surgery-q074-p4745-i2.jpg"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q074-f77df6f7d5.png"
           ],
           "images": [
-            "/uploads/yellowfool-aiims-2019-general-surgery-q074-p4745-i2.jpg"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q074-f77df6f7d5.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-aiims-2019-general-surgery-q074-p4745-i2.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-aiims-2019-general-surgery-q074.png"
+            "/uploads/medicomm-img1-aiims-2019-general-surgery-q074-f77df6f7d5.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order.",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch.",
           "sourceQuestionId": "aiims-2019-general-surgery-q074",
           "sourceQuestionIds": [
             "aiims-2019-general-surgery-q074"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified"
         },
         {
           "id": "neet-pg-2019-general-surgery-q001",
@@ -443004,22 +443009,23 @@
             "Surgery INI-CET 2022"
           ],
           "imageUrls": [
-            "/uploads/yellowfool-ini-cet-2022-general-surgery-q013-p4943-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2022-general-surgery-q013-da26382a67.png"
           ],
           "images": [
-            "/uploads/yellowfool-ini-cet-2022-general-surgery-q013-p4943-i1.jpg"
+            "/uploads/medicomm-img1-ini-cet-2022-general-surgery-q013-da26382a67.png"
           ],
           "sourceImageUrls": [
             "/uploads/yellowfool-ini-cet-2022-general-surgery-q013-p4943-i1.jpg"
           ],
           "atlasImageTargetUrls": [
-            "/uploads/medicomm-atlas-ini-cet-2022-general-surgery-q013.png"
+            "/uploads/medicomm-img1-ini-cet-2022-general-surgery-q013-da26382a67.png"
           ],
-          "assetNote": "Pending Medicomm atlas conversion from the original PDF image; preserve question image order.",
+          "assetNote": "Original educational illustration; source and generated image visually compared for required features, orientation, and markers. General Surgery img1 batch.",
           "sourceQuestionId": "ini-cet-2022-general-surgery-q013",
           "sourceQuestionIds": [
             "ini-cet-2022-general-surgery-q013"
-          ]
+          ],
+          "imageReviewStatus": "img1-visually-verified"
         },
         {
           "id": "ini-cet-2022-general-surgery-q014",

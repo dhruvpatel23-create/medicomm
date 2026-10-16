@@ -28,7 +28,7 @@ import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261015-img1-visibility-fix";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261016-surgery-img1";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -570,6 +570,8 @@ function App() {
   }
   const [selectedOption, setSelectedOption] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const practiceAnswerLockedRef = useRef(false);
+  const practiceLockedAnswersRef = useRef(new Map());
   const [answerConfidence, setAnswerConfidence] = useState("");
   const [flaggedQuestions, setFlaggedQuestions] = useState({});
   const [practiceLibrary, setPracticeLibrary] = useState(emptyPracticeLibrary);
@@ -621,7 +623,7 @@ function App() {
   const [paymentPlanId, setPaymentPlanId] = useState("ultra");
   const duelDeadlineRef = useRef(0);
   const loadedDuelRef = useRef(null);
-  const duelAnswerPendingRef = useRef(false);
+  const duelAnswerPendingRef = useRef(null);
   const [duelAnswerBusy, setDuelAnswerBusy] = useState(false);
   const [showDuelReview, setShowDuelReview] = useState(false);
   const [duelStatus, setDuelStatus] = useState("idle");
@@ -1127,7 +1129,8 @@ async function fetchPracticeLibrary() {
       if (["INPUT", "TEXTAREA", "SELECT"].includes(event.target?.tagName)) return;
       const optionIndex = Number(event.key) - 1;
       if (optionIndex >= 0 && optionIndex < (currentPracticeQuestion?.options?.length ?? 0) && !submitted) {
-        setSelectedOption(currentPracticeQuestion.options[optionIndex]);
+        event.preventDefault();
+        if (!event.repeat) handleSubmitAnswer(currentPracticeQuestion.options[optionIndex]);
       }
       if (event.key.toLowerCase() === "f" && currentPracticeQuestion) {
         setFlaggedQuestions((current) => ({ ...current, [currentPracticeQuestion.id]: !current[currentPracticeQuestion.id] }));
@@ -1135,7 +1138,6 @@ async function fetchPracticeLibrary() {
       if (event.key === "Enter") {
         event.preventDefault();
         if (submitted) handleNextPracticeQuestion();
-        else if (selectedOption) handleSubmitAnswer();
       }
     };
     window.addEventListener("keydown", handlePracticeKeyboard);
@@ -1398,6 +1400,10 @@ async function fetchPracticeLibrary() {
     let timer;
     const syncMatch = async () => {
       try {
+        if (duelStatus === "finished") {
+          await duelAnswerPendingRef.current?.tail;
+          if (cancelled) return;
+        }
         const data = duelStatus === "finished"
           ? await apiRequest("/api/duels/complete", { method: "POST", body: JSON.stringify({ sessionId: duelSessionId, forfeit: duelForfeited }) })
           : await apiRequest(`/api/duels/status?session=${encodeURIComponent(duelSessionId)}`);
@@ -1407,7 +1413,16 @@ async function fetchPracticeLibrary() {
         const locked = {};
         const selections = {};
         duelQuestions.forEach((q, index) => {
-          if (Object.hasOwn(data.answers, q.id)) { locked[index] = true; selections[index] = q.options[data.answers[q.id]]; }
+          if (Object.hasOwn(data.answers, q.id)) {
+            locked[index] = true;
+            selections[index] = q.options[data.answers[q.id]];
+            const queue = duelAnswerPendingRef.current;
+            if (queue?.sessionId === duelSessionId) {
+              queue.confirmed.add(q.id);
+              queue.locked.add(q.id);
+              queue.failed.delete(index);
+            }
+          }
         });
         setDuelSubmitted(current => ({ ...current, ...locked }));
         setDuelSelections(current => ({ ...current, ...selections }));
@@ -1434,7 +1449,9 @@ async function fetchPracticeLibrary() {
           void fetchPlatformSummary();
           return;
         }
-        setDuelMessage(duelStatus === "finished" ? "Answers saved. Waiting for your opponent or the match timer to finish." : "");
+        if (!duelAnswerPendingRef.current?.failed.size) {
+          setDuelMessage(duelStatus === "finished" ? "Answers saved. Waiting for your opponent or the match timer to finish." : "");
+        }
       } catch (error) {
         if (!cancelled) setDuelMessage(`${error.message} Retrying connection...`);
       }
@@ -1444,10 +1461,13 @@ async function fetchPracticeLibrary() {
     return () => { cancelled = true; window.clearTimeout(timer); };
   }, [duelSessionId, duelStatus, duelForfeited, duelResult]);
 
-  function handleSubmitAnswer() {
-    if (!selectedOption || submitted || !currentPracticeQuestion || !user) return;
+  function handleSubmitAnswer(option) {
+    if (submitted || practiceAnswerLockedRef.current || !currentPracticeQuestion || !user || !currentPracticeQuestion.options.includes(option)) return;
+    practiceAnswerLockedRef.current = true;
+    practiceLockedAnswersRef.current.set(currentPracticeQuestion.id, option);
+    setSelectedOption(option);
 
-    const wasCorrect = selectedOption === currentPracticeQuestion.answer;
+    const wasCorrect = option === currentPracticeQuestion.answer;
     const nextCorrectAnswers = (user.correctAnswers ?? 0) + (wasCorrect ? 1 : 0);
     const nextAttemptedQuestions = (user.attemptedQuestions ?? 0) + 1;
 
@@ -1491,7 +1511,7 @@ async function fetchPracticeLibrary() {
     });
     practiceSync.record({
       id: crypto.randomUUID(), questionId: currentPracticeQuestion.id, subjectId: currentPracticeSubject.id,
-      mode: selectedPracticeMode, selectedAnswer: selectedOption,
+      mode: selectedPracticeMode, selectedAnswer: option,
       durationSeconds: Math.max(1, Math.min(1800, Math.round((Date.now() - practiceQuestionStartedAt) / 1000))),
     });
   }
@@ -1556,6 +1576,8 @@ async function fetchPracticeLibrary() {
     setSelectedPracticeChapter("");
     setPracticeQuestionIndex(0);
     setSelectedOption("");
+    practiceAnswerLockedRef.current = false;
+    practiceLockedAnswersRef.current.clear();
     setSubmitted(false);
     setUsmlePracticeQuestionIds([]);
     setPracticeStage("subject");
@@ -1569,6 +1591,8 @@ async function fetchPracticeLibrary() {
     setSelectedPracticeMode("pyq");
     setSelectedPracticeExamYear("");
     setSelectedOption("");
+    practiceAnswerLockedRef.current = false;
+    practiceLockedAnswersRef.current.clear();
     setSubmitted(false);
     setUsmlePracticeQuestionIds([]);
     setVivaSelectedChapters([]);
@@ -1607,12 +1631,18 @@ async function fetchPracticeLibrary() {
     setDirectMessageDraft("");
   }
 
+  function restorePracticeAnswer(question) {
+    const locked = practiceLockedAnswersRef.current.has(question.id);
+    practiceAnswerLockedRef.current = locked;
+    setSelectedOption(practiceLockedAnswersRef.current.get(question.id) ?? "");
+    setSubmitted(locked);
+  }
+
   function handleNextPracticeQuestion() {
     if (!currentPracticeSubject) return;
     if (practiceQuestionIndex >= currentPracticeQuestions.length - 1) return;
     setPracticeQuestionIndex((current) => current + 1);
-    setSelectedOption("");
-    setSubmitted(false);
+    restorePracticeAnswer(currentPracticeQuestions[practiceQuestionIndex + 1]);
     setAnswerConfidence("");
     setBookmarkMessage("");
     setPracticeQuestionStartedAt(Date.now());
@@ -1730,6 +1760,8 @@ async function fetchPracticeLibrary() {
     setSelectedPracticeTopic("");
     setSelectedPracticeChapter("");
     setSelectedOption("");
+    practiceAnswerLockedRef.current = false;
+    practiceLockedAnswersRef.current.clear();
     setSubmitted(false);
     setAnswerConfidence("");
     setPracticeChoiceSubjectId("");
@@ -1773,6 +1805,8 @@ async function fetchPracticeLibrary() {
     setPracticeChoicePanel("formats");
     setPracticeQuestionIndex(0);
     setSelectedOption("");
+    practiceAnswerLockedRef.current = false;
+    practiceLockedAnswersRef.current.clear();
     setSubmitted(false);
     setUsmlePracticeQuestionIds([]);
     scrollPracticeViewToTop();
@@ -1794,6 +1828,8 @@ async function fetchPracticeLibrary() {
     setPracticeChoicePanel("formats");
     setPracticeQuestionIndex(0);
     setSelectedOption("");
+    practiceAnswerLockedRef.current = false;
+    practiceLockedAnswersRef.current.clear();
     setSubmitted(false);
     setPracticeQuestionStartedAt(Date.now());
     scrollPracticeViewToTop();
@@ -2061,6 +2097,8 @@ async function fetchPracticeLibrary() {
     setSelectedPracticeTopic(topic);
     setPracticeQuestionIndex(0);
     setSelectedOption("");
+    practiceAnswerLockedRef.current = false;
+    practiceLockedAnswersRef.current.clear();
     setSubmitted(false);
     setPracticeStage("subject");
     setPracticeQuestionStartedAt(Date.now());
@@ -2289,6 +2327,8 @@ async function fetchPracticeLibrary() {
   }
 
   function beginLiveDuel(opponent, options = {}) {
+    duelAnswerPendingRef.current = { sessionId: options.sessionId ?? "", tail: Promise.resolve(), locked: new Set(), confirmed: new Set(), failed: new Set(), pending: 0 };
+    setDuelAnswerBusy(false);
     const questions = Array.isArray(options.questions) && options.questions.length ? options.questions : fallbackDuelQuestions;
     setActiveView("Compete");
     setDuelQuestions(questions);
@@ -2410,26 +2450,44 @@ async function fetchPracticeLibrary() {
     }
   }
 
-  async function submitDuelAnswer() {
-    if (!currentDuelSelection || currentDuelSubmitted || !currentDuelQuestion || !user || duelAnswerPendingRef.current) return;
+  function submitDuelAnswer(selection) {
+    const queue = duelAnswerPendingRef.current;
+    if (currentDuelSubmitted || !currentDuelQuestion || !user || !queue || queue.sessionId !== duelSessionId || queue.locked.has(currentDuelQuestion.id) || !currentDuelQuestion.options.includes(selection)) return;
     const index = duelIndex;
-    const selection = currentDuelSelection;
-    duelAnswerPendingRef.current = true;
+    const questionId = currentDuelQuestion.id;
+    const optionIndex = currentDuelQuestion.options.indexOf(selection);
+    queue.locked.add(questionId);
+    queue.failed.delete(index);
+    queue.pending++;
+    setDuelSelections(current => ({ ...current, [index]: selection }));
+    setDuelSubmitted(current => ({ ...current, [index]: true }));
     setDuelAnswerBusy(true);
-    try {
+    setDuelMessage("");
+    queue.tail = queue.tail.then(async () => {
       await apiRequest("/api/duels/answer", { method: "POST", body: JSON.stringify({
-        sessionId: duelSessionId, questionId: currentDuelQuestion.id,
-        optionIndex: currentDuelQuestion.options.indexOf(selection),
+        sessionId: queue.sessionId, questionId, optionIndex,
       }) });
-      setDuelSelections(current => ({ ...current, [index]: selection }));
-      setDuelSubmitted(current => ({ ...current, [index]: true }));
-      setDuelMessage("");
-    } catch (error) { setDuelMessage(error.message); }
-    finally { duelAnswerPendingRef.current = false; setDuelAnswerBusy(false); }
+      queue.confirmed.add(questionId);
+    }).catch(error => {
+      if (queue.confirmed.has(questionId)) return;
+      queue.locked.delete(questionId);
+      queue.failed.add(index);
+      if (duelAnswerPendingRef.current !== queue) return;
+      setDuelSubmitted(current => ({ ...current, [index]: false }));
+      setDuelIndex(index);
+      setDuelMessage(`Question ${index + 1} could not be saved. Select your answer again to retry. ${error.message}`);
+    }).finally(() => {
+      queue.pending--;
+      if (duelAnswerPendingRef.current === queue) setDuelAnswerBusy(queue.pending > 0);
+    });
   }
 
-  function nextDuelQuestion() {
+  async function nextDuelQuestion() {
+    if (!currentDuelSubmitted) return;
     if (duelIndex === duelQuestions.length - 1) {
+      const queue = duelAnswerPendingRef.current;
+      await queue?.tail;
+      if (duelAnswerPendingRef.current !== queue || queue?.failed.size) return;
       setDuelStatus("finished");
       return;
     }
@@ -2524,6 +2582,8 @@ async function fetchPracticeLibrary() {
   }
 
   function resetDuel(syncServer = true) {
+    duelAnswerPendingRef.current = null;
+    setDuelAnswerBusy(false);
     localStorage.removeItem(`medicomm-duel:${user?.id}`);
     loadedDuelRef.current = null;
     if (syncServer && activeChallenge?.id && duelStatus === "challenge_waiting") {
@@ -4140,8 +4200,7 @@ async function fetchPracticeLibrary() {
                     }
                     onClick={() => {
                       setPracticeQuestionIndex(index);
-                      setSelectedOption("");
-                      setSubmitted(false);
+                      restorePracticeAnswer(currentPracticeQuestions[index]);
                       setPracticeQuestionStartedAt(Date.now());
                     }}
                     aria-label={
@@ -4215,10 +4274,8 @@ async function fetchPracticeLibrary() {
                       (isAnswer ? " option-correct" : "") +
                       (isWrong ? " option-wrong" : "")
                     }
-                    onClick={() => {
-                      setSelectedOption(option);
-                      setSubmitted(false);
-                    }}
+                    onClick={() => handleSubmitAnswer(option)}
+                    disabled={submitted}
                     aria-pressed={isActive}
                   >
                     {isModulePractice || isFmgePractice ? `(${String.fromCharCode(65 + currentPracticeQuestion.options.indexOf(option))}) ${option}` : option}
@@ -4254,9 +4311,7 @@ async function fetchPracticeLibrary() {
             {bookmarkMessage ? <p className="bookmark-inline-message" role="status">{bookmarkMessage}</p> : null}
 
             <div className="quiz-actions practice-sticky-actions">
-              <button className="button button-primary" onClick={handleSubmitAnswer} disabled={!selectedOption}>
-                Check answer <kbd>Enter</kbd>
-              </button>
+              <span role="status">{submitted ? "Answer locked" : "Select an option to lock your answer"}</span>
               <button
                 className="button button-secondary"
                 onClick={handleNextPracticeQuestion}
@@ -4783,12 +4838,9 @@ async function fetchPracticeLibrary() {
       onStart={() => startDuel()} onBot={startBotDuel} onLeave={leaveDuelQueue}
       onPractice={() => setActiveView("Practice")}
       onLeaderboard={() => setActiveView("Leaderboard")}
-      onLock={submitDuelAnswer} onNext={nextDuelQuestion} onForfeit={forfeitDuel}
+      onNext={nextDuelQuestion} onForfeit={forfeitDuel}
       onAgain={() => resetDuel()} onToggleReview={() => setShowDuelReview(value => !value)}
-      onSelect={option => {
-        if (currentDuelSubmitted || duelAnswerBusy) return;
-        setDuelSelections(current => ({ ...current, [duelIndex]: option }));
-      }}
+      onSelect={submitDuelAnswer}
       renderDetails={question => <>
         <QuestionLaboratoryTable findings={question.laboratoryFindings} compact />
         {getQuestionImageUrls(question).length > 0 && <div className="mt-5 grid gap-3 sm:grid-cols-2">
