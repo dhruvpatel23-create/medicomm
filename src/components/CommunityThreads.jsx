@@ -1,93 +1,1017 @@
-import { useMemo, useRef, useState } from 'react';
-import { ArrowLeft, ArrowUpRight, BookOpen, Check, ChevronDown, ImagePlus, Link, Loader2, MessageCircle, MessagesSquare, Plus, Search, Send, ShieldCheck, Users, X } from 'lucide-react';
-import { Avatar, EmptyState, SearchField, field, socialPage, surface } from './SocialUI';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ArrowLeft, ArrowUpRight, BarChart2, Bookmark, Check, ChevronDown, ChevronRight,
+  Crown, Heart, ImagePlus, Link2, Loader2, MessageCircle, MessagesSquare,
+  MoreHorizontal, Plus, Repeat, Search, Send, Share, Shield, Sparkles, UserCheck, Users, X
+} from 'lucide-react';
 import { Button } from './ui/button';
 
 const words = text => text.trim().split(/\s+/).filter(Boolean).length;
-const muted = 'text-sm leading-6 text-slate-500 dark:text-slate-400';
-const accent = 'bg-[#174b44] text-white hover:bg-[#206257] dark:bg-teal-300 dark:text-teal-950 dark:hover:bg-teal-200';
-const entry = 'motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-300';
 
 export default function CommunityThreads(p) {
   const { room, user } = p;
   const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState('all');
-  const [sort, setSort] = useState('latest');
+  const [filter, setFilter] = useState('all'); // 'all' | 'unanswered' | 'mine'
   const [pending, setPending] = useState({});
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [memberSearch, setMemberSearch] = useState('');
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [activeShareId, setActiveShareId] = useState(null);
+  const [likedThreads, setLikedThreads] = useState({});
+
   const locks = useRef(new Set());
   const composer = useRef(null);
   const replyInputs = useRef({});
+
+  // Ensure window scrolls smoothly to top on entering community
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.getElementById('main-content')?.scrollTo?.({ top: 0, left: 0, behavior: 'instant' });
+  }, [room?.id]);
+
+  // Group threads and replies
   const { threads, replies } = useMemo(() => {
-    const ids = new Set(room.messages.map(message => message.id));
-    const replies = {};
-    room.messages.forEach(message => { if (message.parentMessageId) (replies[message.parentMessageId] ||= []).push(message); });
-    Object.values(replies).forEach(items => items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)));
-    return { threads: room.messages.filter(message => !message.parentMessageId || !ids.has(message.parentMessageId)), replies };
+    const ids = new Set((room.messages || []).map(m => m.id));
+    const repliesMap = {};
+    (room.messages || []).forEach(m => {
+      if (m.parentMessageId) {
+        (repliesMap[m.parentMessageId] ||= []).push(m);
+      }
+    });
+    Object.values(repliesMap).forEach(items =>
+      items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+    );
+    return {
+      threads: (room.messages || []).filter(
+        m => !m.parentMessageId || !ids.has(m.parentMessageId)
+      ),
+      replies: repliesMap
+    };
   }, [room.messages]);
-  const unanswered = threads.filter(message => !replies[message.id]?.length).length;
-  const visible = threads.filter(message => {
-    const matches = `${message.text || ''} ${message.userName || ''} ${(replies[message.id] || []).map(reply => `${reply.text} ${reply.userName}`).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase());
-    return matches && (filter !== 'unanswered' || !replies[message.id]?.length) && (filter !== 'mine' || message.isOwnMessage || message.userId === user?.id);
-  }).sort((a, b) => {
-    if (sort === 'discussed') return (replies[b.id]?.length || 0) - (replies[a.id]?.length || 0) || new Date(b.createdAt) - new Date(a.createdAt);
-    if (sort === 'active') return new Date(replies[b.id]?.at(-1)?.createdAt || b.createdAt) - new Date(replies[a.id]?.at(-1)?.createdAt || a.createdAt);
-    return new Date(b.createdAt) - new Date(a.createdAt);
-  });
+
+  const unansweredCount = threads.filter(m => !replies[m.id]?.length).length;
+
+  const visible = useMemo(() => {
+    return threads.filter(message => {
+      const responses = replies[message.id] || [];
+      const matches = `${message.text || ''} ${message.userName || ''} ${responses.map(r => `${r.text} ${r.userName}`).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase());
+      return matches &&
+        (filter !== 'unanswered' || !responses.length) &&
+        (filter !== 'mine' || message.isOwnMessage || message.userId === user?.id);
+    }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }, [threads, replies, query, filter, user?.id]);
+
+  const adminMember = useMemo(() => {
+    return (room.members || []).find(m => m.id === room.adminUserId) || null;
+  }, [room.members, room.adminUserId]);
+
+  const filteredMembers = useMemo(() => {
+    if (!memberSearch.trim()) return room.members || [];
+    const q = memberSearch.toLowerCase();
+    return (room.members || []).filter(m =>
+      (m.name || '').toLowerCase().includes(q) ||
+      (m.medicalCollege || '').toLowerCase().includes(q)
+    );
+  }, [room.members, memberSearch]);
+
   const submit = async (event, id = null) => {
     event.preventDefault();
     const key = id || 'new';
     if (locks.current.has(key)) return;
-    locks.current.add(key); setPending(current => ({ ...current, [key]: true }));
-    try { await p.onSend(event, id); } finally { locks.current.delete(key); setPending(current => ({ ...current, [key]: false })); }
+    locks.current.add(key);
+    setPending(current => ({ ...current, [key]: true }));
+    try {
+      await p.onSend(event, id);
+    } finally {
+      locks.current.delete(key);
+      setPending(current => ({ ...current, [key]: false }));
+    }
   };
-  const focusComposer = () => { composer.current?.focus(); composer.current?.scrollIntoView({ block: 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); };
-  const author = message => <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs"><button type="button" disabled={!message.userId} className="break-words text-left font-semibold text-slate-800 hover:text-teal-700 dark:text-slate-100 dark:hover:text-teal-300" onClick={() => p.onProfile(message.userId)}>{message.userName || 'Learner'}</button>{message.isOwnMessage && <span className="rounded bg-teal-50 px-1.5 py-0.5 text-[10px] text-teal-700 dark:bg-teal-950 dark:text-teal-300">You</span>}<time dateTime={message.createdAt} className="text-slate-400">{p.timestamp(message.createdAt)}</time></div>;
 
-  return <section className={`${socialPage} !space-y-6`} aria-label="Community discussions">
-    <nav className="flex items-center justify-between gap-3"><Button variant="ghost" className="-ml-3 text-slate-500" onClick={p.onBack}><ArrowLeft size={16} />All communities</Button><span className="flex items-center gap-2 text-xs text-slate-500"><MessagesSquare size={15} />Study circle</span></nav>
-    <header className="relative overflow-hidden rounded-[24px] bg-[#174b44] px-5 py-7 text-white sm:px-8">
-      <div aria-hidden="true" className="pointer-events-none absolute -right-12 -top-24 h-80 w-80 rounded-full border-[45px] border-white/[0.04]" />
-      <div className="relative flex flex-wrap items-start justify-between gap-6"><div className="min-w-0 max-w-2xl"><p className="mb-3 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e8bc]"><BookOpen size={14} />{room.topic || 'Learn together'}</p><h2 className="break-words text-3xl font-semibold tracking-tight sm:text-4xl">{room.name}</h2><p className="mt-3 max-w-xl text-sm leading-6 text-teal-50/75">{room.description}</p></div><Button className="bg-[#d9e8bc] text-[#174b44] hover:bg-[#e8f1d6]" onClick={room.isMember ? focusComposer : () => p.onJoin(room.id)}><Plus size={16} />{room.isMember ? 'Start a thread' : 'Join this circle'}</Button></div>
-      <div className="relative mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-white/15 pt-4 text-xs text-teal-50/75"><span className="flex items-center gap-2"><Users size={14} />{room.memberCount} members</span><span className="flex items-center gap-2"><MessagesSquare size={14} />{threads.length} threads</span>{room.isMember && <span className="flex items-center gap-1.5 text-[#d9e8bc]"><Check size={14} />You’re a member</span>}{room.isAdmin && <button className="flex items-center gap-2 underline-offset-4 hover:underline sm:ml-auto" onClick={() => p.onInvite(room.id)}><Link size={14} />Copy invite link</button>}</div>
-    </header>
-    {p.message && <p role="status" className="rounded-xl border border-teal-200 bg-teal-50 p-4 text-sm text-teal-900 dark:border-teal-800 dark:bg-teal-950 dark:text-teal-100">{p.message}</p>}
-    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_270px]">
-      <main className="min-w-0 space-y-5">
-        {room.isMember ? <form onSubmit={event => submit(event)} className={`${surface} p-4 shadow-sm sm:p-5`}>
-          <div className="mb-4 flex items-center gap-3"><Avatar name={user?.name} src={user?.profileImageUrl} /><div><h3 className="text-sm font-semibold">What are you working through?</h3><p className="mt-0.5 text-xs text-slate-500">A good question can help the whole circle.</p></div></div>
-          <textarea ref={composer} className={`${field} min-h-[112px] resize-y !bg-transparent leading-7`} aria-label="New discussion thread" placeholder="Ask a question, explain a tricky concept, or share a study insight…" value={p.draft} disabled={pending.new} onChange={event => p.onDraft(event.target.value)} />
-          {p.image && <div className="relative mt-3 w-fit max-w-full rounded-xl border border-slate-200 p-2 dark:border-slate-700"><img src={p.image.dataUrl} alt="Thread attachment preview" className="max-h-48 rounded-lg" /><Button type="button" variant="secondary" size="icon" className="absolute right-3 top-3 h-8 w-8" disabled={pending.new} onClick={p.onRemoveImage} aria-label="Remove attached image"><X size={15} /></Button><p className="mt-2 truncate text-xs text-slate-500">{p.image.name}</p></div>}
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-3"><label className="relative flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-2 text-xs font-medium text-slate-500 hover:bg-slate-50 focus-within:ring-2 focus-within:ring-teal-500 dark:hover:bg-slate-800"><ImagePlus size={17} />Attach image<input aria-label="Attach thread image" disabled={pending.new} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={p.onImage} className="absolute inset-0 w-full cursor-pointer opacity-0" /></label><div className="flex items-center gap-3"><span aria-live="polite" className={`text-[11px] ${words(p.draft) > p.limit ? 'text-red-600' : 'text-slate-400'}`}>{words(p.draft)}/{p.limit} words</span><Button type="submit" className={accent} disabled={pending.new || (!p.draft.trim() && !p.image) || words(p.draft) > p.limit}>{pending.new ? <Loader2 size={15} className="motion-safe:animate-spin" /> : <Send size={15} />}{pending.new ? 'Posting…' : 'Post thread'}</Button></div></div>
-        </form> : <div className={`${surface} flex flex-wrap items-center justify-between gap-4 p-5`}><div><h3 className="text-sm font-semibold">There’s a place for your perspective.</h3><p className={muted}>Join the circle to ask questions and reply.</p></div><Button className={accent} onClick={() => p.onJoin(room.id)}>Join community<ArrowUpRight size={15} /></Button></div>}
+  const focusComposer = () => {
+    composer.current?.focus();
+    composer.current?.scrollIntoView({
+      block: 'center',
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+    });
+  };
 
-        <div className={`${surface} overflow-hidden`}>
-          <div className="border-b border-slate-100 p-4 dark:border-slate-800 sm:p-5"><div className="mb-4 flex items-center justify-between"><h3 className="text-lg font-semibold tracking-tight">The conversation</h3><span className="text-xs text-slate-400" role="status">{visible.length} {visible.length === 1 ? 'thread' : 'threads'}</span></div><SearchField value={query} onChange={setQuery} placeholder="Search discussions, replies, or people" /><div className="mt-4 flex flex-wrap items-center justify-between gap-3"><div className="flex flex-wrap gap-1" role="group" aria-label="Filter threads">{[['all', 'All threads', threads.length], ['unanswered', 'Unanswered', unanswered], ['mine', 'My threads', null]].map(([value, label, count]) => <button key={value} aria-pressed={filter === value} onClick={() => setFilter(value)} className={`min-h-9 rounded-lg px-3 text-xs font-medium transition-colors motion-reduce:transition-none ${filter === value ? 'bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-200' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'}`}>{label}{count !== null && <span className="ml-1.5 opacity-60">{count}</span>}</button>)}</div><select aria-label="Sort threads" value={sort} onChange={event => setSort(event.target.value)} className="min-h-9 max-w-full rounded-lg border border-slate-200 bg-transparent px-2 text-xs text-slate-600 focus:ring-2 focus:ring-teal-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"><option value="latest">Newest first</option><option value="active">Recent activity</option><option value="discussed">Most discussed</option></select></div></div>
-          <div className="divide-y divide-slate-100 dark:divide-slate-800">
-            {visible.map(message => {
-              const responses = replies[message.id] || [];
-              const expanded = Boolean(p.expanded[message.id]);
-              const draft = p.replyDrafts[message.id] || '';
-              return <article key={message.id} className={`p-4 sm:p-5 ${entry}`}>
-                <div className="flex items-start gap-3"><Avatar name={message.userName} src={message.profileImageUrl} /><div className="min-w-0 flex-1"><div className="pt-1">{author(message)}</div><p className="mt-1 text-[10px] text-slate-400">{responses.length ? 'Discussion' : 'Start the conversation'}</p></div>{!responses.length && <span className="hidden rounded-full bg-amber-50 px-2 py-1 text-[10px] text-amber-800 dark:bg-amber-950/40 dark:text-amber-200 sm:block">Awaiting a reply</span>}</div>
-                {message.text && <p className="mt-4 whitespace-pre-wrap break-words text-sm leading-7 text-slate-700 dark:text-slate-200">{message.text}</p>}
-                {message.imageUrl && <a href={message.imageUrl} target="_blank" rel="noreferrer" className="mt-4 block w-fit max-w-full overflow-hidden rounded-xl border border-slate-100 dark:border-slate-800"><img loading="lazy" className="max-h-96 max-w-full object-contain" src={message.imageUrl} alt={`Image shared by ${message.userName}`} /></a>}
-                <div className="mt-4 flex flex-wrap items-center gap-2"><Button variant="ghost" size="sm" className="text-teal-700 dark:text-teal-300" aria-expanded={expanded} aria-controls={`replies-${message.id}`} onClick={() => p.onToggle(message.id)}><MessageCircle size={15} />{responses.length ? `${responses.length} ${responses.length === 1 ? 'reply' : 'replies'}` : 'View discussion'}<ChevronDown size={13} className={`transition-transform motion-reduce:transition-none ${expanded ? 'rotate-180' : ''}`} /></Button>{room.isMember && <Button variant="ghost" size="sm" className="text-slate-500" onClick={() => { p.onToggle(message.id, true); requestAnimationFrame(() => replyInputs.current[message.id]?.focus()); }}>Reply<ArrowUpRight size={13} /></Button>}</div>
-                {expanded && <div id={`replies-${message.id}`} className="mt-3 space-y-4 rounded-xl bg-slate-50 p-3 dark:bg-slate-950/50 sm:p-4 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top-1 motion-safe:duration-200">
-                  {responses.map(reply => <div key={reply.id} className="flex gap-3"><Avatar name={reply.userName} src={reply.profileImageUrl} /><div className="min-w-0 flex-1">{author(reply)}<p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-slate-600 dark:text-slate-300">{reply.text}</p></div></div>)}
-                  {!responses.length && <p className="text-xs leading-6 text-slate-500">No replies yet. Share your reasoning or ask a follow-up question.</p>}
-                  {room.isMember ? <form onSubmit={event => submit(event, message.id)} className="space-y-2 border-t border-slate-200 pt-3 dark:border-slate-800"><textarea ref={node => { replyInputs.current[message.id] = node; }} className={`${field} resize-y`} rows={2} aria-label={`Reply to ${message.userName}`} placeholder="Add your explanation or a helpful reference…" value={draft} disabled={pending[message.id]} onChange={event => p.onReplyDraft(message.id, event.target.value)} /><div className="flex items-center justify-between gap-2"><span className={`text-[11px] ${words(draft) > p.limit ? 'text-red-600' : 'text-slate-400'}`}>{words(draft)}/{p.limit} words</span><Button type="submit" size="sm" className={accent} disabled={pending[message.id] || !draft.trim() || words(draft) > p.limit}>{pending[message.id] ? <Loader2 size={14} className="motion-safe:animate-spin" /> : <Send size={14} />}{pending[message.id] ? 'Sending…' : 'Send reply'}</Button></div></form> : <Button variant="outline" size="sm" onClick={() => p.onJoin(room.id)}>Join to reply</Button>}
-                </div>}
-              </article>;
+  const handleCopyInvite = async () => {
+    p.onInvite(room.id);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
+
+  const handleShareThread = async (messageId) => {
+    const threadUrl = `${window.location.origin}?community=${encodeURIComponent(room.id)}&thread=${encodeURIComponent(messageId)}`;
+    try {
+      await navigator.clipboard.writeText(threadUrl);
+      setActiveShareId(messageId);
+      setTimeout(() => setActiveShareId(null), 2000);
+    } catch {
+      // fallback
+    }
+  };
+
+  const toggleLike = (threadId) => {
+    setLikedThreads(prev => ({ ...prev, [threadId]: !prev[threadId] }));
+  };
+
+  const wordCount = words(p.draft || '');
+  const isOverLimit = wordCount > p.limit;
+
+  // Initial avatar letter fallback
+  const renderAvatarCircle = (name, src, size = 'w-10 h-10') => (
+    <div className={`${size} shrink-0 rounded-full overflow-hidden bg-slate-200 dark:bg-neutral-800 flex items-center justify-center font-bold text-slate-700 dark:text-neutral-200 text-sm select-none`}>
+      {src ? (
+        <img src={src} alt={name || 'Learner'} className="w-full h-full object-cover" />
+      ) : (
+        (name || 'L').charAt(0).toUpperCase()
+      )}
+    </div>
+  );
+
+  const conversations = p.conversations || [];
+  const communities = p.communities || [];
+  const otherCommunities = communities.filter(c => c.id !== room?.id).slice(0, 4);
+
+  return (
+    <div className="community-threads-view flex w-full h-[calc(100vh-72px)] max-h-[calc(100vh-72px)] overflow-hidden bg-white dark:bg-black text-slate-900 dark:text-neutral-100 transition-colors">
+      {/* =========================================================================
+          LEFT PITCH DARK TWITTER TIMELINE (FAR LEFT TILL SLIDING BAR)
+          ========================================================================= */}
+      <div className="w-full lg:w-[600px] xl:w-[650px] shrink-0 h-full max-h-full bg-white dark:bg-black border-r border-slate-200 dark:border-neutral-800 flex flex-col overflow-hidden">
+        
+        {/* CLEAN TOP COMMUNITY HEADER - FIXED / STATIONARY */}
+        <header className="shrink-0 relative bg-white/95 dark:bg-black/95 border-b border-slate-200 dark:border-neutral-800 transition-colors z-10">
+          <div className="flex items-center justify-between px-4 py-2 gap-3 min-h-[53px]">
+            {/* Back button */}
+            <button
+              type="button"
+              onClick={p.onBack}
+              className="p-2 -ml-2 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-900 text-slate-700 dark:text-neutral-300 transition"
+              aria-label="Back to communities"
+              title="Back"
+            >
+              <ArrowLeft size={19} />
+            </button>
+
+            {/* Clickable Community Name & Subtitle */}
+            <button
+              type="button"
+              onClick={() => setIsDetailsOpen(true)}
+              className="flex-1 min-w-0 text-left px-1.5 py-0.5 rounded-lg hover:bg-slate-100/60 dark:hover:bg-neutral-900/60 transition group"
+              title="Click for circle details, members, and admin"
+            >
+              <div className="flex items-center gap-1.5">
+                <h1 className="text-base sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white truncate">
+                  {room.name}
+                </h1>
+                <ChevronDown size={14} className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-neutral-200 transition-transform group-hover:translate-y-0.5 shrink-0" />
+              </div>
+              <p className="text-[12px] text-slate-500 dark:text-neutral-400 truncate">
+                <span>{room.memberCount || (room.members || []).length} members</span>
+                <span className="mx-1">·</span>
+                <span className="text-sky-600 dark:text-sky-400 font-medium">{room.topic || 'Medical discussion'}</span>
+                <span className="hidden sm:inline text-slate-400"> · tap for info</span>
+              </p>
+            </button>
+
+            {/* Right Header Actions */}
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setIsDetailsOpen(true)}
+                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-900 text-slate-600 dark:text-neutral-300 transition"
+                title="View members"
+              >
+                <Users size={18} />
+              </button>
+
+              {room.isMember ? (
+                <button
+                  type="button"
+                  onClick={handleCopyInvite}
+                  className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-900 text-slate-600 dark:text-neutral-300 transition"
+                  title="Copy invite link"
+                >
+                  {copiedLink ? <Check size={18} className="text-emerald-500" /> : <Link2 size={18} />}
+                </button>
+              ) : (
+                <Button
+                  size="sm"
+                  className="rounded-full bg-slate-900 text-white dark:bg-white dark:text-black hover:bg-slate-800 dark:hover:bg-neutral-200 font-bold px-4 py-1 text-xs"
+                  onClick={() => p.onJoin(room.id)}
+                >
+                  Join
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* TWITTER-STYLE TABS ("For you" / "Following" style) */}
+          <div className="flex border-t border-slate-200 dark:border-neutral-800 text-[15px]" role="tablist">
+            {[
+              { id: 'all', label: 'All threads' },
+              { id: 'unanswered', label: 'Unanswered', count: unansweredCount },
+              { id: 'mine', label: 'My threads' }
+            ].map(tab => {
+              const active = filter === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setFilter(tab.id)}
+                  className="flex-1 py-3 px-2 flex justify-center items-center hover:bg-slate-100/60 dark:hover:bg-neutral-900/60 transition relative"
+                >
+                  <span className={`transition ${
+                    active
+                      ? 'font-bold text-slate-900 dark:text-white'
+                      : 'font-medium text-slate-500 dark:text-neutral-500'
+                  }`}>
+                    {tab.label}
+                    {tab.count !== undefined && tab.count > 0 && (
+                      <span className="ml-1.5 text-xs opacity-75 font-normal">({tab.count})</span>
+                    )}
+                  </span>
+                  {active && (
+                    <div className="absolute bottom-0 h-[3.5px] w-12 sm:w-16 bg-sky-500 rounded-full" />
+                  )}
+                </button>
+              );
             })}
-            {!visible.length && <EmptyState icon={query ? Search : MessagesSquare} title={query ? 'No matching conversations' : filter === 'unanswered' ? 'Every thread has a reply' : filter === 'mine' ? 'Your first thread starts here' : 'Let’s get the conversation started'}><p>{query ? 'Try a different keyword or clear your filters.' : 'Ask something you’re studying or share an insight with your circle.'}</p><Button variant="ghost" className="mt-3 text-teal-700 dark:text-teal-300" onClick={() => { if (query || filter !== 'all') { setQuery(''); setFilter('all'); } else if (room.isMember) focusComposer(); else p.onJoin(room.id); }}>{query || filter !== 'all' ? 'Show all threads' : room.isMember ? 'Start a thread' : 'Join the circle'}<ArrowUpRight size={14} /></Button></EmptyState>}
+          </div>
+        </header>
+
+        {/* =========================================================================
+            FEED SECTION WITH DEDICATED SCROLLBAR (WINDOW DOES NOT MOVE)
+            ========================================================================= */}
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain pb-20 sm:pb-16 community-feed-scroll">
+          {/* NOTIFICATION MESSAGE */}
+          {p.message && (
+            <div className="border-b border-sky-500/20 bg-sky-50 dark:bg-sky-950/40 px-4 py-2 text-xs text-sky-800 dark:text-sky-200">
+              {p.message}
+            </div>
+          )}
+
+          {/* TWEET COMPOSER (Twitter "What is happening?!") */}
+        {room.isMember ? (
+          <form onSubmit={event => submit(event)} className="border-b border-slate-200 dark:border-neutral-800 px-4 py-3 bg-white dark:bg-black">
+            <div className="flex gap-3">
+              {renderAvatarCircle(user?.name, user?.profileImageUrl)}
+              <div className="flex-1 min-w-0 pt-1">
+                <textarea
+                  ref={composer}
+                  value={p.draft}
+                  disabled={pending.new}
+                  onChange={event => p.onDraft(event.target.value)}
+                  placeholder="What's happening in your prep? Share a doubt or insight…"
+                  aria-label="What's happening"
+                  rows={2}
+                  className="w-full bg-transparent text-[16px] sm:text-[17px] leading-relaxed text-slate-900 dark:text-neutral-100 placeholder:text-slate-500 dark:placeholder:text-neutral-500 focus:outline-none resize-none"
+                />
+
+                {/* Attached image preview */}
+                {p.image && (
+                  <div className="relative mt-2 rounded-2xl border border-slate-200 dark:border-neutral-800 overflow-hidden bg-slate-50 dark:bg-neutral-900 max-h-72">
+                    <img src={p.image.dataUrl} alt="Attached preview" className="w-full max-h-72 object-cover" />
+                    <button
+                      type="button"
+                      onClick={p.onRemoveImage}
+                      disabled={pending.new}
+                      className="absolute top-2.5 right-2.5 h-7 w-7 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition"
+                      aria-label="Remove image"
+                    >
+                      <X size={15} />
+                    </button>
+                  </div>
+                )}
+
+                {/* Composer bottom toolbar */}
+                <div className="flex items-center justify-between border-t border-slate-100 dark:border-neutral-900 mt-3 pt-2.5">
+                  <div className="flex items-center gap-1 -ml-1 text-sky-500 dark:text-sky-400">
+                    <label className="p-2 rounded-full hover:bg-sky-50 dark:hover:bg-sky-950/40 cursor-pointer transition">
+                      <ImagePlus size={18} />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        disabled={pending.new}
+                        onChange={p.onImage}
+                        className="sr-only"
+                      />
+                    </label>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className={`text-[12px] font-mono ${isOverLimit ? 'text-red-500' : 'text-slate-400 dark:text-neutral-500'}`}>
+                      {wordCount}/{p.limit}
+                    </span>
+                    <Button
+                      type="submit"
+                      disabled={pending.new || (!p.draft.trim() && !p.image) || isOverLimit}
+                      className="rounded-full bg-sky-500 hover:bg-sky-600 text-white font-bold px-4 py-1.5 text-[14px] shadow-sm disabled:opacity-50 transition active:scale-95"
+                    >
+                      {pending.new ? <Loader2 size={14} className="animate-spin" /> : 'Post'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        ) : (
+          <div className="border-b border-slate-200 dark:border-neutral-800 p-4 bg-slate-50/50 dark:bg-neutral-900/30 flex items-center justify-between gap-3">
+            <div>
+              <p className="font-bold text-sm text-slate-900 dark:text-white">Join {room.name}</p>
+              <p className="text-xs text-slate-500 dark:text-neutral-400">Join to participate in medical discussions and share study pearls.</p>
+            </div>
+            <Button
+              className="rounded-full bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs px-4"
+              onClick={() => p.onJoin(room.id)}
+            >
+              Join circle
+            </Button>
+          </div>
+        )}
+
+        {/* OPTIONAL SEARCH BAR (COLLAPSIBLE / MINIMAL) */}
+        <div className="border-b border-slate-200 dark:border-neutral-800 px-4 py-2 bg-slate-50/40 dark:bg-neutral-950/40 flex items-center gap-2">
+          <Search size={15} className="text-slate-400 dark:text-neutral-500 shrink-0" />
+          <input
+            type="search"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search discussions…"
+            aria-label="Search discussions"
+            className="w-full bg-transparent text-xs text-slate-900 dark:text-neutral-100 placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:outline-none"
+          />
+          {query && (
+            <button type="button" onClick={() => setQuery('')} className="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+              <X size={14} />
+            </button>
+          )}
+        </div>
+
+        {/* =========================================================================
+            THE FEED: CONTINUOUS DIVIDE-Y TIMELINE (EXACT TWITTER POST LAYOUT)
+            NO CURVED BOXES, NO FLOATING RECTANGLES!
+            ========================================================================= */}
+        <div className="divide-y divide-slate-200 dark:divide-neutral-800">
+          {visible.map(message => {
+            const responses = replies[message.id] || [];
+            const expanded = Boolean(p.expanded[message.id]);
+            const replyDraft = p.replyDrafts[message.id] || '';
+            const isLiked = Boolean(likedThreads[message.id]);
+
+            return (
+              <article
+                key={message.id}
+                className="px-4 py-3.5 hover:bg-slate-50/70 dark:hover:bg-neutral-900/30 transition cursor-pointer"
+                onClick={() => p.onToggle(message.id)}
+              >
+                <div className="flex gap-3">
+                  {/* Avatar (Left) */}
+                  <div className="flex flex-col items-center shrink-0">
+                    <button
+                      type="button"
+                      disabled={!message.userId}
+                      onClick={e => {
+                        e.stopPropagation();
+                        p.onProfile(message.userId);
+                      }}
+                      className="rounded-full hover:opacity-90 transition"
+                    >
+                      {renderAvatarCircle(message.userName, message.profileImageUrl)}
+                    </button>
+                    {/* Vertical Thread Connector line if replies expanded */}
+                    {expanded && responses.length > 0 && (
+                      <div className="w-[2px] bg-slate-200 dark:bg-neutral-800 flex-1 mt-2 mb-1" aria-hidden="true" />
+                    )}
+                  </div>
+
+                  {/* Main Tweet Body (Right) */}
+                  <div className="flex-1 min-w-0">
+                    {/* Header Row: Name · Verified Badge · @handle · Time */}
+                    <div className="flex items-center justify-between gap-1 leading-5">
+                      <div className="flex items-center gap-1 min-w-0 flex-wrap">
+                        {/* Display Name */}
+                        <button
+                          type="button"
+                          disabled={!message.userId}
+                          onClick={e => {
+                            e.stopPropagation();
+                            p.onProfile(message.userId);
+                          }}
+                          className="font-bold text-[15px] text-slate-900 dark:text-white hover:underline truncate"
+                        >
+                          {message.userName || 'Learner'}
+                        </button>
+
+                        {/* Own message pill */}
+                        {message.isOwnMessage && (
+                          <span className="text-[11px] font-semibold text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60 px-1.5 py-0.2 rounded">
+                            You
+                          </span>
+                        )}
+
+                        {/* Dot separator and timestamp */}
+                        <span className="text-slate-500 dark:text-neutral-500 text-[14px]">·</span>
+                        <time dateTime={message.createdAt} className="text-slate-500 dark:text-neutral-500 text-[14px]">
+                          {p.timestamp(message.createdAt)}
+                        </time>
+                      </div>
+
+                      {/* Right menu / more */}
+                      <button
+                        type="button"
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleShareThread(message.id);
+                        }}
+                        className="p-1 rounded-full text-slate-400 hover:text-sky-500 hover:bg-sky-50 dark:hover:bg-neutral-900 transition"
+                        title="Share thread"
+                      >
+                        <MoreHorizontal size={16} />
+                      </button>
+                    </div>
+
+                    {/* Tweet Content */}
+                    {message.text && (
+                      <p className="mt-1 text-[15px] leading-snug text-slate-900 dark:text-neutral-100 whitespace-pre-wrap break-words font-normal">
+                        {message.text}
+                      </p>
+                    )}
+
+                    {/* Attached Image / Quoted Media (Twitter rounded container) */}
+                    {message.imageUrl && (
+                      <div className="mt-3 rounded-2xl border border-slate-200 dark:border-neutral-800 overflow-hidden bg-slate-50 dark:bg-neutral-900">
+                        <img
+                          loading="lazy"
+                          src={message.imageUrl}
+                          alt="Thread media"
+                          className="w-full max-h-[420px] object-cover"
+                        />
+                      </div>
+                    )}
+
+                    {/* TWITTER ACTION ROW (Chat, Retweet, Like, Views, Share) */}
+                    <div className="mt-3 flex items-center justify-between text-slate-500 dark:text-neutral-500 text-[13px] max-w-[440px]">
+                      {/* Replies */}
+                      <button
+                        type="button"
+                        onClick={e => {
+                          e.stopPropagation();
+                          p.onToggle(message.id);
+                        }}
+                        className="group flex items-center gap-2 hover:text-sky-500 transition -ml-1.5"
+                      >
+                        <div className="p-1.5 rounded-full group-hover:bg-sky-50 dark:group-hover:bg-sky-950/50 transition">
+                          <MessageCircle size={16} />
+                        </div>
+                        <span>{responses.length || ''}</span>
+                      </button>
+
+                      {/* Repost / Share */}
+                      <button
+                        type="button"
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleShareThread(message.id);
+                        }}
+                        className="group flex items-center gap-2 hover:text-emerald-500 transition"
+                      >
+                        <div className="p-1.5 rounded-full group-hover:bg-emerald-50 dark:group-hover:bg-emerald-950/50 transition">
+                          {activeShareId === message.id ? <Check size={16} className="text-emerald-500" /> : <Repeat size={16} />}
+                        </div>
+                        <span className="text-[12px]">{activeShareId === message.id ? 'Copied' : ''}</span>
+                      </button>
+
+                      {/* Like */}
+                      <button
+                        type="button"
+                        onClick={e => {
+                          e.stopPropagation();
+                          toggleLike(message.id);
+                        }}
+                        className={`group flex items-center gap-2 transition ${isLiked ? 'text-rose-500' : 'hover:text-rose-500'}`}
+                      >
+                        <div className="p-1.5 rounded-full group-hover:bg-rose-50 dark:group-hover:bg-rose-950/50 transition">
+                          <Heart size={16} className={isLiked ? 'fill-current text-rose-500' : ''} />
+                        </div>
+                        <span>{isLiked ? 1 : ''}</span>
+                      </button>
+
+                      {/* Views / Analytics indicator */}
+                      <div className="flex items-center gap-1.5 text-slate-400 dark:text-neutral-600">
+                        <BarChart2 size={16} />
+                        <span className="text-[11px]">{((message.text?.length || 10) * 7) + 12}</span>
+                      </div>
+
+                      {/* Bookmark */}
+                      <button
+                        type="button"
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleShareThread(message.id);
+                        }}
+                        className="group p-1.5 rounded-full hover:bg-sky-50 dark:hover:bg-sky-950/50 hover:text-sky-500 transition"
+                        title="Bookmark"
+                      >
+                        <Bookmark size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* EXPANDED THREAD REPLIES (TWITTER IN-PLACE CONVERSATION) */}
+                {expanded && (
+                  <div className="mt-3 pt-3 border-t border-slate-100 dark:border-neutral-900 space-y-3.5 pl-6 sm:pl-10" onClick={e => e.stopPropagation()}>
+                    {/* Replies list */}
+                    {responses.map(reply => {
+                      return (
+                        <div key={reply.id} className="flex gap-2.5">
+                          <button
+                            type="button"
+                            disabled={!reply.userId}
+                            onClick={() => p.onProfile(reply.userId)}
+                            className="shrink-0"
+                          >
+                            {renderAvatarCircle(reply.userName, reply.profileImageUrl, 'w-8 h-8')}
+                          </button>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1 flex-wrap">
+                              <strong className="text-[13px] font-bold text-slate-900 dark:text-white">
+                                {reply.userName || 'Learner'}
+                              </strong>
+                              {reply.isOwnMessage && (
+                                <span className="text-[10px] text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60 px-1 rounded">
+                                  You
+                                </span>
+                              )}
+                              <span className="text-slate-400 dark:text-neutral-500 text-xs">·</span>
+                              <time className="text-slate-400 dark:text-neutral-500 text-xs">{p.timestamp(reply.createdAt)}</time>
+                            </div>
+                            <p className="mt-0.5 text-[14px] leading-relaxed text-slate-800 dark:text-neutral-200 whitespace-pre-wrap break-words">
+                              {reply.text}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {/* Inline Reply Composer */}
+                    {room.isMember ? (
+                      <form
+                        onSubmit={e => submit(e, message.id)}
+                        className="flex gap-2.5 items-start pt-2 border-t border-slate-100 dark:border-neutral-900"
+                      >
+                        {renderAvatarCircle(user?.name, user?.profileImageUrl, 'w-8 h-8')}
+                        <div className="flex-1 min-w-0">
+                          <input
+                            ref={node => { replyInputs.current[message.id] = node; }}
+                            value={replyDraft}
+                            disabled={pending[message.id]}
+                            onChange={e => p.onReplyDraft(message.id, e.target.value)}
+                            placeholder={`Reply to ${message.userName || 'post'}…`}
+                            className="w-full bg-slate-100 dark:bg-neutral-900 border-none rounded-full px-3.5 py-1.5 text-xs sm:text-[13px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                          />
+                        </div>
+                        <Button
+                          type="submit"
+                          size="sm"
+                          disabled={pending[message.id] || !replyDraft.trim()}
+                          className="rounded-full bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs h-7 px-3 shrink-0"
+                        >
+                          {pending[message.id] ? <Loader2 size={12} className="animate-spin" /> : 'Reply'}
+                        </Button>
+                      </form>
+                    ) : null}
+                  </div>
+                )}
+              </article>
+            );
+          })}
+
+          {/* Empty State */}
+          {!visible.length && (
+            <div className="p-10 text-center text-slate-500 dark:text-neutral-500">
+              <p className="font-bold text-base text-slate-900 dark:text-white mb-1">
+                {query ? 'No matching discussions' : filter === 'unanswered' ? 'All threads have replies' : filter === 'mine' ? 'No threads from you' : 'No posts yet'}
+              </p>
+              <p className="text-xs max-w-xs mx-auto mb-4">
+                {query ? 'Try different search keywords.' : 'Be the first to share a high-yield question or revision pearl.'}
+              </p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  if (query || filter !== 'all') {
+                    setQuery('');
+                    setFilter('all');
+                  } else if (room.isMember) {
+                    focusComposer();
+                  } else {
+                    p.onJoin(room.id);
+                  }
+                }}
+                className="rounded-full text-xs font-semibold"
+              >
+                {query || filter !== 'all' ? 'Clear filter' : room.isMember ? 'Write a post' : 'Join circle'}
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+
+      {/* =========================================================================
+          REMAINING SECTION (PERSONAL INBOX & COMMUNITY WIDGETS)
+          ========================================================================= */}
+      <aside className="flex-1 min-w-0 max-w-[540px] h-full max-h-full p-5 lg:p-6 space-y-6 hidden lg:block overflow-y-auto overscroll-contain bg-slate-50/50 dark:bg-black border-l border-slate-200/40 dark:border-neutral-900">
+        
+        {/* PERSONAL INBOX - MATCHING PITCH DARK STYLE */}
+        <section className="rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black p-4 sm:p-5 shadow-sm">
+          <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-neutral-800">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
+              <MessageCircle size={16} className="text-teal-600 dark:text-teal-400" />
+              <span>Personal inbox</span>
+              {conversations.length > 0 && (
+                <span className="text-[11px] font-normal px-1.5 py-0.5 rounded-full bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300">
+                  {conversations.length}
+                </span>
+              )}
+            </h3>
+          </div>
+
+          {/* Search study partner */}
+          <div className="relative mb-3">
+            <Search size={14} className="absolute left-3 top-3 text-slate-400" />
+            <input
+              type="search"
+              value={p.directSearch || ''}
+              onChange={e => p.onDirectSearch?.(e.target.value)}
+              placeholder="Find a study partner…"
+              className="w-full bg-slate-100 dark:bg-neutral-900 border border-slate-200/80 dark:border-neutral-800 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-neutral-700"
+            />
+          </div>
+
+          {/* Search results if user is searching */}
+          {p.directSearchBusy ? (
+            <p className="py-2 text-xs text-slate-400">Searching learners…</p>
+          ) : (p.directSearch || '').trim().length >= 2 && !(p.directResults || []).length ? (
+            <p className="py-2 text-xs text-slate-400">No learners found matching “{p.directSearch}”.</p>
+          ) : (p.directResults || []).length > 0 ? (
+            <div className="mb-3 max-h-48 space-y-1 overflow-y-auto border-b border-slate-100 dark:border-neutral-800 pb-2">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Search results</p>
+              {p.directResults.map(person => (
+                <button
+                  key={person.id}
+                  type="button"
+                  onClick={() => p.onDirect?.(person.id)}
+                  className="flex w-full items-center gap-2.5 rounded-xl p-2 text-left hover:bg-slate-50 dark:hover:bg-neutral-800/80 transition"
+                >
+                  {renderAvatarCircle(person.name, person.profileImageUrl, 'w-8 h-8')}
+                  <span className="min-w-0 flex-1">
+                    <strong className="block truncate text-xs font-semibold text-slate-900 dark:text-white">{person.name}</strong>
+                    <span className="block truncate text-[11px] text-slate-400">{person.medicalCollege || 'Medical Student'}</span>
+                  </span>
+                  <span className="text-[11px] font-semibold text-teal-600 dark:text-teal-400">Message</span>
+                </button>
+              ))}
+            </div>
+          ) : null}
+
+          {/* Direct conversations list */}
+          <div className="max-h-64 overflow-y-auto divide-y divide-slate-100 dark:divide-neutral-800/60">
+            {p.directBusy ? (
+              <p className="py-4 text-xs text-slate-400 text-center">Loading conversations…</p>
+            ) : conversations.length ? (
+              conversations.map(conv => {
+                const person = conv.otherParticipant;
+                const latest = conv.messages?.at?.(-1);
+                return (
+                  <button
+                    key={conv.id}
+                    type="button"
+                    onClick={() => p.onConversation?.(conv.id)}
+                    className="flex w-full items-center gap-2.5 py-2.5 px-1 text-left rounded-lg hover:bg-slate-50 dark:hover:bg-neutral-800/60 transition group"
+                  >
+                    {renderAvatarCircle(person?.name, person?.profileImageUrl, 'w-9 h-9')}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-1">
+                        <strong className="block truncate text-xs font-semibold text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition">
+                          {person?.name || 'Private Chat'}
+                        </strong>
+                        <time className="text-[10px] text-slate-400 shrink-0">
+                          {p.timestamp(latest?.createdAt)}
+                        </time>
+                      </div>
+                      <p className="truncate text-[11px] text-slate-500 dark:text-neutral-400 mt-0.5">
+                        {latest?.text || 'Start conversation…'}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })
+            ) : (
+              <div className="py-6 text-center">
+                <MessagesSquare size={22} className="mx-auto text-slate-400 mb-2 opacity-60" />
+                <p className="text-xs text-slate-500 dark:text-neutral-400">
+                  Great study partnerships start with a simple hello.
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* CIRCLE DETAILS & ADMIN SPOTLIGHT */}
+        <section className="rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black p-4 sm:p-5 shadow-sm space-y-3.5">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">About this circle</h3>
+            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300">
+              {room.topic || 'Medical discussion'}
+            </span>
+          </div>
+          
+          <h4 className="font-bold text-base text-slate-900 dark:text-white leading-snug">{room.name}</h4>
+          {room.description && (
+            <p className="text-xs text-slate-600 dark:text-neutral-300 leading-relaxed">{room.description}</p>
+          )}
+
+          {/* Admin card */}
+          {adminMember && (
+            <div className="rounded-xl p-3 bg-amber-500/10 border border-amber-500/20">
+              <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-2">
+                <Crown size={13} />
+                <span>Circle Administrator</span>
+              </div>
+              <div className="flex items-center justify-between gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => p.onProfile?.(adminMember.id)}
+                  className="flex items-center gap-2 text-left min-w-0 group"
+                >
+                  {renderAvatarCircle(adminMember.name, adminMember.profileImageUrl, 'w-8 h-8')}
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:underline">{adminMember.name}</p>
+                    <p className="text-[10px] text-slate-400 truncate">{adminMember.medicalCollege || 'Medical Student'}</p>
+                  </div>
+                </button>
+                {adminMember.id !== user?.id && (
+                  <button
+                    type="button"
+                    onClick={() => p.onDirect?.(adminMember.id)}
+                    className="text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline shrink-0"
+                  >
+                    Message
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Member count & view all */}
+          <div className="pt-1 flex items-center justify-between border-t border-slate-100 dark:border-neutral-800 text-xs">
+            <span className="text-slate-500 dark:text-neutral-400">
+              <strong>{room.memberCount || (room.members || []).length}</strong> learners enrolled
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsDetailsOpen(true)}
+              className="font-semibold text-sky-600 dark:text-sky-400 hover:underline"
+            >
+              View directory →
+            </button>
+          </div>
+        </section>
+
+        {/* OTHER CIRCLES QUICK SWITCHER */}
+        {otherCommunities.length > 0 && (
+          <section className="rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black p-4 sm:p-5 shadow-sm space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Explore other circles</h3>
+            <div className="space-y-2">
+              {otherCommunities.map(c => (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => p.onOpenRoom?.(c.id)}
+                  className="flex w-full items-center justify-between gap-3 p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-neutral-800/80 transition text-left group"
+                >
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-slate-900 dark:text-white truncate group-hover:text-teal-600 dark:group-hover:text-teal-400">
+                      {c.name}
+                    </p>
+                    <p className="text-[11px] text-slate-400 truncate">
+                      {c.memberCount || (c.members || []).length} members · {c.topic || 'Discussion'}
+                    </p>
+                  </div>
+                  <ChevronRight size={14} className="text-slate-300 group-hover:text-teal-600 shrink-0" />
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+      </aside>
+
+      {/* =========================================================================
+          CIRCLE INFORMATION & MEMBERS MODAL (CLICKED ON HEADER)
+          Shows: Community info, Admin with Crown, and Member list with Profiles
+          ========================================================================= */}
+      {isDetailsOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setIsDetailsOpen(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-2xl bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 shadow-2xl overflow-hidden flex flex-col max-h-[85vh] text-slate-900 dark:text-white"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Modal Top Bar */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-neutral-800">
+              <h2 className="font-bold text-base">Circle Details</h2>
+              <button
+                type="button"
+                onClick={() => setIsDetailsOpen(false)}
+                className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-800 text-slate-500 dark:text-neutral-400"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="overflow-y-auto p-4 space-y-4">
+              {/* Group overview */}
+              <div className="space-y-1.5">
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white">{room.name}</h3>
+                <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300">
+                  {room.topic || 'Medical discussion'}
+                </span>
+                {room.description && (
+                  <p className="text-xs text-slate-600 dark:text-neutral-300 pt-1 leading-relaxed">{room.description}</p>
+                )}
+                <div className="flex items-center gap-3 pt-2 text-xs text-slate-500 dark:text-neutral-400">
+                  <span><strong>{room.memberCount || (room.members || []).length}</strong> members</span>
+                  <span>·</span>
+                  <span><strong>{threads.length}</strong> threads</span>
+                </div>
+              </div>
+
+              {/* ADMIN SPOTLIGHT */}
+              <div className="rounded-xl p-3 bg-amber-500/10 border border-amber-500/20">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wide mb-2">
+                  <Crown size={14} />
+                  <span>Circle Administrator</span>
+                </div>
+                {adminMember ? (
+                  <div className="flex items-center justify-between gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsDetailsOpen(false);
+                        p.onProfile(adminMember.id);
+                      }}
+                      className="flex items-center gap-2.5 text-left group"
+                    >
+                      {renderAvatarCircle(adminMember.name, adminMember.profileImageUrl, 'w-9 h-9')}
+                      <div>
+                        <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:underline">
+                          {adminMember.name}
+                        </p>
+                        <p className="text-[11px] text-slate-500 dark:text-neutral-400">
+                          {adminMember.medicalCollege || 'Medical Student'}
+                        </p>
+                      </div>
+                    </button>
+                    {adminMember.id !== user?.id && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsDetailsOpen(false);
+                          p.onDirect(adminMember.id);
+                        }}
+                        className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline"
+                      >
+                        Message
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-500">Platform Admin</p>
+                )}
+              </div>
+
+              {/* MEMBERS LIST */}
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-neutral-400 mb-2">
+                  All Members ({room.memberCount || (room.members || []).length})
+                </p>
+
+                {/* Member Search input */}
+                <div className="relative mb-2">
+                  <Search size={14} className="absolute left-3 top-2.5 text-slate-400" />
+                  <input
+                    type="search"
+                    placeholder="Search members…"
+                    value={memberSearch}
+                    onChange={e => setMemberSearch(e.target.value)}
+                    className="w-full bg-slate-100 dark:bg-neutral-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none"
+                  />
+                </div>
+
+                <div className="max-h-48 overflow-y-auto divide-y divide-slate-100 dark:divide-neutral-800">
+                  {filteredMembers.map(member => {
+                    const isAdmin = member.id === room.adminUserId;
+                    const isSelf = member.id === user?.id;
+                    return (
+                      <div key={member.id} className="py-2 flex items-center justify-between gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsDetailsOpen(false);
+                            p.onProfile(member.id);
+                          }}
+                          className="flex items-center gap-2 text-left min-w-0 group"
+                        >
+                          {renderAvatarCircle(member.name, member.profileImageUrl, 'w-8 h-8')}
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:underline">
+                                {member.name}
+                              </span>
+                              {isAdmin && (
+                                <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-1 rounded">
+                                  Admin
+                                </span>
+                              )}
+                              {isSelf && (
+                                <span className="text-[10px] font-semibold text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/40 px-1 rounded">
+                                  You
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[10px] text-slate-400 dark:text-neutral-500 truncate">
+                              {member.medicalCollege || 'Member'}
+                            </p>
+                          </div>
+                        </button>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          {!isSelf && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setIsDetailsOpen(false);
+                                p.onDirect(member.id);
+                              }}
+                              className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-medium"
+                            >
+                              Message
+                            </button>
+                          )}
+                          {room.isAdmin && !isAdmin && (
+                            <button
+                              type="button"
+                              onClick={() => p.onRemoveMember(room.id, member.id)}
+                              className="text-xs text-red-500 hover:underline"
+                            >
+                              Remove
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Bottom */}
+            <div className="p-3 border-t border-slate-100 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-950 flex justify-between items-center">
+              {room.isMember ? (
+                <button
+                  type="button"
+                  onClick={handleCopyInvite}
+                  className="text-xs text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1 font-semibold"
+                >
+                  {copiedLink ? <Check size={14} className="text-emerald-500" /> : <Link2 size={14} />}
+                  <span>{copiedLink ? 'Link copied' : 'Copy invite link'}</span>
+                </button>
+              ) : <div />}
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-full text-xs"
+                onClick={() => setIsDetailsOpen(false)}
+              >
+                Close
+              </Button>
+            </div>
           </div>
         </div>
-      </main>
-      <aside className="min-w-0 space-y-5 lg:sticky lg:top-6">
-        <div className="rounded-2xl border border-[#dce6d4] bg-[#eef3e9] p-5 dark:border-teal-900 dark:bg-teal-950/30"><span className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-white/80 text-teal-800 dark:bg-teal-900 dark:text-teal-200"><MessageCircle size={18} /></span><h3 className="font-semibold text-teal-950 dark:text-teal-100">A little help goes a long way.</h3><p className="mt-2 text-xs leading-6 text-teal-800/75 dark:text-teal-200/70">{unanswered ? `${unanswered} ${unanswered === 1 ? 'thread is' : 'threads are'} waiting for a first reply. Your explanation could make something click.` : 'Share how you reached an answer. The reasoning is often the most useful part.'}</p>{unanswered > 0 && <Button variant="ghost" size="sm" className="-ml-2 mt-2 text-teal-800 dark:text-teal-200" onClick={() => { setQuery(''); setFilter('unanswered'); }}>Explore unanswered<ArrowUpRight size={14} /></Button>}</div>
-        <section className={`${surface} p-5`}><div className="flex items-center justify-between"><h3 className="flex items-center gap-2 text-sm font-semibold"><Users size={16} />In this circle</h3><span className="text-xs text-slate-400">{room.memberCount}</span></div><div className="mt-4 max-h-80 space-y-4 overflow-y-auto">{room.members.map(member => <div key={member.id}><button className="flex w-full items-center gap-3 rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500" onClick={() => p.onProfile(member.id)}><Avatar name={member.name} src={member.profileImageUrl} /><span className="min-w-0"><strong className="block truncate text-xs font-semibold">{member.name}</strong><span className="mt-1 block truncate text-[10px] text-slate-400">{member.id === room.adminUserId ? 'Circle admin' : member.medicalCollege || 'Community member'}</span></span></button>{member.id !== user?.id && <div className="ml-[52px] mt-1 flex gap-3"><button className="min-h-7 text-[11px] text-teal-700 hover:underline dark:text-teal-300" onClick={() => p.onDirect(member.id)}>Message</button>{room.isAdmin && member.id !== room.adminUserId && <button className="min-h-7 text-[11px] text-slate-400 hover:text-red-600" onClick={() => p.onRemoveMember(room.id, member.id)}>Remove</button>}</div>}</div>)}</div></section>
-        <section className="px-2"><h3 className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-300"><ShieldCheck size={15} />Make this a helpful space</h3><ul className="mt-3 space-y-2 text-xs leading-6 text-slate-500 dark:text-slate-400"><li>Give your question a little context.</li><li>Explain your reasoning and cite sources.</li><li>Keep patient details anonymous.</li><li>Be kind. Everyone is learning.</li></ul></section>
-      </aside>
+      )}
     </div>
-  </section>;
+  );
 }

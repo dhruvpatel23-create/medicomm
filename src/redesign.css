@@ -153,6 +153,48 @@ kbd { padding: 2px 5px; border: 1px solid var(--ui-line); border-radius: 5px; ba
 .app-shell-v2 .user-chip:hover { border-color: var(--ui-line); background: var(--ui-soft); }
 .app-shell-v2 .avatar { width: 32px; height: 32px; }
 .app-shell-v2 main { width: min(1220px,calc(100% - 64px)); }
+.app-shell-v2:has(.community-threads-view),
+body:has(.community-threads-view) {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+.app-shell-v2:has(.community-threads-view) .shell-workspace {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+.app-shell-v2:has(.community-threads-view) main,
+.app-shell-v2 main:has(.community-threads-view) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  height: calc(100vh - 72px) !important;
+  max-height: calc(100vh - 72px) !important;
+  overflow: hidden !important;
+}
+.app-shell-v2:has(.community-threads-view) main > div,
+.app-shell-v2 main:has(.community-threads-view) > div {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+}
+.community-feed-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(150, 150, 150, 0.3) transparent;
+}
+.community-feed-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.community-feed-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(150, 150, 150, 0.3);
+  border-radius: 9999px;
+}
 .shell-workspace { min-width: 0; max-width: 100%; overflow-x: clip; }
 .mobile-nav, .sidebar-scrim { display: none; }
 .tooltip-content { z-index: 100; padding: 7px 9px; border-radius: 7px; background: #162033; color: #fff; font-size: 11px; }
@@ -1173,6 +1215,15 @@ body {
 .topbar-stat { height: 40px; border-color: var(--ui-line); border-radius: 12px; background: rgba(255,255,255,.6); }
 .app-shell-v2 .user-chip { min-height: 44px; padding: 5px 8px 5px 5px; border-radius: 13px; }
 .app-shell-v2 main { width: min(1280px, calc(100% - clamp(40px, 6vw, 88px))); }
+.app-shell-v2:has(.community-threads-view) main,
+.app-shell-v2 main:has(.community-threads-view) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: calc(100vh - 72px) !important;
+  max-height: calc(100vh - 72px) !important;
+}
 
 .app-view { padding: 46px 0 76px; }
 .view-header { align-items: flex-end; margin-bottom: 30px; }

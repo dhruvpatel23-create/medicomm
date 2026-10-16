@@ -69,7 +69,7 @@ export default function WebsiteReviews({ canReview, onSignIn, compact = false, o
     finally { setLoadingMore(false); }
   }
 
-  const reviews = compact ? data?.reviews.slice(0, 3) : data?.reviews;
+  const reviews = compact ? (data?.reviews?.slice(0, 3) || []) : (data?.reviews || []);
   return <section className={`website-reviews${compact ? " website-reviews-home" : ""}`} aria-label="Medulla ratings and reviews">
     <div className="reviews-heading"><div><p className="eyebrow">From our learners</p><h2>Ratings & reviews</h2><p>Share your experience with Medulla.</p></div>
       {compact && <button className="button button-secondary" onClick={onViewAll}>View all reviews</button>}

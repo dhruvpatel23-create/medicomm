@@ -28,7 +28,7 @@ import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261016-surgery-img1-b2";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261016-surgery-img1-b4";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -1616,12 +1616,16 @@ async function fetchPracticeLibrary() {
   function openCommunityChat(communityId) {
     setSelectedCommunityId(communityId);
     setCommunityStage("detail");
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.getElementById("main-content")?.scrollTo?.({ top: 0, left: 0, behavior: "instant" });
   }
 
   function openDirectConversation(conversationId) {
     setSelectedDirectConversationId(conversationId);
     setCommunityStage("direct");
     setDirectMessageDraft("");
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.getElementById("main-content")?.scrollTo?.({ top: 0, left: 0, behavior: "instant" });
   }
 
   function handleBackToCommunityHub() {
@@ -1629,6 +1633,8 @@ async function fetchPracticeLibrary() {
     setCommunityMessageDraft("");
     setCommunityThreadImage(null);
     setDirectMessageDraft("");
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.getElementById("main-content")?.scrollTo?.({ top: 0, left: 0, behavior: "instant" });
   }
 
   function restorePracticeAnswer(question) {
@@ -4727,11 +4733,11 @@ async function fetchPracticeLibrary() {
                       key={message.id}
                       className={`flex ${message.isOwnMessage ? "justify-end" : "justify-start"}`}
                     >
-                      <div className={`max-w-[90%] space-y-2 rounded-2xl p-4 text-sm [&_p]:whitespace-pre-wrap [&_p]:break-words [&>span]:block [&>span]:text-[10px] [&>span]:text-slate-500 dark:[&>span]:text-slate-400 ${message.isOwnMessage ? "bg-cyan-50 dark:bg-cyan-950" : "bg-slate-100 dark:bg-slate-800"} ${message.type === "challenge" ? "border border-cyan-300 dark:border-cyan-800" : ""}`}>
+                      <div className={`max-w-[90%] space-y-2 rounded-2xl p-4 text-sm [&_p]:whitespace-pre-wrap [&_p]:break-words [&>span]:block [&>span]:text-[10px] ${message.isOwnMessage ? "bg-slate-900 text-white dark:bg-neutral-800 dark:text-white [&>span]:text-slate-300 dark:[&>span]:text-neutral-400" : "bg-slate-100 text-slate-900 dark:bg-neutral-900 dark:text-neutral-100 border border-slate-200/60 dark:border-neutral-800 [&>span]:text-slate-500 dark:[&>span]:text-neutral-400"} ${message.type === "challenge" ? "border-2 border-amber-500" : ""}`}>
                         {message.userId ? (
                           <button
                             type="button"
-                            className="text-xs font-semibold text-cyan-700 hover:underline dark:text-cyan-300"
+                            className={`text-xs font-semibold hover:underline ${message.isOwnMessage ? "text-teal-200" : "text-teal-600 dark:text-teal-400"}`}
                             onClick={() => openPublicProfile(message.userId, "Communities")}
                           >
                             {message.userName}
@@ -4809,7 +4815,12 @@ async function fetchPracticeLibrary() {
         expanded={expandedCommunityThreads} onToggle={toggleCommunityThread} onSend={handleSendCommunityMessage}
         onBack={handleBackToCommunityHub} onJoin={handleJoinCommunity} onInvite={handleCopyCommunityInvite}
         onProfile={id => openPublicProfile(id, "Communities")} onDirect={handleOpenDirectChat}
-        onRemoveMember={handleRemoveCommunityMember} />;
+        onRemoveMember={handleRemoveCommunityMember}
+        conversations={directConversations} directBusy={directMessagesBusy}
+        directSearch={directSearchTerm} onDirectSearch={setDirectSearchTerm}
+        directSearchBusy={directSearchBusy} directResults={directSearchResults}
+        onConversation={openDirectConversation}
+        communities={communities} onOpenRoom={openCommunityChat} />;
     }
 
     return <CommunityHub communities={communities} busy={communitiesBusy}

@@ -14,7 +14,7 @@ const palettes = [
   { cover: 'bg-[#f2e3df] text-[#a57669] dark:bg-[#442f30] dark:text-rose-200', icon: HeartPulse, badge: 'bg-rose-50 text-rose-800 dark:bg-rose-900/40 dark:text-rose-200' },
   { cover: 'bg-[#dfeaf3] text-[#597e9b] dark:bg-[#24374b] dark:text-sky-200', icon: FlaskConical, badge: 'bg-sky-50 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' },
 ];
-const panel = 'min-w-0 rounded-2xl border border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900';
+const panel = 'min-w-0 rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black shadow-sm';
 const secondaryText = 'text-sm leading-relaxed text-slate-500 dark:text-slate-400';
 const sortLabels = { recent: 'Recent activity', members: 'Most members', name: 'Name A–Z' };
 const latestActivity = room => Math.max(new Date(room.createdAt || 0).getTime() || 0, ...(room.messages || []).map(message => new Date(message.createdAt).getTime() || 0));
@@ -31,7 +31,7 @@ function roomPalette(room) {
 function MemberStack({ members = [], count, dark = false }) {
   return <div className="flex items-center gap-2.5">
     <div className="flex -space-x-2" aria-hidden="true">
-      {members.slice(0, 3).map((member) => <span key={member.id} className={`flex h-7 w-7 items-center justify-center overflow-hidden rounded-full border-2 text-[9px] font-bold ${dark ? 'border-[#174b44] bg-teal-100 text-teal-900' : 'border-white bg-slate-100 text-slate-600 dark:border-slate-900 dark:bg-slate-700 dark:text-slate-200'}`}>{member.profileImageUrl ? <img src={member.profileImageUrl} alt="" className="h-full w-full object-cover" /> : initials(member.name)}</span>)}
+      {members.slice(0, 3).map((member) => <span key={member.id} className={`flex h-7 w-7 items-center justify-center overflow-hidden rounded-full border-2 text-[9px] font-bold ${dark ? 'border-[#174b44] bg-teal-100 text-teal-900' : 'border-white bg-slate-100 text-slate-600 dark:border-neutral-900 dark:bg-neutral-800 dark:text-neutral-200'}`}>{member.profileImageUrl ? <img src={member.profileImageUrl} alt="" className="h-full w-full object-cover" /> : initials(member.name)}</span>)}
       {!members.length && <Users size={15} className={dark ? 'text-teal-200' : 'text-slate-400'} />}
     </div>
     <span className={`text-xs ${dark ? 'text-teal-100/80' : 'text-slate-500 dark:text-slate-400'}`}>{number(count)} members</span>
@@ -162,18 +162,156 @@ export default function CommunityHub(p) {
           </TabsContent>)}
         </Tabs>
         {filter !== 'friends' && filter !== 'requests' && <p role="status" className="mt-4 text-xs text-slate-400">{rooms.length} {rooms.length === 1 ? 'circle' : 'circles'}{query ? ` matching “${query}”` : filter === 'joined' ? ' you belong to' : ' to discover'}</p>}
-        <button onClick={() => setCreateOpen(true)} className="mt-6 flex w-full items-center gap-4 rounded-2xl border border-dashed border-teal-800/20 bg-[#eef3e9] p-5 text-left transition hover:border-teal-700/50 hover:bg-[#e7efdf] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-teal-600/30 dark:bg-teal-950/30 dark:hover:bg-teal-950/60 motion-reduce:transition-none"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/80 text-teal-800 dark:bg-teal-900 dark:text-teal-200"><Plus size={22} strokeWidth={1.5} /></span><span className="min-w-0 flex-1"><strong className="block text-sm font-semibold text-teal-950 dark:text-teal-100">Can’t find your people? Bring them together.</strong><span className="mt-1 block text-xs leading-relaxed text-teal-800/70 dark:text-teal-200/60">Start a room for your subject, exam, or study group.</span></span><ArrowUpRight size={20} className="shrink-0 text-teal-700 dark:text-teal-300" /></button>
+        <button onClick={() => setCreateOpen(true)} className="mt-6 flex w-full items-center gap-4 rounded-2xl border border-dashed border-slate-300 dark:border-neutral-800 bg-slate-50/50 dark:bg-black p-5 text-left transition hover:border-teal-500/50 hover:bg-slate-50 dark:hover:bg-neutral-900/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 motion-reduce:transition-none"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-200/80 dark:bg-neutral-900 text-teal-600 dark:text-teal-400"><Plus size={22} strokeWidth={1.5} /></span><span className="min-w-0 flex-1"><strong className="block text-sm font-semibold text-slate-900 dark:text-white">Can’t find your people? Bring them together.</strong><span className="mt-1 block text-xs leading-relaxed text-slate-500 dark:text-neutral-400">Start a room for your subject, exam, or study group.</span></span><ArrowUpRight size={20} className="shrink-0 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400" /></button>
       </div>
 
       <aside className="min-w-0 space-y-5">
-        {resumeRoom && <button onClick={() => p.onOpen(resumeRoom.id)} className="group w-full rounded-2xl border border-teal-200/60 bg-[#e5eee9] p-5 text-left transition hover:border-teal-500 dark:border-teal-800 dark:bg-[#16332d] motion-reduce:transition-none"><span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-700 dark:text-teal-300"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/70 dark:bg-teal-800"><ArrowRight size={11} /></span>Back to your circle</span><span className="mt-3 flex items-center justify-between gap-3"><strong className="text-base font-semibold leading-snug text-teal-950 dark:text-teal-100">{resumeRoom.name}</strong><ArrowUpRight size={19} className="shrink-0 text-teal-700 transition-transform group-hover:-translate-y-0.5 dark:text-teal-300" /></span><span className="mt-3 block text-xs text-teal-700/80 dark:text-teal-200/70">Pick up the conversation<ChevronRight size={12} className="ml-1 inline" /></span></button>}
-        <article className={`${panel} overflow-hidden`}><div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800"><h3 className="flex items-center gap-2 text-sm font-semibold"><MessageCircle size={16} className="text-teal-700 dark:text-teal-300" />Personal inbox</h3><Button variant="ghost" size="icon" className="-mr-2 h-8 w-8" aria-label="Find a study partner" onClick={() => inboxSearch.current?.querySelector('input')?.focus()}><Plus size={16} /></Button></div><div className="px-4 pb-3 pt-4"><div ref={inboxSearch}><SearchField value={p.search} onChange={p.onSearch} placeholder="Find a study partner" /></div>
-          {p.searchBusy ? <p role="status" className="px-1 py-3 text-xs text-slate-500">Searching learners…</p> : p.search.trim().length === 1 ? <p className="px-1 py-3 text-xs text-slate-500">Type at least 2 characters to search.</p> : p.search.trim().length >= 2 && !p.results.length ? <p role="status" className="px-1 py-3 text-xs text-slate-500">No learners found. Try another name.</p> : null}
-          {p.results.length > 0 && <div className="mt-2 max-h-64 space-y-1 overflow-y-auto border-b border-slate-100 pb-3 dark:border-slate-800">{p.results.map(person => <button key={person.id} className="flex w-full items-center gap-3 rounded-xl p-2 text-left hover:bg-slate-50 dark:hover:bg-slate-800" onClick={() => p.onDirect(person.id)}><Avatar name={person.name} src={person.profileImageUrl} /><span className="min-w-0 flex-1"><strong className="block truncate text-sm">{person.name}</strong><span className="block truncate text-xs text-slate-500">{person.medicalCollege}</span></span><Plus size={15} className="shrink-0 text-teal-600" /></button>)}</div>}
-          <div className="mt-2 max-h-80 overflow-y-auto">{p.directBusy ? <p role="status" className="py-4 text-sm text-slate-500">Loading messages…</p> : p.conversations.length ? p.conversations.map(conversation => { const person = conversation.otherParticipant; const latest = conversation.messages.at(-1); return <button key={conversation.id} className="group flex w-full items-center gap-3 rounded-xl px-1 py-3 text-left hover:bg-slate-50 dark:hover:bg-slate-800" onClick={() => p.onConversation(conversation.id)}><Avatar name={person?.name} src={person?.profileImageUrl} /><span className="min-w-0 flex-1"><strong className="block truncate text-sm font-semibold">{person?.name || 'Private chat'}</strong><span className="mt-1 block truncate text-xs text-slate-500 dark:text-slate-400">{latest?.text || 'Start the conversation'}</span><time className="mt-1 block text-[10px] text-slate-400">{p.timestamp(latest?.createdAt)}</time></span><ChevronRight size={14} className="shrink-0 text-slate-300 group-hover:text-teal-600" /></button>; }) : <div className="px-2 py-6 text-center"><MessagesSquare size={25} strokeWidth={1.3} className="mx-auto mb-3 text-slate-300" /><p className="text-xs leading-6 text-slate-500 dark:text-slate-400">Great study partnerships start<br />with a simple hello.</p></div>}</div>
-        </div></article>
-        <article className={`${panel} p-5`}><h3 className="mb-1 flex items-center gap-2 text-sm font-semibold"><MessagesSquare size={16} className="text-teal-700 dark:text-teal-300" />Around the community</h3><p className="mb-5 text-xs text-slate-400">The latest thoughts and questions.</p>
-          {discussions.length ? <div className="space-y-5">{discussions.map((message, index) => <button key={`${message.room.id}-${message.id}`} onClick={() => p.onOpen(message.room.id)} className="group relative block w-full pl-5 text-left"><span className={`absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full ${index === 0 ? 'bg-teal-600' : 'bg-slate-300 dark:bg-slate-600'}`} />{index !== discussions.length - 1 && <span className="absolute -bottom-5 left-[2.5px] top-5 w-px bg-slate-100 dark:bg-slate-800" />}<span className="block truncate text-[10px] font-semibold uppercase tracking-wide text-teal-700 dark:text-teal-300">{message.room.name}</span><span className="mt-2 line-clamp-2 text-sm leading-6 text-slate-700 group-hover:text-teal-800 dark:text-slate-200 dark:group-hover:text-teal-200">{message.text || (message.imageUrl ? 'Shared an image with the circle.' : 'Started a discussion.')}</span><span className="mt-2 block text-[10px] text-slate-400">{message.userName} · {p.timestamp(message.createdAt)}</span></button>)}</div> : <div className="rounded-xl bg-slate-50 p-4 text-xs leading-6 text-slate-500 dark:bg-slate-950/50 dark:text-slate-400">Something on your mind? Open a room and start the first discussion.</div>}
+        {resumeRoom && <button onClick={() => p.onOpen(resumeRoom.id)} className="group w-full rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black p-4 sm:p-5 text-left transition hover:border-slate-300 dark:hover:border-neutral-700 shadow-sm motion-reduce:transition-none"><span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-600 dark:text-teal-400"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-teal-50 dark:bg-teal-950/80"><ArrowRight size={11} /></span>Back to your circle</span><span className="mt-2.5 flex items-center justify-between gap-3"><strong className="text-sm sm:text-base font-bold leading-snug text-slate-900 dark:text-white">{resumeRoom.name}</strong><ArrowUpRight size={18} className="shrink-0 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-transform group-hover:-translate-y-0.5" /></span><span className="mt-2 block text-xs text-slate-500 dark:text-neutral-400">Pick up the conversation<ChevronRight size={12} className="ml-1 inline" /></span></button>}
+        
+        {/* PERSONAL INBOX - EXACT TWITTER / THREADS RESTYLE */}
+        <article className="min-w-0 rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black shadow-sm overflow-hidden">
+          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-neutral-800">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
+              <MessageCircle size={16} className="text-teal-600 dark:text-teal-400" />
+              <span>Personal inbox</span>
+              {p.conversations?.length > 0 && (
+                <span className="text-[11px] font-normal px-1.5 py-0.5 rounded-full bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300">
+                  {p.conversations.length}
+                </span>
+              )}
+            </h3>
+            <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8 text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white" aria-label="Find a study partner" onClick={() => inboxSearch.current?.querySelector('input')?.focus()}>
+              <Plus size={16} />
+            </Button>
+          </div>
+          <div className="px-4 pb-3 pt-4">
+            <div ref={inboxSearch} className="relative min-w-0">
+              <Search size={14} className="pointer-events-none absolute left-3 top-3 text-slate-400" aria-hidden="true" />
+              <input
+                type="search"
+                aria-label="Find a study partner"
+                value={p.search}
+                onChange={e => p.onSearch(e.target.value)}
+                placeholder="Find a study partner…"
+                className="w-full bg-slate-100 dark:bg-neutral-900 border border-slate-200/80 dark:border-neutral-800 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-neutral-700"
+              />
+            </div>
+            {p.searchBusy ? (
+              <p role="status" className="px-1 py-3 text-xs text-slate-400">Searching learners…</p>
+            ) : p.search.trim().length === 1 ? (
+              <p className="px-1 py-3 text-xs text-slate-400">Type at least 2 characters to search.</p>
+            ) : p.search.trim().length >= 2 && !p.results.length ? (
+              <p role="status" className="px-1 py-3 text-xs text-slate-400">No learners found. Try another name.</p>
+            ) : null}
+            {p.results.length > 0 && (
+              <div className="mt-2 max-h-64 space-y-1 overflow-y-auto border-b border-slate-100 pb-3 dark:border-neutral-800">
+                {p.results.map(person => (
+                  <button
+                    key={person.id}
+                    className="flex w-full items-center gap-2.5 rounded-lg p-2 text-left hover:bg-slate-50 dark:hover:bg-neutral-900/60 transition"
+                    onClick={() => p.onDirect(person.id)}
+                  >
+                    <div className="w-8 h-8 shrink-0 rounded-full overflow-hidden bg-slate-200 dark:bg-neutral-800 flex items-center justify-center font-bold text-slate-700 dark:text-neutral-200 text-xs select-none">
+                      {person.profileImageUrl ? (
+                        <img src={person.profileImageUrl} alt="" className="h-full w-full object-cover" />
+                      ) : (
+                        initials(person.name)
+                      )}
+                    </div>
+                    <span className="min-w-0 flex-1">
+                      <strong className="block truncate text-xs font-semibold text-slate-900 dark:text-white">{person.name}</strong>
+                      <span className="block truncate text-[11px] text-slate-400">{person.medicalCollege || 'Medical Student'}</span>
+                    </span>
+                    <span className="text-xs font-semibold text-teal-600 dark:text-teal-400">Message</span>
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="mt-2 max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-neutral-800/60">
+              {p.directBusy ? (
+                <p role="status" className="py-4 text-xs text-slate-400 text-center">Loading messages…</p>
+              ) : p.conversations.length ? (
+                p.conversations.map(conversation => {
+                  const person = conversation.otherParticipant;
+                  const latest = conversation.messages.at(-1);
+                  return (
+                    <button
+                      key={conversation.id}
+                      className="group flex w-full items-center gap-2.5 py-2.5 px-1 text-left rounded-lg hover:bg-slate-50 dark:hover:bg-neutral-900/60 transition"
+                      onClick={() => p.onConversation(conversation.id)}
+                    >
+                      <div className="w-9 h-9 shrink-0 rounded-full overflow-hidden bg-slate-200 dark:bg-neutral-800 flex items-center justify-center font-bold text-slate-700 dark:text-neutral-200 text-xs select-none">
+                        {person?.profileImageUrl ? (
+                          <img src={person.profileImageUrl} alt="" className="h-full w-full object-cover" />
+                        ) : (
+                          initials(person?.name)
+                        )}
+                      </div>
+                      <span className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between gap-1">
+                          <strong className="block truncate text-xs font-semibold text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition">
+                            {person?.name || 'Private chat'}
+                          </strong>
+                          <time className="text-[10px] text-slate-400 shrink-0">
+                            {p.timestamp(latest?.createdAt)}
+                          </time>
+                        </div>
+                        <span className="mt-0.5 block truncate text-[11px] text-slate-500 dark:text-neutral-400">
+                          {latest?.text || 'Start the conversation'}
+                        </span>
+                      </span>
+                      <ChevronRight size={14} className="shrink-0 text-slate-300 group-hover:text-teal-600 transition" />
+                    </button>
+                  );
+                })
+              ) : (
+                <div className="px-2 py-6 text-center">
+                  <MessagesSquare size={22} className="mx-auto mb-2 text-slate-400 opacity-60" />
+                  <p className="text-xs leading-5 text-slate-500 dark:text-neutral-400">
+                    Great study partnerships start<br />with a simple hello.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </article>
+
+        {/* AROUND THE COMMUNITY */}
+        <article className="min-w-0 rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black p-4 sm:p-5 shadow-sm">
+          <h3 className="mb-1 flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
+            <MessagesSquare size={16} className="text-teal-600 dark:text-teal-400" />
+            Around the community
+          </h3>
+          <p className="mb-4 text-xs text-slate-400">The latest thoughts and questions.</p>
+          {discussions.length ? (
+            <div className="space-y-4">
+              {discussions.map((message, index) => (
+                <button
+                  key={`${message.room.id}-${message.id}`}
+                  onClick={() => p.onOpen(message.room.id)}
+                  className="group relative block w-full pl-4 text-left"
+                >
+                  <span className={`absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full ${index === 0 ? 'bg-teal-500' : 'bg-slate-300 dark:bg-neutral-700'}`} />
+                  {index !== discussions.length - 1 && (
+                    <span className="absolute -bottom-4 left-[2.5px] top-4 w-px bg-slate-100 dark:bg-neutral-800" />
+                  )}
+                  <span className="block truncate text-[10px] font-semibold uppercase tracking-wide text-teal-600 dark:text-teal-400">
+                    {message.room.name}
+                  </span>
+                  <span className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-700 group-hover:text-teal-600 dark:text-neutral-200 dark:group-hover:text-teal-400 transition">
+                    {message.text || (message.imageUrl ? 'Shared an image with the circle.' : 'Started a discussion.')}
+                  </span>
+                  <span className="mt-1 block text-[10px] text-slate-400">
+                    {message.userName} · {p.timestamp(message.createdAt)}
+                  </span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-xl bg-slate-50 dark:bg-neutral-900 p-4 text-xs leading-relaxed text-slate-500 dark:text-neutral-400">
+              Something on your mind? Open a room and start the first discussion.
+            </div>
+          )}
         </article>
         <div className="px-3 py-2"><p className="font-serif text-xl italic leading-relaxed text-slate-500 dark:text-slate-400">A little help today.<br />A better doctor tomorrow.</p><p className="mt-3 text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">Learn generously. Grow together.</p></div>
       </aside>
