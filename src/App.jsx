@@ -6,8 +6,10 @@ import CompeteArena from "./components/CompeteArena";
 import Leaderboard from "./components/Leaderboard";
 import CommunityHub from "./components/CommunityHub";
 import CommunityThreads from "./components/CommunityThreads";
+import HomeBattleSection from "./components/HomeBattleSection";
 import { socialPage, surface as socialSurface, primary as socialPrimary, secondary as socialSecondary, field as socialField, avatar as socialAvatar } from "./components/SocialUI";
 import PracticeSelection from "./components/PracticeSelection";
+import TestSections from "./components/TestSections";
 import PracticeSubjectDirectory from "./components/PracticeSubjectDirectory";
 import CustomModules from "./components/CustomModules";
 import UsmleModules from "./components/UsmleModules";
@@ -20,6 +22,7 @@ import DashboardActivity from "./components/DashboardActivity";
 import RazorpayCheckout from "./components/RazorpayCheckout";
 import { PAYMENT_PLANS } from "./data/paymentPlans";
 import { filterPracticeLibraryForUi } from "./lib/practiceImageVisibility";
+import { getDuelImageUrls } from "./lib/duelImages";
 import { useAccountOverview, usePracticeRecorder } from "./lib/useAccountOverview";
 import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
@@ -28,7 +31,7 @@ import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261016-surgery-img1-b4";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261016-surgery-img1-b5";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -326,15 +329,7 @@ function isUsmleImage(imageUrl) {
 }
 
 function getQuestionImageUrls(question) {
-  return [
-    ...(Array.isArray(question?.imageUrls) ? question.imageUrls : []),
-    ...(Array.isArray(question?.images) ? question.images : []),
-    question?.imageUrl,
-    question?.image,
-  ]
-    .map((imageUrl) => String(imageUrl ?? "").trim())
-    .filter(Boolean)
-    .filter((imageUrl, index, list) => list.indexOf(imageUrl) === index);
+  return getDuelImageUrls(question);
 }
 
 function formatDuration(totalSeconds) {
@@ -560,6 +555,14 @@ function App() {
   const [activeView, updateActiveView] = useState("Home");
   const [practicePathTitle, setPracticePathTitle] = useState("");
 
+  function scrollPageToTop() {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    const mainEl = document.getElementById("main-content");
+    if (mainEl) mainEl.scrollTop = 0;
+    const workspaceEl = document.querySelector(".shell-workspace");
+    if (workspaceEl) workspaceEl.scrollTop = 0;
+  }
+
   function setActiveView(view) {
     if (view === "Practice") {
       handleBackToPracticeDirectory();
@@ -567,7 +570,15 @@ function App() {
       setPracticeStage("selection");
     }
     updateActiveView(view);
+    scrollPageToTop();
+    window.requestAnimationFrame(() => {
+      scrollPageToTop();
+    });
   }
+
+  useEffect(() => {
+    scrollPageToTop();
+  }, [activeView]);
   const [selectedOption, setSelectedOption] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const practiceAnswerLockedRef = useRef(false);
@@ -883,7 +894,7 @@ function App() {
         state,
         players: players.sort((left, right) => right.score - left.score),
       }))
-      .sort((left, right) => right.players[0].score - left.players[0].score);
+      .sort((left, right) => (right.players[0]?.score ?? 0) - (left.players[0]?.score ?? 0));
   }, [liveLeaderboard]);
 
   const stateLeaderboardByName = useMemo(
@@ -3106,25 +3117,11 @@ async function fetchPracticeLibrary() {
           ))}
         </section>
 
-        <section className="practice-upgrade-band">
-          <article className="card panel practice-upgrade-panel">
-            <div>
-              <p className="eyebrow">Practice engine</p>
-              <h2>Official PYQs and topic-wise questions, together.</h2>
-              <p className="panel-copy">
-                The practice library now loads from the backend, keeps NEET PG PYQs as the core bank, and labels
-                AI-generated MCQs separately so they never look like official exam material.
-              </p>
-            </div>
-            <div className="practice-upgrade-actions">
-              <span className="rank-pill source-official">Official PYQ bank</span>
-              <span className="rank-pill source-ai">Topic Wise Questions</span>
-              <button className="button button-primary" onClick={() => setActiveView("Practice")}>
-                Open practice library
-              </button>
-            </div>
-          </article>
-        </section>
+        <HomeBattleSection
+          onCompete={() => setActiveView("Compete")}
+          onLeaderboard={() => setActiveView("Leaderboard")}
+          userRating={userRating}
+        />
 
         <section className="features-section">
           <div className="section-heading">
@@ -3192,9 +3189,16 @@ async function fetchPracticeLibrary() {
     if (practiceStage === "selection") {
       return <PracticeSelection onSelect={(title, id) => {
         setPracticePathTitle(title);
-        setPracticeStage(id === "usmle" ? "usmle-modules" : id === "fmge" ? "fmge-years" : id === "custom-modules" ? "custom-modules" : "catalog");
+        setPracticeStage(["neetpg-tests", "fmge-tests"].includes(id) ? id : id === "usmle" ? "usmle-modules" : id === "fmge" ? "fmge-years" : id === "custom-modules" ? "custom-modules" : "catalog");
         scrollPracticeViewToTop();
       }} />;
+    }
+
+    if (["neetpg-tests", "fmge-tests"].includes(practiceStage)) {
+      return <TestSections key={practiceStage}
+        exam={practiceStage === "fmge-tests" ? "fmge" : "neetpg"}
+        title={practiceStage === "neetpg-tests" ? "NEETPG Tests" : "FMGE Tests"}
+        onBack={() => { setPracticeStage("selection"); scrollPracticeViewToTop(); }} />;
     }
 
     if (practiceStage === "fmge-years") {
@@ -4255,7 +4259,8 @@ async function fetchPracticeLibrary() {
                         className="practice-question-image"
                         src={getPracticeImageUrl(imageUrl)}
                         alt={`Question ${currentPracticeQuestion.questionNumber} visual ${index + 1}`}
-                        loading="lazy"
+                        loading="eager"
+                        fetchPriority={index === 0 ? "high" : "auto"}
                         decoding="async"
                       />
                     </span>
@@ -4854,9 +4859,9 @@ async function fetchPracticeLibrary() {
       onSelect={submitDuelAnswer}
       renderDetails={question => <>
         <QuestionLaboratoryTable findings={question.laboratoryFindings} compact />
-        {getQuestionImageUrls(question).length > 0 && <div className="mt-5 grid gap-3 sm:grid-cols-2">
-          {getQuestionImageUrls(question).map((imageUrl, index) => <span key={imageUrl} className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-700">
-            <img className="max-h-80 max-w-full object-contain" src={getPracticeImageUrl(imageUrl)} alt={`Question visual ${index + 1}`} />
+        {getQuestionImageUrls(question).length > 0 && <div className={getQuestionImageUrls(question).length === 1 ? "mx-auto mt-5 grid w-full max-w-lg gap-3" : "mt-5 grid gap-3 sm:grid-cols-2"}>
+          {getQuestionImageUrls(question).map((imageUrl, index) => <span key={imageUrl} className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl bg-black">
+            <img className="block h-auto w-full object-contain object-center" src={getPracticeImageUrl(imageUrl)} alt={`Question visual ${index + 1}`} />
           </span>)}
         </div>}
       </>}
@@ -5106,7 +5111,7 @@ async function fetchPracticeLibrary() {
         return <div className="app-view"><WebsiteReviews canReview={authStatus === "authenticated"} onSignIn={handleLogout} /></div>;
       case "Practice":
         return <>
-          {!["selection", "usmle-modules", "fmge-years", "custom-modules"].includes(practiceStage) && !(practiceStage === "catalog" && practicePathTitle === "NEET PG / INICET") && <div className="practice-path-breadcrumb">
+          {!["selection", "usmle-modules", "fmge-years", "custom-modules", "neetpg-tests", "fmge-tests"].includes(practiceStage) && !(practiceStage === "catalog" && practicePathTitle === "NEET PG / INICET") && <div className="practice-path-breadcrumb">
             <button type="button" className="text-button" onClick={() => setActiveView("Practice")}>← All practice options</button>
             {practicePathTitle && <span>{practicePathTitle} practice</span>}
           </div>}

@@ -9,6 +9,7 @@ import "./reviews.css";
 import "./light-theme.css";
 import "./practice-chooser.css";
 import "./chat-wallpaper.css";
+import "./scrollbars.css";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1, refetchOnWindowFocus: false } },

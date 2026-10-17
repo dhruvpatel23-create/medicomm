@@ -7,6 +7,8 @@ const practicePaths = [
   { id: "usmle", title: "USMLE–STEP 1", label: "Your global pathway", description: "Make time for the core science behind clinical medicine.", icon: Globe2, color: "red" },
   { id: "topic-wise", title: "TOPIC WISE questions", label: "Focused revision", description: "Strengthen your understanding, one topic at a time.", icon: ListTree, color: "teal", standaloneTitle: true },
   { id: "custom-modules", title: "CUSTOM MODULES", label: "Your practice, your way", description: "Shape your practice around your learning goals.", icon: SlidersHorizontal, color: "violet", standaloneTitle: true },
+  { id: "neetpg-tests", title: "NEETPG Tests", label: "Postgraduate entrance", description: "Your space for NEETPG Tests.", icon: Stethoscope, color: "blue", standaloneTitle: true },
+  { id: "fmge-tests", title: "FMGE Tests", label: "Medical licensing", description: "Your space for FMGE Tests.", icon: GraduationCap, color: "teal", standaloneTitle: true },
 ];
 
 export default function PracticeSelection({ onSelect }) {

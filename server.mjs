@@ -5,6 +5,9 @@ import { promisify } from "node:util";
 import { HttpError, readJson, createLimiter, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
 import { createStateStore, validateSupabaseState } from './server/stateStore.mjs';
 import { createUploads } from './server/uploads.mjs';
+import { servePublicImage } from './server/publicImages.mjs';
+import { getDuelImageUrls } from './src/lib/duelImages.js';
+import { isDuelImageEligible } from './server/duelEligibility.mjs';
 import { deploymentConfig } from './server/config.mjs';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { promises as fs } from "node:fs";
@@ -14,6 +17,7 @@ import { gzipSync } from "node:zlib";
 import { resolveCollegeState } from "./collegeStateLookup.mjs";
 import { VIVA_CHAPTER_FALLBACKS } from "./src/data/vivaChapters.js";
 import { createReviewHandler } from "./server/reviews.mjs";
+import { createFmgeTestsHandler } from "./server/fmgeTests.mjs";
 import { readUsmleModules } from "./server/usmleModules.mjs";
 import { readFmgeSessions } from "./server/fmgeQuestions.mjs";
 import { loadShortNotes, createShortNotesHandler, ownsTheoryAnswerImage } from "./server/shortNotes.mjs";
@@ -197,6 +201,7 @@ function normalizeDatabase(parsed = {}) {
     duelResults: Array.isArray(parsed.duelResults) ? parsed.duelResults : [],
     questions: Array.isArray(parsed.questions) ? parsed.questions : [],
     practiceResults: Array.isArray(parsed.practiceResults) ? parsed.practiceResults : [],
+    fmgeTestAttempts: Array.isArray(parsed.fmgeTestAttempts) ? parsed.fmgeTestAttempts : [],
     paymentOrders: Array.isArray(parsed.paymentOrders) ? parsed.paymentOrders : [],
     vivaSessions: Array.isArray(parsed.vivaSessions) ? parsed.vivaSessions : [],
     clinicalCaseSessions: Array.isArray(parsed.clinicalCaseSessions) ? parsed.clinicalCaseSessions : [],
@@ -318,6 +323,7 @@ function readDatabase() { return stateStore.read(); }
 function writeDatabase(data) { reconcileSubscriptions(data); return stateStore.write(data); }
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
+const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess, parseRequestBody, sendJson });
 const handlePayment = createPaymentHandler({ readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson });
 
 function normalizeContactNumber(value) {
@@ -549,17 +555,7 @@ function buildPracticeLibrary(library, storedQuestions = []) {
 }
 
 function collectQuestionImageUrls(question) {
-  return [
-    ...(Array.isArray(question.imageUrls) ? question.imageUrls : []),
-    ...(Array.isArray(question.images) ? question.images : []),
-    ...(Array.isArray(question.sourceImageUrls) ? question.sourceImageUrls : []),
-    question.imageUrl,
-    question.image,
-    question.sourceImageUrl,
-  ]
-    .map((imageUrl) => String(imageUrl ?? "").trim())
-    .filter(Boolean)
-    .filter((imageUrl, index, list) => list.indexOf(imageUrl) === index);
+  return getDuelImageUrls(question);
 }
 
 function sanitizeDuelQuestion(question) {
@@ -613,9 +609,11 @@ let duelPoolCache = [];
 function getDuelQuestionPool() {
   const bank = readPracticeQuestionBank();
   if (bank === duelPoolBank) return duelPoolCache;
+  const finalYearSubjectIds = new Set((bank.years ?? []).find(year => year.id === 'final-year')?.subjectIds ?? []);
   // Validate the raw key before normalization can overwrite conflicting answer text.
   const candidates = (bank.subjects ?? []).flatMap(subject => (subject.questions ?? [])
     .filter(q => q.source !== "ai" && q.source !== "usmle")
+    .filter(q => isDuelImageEligible(q, subject, finalYearSubjectIds))
     .map(q => ({ ...q, subjectTitle: subject.title, answerIndex: Number.isInteger(q.answerIndex) ? q.answerIndex : q.options?.indexOf(q.answer) }))
     .filter(validDuelQuestion).map(sanitizeDuelQuestion));
   const counts = new Map();
@@ -3903,12 +3901,11 @@ async function handleRequest(request, response) {
       }
     }
 
-  if (request.method === "GET" && url.pathname.startsWith("/uploads/")) {
+  if (['GET', 'HEAD'].includes(request.method) && url.pathname.startsWith("/uploads/")) {
     const name = path.basename(url.pathname);
-    const database = readDatabase();
-    const profile = database.users.some(entry => entry.profileImagePath === name);
-    const attachment = database.communities.some(entry => (entry.messages ?? []).some(message => message.imagePath === name));
-    if (name.startsWith('user-') || profile || attachment) {
+    if (stateStore.isPrivateImage(name)) {
+      const database = readDatabase();
+      const profile = database.users.some(entry => entry.profileImagePath === name);
       if (!/^[a-zA-Z0-9_-]+\.(png|jpg|jpeg|webp|gif)$/.test(name)) throw new HttpError(404, 'Not found.');
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Please sign in.');
@@ -3916,7 +3913,7 @@ async function handleRequest(request, response) {
       if (!profile && !community && !ownsTheoryAnswerImage(database, user.id, name)) throw new HttpError(404, 'Not found.');
       const bytes = uploadBucket ? await uploads.read(name) : await fs.readFile(path.join(uploadsDir, name));
       response.writeHead(200, { 'Content-Type': getStaticMimeType(name), 'Cache-Control': 'private, no-store' });
-      response.end(bytes);
+      response.end(request.method === 'HEAD' ? undefined : bytes);
       return;
     }
     const requestedFile = /^\/uploads\/fmge\/[a-zA-Z0-9_-]+\.webp$/.test(url.pathname)
@@ -3928,22 +3925,11 @@ async function handleRequest(request, response) {
       path.join(publicUploadsDir, requestedFile),
       path.join(legacyUploadsDir, requestedFile),
     ];
-    const filePath = uploadFileCandidates.find((candidate) => existsSync(candidate));
-
-    if (!filePath) {
-      response.writeHead(404);
-      response.end("Not found");
-      return;
-    }
-
-    response.writeHead(200, {
-      "Content-Type": getStaticMimeType(filePath),
-      "Cache-Control": filePath.startsWith(uploadsDir) ? "no-store" : "public, max-age=31536000, immutable",
-    });
-    response.end(readFileSync(filePath));
+    await servePublicImage(request, response, uploadFileCandidates, getStaticMimeType);
     return;
   }
 
+    if (url.pathname === '/api/practice/fmge-tests' || url.pathname.startsWith('/api/practice/fmge-tests/')) return await handleFmgeTests(request, response, url);
     if (request.method === "POST" && url.pathname === "/api/auth/signup") return await handleSignup(request, response);
     if (request.method === 'POST' && ['/api/payment-quote', '/api/create-order', '/api/verify-payment'].includes(url.pathname)) return await handlePayment(request, response, url);
     if (url.pathname === "/api/reviews") return await handleWebsiteReviews(request, response, url);

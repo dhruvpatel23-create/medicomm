@@ -22,12 +22,21 @@ export function validateSupabaseState(rows, table, key) {
 // snapshot read before another commit. The adapter performs the remote CAS too.
 export function createStateStore({ initial, revision = 0, persist, reload }) {
   let current = structuredClone(initial);
+  const privateImageNames = state => new Set([
+    ...(state.users ?? []).map(user => user.profileImagePath),
+    ...(state.communities ?? []).flatMap(community => (community.messages ?? []).map(message => message.imagePath)),
+  ].filter(Boolean));
+  let privateImages = privateImageNames(current);
   let version = revision;
   let healthy = true;
   let chain = Promise.resolve();
   const versions = new WeakMap();
   return {
     get healthy() { return healthy; },
+    isPrivateImage(name) {
+      if (!healthy) throw new HttpError(503, 'Storage is unavailable.');
+      return name.startsWith('user-') || privateImages.has(name);
+    },
     read() {
       if (!healthy) throw new HttpError(503, 'Storage is unavailable.');
       const snapshot = structuredClone(current);
@@ -43,6 +52,7 @@ export function createStateStore({ initial, revision = 0, persist, reload }) {
         try {
           await persist(next, version);
           current = next;
+          privateImages = privateImageNames(current);
           version++;
           versions.set(snapshot, version);
         } catch (error) {
@@ -53,6 +63,7 @@ export function createStateStore({ initial, revision = 0, persist, reload }) {
             try {
               const loaded = await reload();
               current = loaded.data;
+              privateImages = privateImageNames(current);
               version = loaded.revision;
               healthy = true;
             } catch { /* Remain unready until restart/recovery. */ }

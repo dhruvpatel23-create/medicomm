@@ -1,0 +1,68 @@
+{
+  "tests": [
+    {
+      "id": "fmge-practice-1",
+      "questions": 300,
+      "sources": {
+        "fmge": 300
+      }
+    },
+    {
+      "id": "fmge-practice-2",
+      "questions": 300,
+      "sources": {
+        "fmge": 293,
+        "practice": 7
+      }
+    },
+    {
+      "id": "fmge-practice-3",
+      "questions": 300,
+      "sources": {
+        "fmge": 274,
+        "practice": 26
+      }
+    }
+  ],
+  "eligibleBySubject": {
+    "anatomy": 157,
+    "physiology": 191,
+    "biochemistry": 264,
+    "pathology": 346,
+    "microbiology": 307,
+    "pharmacology": 460,
+    "forensic-medicine": 191,
+    "general-medicine": 528,
+    "psychiatry": 133,
+    "dermatology": 45,
+    "radiotherapy": 13,
+    "general-surgery": 420,
+    "anesthesia": 104,
+    "orthopedics": 100,
+    "radiology": 33,
+    "pediatrics": 257,
+    "ophthalmology": 179,
+    "ent": 150,
+    "obgyn": 506,
+    "community-medicine": 450
+  },
+  "excluded": {
+    "insufficient stem or rationale": 890,
+    "unresolved editorial flag": 49,
+    "image question reserved for reviewed image tests": 1443,
+    "invalid options": 15,
+    "duplicate stem": 71,
+    "conflicting recall variants": 2,
+    "missing visual or matching context": 54,
+    "unmapped subject": 543
+  },
+  "crossTestReuse": [
+    {
+      "subject": "radiotherapy",
+      "test": "fmge-practice-3",
+      "poolSize": 13
+    }
+  ],
+  "uniqueQuestions": 898,
+  "reviewScope": "Structural and source-quality screening of existing exam recalls; not a claim of independent clinical validation of every answer."
+}
