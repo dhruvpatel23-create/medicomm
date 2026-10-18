@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { ArrowDown, ArrowDownUp, ArrowRight, ArrowUpRight, BookOpen, Brain, Check, ChevronDown, ChevronRight, Compass, FlaskConical, HeartPulse, Loader2, MessageCircle, MessagesSquare, Plus, RefreshCw, Search, Stethoscope, UserCheck, UserPlus, Users } from 'lucide-react';
+import { ArrowDown, ArrowDownUp, ArrowRight, ArrowUpRight, BookOpen, Brain, Check, ChevronDown, ChevronRight, Compass, FlaskConical, HeartPulse, Loader2, LockKeyhole, MessageCircle, MessagesSquare, Plus, RefreshCw, Search, Stethoscope, UserCheck, UserPlus, Users } from 'lucide-react';
 import { Avatar, EmptyState, SearchField, field, initials, number, socialPage } from './SocialUI';
 import { Button } from './ui/button';
 import { AddFriendDialog, FriendsPanel, RequestsPanel, useFriends } from './CommunityFriends';
@@ -55,7 +55,7 @@ function CommunityIllustration() {
   </div>;
 }
 
-function RoomCard({ room, onOpen, onInvite }) {
+function RoomCard({ room, onOpen, onInvite, locked }) {
   const palette = roomPalette(room);
   const Icon = palette.icon;
   return <article className={`${panel} group flex flex-col overflow-hidden transition duration-300 hover:border-slate-300 hover:shadow-[0_12px_28px_-12px_rgba(15,23,42,0.22)] dark:hover:border-slate-600 motion-safe:hover:-translate-y-1 motion-reduce:transition-none`}>
@@ -70,7 +70,7 @@ function RoomCard({ room, onOpen, onInvite }) {
       <div className="mb-3 flex items-center justify-between gap-2"><span className={`rounded-md px-2 py-1 text-[10px] font-semibold ${palette.badge}`}>{room.isAdmin ? 'Your community' : room.isMember ? 'Your circle' : 'Open to everyone'}</span>{room.isMember && <span className="flex items-center gap-1 text-[10px] font-medium text-teal-700 dark:text-teal-300"><Check size={12} />Joined</span>}</div>
       <h4 className="text-lg font-semibold leading-snug tracking-tight"><button className="text-left transition-colors hover:text-teal-700 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:text-teal-300" onClick={() => onOpen(room.id)}>{room.name}</button></h4>
       <p className={`mb-5 mt-2 line-clamp-2 ${secondaryText}`}>{room.description}</p>
-      <div className="mt-auto"><MemberStack members={room.members} count={room.memberCount} /><div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-100 pt-3 dark:border-slate-800"><span className="flex items-center gap-1.5 text-xs text-slate-400"><MessageCircle size={13} />{number(room.messages?.length)} posts</span><div className="flex items-center gap-1">{room.isAdmin && <Button variant="ghost" size="sm" onClick={() => onInvite(room.id)}>Invite</Button>}<Button variant="ghost" size="sm" className="-mr-2 text-teal-800 hover:bg-teal-50 dark:text-teal-200 dark:hover:bg-teal-950" onClick={() => onOpen(room.id)}>{room.isMember ? 'Open room' : 'Explore room'}<ArrowUpRight size={15} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none" /></Button></div></div></div>
+      <div className="mt-auto"><MemberStack members={room.members} count={room.memberCount} /><div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-100 pt-3 dark:border-slate-800"><span className="flex items-center gap-1.5 text-xs text-slate-400"><MessageCircle size={13} />{number(room.messages?.length)} posts</span><div className="flex items-center gap-1">{room.isAdmin && <Button variant="ghost" size="sm" onClick={() => onInvite(room.id)}>Invite</Button>}<Button variant="ghost" size="sm" className="-mr-2 text-teal-800 hover:bg-teal-50 dark:text-teal-200 dark:hover:bg-teal-950" onClick={() => onOpen(room.id)}>{locked && <LockKeyhole size={14} aria-label="Plan required" />}{room.isMember ? 'Open room' : 'Explore room'}<ArrowUpRight size={15} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none" /></Button></div></div></div>
     </div>
   </article>;
 }
@@ -95,7 +95,7 @@ export default function CommunityHub(p) {
 
   return <section className={`${socialPage} !space-y-8`} aria-label="Communities">
     <div className="flex items-center justify-between gap-3"><div className="flex items-center gap-2 text-sm"><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200"><MessagesSquare size={17} /></span><span className="font-semibold">Community</span><span className="hidden text-slate-300 sm:inline">/</span><span className="hidden text-slate-500 dark:text-slate-400 sm:inline">Your space to connect</span></div>
-      <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+      <Dialog open={createOpen} onOpenChange={open => { if (open && p.locked) { p.onUnlock("community"); return; } setCreateOpen(open); }}>
         <DialogTrigger asChild><Button variant="outline"><Plus size={16} />Create a room</Button></DialogTrigger>
         <DialogContent onInteractOutside={event => { if (creating) event.preventDefault(); }}>
           <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-200"><Users size={23} /></div>
@@ -158,11 +158,11 @@ export default function CommunityHub(p) {
           <TabsContent value="friends"><FriendsPanel model={friendsModel} onAdd={() => setAddFriendOpen(true)} onMessage={p.onDirect} /></TabsContent>
           <TabsContent value="requests"><RequestsPanel model={friendsModel} onAdd={() => setAddFriendOpen(true)} /></TabsContent>
           {['all', 'joined'].map(tab => <TabsContent value={tab} key={tab}>
-            {p.busy && !p.communities.length ? <div role="status" className="grid grid-cols-1 gap-4 sm:grid-cols-2"><span className="sr-only">Loading study rooms</span>{[0, 1].map(item => <div key={item} className={`${panel} overflow-hidden`}><div className="h-28 bg-slate-200 dark:bg-slate-800 motion-safe:animate-pulse" /><div className="space-y-4 p-5"><div className="h-4 w-3/4 rounded bg-slate-100 dark:bg-slate-800" /><div className="h-16 rounded bg-slate-100 dark:bg-slate-800" /></div></div>)}</div> : rooms.length ? <div className="grid gap-5 sm:grid-cols-2">{rooms.map(room => <RoomCard key={room.id} room={room} onOpen={p.onOpen} onInvite={p.onInvite} />)}</div> : <div className={`${panel} border-dashed`}><EmptyState icon={query ? Search : Compass} title={query ? 'No matching rooms' : filter === 'joined' ? 'Your circle starts here' : 'Every great circle starts with someone.'}>{query ? 'Try a subject or a shorter search.' : filter === 'joined' ? 'Explore the rooms and join a discussion that interests you.' : 'Be the first to bring your study group together.'}<Button variant="ghost" className="mt-4" onClick={() => { if (query || filter === 'joined') { setQuery(''); setFilter('all'); } else setCreateOpen(true); }}>{query ? 'Clear search' : filter === 'joined' ? 'Explore rooms' : 'Create a room'}<ArrowRight size={14} /></Button></EmptyState></div>}
+            {p.busy && !p.communities.length ? <div role="status" className="grid grid-cols-1 gap-4 sm:grid-cols-2"><span className="sr-only">Loading study rooms</span>{[0, 1].map(item => <div key={item} className={`${panel} overflow-hidden`}><div className="h-28 bg-slate-200 dark:bg-slate-800 motion-safe:animate-pulse" /><div className="space-y-4 p-5"><div className="h-4 w-3/4 rounded bg-slate-100 dark:bg-slate-800" /><div className="h-16 rounded bg-slate-100 dark:bg-slate-800" /></div></div>)}</div> : rooms.length ? <div className="grid gap-5 sm:grid-cols-2">{rooms.map(room => <RoomCard key={room.id} room={room} onOpen={p.onOpen} onInvite={p.onInvite} locked={p.locked} />)}</div> : <div className={`${panel} border-dashed`}><EmptyState icon={query ? Search : Compass} title={query ? 'No matching rooms' : filter === 'joined' ? 'Your circle starts here' : 'Every great circle starts with someone.'}>{query ? 'Try a subject or a shorter search.' : filter === 'joined' ? 'Explore the rooms and join a discussion that interests you.' : 'Be the first to bring your study group together.'}<Button variant="ghost" className="mt-4" onClick={() => { if (query || filter === 'joined') { setQuery(''); setFilter('all'); } else if (p.locked) p.onUnlock("community"); else setCreateOpen(true); }}>{query ? 'Clear search' : filter === 'joined' ? 'Explore rooms' : 'Create a room'}<ArrowRight size={14} /></Button></EmptyState></div>}
           </TabsContent>)}
         </Tabs>
         {filter !== 'friends' && filter !== 'requests' && <p role="status" className="mt-4 text-xs text-slate-400">{rooms.length} {rooms.length === 1 ? 'circle' : 'circles'}{query ? ` matching “${query}”` : filter === 'joined' ? ' you belong to' : ' to discover'}</p>}
-        <button onClick={() => setCreateOpen(true)} className="mt-6 flex w-full items-center gap-4 rounded-2xl border border-dashed border-slate-300 dark:border-neutral-800 bg-slate-50/50 dark:bg-black p-5 text-left transition hover:border-teal-500/50 hover:bg-slate-50 dark:hover:bg-neutral-900/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 motion-reduce:transition-none"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-200/80 dark:bg-neutral-900 text-teal-600 dark:text-teal-400"><Plus size={22} strokeWidth={1.5} /></span><span className="min-w-0 flex-1"><strong className="block text-sm font-semibold text-slate-900 dark:text-white">Can’t find your people? Bring them together.</strong><span className="mt-1 block text-xs leading-relaxed text-slate-500 dark:text-neutral-400">Start a room for your subject, exam, or study group.</span></span><ArrowUpRight size={20} className="shrink-0 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400" /></button>
+        <button onClick={() => p.locked ? p.onUnlock("community") : setCreateOpen(true)} className="mt-6 flex w-full items-center gap-4 rounded-2xl border border-dashed border-slate-300 dark:border-neutral-800 bg-slate-50/50 dark:bg-black p-5 text-left transition hover:border-teal-500/50 hover:bg-slate-50 dark:hover:bg-neutral-900/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 motion-reduce:transition-none"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-200/80 dark:bg-neutral-900 text-teal-600 dark:text-teal-400"><Plus size={22} strokeWidth={1.5} /></span><span className="min-w-0 flex-1"><strong className="block text-sm font-semibold text-slate-900 dark:text-white">Can’t find your people? Bring them together.</strong><span className="mt-1 block text-xs leading-relaxed text-slate-500 dark:text-neutral-400">Start a room for your subject, exam, or study group.</span></span><ArrowUpRight size={20} className="shrink-0 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400" /></button>
       </div>
 
       <aside className="min-w-0 space-y-5">
@@ -173,18 +173,19 @@ export default function CommunityHub(p) {
           <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-neutral-800">
             <h3 className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
               <MessageCircle size={16} className="text-teal-600 dark:text-teal-400" />
-              <span>Personal inbox</span>
+              <span>Personal inbox</span>{p.locked && <LockKeyhole size={14} aria-label="Plan required" />}
               {p.conversations?.length > 0 && (
                 <span className="text-[11px] font-normal px-1.5 py-0.5 rounded-full bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300">
                   {p.conversations.length}
                 </span>
               )}
             </h3>
-            <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8 text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white" aria-label="Find a study partner" onClick={() => inboxSearch.current?.querySelector('input')?.focus()}>
+            <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8 text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white" aria-label="Find a study partner" onClick={() => p.locked ? p.onUnlock('inbox') : inboxSearch.current?.querySelector('input')?.focus()}>
               <Plus size={16} />
             </Button>
           </div>
           <div className="px-4 pb-3 pt-4">
+            {p.locked && <button type="button" className="mb-3 flex items-center gap-2 text-sm text-teal-700 dark:text-teal-300" onClick={() => p.onUnlock("inbox")}><LockKeyhole size={16} />Unlock Personal Inbox</button>}
             <div ref={inboxSearch} className="relative min-w-0">
               <Search size={14} className="pointer-events-none absolute left-3 top-3 text-slate-400" aria-hidden="true" />
               <input

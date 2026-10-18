@@ -8,7 +8,7 @@ function fixture() {
   let account = 'one';
   let failure;
   let paymentStatus = 'captured';
-  let paymentAmount = 49900;
+  let paymentAmount = 79900;
   let creates = 0;
   let gatewayOrder;
   const keySecret = 'isolated-test-secret';
@@ -29,12 +29,12 @@ function fixture() {
     status: value => paymentStatus = value, amount: value => paymentAmount = value,
   };
 }
-const order = { planId: 'lite', amount: 49900, currency: 'INR' };
+const order = { planId: 'lite', amount: 79900, currency: 'INR' };
 const rejects = (promise, status) => assert.rejects(promise, error => error.status === status);
 
 test('orders validate server prices, minimum, authentication and provider errors', async () => {
   const f = fixture();
-  for (const amount of [99, 100.5, '49900', 100, -1]) await rejects(f.call('/api/create-order', { ...order, amount }), 400);
+  for (const amount of [99, 100.5, '79900', 100, -1]) await rejects(f.call('/api/create-order', { ...order, amount }), 400);
   await rejects(f.call('/api/create-order', { ...order, currency: 'USD' }), 400);
   assert.equal(f.creates(), 0);
   f.account(null); await rejects(f.call('/api/create-order', order), 401); f.account('one');
@@ -42,7 +42,7 @@ test('orders validate server prices, minimum, authentication and provider errors
   f.failure({ statusCode: 500, secret: 'must-not-leak' }); await rejects(f.call('/api/create-order', order), 500);
   f.failure(null);
   const result = await f.call('/api/create-order', order);
-  assert.equal(result.body.order_id, 'order_test123'); assert.equal(result.body.amount, 49900);
+  assert.equal(result.body.order_id, 'order_test123'); assert.equal(result.body.amount, 79900);
   assert.equal(result.body.key_id, 'rzp_test_fixture'); assert.equal(result.body.test_mode, true);
   assert.equal(JSON.stringify(result).includes('isolated-test-secret'), false);
   assert.equal(f.state().paymentOrders[0].status, 'created');
@@ -53,7 +53,7 @@ test('verification rejects missing, forged, foreign and mismatched payments with
   await rejects(f.call('/api/verify-payment', {}), 400);
   for (const signature of ['bad', '0'.repeat(64), 'g'.repeat(64)]) await rejects(f.call('/api/verify-payment', f.signed(signature)), 400);
   f.account('two'); await rejects(f.call('/api/verify-payment', f.signed()), 400); f.account('one');
-  f.amount(100); await rejects(f.call('/api/verify-payment', f.signed()), 400); f.amount(49900);
+  f.amount(100); await rejects(f.call('/api/verify-payment', f.signed()), 400); f.amount(79900);
   f.status('failed'); await rejects(f.call('/api/verify-payment', f.signed()), 400);
   assert.equal(f.state().paymentOrders[0].status, 'created');
 });
@@ -79,7 +79,7 @@ test('authorized remains pending, captured is paid, repeated verification is saf
 });
 
 test('TEST1 sends each discounted price to Razorpay and rejects forged or stale amounts', async () => {
-  for (const [planId, originalAmount, amount] of [['lite', 49900, 6900], ['ultra', 99900, 9900], ['premium', 149900, 14900]]) {
+  for (const [planId, originalAmount, amount] of [['lite', 79900, 6900], ['ultra', 119900, 9900], ['premium', 159900, 14900]]) {
     assert.equal(paymentQuote({ planId }).amount, originalAmount);
     const f = fixture();
     const quote = await f.call('/api/payment-quote', { planId, coupon: ' test1 ' });

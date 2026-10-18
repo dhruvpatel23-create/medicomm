@@ -9,6 +9,9 @@ import CommunityThreads from "./components/CommunityThreads";
 import HomeBattleSection from "./components/HomeBattleSection";
 import { socialPage, surface as socialSurface, primary as socialPrimary, secondary as socialSecondary, field as socialField, avatar as socialAvatar } from "./components/SocialUI";
 import PracticeSelection from "./components/PracticeSelection";
+import FeatureAccessDialog from "./components/FeatureAccessDialog";
+import { LockKeyhole } from "lucide-react";
+import { canAccessFeature, practiceFeature, filterLibraryByPlan } from "./data/planAccess";
 import TestSections from "./components/TestSections";
 import PracticeSubjectDirectory from "./components/PracticeSubjectDirectory";
 import CustomModules from "./components/CustomModules";
@@ -26,6 +29,7 @@ import { getDuelImageUrls } from "./lib/duelImages";
 import { useAccountOverview, usePracticeRecorder } from "./lib/useAccountOverview";
 import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
+import CountrySelect from "./components/CountrySelect";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
@@ -238,21 +242,21 @@ function normalizePracticeLibrary(data) {
   };
 }
 
-function readCachedPracticeLibrary() {
+function readCachedPracticeLibrary(membership) {
   if (typeof window === "undefined") return null;
   try {
-    const cached = JSON.parse(localStorage.getItem(PRACTICE_LIBRARY_CACHE_KEY) || "null");
+    const cached = JSON.parse(localStorage.getItem(`${PRACTICE_LIBRARY_CACHE_KEY}:${membership?.id}:${membership?.plan}`) || "null");
     if (!cached || !Array.isArray(cached.subjects)) return null;
-    return normalizePracticeLibrary(cached);
+    return filterLibraryByPlan(normalizePracticeLibrary(cached), membership);
   } catch {
     return null;
   }
 }
 
-function writeCachedPracticeLibrary(library) {
+function writeCachedPracticeLibrary(library, membership) {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(PRACTICE_LIBRARY_CACHE_KEY, JSON.stringify(library));
+    localStorage.setItem(`${PRACTICE_LIBRARY_CACHE_KEY}:${membership?.id}:${membership?.plan}`, JSON.stringify(library));
   } catch {
     // The live response is still usable when browser storage is full or unavailable.
   }
@@ -554,6 +558,12 @@ function App() {
   const [theme, setTheme] = useState(getInitialTheme);
   const [activeView, updateActiveView] = useState("Home");
   const [practicePathTitle, setPracticePathTitle] = useState("");
+  const [lockedFeature, setLockedFeature] = useState(null);
+  function requestFeature(feature) {
+    if (canAccessFeature(user, feature)) return true;
+    setLockedFeature(feature);
+    return false;
+  }
 
   function scrollPageToTop() {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -587,6 +597,7 @@ function App() {
   const [flaggedQuestions, setFlaggedQuestions] = useState({});
   const [practiceLibrary, setPracticeLibrary] = useState(emptyPracticeLibrary);
   const [practiceLibraryStatus, setPracticeLibraryStatus] = useState("idle");
+  const practiceLibraryRequestRef = useRef(0);
   const [practiceLibraryMessage, setPracticeLibraryMessage] = useState("");
   const [aiPracticeBusy, setAiPracticeBusy] = useState(false);
   const [aiPracticeMessage, setAiPracticeMessage] = useState("");
@@ -709,6 +720,7 @@ function App() {
     name: "",
     email: "",
     medicalState: "",
+    medicalCountry: "",
     medicalCollege: "",
     contactNumber: "",
     password: "",
@@ -978,7 +990,8 @@ function App() {
   }
 
 async function fetchPracticeLibrary() {
-  const cachedLibrary = readCachedPracticeLibrary();
+  const requestId = ++practiceLibraryRequestRef.current;
+  const cachedLibrary = readCachedPracticeLibrary(user);
   if (cachedLibrary?.subjects?.length) {
     setPracticeLibrary(cachedLibrary);
     setSelectedPracticeSubjectId((current) => {
@@ -1009,9 +1022,10 @@ async function fetchPracticeLibrary() {
         throw new Error("Could not load practice questions.");
       }
 
-      const nextLibrary = normalizePracticeLibrary(await response.json());
+      const nextLibrary = filterLibraryByPlan(normalizePracticeLibrary(await response.json()), user);
+      if (requestId !== practiceLibraryRequestRef.current) return;
       setPracticeLibrary(nextLibrary);
-      writeCachedPracticeLibrary(nextLibrary);
+      writeCachedPracticeLibrary(nextLibrary, user);
       setSelectedPracticeSubjectId((current) => {
         const hasCurrentSubject = [...nextLibrary.subjects, ...(nextLibrary.aiSubjects ?? []), ...(nextLibrary.usmleSubjects ?? []), ...(nextLibrary.usmleModules ?? []), ...(nextLibrary.fmgeSessions ?? [])].some((subject) => subject.id === current);
         if (hasCurrentSubject) return current;
@@ -1028,6 +1042,7 @@ async function fetchPracticeLibrary() {
     }
   }
 
+  if (requestId !== practiceLibraryRequestRef.current) return;
   if (cachedLibrary?.subjects?.length) {
     setPracticeLibraryMessage("You are offline or the connection is slow. Saved questions are available.");
     setPracticeLibraryStatus("ready");
@@ -1121,10 +1136,17 @@ async function fetchPracticeLibrary() {
   }, [authStatus]);
 
   useEffect(() => {
+    practiceLibraryRequestRef.current += 1;
+    setPracticeLibrary(emptyPracticeLibrary);
+    setPracticeLibraryStatus("idle");
+    setLockedFeature(null);
+  }, [user?.id, user?.plan, user?.hasPracticeAccess]);
+
+  useEffect(() => {
     const needsPracticeLibrary = activeView === "Practice" || (activeView === "Bookmarks" && questionBookmarks.length > 0);
     if (!user?.hasPracticeAccess || !needsPracticeLibrary || practiceLibraryStatus !== "idle") return;
     fetchPracticeLibrary();
-  }, [activeView, practiceLibraryStatus, questionBookmarks.length, user?.hasPracticeAccess]);
+  }, [activeView, practiceLibraryStatus, questionBookmarks.length, user?.hasPracticeAccess, user?.plan]);
 
   useEffect(() => {
     if (!dashboardPracticeTarget) return;
@@ -1570,6 +1592,7 @@ async function fetchPracticeLibrary() {
   }
 
   function handleOpenMindMaps(subjectId) {
+    if (!requestFeature("theory")) return;
     setSelectedPracticeSubjectId(subjectId);
     setSelectedPracticeMode("ai");
     setSelectedPracticeExamYear("");
@@ -1582,6 +1605,7 @@ async function fetchPracticeLibrary() {
   }
 
   function startPracticeSession(subjectId, mode, examYear = "") {
+    if (!requestFeature(mode === "usmle" ? "usmle" : "practice")) return;
     setSelectedPracticeSubjectId(subjectId);
     setSelectedPracticeMode(mode);
     setSelectedPracticeExamYear(mode === "pyq" ? examYear : "");
@@ -1627,6 +1651,7 @@ async function fetchPracticeLibrary() {
   }
 
   function openCommunityChat(communityId) {
+    if (!requestFeature("community")) return;
     setSelectedCommunityId(communityId);
     setCommunityStage("detail");
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -1634,6 +1659,7 @@ async function fetchPracticeLibrary() {
   }
 
   function openDirectConversation(conversationId) {
+    if (!requestFeature("inbox")) return;
     setSelectedDirectConversationId(conversationId);
     setCommunityStage("direct");
     setDirectMessageDraft("");
@@ -1766,7 +1792,7 @@ async function fetchPracticeLibrary() {
   }
 
   function openBookmarkedQuestion(entry) {
-    if (!user?.hasPracticeAccess) { setActiveView("Practice"); return; }
+    if (!requestFeature((entry?.bookmark?.mode || entry?.resolved?.mode) === "usmle" ? "usmle" : "practice")) return;
     if (!entry?.resolved) {
       setBookmarkMessage("That question is no longer available in the current practice library.");
       return;
@@ -1810,6 +1836,7 @@ async function fetchPracticeLibrary() {
   }
 
   function handleStartAiPractice(subjectId) {
+    if (!requestFeature("practice")) return;
     const subject = aiPracticeSubjects.find((entry) => entry.id === subjectId);
     if (!subject) return;
 
@@ -1832,6 +1859,7 @@ async function fetchPracticeLibrary() {
   }
 
   function handleStartUsmlePractice(subjectId) {
+    if (!requestFeature("usmle")) return;
     const catalogSubject = practiceSubjects.find((entry) => entry.id === subjectId);
     if (!catalogSubject) return;
     const subject = usmlePracticeSubjects.find((entry) => entry.id === subjectId);
@@ -1855,6 +1883,7 @@ async function fetchPracticeLibrary() {
   }
 
   function handleStartVivaSetup(subjectId) {
+    if (!requestFeature("theory")) return;
     const subject = practiceSubjects.find((entry) => entry.id === subjectId);
     if (!subject) return;
 
@@ -1963,6 +1992,7 @@ async function fetchPracticeLibrary() {
   }
 
   function handleStartClinicalCasesSetup(subjectId) {
+    if (!requestFeature("theory")) return;
     const subject = practiceSubjects.find((entry) => entry.id === subjectId);
     if (!subject) return;
 
@@ -2125,6 +2155,7 @@ async function fetchPracticeLibrary() {
   }
   async function handleCreateCommunity(event) {
     event.preventDefault();
+    if (!requestFeature("community")) return;
     setCommunitiesMessage("");
 
     try {
@@ -2144,6 +2175,7 @@ async function fetchPracticeLibrary() {
   }
 
   async function handleJoinCommunity(communityId) {
+    if (!requestFeature("community")) return;
     setCommunitiesMessage("");
 
     try {
@@ -2242,6 +2274,7 @@ async function fetchPracticeLibrary() {
   }
 
   async function handleOpenDirectChat(targetUserId) {
+    if (!requestFeature("inbox")) return;
     if (!targetUserId) return;
 
     setDirectMessagesMessage("");
@@ -2641,6 +2674,7 @@ async function fetchPracticeLibrary() {
     setAuthForm((current) => ({
       ...current,
       medicalState: value,
+      medicalCountry: "",
       medicalCollege: value === ABROAD_STATE ? ABROAD_STATE : "",
     }));
   }
@@ -2824,6 +2858,7 @@ async function fetchPracticeLibrary() {
         name: "",
         email: "",
         medicalState: "",
+        medicalCountry: "",
         medicalCollege: "",
         contactNumber: "",
         password: "",
@@ -3013,7 +3048,7 @@ async function fetchPracticeLibrary() {
                     </label>
                   ) : null}
                   {authForm.medicalState === ABROAD_STATE ? (
-                    <p className="auth-location-note">Foreign students can continue without selecting an Indian college.</p>
+                    <CountrySelect value={authForm.medicalCountry} onChange={(value) => updateAuthField("medicalCountry", value)} />
                   ) : null}
                 </div>
                 <label className="field">
@@ -3178,18 +3213,17 @@ async function fetchPracticeLibrary() {
     </section>;
   }
 
-  function renderPracticeLock() {
-    return <section className="app-view"><div className="practice-access-lock"><span className="lock-symbol" aria-hidden="true">🔒</span><p className="eyebrow">Your next chapter starts here</p><h2>Unlock your practice journey</h2><p>Get access to questions, theory and saved practice after your payment is verified.</p><button className="button button-primary" onClick={() => setActiveView("Pricing")}>View plans &amp; unlock Practice</button></div></section>;
-  }
-
   function renderPractice() {
-    if (!user?.hasPracticeAccess) return renderPracticeLock();
     const isTheory = practicePathTitle === "THEORY";
     const isPyqOnly = practicePathTitle === "NEET PG / INICET";
     const isTopicWise = practicePathTitle === "TOPIC WISE questions";
     const catalogTitle = isTheory ? "Cases and short notes by subject" : isTopicWise ? "Topic-wise questions by subject" : `${practiceLibrary.exam.title} by year and subject`;
-    if (practiceStage === "selection") {
-      return <PracticeSelection onSelect={(title, id) => {
+    const feature = ["neetpg-tests", "fmge-tests"].includes(practiceStage) ? "tests"
+      : isTheory || /^(viva-|clinical-|mind-map-)/.test(practiceStage) ? "theory"
+      : practicePathTitle.startsWith("USMLE") || (practiceStage !== "catalog" && selectedPracticeMode === "usmle") ? "usmle" : "practice";
+    if (practiceStage === "selection" || !canAccessFeature(user, feature)) {
+      return <PracticeSelection isLocked={id => !canAccessFeature(user, practiceFeature(id))} onSelect={(title, id) => {
+        if (!requestFeature(practiceFeature(id))) return;
         setPracticePathTitle(title);
         setPracticeStage(["neetpg-tests", "fmge-tests"].includes(id) ? id : id === "usmle" ? "usmle-modules" : id === "fmge" ? "fmge-years" : id === "custom-modules" ? "custom-modules" : "catalog");
         scrollPracticeViewToTop();
@@ -4598,7 +4632,6 @@ async function fetchPracticeLibrary() {
   }
 
   function renderBookmarks() {
-    if (!user?.hasPracticeAccess) return renderPracticeLock();
     const modeLabels = {
       pyq: "Previous Year Question",
       ai: "Topic-wise Question",
@@ -4622,7 +4655,7 @@ async function fetchPracticeLibrary() {
 
         {questionBookmarks.length ? (
           <>
-            {practiceLibraryStatus === "loading" || practiceLibraryStatus === "idle" ? (
+            {user?.hasPracticeAccess && (practiceLibraryStatus === "loading" || practiceLibraryStatus === "idle") ? (
               <p className="form-message bookmark-page-message" role="status">Saved bookmarks are ready. Loading full question details in the background…</p>
             ) : practiceLibraryStatus === "error" ? (
               <div className="form-message bookmark-page-message" role="alert">
@@ -4638,6 +4671,7 @@ async function fetchPracticeLibrary() {
             <div className="bookmark-question-list">
               {bookmarkedQuestionEntries.map((entry) => {
                 const { bookmark, resolved } = entry;
+                const locked = !canAccessFeature(user, bookmark.mode === "usmle" ? "usmle" : "practice");
                 const question = resolved?.question;
                 const subjectTitle = resolved?.subject?.title ?? bookmark.subjectTitle ?? "Practice";
                 const topic = question?.chapterTitle || question?.topic || bookmark.topic || "General review";
@@ -4653,8 +4687,8 @@ async function fetchPracticeLibrary() {
                     <h3>{preview}</h3>
                     <p>{subjectTitle} · {topic}</p>
                     <div className="bookmark-question-actions">
-                      <button className="button button-primary" type="button" disabled={!resolved} onClick={() => openBookmarkedQuestion(entry)}>
-                        {resolved
+                      <button className="button button-primary" type="button" disabled={!locked && !resolved} onClick={() => openBookmarkedQuestion(entry)}>
+                        {locked ? <><LockKeyhole size={16} aria-hidden="true" /> Unlock Question</> : resolved
                           ? "Review question"
                           : practiceLibraryStatus === "loading" || practiceLibraryStatus === "idle"
                             ? "Loading question…"
@@ -4696,7 +4730,8 @@ async function fetchPracticeLibrary() {
   }
 
   function renderCommunities() {
-    if (communityStage === "direct" && selectedDirectConversation) {
+    const communityAccess = canAccessFeature(user, "community");
+    if (communityAccess && communityStage === "direct" && selectedDirectConversation) {
       return (
         <section className={socialPage}>
           <div className="flex flex-wrap items-center justify-between gap-4 [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:tracking-tight">
@@ -4813,7 +4848,7 @@ async function fetchPracticeLibrary() {
       );
     }
 
-    if (communityStage === "detail" && selectedCommunity) {
+    if (communityAccess && communityStage === "detail" && selectedCommunity) {
       return <CommunityThreads key={selectedCommunity.id} room={selectedCommunity} user={user}
         message={communitiesMessage} timestamp={formatCommunityTimestamp} limit={COMMUNITY_THREAD_WORD_LIMIT}
         draft={communityMessageDraft} onDraft={setCommunityMessageDraft}
@@ -4831,6 +4866,7 @@ async function fetchPracticeLibrary() {
     }
 
     return <CommunityHub communities={communities} busy={communitiesBusy}
+      locked={!communityAccess} onUnlock={requestFeature}
       message={communitiesMessage} directMessage={directMessagesMessage}
       onRefresh={fetchCommunities} onOpen={openCommunityChat} onInvite={handleCopyCommunityInvite}
       conversations={directConversations} directBusy={directMessagesBusy}
@@ -5060,20 +5096,31 @@ async function fetchPracticeLibrary() {
   }
 
   function renderPricing() {
+    const planFeatures = (tokens, theory, usmle) => [
+      { label: `${tokens} Tokens`, included: true },
+      { label: "Community Access", included: true },
+      { label: "Personal Inbox Access", included: true },
+      { label: "NEET PG Questions", included: true },
+      { label: "FMGE Questions", included: true },
+      { label: "Topic-Wise Questions", included: true },
+      { label: "Theory Practice", included: theory },
+      { label: "USMLE Practice Questions", included: usmle },
+      { label: "MEDULLA Practice Test", included: usmle },
+    ];
     const plans = [
-      { name: "Lite", price: "₹499", cadence: "/ year", copy: "Perfect for students who want daily practice without spending much.", features: ["5 Battle Points every day", "Performance Analytics", "Daily Practice Access", "Community Access", "Perfect for casual learners"], action: "Get Lite" },
-      { name: "Ultra", price: "₹999", cadence: "/ year", copy: "For MBBS students preparing consistently throughout the year.", features: ["Unlimited Battle Points", "Create Communities", "Custom Battles", "Detailed Analytics", "Explanation Access", "Unlock Any 3 Subjects"], action: "Choose Ultra", featured: true },
-      { name: "Premium", price: "₹1499", cadence: "/ year", copy: "Built for serious NEET PG aspirants.", features: ["All Subjects Unlocked", "Custom Modules", "Custom Practice", "NEET PG Exam Mode", "Clinical Cases", "Everything in Ultra"], action: "Go Premium" },
+      { name: "Lite", price: "₹799", cadence: "/ year", copy: "Perfect for students who want daily practice without spending much.", features: planFeatures(100, false, false), action: "Get Lite" },
+      { name: "Ultra", price: "₹1199", cadence: "/ year", copy: "For MBBS students preparing consistently throughout the year.", features: planFeatures(200, true, false), action: "Choose Ultra", featured: true },
+      { name: "Premium", price: "₹1599", cadence: "/ year", copy: "Built for serious NEET PG aspirants.", features: planFeatures(300, true, true), action: "Go Premium" },
     ];
     return (
       <section className="app-view pricing-page">
         <div className="pricing-hero"><p className="eyebrow">Simple, affordable pricing</p><h2>Master Medicine,<br/>One Question at a Time<span>.</span></h2><p>Practice consistently, compete with friends, analyze your weaknesses, and prepare confidently for university exams and NEET PG.</p><div className="billing-toggle"><span>Annual plans · one-time payment</span></div></div>
-        <div className="pricing-grid">{plans.map((plan) => <article className={`pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">★ Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} onClick={() => { setPaymentPlanId(plan.name.toLowerCase()); document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" }); }}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul></article>)}</div>
+        <div className="pricing-grid">{plans.map((plan) => <article className={`pricing-card${plan.featured ? " pricing-card-featured" : ""}`} key={plan.name}>{plan.featured ? <span className="popular-pill">★ Most popular</span> : null}<h3>{plan.name}</h3><p>{plan.copy}</p><div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div><button className={`button ${plan.featured ? "button-primary" : "button-secondary"}`} onClick={() => { setPaymentPlanId(plan.name.toLowerCase()); document.getElementById("payment-gateway")?.scrollIntoView({ behavior: "smooth" }); }}>{plan.action}</button><ul>{plan.features.map((feature) => <li key={feature.label} className={feature.included ? "plan-feature-included" : "plan-feature-excluded"}><span role="img" aria-label={feature.included ? "Included" : "Not included"}>{feature.included ? "\u2713" : "\u2715"}</span>{feature.label}</li>)}</ul></article>)}</div>
         <article className="card panel payment-gateway-section" id="payment-gateway">
           <div className="payment-copy"><p className="eyebrow">Razorpay Checkout</p><h3>Complete your payment securely</h3><p className="panel-copy">Choose a plan above, then pay using Razorpay. Your payment is confirmed by our server and saved to your account.</p><div className="payment-provider-row"><span>UPI</span><span>Cards</span><span>Net banking</span><span>Wallets</span></div></div>
           <RazorpayCheckout key={user?.id || "guest"} plan={PAYMENT_PLANS.find(plan => plan.id === paymentPlanId)} user={user} guest={authStatus !== "authenticated"} onVerified={payment => { if (payment.hasPracticeAccess) { setUser(current => current?.id === user?.id ? { ...current, hasPracticeAccess: true, subscriptionPurchasedAt: payment.subscriptionPurchasedAt, subscriptionExpiresAt: payment.subscriptionExpiresAt, subscriptionStatus: payment.subscriptionStatus, plan: payment.plan } : current); setPracticeLibraryStatus("idle"); } }} />
         </article>
-        <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using Medulla for free?</summary><p>Yes. Core daily practice and community features remain available on the free plan.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Razorpay collects payment details securely. Medulla stores the order and verified payment status.</p></details></div>
+        <div className="pricing-faq"><h3>Common questions</h3><details><summary>Can I keep using Medulla for free?</summary><p>Yes. Explore the feature pages, browse the community directory, and compete using your free tokens. A paid plan unlocks practice questions, community participation, and your personal inbox.</p></details><details><summary>Will my progress carry over when I upgrade?</summary><p>Yes. Plans change access, never your saved learning history.</p></details><details><summary>How will payments be secured?</summary><p>Razorpay collects payment details securely. Medulla stores the order and verified payment status.</p></details></div>
       </section>
     );
   }
@@ -5161,6 +5208,7 @@ async function fetchPracticeLibrary() {
       onDeclineNotification={handleDeclineNotification}
     >
       {renderView()}
+      <FeatureAccessDialog feature={lockedFeature} onClose={() => setLockedFeature(null)} onPlans={() => { setLockedFeature(null); setActiveView("Pricing"); }} />
     </AppShell>
   );
 }

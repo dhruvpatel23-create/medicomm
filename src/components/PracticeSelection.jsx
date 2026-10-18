@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Globe2, GraduationCap, ListTree, SlidersHorizontal, Stethoscope } from "lucide-react";
+import { ArrowRight, BookOpen, Globe2, GraduationCap, ListTree, LockKeyhole, SlidersHorizontal, Stethoscope } from "lucide-react";
 
 const practicePaths = [
   { id: "neet", title: "NEET PG / INICET", label: "Postgraduate entrance", description: "Practise previous year questions by subject and exam year.", icon: Stethoscope, color: "blue" },
@@ -11,7 +11,7 @@ const practicePaths = [
   { id: "fmge-tests", title: "FMGE Tests", label: "Medical licensing", description: "Your space for FMGE Tests.", icon: GraduationCap, color: "teal", standaloneTitle: true },
 ];
 
-export default function PracticeSelection({ onSelect }) {
+export default function PracticeSelection({ onSelect, isLocked = () => false }) {
   return (
     <section className="app-view practice-selection" aria-labelledby="practice-selection-title">
       <header className="practice-selection-heading">
@@ -26,7 +26,7 @@ export default function PracticeSelection({ onSelect }) {
             <span className="practice-path-label">{label}</span>
             <span className="practice-path-title">{title}{!standaloneTitle && <> <span>practice</span></>}</span>
             <span className="practice-path-description">{description}</span>
-            <span className="practice-path-action">Explore practice <ArrowRight size={18} aria-hidden="true" /></span>
+            <span className="practice-path-action">{isLocked(id) ? <>Unlock practice <LockKeyhole size={18} aria-label="Plan required" /></> : <>Explore practice <ArrowRight size={18} aria-hidden="true" /></>}</span>
           </button>
         ))}
       </div>

@@ -15,6 +15,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
 import { resolveCollegeState } from "./collegeStateLookup.mjs";
+import { isValidCountry } from "./src/data/countries.js";
 import { VIVA_CHAPTER_FALLBACKS } from "./src/data/vivaChapters.js";
 import { createReviewHandler } from "./server/reviews.mjs";
 import { createFmgeTestsHandler } from "./server/fmgeTests.mjs";
@@ -25,6 +26,8 @@ import { buildShortNoteReviewInstructions } from "./server/shortNotesPrompt.mjs"
 import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from "./server/theoryTextbooks.mjs";
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
 import { dashboardData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
+import { canAccessFeature, filterLibraryByPlan } from "./src/data/planAccess.js";
+import { requireFeature, routeFeature } from "./server/planAccess.mjs";
 import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
 import { reconcileSubscriptions, subscriptionDetails } from "./server/subscriptions.mjs";
 import { tokenStatus, requireTokens, chargeTokens, refundTokens, updateTokenState } from './server/tokens.mjs';
@@ -2183,6 +2186,7 @@ function sendJson(response, statusCode, payload, headers = {}) {
 }
 
 const staticMimeTypes = {
+  ".webmanifest": "application/manifest+json; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".gif": "image/gif",
   ".html": "text/html; charset=utf-8",
@@ -2255,6 +2259,8 @@ function sanitizeUser(user) {
     username: user.username ?? user.name,
     email: user.email,
     medicalCollege: user.medicalCollege,
+    medicalState: user.medicalState ?? "",
+    medicalCountry: user.medicalCountry ?? "",
     contactNumber: user.contactNumber,
     rating: Number.isFinite(user.rating) ? user.rating : DEFAULT_USER_RATING,
     streak: Number.isFinite(user.streak) ? user.streak : DEFAULT_USER_STREAK,
@@ -2467,6 +2473,10 @@ async function handleSignup(request, response) {
   payload.name = payload.username ?? payload.name;
   const validationMessage = validateSignupPayload(payload);
 
+  if ((payload.medicalState === "Abroad" || payload.medicalCollege === "Abroad") && !isValidCountry(payload.medicalCountry)) {
+    return sendJson(response, 400, { message: "Please select your country." });
+  }
+
   if (validationMessage) {
     return sendJson(response, 400, { message: validationMessage });
   }
@@ -2489,6 +2499,8 @@ async function handleSignup(request, response) {
     username: cleanUsername(payload.name),
     email,
     medicalCollege: String(payload.medicalCollege).trim(),
+    medicalState: String(payload.medicalState ?? "").trim(),
+    medicalCountry: payload.medicalState === "Abroad" || payload.medicalCollege === "Abroad" ? payload.medicalCountry : "",
     contactNumber,
     rating: DEFAULT_USER_RATING,
     streak: DEFAULT_USER_STREAK,
@@ -2686,6 +2698,7 @@ async function handleDashboard(request, response, url) {
     return sendJson(response, 200, { goal: user.studyGoal });
   }
   const library = buildPracticeLibrary(readPracticeQuestionBank(), database.questions ?? []);
+  requireFeature(database, user.id, payload.mode === 'usmle' ? 'usmle' : 'practice');
   const subjects = payload.mode === 'pyq' ? library.subjects : payload.mode === 'ai' ? library.aiSubjects
     : payload.mode === 'fmge' ? library.fmgeSessions : payload.mode === 'usmle' ? [...(library.usmleSubjects ?? []), ...(library.usmleModules ?? [])] : [];
   const subject = subjects?.find(item => item.id === payload.subjectId);
@@ -2780,9 +2793,11 @@ function requireSessionUser(request, response, database) {
 function handleCommunitiesList(request, response) {
   const database = readDatabase();
   const currentUser = getSessionUser(request, database);
-  const communities = database.communities.map((community) =>
-    sanitizeCommunity(community, database.users, currentUser?.id ?? null),
-  );
+  const communityAccess = canAccessFeature(subscriptionDetails(database, currentUser?.id), 'community');
+  const communities = database.communities.map((community) => {
+    const entry = sanitizeCommunity(community, database.users, currentUser?.id ?? null);
+    return communityAccess ? entry : { ...entry, messages: [] };
+  });
 
   return sendJson(response, 200, { communities });
 }
@@ -2991,6 +3006,10 @@ function handleDirectConversationsList(request, response) {
   const currentUser = requireSessionUser(request, response, database);
   if (!currentUser) return;
 
+  if (!canAccessFeature(subscriptionDetails(database, currentUser.id), 'inbox')) {
+    return sendJson(response, 200, { conversations: [] });
+  }
+
   const conversations = database.directConversations
     .filter((conversation) => (conversation.participantIds ?? []).includes(currentUser.id))
     .sort(
@@ -3032,16 +3051,7 @@ async function handleOpenDirectConversation(request, response) {
       participantIds: [currentUser.id, targetUserId],
       createdAt,
       updatedAt: createdAt,
-      messages: [
-        {
-          id: randomBytes(8).toString("hex"),
-          userId: null,
-          userName: "Medulla Bot",
-          text: `Private chat opened between ${currentUser.name} and ${targetUser.name}.`,
-          type: "system",
-          createdAt,
-        },
-      ],
+      messages: [],
     };
     database.directConversations.unshift(conversation);
     await writeDatabase(database);
@@ -3557,7 +3567,8 @@ async function handleStorageStatus(response) {
 function handlePracticeQuestionBank(request, response, url) {
   const database = readDatabase();
   const rawLibrary = readPracticeQuestionBank();
-  const library = buildPracticeLibrary(rawLibrary, database.questions);
+  const membership = subscriptionDetails(database, getSessionUser(request, database)?.id);
+  const library = filterLibraryByPlan(buildPracticeLibrary(rawLibrary, database.questions), membership);
   const hasQuestionFilters = ["examId", "year", "subjectId", "topic", "source"].some((filter) => url.searchParams.has(filter));
   const allQuestions = getAllPracticeQuestions(library);
 
@@ -3892,6 +3903,13 @@ async function handleRequest(request, response) {
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Sign in to unlock Practice.');
       if (!hasPracticeAccess(database, user.id)) throw new HttpError(403, 'Practice unlocks after a verified payment. Choose a plan to continue.');
+    }
+    const restrictedFeature = routeFeature(path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/')), request.method, url.searchParams);
+    if (restrictedFeature) {
+      const database = readDatabase();
+      const user = getSessionUser(request, database);
+      if (!user) throw new HttpError(401, 'Sign in to access this feature.');
+      requireFeature(database, user.id, restrictedFeature);
     }
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/user-')) {
       if (!stateStore.healthy) throw new HttpError(503, 'Storage is unavailable.');

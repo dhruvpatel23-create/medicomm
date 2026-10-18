@@ -105,11 +105,11 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
 .sidebar-brand-row { justify-content: space-between; padding: 0 4px 20px; }
 .sidebar-brand-row .brand { gap: 11px; padding: 0; color: var(--ui-ink); }
 .sidebar-brand-row .brand-mark { width: 38px; height: 38px; }
-.brand-mark-svg {
+.brand-mark-image {
   display: block;
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 10px 18px rgba(14, 165, 255, .18));
+  object-fit: contain;
 }
 .brand-copy { display: flex; flex-direction: column; align-items: flex-start; }
 .brand-copy strong { font-size: 16px; letter-spacing: -.02em; }
@@ -469,6 +469,10 @@ body:has(.community-threads-view) {
 .pricing-card li { display: flex; gap: 9px; color: var(--pricing-ink); font-size: 11px; }
 .pricing-card li span { display: grid; width: 16px; height: 16px; flex: 0 0 auto; place-items: center; border-radius: 50%; background: var(--pricing-check-bg); color: var(--pricing-check-ink); font-size: 10px; font-weight: 900; }
 .pricing-card .button + ul { margin-top: auto; }
+.pricing-card li.plan-feature-excluded { color: var(--pricing-muted); }
+.pricing-card li.plan-feature-excluded span { background: #fee2e2; color: #b91c1c; }
+:root[data-theme="dark"] .pricing-card li.plan-feature-excluded { color: var(--pricing-muted); }
+:root[data-theme="dark"] .pricing-card li.plan-feature-excluded span { background: #45202b; color: #fda4af; }
 .pricing-assurance-strip { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0; margin-top: 16px; overflow: hidden; border: 1px solid var(--pricing-line); border-radius: 14px; background: var(--pricing-feature-bg); }
 .pricing-assurance-strip div { display: grid; min-width: 0; grid-template-columns: auto minmax(0,1fr); column-gap: 12px; align-items: center; padding: 18px clamp(16px,1.8vw,22px); border-left: 1px solid var(--pricing-line); }
 .pricing-assurance-strip div:first-child { border-left: 0; }
@@ -1699,3 +1703,10 @@ body {
   background: #1e293b;
   color: #f8fafc;
 }
+.signup-country-picker { display: grid; gap: 8px; min-width: 0; }
+.signup-country-list { width: 100%; padding: 6px; border: 1px solid #dbe3f0; border-radius: 12px; background: #fff; color: #172033; font: inherit; font-size: 14px; }
+.signup-country-list option { padding: 9px 10px; border-radius: 6px; }
+.signup-country-list:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px; }
+.signup-country-picker small { color: #64748b; font-size: 12px; }
+:root[data-theme="dark"] .signup-country-list { background: #10151e; color: #e2e8f0; border-color: #334155; color-scheme: dark; }
+:root[data-theme="dark"] .signup-country-picker small { color: #94a3b8; }

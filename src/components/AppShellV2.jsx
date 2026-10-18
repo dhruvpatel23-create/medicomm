@@ -17,7 +17,7 @@ const iconMap = {
   Pricing: CreditCard, Profile: UserRound, Settings,
 };
 
-const primaryMobileItems = ["Dashboard", "Practice", "Bookmarks", "Communities"];
+const primaryMobileItems = ["Dashboard", "Practice", "Compete", "Communities"];
 
 function NavButton({ active, item, onNavigate }) {
   const Icon = iconMap[item] ?? Activity;
@@ -148,7 +148,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
   const notifications = useMemo(() => {
     const messageNotifications = directConversations.flatMap((conversation) => {
       const latestMessage = conversation.messages?.at(-1);
-      if (!latestMessage || latestMessage.isOwnMessage) return [];
+      if (!latestMessage || latestMessage.isOwnMessage || latestMessage.type === "system") return [];
       const isChallenge = latestMessage.type === "challenge";
       return [{
         id: `message-${latestMessage.id}`,

@@ -10,7 +10,7 @@ import { issueSession } from './security.mjs';
 
 test('real HTTP: auth, persistence, origins, limits, uploads and logout', { timeout: 30000 }, async t => {
   const directory = await mkdtemp(path.join(tmpdir(), 'medicomm-test-'));
-  const seed = { users: [{ id: 'paid-fixture', name: 'Paid Learner', email: 'paid@example.test', medicalCollege: 'Test College' }], sessions: {}, paymentOrders: [{ orderId: 'order_fixture', userId: 'paid-fixture', status: 'paid', paymentId: 'pay_fixture', verifiedAt: new Date().toISOString() }] };
+  const seed = { users: [{ id: 'paid-fixture', name: 'Paid Learner', email: 'paid@example.test', medicalCollege: 'Test College' }], sessions: {}, paymentOrders: [{ orderId: 'order_fixture', planId: 'premium', userId: 'paid-fixture', status: 'paid', paymentId: 'pay_fixture', verifiedAt: new Date().toISOString() }] };
   const paidToken = issueSession(seed, 'paid-fixture');
   const savedPage = 'user-theory-private.png';
   const savedPng = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==', 'base64');
