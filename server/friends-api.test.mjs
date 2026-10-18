@@ -106,3 +106,23 @@ test('unauthenticated requests cannot read or modify friends', async () => {
     assert.equal(response.status, 401);
   }
 });
+
+
+test('friend head-to-head counts completed human matches from each viewer perspective', async () => {
+  const f = fixture();
+  const db = f.database();
+  db.users.find(u => u.id === 'alice').friendIds = ['bob', 'carol'];
+  db.users.find(u => u.id === 'bob').friendIds = ['alice'];
+  const match = (id, verdict, type = 'rated', status = 'completed', playerIds = ['alice', 'bob']) => ({
+    id, type, status, playerIds, results: { alice: { verdict }, bob: { verdict: verdict === 'win' ? 'loss' : verdict === 'loss' ? 'win' : verdict } },
+  });
+  db.duels = [match('1', 'win'), match('2', 'win', 'challenge'), match('3', 'loss'), match('4', 'draw'),
+    match('5', 'win', 'rated', 'matched'), match('6', 'win', 'bot'), match('7', 'win', 'rated', 'completed', ['bob', 'carol']),
+    match('8', 'invalid')];
+  const alice = (await f.call('alice')).body.friends;
+  assert.deepEqual(alice.find(u => u.id === 'bob').headToHead, { wins: 2, losses: 1, draws: 1, total: 4 });
+  assert.deepEqual(alice.find(u => u.id === 'carol').headToHead, { wins: 0, losses: 0, draws: 0, total: 0 });
+  const bob = (await f.call('bob')).body.friends;
+  assert.deepEqual(bob.find(u => u.id === 'alice').headToHead, { wins: 1, losses: 2, draws: 1, total: 4 });
+  assert.equal(f.writes(), 0);
+});

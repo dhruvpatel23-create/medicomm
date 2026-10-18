@@ -628,6 +628,7 @@ function App() {
   const bookmarkMutationQueueRef = useRef(Promise.resolve());
   const [analyticsEvents, setAnalyticsEvents] = useState([]);
   const [analyticsPeriod, setAnalyticsPeriod] = useState(30);
+  const [analyticsShowAll, setAnalyticsShowAll] = useState(false);
   const [practiceQuestionStartedAt, setPracticeQuestionStartedAt] = useState(Date.now());
   const [userRating, setUserRating] = useState(1480);
   const [profilePhotoPreparing, setProfilePhotoPreparing] = useState(false);
@@ -1501,6 +1502,7 @@ async function fetchPracticeLibrary() {
         subjectId: currentPracticeQuestion.subjectId || currentPracticeSubject?.id || "unknown",
         subject: currentPracticeSubject?.title || "Other",
         topic: currentPracticeQuestion.topic || currentPracticeQuestion.subtopic || "General review",
+        mode: selectedPracticeMode,
         activity: selectedPracticeMode === "usmle" ? "usmle" : selectedPracticeMode === "ai" ? "revision" : "pyq",
         durationSeconds: Math.max(1, Math.min(1800, Math.round((Date.now() - practiceQuestionStartedAt) / 1000))),
       }];
@@ -1542,7 +1544,7 @@ async function fetchPracticeLibrary() {
     const durationSeconds = Math.max(1, Math.min(1800, Math.round((session.finishedAt - session.startedAt) / 1000 / Math.max(1, answered.length))));
     const events = answered.map((question, index) => ({
       id: `${session.id}-${index}`, questionId: question.id, subjectId: question.subjectId,
-      subject: question.subjectTitle, topic: question.topic, activity: "revision", answeredAt,
+      subject: question.subjectTitle, topic: question.topic, mode: "ai", activity: "revision", answeredAt,
       correct: session.answers[question.id] === question.answerIndex, durationSeconds,
     }));
     setAnalyticsEvents(current => {
@@ -5016,13 +5018,14 @@ async function fetchPracticeLibrary() {
       return map;
     }, new Map()).values()].map((item) => ({ ...item, accuracy: calculateAccuracy(item.correct, item.attempts) })).sort((a, b) => b.attempts - a.attempts);
     const attention = subjects.flatMap((subject) => Object.entries(subject.topics).map(([topic, count]) => ({ ...subject, topic, count }))).sort((a, b) => b.count - a.count).slice(0, 3);
-    const activity = events.reduce((sum, item) => ({ ...sum, [item.activity || "pyq"]: (sum[item.activity || "pyq"] || 0) + (Number(item.durationSeconds) || 0) }), { pyq: 0, revision: 0, battle: 0 });
+    const activity = events.reduce((sum, item) => ({ ...sum, [item.activity || "pyq"]: (sum[item.activity || "pyq"] || 0) + (Number(item.durationSeconds) || 0) }), { pyq: 0, revision: 0, battle: 0, usmle: 0 });
     const share = (value) => seconds ? Math.round(value / seconds * 100) : 0;
     const pyqShare = share(activity.pyq);
     const revisionShare = share(activity.revision);
-    const battleShare = Math.max(0, 100 - pyqShare - revisionShare);
+    const battleShare = share(activity.battle);
+    const usmleShare = share(activity.usmle);
     const days = events.sort((a, b) => new Date(a.answeredAt) - new Date(b.answeredAt)).reduce((list, item) => {
-      const key = item.answeredAt.slice(0, 10);
+      const key = new Date(new Date(item.answeredAt).getTime() + 330 * 60000).toISOString().slice(0, 10);
       const current = list[list.length - 1];
       if (current?.key === key) { current.attempts += 1; current.correct += item.correct ? 1 : 0; }
       else list.push({ key, attempts: 1, correct: item.correct ? 1 : 0 });
@@ -5038,36 +5041,22 @@ async function fetchPracticeLibrary() {
     const areaPoints = chartData.length ? `50,165 ${points} 580,165` : "";
     const timeLabel = seconds >= 3600 ? `${(seconds / 3600).toFixed(1)}h` : `${Math.round(seconds / 60)}m`;
     const pace = events.length ? Math.round(seconds / events.length) : 0;
-    const review = (id) => { setActiveView("Practice"); setPracticeChoiceSubjectId(id); };
+    const review = (item) => {
+      const missed = [...events].reverse().find(event => !event.correct && event.subjectId === item.id && (event.topic || "General review") === item.topic && event.activity !== "battle");
+      if (missed) {
+        continueDashboardPractice({ ...missed, topic: missed.topic || "General review", mode: missed.mode || (missed.activity === "revision" ? "ai" : missed.activity === "usmle" ? "usmle" : "pyq") });
+      } else {
+        setActiveView("Practice");
+        if (practiceSubjects.some(subject => subject.id === item.id)) setPracticeChoiceSubjectId(item.id);
+      }
+    };
     return <section className="app-view">
-      <div className="view-header"><div><p className="eyebrow">Learning intelligence</p><h2>Performance analytics</h2><p className="view-subtitle">Live insights from your completed practice.</p></div><button className="button button-primary" onClick={() => attention[0] ? review(attention[0].id) : setActiveView("Practice")}>Practice weak topics</button></div>
+      <div className="view-header"><div><p className="eyebrow">Learning intelligence</p><h2>Performance analytics</h2><p className="view-subtitle">Live insights from your completed practice.</p></div><button className="button button-primary" onClick={() => attention[0] ? review(attention[0]) : setActiveView("Practice")}>Practice weak topics</button></div>
       <div className="analytics-kpi-grid"><article className="card panel"><span>Accuracy</span><strong>{periodAccuracy}%</strong><small>{correct} correct in this period</small></article><article className="card panel"><span>Questions solved</span><strong>{events.length}</strong><small>In the selected period</small></article><article className="card panel"><span>Average pace</span><strong>{pace < 60 ? `${pace}s` : `${Math.floor(pace / 60)}m ${pace % 60}s`}</strong><small>Per question</small></article><article className="card panel"><span>Study time</span><strong>{timeLabel}</strong><small>Measured active time</small></article></div>
-      <div className="analytics-main-grid"><article className="card panel accuracy-trend-card"><div className="panel-heading-split"><div><h3>Accuracy trend</h3><p className="panel-copy">Daily accuracy across your recent study days</p></div><select aria-label="Analytics period" value={analyticsPeriod} onChange={(event) => setAnalyticsPeriod(Number(event.target.value))}><option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></div>{days.length ? <div className="line-chart"><div className="chart-summary"><span><strong>{periodAccuracy}%</strong> average accuracy</span><span>{events.length} questions</span></div><svg viewBox="0 0 600 205" role="img" aria-label="Accuracy trend"><defs><linearGradient id="analyticsArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2563eb" stopOpacity=".22"/><stop offset="100%" stopColor="#2563eb" stopOpacity=".01"/></linearGradient></defs>{[25, 50, 75, 100].map((value) => { const y = 165 - value * 1.35; return <g key={value}><line className="chart-gridline" x1="50" x2="580" y1={y} y2={y}/><text className="chart-y-label" x="42" y={y + 4} textAnchor="end">{value}%</text></g>; })}<polygon className="chart-area" points={areaPoints}/><polyline className="chart-line" points={points}/>{chartData.map((day) => <g className="chart-marker" key={day.key}><circle className="chart-point-halo" cx={day.x} cy={day.y} r="9"/><circle className="chart-point" cx={day.x} cy={day.y} r="5"/><text className="chart-value" x={day.x} y={day.y - 14} textAnchor="middle">{day.accuracy}%</text><title>{day.accuracy}% · {day.attempts} questions · {day.key}</title></g>)}</svg><div className="chart-axis">{chartData.map((day) => <span key={day.key}>{new Date(`${day.key}T00:00:00`).toLocaleDateString([], { month: "short", day: "numeric" })}</span>)}</div></div> : <div className="analytics-empty"><span className="analytics-empty-icon">↗</span><strong>Your progress graph starts here</strong><small>Complete a practice question to plot your first result.</small><button className="text-button" onClick={() => setActiveView("Practice")}>Start practice</button></div>}</article>
-      <article className="card panel mastery-card"><div className="panel-heading-split"><div><h3>Subject mastery</h3><p className="panel-copy">Accuracy in this period</p></div><button className="text-button" onClick={() => setActiveView("Practice")}>View all</button></div>{subjects.length ? <div className="mastery-list">{subjects.map((subject) => <div key={subject.id}><span><strong>{subject.name}</strong><small>{subject.accuracy}% · {subject.attempts} attempted</small></span><div><i style={{ width: `${subject.accuracy}%` }}/></div></div>)}</div> : <p className="analytics-empty">No subject activity in this period.</p>}</article></div>
-      <div className="analytics-bottom-grid"><article className="card panel"><h3>Time by activity</h3><div className="donut-layout"><div className="donut-chart" style={{ background: `conic-gradient(var(--ui-brand) 0 ${pyqShare}%,#10b981 ${pyqShare}% ${pyqShare + revisionShare}%,#8b5cf6 ${pyqShare + revisionShare}% 100%)` }}><span>{timeLabel}<small>total</small></span></div><div className="donut-legend"><span><i className="dot-blue"/>PYQs <strong>{pyqShare}%</strong></span><span><i className="dot-emerald"/>AI revision <strong>{revisionShare}%</strong></span><span><i className="dot-violet"/>Battles <strong>{battleShare}%</strong></span></div></div></article><article className="card panel"><h3>Needs attention</h3>{attention.length ? <div className="attention-list">{attention.map((item) => <button key={`${item.id}-${item.topic}`} onClick={() => review(item.id)}><span>{item.topic}<small>{item.count} incorrect · {item.name}</small></span><strong>Review →</strong></button>)}</div> : <p className="analytics-empty">Incorrect answers will appear here for targeted review.</p>}</article></div>
+      <div className="analytics-main-grid"><article className="card panel accuracy-trend-card"><div className="panel-heading-split"><div><h3>Accuracy trend</h3></div><select aria-label="Analytics period" value={analyticsPeriod} onChange={(event) => setAnalyticsPeriod(Number(event.target.value))}><option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></div>{days.length ? <div className="line-chart"><div className="chart-summary"><span><strong>{periodAccuracy}%</strong> average accuracy</span><span>{events.length} questions</span></div><svg viewBox="0 0 600 205" role="img" aria-label="Accuracy trend"><defs><linearGradient id="analyticsArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2563eb" stopOpacity=".22"/><stop offset="100%" stopColor="#2563eb" stopOpacity=".01"/></linearGradient></defs>{[25, 50, 75, 100].map((value) => { const y = 165 - value * 1.35; return <g key={value}><line className="chart-gridline" x1="50" x2="580" y1={y} y2={y}/><text className="chart-y-label" x="42" y={y + 4} textAnchor="end">{value}%</text></g>; })}<polygon className="chart-area" points={areaPoints}/><polyline className="chart-line" points={points}/>{chartData.map((day) => <g className="chart-marker" key={day.key}><circle className="chart-point-halo" cx={day.x} cy={day.y} r="9"/><circle className="chart-point" cx={day.x} cy={day.y} r="5"/><text className="chart-value" x={day.x} y={day.y - 14} textAnchor="middle">{day.accuracy}%</text><title>{day.accuracy}% · {day.attempts} questions · {day.key}</title></g>)}</svg><div className="chart-axis">{chartData.map((day) => <span key={day.key}>{new Date(`${day.key}T00:00:00`).toLocaleDateString([], { month: "short", day: "numeric" })}</span>)}</div></div> : <div className="analytics-empty"><span className="analytics-empty-icon">↗</span><strong>Your progress graph starts here</strong><small>Complete a practice question to plot your first result.</small><button className="text-button" onClick={() => setActiveView("Practice")}>Start practice</button></div>}</article>
+      <article className="card panel mastery-card"><div className="panel-heading-split"><div><h3>Subject mastery</h3><p className="panel-copy">Accuracy in this period</p></div><button className="text-button" aria-expanded={analyticsShowAll} onClick={() => setAnalyticsShowAll(value => !value)}>{analyticsShowAll ? "Show less" : "View all"}</button></div>{subjects.length ? <div className="mastery-list">{(analyticsShowAll ? subjects : subjects.slice(0, 5)).map((subject) => <div key={subject.id}><span><strong>{subject.name}</strong><small>{subject.accuracy}% · {subject.attempts} attempted</small></span><div><i style={{ width: `${subject.accuracy}%` }}/></div></div>)}</div> : <p className="analytics-empty">No subject activity in this period.</p>}</article></div>
+      <div className="analytics-bottom-grid"><article className="card panel"><h3>Time by activity</h3><div className="donut-layout"><div className="donut-chart" style={{ background: seconds ? `conic-gradient(var(--ui-brand) 0 ${pyqShare}%,#10b981 ${pyqShare}% ${pyqShare + revisionShare}%,#8b5cf6 ${pyqShare + revisionShare}% ${pyqShare + revisionShare + battleShare}%,#f59e0b ${pyqShare + revisionShare + battleShare}% 100%)` : "var(--ui-border, #334155)" }}><span>{timeLabel}<small>total</small></span></div><div className="donut-legend"><span><i className="dot-blue"/>PYQs <strong>{pyqShare}%</strong></span><span><i className="dot-emerald"/>AI revision <strong>{revisionShare}%</strong></span><span><i className="dot-violet"/>Battles <strong>{battleShare}%</strong></span><span><i style={{ background: "#f59e0b" }}/>USMLE <strong>{usmleShare}%</strong></span></div></div><p className="panel-copy">{seconds ? "Recorded question time only. Battle duration is not tracked." : "No study time recorded in this period yet."}</p></article><article className="card panel"><h3>Needs attention</h3>{attention.length ? <div className="attention-list">{attention.map((item) => <button key={`${item.id}-${item.topic}`} onClick={() => review(item)}><span>{item.topic}<small>{item.count} incorrect · {item.name}</small></span><strong>Review →</strong></button>)}</div> : <p className="analytics-empty">Incorrect answers will appear here for targeted review.</p>}</article></div>
     </section>;
-  }
-
-  function renderAnalytics() {
-    const subjectMastery = [
-      ["Anatomy", 82], ["Physiology", 74], ["Pathology", 61], ["Pharmacology", 68], ["Microbiology", 77],
-    ];
-    return (
-      <section className="app-view">
-        <div className="view-header"><div><p className="eyebrow">Learning intelligence</p><h2>Performance analytics</h2><p className="view-subtitle">Understand what is improving, what needs revision, and where your study time pays off.</p></div><button className="button button-primary" onClick={() => setActiveView("Practice")}>Practice weak topics</button></div>
-        <div className="analytics-kpi-grid">
-          <article className="card panel"><span>Accuracy</span><strong>{accuracyRate}%</strong><small className="trend-positive">↑ 4.2% vs last week</small></article>
-          <article className="card panel"><span>Questions solved</span><strong>{formatStatValue(attemptedQuestions)}</strong><small>Across all subjects</small></article>
-          <article className="card panel"><span>Average pace</span><strong>48s</strong><small>Per question</small></article>
-          <article className="card panel"><span>Study time</span><strong>8.4h</strong><small className="trend-positive">↑ 1.3h this week</small></article>
-        </div>
-        <div className="analytics-main-grid">
-          <article className="card panel accuracy-trend-card"><div className="panel-heading-split"><div><h3>Accuracy trend</h3><p className="panel-copy">Last 8 study sessions</p></div><select aria-label="Analytics period"><option>Last 30 days</option><option>Last 90 days</option></select></div><div className="line-chart" aria-label="Accuracy improved from 58 to 78 percent"><svg viewBox="0 0 600 190" role="img"><defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2563eb" stopOpacity=".25"/><stop offset="100%" stopColor="#2563eb" stopOpacity="0"/></linearGradient></defs><path className="chart-area" d="M10 155 C80 142,90 130,160 134 S240 112,300 118 S380 88,440 92 S520 54,590 64 L590 185 L10 185 Z"/><path className="chart-line" d="M10 155 C80 142,90 130,160 134 S240 112,300 118 S380 88,440 92 S520 54,590 64"/></svg><div className="chart-axis"><span>May 1</span><span>May 8</span><span>May 15</span><span>May 22</span><span>Today</span></div></div></article>
-          <article className="card panel mastery-card"><div className="panel-heading-split"><div><h3>Subject mastery</h3><p className="panel-copy">Accuracy weighted by recency</p></div><button className="text-button" onClick={() => setActiveView("Practice")}>View all</button></div><div className="mastery-list">{subjectMastery.map(([subject, value]) => <div key={subject}><span><strong>{subject}</strong><small>{value}%</small></span><div><i style={{ width: `${value}%` }} /></div></div>)}</div></article>
-        </div>
-        <div className="analytics-bottom-grid"><article className="card panel"><h3>Time by activity</h3><div className="donut-layout"><div className="donut-chart"><span>8.4h<small>total</small></span></div><div className="donut-legend"><span><i className="dot-blue"/>PYQs <strong>52%</strong></span><span><i className="dot-emerald"/>Revision <strong>28%</strong></span><span><i className="dot-violet"/>Battles <strong>20%</strong></span></div></div></article><article className="card panel"><h3>Needs attention</h3><div className="attention-list"><button onClick={() => setActiveView("Practice")}><span>Renal pathology<small>7 incorrect answers</small></span><strong>Review →</strong></button><button onClick={() => setActiveView("Practice")}><span>Antimicrobials<small>Accuracy below 60%</small></span><strong>Review →</strong></button><button onClick={() => setActiveView("Practice")}><span>Cardiac physiology<small>Not revised in 18 days</small></span><strong>Review →</strong></button></div></article></div>
-      </section>
-    );
   }
 
   function renderPricing() {
@@ -5120,7 +5109,7 @@ async function fetchPracticeLibrary() {
       case "Bookmarks":
         return renderBookmarks();
       case "Analytics":
-        return renderAnalytics();
+        return renderAnalyticsFunctional();
       case "Leaderboard":
         return renderLeaderboard();
       case "Communities":

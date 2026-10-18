@@ -276,6 +276,8 @@ export function AddFriendDialog({ model, open, onOpenChange }) {
 export function FriendsPanel({ model, onAdd, onMessage }) {
   const [query, setQuery] = useState('');
   const [opening, setOpening] = useState(null);
+  const [profileId, setProfileId] = useState(null);
+  const profile = model.friends.find(person => person.id === profileId);
   const visible = model.friends.filter(person =>
     `${person.name} ${person.medicalCollege}`.toLowerCase().includes(query.trim().toLowerCase()),
   );
@@ -325,10 +327,12 @@ export function FriendsPanel({ model, onAdd, onMessage }) {
             key={person.id}
             className="flex min-w-0 items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
           >
-            <Avatar name={person.name} src={person.profileImageUrl} />
+            <button type="button" onClick={() => setProfileId(person.id)} aria-label={`View ${person.name}'s profile`} className="shrink-0 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500">
+              <Avatar name={person.name} src={person.profileImageUrl} />
+            </button>
             <div className="min-w-0 flex-1">
               <h4 className="truncate text-sm font-semibold" title={person.name}>
-                {person.name}
+                <button type="button" onClick={() => setProfileId(person.id)} className="max-w-full truncate text-left hover:text-teal-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500 dark:hover:text-teal-300">{person.name}</button>
               </h4>
               <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400" title={person.medicalCollege}>
                 {person.medicalCollege}
@@ -354,6 +358,29 @@ export function FriendsPanel({ model, onAdd, onMessage }) {
           </article>
         ))}
       </div>
+      <Dialog open={Boolean(profile)} onOpenChange={open => { if (!open) setProfileId(null); }}>
+        <DialogContent>
+          {profile && <>
+            <div className="mb-4"><Avatar name={profile.name} src={profile.profileImageUrl} /></div>
+            <DialogTitle>{profile.name}</DialogTitle>
+            <DialogDescription>{profile.medicalCollege || 'College not added'}</DialogDescription>
+            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{profile.rating?.toLocaleString() ?? '?'} Elo</p>
+            <section className="mt-6 border-t border-slate-200 pt-5 dark:border-slate-800" aria-label="1v1 head-to-head">
+              <div className="flex items-center justify-between gap-3">
+                <h4 className="text-sm font-semibold">1v1 head-to-head</h4>
+                <span className="text-xs text-slate-500 dark:text-slate-400">{profile.headToHead?.total ?? 0} battles</span>
+              </div>
+              <div className="mt-5 grid grid-cols-3 gap-3 text-center">
+                {[["Your wins", profile.headToHead?.wins], ["Draws", profile.headToHead?.draws], ["Their wins", profile.headToHead?.losses]].map(([label, value]) => <div key={label}>
+                  <p className="text-3xl font-bold tabular-nums">{value ?? 0}</p>
+                  <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{label}</p>
+                </div>)}
+              </div>
+              {!profile.headToHead?.total && <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">No battles together yet.</p>}
+            </section>
+          </>}
+        </DialogContent>
+      </Dialog>
       {!visible.length && <p role="status" className="py-6 text-center text-sm text-slate-500">No friends match your search.</p>}
     </div>
   );

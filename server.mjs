@@ -2327,6 +2327,7 @@ function sanitizeDuelOpponent(user, currentUserId = null) {
   return {
     id: user.id,
     name: user.name,
+    medicalCollege: user.medicalCollege,
     rating: Number.isFinite(user.rating) ? user.rating : DEFAULT_USER_RATING,
     specialty: getLeaderboardRegion(user.medicalCollege),
     profileImageUrl: user.profileImagePath ? `/uploads/${user.profileImagePath}` : null,
@@ -2827,10 +2828,22 @@ async function handleFriends(request, response, url = null) {
 
   const getPayload = () => {
     const friendIds = new Set(currentUser.friendIds ?? []);
+    const records = new Map();
+    for (const match of database.duels ?? []) {
+      if (match.status !== "completed" || match.type === "bot" || match.playerIds?.length !== 2 || !match.playerIds.includes(currentUser.id)) continue;
+      const opponentId = match.playerIds.find(id => id !== currentUser.id);
+      if (!friendIds.has(opponentId)) continue;
+      const verdict = match.results?.[currentUser.id]?.verdict;
+      if (!["win", "loss", "draw"].includes(verdict)) continue;
+      const record = records.get(opponentId) ?? { wins: 0, losses: 0, draws: 0, total: 0 };
+      record[verdict === "win" ? "wins" : verdict === "loss" ? "losses" : "draws"]++;
+      record.total++;
+      records.set(opponentId, record);
+    }
     const friends = database.users
       .filter(user => user.id !== currentUser.id && friendIds.has(user.id))
       .sort((a, b) => a.name.localeCompare(b.name))
-      .map(user => sanitizeSearchableUser(user, currentUser.id));
+      .map(user => ({ ...sanitizeSearchableUser(user, currentUser.id), headToHead: records.get(user.id) ?? { wins: 0, losses: 0, draws: 0, total: 0 } }));
 
     const allRequests = database.friendRequests ?? [];
     const userMap = new Map(database.users.map(u => [u.id, u]));
