@@ -44,6 +44,25 @@ test('CORS rejects untrusted origins and cookie CSRF including missing Origin', 
   assert.throws(() => checkOrigin({ method: 'POST', headers: { origin: 'https://evil.example' } }, response, origins), { status: 403 });
   assert.throws(() => checkOrigin({ method: 'POST', headers: { cookie: 'medicomm_session=x' } }, response, origins), { status: 403 });
 });
+
+test('search-result navigation allows session cookies without opening cross-site API access', () => {
+  const response = { setHeader() {} }, origins = new Set(['https://app.example']);
+  const headers = { cookie: 'medicomm_session=x', 'sec-fetch-site': 'cross-site',
+    'sec-fetch-mode': 'navigate', 'sec-fetch-dest': 'document', referer: 'https://www.google.com/' };
+  for (const url of ['/', '/?utm_source=google', '/practice']) {
+    for (const method of ['GET', 'HEAD']) assert.doesNotThrow(() => checkOrigin({ method, url, headers }, response, origins));
+  }
+  for (const url of ['/api', '/api/reviews', '/api/auth/session', '/uploads/user-private.png']) {
+    assert.throws(() => checkOrigin({ method: 'GET', url, headers }, response, origins), { status: 403 });
+  }
+  for (const method of ['POST', 'PUT', 'PATCH', 'DELETE']) {
+    assert.throws(() => checkOrigin({ method, url: '/', headers }, response, origins), { status: 403 });
+  }
+  for (const extra of [{ 'sec-fetch-mode': 'cors', 'sec-fetch-dest': 'empty' },
+    { 'sec-fetch-dest': 'iframe' }, { origin: 'https://evil.example' }]) {
+    assert.throws(() => checkOrigin({ method: 'GET', url: '/', headers: { ...headers, ...extra } }, response, origins), { status: 403 });
+  }
+});
 test('simultaneous snapshots cannot overwrite a committed update', async () => {
   let writes = 0;
   const store = createStateStore({ initial: { value: 0 }, persist: async () => { writes++; } });

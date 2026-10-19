@@ -88,7 +88,14 @@ export function checkOrigin(request, response, origins) {
     response.setHeader('Access-Control-Allow-Credentials', 'true');
     response.setHeader('Vary', 'Origin');
   }
-  if (request.headers['sec-fetch-site'] === 'cross-site' && (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) || request.headers.cookie?.includes('medicomm_session='))) {
+  // Search results and external links send SameSite=Lax cookies on top-level
+  // navigation. Allow those page visits, not credentialed fetches or embeds.
+  const pathname = new URL(request.url || '/', 'http://localhost').pathname;
+  const pageNavigation = ['GET', 'HEAD'].includes(request.method)
+    && request.headers['sec-fetch-mode'] === 'navigate'
+    && request.headers['sec-fetch-dest'] === 'document'
+    && !/^\/(?:api|uploads)(?:\/|$)/i.test(pathname);
+  if (request.headers['sec-fetch-site'] === 'cross-site' && !pageNavigation && (!['GET', 'HEAD', 'OPTIONS'].includes(request.method) || request.headers.cookie?.includes('medicomm_session='))) {
     throw new HttpError(403, 'Cross-site requests are not allowed.');
   }
   // Cookie mutations need an Origin; API clients can use bearer authentication.
