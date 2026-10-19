@@ -21,7 +21,7 @@ await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
 const base = `http://127.0.0.1:${server.address().port}/api/reviews`;
 async function call(method = "GET", payload, user, query = "") {
   const response = await fetch(base + query, { method, headers: { "Content-Type": "application/json", ...(user ? { Authorization: `Bearer test-${user}` } : {}) }, ...(payload !== undefined ? { body: JSON.stringify(payload) } : {}) });
-  return { status: response.status, data: await response.json() };
+  return { cacheControl: response.headers.get("cache-control"), status: response.status, data: await response.json() };
 }
 try {
   let result = await call();
@@ -47,18 +47,33 @@ try {
   assert.equal(result.data.total, 1);
   assert.equal(result.data.myReview.id, reviewId);
   assert.equal(result.data.myReview.createdAt, createdAt);
-  await call("PUT", { rating: 5 }, "b");
+  const bResult = await call("PUT", { rating: 5, comment: "Private feedback from B." }, "b");
+  assert.equal(bResult.data.myReview.comment, "Private feedback from B.");
+  assert.ok(!JSON.stringify(bResult.data).includes("Updated feedback."));
+  assert.deepEqual(bResult.data.reviews, []);
   result = await call();
   assert.equal(result.data.average, 4);
   assert.deepEqual(result.data.distribution, [0, 0, 1, 0, 1]);
   assert.equal(result.data.myReview, null);
   assert.ok(!JSON.stringify(result.data).includes("private@example.test"));
-  assert.ok(result.data.reviews.every(review => !("userId" in review)));
+  assert.deepEqual(result.data.reviews, []);
+  assert.equal(result.cacheControl, "private, no-store");
+  for (const secret of ["Updated feedback.", "Private feedback from B.", "Learner A", "Learner B", reviewId]) {
+    assert.ok(!JSON.stringify(result.data).includes(secret));
+  }
+  for (const user of ["a", "b"]) {
+    const own = await call("GET", undefined, user, "?page=2&userId=" + (user === "a" ? "b" : "a"));
+    assert.equal(own.data.myReview.comment, user === "a" ? "Updated feedback." : "Private feedback from B.");
+    assert.ok(!JSON.stringify(own.data).includes(user === "a" ? "Private feedback from B." : "Updated feedback."));
+    assert.deepEqual(own.data.reviews, []);
+  }
   // DELETE always addresses the authenticated user's own review.
-  await call("DELETE", { id: reviewId, userId: "a" }, "b");
+  const removed = await call("DELETE", { id: reviewId, userId: "a" }, "b");
+  assert.equal(removed.data.myReview, null);
+  assert.ok(!JSON.stringify(removed.data).includes("Updated feedback."));
   result = await call();
   assert.equal(result.data.total, 1);
-  assert.equal(result.data.reviews[0].id, reviewId);
+  assert.equal((await call("GET", undefined, "a")).data.myReview.id, reviewId);
   await call("DELETE", undefined, "a");
   assert.equal((await call()).data.total, 0);
   const database = JSON.parse(readFileSync(filename));
@@ -69,13 +84,14 @@ try {
   writeFileSync(filename, JSON.stringify(database));
   const first = (await call()).data;
   const second = (await call("GET", undefined, undefined, "?page=2")).data;
-  assert.equal(first.reviews.length, 12);
-  assert.equal(first.hasMore, true);
-  assert.equal(second.reviews.length, 3);
+  assert.equal(first.reviews.length, 0);
+  assert.equal(first.hasMore, false);
+  assert.equal(second.reviews.length, 0);
   assert.equal(second.hasMore, false);
-  assert.equal(new Set([...first.reviews, ...second.reviews].map(review => review.id)).size, 15);
+  assert.equal(first.total, 15);
+  assert.deepEqual(second.distribution, [0, 0, 0, 15, 0]);
   assert.equal(second.average, 4);
-  console.log("Reviews API passed: authentication, validation, create/edit/delete, ownership, persistence, averages, privacy, and pagination.");
+  console.log("Reviews API passed: authentication, validation, create/edit/delete, ownership, persistence, averages, author-only comments, cache protection, and aggregate-only public responses.");
 } finally {
   await new Promise(resolve => server.close(resolve));
   unlinkSync(filename);

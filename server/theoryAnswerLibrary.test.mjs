@@ -4,11 +4,23 @@ import { createShortNotesHandler, ownsTheoryAnswerImage } from './shortNotes.mjs
 import { tokenStatus } from './tokens.mjs';
 
 const png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==';
-function fixture() {
+function fixture(rowMode = false) {
   let db = { users: [{ id: 'learner' }, { id: 'other' }], shortNoteReviews: [{ userId: 'other', questionId: 'q', answer: 'Private', answerPages: [{ imagePath: 'other.png' }] }] };
   const files = new Map();
   let evaluationInput, failure = '', sequence = 0;
+  const rows = new Map();
+  const reviewStore = rowMode ? {
+    reviews: async (user, question, offset = 0, since) => [...rows.values()].filter(r => r.userId === user && (!question || r.questionId === question) && (!since || r.submittedAt >= since)).reverse().slice(offset, offset + 100),
+    summaries: async user => [...rows.values()].filter(r => r.userId === user).reverse(),
+    saveReview: async review => {
+      if (failure === 'write') throw new Error('Storage unavailable');
+      rows.set(review.id, review);
+      if (failure === 'uncertain-write') throw new Error('Interrupted after commit');
+    },
+    hasReview: async (user, id) => rows.get(id)?.userId === user,
+  } : null;
   const handler = createShortNotesHandler({
+    reviewStore,
     questions: new Map([['q', { id: 'q', kind: 'short-note', subjectTitle: 'Anatomy', prompt: 'Heart' }]]),
     readDatabase: () => structuredClone(db),
     writeDatabase: async value => {
@@ -27,7 +39,7 @@ function fixture() {
     removeAnswerImage: async name => files.delete(name),
     evaluate: async input => { evaluationInput = input; if (failure === 'ai') throw new Error('AI unavailable'); return { score: 8, feedback: 'Good answer.', modelAnswerSections: [] }; },
   });
-  return { files, get db() { return db; }, get input() { return evaluationInput; }, fail: value => { failure = value; },
+  return { files, rows, get db() { return db; }, get input() { return evaluationInput; }, fail: value => { failure = value; },
     async request(method = 'GET', body = {}, user = 'learner', query = '', pathname = '/api/short-notes/reviews') {
       const response = {}; await handler({ method, body, user, url: `${pathname}${query}` }, response); return response;
     } };
@@ -133,4 +145,26 @@ test('custom notes library supports user-created questions, review pipeline and 
   assert.equal(del.status, 200);
   const afterDel = await f.request('GET', {}, 'learner', '?subjectId=anatomy', '/api/short-notes/custom');
   assert.equal(afterDel.body.questions.length, 0);
+});
+
+
+test('row storage persists reviews without growing shared app state and preserves private history', async () => {
+  const f = fixture(true);
+  const result = await f.request('POST', submission);
+  assert.equal(result.status, 201);
+  assert.equal(f.rows.size, 1);
+  assert.equal(f.db.shortNoteReviews.length, 1);
+  const history = await f.request('GET', {}, 'learner', '?questionId=q');
+  assert.equal(history.body.reviews.length, 1);
+  assert.equal(history.body.reviews[0].answerPages.length, 2);
+  assert.equal((await f.request('GET', {}, 'other', '?questionId=q')).body.reviews.length, 0);
+});
+
+test('row storage interrupted commit retains uploaded pages and charged tokens', async () => {
+  const f = fixture(true); f.fail('uncertain-write');
+  const result = await f.request('POST', submission);
+  assert.equal(result.status, 502);
+  assert.equal(f.rows.size, 1);
+  assert.equal(f.files.size, 2);
+  assert.equal(tokenStatus(f.db, 'learner').remaining, 10);
 });

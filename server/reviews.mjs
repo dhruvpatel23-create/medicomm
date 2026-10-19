@@ -22,10 +22,12 @@ export function createReviewHandler({ readDatabase, writeDatabase, getSessionUse
       total: reviews.length,
       average: reviews.length ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : 0,
       distribution,
-      reviews: reviews.slice((page - 1) * 12, page * 12).map(serialize),
+      // Preserve the response shape for older clients without exposing authors
+      // or comments. Only the session owner's review may be serialized.
+      reviews: [],
       myReview: ownReview ? serialize(ownReview) : null,
       page,
-      hasMore: page * 12 < reviews.length,
+      hasMore: false,
     };
   }
 
@@ -36,7 +38,7 @@ export function createReviewHandler({ readDatabase, writeDatabase, getSessionUse
       if (!Number.isSafeInteger(page) || page < 1 || page > 100000) {
         return sendJson(response, 400, { message: "Invalid review page." });
       }
-      return sendJson(response, 200, reviewSummary(database, getSessionUser(request, database), page));
+      return sendJson(response, 200, reviewSummary(database, getSessionUser(request, database), page), { 'Cache-Control': 'private, no-store' });
     }
     if (!["PUT", "DELETE"].includes(request.method)) {
       return sendJson(response, 405, { message: "Method not allowed." }, { Allow: "GET, PUT, DELETE" });
@@ -77,6 +79,6 @@ export function createReviewHandler({ readDatabase, writeDatabase, getSessionUse
       });
     }
     await writeDatabase(database);
-    return sendJson(response, 200, reviewSummary(database, user));
+    return sendJson(response, 200, reviewSummary(database, user), { 'Cache-Control': 'private, no-store' });
   };
 }

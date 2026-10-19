@@ -3177,7 +3177,7 @@ async function fetchPracticeLibrary() {
           </div>
         </section>
 
-        <WebsiteReviews compact canReview={authStatus === "authenticated"} onSignIn={handleLogout} onViewAll={() => setActiveView("Reviews")} />
+        <WebsiteReviews key={user?.id || "guest"} compact canReview={authStatus === "authenticated"} onSignIn={handleLogout} onViewAll={() => setActiveView("Reviews")} />
 
         <section className="cta-banner">
           <h2>Ready to Level Up Your Medical Knowledge?</h2>
@@ -5144,7 +5144,7 @@ async function fetchPracticeLibrary() {
       case "Dashboard":
         return renderDashboard();
       case "Reviews":
-        return <div className="app-view"><WebsiteReviews canReview={authStatus === "authenticated"} onSignIn={handleLogout} /></div>;
+        return <div className="app-view"><WebsiteReviews key={user?.id || "guest"} canReview={authStatus === "authenticated"} onSignIn={handleLogout} /></div>;
       case "Practice":
         return <>
           {!["selection", "usmle-modules", "fmge-years", "custom-modules", "neetpg-tests", "fmge-tests"].includes(practiceStage) && !(practiceStage === "catalog" && practicePathTitle === "NEET PG / INICET") && <div className="practice-path-breadcrumb">

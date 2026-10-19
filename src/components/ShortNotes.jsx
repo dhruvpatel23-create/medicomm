@@ -1,3 +1,4 @@
+import { prepareTheoryImage, imageBytes } from "../lib/theoryImages";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Camera, Check, CheckCircle2, ChevronRight, FileText, GitFork, Layers3, Loader2, PenSquare, PenTool, Plus, Search, Sparkles, Star, Trash2, Upload, X } from "lucide-react";
 import { apiRequest } from "../lib/api";
@@ -5,6 +6,18 @@ import "./ShortNotes.css";
 import AnswerNotepad from "./AnswerNotepad";
 import TextbookSources from "./TextbookSources";
 import SavedTheoryAnswer from "./SavedTheoryAnswer";
+
+async function loadReviewPages(path, active) {
+  const reviews = new Map();
+  let offset = 0;
+  do {
+    const data = await apiRequest(`${path}${path.includes('?') ? '&' : '?'}offset=${offset}`);
+    if (!active()) return { reviews: [] };
+    for (const review of data.reviews || []) if (!reviews.has(review.id)) reviews.set(review.id, review);
+    offset = data.nextOffset;
+  } while (offset != null);
+  return { reviews: [...reviews.values()] };
+}
 
 const typeLabel = (kind) => kind === "long-answer" ? "Long answer" : "Short note";
 
@@ -65,7 +78,7 @@ function renderModelAnswerPoint(point, index) {
   );
 }
 
-export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, prepareImage, onNavigate }) {
+export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, onNavigate }) {
   const [bank, setBank] = useState(null);
   const [loadError, setLoadError] = useState("");
   const [reload, setReload] = useState(0);
@@ -124,7 +137,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
   useEffect(() => {
     let active = true;
     setReviews({}); setReviewLoadError("");
-    if (signedIn) apiRequest("/api/short-notes/reviews").then(data => {
+    if (signedIn) loadReviewPages("/api/short-notes/reviews", () => active).then(data => {
       if (active) { setReviews(Object.fromEntries((data.reviews || []).map(review => [review.questionId, review]))); setReviewLoadError(""); }
     }).catch(() => { if (active) setReviewLoadError("Saved reviews could not be loaded. You can still write an answer."); });
     return () => { active = false; };
@@ -171,7 +184,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
     setAttempts([]); setAttemptIndex(0); setHistoryError("");
     if (!questionId || !signedIn) { setHistoryLoading(false); return; }
     setHistoryLoading(true);
-    apiRequest(`/api/short-notes/reviews?questionId=${encodeURIComponent(questionId)}`).then(data => {
+    loadReviewPages(`/api/short-notes/reviews?questionId=${encodeURIComponent(questionId)}`, () => active).then(data => {
       if (active) setAttempts((data.reviews || []).filter(item => item.questionId === questionId));
     }).catch(() => { if (active) setHistoryError("Earlier attempts could not load."); })
       .finally(() => { if (active) setHistoryLoading(false); });
@@ -240,9 +253,9 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, pr
     setImageBusy(true); setMessage("");
     try {
       const images = [];
-      for (const file of files) images.push({ ...await prepareImage(file), source: "upload" });
+      for (const file of files) images.push({ ...await prepareTheoryImage(file), source: "upload" });
       const next = [...answerImages, ...images];
-      if (next.reduce((bytes, image) => bytes + image.dataUrl.split(",")[1].length * .75, 0) > 5 * 1024 * 1024) throw new Error("Prepared answer pages must total 5 MB or less. Try smaller photos.");
+      if (next.reduce((bytes, image) => bytes + imageBytes(image.dataUrl), 0) > 5 * 1024 * 1024) throw new Error("Prepared answer pages must total 5 MB or less. Try smaller photos.");
       if (mounted.current) setAnswerImages(next);
     }
     catch (error) { if (mounted.current) setMessage(error.message); }

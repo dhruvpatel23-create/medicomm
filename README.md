@@ -2,11 +2,11 @@
 
 ## Website ratings and reviews
 
-Home and the Reviews page show public 1–5 star ratings, an overall average, and learner comments. Signed-in users can save, edit, or delete one rating per account; comments are optional and limited to 1,000 characters. Guest users can browse reviews.
+Home and the Reviews page show public star-rating counts and an overall average. Written reviews are visible only to their author. Signed-in users can save, edit, or delete one rating per account; comments are optional and limited to 1,000 characters. Guests see aggregate ratings only.
 
-`GET /api/reviews?page=1` returns 12 reviews per page and the overall rating summary. Authenticated `PUT /api/reviews` accepts `{ "rating": 5, "comment": "..." }`; `DELETE /api/reviews` deletes the caller's own review. Reviews use the existing `websiteReviews` database field and follow the app's local/Supabase storage configuration.
+`GET /api/reviews` returns aggregate rating counts and the overall average, plus `myReview` only for the authenticated author. The compatibility `reviews` array is always empty; other users' names and comments are never returned. Authenticated `PUT /api/reviews` accepts `{ "rating": 5, "comment": "..." }`; `DELETE /api/reviews` deletes the caller's own review. Reviews use the existing `websiteReviews` database field and follow the app's local/Supabase storage configuration.
 
-Run `node scripts/check-website-reviews.mjs` to check authentication, validation, ownership, persistence, rating calculations, and pagination with isolated test data.
+Run `node scripts/check-website-reviews.mjs` to check authentication, validation, ownership, persistence, rating calculations, and author-only comment visibility with isolated test data.
 
 ## Local Gemini setup
 

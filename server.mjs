@@ -1,3 +1,4 @@
+import { createNotepadStore, createDraftHandler } from './server/notepadStore.mjs';
 import { createMatch, validDuelQuestion, lockAnswer, settleMatch, matchProgress } from "./server/duels.mjs";
 import { createServer } from "node:http";
 import { createHash, randomBytes, pbkdf2, timingSafeEqual } from "node:crypto";
@@ -1780,7 +1781,11 @@ async function requestGeminiShortNotePrompt({ subjectTitle, topic, kind }) {
   }
 }
 
+const notepadStore = createNotepadStore({ url: supabaseUrl, key: supabaseServiceRoleKey, namespace: supabaseStateKey });
+const rowNotepadStorage = process.env.NOTEPAD_ROW_STORAGE === 'true';
+const handleNotepadDraft = createDraftHandler({ store: notepadStore, readDatabase, requireSessionUser, parseRequestBody, sendJson });
 const handleShortNotes = createShortNotesHandler({
+  reviewStore: rowNotepadStorage ? notepadStore : null,
   questions: loadShortNotes(path.join(__dirname, "public", "short-notes.json")),
   readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson,
   parseAnswerImage: parseVivaAnswerImage, evaluate: requestClinicalCaseEvaluation,
@@ -3927,7 +3932,7 @@ async function handleRequest(request, response) {
         limitRequest('ai:global', 1000, 3600000);
       }
       if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method)) {
-        const imageRoute = url.pathname === '/api/profile' || /\/(?:messages|answers)$/.test(url.pathname) || url.pathname === '/api/short-notes/reviews';
+        const imageRoute = url.pathname === '/api/profile' || /\/(?:messages|answers)$/.test(url.pathname) || url.pathname === '/api/short-notes/reviews' || url.pathname === '/api/notepad/draft';
         request.parsedBody = await readJson(request, imageRoute ? 8 * 1024 * 1024 : 256 * 1024);
       }
     }
@@ -3941,7 +3946,7 @@ async function handleRequest(request, response) {
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Please sign in.');
       const community = database.communities.some(entry => (entry.memberIds ?? []).includes(user.id) && (entry.messages ?? []).some(message => message.imagePath === name));
-      if (!profile && !community && !ownsTheoryAnswerImage(database, user.id, name)) throw new HttpError(404, 'Not found.');
+      if (!profile && !community && !ownsTheoryAnswerImage(database, user.id, name) && !(rowNotepadStorage && await notepadStore.ownsImage(user.id, name))) throw new HttpError(404, 'Not found.');
       const bytes = uploadBucket ? await uploads.read(name) : await fs.readFile(path.join(uploadsDir, name));
       response.writeHead(200, { 'Content-Type': getStaticMimeType(name), 'Cache-Control': 'private, no-store' });
       response.end(request.method === 'HEAD' ? undefined : bytes);
@@ -4005,6 +4010,7 @@ async function handleRequest(request, response) {
     if (request.method === "POST" && vivaAdvanceMatch) {
       return await handleAdvanceVivaSession(request, response, vivaAdvanceMatch[1]);
     }
+    if (url.pathname === '/api/notepad/draft') return await handleNotepadDraft(request, response, url);
     if (url.pathname.startsWith("/api/short-notes/")) {
       return await handleShortNotes(request, response);
     }

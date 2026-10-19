@@ -24,7 +24,7 @@ export function loadShortNotes(file) {
   return questions;
 }
 
-export function createShortNotesHandler({ questions, readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson, parseAnswerImage, evaluate, saveAnswerImage, removeAnswerImage, generatePrompt }) {
+export function createShortNotesHandler({ reviewStore = null, questions, readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson, parseAnswerImage, evaluate, saveAnswerImage, removeAnswerImage, generatePrompt }) {
   const pending = new Set();
   return async function handleShortNotes(request, response) {
     const database = readDatabase();
@@ -109,14 +109,17 @@ export function createShortNotesHandler({ questions, readDatabase, writeDatabase
 
     if (request.method === 'GET') {
       const questionId = url.searchParams.get('questionId');
-      const own = (database.shortNoteReviews ?? []).filter(review => review.userId === user.id);
-      if (questionId) return sendJson(response, 200, { reviews: own.filter(review => review.questionId === questionId).map(review => publicReview(review)) });
+      const offset = Number(url.searchParams.get('offset') || 0);
+      if (!Number.isSafeInteger(offset) || offset < 0) return sendJson(response, 400, { message: 'Invalid review page.' });
+      const own = reviewStore ? (questionId ? await reviewStore.reviews(user.id, questionId, offset) : await reviewStore.summaries(user.id, offset)) : (database.shortNoteReviews ?? []).filter(review => review.userId === user.id);
+      const nextOffset = reviewStore && own.length === 100 ? offset + 100 : null;
+      if (questionId) return sendJson(response, 200, { nextOffset, reviews: own.filter(review => review.questionId === questionId).map(review => publicReview(review)) });
       const groups = new Map();
       for (const review of own) {
         const group = groups.get(review.questionId) || [];
         group.push(review); groups.set(review.questionId, group);
       }
-      return sendJson(response, 200, { reviews: [...groups.values()].map(group => publicReview(group[0], group.length)) });
+      return sendJson(response, 200, { nextOffset, reviews: [...groups.values()].map(group => publicReview(group[0], group[0].attemptCount || group.length)) });
     }
     const payload = await parseRequestBody(request);
     let question = questions.get(String(payload.questionId ?? ''));
@@ -172,7 +175,7 @@ export function createShortNotesHandler({ questions, readDatabase, writeDatabase
       return sendJson(response, 400, { message: 'Write at least 3 characters or upload an answer photo. Typed answers can contain up to 8,000 characters.' });
     }
     if (pending.has(user.id)) return sendJson(response, 409, { message: 'Your previous answer is still being reviewed. Please wait.' });
-    const recent = (database.shortNoteReviews ?? []).filter(review => review.userId === user.id && Date.parse(review.submittedAt) > Date.now() - 3600000);
+    const recent = reviewStore ? await reviewStore.reviews(user.id, null, 0, new Date(Date.now() - 3600000).toISOString()) : (database.shortNoteReviews ?? []).filter(review => review.userId === user.id && Date.parse(review.submittedAt) > Date.now() - 3600000);
     if (recent.length >= 60) return sendJson(response, 429, { message: 'You have reached the hourly review limit. Please try again later.' });
     pending.add(user.id);
     const savedPages = [];
@@ -196,19 +199,22 @@ export function createShortNotesHandler({ questions, readDatabase, writeDatabase
         studentAnswerImage: images[0]?.parsed ?? null, studentAnswerImages: images.map(image => image.parsed) });
       const review = { ...evaluation, id: reviewId, questionId: question.id, userId: user.id, answer,
         answerPages: savedPages, hasImage: images.length > 0, submittedAt: new Date().toISOString() };
-      await updateTokenState(readDatabase, writeDatabase, latest => {
+      if (reviewStore) await reviewStore.saveReview(review);
+      else await updateTokenState(readDatabase, writeDatabase, latest => {
         latest.shortNoteReviews = [review, ...(latest.shortNoteReviews ?? []).filter(item => item.id !== reviewId)];
       });
       const latest = readDatabase();
       committed = true;
-      return sendJson(response, 201, { review: publicReview(review, latest.shortNoteReviews.filter(item => item.userId === user.id && item.questionId === question.id).length) });
+      return sendJson(response, 201, { review: publicReview(review, reviewStore ? undefined : latest.shortNoteReviews.filter(item => item.userId === user.id && item.questionId === question.id).length) });
     } catch (error) {
       return sendJson(response, error.status || 502, { message: error instanceof Error ? error.message : 'Could not review your answer. Your draft is still here.' });
     } finally {
       if (!committed) {
         try {
+          const remotelySaved = reviewStore ? await reviewStore.hasReview(user.id, reviewId) : false;
+          if (remotelySaved) committed = true;
           await updateTokenState(readDatabase, writeDatabase, latest => {
-            if (!(latest.shortNoteReviews ?? []).some(review => review.id === reviewId)) refundTokens(latest, user.id, tokenKey);
+            if (!remotelySaved && !(latest.shortNoteReviews ?? []).some(review => review.id === reviewId)) refundTokens(latest, user.id, tokenKey);
           });
         } catch (error) { console.warn('Could not reconcile review tokens:', error.message); }
       }
@@ -217,7 +223,7 @@ export function createShortNotesHandler({ questions, readDatabase, writeDatabase
         // remove files confirmed unreferenced by the recovered database state.
         try {
           const recovered = readDatabase();
-          await Promise.allSettled(savedPages.filter(page => !ownsTheoryAnswerImage(recovered, user.id, page.imagePath)).map(page => removeAnswerImage(page.imagePath)));
+          if (!reviewStore || !(await reviewStore.hasReview(user.id, reviewId))) await Promise.allSettled(savedPages.filter(page => !ownsTheoryAnswerImage(recovered, user.id, page.imagePath)).map(page => removeAnswerImage(page.imagePath)));
         } catch { /* Keep files if storage cannot confirm whether they committed. */ }
       }
       pending.delete(user.id);

@@ -1,3 +1,5 @@
+import { encodeTheoryPage, imageBytes } from "../lib/theoryImages";
+import { createNotepadSync } from "../lib/notepadSync";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, Check, Eraser, Hand, Minus, Plus, NotebookPen, PenLine, Redo2, RotateCcw, Undo2, X } from "lucide-react";
@@ -86,13 +88,15 @@ export default function AnswerNotepad({ draftId, prompt, disabled, onSave, hasIm
         <span className="min-w-0 flex-1"><strong className="block text-sm">Notepad</strong><span className="mt-1 block text-xs">{hasDraft ? `Continue your ${savedPages.length} saved ${savedPages.length === 1 ? "page" : "pages"}` : "Write on your iPad or tablet"}</span></span><ArrowRight size={16} className="shrink-0" />
       </button>
     </Dialog.Trigger>
-    {open && <NotepadSheet key={draftId} storageKey={`medicomm-notepad:${draftId}`} prompt={prompt} hasImage={hasImage}
+    {open && <NotepadSheet key={draftId} storageKey={`medicomm-notepad:${draftId}`} cloudId={draftId.includes(":guest:") ? null : draftId} prompt={prompt} hasImage={hasImage}
       onSave={onSave ? image => { onSave(image); changeOpen(false); } : undefined} />}
   </Dialog.Root>;
 }
 
-function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
+function NotepadSheet({ storageKey, cloudId, prompt, onSave, hasImage }) {
   const [draft, setDraft] = useState(() => readDraft(storageKey));
+  const syncRef = useRef(null);
+  const [syncStatus, setSyncStatus] = useState(cloudId ? "Loading cloud draft..." : "Saved on this device");
   const [redo, setRedo] = useState([]);
   const [tool, setTool] = useState("pen");
   const [color, setColor] = useState(inks[0][1]);
@@ -123,6 +127,16 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
   const previousPageRef = useRef(draft.pageIndex);
   const flushRef = useRef(null);
   const draftRef = useRef(draft);
+  useEffect(() => {
+    if (!cloudId) return;
+    const sync = createNotepadSync({ key: storageKey, id: cloudId, read: () => draftRef.current, isEditing: () => Boolean(activeStroke.current),
+      apply: value => {
+        draftRef.current = value; setDraft(value); setRedo([]);
+        try { localStorage.setItem(storageKey, JSON.stringify(value)); setStorageError(false); } catch { setStorageError(true); }
+      }, status: value => { setSyncStatus(value); if (value.startsWith("Conflict:")) setToolsOpen(true); } });
+    syncRef.current = sync;
+    return () => { finish(); sync.close(); syncRef.current = null; };
+  }, [storageKey, cloudId]);
   const currentPage = draft.pages[draft.pageIndex];
   const pageRef = () => draftRef.current.pages[draftRef.current.pageIndex];
   flushRef.current = () => finish();
@@ -155,6 +169,7 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
   function persist(next) {
     draftRef.current = next;
     setDraft(next);
+    syncRef.current?.changed();
     try { localStorage.setItem(storageKey, JSON.stringify({ version: 2, ...next })); setStorageError(false); }
     catch { setStorageError(true); }
   }
@@ -276,6 +291,7 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
     committedCanvasRef.current = base;
     const stroke = { tool: selectedTool, style: penStyle, smooth: true, color, size: selectedTool === "eraser" ? eraserSize : size, points: [point(event)] };
     activeStroke.current = { pointerId: event.pointerId, pointerType: event.pointerType, stroke };
+    syncRef.current?.changed();
     paintActive();
     setMessage(""); setConfirmClear(false);
   }
@@ -395,12 +411,6 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
         if (hasInk) break;
       }
       if (!hasInk) { setMessage("Write your answer on the sheet before saving."); return; }
-      const columns = pages.length > 1 ? 2 : 1;
-      const labelHeight = pages.length > 1 ? 32 : 0;
-      const output = document.createElement("canvas");
-      output.width = WIDTH * columns; output.height = (HEIGHT + labelHeight) * Math.ceil(pages.length / columns);
-      const context = output.getContext("2d");
-      context.fillStyle = "#ffffff"; context.fillRect(0, 0, output.width, output.height);
       const answerPages = [];
       const pageImage = document.createElement("canvas"); pageImage.width = WIDTH; pageImage.height = HEIGHT;
       const pageContext = pageImage.getContext("2d");
@@ -408,17 +418,13 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
         redraw(scratch, page.strokes);
         pageContext.fillStyle = "#ffffff"; pageContext.fillRect(0, 0, WIDTH, HEIGHT);
         pageContext.drawImage(scratch, 0, 0);
-        answerPages.push({ dataUrl: pageImage.toDataURL("image/png"), name: `Notepad page ${index + 1}`, source: "notepad" });
-        const x = (index % columns) * WIDTH; const y = Math.floor(index / columns) * (HEIGHT + labelHeight);
-        if (labelHeight) { context.fillStyle = "#555555"; context.font = "20px sans-serif"; context.fillText(`Page ${index + 1}`, x + 16, y + 24); }
-        context.drawImage(scratch, x, y + labelHeight);
+        const encoded = encodeTheoryPage(pageImage);
+        answerPages.push({ ...encoded, name: `Notepad page ${index + 1}.${encoded.extension}`, source: "notepad" });
       });
-      const dataUrl = output.toDataURL("image/png");
-      if (!dataUrl.startsWith("data:image/png") || (dataUrl.length - dataUrl.indexOf(",") - 1) * 0.75 > 5 * 1024 * 1024
-        || answerPages.reduce((bytes, page) => bytes + page.dataUrl.split(",")[1].length * .75, 0) > 5 * 1024 * 1024) {
+      if (answerPages.reduce((bytes, page) => bytes + imageBytes(page.dataUrl), 0) > 5 * 1024 * 1024) {
         setMessage("These pages are too large to attach. Your draft is saved; reduce the amount of ink and try again."); return;
       }
-      onSave({ dataUrl, name: "Notepad answer.png", width: output.width, height: output.height, pages: answerPages });
+      onSave({ ...answerPages[0], pages: answerPages });
     } catch { setMessage("Your answer could not be attached. Your pages are still saved here. Please try again."); }
   }
 
@@ -441,6 +447,12 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
         <Dialog.Close asChild><button id="an-close" type="button" className="an-tool shrink-0" aria-label="Close notepad" onClick={() => finish()}><X size={20} /></button></Dialog.Close>
       </header>
       <aside id="an-controls" className={`an-controls${toolsOpen ? " an-controls-open" : ""}`} aria-label="Notepad controls">
+      <div className="px-4 py-2 text-xs" role="status">{syncStatus}
+        {syncStatus.startsWith("Conflict:") && <span className="ml-3 inline-flex gap-3">
+          <button type="button" onClick={() => syncRef.current?.resolve(false)}>Use cloud draft</button>
+          <button type="button" onClick={() => syncRef.current?.resolve(true)}>Keep local draft</button>
+        </span>}
+      </div>
       <div className="an-toolbar flex flex-wrap items-center gap-2 border-b px-4 py-3 sm:px-7" aria-label="Writing tools">
         <div className="an-tool-group flex gap-1 rounded-xl p-1">
           <button type="button" className="an-tool" aria-label="Pen" aria-pressed={tool === "pen"} onPointerDown={event => { if (event.button === 0) chooseTool("pen"); }} onClick={() => chooseTool("pen")}><PenLine size={19} /><span className="hidden sm:inline">Pen</span></button>
@@ -485,7 +497,7 @@ function NotepadSheet({ storageKey, prompt, onSave, hasImage }) {
         </div>
       </div>
       <footer className="an-footer">
-        <div className="flex flex-wrap items-center justify-between gap-3"><div className="an-page-navigation"><button className="an-tool" type="button" aria-label="Previous page" disabled={draft.pageIndex === 0} onClick={() => changePage(draft.pageIndex - 1)}>&lsaquo;</button><span>{draft.pageIndex + 1}/{draft.pages.length}</span><button className="an-tool" type="button" aria-label="Next page" disabled={draft.pageIndex === draft.pages.length - 1} onClick={() => changePage(draft.pageIndex + 1)}>&rsaquo;</button><button className="an-tool" type="button" aria-label="Add page" disabled={draft.pages.length >= MAX_PAGES} onClick={() => changePage(draft.pages.length, true)}><Plus size={16} /><span className="hidden sm:inline">Page</span></button></div><div className="an-draft-status text-xs"><p className="flex items-center gap-1.5" role="status">{!storageError && <Check size={14} className="an-accent" />}{storageError ? "Draft could not save on this device. Keep this sheet open." : "Draft kept on this device"}</p><p className="sr-only">{hasImage ? "Saving replaces the currently attached image." : "Save, then submit your answer for AI review."}</p></div>
+        <div className="flex flex-wrap items-center justify-between gap-3"><div className="an-page-navigation"><button className="an-tool" type="button" aria-label="Previous page" disabled={draft.pageIndex === 0} onClick={() => changePage(draft.pageIndex - 1)}>&lsaquo;</button><span>{draft.pageIndex + 1}/{draft.pages.length}</span><button className="an-tool" type="button" aria-label="Next page" disabled={draft.pageIndex === draft.pages.length - 1} onClick={() => changePage(draft.pageIndex + 1)}>&rsaquo;</button><button className="an-tool" type="button" aria-label="Add page" disabled={draft.pages.length >= MAX_PAGES} onClick={() => changePage(draft.pages.length, true)}><Plus size={16} /><span className="hidden sm:inline">Page</span></button></div><div className="an-draft-status text-xs"><p className="flex items-center gap-1.5" role="status">{!storageError && <Check size={14} className="an-accent" />}{storageError ? "Draft could not save on this device. Keep this sheet open." : syncStatus}</p><p className="sr-only">{hasImage ? "Saving replaces the currently attached image." : "Save, then submit your answer for AI review."}</p></div>
           {onSave ? <button type="button" className="an-save flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold" onClick={save}>Save answer <ArrowRight size={16} /></button> : <Dialog.Close asChild><button type="button" className="an-save an-tool" onClick={() => finish()}>Done</button></Dialog.Close>}</div>
         {message && <p className="an-save-error text-sm text-red-600" role="alert">{message}</p>}
       </footer>
