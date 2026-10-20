@@ -38,7 +38,7 @@ export default function RazorpayCheckout({ plan, user, guest, onVerified }) {
       const result = await apiRequest('/api/payment-quote', { method: 'POST', body: JSON.stringify({ planId: plan.id, coupon }) });
       if (request === quoteRequest.current) {
         setQuote(result); setCoupon(result.coupon);
-        const total = new Intl.NumberFormat('en-IN', { style: 'currency', currency: result.currency, maximumFractionDigits: 0 }).format(result.amount / 100);
+        const total = new Intl.NumberFormat('en-IN', { style: 'currency', currency: result.currency, maximumFractionDigits: 2 }).format(result.amount / 100);
         setCouponMessage(`Coupon applied. Your total is now ${total}.`);
       }
     } catch (error) { if (request === quoteRequest.current) setCouponMessage(error.message); }
@@ -99,7 +99,7 @@ export default function RazorpayCheckout({ plan, user, guest, onVerified }) {
     </form>
     {quote && <div><span>Plan price</span><del>₹{plan.amount / 100}</del></div>}
     {quote && <div className="checkout-savings"><span>{quote.coupon} savings</span><strong>−₹{(plan.amount - amount) / 100}</strong></div>}
-    <div className="checkout-total"><span>Total payable</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: plan.currency, maximumFractionDigits: 0 }).format(amount / 100)}</strong></div>
+    <div className="checkout-total"><span>Total payable</span><strong>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: plan.currency, maximumFractionDigits: 2 }).format(amount / 100)}</strong></div>
     <button className="button button-primary" disabled={busy || couponBusy || guest || Boolean(pending) || user?.hasPracticeAccess} onClick={pay}>{user?.hasPracticeAccess ? 'Practice unlocked ✓' : busy ? 'Processing…' : 'Pay securely with Razorpay'}</button>
     {pending && <button className="button button-secondary" disabled={busy} onClick={() => void verify(pending)}>Check payment status</button>}
     {guest && <small>Sign in to make a payment and save it to your account.</small>}

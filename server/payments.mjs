@@ -13,8 +13,11 @@ export function paymentQuote(payload) {
   const plan = PAYMENT_PLANS.find(item => item.id === payload.planId);
   if (!plan) throw new HttpError(400, 'Choose a valid plan.');
   const coupon = String(payload.coupon ?? '').trim().toUpperCase();
-  if (coupon && coupon !== 'TEST1') throw new HttpError(400, 'That coupon code is not valid.');
-  return { planId: plan.id, originalAmount: plan.amount, amount: coupon ? plan.discountedAmount : plan.amount, currency: plan.currency, coupon };
+  const discountPercent = new Map([['FIRST50', 35], ['LAUNCH25', 25]]).get(coupon);
+  if (coupon && coupon !== 'TEST1' && discountPercent === undefined) throw new HttpError(400, 'That coupon code is not valid.');
+  const amount = coupon === 'TEST1' ? plan.discountedAmount
+    : discountPercent === undefined ? plan.amount : Math.round(plan.amount * (100 - discountPercent) / 100);
+  return { planId: plan.id, originalAmount: plan.amount, amount, currency: plan.currency, coupon };
 }
 
 export function validPaymentSignature(orderId, paymentId, signature, secret) {

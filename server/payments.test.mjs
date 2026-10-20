@@ -43,6 +43,32 @@ function fixture() {
 const order = { planId: 'lite', amount: 79900, currency: 'INR' };
 const rejects = (promise, status) => assert.rejects(promise, error => error.status === status);
 
+test('launch coupons charge the correct discounted amount for every plan and reject tampering', async () => {
+  for (const [coupon, prices] of [['FIRST50', [51935, 77935, 103935]], ['LAUNCH25', [59925, 89925, 119925]]]) {
+    for (const [index, planId] of ['lite', 'ultra', 'premium'].entries()) {
+      const f = fixture();
+      const originalAmount = paymentQuote({ planId }).amount;
+      const amount = prices[index];
+      const quote = await f.call('/api/payment-quote', { planId, coupon: ` ${coupon.toLowerCase()} ` });
+      assert.deepEqual(quote.body, { planId, originalAmount, amount, currency: 'INR', coupon });
+      const payload = { planId, coupon, amount, currency: 'INR' };
+      await rejects(f.call('/api/create-order', { ...payload, amount: 100 }), 400);
+      await rejects(f.call('/api/create-order', { ...payload, amount: originalAmount }), 400);
+      await rejects(f.call('/api/create-order', { ...payload, coupon: '' }), 400);
+      await rejects(f.call('/api/create-order', { ...payload, coupon: 'FIRST50,LAUNCH25' }), 400);
+      assert.equal(f.creates(), 0);
+      assert.equal((await f.call('/api/create-order', payload)).body.amount, amount);
+      assert.equal(f.gatewayOrder().amount, amount);
+      assert.equal(f.state().paymentOrders[0].coupon, coupon);
+      assert.equal(f.state().paymentOrders[0].originalAmount, originalAmount);
+      f.amount(originalAmount);
+      await rejects(f.call('/api/verify-payment', f.signed()), 400);
+      f.amount(amount);
+      assert.equal((await f.call('/api/verify-payment', f.signed())).body.hasPracticeAccess, true);
+    }
+  }
+});
+
 test('orders validate server prices, minimum, authentication and provider errors', async () => {
   const f = fixture();
   for (const amount of [99, 100.5, '79900', 100, -1]) await rejects(f.call('/api/create-order', { ...order, amount }), 400);

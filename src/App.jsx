@@ -5110,7 +5110,7 @@ async function fetchPracticeLibrary() {
 
   function renderPricing() {
     const planFeatures = (tokens, theory, usmle) => [
-      { label: `${tokens} Tokens`, included: true },
+      { label: `${tokens} tokens per day`, included: true },
       { label: "Community Access", included: true },
       { label: "Personal Inbox Access", included: true },
       { label: "NEET PG Questions", included: true },
