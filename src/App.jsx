@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { AppShell } from "./components/AppShellV2";
 import WebsiteReviews from "./components/WebsiteReviews";
 import CompeteArena from "./components/CompeteArena";
+import FriendDuelSetup from "./components/FriendDuelSetup";
 import Leaderboard from "./components/Leaderboard";
 import CommunityHub from "./components/CommunityHub";
 import CommunityThreads from "./components/CommunityThreads";
@@ -668,6 +669,7 @@ function App() {
   const [duelMessage, setDuelMessage] = useState("");
   const [duelForfeited, setDuelForfeited] = useState(false);
   const [activeChallenge, setActiveChallenge] = useState(null); // { id, opponent, role: 'host' | 'guest' }
+  const [friendDuelTarget, setFriendDuelTarget] = useState(null);
   const [selectedLeaderboardState, setSelectedLeaderboardState] = useState("");
   const [selectedLeaderboardCollege, setSelectedLeaderboardCollege] = useState("");
   const [authStatus, setAuthStatus] = useState("loading");
@@ -2363,14 +2365,14 @@ async function fetchPracticeLibrary() {
     }
   }
 
-  async function handleDirectChallenge() {
-    if (!selectedDirectConversation?.otherParticipant) return;
-    const opponentProfile = selectedDirectConversation.otherParticipant;
+  async function handleDirectChallenge(settings) {
+    if (!friendDuelTarget) return;
+    const opponentProfile = friendDuelTarget;
 
     try {
       const data = await apiRequest("/api/duels/challenge/create", {
         method: "POST",
-        body: JSON.stringify({ opponentId: opponentProfile.id }),
+        body: JSON.stringify({ opponentId: opponentProfile.id, ...settings }),
       });
 
       if (data.conversation) {
@@ -2384,13 +2386,17 @@ async function fetchPracticeLibrary() {
       setActiveChallenge({
         id: data.challenge.id,
         opponent: data.challenge.opponent,
+        questionCount: data.challenge.questionCount,
+        subjectTitles: data.challenge.subjectTitles,
         role: "host",
       });
       setDuelOpponent(data.challenge.opponent);
       setDuelStatus("challenge_waiting");
       setDuelMessage("");
+      setFriendDuelTarget(null);
     } catch (error) {
       setDirectMessagesMessage(error instanceof Error ? error.message : "Could not create 1v1 challenge room.");
+      throw error;
     }
   }
 
@@ -4805,7 +4811,7 @@ async function fetchPracticeLibrary() {
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{selectedDirectConversation.otherParticipant?.rating ?? userRating} rating</span>
-                <button className={socialPrimary} onClick={handleDirectChallenge}>
+                <button className={socialPrimary} onClick={() => setFriendDuelTarget(selectedDirectConversation.otherParticipant)}>
                   Challenge to 1v1
                 </button>
               </div>
@@ -4937,6 +4943,8 @@ async function fetchPracticeLibrary() {
       submitted={duelSubmitted} answerBusy={duelAnswerBusy}
       result={duelResult} showReview={showDuelReview}
       challengeOpponent={activeChallenge?.opponent ?? duelOpponent}
+      challengeQuestionCount={activeChallenge?.questionCount ?? 5}
+      challengeSubjects={activeChallenge?.subjectTitles ?? ["All subjects"]}
       onCancelChallenge={cancelDuelChallenge}
       onStart={() => startDuel()} onBot={startBotDuel} onLeave={leaveDuelQueue}
       onPractice={() => setActiveView("Practice")}
@@ -5257,6 +5265,7 @@ async function fetchPracticeLibrary() {
       onDeclineNotification={handleDeclineNotification}
     >
       {renderView()}
+      {friendDuelTarget && <FriendDuelSetup key={friendDuelTarget.id} opponent={friendDuelTarget} onClose={() => setFriendDuelTarget(null)} onSend={handleDirectChallenge} />}
       <FeatureAccessDialog feature={lockedFeature} onClose={() => setLockedFeature(null)} onPlans={() => { setLockedFeature(null); setActiveView("Pricing"); }} />
     </AppShell>
   );

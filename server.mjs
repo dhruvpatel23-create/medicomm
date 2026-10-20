@@ -11,6 +11,8 @@ import { createUploads } from './server/uploads.mjs';
 import { servePublicImage } from './server/publicImages.mjs';
 import { getDuelImageUrls } from './src/lib/duelImages.js';
 import { isDuelQuestionEligible } from './server/duelEligibility.mjs';
+import { FRIEND_DUEL_COUNTS, duelSubjectCatalog, validateFriendDuelSettings } from './server/friendDuelSettings.mjs';
+import { shuffleQuestionOptions } from './src/lib/shuffleQuestionOptions.js';
 import { deploymentConfig } from './server/config.mjs';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { promises as fs } from "node:fs";
@@ -638,7 +640,7 @@ function getDuelQuestionPool() {
   // Validate the raw key before normalization can overwrite conflicting answer text.
   const candidates = (bank.subjects ?? []).flatMap(subject => (subject.questions ?? [])
     .filter(q => isDuelQuestionEligible(q, subject, allowedSubjectIds, finalYearSubjectIds))
-    .map(q => ({ ...q, subjectTitle: subject.title, answerIndex: Number.isInteger(q.answerIndex) ? q.answerIndex : q.options?.indexOf(q.answer) }))
+    .map(q => ({ ...q, subjectId: subject.id, subjectTitle: subject.title, answerIndex: Number.isInteger(q.answerIndex) ? q.answerIndex : q.options?.indexOf(q.answer) }))
     .filter(validDuelQuestion).map(sanitizeDuelQuestion));
   const counts = new Map();
   for (const q of candidates) counts.set(q.id, (counts.get(q.id) ?? 0) + 1);
@@ -649,12 +651,13 @@ function getDuelQuestionPool() {
   return duelPoolCache;
 }
 
-function pickDuelQuestions(count = DUEL_QUESTION_COUNT) {
-  const pool = getDuelQuestionPool();
-  const targetCount = Math.min(Math.max(1, count), DUEL_QUESTION_COUNT, pool.length);
+function pickDuelQuestions(count = DUEL_QUESTION_COUNT, subjectIds = null) {
+  const pool = getDuelQuestionPool().filter(q => subjectIds === null || subjectIds.includes(q.subjectId));
+  if (!FRIEND_DUEL_COUNTS.includes(count) || pool.length < count) throw new Error("Not enough eligible questions for this duel.");
+  const targetCount = count;
   const indexes = new Set();
   while (indexes.size < targetCount) indexes.add(randomBytes(4).readUInt32BE(0) % pool.length);
-  return [...indexes].map(index => pool[index]);
+  return [...indexes].map(index => shuffleQuestionOptions(pool[index]));
 }
 
 function getValidSubjectIds(library) {
@@ -3350,6 +3353,11 @@ async function handleLeaveRatedDuelQueue(request, response) {
 }
 
 
+function handleDuelChallengeOptions(request, response) {
+  if (!requireSessionUser(request, response, readDatabase())) return;
+  return sendJson(response, 200, { questionCounts: FRIEND_DUEL_COUNTS, subjects: duelSubjectCatalog(getDuelQuestionPool()) });
+}
+
 async function handleCreateDuelChallenge(request, response) {
   const payload = await parseRequestBody(request);
   const database = readDatabase();
@@ -3365,6 +3373,12 @@ async function handleCreateDuelChallenge(request, response) {
   if (!opponent) {
     return sendJson(response, 404, { message: "Opponent not found." });
   }
+
+  let settings;
+  try { settings = validateFriendDuelSettings(payload, getDuelQuestionPool()); }
+  catch (error) { return sendJson(response, 400, { message: error.message }); }
+  const subjectTitles = settings.subjectIds === null ? ['All subjects']
+    : duelSubjectCatalog(getDuelQuestionPool()).filter(subject => settings.subjectIds.includes(subject.id)).map(subject => subject.title);
 
   if (!Array.isArray(database.challengeRooms)) database.challengeRooms = [];
 
@@ -3382,6 +3396,8 @@ async function handleCreateDuelChallenge(request, response) {
     id: challengeId,
     challengerId: currentUser.id,
     challengedId: opponent.id,
+    ...settings,
+    subjectTitles,
     status: "waiting",
     duelId: null,
     createdAt: new Date().toISOString(),
@@ -3398,7 +3414,7 @@ async function handleCreateDuelChallenge(request, response) {
     id: randomBytes(8).toString("hex"),
     userId: currentUser.id,
     userName: currentUser.name,
-    text: "I have challenged you to a 1v1 duel. Prove your rank.",
+    text: `1v1 challenge: ${settings.questionCount} questions · ${subjectTitles.join(', ')}.`,
     type: "challenge",
     challengeId: room.id,
     createdAt,
@@ -3415,6 +3431,8 @@ async function handleCreateDuelChallenge(request, response) {
     challenge: {
       id: room.id,
       status: room.status,
+      questionCount: room.questionCount,
+      subjectTitles: room.subjectTitles,
       opponent: sanitizeDuelOpponent(opponent, currentUser.id),
     },
     conversation: conversation ? sanitizeDirectConversation(conversation, database.users, currentUser.id) : null,
@@ -3443,6 +3461,8 @@ async function handleGetDuelChallengeStatus(request, response, url) {
     id: room.id,
     status: room.status,
     duelId: room.duelId,
+    questionCount: room.questionCount ?? 5,
+    subjectTitles: room.subjectTitles ?? ['All subjects'],
     opponent: opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : null,
   });
 }
@@ -3488,10 +3508,13 @@ async function handleAcceptDuelChallenge(request, response) {
   }
 
   const duelId = "challenge-" + randomBytes(10).toString("hex");
+  let settings;
+  try { settings = validateFriendDuelSettings(room, getDuelQuestionPool()); }
+  catch (error) { return sendJson(response, 400, { message: error.message }); }
   const duel = createMatch(
     duelId,
     [room.challengerId, currentUser.id],
-    pickDuelQuestions(),
+    pickDuelQuestions(settings.questionCount, settings.subjectIds),
     { [room.challengerId]: challenger.rating ?? DEFAULT_USER_RATING, [currentUser.id]: currentUser.rating ?? DEFAULT_USER_RATING },
     Date.now(),
     "challenge"
@@ -3796,13 +3819,6 @@ async function handleJoinCommunity(request, response, communityId) {
   const community = database.communities[communityIndex];
   if (!community.memberIds.includes(currentUser.id)) {
     community.memberIds.push(currentUser.id);
-    community.messages.push({
-      id: randomBytes(8).toString("hex"),
-      userId: null,
-      userName: "Medulla Bot",
-      text: `${currentUser.name} joined the community.`,
-      createdAt: new Date().toISOString(),
-    });
     database.communities[communityIndex] = community;
     await writeDatabase(database);
   }
@@ -4035,6 +4051,7 @@ async function handleRequest(request, response) {
     if (request.method === "POST" && url.pathname === "/api/duels/answer") return await handleDuelAction(request, response, url, "answer");
     if (request.method === "GET" && url.pathname === "/api/duels/status") return await handleDuelAction(request, response, url, "status");
     if (request.method === "POST" && url.pathname === "/api/duels/complete") return await handleDuelAction(request, response, url, "complete");
+    if (request.method === "GET" && url.pathname === "/api/duels/challenge/options") return handleDuelChallengeOptions(request, response);
     if (request.method === "POST" && url.pathname === "/api/duels/challenge/create") return await handleCreateDuelChallenge(request, response);
     if (request.method === "GET" && url.pathname === "/api/duels/challenge/status") return await handleGetDuelChallengeStatus(request, response, url);
     if (request.method === "POST" && url.pathname === "/api/duels/challenge/accept") return await handleAcceptDuelChallenge(request, response);
