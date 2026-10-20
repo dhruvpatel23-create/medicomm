@@ -1,3 +1,4 @@
+import EmailVerification from "./components/EmailVerification";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AppShell } from "./components/AppShellV2";
@@ -669,6 +670,7 @@ function App() {
   const [authStatus, setAuthStatus] = useState("loading");
   const [authMode, setAuthMode] = useState("login");
   const [authBusy, setAuthBusy] = useState(false);
+  const [emailChallenge, setEmailChallenge] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [user, setUser] = useState(null);
@@ -2821,6 +2823,27 @@ async function fetchPracticeLibrary() {
     } finally { setProfilePhotoPreparing(false); }
   }
 
+  async function finishAuthentication(data) {
+    setEmailChallenge(null);
+    localStorage.setItem(SESSION_TOKEN_KEY, "true");
+    const mergedUser = mergeUserPerformance(data.user);
+    setUser(mergedUser);
+    setUserRating(mergedUser.rating ?? 1480);
+    setProfileState(createProfileState(mergedUser));
+    setAuthStatus("authenticated");
+    setActiveView("Dashboard");
+    await fetchLeaderboard();
+    setAuthForm({
+      name: "",
+      email: "",
+      medicalState: "",
+      medicalCountry: "",
+      medicalCollege: "",
+      contactNumber: "",
+      password: "",
+    });
+  }
+
   async function handleAuthSubmit(event) {
     event.preventDefault();
     setAuthBusy(true);
@@ -2846,23 +2869,12 @@ async function fetchPracticeLibrary() {
         timeoutMs: 20000,
       });
 
-      localStorage.setItem(SESSION_TOKEN_KEY, "true");
-      const mergedUser = mergeUserPerformance(data.user);
-      setUser(mergedUser);
-      setUserRating(mergedUser.rating ?? 1480);
-      setProfileState(createProfileState(mergedUser));
-      setAuthStatus("authenticated");
-      setActiveView("Dashboard");
-      await fetchLeaderboard();
-      setAuthForm({
-        name: "",
-        email: "",
-        medicalState: "",
-        medicalCountry: "",
-        medicalCollege: "",
-        contactNumber: "",
-        password: "",
-      });
+      if (data.verificationRequired) {
+        setEmailChallenge(data);
+        setAuthForm(current => ({ ...current, password: "" }));
+        return;
+      }
+      await finishAuthentication(data);
     } catch (error) {
       setAuthMessage(error instanceof Error ? error.message : "Authentication failed.");
     } finally {
@@ -2974,10 +2986,10 @@ async function fetchPracticeLibrary() {
         <section className="card auth-card">
           <div className="auth-card-heading">
             <p className="eyebrow">Welcome to Medulla</p>
-            <h2>{isSignup ? "Create your study account" : "Continue your learning"}</h2>
+            <h2>{emailChallenge ? "Verify your email" : isSignup ? "Create your study account" : "Continue your learning"}</h2>
             <p>{isSignup ? "Set up your profile in under a minute." : "Sign in to sync progress across devices."}</p>
           </div>
-          <div className="auth-tabs" role="tablist" aria-label="Authentication mode">
+          {!emailChallenge && <div className="auth-tabs" role="tablist" aria-label="Authentication mode">
             <button
               className={`auth-tab${authMode === "login" ? " auth-tab-active" : ""}`}
               type="button"
@@ -3002,9 +3014,10 @@ async function fetchPracticeLibrary() {
             >
               Sign up
             </button>
-          </div>
+          </div>}
 
-          <form key={authMode} className="auth-form" onSubmit={handleAuthSubmit} autoComplete="off">
+          {emailChallenge ? <EmailVerification key={emailChallenge.challengeId} challenge={emailChallenge} onVerified={finishAuthentication}
+            onCancel={() => { setEmailChallenge(null); setAuthMessage(""); }} /> : <form key={authMode} className="auth-form" onSubmit={handleAuthSubmit} autoComplete="off">
             {isSignup ? (
               <>
                 <label className="field">
@@ -3111,12 +3124,12 @@ async function fetchPracticeLibrary() {
             <button className="button button-primary auth-submit" type="submit" disabled={authBusy}>
               {authBusy ? "Please wait..." : isSignup ? "Create account" : "Login"}
             </button>
-          </form>
-          <div className="auth-divider"><span>or</span></div>
+          </form>}
+          {!emailChallenge && <><div className="auth-divider"><span>or</span></div>
           <button className="button button-secondary guest-button" type="button" onClick={handleGuestLogin}>
             Explore as guest
           </button>
-          <p className="auth-fine-print">Guest progress stays on this device. Create an account anytime to sync it.</p>
+          <p className="auth-fine-print">Guest progress stays on this device. Create an account anytime to sync it.</p></>}
         </section>
       </div>
     );

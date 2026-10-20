@@ -36,3 +36,7 @@ The server stores the app database in Supabase when these environment variables 
 Run `scripts/supabase-schema.sql` in the Supabase SQL editor first. On first startup, the server seeds Supabase from `runtime-data/users.json` if the `app_state` row does not exist. A local JSON copy is still written as a backup/fallback.
 
 For readable owner reports, also run `supabase/migrations/20260915000100_add_owner_views.sql`. It adds `medicomm_reviews` (names, ratings, comments, dates) and `medicomm_overview` (saved activity counts). Run `npm run check:supabase` to verify credentials, the saved state, and these reports without changing data. See [the owner guide](docs/supabase-owner-guide.md) for setup and queries.
+
+## Email verification and subscription messages
+
+See [email setup and deployment](docs/email-setup.md) to configure Resend, enable one-time email OTP verification, and receive signed Razorpay payment notifications. Thank-you messages are queued after confirmed payment and retried independently of subscription activation. Email is disabled until configured; no live email credentials are included in the repository.

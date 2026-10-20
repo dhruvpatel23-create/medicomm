@@ -1,3 +1,5 @@
+import { createMailer, createEmailWorker, queueThankYou } from './server/email.mjs';
+import { createEmailVerification } from './server/emailVerification.mjs';
 import { createNotepadStore, createDraftHandler } from './server/notepadStore.mjs';
 import { createMatch, validDuelQuestion, lockAnswer, settleMatch, matchProgress } from "./server/duels.mjs";
 import { createServer } from "node:http";
@@ -198,6 +200,8 @@ function normalizeDatabase(parsed = {}) {
   return {
     users,
     sessions: parsed.sessions ?? {},
+    emailChallenges: Array.isArray(parsed.emailChallenges) ? parsed.emailChallenges : [],
+    emailVerificationLimits: parsed.emailVerificationLimits ?? {},
     communities,
     directConversations: Array.isArray(parsed.directConversations) ? parsed.directConversations : [],
     duelQueue: Array.isArray(parsed.duelQueue) ? parsed.duelQueue : [],
@@ -328,7 +332,21 @@ function writeDatabase(data) { reconcileSubscriptions(data); return stateStore.w
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
 const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess, parseRequestBody, sendJson });
-const handlePayment = createPaymentHandler({ readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson });
+const mailer = createMailer();
+const emailVerification = createEmailVerification({ readDatabase, writeDatabase, mailer,
+  validateNewUser(db, user) {
+    requireAvailableUsername(db.users, user.username);
+    if (db.users.some(entry => entry.email.toLowerCase() === user.email || normalizeContactNumber(entry.contactNumber) === user.contactNumber)) {
+      throw new HttpError(409, 'This email or mobile number already has an account. Please sign in.');
+    }
+  },
+});
+const drainEmails = createEmailWorker({ mailer, readDatabase, writeDatabase });
+const handlePayment = createPaymentHandler({ readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson,
+  requireVerifiedEmail: emailVerification.enabled,
+  enqueueThankYou: (order, user) => queueThankYou(order, user, mailer),
+  afterPayment: () => { void drainEmails(); },
+});
 
 function normalizeContactNumber(value) {
   return String(value ?? "").replace(/\D/g, "");
@@ -2519,6 +2537,11 @@ async function handleSignup(request, response) {
     createdAt: new Date().toISOString(),
   };
 
+  if (emailVerification.enabled) {
+    const challenge = await emailVerification.start({ user, signup: true });
+    return sendJson(response, 202, challenge);
+  }
+
   database.users.push(user);
   const token = issueSession(database, user.id);
   try {
@@ -2551,6 +2574,10 @@ async function handleLogin(request, response) {
   if (!user) await verifyPassword(password, "missing-user", "00".repeat(64), PASSWORD_HASH_ITERATIONS);
   if (!user || !await verifyPassword(password, user.passwordSalt, user.passwordHash, passwordIterations)) {
     return sendJson(response, 401, { message: "Invalid email or password." });
+  }
+
+  if (emailVerification.enabled && !user.emailVerifiedAt) {
+    return sendJson(response, 202, await emailVerification.start({ user }));
   }
 
   if (passwordIterations < PASSWORD_HASH_ITERATIONS) {
@@ -3898,6 +3925,10 @@ async function handleRequest(request, response) {
     const url = new URL(request.url, 'http://localhost');
     if (url.pathname === '/health/live') return sendJson(response, stopping ? 503 : 200, { status: stopping ? 'stopping' : 'alive' });
     if (url.pathname === '/health/ready') return await handleStorageStatus(response);
+    if (url.pathname === '/api/payments/webhook' && request.method === 'POST') {
+      limitRequest(`webhook:${request.socket.remoteAddress}`, 300, 60000);
+      return await handlePayment(request, response, url);
+    }
     checkOrigin(request, response, allowedOrigins);
     if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
     if (stopping) throw new HttpError(503, 'Server is restarting.');
@@ -3923,7 +3954,7 @@ async function handleRequest(request, response) {
         ? String(request.headers['x-forwarded-for'] || request.socket.remoteAddress).split(',').at(-1).trim()
         : request.socket.remoteAddress;
       limitRequest(`api:${peer}`, 600, 60000);
-      if (url.pathname === '/api/auth/login' || url.pathname === '/api/auth/signup') limitRequest(`auth:${peer}`, 20, 15 * 60000);
+      if (['/api/auth/login', '/api/auth/signup', '/api/auth/verify-email', '/api/auth/resend-email'].includes(url.pathname)) limitRequest(`auth:${peer}`, 20, 15 * 60000);
       const costly = request.method === 'POST' && /^\/api\/(?:generate-question|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname);
       if (costly) {
         const user = getSessionUser(request, readDatabase());
@@ -3966,6 +3997,15 @@ async function handleRequest(request, response) {
   }
 
     if (url.pathname === '/api/practice/fmge-tests' || url.pathname.startsWith('/api/practice/fmge-tests/')) return await handleFmgeTests(request, response, url);
+    if (request.method === 'POST' && url.pathname === '/api/auth/verify-email') {
+      const payload = await parseRequestBody(request);
+      const result = await emailVerification.verify(payload.challengeId, payload.code);
+      return sendJson(response, 200, { user: sanitizeUser(result.user) }, { 'Set-Cookie': sessionCookie(result.token, production) });
+    }
+    if (request.method === 'POST' && url.pathname === '/api/auth/resend-email') {
+      const payload = await parseRequestBody(request);
+      return sendJson(response, 200, await emailVerification.resend(payload.challengeId));
+    }
     if (request.method === "POST" && url.pathname === "/api/auth/signup") return await handleSignup(request, response);
     if (request.method === 'POST' && ['/api/payment-quote', '/api/create-order', '/api/verify-payment'].includes(url.pathname)) return await handlePayment(request, response, url);
     if (url.pathname === "/api/reviews") return await handleWebsiteReviews(request, response, url);
@@ -4081,6 +4121,9 @@ async function handleRequest(request, response) {
 }
 
 await initializeDatabaseStore();
+const emailTimer = mailer.configured ? setInterval(() => { void drainEmails(); }, 30000) : null;
+emailTimer?.unref();
+if (mailer.configured) void drainEmails();
 
 const server = createServer({ requestTimeout: 30000, headersTimeout: 15000, keepAliveTimeout: 5000, maxHeaderSize: 16384 }, handleRequest);
 server.maxRequestsPerSocket = 1000;
@@ -4090,6 +4133,7 @@ server.listen(port, host, () => {
 
 for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => {
   stopping = true;
+  if (emailTimer) clearInterval(emailTimer);
   const deadline = setTimeout(() => process.exit(1), 30000);
   deadline.unref();
   server.close(async () => { await stateStore.drain(); clearTimeout(deadline); process.exit(0); });

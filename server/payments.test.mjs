@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHmac } from 'node:crypto';
+import { Readable } from 'node:stream';
 import { createPaymentHandler, hasPracticeAccess, paymentQuote } from './payments.mjs';
 
 function fixture() {
@@ -11,9 +12,12 @@ function fixture() {
   let paymentAmount = 79900;
   let creates = 0;
   let gatewayOrder;
+  let queued = 0;
   const keySecret = 'isolated-test-secret';
   const handler = createPaymentHandler({
     keyId: 'rzp_test_fixture', keySecret,
+    webhookSecret: 'test-webhook-secret',
+    enqueueThankYou: order => { if (!order.thankYouEmail) { queued++; order.thankYouEmail = { status: 'pending' }; } },
     readDatabase: () => structuredClone(database), writeDatabase: async value => { database = structuredClone(value); },
     requireSessionUser: () => { if (!account) { const error = new Error('Sign in'); error.status = 401; throw error; } return { id: account }; },
     parseRequestBody: async request => request.body,
@@ -27,6 +31,13 @@ function fixture() {
     state: () => database, creates: () => creates, gatewayOrder: () => gatewayOrder,
     account: value => account = value, failure: value => failure = value,
     status: value => paymentStatus = value, amount: value => paymentAmount = value,
+    queued: () => queued,
+    webhook: (event, signature) => {
+      const raw = Buffer.from(JSON.stringify(event));
+      const request = Readable.from([raw]);
+      request.headers = { 'x-razorpay-signature': signature ?? createHmac('sha256', 'test-webhook-secret').update(raw).digest('hex') };
+      return handler(request, {}, { pathname: '/api/payments/webhook' });
+    },
   };
 }
 const order = { planId: 'lite', amount: 79900, currency: 'INR' };
@@ -46,6 +57,17 @@ test('orders validate server prices, minimum, authentication and provider errors
   assert.equal(result.body.key_id, 'rzp_test_fixture'); assert.equal(result.body.test_mode, true);
   assert.equal(JSON.stringify(result).includes('isolated-test-secret'), false);
   assert.equal(f.state().paymentOrders[0].status, 'created');
+});
+
+test('signed captured webhook confirms payment without a browser and repeated events do not requeue email', async () => {
+  const f = fixture(); await f.call('/api/create-order', order); f.account(null);
+  const event = { event: 'payment.captured', payload: { payment: { entity: { id: 'pay_test123', order_id: 'order_test123' } } } };
+  await rejects(f.webhook(event, '0'.repeat(64)), 400); assert.equal(f.queued(), 0);
+  f.amount(1); await rejects(f.webhook(event), 400); f.amount(79900);
+  assert.equal((await f.webhook(event)).status, 200);
+  assert.equal(f.state().paymentOrders[0].status, 'paid');
+  assert.equal((await f.webhook(event)).status, 200); assert.equal(f.queued(), 1);
+  f.account('one'); await f.call('/api/verify-payment', f.signed()); assert.equal(f.queued(), 1);
 });
 
 test('verification rejects missing, forged, foreign and mismatched payments without marking paid', async () => {
