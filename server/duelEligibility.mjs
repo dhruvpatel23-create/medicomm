@@ -1,8 +1,9 @@
-import { hasQuestionImage } from '../src/lib/practiceImageVisibility.js';
-
-// Final-year image questions remain excluded until their img1 rollout is ready.
-// General Surgery is the explicitly approved exception.
-export function isDuelImageEligible(question, subject, finalYearSubjectIds) {
+// Topic-wise questions from every subject are allowed. PYQs are restricted to
+// the first three academic years, including text-only and reviewed images.
+export function isDuelQuestionEligible(question, subject, allowedSubjectIds, finalYearSubjectIds) {
+  if (question.source === 'ai') return true;
+  if (question.source && question.source !== 'official') return false;
   const finalYear = subject.yearId === 'final-year' || finalYearSubjectIds.has(subject.id);
-  return !finalYear || subject.id === 'general-surgery' || !hasQuestionImage(question);
+  return !finalYear && (allowedSubjectIds.has(subject.id) ||
+    ['first-year', 'second-year', 'third-year'].includes(subject.yearId));
 }

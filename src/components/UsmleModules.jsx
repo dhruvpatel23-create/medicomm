@@ -1,6 +1,6 @@
 import { ArrowLeft, ArrowRight, BookOpen, Globe2, Layers3 } from "lucide-react";
 
-export default function UsmleModules({ onBack, modules = [], progress = {}, status, onRetry, onStart }) {
+export default function UsmleModules({ onBack, modules = [], progress = {}, status, onRetry, onStart, onUnlock }) {
   const totalQuestions = modules.reduce((total, module) => total + module.questions.length, 0);
   const loading = status === "idle" || status === "loading";
   const unavailable = status === "error" || (!loading && !modules.length);
@@ -14,6 +14,7 @@ export default function UsmleModules({ onBack, modules = [], progress = {}, stat
         <p className="usmle-modules-eyebrow">Your global pathway</p>
         <h2 id="usmle-modules-title">USMLE Step 1 <span>practice</span></h2>
         <p className="usmle-modules-intro">Build your foundation, one module at a time.</p>
+        {modules.some(module => module.locked) && <p className="usmle-modules-intro">Try Module 1 for free. Subscribe to Premium to unlock more modules.</p>}
         <div className="usmle-modules-summary"><span><Layers3 size={16} aria-hidden="true" />10 modules</span><span><BookOpen size={16} aria-hidden="true" />{loading ? "Loading questions…" : `${totalQuestions} questions`}</span></div>
       </header>
       <div className="usmle-modules-section-heading"><h3>Your modules</h3><p>Mixed concepts. Connected clinical reasoning.</p></div>
@@ -22,15 +23,17 @@ export default function UsmleModules({ onBack, modules = [], progress = {}, stat
         {Array.from({ length: 10 }, (_, index) => {
           const module = modules.find((entry) => entry.moduleNumber === index + 1);
           const count = module?.questions.length ?? 0;
-          const comingSoon = index >= 5 && count === 0;
+          const locked = module?.locked;
+          const comingSoon = !locked && index >= 5 && count === 0;
           const answered = module?.questions.filter((question) => progress[question.id]).length ?? 0;
           return (
           <article className="usmle-module-card" key={index} aria-labelledby={`usmle-module-${index + 1}`}>
-            <div className="usmle-module-topline"><span className="usmle-module-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><span className={`usmle-module-status${count ? " usmle-module-ready" : ""}`}>{comingSoon ? "Coming soon" : count ? "Ready to practice" : loading ? "Loading…" : unavailable ? "Unavailable" : "Coming soon"}</span></div>
+            <div className="usmle-module-topline"><span className="usmle-module-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><span className={`usmle-module-status${count ? " usmle-module-ready" : ""}`}>{locked ? "Premium" : comingSoon ? "Coming soon" : count ? "Ready to practice" : loading ? "Loading…" : unavailable ? "Unavailable" : "Coming soon"}</span></div>
             <h4 id={`usmle-module-${index + 1}`}>Module {index + 1}</h4>
             {count > 0 && <p className="usmle-module-description">An integrated mix across basic sciences and clinical systems.</p>}
-            <div className="usmle-module-footer"><span><BookOpen size={15} aria-hidden="true" />{comingSoon ? "Coming soon" : `${count} questions`}</span><span>{count ? `${answered} / ${count} answered` : comingSoon ? "Questions are being prepared" : "No questions yet"}</span></div>
-            {count > 0 && <button type="button" className="usmle-module-start" onClick={() => onStart(module.id)} aria-label={`${answered ? "Review" : "Start"} Module ${index + 1}`}>{answered ? "Review module" : "Start module"}<ArrowRight size={17} aria-hidden="true" /></button>}
+            <div className="usmle-module-footer"><span><BookOpen size={15} aria-hidden="true" />{comingSoon ? "Coming soon" : `${count} questions`}</span><span>{locked ? "Subscription required" : count ? `${answered} / ${count} answered` : comingSoon ? "Questions are being prepared" : "No questions yet"}</span></div>
+            {locked && <button type="button" className="usmle-module-start" onClick={onUnlock}>Unlock module<ArrowRight size={17} aria-hidden="true" /></button>}
+            {count > 0 && !locked && <button type="button" className="usmle-module-start" onClick={() => onStart(module.id)} aria-label={`${answered ? "Review" : "Start"} Module ${index + 1}`}>{answered ? "Review module" : "Start module"}<ArrowRight size={17} aria-hidden="true" /></button>}
           </article>
         );})}
       </div>

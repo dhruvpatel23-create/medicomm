@@ -10,7 +10,7 @@ import { createStateStore, validateSupabaseState } from './server/stateStore.mjs
 import { createUploads } from './server/uploads.mjs';
 import { servePublicImage } from './server/publicImages.mjs';
 import { getDuelImageUrls } from './src/lib/duelImages.js';
-import { isDuelImageEligible } from './server/duelEligibility.mjs';
+import { isDuelQuestionEligible } from './server/duelEligibility.mjs';
 import { deploymentConfig } from './server/config.mjs';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { promises as fs } from "node:fs";
@@ -30,7 +30,7 @@ import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextboo
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
 import { dashboardData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
 import { canAccessFeature, filterLibraryByPlan } from "./src/data/planAccess.js";
-import { requireFeature, routeFeature } from "./server/planAccess.mjs";
+import { requireFeature, routeFeature, isTrialPracticeRoute } from "./server/planAccess.mjs";
 import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
 import { reconcileSubscriptions, subscriptionDetails } from "./server/subscriptions.mjs";
 import { tokenStatus, requireTokens, chargeTokens, refundTokens, updateTokenState } from './server/tokens.mjs';
@@ -632,17 +632,19 @@ function getDuelQuestionPool() {
   const bank = readPracticeQuestionBank();
   if (bank === duelPoolBank) return duelPoolCache;
   const finalYearSubjectIds = new Set((bank.years ?? []).find(year => year.id === 'final-year')?.subjectIds ?? []);
+  const allowedSubjectIds = new Set((bank.years ?? [])
+    .filter(year => ['first-year', 'second-year', 'third-year'].includes(year.id))
+    .flatMap(year => year.subjectIds ?? []));
   // Validate the raw key before normalization can overwrite conflicting answer text.
   const candidates = (bank.subjects ?? []).flatMap(subject => (subject.questions ?? [])
-    .filter(q => q.source !== "ai" && q.source !== "usmle")
-    .filter(q => isDuelImageEligible(q, subject, finalYearSubjectIds))
+    .filter(q => isDuelQuestionEligible(q, subject, allowedSubjectIds, finalYearSubjectIds))
     .map(q => ({ ...q, subjectTitle: subject.title, answerIndex: Number.isInteger(q.answerIndex) ? q.answerIndex : q.options?.indexOf(q.answer) }))
     .filter(validDuelQuestion).map(sanitizeDuelQuestion));
   const counts = new Map();
   for (const q of candidates) counts.set(q.id, (counts.get(q.id) ?? 0) + 1);
   const unique = candidates.filter(q => counts.get(q.id) === 1);
-  duelPoolCache = unique.length >= DUEL_QUESTION_COUNT ? unique : DUEL_FALLBACK_QUESTIONS.map((q, i) =>
-    sanitizeDuelQuestion({ ...q, id: `clinical-fallback-${i + 1}`, source: "official", subjectTitle: "Clinical basics" }));
+  if (unique.length < DUEL_QUESTION_COUNT) throw new Error("Not enough eligible questions for 1v1.");
+  duelPoolCache = unique;
   duelPoolBank = bank;
   return duelPoolCache;
 }
@@ -2729,12 +2731,14 @@ async function handleDashboard(request, response, url) {
     await writeDatabase(database);
     return sendJson(response, 200, { goal: user.studyGoal });
   }
-  const library = buildPracticeLibrary(readPracticeQuestionBank(), database.questions ?? []);
-  requireFeature(database, user.id, payload.mode === 'usmle' ? 'usmle' : 'practice');
+  const library = filterLibraryByPlan(
+    buildPracticeLibrary(readPracticeQuestionBank(), database.questions ?? []),
+    subscriptionDetails(database, user.id),
+  );
   const subjects = payload.mode === 'pyq' ? library.subjects : payload.mode === 'ai' ? library.aiSubjects
     : payload.mode === 'fmge' ? library.fmgeSessions : payload.mode === 'usmle' ? [...(library.usmleSubjects ?? []), ...(library.usmleModules ?? [])] : [];
   const subject = subjects?.find(item => item.id === payload.subjectId);
-  const question = subject?.questions.find(item => item.id === payload.questionId);
+  const question = subject?.questions.find(item => item.id === payload.questionId && !item.locked);
   let result;
   try { result = recordPracticeAttempt(database, user.id, payload, subject, question); }
   catch (error) { return sendJson(response, 400, { message: error.message }); }
@@ -2772,7 +2776,10 @@ async function handleQuestionBookmarkUpdate(request, response) {
 
   if (shouldSave) {
     const rawLibrary = readPracticeQuestionBank();
-    const practiceLibrary = buildPracticeLibrary(rawLibrary, database.questions ?? []);
+    const practiceLibrary = filterLibraryByPlan(
+      buildPracticeLibrary(rawLibrary, database.questions ?? []),
+      subscriptionDetails(database, currentUser.id),
+    );
     const sourceSubjects = mode === "ai"
       ? practiceLibrary.aiSubjects ?? []
       : mode === "usmle"
@@ -2782,7 +2789,7 @@ async function handleQuestionBookmarkUpdate(request, response) {
         : practiceLibrary.subjects ?? [];
     const subject = sourceSubjects.find((entry) => entry.id === subjectId);
     const question = (subject?.questions ?? []).find((entry) => entry.id === questionId);
-    if (!subject || !question) {
+    if (!subject || !question || question.locked) {
       return sendJson(response, 404, { message: "That question is no longer available in the practice library." });
     }
 
@@ -3938,7 +3945,7 @@ async function handleRequest(request, response) {
       const database = readDatabase();
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Sign in to unlock Practice.');
-      if (!hasPracticeAccess(database, user.id)) throw new HttpError(403, 'Practice unlocks after a verified payment. Choose a plan to continue.');
+      if (!isTrialPracticeRoute(url.pathname, request.method) && !hasPracticeAccess(database, user.id)) throw new HttpError(403, 'Practice unlocks after a verified payment. Choose a plan to continue.');
     }
     const restrictedFeature = routeFeature(path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/')), request.method, url.searchParams);
     if (restrictedFeature) {

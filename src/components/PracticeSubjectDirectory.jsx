@@ -1,5 +1,5 @@
 import { useId, useState } from "react";
-import { ArrowLeft, ArrowRight, Search, X, Layers3, Microscope, Stethoscope, GraduationCap } from "lucide-react";
+import { ArrowLeft, ArrowRight, Search, X, Layers3, Microscope, Stethoscope, GraduationCap, LockKeyhole } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 const number = (value) => value.toLocaleString("en-IN");
@@ -10,7 +10,7 @@ const yearStyles = [
   { Icon: GraduationCap, icon: "bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300", line: "from-amber-500/70 via-orange-400/30 to-transparent", hover: "hover:border-amber-300 hover:shadow-amber-900/10 dark:hover:border-amber-500/50 dark:hover:shadow-amber-950/40" },
 ];
 
-export default function PracticeSubjectDirectory({ years, onSelect, onBack }) {
+export default function PracticeSubjectDirectory({ years, onSelect, onBack, trial = false }) {
   const [query, setQuery] = useState("");
   const [selectedYear, setSelectedYear] = useState("all");
   const headingId = useId();
@@ -45,6 +45,7 @@ export default function PracticeSubjectDirectory({ years, onSelect, onBack }) {
         <div className="mt-3 flex flex-col justify-between gap-6 xl:flex-row xl:items-end">
           <div>
             <h2 id={headingId} className="m-0 text-3xl font-semibold tracking-tight sm:text-4xl">Choose a subject</h2>
+            {trial && <p className="mt-3 text-sm font-semibold text-blue-700 dark:text-blue-300">Free trial: NEET PG 2020 questions for first- and second-year subjects. Subscribe for all years and subjects.</p>}
             <p className="mb-0 mt-3 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-400">Choose a subject and exam year to practise NEET PG and INI-CET previous year questions.</p>
           </div>
           <dl className="m-0 flex shrink-0 gap-3 rounded-xl border border-white/70 bg-white/50 px-3 py-3 shadow-sm sm:gap-7 sm:px-4 dark:border-slate-700/50 dark:bg-slate-950/30 dark:shadow-inner">
@@ -107,6 +108,7 @@ export default function PracticeSubjectDirectory({ years, onSelect, onBack }) {
                   </span>
                   <span className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
                     {subject.pyqCount > 0 && <span><span className="font-medium tabular-nums text-slate-700 dark:text-slate-300">{number(subject.pyqCount)}</span> PYQs</span>}
+                    {subject.questions.length > 0 && subject.questions.every(question => question.locked) && <span className="inline-flex items-center gap-1"><LockKeyhole size={13} aria-hidden="true" />Locked</span>}
                   </span>
                 </motion.button>
               ))}

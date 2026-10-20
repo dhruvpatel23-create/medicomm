@@ -12,7 +12,7 @@ import { socialPage, surface as socialSurface, primary as socialPrimary, seconda
 import PracticeSelection from "./components/PracticeSelection";
 import FeatureAccessDialog from "./components/FeatureAccessDialog";
 import { LockKeyhole } from "lucide-react";
-import { canAccessFeature, practiceFeature, filterLibraryByPlan } from "./data/planAccess";
+import { canAccessFeature, canOpenFeature, practiceFeature, filterLibraryByPlan } from "./data/planAccess";
 import TestSections from "./components/TestSections";
 import PracticeSubjectDirectory from "./components/PracticeSubjectDirectory";
 import CustomModules from "./components/CustomModules";
@@ -34,9 +34,10 @@ import CountrySelect from "./components/CountrySelect";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
+import { shuffleQuestionOptions } from "./lib/shuffleQuestionOptions";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261016-surgery-img1-b5";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261020-visible-trial-catalog";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -511,6 +512,8 @@ function buildSubjectYearSets(subject, progress = {}) {
         examTitles: [...group.examTitles],
         answered,
         total,
+        locked: group.questions.every(question => question.locked),
+        available: group.questions.filter(question => !question.locked).length,
         progressPercent: total ? Math.round((answered / total) * 100) : 0,
       };
     })
@@ -561,7 +564,7 @@ function App() {
   const [practicePathTitle, setPracticePathTitle] = useState("");
   const [lockedFeature, setLockedFeature] = useState(null);
   function requestFeature(feature) {
-    if (canAccessFeature(user, feature)) return true;
+    if (canOpenFeature(user, feature)) return true;
     setLockedFeature(feature);
     return false;
   }
@@ -772,9 +775,18 @@ function App() {
     selectedPracticeMode === "usmle" && usmlePracticeQuestionIds.length
       ? usmlePracticeQuestionIds
           .map((questionId) => basePracticeQuestions.find((question) => question.id === questionId))
-          .filter(Boolean)
-      : basePracticeQuestions;
-  const currentPracticeQuestion = currentPracticeQuestions[practiceQuestionIndex] ?? null;
+          .filter(question => question && !question.locked)
+      : basePracticeQuestions.filter(question => !question.locked);
+  // Cache by source object so navigation, answer submission and rerenders never
+  // move options under the learner. This also covers cached/offline libraries.
+  const shuffledPracticeQuestions = useMemo(() => new WeakMap(), []);
+  const sourcePracticeQuestion = currentPracticeQuestions[practiceQuestionIndex] ?? null;
+  if (sourcePracticeQuestion && !shuffledPracticeQuestions.has(sourcePracticeQuestion)) {
+    shuffledPracticeQuestions.set(sourcePracticeQuestion, shuffleQuestionOptions(sourcePracticeQuestion));
+  }
+  const currentPracticeQuestion = sourcePracticeQuestion
+    ? shuffledPracticeQuestions.get(sourcePracticeQuestion)
+    : null;
   const questionBookmarks = (Array.isArray(user?.questionBookmarks) ? user.questionBookmarks : []).filter(bookmark =>
     !["pyq", "fmge"].includes(bookmark.mode) || !visiblePracticeLibrary.hiddenQuestionIds.has(bookmark.questionId),
   );
@@ -1146,7 +1158,7 @@ async function fetchPracticeLibrary() {
 
   useEffect(() => {
     const needsPracticeLibrary = activeView === "Practice" || (activeView === "Bookmarks" && questionBookmarks.length > 0);
-    if (!user?.hasPracticeAccess || !needsPracticeLibrary || practiceLibraryStatus !== "idle") return;
+    if (!user || !needsPracticeLibrary || practiceLibraryStatus !== "idle") return;
     fetchPracticeLibrary();
   }, [activeView, practiceLibraryStatus, questionBookmarks.length, user?.hasPracticeAccess, user?.plan]);
 
@@ -1608,6 +1620,12 @@ async function fetchPracticeLibrary() {
 
   function startPracticeSession(subjectId, mode, examYear = "") {
     if (!requestFeature(mode === "usmle" ? "usmle" : "practice")) return;
+    const sets = mode === "usmle" ? allUsmlePracticeSets : mode === "fmge" ? fmgeSessions : practiceSubjects;
+    const questions = sets.find(subject => subject.id === subjectId)?.questions ?? [];
+    if (!questions.some(question => !question.locked && (mode !== "pyq" || !examYear || getQuestionYearKey(question) === examYear))) {
+      setLockedFeature(mode === "usmle" ? "usmle" : "practice");
+      return;
+    }
     setSelectedPracticeSubjectId(subjectId);
     setSelectedPracticeMode(mode);
     setSelectedPracticeExamYear(mode === "pyq" ? examYear : "");
@@ -1801,6 +1819,10 @@ async function fetchPracticeLibrary() {
     }
 
     const { mode, subject, question } = entry.resolved;
+    if (question.locked) {
+      setLockedFeature(mode === "usmle" ? "usmle" : "practice");
+      return;
+    }
     setPracticePathTitle(mode === "fmge" ? "FMGE" : mode === "usmle" ? "USMLE–STEP 1" : mode === "ai" ? "TOPIC WISE questions" : "NEET PG / INICET");
     setSelectedPracticeSubjectId(subject.id);
     setSelectedPracticeMode(mode);
@@ -1816,7 +1838,7 @@ async function fetchPracticeLibrary() {
 
     if (mode === "pyq") {
       const yearKey = getQuestionYearKey(question);
-      const yearQuestions = (subject.questions ?? []).filter((entryQuestion) => getQuestionYearKey(entryQuestion) === yearKey);
+      const yearQuestions = (subject.questions ?? []).filter((entryQuestion) => !entryQuestion.locked && getQuestionYearKey(entryQuestion) === yearKey);
       setSelectedPracticeExamYear(yearKey);
       setUsmlePracticeQuestionIds([]);
       setPracticeQuestionIndex(Math.max(0, yearQuestions.findIndex((entryQuestion) => entryQuestion.id === question.id)));
@@ -1827,7 +1849,7 @@ async function fetchPracticeLibrary() {
     } else {
       setSelectedPracticeExamYear("");
       setUsmlePracticeQuestionIds([]);
-      setPracticeQuestionIndex(Math.max(0, (subject.questions ?? []).findIndex((entryQuestion) => entryQuestion.id === question.id)));
+      setPracticeQuestionIndex(Math.max(0, (subject.questions ?? []).filter(entryQuestion => !entryQuestion.locked).findIndex((entryQuestion) => entryQuestion.id === question.id)));
     }
 
     setPracticeStage("subject");
@@ -2126,6 +2148,10 @@ async function fetchPracticeLibrary() {
   }
 
   function openPracticeChapter(chapterTitle) {
+    if (!(currentPracticeSubject?.questions ?? []).some(question => !question.locked && (question.chapterTitle || "General Pathology") === chapterTitle)) {
+      setLockedFeature(selectedPracticeMode === "usmle" ? "usmle" : "practice");
+      return;
+    }
     setSelectedPracticeChapter(chapterTitle);
     setPracticeStage("topics");
     scrollPracticeViewToTop();
@@ -2145,6 +2171,10 @@ async function fetchPracticeLibrary() {
   }
 
   function startTopicPractice(topic) {
+    if (!(currentPracticeSubject?.questions ?? []).some(question => !question.locked && question.topic === topic && (question.chapterTitle || "General Pathology") === selectedPracticeChapter)) {
+      setLockedFeature(selectedPracticeMode === "usmle" ? "usmle" : "practice");
+      return;
+    }
     setSelectedPracticeTopic(topic);
     setPracticeQuestionIndex(0);
     setSelectedOption("");
@@ -3234,8 +3264,8 @@ async function fetchPracticeLibrary() {
     const feature = ["neetpg-tests", "fmge-tests"].includes(practiceStage) ? "tests"
       : isTheory || /^(viva-|clinical-|mind-map-)/.test(practiceStage) ? "theory"
       : practicePathTitle.startsWith("USMLE") || (practiceStage !== "catalog" && selectedPracticeMode === "usmle") ? "usmle" : "practice";
-    if (practiceStage === "selection" || !canAccessFeature(user, feature)) {
-      return <PracticeSelection isLocked={id => !canAccessFeature(user, practiceFeature(id))} onSelect={(title, id) => {
+    if (practiceStage === "selection" || !canOpenFeature(user, feature)) {
+      return <PracticeSelection isLocked={id => !canOpenFeature(user, practiceFeature(id))} onSelect={(title, id) => {
         if (!requestFeature(practiceFeature(id))) return;
         setPracticePathTitle(title);
         setPracticeStage(["neetpg-tests", "fmge-tests"].includes(id) ? id : id === "usmle" ? "usmle-modules" : id === "fmge" ? "fmge-years" : id === "custom-modules" ? "custom-modules" : "catalog");
@@ -3261,7 +3291,7 @@ async function fetchPracticeLibrary() {
     }
 
     if (practiceStage === "usmle-modules") {
-      return <UsmleModules modules={usmleModules} progress={practiceProgress} status={practiceLibraryStatus} onRetry={fetchPracticeLibrary} onStart={(moduleId) => {
+      return <UsmleModules modules={usmleModules} progress={practiceProgress} status={practiceLibraryStatus} onRetry={fetchPracticeLibrary} onUnlock={() => setLockedFeature("usmle")} onStart={(moduleId) => {
         startPracticeSession(moduleId, "usmle");
         scrollPracticeViewToTop();
       }} onBack={() => {
@@ -3277,6 +3307,7 @@ async function fetchPracticeLibrary() {
             <div>
               <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
               <h2>{catalogTitle}</h2>
+              {isTopicWise && <p className="view-subtitle">Many more questions coming soon</p>}
             </div>
           </div>
 
@@ -4156,7 +4187,7 @@ async function fetchPracticeLibrary() {
               {chapters.map((chapter, index) => {
                 const answered = chapter.questions.filter((question) => practiceProgress[question.id]).length;
                 const percent = chapter.questions.length ? Math.round((answered / chapter.questions.length) * 100) : 0;
-                return <button type="button" className="topic-directory-row chapter-directory-row" key={chapter.title} onClick={() => openPracticeChapter(chapter.title)}><span className="directory-index">{String(index + 1).padStart(2, "0")}</span><span className="directory-main"><span className="directory-kicker">Chapter {index + 1}</span><strong>{chapter.title}</strong><span className="directory-meta">{Object.keys(chapter.topics).length} topics · {chapter.questions.length} questions</span><span className="practice-progress-track"><span style={{ width: `${percent}%` }} /></span><span className="directory-progress-copy">{answered} of {chapter.questions.length} answered · {percent}% complete</span></span><span className="directory-arrow" aria-hidden="true">→</span></button>;
+                return <button type="button" className="topic-directory-row chapter-directory-row" key={chapter.title} onClick={() => openPracticeChapter(chapter.title)}><span className="directory-index">{String(index + 1).padStart(2, "0")}</span><span className="directory-main"><span className="directory-kicker">Chapter {index + 1}</span><strong>{chapter.title}</strong>{chapter.questions.every(question => question.locked) && <span className="directory-meta"><LockKeyhole size={14} aria-hidden="true" /> Locked</span>}<span className="directory-meta">{Object.keys(chapter.topics).length} topics · {chapter.questions.length} questions</span><span className="practice-progress-track"><span style={{ width: `${percent}%` }} /></span><span className="directory-progress-copy">{answered} of {chapter.questions.length} answered · {percent}% complete</span></span><span className="directory-arrow" aria-hidden="true">→</span></button>;
               })}
             </div>
           </section>
@@ -4422,6 +4453,8 @@ async function fetchPracticeLibrary() {
           <div>
             <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
             <h2>{catalogTitle}</h2>
+            {!canAccessFeature(user, "practice") && <p className="view-subtitle">Free trial: practise the first chapter of each subject and NEET PG 2020 questions for first- and second-year subjects. Subscribe to unlock the full question bank.</p>}
+            {isTopicWise && <p className="view-subtitle">Many more questions coming soon</p>}
             {isTopicWise && <p className="view-subtitle">Choose a subject, then a chapter and topic to practise prepared questions.</p>}
           </div>
           <button className="button button-secondary" onClick={() => setActiveView("Practice")}>
@@ -4486,8 +4519,10 @@ async function fetchPracticeLibrary() {
                       >
                         <span className="practice-year-choice-topline">
                           <strong>{yearSet.title}</strong>
+                          {yearSet.locked && <span><LockKeyhole size={14} aria-hidden="true" /> Locked</span>}
                           <small>{yearSet.total} Qs</small>
                         </span>
+                        {yearSet.available > 0 && yearSet.available < yearSet.total && <span className="practice-progress-copy">{yearSet.available} NEET PG trial questions · Other exams locked</span>}
                         <span className="practice-year-choice-exams">
                           {yearSet.examTitles.slice(0, 2).join(" + ") || "Official PYQs"}
                         </span>
@@ -4572,6 +4607,7 @@ async function fetchPracticeLibrary() {
 
         {practicePathTitle === "NEET PG / INICET" ? <PracticeSubjectDirectory
           years={groupedPracticeYears}
+          trial={!canAccessFeature(user, "practice")}
           onSelect={handleSelectPracticeSubject}
           onBack={() => setActiveView("Practice")}
         /> : (
@@ -4668,7 +4704,7 @@ async function fetchPracticeLibrary() {
 
         {questionBookmarks.length ? (
           <>
-            {user?.hasPracticeAccess && (practiceLibraryStatus === "loading" || practiceLibraryStatus === "idle") ? (
+            {user && (practiceLibraryStatus === "loading" || practiceLibraryStatus === "idle") ? (
               <p className="form-message bookmark-page-message" role="status">Saved bookmarks are ready. Loading full question details in the background…</p>
             ) : practiceLibraryStatus === "error" ? (
               <div className="form-message bookmark-page-message" role="alert">
@@ -4684,7 +4720,7 @@ async function fetchPracticeLibrary() {
             <div className="bookmark-question-list">
               {bookmarkedQuestionEntries.map((entry) => {
                 const { bookmark, resolved } = entry;
-                const locked = !canAccessFeature(user, bookmark.mode === "usmle" ? "usmle" : "practice");
+                const locked = !canOpenFeature(user, bookmark.mode === "usmle" ? "usmle" : "practice");
                 const question = resolved?.question;
                 const subjectTitle = resolved?.subject?.title ?? bookmark.subjectTitle ?? "Practice";
                 const topic = question?.chapterTitle || question?.topic || bookmark.topic || "General review";
