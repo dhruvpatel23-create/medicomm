@@ -64,22 +64,22 @@ export default function HomeBattleSection({ onCompete, onLeaderboard, userRating
       badge: 'Ranked Elo',
       eyebrow: 'ELO RATING SYSTEM',
       title: 'Climb state and national leaderboards',
-      description: 'Every duel victory earns Elo rating points and win streaks. Represent your medical college and climb state-wise and all-India leaderboards.',
+      description: 'Earn +1 Elo for each practice MCQ answered correctly on your very first attempt. Your rating updates live when the answer is saved. Climb state-wise and all-India leaderboards through practice and rated duels.',
       features: [
         {
           icon: Trophy,
-          title: 'Dynamic Rating (XP)',
-          desc: 'Gain rating points for wins, rise through tiers, and maintain win streaks.'
+          title: '1st attempt · +1 Elo',
+          desc: 'A correct first answer earns a “1st attempt” badge and +1 Elo, once per question. Wrong first, right later? No badge or extra rating.'
         },
         {
-          icon: Flame,
-          title: 'College & State Pride',
-          desc: 'Boost your college standing on the state medical leaderboard with every duel.'
+          icon: ShieldCheck,
+          title: 'Saved & synced live',
+          desc: 'Your first result stays saved to your account. Confirmed rating changes sync across open tabs and devices; retries never earn extra points.'
         },
         {
           icon: Swords,
           title: '1v1 Direct Duels',
-          desc: 'Challenge study partners directly from community circles and personal inbox.'
+          desc: 'Rated duel results also change your Elo. Challenge study partners from community circles and your inbox to climb the rankings.'
         }
       ]
     }
@@ -120,7 +120,7 @@ export default function HomeBattleSection({ onCompete, onLeaderboard, userRating
               <Trophy size={16} className="text-amber-500" />
               <div className="text-left">
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Your Rating</p>
-                <p className="text-sm font-bold text-slate-900 dark:text-white tabular-nums">{userRating || 1500} XP</p>
+                <p className="text-sm font-bold text-slate-900 dark:text-white tabular-nums" aria-live="polite">{userRating ?? 1480} Elo</p>
               </div>
             </div>
           </div>

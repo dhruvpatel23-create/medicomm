@@ -61547,7 +61547,12 @@
             "Correctly identifies graphs 1 and 2 as the appropriate visual representations."
           ],
           "reviewNote": "",
-          "sourceNote": ""
+          "sourceNote": "",
+          "statementAudit": {
+            "audit": "missing-reference-list-v1",
+            "status": "image-review-required",
+            "note": "Content review: check the question image for the numbered or lettered list referenced by the answer choices; it is absent from the question text."
+          }
         },
         {
           "id": "fmge-2020-december-q235",

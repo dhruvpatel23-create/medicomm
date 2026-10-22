@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { filterLibraryByPlan } from '../src/data/planAccess.js';
 import { subscriptionDetails } from './subscriptions.mjs';
-import { recordPracticeAttempt } from './dashboard.mjs';
+import { practiceProgressData, recordPracticeAttempt } from './dashboard.mjs';
 
 const readJson = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8').replace(/^\uFEFF/, ''));
 const bank = readJson('../data/practice-question-bank.json');
@@ -51,7 +51,7 @@ test('actual attempt handler saves free trial answers and rejects questions outs
     requireSessionUser: (request, response, db) => db.users[0],
     parseRequestBody: async request => request.body,
     buildPracticeLibrary: () => library, readPracticeQuestionBank: () => library,
-    filterLibraryByPlan, subscriptionDetails, recordPracticeAttempt,
+    filterLibraryByPlan, subscriptionDetails, recordPracticeAttempt, practiceProgressData,
     writeDatabase: async next => { database = next; },
     sanitizeUser: user => user,
     sendJson: (response, status, body) => ({ status, body }),
@@ -76,4 +76,8 @@ test('actual attempt handler saves free trial answers and rejects questions outs
   } }, {}, new URL('http://localhost/api/practice/attempts'));
   assert.equal(rejected.status, 400);
   assert.equal(database.practiceResults.length, 3);
+  const progress = await handle({ method: 'GET' }, {}, new URL('http://localhost/api/practice/progress'));
+  assert.equal(progress.status, 200);
+  assert.equal(Object.keys(progress.body.progress).length, 3);
+  assert.ok(Object.values(progress.body.progress).every(item => item.firstAttemptCorrect));
 });

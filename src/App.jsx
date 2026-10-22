@@ -637,6 +637,7 @@ function App() {
   const [clinicalAnswerMessage, setClinicalAnswerMessage] = useState("");
   const [practiceStage, setPracticeStage] = useState("selection");
   const [practiceProgress, setPracticeProgress] = useState({});
+  const [practiceAward, setPracticeAward] = useState(null);
   const [dashboardPracticeTarget, setDashboardPracticeTarget] = useState(null);
   const [bookmarkMessage, setBookmarkMessage] = useState("");
   const [bookmarkBusyKeys, setBookmarkBusyKeys] = useState([]);
@@ -680,11 +681,13 @@ function App() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [user, setUser] = useState(null);
   const accountOverview = useAccountOverview(user?.id, activeView, `${user?.attemptedQuestions}:${user?.rating}:${user?.medicalCollege}`);
-  const practiceSync = usePracticeRecorder(authStatus === "authenticated" ? user?.id : null, savedUser => {
+  const practiceSync = usePracticeRecorder(authStatus === "authenticated" ? user?.id : null, (savedUser, attempt, progress) => {
     setUser(current => current?.id === savedUser.id ? { ...current, ...savedUser } : current);
     setUserRating(savedUser.rating);
+    if (attempt && progress) setPracticeProgress(current => ({ ...current, [attempt.questionId]: progress }));
+    if (attempt) setPracticeAward({ userId: savedUser.id, questionId: attempt.questionId, points: attempt.ratingDelta ?? 0 });
     accountOverview.reload();
-  });
+  }, setPracticeProgress);
   const [profileState, setProfileState] = useState(createProfileState(null));
   const [profileBusy, setProfileBusy] = useState(false);
   const [profileMessage, setProfileMessage] = useState("");
@@ -1142,7 +1145,7 @@ async function fetchPracticeLibrary() {
 
   useEffect(() => {
     const nextProgress = readPracticeProgress(user);
-    setPracticeProgress(nextProgress);
+    setPracticeProgress(user?.id && user.id !== "guest" ? {} : nextProgress);
     setAnalyticsEvents(readAnalyticsEvents(user, nextProgress));
   }, [user?.id, user?.email]);
 
@@ -1547,7 +1550,8 @@ async function fetchPracticeLibrary() {
       writeAnalyticsEvents(user, nextEvents);
       return nextEvents;
     });
-    setPracticeProgress((current) => {
+    if (!user?.id || user.id === "guest") setPracticeProgress((current) => {
+      if (current[currentPracticeQuestion.id]) return current;
       const nextProgress = {
         ...current,
         [currentPracticeQuestion.id]: {
@@ -1590,9 +1594,9 @@ async function fetchPracticeLibrary() {
       writeAnalyticsEvents(user, next);
       return next;
     });
-    setPracticeProgress(current => {
+    if (!user?.id || user.id === "guest") setPracticeProgress(current => {
       const next = { ...current };
-      for (const event of events) next[event.questionId] = { answeredAt, correct: event.correct, subjectId: event.subjectId };
+      for (const event of events) if (!next[event.questionId]) next[event.questionId] = { answeredAt, correct: event.correct, subjectId: event.subjectId };
       writePracticeProgress(user, next);
       return next;
     });
@@ -3258,7 +3262,7 @@ async function fetchPracticeLibrary() {
   function renderDashboard() {
     return <section className="app-view">
       <DashboardSummary user={user} overview={accountOverview} guest={authStatus === "guest"} onContinue={() => continueDashboardPractice(accountOverview.data?.resume)} />
-      <DashboardActivity overview={accountOverview} guest={authStatus === "guest"} sync={practiceSync} onPractice={continueDashboardPractice} onCompete={() => setActiveView("Compete")} onProfile={() => setActiveView("Profile")} />
+      <DashboardActivity overview={accountOverview} guest={authStatus === "guest"} onPractice={continueDashboardPractice} onCompete={() => setActiveView("Compete")} onProfile={() => setActiveView("Profile")} />
     </section>;
   }
 
@@ -3350,7 +3354,7 @@ async function fetchPracticeLibrary() {
     if (practiceStage === "custom-modules") {
       return <CustomModules key={user.id} subjects={aiPracticeSubjects} userId={user.id}
         onBack={() => { setPracticeStage("selection"); scrollPracticeViewToTop(); }}
-        onComplete={handleCustomModuleComplete} syncMessage={practiceSync.message} />;
+        onComplete={handleCustomModuleComplete} />;
     }
 
     if (!practiceSubjects.length && !currentPracticeSubject?.moduleNumber && selectedPracticeMode !== "fmge") {
@@ -4280,16 +4284,17 @@ async function fetchPracticeLibrary() {
                 const questionProgress = practiceProgress[question.id];
                 const isCurrent = index === practiceQuestionIndex;
                 const isAnswered = Boolean(questionProgress);
-                const wasCorrectLastTime = questionProgress?.correct === true;
+                const wasCorrectFirstTime = questionProgress?.correct === true;
                 return (
                   <button
                     key={question.id}
                     type="button"
                     className={
                       "practice-question-status" +
+                      (wasCorrectFirstTime ? " practice-question-status-first" : "") +
                       (isCurrent ? " practice-question-status-current" : "") +
                       (isAnswered
-                        ? wasCorrectLastTime
+                        ? wasCorrectFirstTime
                           ? " practice-question-status-correct"
                           : " practice-question-status-wrong"
                         : "")
@@ -4301,21 +4306,24 @@ async function fetchPracticeLibrary() {
                     }}
                     aria-label={
                       isAnswered
-                        ? `Question ${index + 1}, last attempt ${wasCorrectLastTime ? "correct" : "wrong"}`
+                        ? `Question ${index + 1}, first attempt ${wasCorrectFirstTime ? "correct" : "wrong"}`
                         : `Question ${index + 1}, not attempted`
                     }
                     title={
                       isAnswered
-                        ? `Question ${index + 1}: last attempt ${wasCorrectLastTime ? "correct" : "wrong"}`
+                        ? `Question ${index + 1}: first attempt ${wasCorrectFirstTime ? "correct" : "wrong"}`
                         : `Question ${index + 1}`
                     }
                   >
-                    {isAnswered ? "✓" : index + 1}
+                    <span>{index + 1}{wasCorrectFirstTime ? " ✓" : ""}</span>
+                    {wasCorrectFirstTime && <small>1st attempt</small>}
                   </button>
                 );
               })}
             </div>
             <div className="quiz-meta">
+              {practiceProgress[currentPracticeQuestion.id]?.firstAttemptCorrect === true && <span className="first-attempt-badge" role="status">✓ 1st attempt <strong>Correct</strong></span>}
+              {authStatus === "authenticated" && <span className="practice-live-rating" role="status">Your rating: <strong>{userRating} Elo</strong>{practiceAward?.userId === user?.id && practiceAward?.questionId === currentPracticeQuestion.id && practiceAward.points === 1 && <span className="practice-rating-earned">+1 Elo earned</span>}</span>}
               <span>
                 {isUsmlePractice
                   ? "USMLE Step 1-style practice"
@@ -4326,6 +4334,7 @@ async function fetchPracticeLibrary() {
               <span>{isModulePractice || isFmgePractice ? `${currentPracticeQuestion.part ? `Part ${currentPracticeQuestion.part} · ` : ""}Question ${practiceQuestionIndex + 1} of ${totalQuestions}` : currentPracticeQuestion.topic}</span>
             </div>
             <h3>{currentPracticeQuestion.prompt}</h3>
+            {currentPracticeQuestion.statementAudit?.note && <p className="fmge-review-note" role="note">{currentPracticeQuestion.statementAudit.note}</p>}
             {isFmgePractice && currentPracticeQuestion.sourceNote && <p className="fmge-review-note" role="note">{currentPracticeQuestion.sourceNote}</p>}
 
             {currentPracticeQuestion.subtopic ? <p className="panel-copy">{currentPracticeQuestion.subtopic}</p> : null}
@@ -4737,7 +4746,7 @@ async function fetchPracticeLibrary() {
                     <div className="bookmark-question-meta">
                       <span>{modeLabels[bookmark.mode] ?? "Practice Question"}</span>
                       {bookmark.year ? <span>{bookmark.year}</span> : null}
-                      <span>{progress ? (progress.correct ? "Previously correct" : "Needs another look") : "Not answered yet"}</span>
+                      <span>{progress ? (progress.correct ? "Correct on first attempt" : "Needs another look") : "Not answered yet"}</span>
                     </div>
                     <h3>{preview}</h3>
                     <p>{subjectTitle} · {topic}</p>

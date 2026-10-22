@@ -51,20 +51,35 @@ export function validateStudyGoal(payload) {
   return { exam, date, weeklyTarget };
 }
 
+// Append order is commit order. Client timestamps and later answers never rewrite it.
+export function practiceProgressData(database, userId) {
+  const progress = Object.create(null);
+  for (const attempt of database.practiceResults ?? []) {
+    if (attempt.userId !== userId || Object.hasOwn(progress, attempt.questionId)) continue;
+    progress[attempt.questionId] = { answeredAt: attempt.answeredAt, subjectId: attempt.subjectId,
+      year: attempt.year, correct: attempt.correct === true, firstAttemptCorrect: attempt.correct === true };
+  }
+  return progress;
+}
+
 export function recordPracticeAttempt(database, userId, payload, subject, question, now = Date.now()) {
   if (typeof payload.id !== 'string' || !/^[a-zA-Z0-9_-]{10,100}$/.test(payload.id)) throw new Error('Invalid attempt identifier.');
   const user = database.users.find(item => item.id === userId);
   const existing = (database.practiceResults ?? []).find(item => item.userId === userId && item.id === payload.id);
-  if (existing) return { user, attempt: existing };
+  if (existing) return { user, attempt: existing, progress: practiceProgressData(database, userId)[existing.questionId] };
   if (!question || !subject || !question.options.includes(payload.selectedAnswer)) throw new Error('Choose an answer to a valid practice question.');
+  const first = (database.practiceResults ?? []).find(item => item.userId === userId && item.questionId === question.id);
+  const ratingDelta = !first && payload.selectedAnswer === question.answer ? 1 : 0;
   const attempt = { id: payload.id, userId, questionId: question.id, subjectId: subject.id, subject: subject.title, mode: payload.mode,
+    firstAttemptCorrect: first ? first.correct === true : ratingDelta === 1, ratingDelta,
     topic: question.chapterTitle || question.topic || 'General review', year: question.year, correct: payload.selectedAnswer === question.answer,
     selectedAnswer: payload.selectedAnswer, answeredAt: new Date(now).toISOString(), durationSeconds: Math.max(0, Math.min(1800, Math.round(Number(payload.durationSeconds) || 0))) };
   database.practiceResults = [...(database.practiceResults ?? []), attempt];
+  user.rating = (Number.isFinite(user.rating) ? user.rating : 1480) + ratingDelta;
   user.attemptedQuestions = (user.attemptedQuestions ?? 0) + 1;
   user.correctAnswers = (user.correctAnswers ?? 0) + (attempt.correct ? 1 : 0);
   const today = dayKey(now);
   user.streak = user.lastPracticeDate === today ? (user.streak || 1) : user.lastPracticeDate === dayBefore(today, 1) ? (user.streak || 0) + 1 : 1;
   user.lastPracticeDate = today;
-  return { user, attempt };
+  return { user, attempt, progress: practiceProgressData(database, userId)[question.id] };
 }

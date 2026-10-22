@@ -17,7 +17,7 @@ function QuestionDetails({ question }) {
   </>;
 }
 
-export default function CustomModules({ subjects, userId, onBack, onComplete, syncMessage }) {
+export default function CustomModules({ subjects, userId, onBack, onComplete }) {
   const catalog = useMemo(() => buildCustomModuleCatalog(subjects), [subjects]);
   const [selected, setSelected] = useState([]);
   const [count, setCount] = useState(10);
@@ -75,7 +75,6 @@ export default function CustomModules({ subjects, userId, onBack, onComplete, sy
     const result = customModuleResult(session);
     return <section className="app-view custom-module">
       <header className="custom-hero"><span className="custom-eyebrow"><CheckCircle2 size={18} />Test complete</span><h2>Your results, in focus.</h2><p>Review your answers and use each explanation to guide your next session.</p><div className="custom-result-stats"><div><strong>{result.correct} / {result.total}</strong><span>Score · no negative marking</span></div><div><strong>{result.incorrect}</strong><span>Incorrect</span></div><div><strong>{result.skipped}</strong><span>Skipped</span></div><div><strong>{timeLabel(elapsed)}</strong><span>Time taken</span></div></div><div className="custom-actions"><button className="button button-primary" onClick={reset}>Build another test</button><button className="button button-secondary" onClick={onBack}>All practice paths</button></div></header>
-      {syncMessage && <p role="status">{syncMessage}</p>}
       <h3>Answer review</h3><div className="custom-review-list">{session.questions.map((question, index) => {
         const answer = session.answers[question.id];
         const status = answer === undefined ? 'Skipped' : answer === question.answerIndex ? 'Correct' : 'Incorrect';

@@ -2,14 +2,13 @@ const dateLabel = date => new Date(date).toLocaleDateString('en-IN', { day: 'num
 const minutes = seconds => `${Math.floor(seconds / 60)} min`;
 
 // Keep the existing dashboard card styles below the screenshot's summary area.
-export default function DashboardActivity({ overview, guest, onPractice, onCompete, onProfile, sync }) {
+export default function DashboardActivity({ overview, guest, onPractice, onCompete, onProfile }) {
   const data = overview.data;
   if (guest) return <article className="card panel"><h3>Start your learning record</h3><p className="panel-copy">Sign in to keep your results, goals and activity across devices.</p><button className="button button-primary" onClick={onProfile}>Manage account</button></article>;
   if (!data) return null;
   const weekTotal = data.weekly.reduce((sum, day) => sum + day.attempts, 0);
   const max = Math.max(1, ...data.weekly.map(day => day.attempts));
   return <>
-    {sync.message && <p className="form-message" role="status">{sync.message} <button type="button" className="text-button" onClick={sync.retry}>Retry sync</button></p>}
     <div className="dashboard-insight-grid">
       <article className="card panel weekly-chart-card"><div className="panel-heading-split"><div><h3>Weekly progress</h3><p className="panel-copy">MCQs answered in the last 7 days</p></div><strong>{weekTotal} questions</strong></div><div className="weekly-bars" role="img" aria-label={data.weekly.map(day => `${dateLabel(day.date)}: ${day.attempts} questions`).join(', ')}>{data.weekly.map(day => <div key={day.date} title={`${dateLabel(day.date)}: ${day.attempts} questions`}><span style={{ height: day.attempts ? `${Math.max(4, day.attempts / max * 110)}px` : '0px', minHeight: 0 }} /><small>{new Date(day.date).toLocaleDateString('en-IN', { weekday: 'short' })}</small><small>{day.attempts}</small></div>)}</div>{!weekTotal && <p className="panel-copy">No recorded attempts this week yet.</p>}</article>
       <article className="card panel heatmap-card"><div className="panel-heading-split"><div><h3>Study consistency</h3><p className="panel-copy">Last 8 weeks · India time</p></div><strong>{data.stats.streak} {data.stats.streak === 1 ? 'day' : 'days'}</strong></div><div className="study-heatmap" aria-label="Recorded MCQ activity over the last eight weeks">{data.activity.map(day => <span key={day.date} data-level={day.attempts === 0 ? 0 : day.attempts < 10 ? 1 : day.attempts < 30 ? 2 : 3} title={`${dateLabel(day.date)}: ${day.attempts} questions`} />)}</div><div className="heatmap-legend"><span>Less</span><i data-level="0" /><i data-level="1" /><i data-level="2" /><i data-level="3" /><span>More</span></div><p className="panel-copy">Daily history starts with recorded practice. Older account totals are retained.</p></article>

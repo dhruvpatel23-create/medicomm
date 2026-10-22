@@ -7,6 +7,7 @@ import { createHash, randomBytes, pbkdf2, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import { HttpError, readJson, createLimiter, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
 import { createStateStore, validateSupabaseState } from './server/stateStore.mjs';
+import { createPracticeLive } from './server/practiceLive.mjs';
 import { createUploads } from './server/uploads.mjs';
 import { servePublicImage } from './server/publicImages.mjs';
 import { getDuelImageUrls } from './src/lib/duelImages.js';
@@ -30,7 +31,7 @@ import { loadShortNotes, createShortNotesHandler, ownsTheoryAnswerImage } from "
 import { buildShortNoteReviewInstructions } from "./server/shortNotesPrompt.mjs";
 import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from "./server/theoryTextbooks.mjs";
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
-import { dashboardData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
+import { dashboardData, practiceProgressData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
 import { canAccessFeature, filterLibraryByPlan } from "./src/data/planAccess.js";
 import { requireFeature, routeFeature, isTrialPracticeRoute } from "./server/planAccess.mjs";
 import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
@@ -330,7 +331,12 @@ async function initializeDatabaseStore() {
 }
 
 function readDatabase() { return stateStore.read(); }
-function writeDatabase(data) { reconcileSubscriptions(data); return stateStore.write(data); }
+async function writeDatabase(data) {
+  reconcileSubscriptions(data);
+  await stateStore.write(data);
+  practiceLive.publish(readDatabase());
+}
+const practiceLive = createPracticeLive({ readDatabase, getSessionUser, sanitizeUser });
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
 const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess, parseRequestBody, sendJson });
@@ -2723,6 +2729,8 @@ async function handleDashboard(request, response, url) {
   const initial = readDatabase();
   const signedIn = requireSessionUser(request, response, initial);
   if (!signedIn) return;
+  if (request.method === 'GET' && url.pathname === '/api/practice/live') return practiceLive.connect(request, response, signedIn);
+  if (request.method === 'GET' && url.pathname === '/api/practice/progress') return sendJson(response, 200, { user: sanitizeUser(signedIn), progress: practiceProgressData(initial, signedIn.id) });
   if (request.method === 'GET') return sendJson(response, 200, dashboardData(initial, signedIn, getLeaderboardRegion));
   const payload = await parseRequestBody(request);
   const database = readDatabase();
@@ -2746,7 +2754,7 @@ async function handleDashboard(request, response, url) {
   try { result = recordPracticeAttempt(database, user.id, payload, subject, question); }
   catch (error) { return sendJson(response, 400, { message: error.message }); }
   await writeDatabase(database);
-  return sendJson(response, 200, { user: sanitizeUser(result.user), attempt: result.attempt });
+  return sendJson(response, 200, { user: sanitizeUser(result.user), attempt: result.attempt, progress: result.progress });
 }
 
 async function handleQuestionBookmarkUpdate(request, response) {
@@ -4042,7 +4050,7 @@ async function handleRequest(request, response) {
     }
     if (request.method === "POST" && url.pathname === "/api/auth/logout") return await handleLogout(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile") return await handleProfileUpdate(request, response);
-    if ((request.method === 'GET' && url.pathname === '/api/dashboard') || (request.method === 'PATCH' && url.pathname === '/api/dashboard/goal') || (request.method === 'POST' && url.pathname === '/api/practice/attempts')) return await handleDashboard(request, response, url);
+    if ((request.method === 'GET' && ['/api/dashboard', '/api/practice/progress', '/api/practice/live'].includes(url.pathname)) || (request.method === 'PATCH' && url.pathname === '/api/dashboard/goal') || (request.method === 'POST' && url.pathname === '/api/practice/attempts')) return await handleDashboard(request, response, url);
     if (request.method === "PATCH" && url.pathname === "/api/profile/stats") return await handleProfileStatsUpdate(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile/question-bookmarks")
       return await handleQuestionBookmarkUpdate(request, response);

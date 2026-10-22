@@ -1710,3 +1710,31 @@ body {
 .signup-country-picker small { color: #64748b; font-size: 12px; }
 :root[data-theme="dark"] .signup-country-list { background: #10151e; color: #e2e8f0; border-color: #334155; color-scheme: dark; }
 :root[data-theme="dark"] .signup-country-picker small { color: #94a3b8; }
+
+/* First-attempt success stays legible in both the navigator and question header. */
+.practice-question-status-strip .practice-question-status-first {
+  flex: 0 0 84px;
+  width: 84px;
+  height: 44px;
+  border-radius: 12px;
+  gap: 3px;
+  padding: 5px 8px;
+}
+.practice-question-status-first small { font-size: 10px; line-height: 1.2; white-space: nowrap; }
+.first-attempt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid #059669;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #065f46;
+  font-size: 13px;
+  font-weight: 800;
+}
+.first-attempt-badge strong { font-size: 11px; font-weight: 600; }
+.practice-live-rating { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; }
+.practice-rating-earned { padding: 4px 8px; border-radius: 999px; background: #ecfdf5; color: #065f46; font-weight: 800; }
+:root[data-theme="dark"] .first-attempt-badge,
+:root[data-theme="dark"] .practice-rating-earned { background: #052e24; color: #6ee7b7; }
