@@ -4291,7 +4291,6 @@ async function fetchPracticeLibrary() {
                     type="button"
                     className={
                       "practice-question-status" +
-                      (wasCorrectFirstTime ? " practice-question-status-first" : "") +
                       (isCurrent ? " practice-question-status-current" : "") +
                       (isAnswered
                         ? wasCorrectFirstTime
@@ -4315,8 +4314,7 @@ async function fetchPracticeLibrary() {
                         : `Question ${index + 1}`
                     }
                   >
-                    <span>{index + 1}{wasCorrectFirstTime ? " ✓" : ""}</span>
-                    {wasCorrectFirstTime && <small>1st attempt</small>}
+                    {index + 1}
                   </button>
                 );
               })}

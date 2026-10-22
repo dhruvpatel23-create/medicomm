@@ -1711,16 +1711,7 @@ body {
 :root[data-theme="dark"] .signup-country-list { background: #10151e; color: #e2e8f0; border-color: #334155; color-scheme: dark; }
 :root[data-theme="dark"] .signup-country-picker small { color: #94a3b8; }
 
-/* First-attempt success stays legible in both the navigator and question header. */
-.practice-question-status-strip .practice-question-status-first {
-  flex: 0 0 84px;
-  width: 84px;
-  height: 44px;
-  border-radius: 12px;
-  gap: 3px;
-  padding: 5px 8px;
-}
-.practice-question-status-first small { font-size: 10px; line-height: 1.2; white-space: nowrap; }
+/* First-attempt success badge in the question header. */
 .first-attempt-badge {
   display: inline-flex;
   align-items: center;

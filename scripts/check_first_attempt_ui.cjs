@@ -47,7 +47,7 @@ const assert = require('node:assert/strict');
     for (const page of [a, b]) {
       await page.locator('.first-attempt-badge').waitFor();
       await page.locator('.practice-live-rating').filter({ hasText: '1481 Elo' }).waitFor();
-      assert.match(await page.locator('.practice-question-status-first').innerText(), /1st attempt/);
+      assert.equal(await page.locator('.practice-question-status-correct').innerText(), '1');
     }
     await a.getByText('+1 Elo earned', { exact: true }).waitFor();
     await fs.mkdir('output/first-attempt-ui', { recursive: true });
