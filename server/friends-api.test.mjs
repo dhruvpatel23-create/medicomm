@@ -11,6 +11,7 @@ function fixture() {
   let database = { users: ['alice', 'bob', 'carol'].map(id => ({ id, name: id, medicalCollege: 'College', email: `${id}@example.test`, passwordHash: 'private' })), friendRequests: [] };
   let writes = 0;
   const dependencies = {
+    subscriptionDetails: () => ({ hasPracticeAccess: false }),
     readDatabase: () => structuredClone(database),
     writeDatabase: async data => { database = structuredClone(data); writes++; },
     requireSessionUser: (req, res, db) => { const user = db.users.find(entry => entry.id === req.user); if (!user) res.status = 401; return user; },

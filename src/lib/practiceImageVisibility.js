@@ -1,3 +1,7 @@
+export function hasUnresolvedStatementAudit(question) {
+  return ['likely-missing-list', 'image-review-required'].includes(question.statementAudit?.status);
+}
+
 export function hasQuestionImage(question) {
   // Include explanation images, but not source references or planned asset targets.
   const images = [
@@ -30,6 +34,10 @@ export function filterPracticeLibraryForUi(library) {
   });
   const pyqSubjects = (library.subjects ?? []).map(subject => {
     const questions = (subject.questions ?? []).filter(question => {
+      if (hasUnresolvedStatementAudit(question)) {
+        hiddenQuestionIds.add(question.id);
+        return false;
+      }
       // Legacy PYQs can lack a source field; explicitly supplemental sources
       // must never enter this path, including from an older browser cache.
       if (!question.source || question.source === 'official') return true;

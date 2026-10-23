@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { reviseTopicWiseOptions } from "../server/topicWiseOptionRevisions.mjs";
 
 const SOURCE_DATA = "data/users.json";
 const DATA_BANK = "data/practice-question-bank.json";
@@ -9,6 +10,7 @@ function readJson(path) {
 }
 
 function normalizeAiQuestion(question) {
+  question = reviseTopicWiseOptions(question);
   return {
     ...question,
     subject: question.subjectTitle ?? question.subject ?? "",

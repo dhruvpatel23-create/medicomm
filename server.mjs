@@ -38,6 +38,7 @@ import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
 import { reconcileSubscriptions, subscriptionDetails } from "./server/subscriptions.mjs";
 import { tokenStatus, requireTokens, chargeTokens, refundTokens, updateTokenState } from './server/tokens.mjs';
 import { cleanUsername, requireAvailableUsername, reconcileUsernames, assertUniqueUsernames } from "./server/usernames.mjs";
+import { reviseTopicWiseOptions } from "./server/topicWiseOptionRevisions.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -386,6 +387,9 @@ function readPracticeQuestionBank() {
   }
 
   practiceQuestionBankCache = JSON.parse(readFileSync(practiceQuestionBankPath, "utf8"));
+  for (const subject of practiceQuestionBankCache.subjects ?? []) {
+    subject.questions = (subject.questions ?? []).map(reviseTopicWiseOptions);
+  }
   practiceQuestionBankMtime = stat.mtimeMs;
   return practiceQuestionBankCache;
 }
@@ -455,6 +459,7 @@ function normalizeQuestion(question, subject, exam = {}) {
     imageUrls,
     images,
     imageReviewStatus: String(question.imageReviewStatus ?? ""),
+    statementAudit: question.statementAudit ?? null,
     createdAt: question.createdAt ?? null,
   };
 }
@@ -495,7 +500,7 @@ function buildPracticeLibrary(library, storedQuestions = []) {
   const embeddedAiQuestions = (library.subjects ?? []).flatMap((subject) =>
     (subject.questions ?? []).filter((question) => question.source === "ai").map((question) => normalizeQuestion(question, subject, library.exam)),
   );
-  const storedAiQuestions = storedQuestions.filter((question) => question.source === "ai").map((question) => normalizeQuestion(question));
+  const storedAiQuestions = storedQuestions.filter((question) => question.source === "ai").map((question) => normalizeQuestion(reviseTopicWiseOptions(question)));
   const embeddedUsmleQuestions = (library.subjects ?? []).flatMap((subject) =>
     (subject.questions ?? []).filter((question) => question.source === "usmle").map((question) => normalizeQuestion(question, subject, library.exam)),
   );
@@ -2293,6 +2298,7 @@ function sanitizeUser(user) {
     username: user.username ?? user.name,
     email: user.email,
     medicalCollege: user.medicalCollege,
+    mbbsBatch: user.mbbsBatch ?? null,
     medicalState: user.medicalState ?? "",
     medicalCountry: user.medicalCountry ?? "",
     contactNumber: user.contactNumber,
@@ -2324,9 +2330,11 @@ function getLeaderboardRegion(medicalCollege) {
 
 function sanitizePublicUserProfile(user, currentUserId = null) {
   return {
+    hasPracticeAccess: subscriptionDetails(readDatabase(), user.id).hasPracticeAccess,
     id: user.id,
     name: user.name,
     medicalCollege: user.medicalCollege,
+    mbbsBatch: user.mbbsBatch ?? null,
     rating: Number.isFinite(user.rating) ? user.rating : DEFAULT_USER_RATING,
     streak: Number.isFinite(user.streak) ? user.streak : DEFAULT_USER_STREAK,
     correctAnswers: Number.isFinite(user.correctAnswers) ? user.correctAnswers : DEFAULT_CORRECT_ANSWERS,
@@ -2352,9 +2360,11 @@ function sanitizeLeaderboardUser(user, currentUserId = null) {
 
 function sanitizeSearchableUser(user, currentUserId = null) {
   return {
+    hasPracticeAccess: subscriptionDetails(readDatabase(), user.id).hasPracticeAccess,
     id: user.id,
     name: user.name,
     medicalCollege: user.medicalCollege,
+    mbbsBatch: user.mbbsBatch ?? null,
     profileImageUrl: user.profileImagePath ? `/uploads/${user.profileImagePath}` : null,
     state: getLeaderboardRegion(user.medicalCollege),
     rating: Number.isFinite(user.rating) ? user.rating : DEFAULT_USER_RATING,
@@ -2368,6 +2378,7 @@ function sanitizeDuelOpponent(user, currentUserId = null) {
     id: user.id,
     name: user.name,
     medicalCollege: user.medicalCollege,
+    mbbsBatch: user.mbbsBatch ?? null,
     rating: Number.isFinite(user.rating) ? user.rating : DEFAULT_USER_RATING,
     specialty: getLeaderboardRegion(user.medicalCollege),
     profileImageUrl: user.profileImagePath ? `/uploads/${user.profileImagePath}` : null,
@@ -2383,6 +2394,7 @@ function sanitizeCommunity(community, users, currentUserId = null) {
       id: user.id,
       name: user.name,
       medicalCollege: user.medicalCollege,
+      mbbsBatch: user.mbbsBatch ?? null,
       profileImageUrl: user.profileImagePath ? `/uploads/${user.profileImagePath}` : null,
     }));
 
@@ -2472,6 +2484,8 @@ function validateSignupPayload(payload) {
     }
   }
 
+  if (!/^(2019|202[0-6])$/.test(String(payload.mbbsBatch ?? ""))) return "Select an MBBS batch from 2019 to 2026.";
+
   if (!/^\S+@\S+\.\S+$/.test(payload.email)) return "Enter a valid email address.";
   if (normalizeContactNumber(payload.contactNumber).length < 8) return "Enter a valid mobile number.";
   if (typeof payload.password !== "string" || payload.password.length < 8 || payload.password.length > 128) return "Password must contain 8 to 128 characters.";
@@ -2498,7 +2512,11 @@ async function handlePublicUserProfile(request, response, userId) {
     return;
   }
 
-  sendJson(response, 200, { user: sanitizePublicUserProfile(targetUser, sessionUser.id) });
+  sendJson(response, 200, { user: { ...sanitizePublicUserProfile(targetUser, sessionUser.id),
+    friendshipStatus: (sessionUser.friendIds ?? []).includes(targetUser.id) ? "friends"
+      : (database.friendRequests ?? []).some(r => r.fromUserId === sessionUser.id && r.toUserId === targetUser.id && r.status === "pending") ? "outgoing"
+      : (database.friendRequests ?? []).some(r => r.fromUserId === targetUser.id && r.toUserId === sessionUser.id && r.status === "pending") ? "incoming" : "none",
+  } });
 }
 
 async function handleSignup(request, response) {
@@ -2533,6 +2551,7 @@ async function handleSignup(request, response) {
     username: cleanUsername(payload.name),
     email,
     medicalCollege: String(payload.medicalCollege).trim(),
+    mbbsBatch: Number(payload.mbbsBatch),
     medicalState: String(payload.medicalState ?? "").trim(),
     medicalCountry: payload.medicalState === "Abroad" || payload.medicalCollege === "Abroad" ? payload.medicalCountry : "",
     contactNumber,
@@ -2639,34 +2658,12 @@ async function handleProfileUpdate(request, response) {
   }
 
   const payload = await parseRequestBody(request);
-  const name = cleanUsername(payload.username ?? payload.name);
-  const medicalCollege = String(payload.medicalCollege ?? "").trim();
-  const contactNumber = String(payload.contactNumber ?? "").trim();
-  const normalizedContactNumber = normalizeContactNumber(contactNumber);
-
-  if (!name || !medicalCollege || !normalizedContactNumber) {
-    return sendJson(response, 400, { message: "Username, medical college, and contact number are required." });
+  const lockedFields = ["name", "username", "email", "medicalCollege", "medicalState", "medicalCountry", "contactNumber", "mbbsBatch"];
+  if (lockedFields.some(field => Object.hasOwn(payload, field) && String(payload[field] ?? "") !== String(sessionUser[field] ?? ""))) {
+    return sendJson(response, 403, { message: "Personal details cannot be changed after signup." });
   }
-  if (normalizedContactNumber.length < 8) {
-    return sendJson(response, 400, { message: "Enter a valid mobile number." });
-  }
-
-  const userIndex = database.users.findIndex((user) => user.id === sessionUser.id);
-  requireAvailableUsername(database.users, name, sessionUser.id);
-  if (
-    database.users.some(
-      (user) => user.id !== sessionUser.id && normalizeContactNumber(user.contactNumber) === normalizedContactNumber,
-    )
-  ) {
-    return sendJson(response, 409, { message: "Another account already uses this mobile number." });
-  }
-  const updatedUser = {
-    ...database.users[userIndex],
-    name,
-    username: name,
-    medicalCollege,
-    contactNumber: normalizedContactNumber,
-  };
+  const userIndex = database.users.findIndex(user => user.id === sessionUser.id);
+  const updatedUser = { ...database.users[userIndex] };
 
   if (payload.profileImageDataUrl) {
     updatedUser.profileImagePath = await saveProfileImage(

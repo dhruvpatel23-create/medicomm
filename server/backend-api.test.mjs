@@ -44,7 +44,7 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   assert.equal((await call('/api/auth/login', 'POST', {}, { Origin: 'https://evil.example' })).status, 403);
   assert.equal((await call('/api/auth/login', 'POST', null)).status, 400);
   assert.equal((await call('/api/auth/login', 'POST', { password: 'x'.repeat(300000) })).status, 413);
-  const payload = { name: 'Test Learner', email: 'test@example.test', medicalCollege: 'Test College', contactNumber: '9000000001', password: 'study1!a' };
+  const payload = { name: 'Test Learner', email: 'test@example.test', medicalCollege: 'Test College', mbbsBatch: 2023, contactNumber: '9000000001', password: 'study1!a' };
   for (const [password, message] of [
     ['short1!', /8 to 128 characters/],
     ['password!', /at least one number/],
@@ -58,9 +58,13 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
     assert.match((await rejected.json()).message, message);
     assert.equal(rejected.headers.get('set-cookie'), null);
   }
+  for (const mbbsBatch of [undefined, 2018, 2027, 'invalid']) {
+    assert.equal((await call('/api/auth/signup', 'POST', { ...payload, mbbsBatch })).status, 400);
+  }
   const signup = await call('/api/auth/signup', 'POST', payload);
   assert.equal(signup.status, 201);
   const result = await signup.json();
+  assert.equal(result.user.mbbsBatch, 2023);
   assert.equal(result.token, undefined);
   assert.equal(result.user.passwordHash, undefined);
   assert.equal(result.user.username, payload.name);
@@ -70,12 +74,30 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   cookie = signup.headers.get('set-cookie').split(';')[0];
   assert.match(signup.headers.get('set-cookie'), /HttpOnly/);
   assert.equal((await call('/api/auth/session')).status, 200);
+  const publicProfile = await (await call('/api/users/' + result.user.id)).json();
+  assert.equal(publicProfile.user.mbbsBatch, 2023);
+  const paidProfile = await (await call('/api/users/paid-fixture')).json();
+  assert.equal(paidProfile.user.hasPracticeAccess, true);
+  for (const field of ['medicalCollege', 'contactNumber', 'mbbsBatch']) {
+    assert.equal((await call('/api/profile', 'PATCH', { [field]: 'changed' })).status, 403);
+  }
+  const image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=';
+  const duplicateProfile = await call('/api/profile', 'PATCH', { ...payload, name: 'paid learner' });
+  assert.equal(duplicateProfile.status, 403);
+  assert.match((await duplicateProfile.json()).message, /cannot be changed after signup/);
+  const profile = await call('/api/profile', 'PATCH', { profileImageDataUrl: image });
+  assert.equal(profile.status, 200);
+  const imageUrl = (await profile.json()).user.profileImageUrl;
+  assert.equal((await call(imageUrl)).status, 200);
+  assert.equal((await fetch(address + imageUrl)).status, 401);
+  t.diagnostic('Batch persistence, subscriber status, locked details and photo upload checks passed.');
   const emptyDashboard = await (await call('/api/dashboard')).json();
   assert.equal(emptyDashboard.stats.attempted, 0);
   assert.equal(emptyDashboard.stats.streak, 0);
   assert.equal(result.user.hasPracticeAccess, false);
-  for (const route of ['/api/practice', '/short-notes.json', '/practice-question-bank.json', '/%73hort-notes.json']) assert.equal((await call(route)).status, 403);
-  assert.equal((await call('/api/practice/attempts', 'POST', {})).status, 403);
+  assert.equal((await call('/api/practice')).status, 200, 'Trial members can load the filtered catalog');
+  for (const route of ['/short-notes.json', '/practice-question-bank.json', '/%73hort-notes.json']) assert.equal((await call(route)).status, 403);
+  assert.equal((await call('/api/practice/attempts', 'POST', {})).status, 400, 'Trial attempts still require a valid question');
   assert.equal((await call('/api/viva/sessions', 'POST', {})).status, 403);
   const unpaidCookie = cookie; cookie = 'medicomm_session=' + paidToken;
   assert.equal((await call(`/uploads/${savedPage}`, 'GET', undefined, { Cookie: unpaidCookie })).status, 404);
@@ -98,15 +120,6 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   assert.equal(saved.users.find(item => item.email === payload.email).passwordIterations, 220000);
   cookie = unpaidCookie;
   assert.equal(JSON.stringify(saved).includes(cookie.split('=')[1]), false);
-  const image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=';
-  const duplicateProfile = await call('/api/profile', 'PATCH', { ...payload, name: 'paid learner' });
-  assert.equal(duplicateProfile.status, 409);
-  assert.match((await duplicateProfile.json()).message, /username is already taken/);
-  const profile = await call('/api/profile', 'PATCH', { ...payload, profileImageDataUrl: image });
-  assert.equal(profile.status, 200);
-  const imageUrl = (await profile.json()).user.profileImageUrl;
-  assert.equal((await call(imageUrl)).status, 200);
-  assert.equal((await fetch(address + imageUrl)).status, 401);
   assert.deepEqual(await (await call('/api/storage/status')).json(), { status: 'ready' });
   assert.equal((await call('/api/auth/logout', 'POST', {})).status, 200);
   assert.equal((await call('/api/auth/session')).status, 401);
@@ -166,7 +179,7 @@ test('remote storage outages fail readiness and never acknowledge failed writes'
   outage = true;
   assert.equal((await fetch(address + '/health/live')).status, 200);
   assert.equal((await fetch(address + '/health/ready')).status, 503);
-  const signup = await fetch(address + '/api/auth/signup', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://app.example' }, body: JSON.stringify({ name: 'Test', email: 'test@example.test', password: 'long-test-password1!', medicalCollege: 'College', contactNumber: '9000000001' }) });
+  const signup = await fetch(address + '/api/auth/signup', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://app.example' }, body: JSON.stringify({ name: 'Test', email: 'test@example.test', password: 'long-test-password1!', medicalCollege: 'College', mbbsBatch: 2023, contactNumber: '9000000001' }) });
   assert.equal(signup.status, 503);
   assert.equal(signup.headers.get('set-cookie'), null);
   assert.equal(await readFile(path.join(directory, 'users.json'), 'utf8'), local);

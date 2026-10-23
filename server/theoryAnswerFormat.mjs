@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 // Saved prompt is also the live source of Gemini's formatting instructions.
 const prompt = readFileSync(new URL('../docs/gemini-theory-answer-prompt.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const [rules, subjectText] = prompt.split('## Subject-specific formats');
+export const theoryAnswerPresentation = rules.split('## Readable answer presentation')[1].split('## Marks and command words')[0].trim();
 const formats = [...subjectText.matchAll(/## (\d+)\. ([^\n]+)\n([\s\S]*?)(?=\n## \d+\.|$)/g)];
 const aliases = {
   'forensic medicine and toxicology': 7, 'forensic medicine': 7,

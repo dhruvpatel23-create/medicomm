@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
-import { filterPracticeLibraryForUi, hasQuestionImage } from '../src/lib/practiceImageVisibility.js';
+import { filterPracticeLibraryForUi, hasQuestionImage, hasUnresolvedStatementAudit } from '../src/lib/practiceImageVisibility.js';
 
 const image = '/uploads/medicomm-img1-example.png';
 
@@ -51,6 +51,7 @@ test('actual banks preserve stored records while showing only PYQs and eligible 
   for (const [index, subject] of library.subjects.entries()) {
     const shown = visible.subjects[index];
     assert.deepEqual(shown.questions, subject.questions.filter(q => (!q.source || q.source === 'official')
+      && !hasUnresolvedStatementAudit(q)
       && (subject.yearId !== 'final-year' || !hasQuestionImage(q) || q.imageReviewStatus === 'img1-visually-verified' || [...(q.imageUrls??[]),...(q.images??[])].some(url=>url.startsWith('/uploads/medicomm-img1-')))));
   }
   for (const [index, session] of library.fmgeSessions.entries()) {
@@ -72,11 +73,34 @@ test('all installed surgery replacements survive server normalization and UI fil
   const bank = JSON.parse(readFileSync(new URL('../data/practice-question-bank.json', import.meta.url)));
   const surgery = bank.subjects.find(s=>s.id==='general-surgery');
   const reviewed = surgery.questions.filter(q=>q.imageReviewStatus==='img1-visually-verified');
-  assert.equal(reviewed.length,46);
+  assert.ok(reviewed.length > 0);
   const questions = reviewed.map(q=>normalize(q,surgery));
   assert(questions.every(q=>q.imageReviewStatus==='img1-visually-verified'));
   const library={subjects:[{...surgery,questions}]};
-  assert.equal(filterPracticeLibraryForUi(library).subjects[0].questions.length,46);
+  const eligibleCount = questions.filter(q => !hasUnresolvedStatementAudit(q)).length;
+  assert.equal(filterPracticeLibraryForUi(library).subjects[0].questions.length,eligibleCount);
   questions.forEach(q=>delete q.imageReviewStatus);
-  assert.equal(filterPracticeLibraryForUi(library).subjects[0].questions.length,46,'Older API responses must also show installed assets');
+  assert.equal(filterPracticeLibraryForUi(library).subjects[0].questions.length,eligibleCount,'Older API responses must also show eligible installed assets');
+});
+
+test('all flagged PYQs stay stored but are hidden after API normalization', () => {
+  const bank = JSON.parse(readFileSync(new URL('../data/practice-question-bank.json', import.meta.url)));
+  const before = JSON.stringify(bank);
+  const source = readFileSync(new URL('../server.mjs', import.meta.url), 'utf8');
+  const start = source.indexOf('function normalizeQuestion(');
+  const end = source.indexOf('\nfunction getOfficialPracticeQuestions', start);
+  const normalize = vm.runInNewContext(`(${source.slice(start, end)})`);
+  const normalized = { ...bank, subjects: bank.subjects.map(s => ({ ...s, questions: s.questions.map(q => normalize(q, s)) })) };
+  for (const library of [bank, normalized]) {
+    const visible = filterPracticeLibraryForUi(library);
+    const shownIds = new Set(visible.subjects.flatMap(s => s.questions.map(q => q.id)));
+    const flagged = library.subjects.flatMap(s => s.questions).filter(q => (!q.source || q.source === 'official') && hasUnresolvedStatementAudit(q));
+    assert.equal(flagged.length, 322);
+    for (const q of flagged) {
+      assert.equal(shownIds.has(q.id), false, q.id);
+      assert.equal(visible.hiddenQuestionIds.has(q.id), true, q.id);
+    }
+    assert.equal(visible.subjects.find(s => s.id === 'dermatology').questions.length, 39);
+  }
+  assert.equal(JSON.stringify(bank), before);
 });

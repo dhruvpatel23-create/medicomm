@@ -1,18 +1,8 @@
 import { HttpError } from './security.mjs';
-
-export function cleanUsername(value) {
-  return typeof value === 'string' ? value.normalize('NFKC').trim().replace(/\s+/gu, ' ') : '';
-}
+import { cleanUsername, validateUsername } from '../src/lib/usernames.js';
+export { cleanUsername, validateUsername } from '../src/lib/usernames.js';
 
 export function usernameKey(value) { return cleanUsername(value).toLowerCase(); }
-
-export function validateUsername(value) {
-  const name = cleanUsername(value);
-  if (!name || name.length > 254 || /[\p{Cc}\p{Cf}]/u.test(name)) {
-    return 'Enter a username of 1 to 254 characters without hidden control characters.';
-  }
-  return null;
-}
 
 export function requireAvailableUsername(users, value, ownId) {
   const invalid = validateUsername(value);

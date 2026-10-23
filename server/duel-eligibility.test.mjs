@@ -31,6 +31,9 @@ test('actual 1v1 pool excludes every final-year PYQ and includes valid topic-wis
   const finalIds = new Set(bank.years.find(year => year.id === 'final-year').subjectIds);
   let excluded = 0, topicWise = 0;
   for (const subject of bank.subjects) for (const q of subject.questions) {
+    if (q.source !== 'ai' && ['likely-missing-list', 'image-review-required'].includes(q.statementAudit?.status)) {
+      assert.equal(ids.has(q.id), false, q.id);
+    }
     if (finalIds.has(subject.id) && q.source !== 'ai') {
       assert.equal(ids.has(q.id), false, q.id);
       excluded++;

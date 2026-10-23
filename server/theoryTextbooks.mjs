@@ -1,3 +1,5 @@
+import { theoryAnswerPresentation } from './theoryAnswerFormat.mjs';
+
 // Reference titles, not a claim that a particular edition was retrieved.
 const books = {
   anatomy: ["B. D. Chaurasia's Human Anatomy", "Inderbir Singh's Human Embryology", "Inderbir Singh's Textbook of Human Histology"],
@@ -27,6 +29,7 @@ export function buildTheoryTextbookInstructions(subjectTitle) {
     "Base the corrected model answer on standard undergraduate medical textbooks used in Indian MBBS teaching, in Indian university/professional examination answer format only. Write an original synthesis of textbook knowledge, never a reproduced passage. Do not use coaching-note shorthand, chatty explanations, or USMLE-style discussion.",
     titles.length ? `Use the relevant textbook(s) from this approved list: ${JSON.stringify(titles)}.` : "Select established subject-specific undergraduate textbooks used in India; never invent a textbook title.",
     "Use a brief definition/introduction where relevant, then logically ordered descriptive headings and complete exam points covering each requested part. Include relevant classification, mechanisms, features, investigations, management, applied significance or labelled-diagram guidance only as appropriate to the question. Scale depth to short-note versus long-answer format and marks. Do not include feedback about the student's performance inside the model answer.",
+    theoryAnswerPresentation,
     "Return textbookSources with one to three entries identifying the textbook basis of this answer: book (the exact approved title) and topic (the relevant topic covered by the answer). Select only relevant books, not the whole list. These are general textbook references based on your knowledge: no full textbook has been supplied or retrieved. Do not claim you consulted a book or verified a chapter, edition, quotation, page number, or URL. Do not invent those details. If a detail cannot be supported confidently, explicitly flag the uncertainty rather than inventing a citation or a medical fact.",
   ].join("\n\n");
 }

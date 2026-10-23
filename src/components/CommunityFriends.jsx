@@ -361,9 +361,10 @@ export function FriendsPanel({ model, onAdd, onMessage }) {
       <Dialog open={Boolean(profile)} onOpenChange={open => { if (!open) setProfileId(null); }}>
         <DialogContent>
           {profile && <>
-            <div className="mb-4"><Avatar name={profile.name} src={profile.profileImageUrl} /></div>
+            <div className="mb-4"><div className={profile.hasPracticeAccess ? "paid-avatar inline-flex rounded-full" : "inline-flex"}><Avatar name={profile.name} src={profile.profileImageUrl} /></div></div>
             <DialogTitle>{profile.name}</DialogTitle>
             <DialogDescription>{profile.medicalCollege || 'College not added'}</DialogDescription>
+            <p className="mt-2 text-sm">MBBS batch: {profile.mbbsBatch || 'Not provided'}</p>
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{profile.rating?.toLocaleString() ?? '?'} Elo</p>
             <section className="mt-6 border-t border-slate-200 pt-5 dark:border-slate-800" aria-label="1v1 head-to-head">
               <div className="flex items-center justify-between gap-3">

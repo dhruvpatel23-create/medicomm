@@ -1,4 +1,5 @@
 import EmailVerification from "./components/EmailVerification";
+import { validateUsername } from "./lib/usernames";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AppShell } from "./components/AppShellV2";
@@ -38,7 +39,7 @@ import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 import { shuffleQuestionOptions } from "./lib/shuffleQuestionOptions";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261020-visible-trial-catalog";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261023-reviewed-options";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -692,6 +693,7 @@ function App() {
   const [profileBusy, setProfileBusy] = useState(false);
   const [profileMessage, setProfileMessage] = useState("");
   const [publicProfile, setPublicProfile] = useState(null);
+  const [profileFriendBusy, setProfileFriendBusy] = useState(false);
   const [publicProfileBusy, setPublicProfileBusy] = useState(false);
   const [publicProfileMessage, setPublicProfileMessage] = useState("");
   const [publicProfileReturnView, setPublicProfileReturnView] = useState("Communities");
@@ -731,6 +733,7 @@ function App() {
     email: "",
     medicalState: "",
     medicalCountry: "",
+    mbbsBatch: "",
     medicalCollege: "",
     contactNumber: "",
     password: "",
@@ -2878,6 +2881,7 @@ async function fetchPracticeLibrary() {
       email: "",
       medicalState: "",
       medicalCountry: "",
+      mbbsBatch: "",
       medicalCollege: "",
       contactNumber: "",
       password: "",
@@ -2886,6 +2890,13 @@ async function fetchPracticeLibrary() {
 
   async function handleAuthSubmit(event) {
     event.preventDefault();
+    if (authMode === "signup") {
+      const usernameError = validateUsername(authForm.name);
+      if (usernameError) {
+        setAuthMessage(usernameError);
+        return;
+      }
+    }
     setAuthBusy(true);
     setAuthMessage("");
 
@@ -2973,7 +2984,7 @@ async function fetchPracticeLibrary() {
     try {
       const data = await apiRequest("/api/profile", {
         method: "PATCH",
-        body: JSON.stringify(photoOnly ? { ...createProfileState(user), profileImageDataUrl: profileState.profileImageDataUrl } : profileState),
+        body: JSON.stringify({ profileImageDataUrl: profileState.profileImageDataUrl }),
         timeoutMs: 30000,
       });
 
@@ -3066,12 +3077,25 @@ async function fetchPracticeLibrary() {
                     type="text"
                     autoComplete="off"
                     value={authForm.name}
-                    maxLength={254}
+                    minLength={2}
+                    maxLength={40}
                     required
-                    onChange={(event) => updateAuthField("name", event.target.value)}
+                    onChange={(event) => {
+                      event.target.setCustomValidity("");
+                      updateAuthField("name", event.target.value);
+                    }}
+                    onBlur={(event) => event.target.setCustomValidity(validateUsername(event.target.value) || "")}
+                    aria-describedby="signup-username-help"
                     placeholder="Choose a unique username"
                   />
-                  <small>Your username must be unique. Capitalisation does not make it different.</small>
+                  <small id="signup-username-help">Choose a readable, unique name or handle (2–40 characters, at least two letters). Avoid random letters and repeated characters. Capitalisation does not make it different.</small>
+                </label>
+                <label className="field">
+                  <span>MBBS batch</span>
+                  <select required value={authForm.mbbsBatch} onChange={event => updateAuthField("mbbsBatch", event.target.value)}>
+                    <option value="">Select your batch</option>
+                    {[2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026].map(year => <option key={year} value={year}>{year} batch</option>)}
+                  </select>
                 </label>
                 <div className="auth-location-fields">
                   <label className="field">
@@ -4970,6 +4994,19 @@ async function fetchPracticeLibrary() {
     />;
   }
 
+  async function addProfileFriend() {
+    if (!publicProfile || profileFriendBusy) return;
+    const targetId = publicProfile.id;
+    setProfileFriendBusy(true);
+    try {
+      const data = await apiRequest("/api/friends/request", { method: "POST", body: JSON.stringify({ userId: targetId }) });
+      setPublicProfile(current => current?.id === targetId ? { ...current, friendshipStatus: data.accepted ? "friends" : "outgoing" } : current);
+      fetchFriendRequests();
+    } catch (error) {
+      setPublicProfileMessage(error.message || "Could not send friend request.");
+    } finally { setProfileFriendBusy(false); }
+  }
+
   function renderPublicProfile() {
     const previewImage = publicProfile?.profileImageUrl;
 
@@ -4996,7 +5033,7 @@ async function fetchPracticeLibrary() {
           <div className="content-grid profile-layout">
             <article className="card panel profile-photo-card">
               <h3>Profile picture</h3>
-              <div className="profile-avatar-xl">
+              <div className={`profile-avatar-xl${publicProfile.hasPracticeAccess ? " paid-avatar" : ""}`}>
                 {previewImage ? (
                   <img className="avatar-image" src={previewImage} alt={`${publicProfile.name} profile`} />
                 ) : (
@@ -5004,6 +5041,10 @@ async function fetchPracticeLibrary() {
                 )}
               </div>
               <p className="panel-copy">{publicProfile.name}</p>
+              {publicProfile.hasPracticeAccess && <p className="panel-copy">Paid member</p>}
+              {!publicProfile.isCurrentUser && <button className="button button-primary" disabled={profileFriendBusy || ["friends", "outgoing"].includes(publicProfile.friendshipStatus)} onClick={addProfileFriend}>
+                {profileFriendBusy ? "Sending..." : publicProfile.friendshipStatus === "friends" ? "Friends" : publicProfile.friendshipStatus === "outgoing" ? "Request sent" : publicProfile.friendshipStatus === "incoming" ? "Accept friend request" : "Add friend"}
+              </button>}
             </article>
 
             <article className="card panel">
@@ -5012,6 +5053,8 @@ async function fetchPracticeLibrary() {
                 <div className="stack-row">
                   <span>Medical college</span>
                   <strong>{publicProfile.medicalCollege}</strong>
+                </div>
+                <div className="stack-row"><span>MBBS batch</span><strong>{publicProfile.mbbsBatch ? `${publicProfile.mbbsBatch} batch` : "Not provided"}</strong>
                 </div>
                 <div className="stack-row">
                   <span>State</span>
@@ -5055,49 +5098,7 @@ async function fetchPracticeLibrary() {
           </div>
           <p className="panel-copy">{user.subscriptionExpiresAt ? 'Your annual membership dates are saved to your account.' : 'Your existing access is preserved while the purchase date is confirmed.'}</p>
         </article>}
-        <div className="content-grid profile-layout">
-          <article className="card panel">
-            <h3>Personal details</h3>
-            <form className="profile-form" onSubmit={handleProfileSave}>
-              <label className="field">
-                <span>Username</span>
-                <input
-                  type="text"
-                  value={profileState.name}
-                  maxLength={254}
-                  required
-                  onChange={(event) => updateProfileField("name", event.target.value)}
-                />
-              </label>
-              <label className="field">
-                <span>Email</span>
-                <input type="email" value={user?.email ?? ""} disabled />
-              </label>
-              <label className="field">
-                <span>Medical college</span>
-                <input
-                  type="text"
-                  value={profileState.medicalCollege}
-                  onChange={(event) => updateProfileField("medicalCollege", event.target.value)}
-                />
-              </label>
-              <label className="field">
-                <span>Contact number</span>
-                <input
-                  type="tel"
-                  value={profileState.contactNumber}
-                  onChange={(event) => updateProfileField("contactNumber", event.target.value)}
-                />
-              </label>
 
-              {profileMessage ? <p className="form-message">{profileMessage}</p> : null}
-
-              <button className="button button-primary" type="submit" disabled={profileBusy}>
-                {profileBusy ? "Saving..." : "Save profile"}
-              </button>
-            </form>
-          </article>
-        </div>
       </section>
     );
   }
