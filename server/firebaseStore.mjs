@@ -82,7 +82,7 @@ export function createFirebaseState({ db, namespace = 'medicomm' }) {
     const data = Object.fromEntries(await Promise.all(Object.entries(manifest.fields).map(async ([key, ref]) => [key, await blobs.get(ref)])));
     const ledger = await blobs.get(manifest.ledger);
     cached = { manifest, ledger };
-    return { data, revision: manifest.revision };
+    return { data, revision: manifest.revision, membershipCount: ledger.length };
   }
   async function save(data, revision) {
     if (!cached || cached.manifest.revision !== revision) throw new HttpError(409, 'Reload the latest Firebase state.');

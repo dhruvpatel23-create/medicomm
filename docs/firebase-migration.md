@@ -111,6 +111,22 @@ loss of transient profile flags/payment copies.
 
 ## Storage and operating limits
 
+### Read-only administration
+
+From the deployed project directory, run `npm run firebase:stats` for current
+account, subscription, activity and notepad counts. `npm run firebase:users`
+lists account IDs, names, emails, plans and subscription dates without passwords
+or session tokens. Filter one account with
+`npm run firebase:users -- --email person@example.com`.
+These commands never write database records. On the existing VPS they can use
+the private `/etc/medulla/firebase-admin.json` credential when the shell does not
+already specify one. Keep that file private. No PM2 restart is needed to run reports.
+
+Firebase Console → Firestore → Data → `medullaApps` → `medicomm` → `migration`
+shows counts captured at import. Those are historical counts; use the reports for
+current data. Compressed `blobs` are storage chunks, not one document per account.
+Static bundled practice questions are counted separately from app-saved questions.
+
 Firebase data lives under `medullaApps/{namespace}`. Top-level application fields
 are independently encoded as gzip-compressed, immutable 512 KiB binary chunks.
 A transactional, revision-checked manifest makes all changed fields visible at
