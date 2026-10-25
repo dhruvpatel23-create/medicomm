@@ -35,6 +35,7 @@ import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data
 import CountrySelect from "./components/CountrySelect";
 import AuthPracticePreview from "./components/AuthPracticePreview";
 import GoogleSignIn from "./components/GoogleSignIn";
+import PasswordRecovery from "./components/PasswordRecovery";
 import { isValidSignupPhone } from "./lib/phoneNumber";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
@@ -683,6 +684,18 @@ function App() {
   const [authBusy, setAuthBusy] = useState(false);
   const [emailChallenge, setEmailChallenge] = useState(null);
   const [googleSignup, setGoogleSignup] = useState(null);
+  const [recovery, setRecovery] = useState(() => window.location.hash.startsWith('#reset-password=')
+    ? { token: window.location.hash.slice('#reset-password='.length) } : null);
+  useEffect(() => {
+    const capture = () => {
+      if (!window.location.hash.startsWith('#reset-password=')) return;
+      setRecovery({ token: window.location.hash.slice('#reset-password='.length) });
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    };
+    capture();
+    window.addEventListener('hashchange', capture);
+    return () => window.removeEventListener('hashchange', capture);
+  }, []);
   const [authMessage, setAuthMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [user, setUser] = useState(null);
@@ -1085,6 +1098,7 @@ async function fetchPracticeLibrary() {
   useEffect(() => {
     let isActive = true;
 
+    if (recovery) return;
     apiRequest("/api/auth/session", { timeoutMs: 3000 })
       .then((data) => {
         if (!isActive) return;
@@ -1104,7 +1118,7 @@ async function fetchPracticeLibrary() {
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [Boolean(recovery)]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -3214,6 +3228,7 @@ async function fetchPracticeLibrary() {
               {isSignup ? <small id="signup-password-requirements">8 to 128 characters, including at least one number and one special character.</small> : null}
             </label>}
 
+            {!isSignup && <button type="button" disabled={authBusy} className="sm:col-span-2 justify-self-end text-sm font-medium text-teal-700 hover:underline dark:text-teal-400" onClick={() => setRecovery({ token: null })}>Forgot password?</button>}
             {authMessage ? <p className="sm:col-span-2 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-900 dark:bg-rose-950 dark:text-rose-200" role="alert">{authMessage}</p> : null}
 
             <button className="sm:col-span-2 mt-1 min-h-12 rounded-lg bg-teal-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60" type="submit" disabled={authBusy}>
@@ -5272,6 +5287,16 @@ async function fetchPracticeLibrary() {
         return renderHome();
     }
   }
+
+  if (recovery) return <div className="mx-auto w-full max-w-lg px-4 py-10 text-slate-900 dark:text-slate-100">
+    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-teal-700 dark:text-teal-400">Medulla / Account recovery</p>
+      <h1 className="mb-5 text-2xl font-semibold">{recovery.token ? 'Reset your password' : 'Forgot your password?'}</h1>
+      <PasswordRecovery token={recovery.token} initialEmail={authForm.email}
+        onBack={() => { setRecovery(null); setAuthMode('login'); setEmailChallenge(null); setGoogleSignup(null); setAuthMessage(''); setAuthForm(current => ({ ...current, password: '' })); }}
+        onReset={() => { localStorage.removeItem(SESSION_TOKEN_KEY); setUser(null); setAuthStatus('unauthenticated'); }} />
+    </section>
+  </div>;
 
   if (authStatus === "loading") {
     return (

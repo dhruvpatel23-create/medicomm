@@ -1,5 +1,6 @@
 import { createMailer, createEmailWorker, queueThankYou } from './server/email.mjs';
 import { createEmailVerification } from './server/emailVerification.mjs';
+import { createPasswordRecovery } from './server/passwordRecovery.mjs';
 import { createNotepadStore, createDraftHandler } from './server/notepadStore.mjs';
 import { createMatch, validDuelQuestion, lockAnswer, settleMatch, matchProgress } from "./server/duels.mjs";
 import { createServer } from "node:http";
@@ -220,6 +221,8 @@ function normalizeDatabase(parsed = {}) {
     sessions: parsed.sessions ?? {},
     emailChallenges: Array.isArray(parsed.emailChallenges) ? parsed.emailChallenges : [],
     emailVerificationLimits: parsed.emailVerificationLimits ?? {},
+    passwordResets: parsed.passwordResets ?? [],
+    passwordResetLimits: parsed.passwordResetLimits ?? {},
     communities,
     directConversations: Array.isArray(parsed.directConversations) ? parsed.directConversations : [],
     duelQueue: Array.isArray(parsed.duelQueue) ? parsed.duelQueue : [],
@@ -362,6 +365,12 @@ const practiceLive = createPracticeLive({ readDatabase, getSessionUser, sanitize
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
 const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess, parseRequestBody, sendJson });
 const mailer = createMailer();
+const recoveryOrigin = process.env.PASSWORD_RESET_ORIGIN || (allowedOrigins.has('https://medullaprep.com') ? 'https://medullaprep.com' : [...allowedOrigins][0]);
+if (!allowedOrigins.has(recoveryOrigin)) throw new Error('PASSWORD_RESET_ORIGIN must be an allowed application origin.');
+const passwordRecovery = createPasswordRecovery({ readDatabase, writeDatabase, mailer, origin: recoveryOrigin, hashPassword,
+  revokeGoogleSessions: firebase ? uid => firebase.auth.revokeRefreshTokens(uid) : undefined,
+  log: event => console.warn(JSON.stringify(event)),
+});
 const emailVerification = createEmailVerification({ readDatabase, writeDatabase, mailer,
   validateNewUser(db, user) {
     requireAvailableUsername(db.users, user.username);
@@ -4027,7 +4036,7 @@ async function handleRequest(request, response) {
         ? String(request.headers['x-forwarded-for'] || request.socket.remoteAddress).split(',').at(-1).trim()
         : request.socket.remoteAddress;
       limitRequest(`api:${peer}`, 600, 60000);
-      if (['/api/auth/login', '/api/auth/signup', '/api/auth/google', '/api/auth/verify-email', '/api/auth/resend-email'].includes(url.pathname)) limitRequest(`auth:${peer}`, 20, 15 * 60000);
+      if (['/api/auth/login', '/api/auth/signup', '/api/auth/google', '/api/auth/verify-email', '/api/auth/resend-email', '/api/auth/forgot-password', '/api/auth/reset-password'].includes(url.pathname)) limitRequest(`auth:${peer}`, 20, 15 * 60000);
       const costly = request.method === 'POST' && /^\/api\/(?:generate-question|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname);
       if (costly) {
         const user = getSessionUser(request, readDatabase());
@@ -4070,6 +4079,16 @@ async function handleRequest(request, response) {
   }
 
     if (url.pathname === '/api/practice/fmge-tests' || url.pathname.startsWith('/api/practice/fmge-tests/')) return await handleFmgeTests(request, response, url);
+    if (request.method === 'POST' && url.pathname === '/api/auth/forgot-password') {
+      limitRequest('password-recovery-global', 100, 60000);
+      const payload = await parseRequestBody(request);
+      return sendJson(response, 202, await passwordRecovery.start(payload.email));
+    }
+    if (request.method === 'POST' && url.pathname === '/api/auth/reset-password') {
+      const payload = await parseRequestBody(request);
+      const result = await passwordRecovery.reset(payload.token, payload.password);
+      return sendJson(response, 200, result, { 'Set-Cookie': sessionCookie('', production, true) });
+    }
     if (request.method === 'POST' && url.pathname === '/api/auth/verify-email') {
       const payload = await parseRequestBody(request);
       const result = await emailVerification.verify(payload.challengeId, payload.code);
