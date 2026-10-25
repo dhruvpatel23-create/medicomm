@@ -9,6 +9,10 @@ import { HttpError, readJson, createLimiter, sessionHash, issueSession, sessionT
 import { createStateStore, validateSupabaseState } from './server/stateStore.mjs';
 import { createPracticeLive } from './server/practiceLive.mjs';
 import { createUploads } from './server/uploads.mjs';
+import { firebaseServices } from './server/firebaseAdmin.mjs';
+import { createFirebaseState } from './server/firebaseStore.mjs';
+import { createFirebaseNotepad } from './server/firebaseNotepad.mjs';
+import { createFirebaseUploads } from './server/firebaseUploads.mjs';
 import { servePublicImage } from './server/publicImages.mjs';
 import { getDuelImageUrls } from './src/lib/duelImages.js';
 import { isDuelQuestionEligible } from './server/duelEligibility.mjs';
@@ -74,15 +78,20 @@ const supabaseServiceRoleKey =
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY || "";
 const supabaseStateTable = process.env.SUPABASE_STATE_TABLE ?? "app_state";
 const supabaseStateKey = process.env.SUPABASE_STATE_KEY ?? "medicomm";
-const isSupabaseEnabled = Boolean(supabaseUrl && supabaseServiceRoleKey);
+const { production, allowedOrigins, uploadBucket, databaseProvider, uploadStorage } = deploymentConfig();
+const isFirebaseEnabled = databaseProvider === 'firebase';
+const isSupabaseEnabled = databaseProvider === 'supabase' && Boolean(supabaseUrl && supabaseServiceRoleKey);
+const firebase = isFirebaseEnabled ? firebaseServices() : null;
+const firebaseNamespace = process.env.FIREBASE_NAMESPACE || supabaseStateKey;
+const firebaseState = firebase ? createFirebaseState({ db: firebase.db, namespace: firebaseNamespace }) : null;
 const DEFAULT_USER_RATING = 1480;
 const DEFAULT_USER_STREAK = 1;
 const DEFAULT_CORRECT_ANSWERS = 0;
 const DEFAULT_ATTEMPTED_QUESTIONS = 0;
 const PASSWORD_HASH_ITERATIONS = 220000;
 const derivePassword = promisify(pbkdf2);
-const { production, allowedOrigins, uploadBucket } = deploymentConfig();
-const uploads = createUploads({ url: supabaseUrl, key: supabaseServiceRoleKey, bucket: uploadBucket, directory: uploadsDir });
+const uploads = isFirebaseEnabled && uploadStorage === 'firebase' ? createFirebaseUploads(firebase.bucket)
+  : createUploads({ url: supabaseUrl, key: supabaseServiceRoleKey, bucket: uploadBucket, directory: uploadsDir });
 const limitRequest = createLimiter();
 let stopping = false;
 const LEGACY_PASSWORD_HASH_ITERATIONS = 120000;
@@ -149,12 +158,12 @@ ensureStorage();
 const seedCommunityIds = new Set(["community-usmle-step-1", "community-emergency-medicine", "community-radiology-rounds"]);
 let stateStore;
 const storageStatus = {
-  mode: isSupabaseEnabled ? "supabase" : "local",
+  mode: databaseProvider,
   table: supabaseStateTable,
   key: supabaseStateKey,
   loadedAt: null,
   lastWriteAt: null,
-  lastWriteStatus: isSupabaseEnabled ? "pending" : "local-only",
+  lastWriteStatus: isSupabaseEnabled || isFirebaseEnabled ? "pending" : "local-only",
   lastError: null,
 };
 
@@ -203,6 +212,7 @@ function normalizeDatabase(parsed = {}) {
     questionBookmarks: Array.isArray(user.questionBookmarks) ? user.questionBookmarks.slice(0, 500) : [],
   }));
   return {
+    ...(isFirebaseEnabled ? parsed : {}),
     users,
     sessions: parsed.sessions ?? {},
     emailChallenges: Array.isArray(parsed.emailChallenges) ? parsed.emailChallenges : [],
@@ -308,14 +318,16 @@ async function writeSupabaseDatabase(data, revision) {
 }
 
 async function initializeDatabaseStore() {
-  const loaded = isSupabaseEnabled ? await readSupabaseDatabase() : { data: readLocalDatabaseFile(), revision: 0 };
+  const loaded = isFirebaseEnabled ? await firebaseState.load() : isSupabaseEnabled ? await readSupabaseDatabase() : { data: readLocalDatabaseFile(), revision: 0 };
+  if (isFirebaseEnabled) loaded.data = normalizeDatabase(loaded.data);
   stateStore = createStateStore({
     initial: loaded.data,
     revision: loaded.revision,
-    reload: isSupabaseEnabled ? readSupabaseDatabase : undefined,
+    reload: isFirebaseEnabled ? async () => { const loaded = await firebaseState.load(); return { ...loaded, data: normalizeDatabase(loaded.data) }; } : isSupabaseEnabled ? readSupabaseDatabase : undefined,
     persist: async (data, revision) => {
       assertUniqueUsernames(data);
-      if (isSupabaseEnabled) await writeSupabaseDatabase(data, revision);
+      if (isFirebaseEnabled) await firebaseState.save(data, revision);
+      else if (isSupabaseEnabled) await writeSupabaseDatabase(data, revision);
       else {
         const temporary = `${databasePath}.tmp`;
         await fs.writeFile(temporary, JSON.stringify(data, null, 2), { mode: 0o600 });
@@ -1816,8 +1828,9 @@ async function requestGeminiShortNotePrompt({ subjectTitle, topic, kind }) {
   }
 }
 
-const notepadStore = createNotepadStore({ url: supabaseUrl, key: supabaseServiceRoleKey, namespace: supabaseStateKey });
-const rowNotepadStorage = process.env.NOTEPAD_ROW_STORAGE === 'true';
+const notepadStore = isFirebaseEnabled ? createFirebaseNotepad({ db: firebase.db, namespace: firebaseNamespace })
+  : createNotepadStore({ url: supabaseUrl, key: supabaseServiceRoleKey, namespace: supabaseStateKey });
+const rowNotepadStorage = isFirebaseEnabled || process.env.NOTEPAD_ROW_STORAGE === 'true';
 const handleNotepadDraft = createDraftHandler({ store: notepadStore, readDatabase, requireSessionUser, parseRequestBody, sendJson });
 const handleShortNotes = createShortNotesHandler({
   reviewStore: rowNotepadStorage ? notepadStore : null,
@@ -3626,7 +3639,9 @@ function handleSummary(response) {
 
 async function handleStorageStatus(response) {
   let ready = !stopping && stateStore.healthy;
-  if (ready && isSupabaseEnabled) {
+  if (ready && isFirebaseEnabled) {
+    try { await firebaseState.check(); } catch { ready = false; }
+  } else if (ready && isSupabaseEnabled) {
     try { await readSupabaseDatabase(); } catch { ready = false; }
   }
   return sendJson(response, ready ? 200 : 503, { status: ready ? 'ready' : 'unavailable' });

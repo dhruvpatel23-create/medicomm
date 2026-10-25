@@ -33,7 +33,7 @@ globalThis.fetch = async (url, options) => {
     child.stdout.on('data', data => { output += data; const match = output.match(/listening on http:\/\/127.0.0.1:(\d+)/); if (match) resolve(`http://127.0.0.1:${match[1]}`); });
   });
   const call = (route, body) => fetch(base + route, { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'http://localhost:5173' }, body: JSON.stringify(body) });
-  const signup = await call('/api/auth/signup', { name: 'Email Learner', email: 'learner@example.test', password: 'Strong1!pass', contactNumber: '9000000001', medicalCollege: 'College' });
+  const signup = await call('/api/auth/signup', { name: 'Email Learner', email: 'learner@example.test', password: 'Strong1!pass', contactNumber: '9000000001', medicalCollege: 'College', mbbsBatch: 2023 });
   assert.equal(signup.status, 202); assert.equal(signup.headers.get('set-cookie'), null);
   const challenge = await signup.json();
   assert.equal(JSON.parse(await readFile(path.join(directory, 'users.json'))).users.length, 0);
