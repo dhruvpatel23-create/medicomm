@@ -1,7 +1,7 @@
 import { HttpError, issueSession, sessionUser } from './security.mjs';
 import { updateTokenState } from './tokens.mjs';
 
-export function createGoogleAuth({ auth, readDatabase, writeDatabase, verifyPassword, createUser, now = Date.now }) {
+export function createGoogleAuth({ auth, readDatabase, writeDatabase, verifyPassword, verifyExisting, createUser, now = Date.now }) {
   return async function signIn(payload, request) {
     if (!auth) throw new HttpError(503, 'Google sign-in is temporarily unavailable.');
     const idToken = payload.idToken;
@@ -20,29 +20,31 @@ export function createGoogleAuth({ auth, readDatabase, writeDatabase, verifyPass
       throw new HttpError(401, 'Use a recently authenticated Google account with a verified email.');
     }
     const matches = database => {
-      const byUid = database.users.filter(u => u.googleUid === claims.uid);
+      const byUid = database.users.filter(u => u.googleUid === claims.uid || u.firebaseAuthUid === claims.uid);
       const byEmail = database.users.filter(u => u.email.toLowerCase() === email);
       if (byUid.length > 1 || byEmail.length > 1 || (byUid[0] && byUid[0].email.toLowerCase() !== email) ||
-          (byEmail[0]?.googleUid && byEmail[0].googleUid !== claims.uid)) throw new HttpError(409, 'This Google identity cannot be linked automatically. Please contact support.');
+          (byEmail[0]?.googleUid && byEmail[0].googleUid !== claims.uid) ||
+          (byEmail[0]?.firebaseAuthUid && byEmail[0].firebaseAuthUid !== claims.uid)) throw new HttpError(409, 'This Google identity cannot be linked automatically. Please contact support.');
       return byUid[0] || byEmail[0];
     };
     const initial = readDatabase(), existing = matches(initial);
     let passwordProof = null;
     if (existing && !existing.googleUid && sessionUser(request, initial, now())?.id !== existing.id) {
       if (!payload.linkPassword) return { linkRequired: true, email };
-      if (typeof payload.linkPassword !== 'string' || payload.linkPassword.length > 128 ||
-          !existing.passwordHash || !existing.passwordSalt ||
-          !await verifyPassword(payload.linkPassword, existing.passwordSalt, existing.passwordHash, existing.passwordIterations)) {
+      const valid = typeof payload.linkPassword === 'string' && payload.linkPassword.length <= 128 &&
+        (existing.firebaseAuthUid && verifyExisting ? await verifyExisting(existing, payload.linkPassword) :
+          existing.passwordHash && existing.passwordSalt && await verifyPassword(payload.linkPassword, existing.passwordSalt, existing.passwordHash, existing.passwordIterations));
+      if (!valid) {
         throw new HttpError(401, 'The existing account password is incorrect.');
       }
-      passwordProof = { id: existing.id, hash: existing.passwordHash };
+      passwordProof = { id: existing.id, hash: existing.passwordHash, uid: existing.firebaseAuthUid };
     }
     if (!existing && !payload.profile) return { profileRequired: true, email, name: identity.displayName || '' };
     let result;
     await updateTokenState(readDatabase, writeDatabase, database => {
       let user = matches(database);
       if (user && !user.googleUid && sessionUser(request, database, now())?.id !== user.id &&
-          (!passwordProof || passwordProof.id !== user.id || passwordProof.hash !== user.passwordHash)) {
+          (!passwordProof || passwordProof.id !== user.id || passwordProof.hash !== user.passwordHash || passwordProof.uid !== user.firebaseAuthUid)) {
         throw new HttpError(409, 'Your account changed. Please continue with Google again.');
       }
       if (!user) {
@@ -53,6 +55,8 @@ export function createGoogleAuth({ auth, readDatabase, writeDatabase, verifyPass
       }
       // Preserve IDs, password hashes, subscriptions, attempts and all other data.
       user.googleUid = claims.uid;
+      user.firebaseAuthUid = claims.uid;
+      user.authProvider = 'firebase';
       user.emailVerifiedAt ||= new Date(now()).toISOString();
       user.emailVerificationSource ||= 'google';
       database.emailChallenges = (database.emailChallenges || []).filter(c => c.email.toLowerCase() !== email);

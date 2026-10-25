@@ -7,7 +7,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { once } from 'node:events';
 
-test('HTTP signup, verification and password recovery preserve the account', { timeout: 90000 }, async t => {
+test('Legacy local signup and verification remain available; recovery requires Firebase', { timeout: 90000 }, async t => {
   const directory = await mkdtemp(path.join(tmpdir(), 'medulla-email-'));
   const mailFile = path.join(directory, 'mail.json'), preload = path.join(directory, 'mock-email.mjs');
   await writeFile(path.join(directory, 'users.json'), JSON.stringify({ users: [], sessions: {} }));
@@ -47,19 +47,6 @@ globalThis.fetch = async (url, options) => {
   assert(saved.users[0].emailVerifiedAt); assert.equal(saved.emailChallenges.length, 0);
   assert.equal((await call('/api/auth/verify-email', { challengeId: challenge.challengeId, code })).status, 400);
   assert.equal((await call('/api/auth/login', { email: 'learner@example.test', password: 'Strong1!pass' })).status, 200);
-  const recovery = await call('/api/auth/forgot-password', { email: 'learner@example.test' });
-  assert.equal(recovery.status, 202);
-  let recoveryMail;
-  for (let tries = 0; tries < 40; tries++) {
-    try { recoveryMail = JSON.parse(await readFile(mailFile)); } catch {}
-    if (recoveryMail?.text.includes('#reset-password=')) break;
-    await new Promise(resolve => setTimeout(resolve, 25));
-  }
-  const token = recoveryMail.text.match(/#reset-password=([a-f0-9]{64})/)[1];
-  const reset = await call('/api/auth/reset-password', { token, password: 'Replacement2!pass' });
-  assert.equal(reset.status, 200);
-  assert.match(reset.headers.get('set-cookie'), /Max-Age=0/);
-  assert.equal((await call('/api/auth/login', { email: 'learner@example.test', password: 'Strong1!pass' })).status, 401);
-  assert.equal((await call('/api/auth/login', { email: 'learner@example.test', password: 'Replacement2!pass' })).status, 200);
-  assert.equal((await call('/api/auth/reset-password', { token, password: 'Replacement3!pass' })).status, 400);
+  assert.equal((await call('/api/auth/forgot-password', { email: 'learner@example.test' })).status, 503);
+  assert.equal((await call('/api/auth/reset-password', { token: 'old-link', password: 'Replacement2!pass' })).status, 410);
 });

@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../lib/api';
+import PasswordRecovery from './PasswordRecovery';
 
 export default function EmailVerification({ challenge, onVerified, onCancel }) {
+  return challenge.firebase ? <PasswordRecovery challenge={challenge} onBack={onCancel} /> :
+    <LegacyEmailVerification challenge={challenge} onVerified={onVerified} onCancel={onCancel} />;
+}
+
+function LegacyEmailVerification({ challenge, onVerified, onCancel }) {
   const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');

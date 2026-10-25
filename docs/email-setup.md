@@ -1,4 +1,6 @@
-# Email verification and subscription emails
+# Optional subscription emails and legacy local verification
+
+For production Firebase authentication, follow [Firebase authentication and recovery](password-recovery.md). Firebase sends password-reset and verification links directly. Legacy OTP instructions below apply only to non-Firebase deployments. Resend is optional for payment thank-you messages.
 
 Email is disabled until configured. This implementation uses Resend over HTTPS (no SMTP package or mail server). It does not send real email during tests. Password sign-in remains; email OTP is a one-time verification step for new users and for existing users without `emailVerifiedAt`. It is not passwordless login or an OTP challenge on every login.
 

@@ -1,6 +1,6 @@
 import { createMailer, createEmailWorker, queueThankYou } from './server/email.mjs';
 import { createEmailVerification } from './server/emailVerification.mjs';
-import { createPasswordRecovery } from './server/passwordRecovery.mjs';
+import { createFirebaseEmailAuth } from './server/firebaseEmailAuth.mjs';
 import { createNotepadStore, createDraftHandler } from './server/notepadStore.mjs';
 import { createMatch, validDuelQuestion, lockAnswer, settleMatch, matchProgress } from "./server/duels.mjs";
 import { createServer } from "node:http";
@@ -365,13 +365,15 @@ const practiceLive = createPracticeLive({ readDatabase, getSessionUser, sanitize
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
 const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess, parseRequestBody, sendJson });
 const mailer = createMailer();
-const recoveryOrigin = process.env.PASSWORD_RESET_ORIGIN || (allowedOrigins.has('https://medullaprep.com') ? 'https://medullaprep.com' : [...allowedOrigins][0]);
-if (!allowedOrigins.has(recoveryOrigin)) throw new Error('PASSWORD_RESET_ORIGIN must be an allowed application origin.');
-const passwordRecovery = createPasswordRecovery({ readDatabase, writeDatabase, mailer, origin: recoveryOrigin, hashPassword,
-  revokeGoogleSessions: firebase ? uid => firebase.auth.revokeRefreshTokens(uid) : undefined,
+const firebaseEmailAuth = firebase ? createFirebaseEmailAuth({ auth: firebase.auth, readDatabase, writeDatabase, verifyPassword,
+  getConfig: () => {
+    googleConfigPromise ||= discoverGoogleConfig(firebase).catch(error => { googleConfigPromise = null; throw error; });
+    return googleConfigPromise;
+  },
   log: event => console.warn(JSON.stringify(event)),
-});
+}) : null;
 const emailVerification = createEmailVerification({ readDatabase, writeDatabase, mailer,
+  enabled: !firebase && process.env.EMAIL_VERIFICATION_REQUIRED === 'true',
   validateNewUser(db, user) {
     requireAvailableUsername(db.users, user.username);
     if (db.users.some(entry => entry.email.toLowerCase() === user.email || normalizeContactNumber(entry.contactNumber) === user.contactNumber)) {
@@ -381,7 +383,7 @@ const emailVerification = createEmailVerification({ readDatabase, writeDatabase,
 });
 const drainEmails = createEmailWorker({ mailer, readDatabase, writeDatabase });
 const handlePayment = createPaymentHandler({ readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson,
-  requireVerifiedEmail: emailVerification.enabled,
+  requireVerifiedEmail: Boolean(firebase) || emailVerification.enabled,
   enqueueThankYou: (order, user) => queueThankYou(order, user, mailer),
   afterPayment: () => { void drainEmails(); },
 });
@@ -2578,7 +2580,7 @@ async function handleSignup(request, response) {
     return sendJson(response, 409, { message: "An account with this mobile number already exists." });
   }
 
-  const { hash, salt, iterations } = await hashPassword(String(payload.password));
+  const { hash, salt, iterations } = firebase ? {} : await hashPassword(String(payload.password));
   const user = {
     id: randomBytes(12).toString("hex"),
     name: cleanUsername(payload.name),
@@ -2601,6 +2603,14 @@ async function handleSignup(request, response) {
     createdAt: new Date().toISOString(),
   };
 
+  if (firebaseEmailAuth) {
+    delete user.passwordHash; delete user.passwordSalt; delete user.passwordIterations;
+    const result = await firebaseEmailAuth.signup(user, String(payload.password), (db, newUser) => {
+      requireAvailableUsername(db.users, newUser.username);
+      if (db.users.some(u => normalizeContactNumber(u.contactNumber) === newUser.contactNumber)) throw new HttpError(409, 'This mobile number already has an account.');
+    });
+    return sendJson(response, 202, result);
+  }
   if (emailVerification.enabled) {
     const challenge = await emailVerification.start({ user, signup: true });
     return sendJson(response, 202, challenge);
@@ -2621,6 +2631,7 @@ async function handleSignup(request, response) {
 }
 
 const googleSignIn = createGoogleAuth({ auth: firebase?.auth, readDatabase, writeDatabase, verifyPassword,
+  verifyExisting: firebaseEmailAuth ? (user, password) => firebaseEmailAuth.verifyExisting(user, password) : undefined,
   createUser(database, profile) {
     profile.name = profile.username ?? profile.name;
     const error = validateSignupPayload(profile, { passwordRequired: false });
@@ -2645,6 +2656,12 @@ async function handleLogin(request, response) {
 
   if (!email || !password || email.length > 254 || password.length > 128) {
     return sendJson(response, 400, { message: "Email and password are required." });
+  }
+
+  if (firebaseEmailAuth) {
+    const result = await firebaseEmailAuth.login(email, password);
+    if (!result.user) return sendJson(response, 202, result);
+    return sendJson(response, 200, { user: sanitizeUser(result.user) }, { 'Set-Cookie': sessionCookie(result.token, production) });
   }
 
   const user = database.users.find((entry) => entry.email.toLowerCase() === email);
@@ -4014,6 +4031,9 @@ async function handleRequest(request, response) {
     checkOrigin(request, response, allowedOrigins);
     if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
     if (stopping) throw new HttpError(503, 'Server is restarting.');
+    if (firebaseEmailAuth && (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/user-')) &&
+        !url.pathname.startsWith('/api/auth/')) await firebaseEmailAuth.checkSession(request);
+    if (firebaseEmailAuth && url.pathname === '/api/auth/session') await firebaseEmailAuth.checkSession(request);
     const practiceResource = /^\/api\/(?:practice(?:\/|$)|generate-questions?(?:\/|$)|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname)
       || /\/(?:practice-question-bank|topic-wise-question-bank|short-notes)\.json$/i.test(path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/')));
     if (practiceResource) {
@@ -4036,7 +4056,7 @@ async function handleRequest(request, response) {
         ? String(request.headers['x-forwarded-for'] || request.socket.remoteAddress).split(',').at(-1).trim()
         : request.socket.remoteAddress;
       limitRequest(`api:${peer}`, 600, 60000);
-      if (['/api/auth/login', '/api/auth/signup', '/api/auth/google', '/api/auth/verify-email', '/api/auth/resend-email', '/api/auth/forgot-password', '/api/auth/reset-password'].includes(url.pathname)) limitRequest(`auth:${peer}`, 20, 15 * 60000);
+      if (['/api/auth/login', '/api/auth/signup', '/api/auth/google', '/api/auth/verify-email', '/api/auth/resend-email', '/api/auth/forgot-password', '/api/auth/reset-password', '/api/auth/firebase/resend-verification'].includes(url.pathname)) limitRequest(`auth:${peer}`, 20, 15 * 60000);
       const costly = request.method === 'POST' && /^\/api\/(?:generate-question|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname);
       if (costly) {
         const user = getSessionUser(request, readDatabase());
@@ -4082,19 +4102,25 @@ async function handleRequest(request, response) {
     if (request.method === 'POST' && url.pathname === '/api/auth/forgot-password') {
       limitRequest('password-recovery-global', 100, 60000);
       const payload = await parseRequestBody(request);
-      return sendJson(response, 202, await passwordRecovery.start(payload.email));
+      if (!firebaseEmailAuth) throw new HttpError(503, 'Password recovery requires Firebase authentication.');
+      return sendJson(response, 202, await firebaseEmailAuth.start(payload.email));
     }
     if (request.method === 'POST' && url.pathname === '/api/auth/reset-password') {
+      return sendJson(response, 410, { message: 'Use Forgot password to request a new Firebase recovery email. Complete the reset using the link in that email.' });
+    }
+    if (request.method === 'POST' && url.pathname === '/api/auth/firebase/resend-verification') {
+      if (!firebaseEmailAuth) throw new HttpError(503, 'Firebase authentication is unavailable.');
       const payload = await parseRequestBody(request);
-      const result = await passwordRecovery.reset(payload.token, payload.password);
-      return sendJson(response, 200, result, { 'Set-Cookie': sessionCookie('', production, true) });
+      return sendJson(response, 200, await firebaseEmailAuth.resend(payload.idToken));
     }
     if (request.method === 'POST' && url.pathname === '/api/auth/verify-email') {
+      if (firebaseEmailAuth) throw new HttpError(410, 'Use the Firebase verification link in your email, then sign in.');
       const payload = await parseRequestBody(request);
       const result = await emailVerification.verify(payload.challengeId, payload.code);
       return sendJson(response, 200, { user: sanitizeUser(result.user) }, { 'Set-Cookie': sessionCookie(result.token, production) });
     }
     if (request.method === 'POST' && url.pathname === '/api/auth/resend-email') {
+      if (firebaseEmailAuth) throw new HttpError(410, 'Sign in again to request a Firebase verification email.');
       const payload = await parseRequestBody(request);
       return sendJson(response, 200, await emailVerification.resend(payload.challengeId));
     }

@@ -3057,7 +3057,7 @@ async function fetchPracticeLibrary() {
           <div className="mb-6">
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-teal-700 dark:text-teal-400">Medulla / Your study space</p>
             <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{emailChallenge ? "Check your inbox" : isSignup ? "Make yourself at home." : "Welcome back."}</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{emailChallenge ? "Enter your verification code to continue." : isSignup ? "Create your account, then find your next topic." : "Sign in to pick up where you left off."}</p>
+            <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{emailChallenge ? emailChallenge.firebase ? "Open the verification link in your email." : "Enter your verification code to continue." : isSignup ? "Create your account, then find your next topic." : "Sign in to pick up where you left off."}</p>
           </div>
           {!emailChallenge && <div className="mb-7 grid grid-cols-2 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="group" aria-label="Authentication mode">
             <button
@@ -3101,7 +3101,7 @@ async function fetchPracticeLibrary() {
             <button type="button" disabled={authBusy} className="mt-2 text-xs underline" onClick={() => { setGoogleSignup(null); setAuthForm(current => ({ ...current, email: '', password: '' })); }}>Use another sign-in method</button>
           </div>}
           {emailChallenge ? <EmailVerification key={emailChallenge.challengeId} challenge={emailChallenge} onVerified={finishAuthentication}
-            onCancel={() => { setEmailChallenge(null); setAuthMessage(""); }} /> : <form key={authMode} className="grid gap-5 sm:grid-cols-2 [&_input]:!min-h-12 [&_select]:!min-h-12 [&_input]:!rounded-lg [&_select]:!rounded-lg [&_input]:!text-base [&_select]:!text-base [&_small]:text-xs [&_small]:leading-5 [&_small]:text-slate-500 [&_input:focus]:!border-teal-600 [&_select:focus]:!border-teal-600 [&_input:focus]:!ring-2 [&_input:focus]:!ring-teal-600/20" onSubmit={handleAuthSubmit} autoComplete="off">
+            onCancel={() => { setEmailChallenge(null); setAuthMode("login"); setAuthMessage(""); }} /> : <form key={authMode} className="grid gap-5 sm:grid-cols-2 [&_input]:!min-h-12 [&_select]:!min-h-12 [&_input]:!rounded-lg [&_select]:!rounded-lg [&_input]:!text-base [&_select]:!text-base [&_small]:text-xs [&_small]:leading-5 [&_small]:text-slate-500 [&_input:focus]:!border-teal-600 [&_select:focus]:!border-teal-600 [&_input:focus]:!ring-2 [&_input:focus]:!ring-teal-600/20" onSubmit={handleAuthSubmit} autoComplete="off">
             {isSignup ? (
               <>
                 <div className="sm:col-span-2 border-b border-slate-100 pb-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:border-slate-800">01 / Your medical profile</div>
@@ -5291,10 +5291,9 @@ async function fetchPracticeLibrary() {
   if (recovery) return <div className="mx-auto w-full max-w-lg px-4 py-10 text-slate-900 dark:text-slate-100">
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900">
       <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-teal-700 dark:text-teal-400">Medulla / Account recovery</p>
-      <h1 className="mb-5 text-2xl font-semibold">{recovery.token ? 'Reset your password' : 'Forgot your password?'}</h1>
-      <PasswordRecovery token={recovery.token} initialEmail={authForm.email}
-        onBack={() => { setRecovery(null); setAuthMode('login'); setEmailChallenge(null); setGoogleSignup(null); setAuthMessage(''); setAuthForm(current => ({ ...current, password: '' })); }}
-        onReset={() => { localStorage.removeItem(SESSION_TOKEN_KEY); setUser(null); setAuthStatus('unauthenticated'); }} />
+      <h1 className="mb-5 text-2xl font-semibold">Forgot your password?</h1>
+      <PasswordRecovery initialEmail={authForm.email}
+        onBack={() => { setRecovery(null); setAuthMode('login'); setEmailChallenge(null); setGoogleSignup(null); setAuthMessage(''); setAuthForm(current => ({ ...current, password: '' })); }} />
     </section>
   </div>;
 
