@@ -340,6 +340,10 @@ async function initializeDatabaseStore() {
   const usernamesChanged = reconcileUsernames(subscriptionSnapshot);
   if (subscriptionsChanged || usernamesChanged) await stateStore.write(subscriptionSnapshot);
   await uploads.check();
+  if (isFirebaseEnabled) {
+    try { await firebaseState.refreshLiveStats(); }
+    catch { console.warn(JSON.stringify({ event: 'firebase_stats_refresh_failed' })); }
+  }
   storageStatus.loadedAt = new Date().toISOString();
   storageStatus.lastWriteStatus = 'loaded';
 }

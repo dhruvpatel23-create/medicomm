@@ -127,6 +127,18 @@ shows counts captured at import. Those are historical counts; use the reports fo
 current data. Compressed `blobs` are storage chunks, not one document per account.
 Static bundled practice questions are counted separately from app-saved questions.
 
+The same `medicomm` document now has **`liveStats`**: account, membership, activity
+counts and a subscription breakdown are refreshed on each app-state save. New
+notepad records update their totals in the same transaction as the record; edits
+and duplicate requests do not increase totals. Subscription statuses are evaluated
+when statistics refresh, as indicated by `updatedAt`.
+Startup backfills these counters for an already migrated database. After deploying
+this update, restart the current Firebase process, then run
+`npm run firebase:refresh-stats` to explicitly refresh/verify the console totals.
+This changes statistics metadata only, never user records, paid terms, progress,
+notepad payloads or the original `migration` snapshot. Normal read-only stats/users
+commands continue to make no changes. No re-import or new migration is needed.
+
 Firebase data lives under `medullaApps/{namespace}`. Top-level application fields
 are independently encoded as gzip-compressed, immutable 512 KiB binary chunks.
 A transactional, revision-checked manifest makes all changed fields visible at

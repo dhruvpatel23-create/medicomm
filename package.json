@@ -23,6 +23,7 @@
     "migrate:firebase": "node scripts/firebase-migration.mjs",
     "firebase:stats": "node scripts/firebase-report.mjs stats",
     "firebase:users": "node scripts/firebase-report.mjs users",
+    "firebase:refresh-stats": "node scripts/firebase-report.mjs refresh-stats",
     "backup:database": "node scripts/package_supabase_database.mjs",
     "sync:practice": "node scripts/sync_ai_questions_to_practice_bank.mjs",
     "prebuild": "npm run sync:practice",

@@ -10,6 +10,12 @@ function memoryFirestore() {
   const snapshot = path => ({ exists: data.has(path), id: path.split('/').at(-1), data: () => structuredClone(data.get(path)) });
   const collection = prefix => ({
     doc: id => doc(`${prefix}/${id}`),
+    async listDocuments() { return [...new Set([...data.keys()].filter(p => p.startsWith(`${prefix}/`)).map(p => p.slice(prefix.length + 1).split('/')[0]))].map(id => doc(`${prefix}/${id}`)); },
+    count() { return { async get() {
+      if (db.onAggregate) { const callback = db.onAggregate; db.onAggregate = null; await callback(); }
+      const count = (await collection(prefix).get()).docs.length;
+      return { data: () => ({ count }) };
+    } }; },
     async get() { const docs = [...data.keys()].filter(p => p.startsWith(`${prefix}/`) && !p.slice(prefix.length + 1).includes('/')).map(snapshot); return { docs, empty: !docs.length }; },
     where(field, op, value) { return { limit() { return this; }, async get() {
       const all = await collection(prefix).get();
@@ -131,4 +137,43 @@ test('legacy reviews without IDs preserve exact source rows and duplicate occurr
   assert.ok(reviews.every(r=>r.answer==='Original answer'));
   assert.equal(JSON.stringify(row),original);
   await assert.rejects(notes.importRow('reviews',{...row,user_id:undefined},`legacy-${'a'.repeat(64)}`),/Invalid migrated/);
+});
+
+test('console live counters update on state saves while the migration snapshot stays unchanged', async () => {
+  const db=memoryFirestore(), store=createFirebaseState({db});
+  const imported={fingerprint:'stats-fixture',counts:{users:1}};
+  await store.importState({users:[{id:'a'}],sessions:{},practiceResults:[]},[],imported);
+  assert.equal((await store.root.get()).data().liveStats.counts.users,1);
+  await store.save({users:[{id:'a'},{id:'b'}],sessions:{},practiceResults:[{id:'p'}]},0);
+  const snap=(await store.root.get()).data();
+  assert.equal(snap.liveStats.users,2);assert.equal(snap.liveStats.counts.practiceResults,1);
+  assert.deepEqual(snap.migration,imported);
+});
+
+test('backfill counts existing notes and subsequent creates are counted exactly once', async () => {
+  const db=memoryFirestore(), store=createFirebaseState({db}), notes=createFirebaseNotepad({db});
+  const draft={version:2,pages:[{paper:'plain',strokes:[]}],pageIndex:0};
+  const review={id:'r',userId:'u',questionId:'q',submittedAt:'2026-10-26T00:00:00Z',score:2};
+  await notes.putDraft('u','d',draft,0);await notes.saveReview(review);
+  assert.equal((await store.root.get()).exists,false);
+  await store.importState({users:[{id:'u'}]},[],migration);
+  assert.deepEqual((await store.refreshLiveStats()).notepad,{drafts:1,reviews:1});
+  const revision=(await store.root.get()).data().revision;
+  await notes.putDraft('u','d',draft,1);await notes.saveReview(review);
+  assert.deepEqual((await store.root.get()).data().liveStats.notepad,{drafts:1,reviews:1});
+  await notes.saveReview({...review,id:'r2'});
+  assert.equal((await store.root.get()).data().liveStats.notepad.reviews,2);
+  assert.equal((await store.root.get()).data().revision,revision);
+  await store.save({users:[{id:'u'}]},revision);
+  assert.equal((await store.root.get()).data().liveStats.notepad.reviews,2);
+});
+
+test('refresh retries concurrent note creation instead of publishing stale totals', async () => {
+  const db=memoryFirestore(), store=createFirebaseState({db}), notes=createFirebaseNotepad({db});
+  await store.importState({users:[{id:'u'}]},[],migration);
+  await notes.putDraft('u','d',{version:2,pages:[{paper:'plain',strokes:[]}],pageIndex:0},0);
+  db.onAggregate=()=>notes.saveReview({id:'concurrent',userId:'u',questionId:'q',submittedAt:'2026-10-26T00:00:00Z'});
+  const result=await store.refreshLiveStats();
+  assert.deepEqual(result.notepad,{drafts:1,reviews:1});
+  assert.equal((await store.root.get()).data().liveStats.notepadNeedsRefresh,false);
 });

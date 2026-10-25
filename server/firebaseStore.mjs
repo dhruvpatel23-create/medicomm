@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { gzipSync, gunzipSync } from 'node:zlib';
 import { HttpError } from './security.mjs';
 import { paidOrderDates } from './subscriptions.mjs';
+import { liveStateStats, countNotepadRecords } from './firebaseStats.mjs';
 
 const CHUNK = 512 * 1024;
 export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -94,20 +95,41 @@ export function createFirebaseState({ db, namespace = 'medicomm' }) {
     const ledgerRef = cached.manifest.ledger.digest === fingerprint(ledger) ? cached.manifest.ledger : await blobs.put(ledger);
     const manifest = { format: 1, revision: revision + 1, fields, ledger: ledgerRef, updatedAt: new Date().toISOString(), migration: cached.manifest.migration };
     if (jsonBytes(manifest).length > 700000) throw new Error('Firebase manifest is too large.');
+    let committed;
     await db.runTransaction(async tx => {
       const current = await tx.get(root);
       if (!current.exists || current.data().revision !== revision) throw new HttpError(409, 'Data changed on another server. Please retry.');
-      tx.set(root, manifest);
+      const previous = current.data();
+      committed = { ...previous, ...manifest, statsVersion: (previous.statsVersion || 0) + 1,
+        liveStats: { ...previous.liveStats, ...liveStateStats(data, ledger.length) } };
+      tx.set(root, committed);
     });
-    cached = { manifest, ledger };
+    cached = { manifest: committed, ledger };
   }
-  return { root, blobs, load, save, async check() {
+  async function refreshLiveStats() {
+    for (let retry = 0; retry < 4; retry++) {
+      const loaded = await load(), snapshot = cached.manifest;
+      const liveStats = { ...liveStateStats(loaded.data, loaded.membershipCount),
+        notepad: await countNotepadRecords(root), notepadNeedsRefresh: false };
+      try {
+        await db.runTransaction(async tx => {
+          const current = await tx.get(root), value = current.exists ? current.data() : {};
+          if (value.revision !== loaded.revision || (value.statsVersion || 0) !== (snapshot.statsVersion || 0)) throw new HttpError(409, 'Data changed while refreshing counters.');
+          tx.set(root, { ...value, statsVersion: (value.statsVersion || 0) + 1, liveStats });
+        });
+        return liveStats;
+      } catch (error) { if (error.status !== 409 || retry === 3) throw error; }
+    }
+  }
+  return { root, blobs, load, save, refreshLiveStats, async check() {
     const snap = await root.get();
     if (!snap.exists || snap.data().format !== 1) throw new Error('Firebase state is unavailable.');
   }, async importState(data, ledger, migration) {
     const fields = Object.fromEntries(await Promise.all(Object.entries(data).map(async ([key,value]) => [key, await blobs.put(value)])));
     const ledgerRef = await blobs.put(ledger);
-    const manifest = { format: 1, revision: 0, fields, ledger: ledgerRef, migration, updatedAt: new Date().toISOString() };
+    const manifest = { format: 1, revision: 0, fields, ledger: ledgerRef, migration, updatedAt: new Date().toISOString(), statsVersion: 0,
+      liveStats: { ...liveStateStats(data, ledger.length), notepad: migration.notepad || { drafts: null, reviews: null },
+        notepadNeedsRefresh: !migration.notepad } };
     if (jsonBytes(manifest).length > 700000) throw new Error('Firebase manifest is too large.');
     await db.runTransaction(async tx => {
       const current = await tx.get(root);

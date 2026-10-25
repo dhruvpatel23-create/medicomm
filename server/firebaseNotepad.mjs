@@ -1,6 +1,7 @@
 import { createFirebaseBlobs, digest, fingerprint } from './firebaseStore.mjs';
 import { validateDraft } from './notepadStore.mjs';
 import { HttpError } from './security.mjs';
+import { noteStatsWrite } from './firebaseStats.mjs';
 
 export function createFirebaseNotepad({ db, namespace = 'medicomm' }) {
   const root = db.collection('medullaApps').doc(namespace), blobs = createFirebaseBlobs(root);
@@ -27,9 +28,13 @@ export function createFirebaseNotepad({ db, namespace = 'medicomm' }) {
     }) };
     await db.runTransaction(async tx => {
       const old = await tx.get(record);
+      const rootState = await tx.get(root);
       if (old.exists) {
         if (old.data().payload.digest !== payload.digest) throw new HttpError(409, 'A different notepad record already exists.');
-      } else tx.create(record, meta);
+      } else {
+        tx.create(record, meta);
+        noteStatsWrite(tx, root, rootState, kind, 1);
+      }
     });
   }
   return {
@@ -42,8 +47,10 @@ export function createFirebaseNotepad({ db, namespace = 'medicomm' }) {
       const record = ref(user, 'drafts', id), payload = await blobs.put(row);
       await db.runTransaction(async tx => {
         const old = await tx.get(record);
+        const rootState = await tx.get(root);
         if ((old.exists ? old.data().revision : 0) !== revision) throw new HttpError(409, 'This draft changed on another device.');
         tx.set(record, { payload, revision: row.revision });
+        noteStatsWrite(tx, root, rootState, 'drafts', old.exists ? 0 : 1);
       });
       return row;
     },

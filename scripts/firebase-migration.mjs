@@ -115,7 +115,8 @@ async function transfer(command) {
   const backup = await loadBackup(), { manifest, state, ledger, drafts, reviews } = backup;
   const firebase = firebaseServices(), store = createFirebaseState({ db: firebase.db, namespace });
   const notes = createFirebaseNotepad({ db: firebase.db, namespace });
-  const migration = { fingerprint: fingerprint(manifest), sourceRevision: manifest.sourceRevision, counts: manifest.counts, uploads: manifest.objects.length };
+  const migration = { fingerprint: fingerprint(manifest), sourceRevision: manifest.sourceRevision, counts: manifest.counts, uploads: manifest.objects.length,
+    notepad: { drafts: drafts.length, reviews: reviews.length } };
   const existing = await store.root.get();
   if (existing.exists && (existing.data().migration?.fingerprint !== migration.fingerprint || existing.data().revision !== 0)) throw new Error('Firebase already contains different or live data. Refusing a migration over it.');
   const useCloud = process.env.UPLOAD_STORAGE === 'firebase';

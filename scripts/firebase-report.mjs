@@ -10,12 +10,16 @@ if (!process.env.GOOGLE_APPLICATION_CREDENTIALS && existsSync('/etc/medulla/fire
 }
 const mode = process.argv[2] || 'stats';
 const args = process.argv.slice(3);
-if (!['stats', 'users'].includes(mode)) throw new Error('Use stats or users.');
+if (!['stats', 'users', 'refresh-stats'].includes(mode)) throw new Error('Use stats, users or refresh-stats.');
 let db;
 try {
   const firebase = firebaseServices(); db = firebase.db;
   const namespace = process.env.FIREBASE_NAMESPACE || process.env.SUPABASE_STATE_KEY || 'medicomm';
   const store = createFirebaseState({ db, namespace });
+  if (mode === 'refresh-stats') {
+    console.log(JSON.stringify({ updated: true, projectId: firebase.projectId, namespace,
+      liveStats: await store.refreshLiveStats() }, null, 2));
+  } else {
   const { data, revision, membershipCount } = await store.load();
   const now = Date.now();
   const users = (data.users || []).map(user => {
@@ -55,6 +59,7 @@ try {
       subscriptionBreakdown: plans, stateRecordCounts: stateCounts, notepad,
       bundledPracticeQuestions: bundledQuestions,
       note: 'stateRecordCounts.questions counts app-saved question records; the bundled practice bank is counted separately. Notepad totals are live queries.' }, null, 2));
+  }
   }
 } catch (error) {
   console.error(error.code ? `Firebase report failed (provider code ${error.code}).` : 'Firebase report failed. Check the private credentials, project and migration status.');
