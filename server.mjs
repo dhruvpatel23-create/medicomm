@@ -13,6 +13,8 @@ import { firebaseServices } from './server/firebaseAdmin.mjs';
 import { createFirebaseState } from './server/firebaseStore.mjs';
 import { createFirebaseNotepad } from './server/firebaseNotepad.mjs';
 import { createFirebaseUploads } from './server/firebaseUploads.mjs';
+import { discoverGoogleConfig } from './server/googleConfig.mjs';
+import { createGoogleAuth } from './server/googleAuth.mjs';
 import { servePublicImage } from './server/publicImages.mjs';
 import { getDuelImageUrls } from './src/lib/duelImages.js';
 import { isDuelQuestionEligible } from './server/duelEligibility.mjs';
@@ -84,6 +86,7 @@ const isSupabaseEnabled = databaseProvider === 'supabase' && Boolean(supabaseUrl
 const firebase = isFirebaseEnabled ? firebaseServices() : null;
 const firebaseNamespace = process.env.FIREBASE_NAMESPACE || supabaseStateKey;
 const firebaseState = firebase ? createFirebaseState({ db: firebase.db, namespace: firebaseNamespace }) : null;
+let googleConfigPromise = null;
 const DEFAULT_USER_RATING = 1480;
 const DEFAULT_USER_STREAK = 1;
 const DEFAULT_CORRECT_ANSWERS = 0;
@@ -2315,6 +2318,8 @@ function sanitizeUser(user) {
     name: user.name,
     username: user.username ?? user.name,
     email: user.email,
+    emailVerified: Boolean(user.emailVerifiedAt),
+    emailVerifiedAt: user.emailVerifiedAt || null,
     medicalCollege: user.medicalCollege,
     mbbsBatch: user.mbbsBatch ?? null,
     medicalState: user.medicalState ?? "",
@@ -2487,7 +2492,7 @@ async function parseRequestBody(request) { return readJson(request); }
 function getTokenFromRequest(request) { return sessionToken(request); }
 function getSessionUser(request, database) { return sessionUser(request, database); }
 
-function validateSignupPayload(payload) {
+function validateSignupPayload(payload, { passwordRequired = true } = {}) {
   const requiredFields = [
     ["name", "Username"],
     ["email", "Email"],
@@ -2497,6 +2502,7 @@ function validateSignupPayload(payload) {
   ];
 
   for (const [field, label] of requiredFields) {
+    if (field === 'password' && !passwordRequired) continue;
     if (typeof payload[field] !== "string" || !payload[field].trim() || payload[field].length > (field === "password" ? 128 : 254)) {
       return `${label} is required.`;
     }
@@ -2506,6 +2512,7 @@ function validateSignupPayload(payload) {
 
   if (!/^\S+@\S+\.\S+$/.test(payload.email)) return "Enter a valid email address.";
   if (!isValidSignupPhone(payload.contactNumber)) return "Enter exactly 10 digits for your contact number, without a country code.";
+  if (!passwordRequired) return null;
   if (typeof payload.password !== "string" || payload.password.length < 8 || payload.password.length > 128) return "Password must contain 8 to 128 characters.";
   if (!/[0-9]/.test(payload.password)) return "Password must contain at least one number.";
   if (!/[^\p{L}\p{N}\s]/u.test(payload.password)) return "Password must contain at least one special character.";
@@ -2604,6 +2611,23 @@ async function handleSignup(request, response) {
   }, { "Set-Cookie": sessionCookie(token, production) });
 }
 
+const googleSignIn = createGoogleAuth({ auth: firebase?.auth, readDatabase, writeDatabase, verifyPassword,
+  createUser(database, profile) {
+    profile.name = profile.username ?? profile.name;
+    const error = validateSignupPayload(profile, { passwordRequired: false });
+    if (error) throw new HttpError(400, error);
+    if ((profile.medicalState === 'Abroad' || profile.medicalCollege === 'Abroad') && !isValidCountry(profile.medicalCountry)) throw new HttpError(400, 'Please select your country.');
+    requireAvailableUsername(database.users, profile.name);
+    const contactNumber = normalizeContactNumber(profile.contactNumber);
+    if (database.users.some(u => normalizeContactNumber(u.contactNumber) === contactNumber)) throw new HttpError(409, 'An account with this mobile number already exists.');
+    return { id: randomBytes(12).toString('hex'), name: cleanUsername(profile.name), username: cleanUsername(profile.name),
+      email: profile.email, medicalCollege: profile.medicalCollege.trim(), mbbsBatch: Number(profile.mbbsBatch),
+      medicalState: String(profile.medicalState || '').trim(), medicalCountry: profile.medicalState === 'Abroad' ? profile.medicalCountry : '',
+      contactNumber, rating: DEFAULT_USER_RATING, streak: DEFAULT_USER_STREAK, correctAnswers: 0, attemptedQuestions: 0,
+      questionBookmarks: [], profileImagePath: null, createdAt: new Date().toISOString() };
+  },
+});
+
 async function handleLogin(request, response) {
   const database = readDatabase();
   const payload = await parseRequestBody(request);
@@ -2619,8 +2643,9 @@ async function handleLogin(request, response) {
     ? user.passwordIterations
     : LEGACY_PASSWORD_HASH_ITERATIONS;
 
-  if (!user) await verifyPassword(password, "missing-user", "00".repeat(64), PASSWORD_HASH_ITERATIONS);
-  if (!user || !await verifyPassword(password, user.passwordSalt, user.passwordHash, passwordIterations)) {
+  const hasPassword = typeof user?.passwordHash === 'string' && typeof user?.passwordSalt === 'string';
+  if (!hasPassword) await verifyPassword(password, "missing-user", "00".repeat(64), PASSWORD_HASH_ITERATIONS);
+  if (!hasPassword || !await verifyPassword(password, user.passwordSalt, user.passwordHash, passwordIterations)) {
     return sendJson(response, 401, { message: "Invalid email or password." });
   }
 
@@ -4002,7 +4027,7 @@ async function handleRequest(request, response) {
         ? String(request.headers['x-forwarded-for'] || request.socket.remoteAddress).split(',').at(-1).trim()
         : request.socket.remoteAddress;
       limitRequest(`api:${peer}`, 600, 60000);
-      if (['/api/auth/login', '/api/auth/signup', '/api/auth/verify-email', '/api/auth/resend-email'].includes(url.pathname)) limitRequest(`auth:${peer}`, 20, 15 * 60000);
+      if (['/api/auth/login', '/api/auth/signup', '/api/auth/google', '/api/auth/verify-email', '/api/auth/resend-email'].includes(url.pathname)) limitRequest(`auth:${peer}`, 20, 15 * 60000);
       const costly = request.method === 'POST' && /^\/api\/(?:generate-question|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname);
       if (costly) {
         const user = getSessionUser(request, readDatabase());
@@ -4053,6 +4078,18 @@ async function handleRequest(request, response) {
     if (request.method === 'POST' && url.pathname === '/api/auth/resend-email') {
       const payload = await parseRequestBody(request);
       return sendJson(response, 200, await emailVerification.resend(payload.challengeId));
+    }
+    if (request.method === 'GET' && url.pathname === '/api/auth/google/config') {
+      try {
+        if (!firebase) return sendJson(response, 200, { enabled: false });
+        googleConfigPromise ||= discoverGoogleConfig(firebase).catch(error => { googleConfigPromise = null; throw error; });
+        return sendJson(response, 200, { enabled: true, config: await googleConfigPromise });
+      } catch { return sendJson(response, 200, { enabled: false }); }
+    }
+    if (request.method === 'POST' && url.pathname === '/api/auth/google') {
+      const result = await googleSignIn(await parseRequestBody(request), request);
+      if (!result.user) return sendJson(response, 200, result);
+      return sendJson(response, 200, { user: sanitizeUser(result.user) }, { 'Set-Cookie': sessionCookie(result.token, production) });
     }
     if (request.method === "POST" && url.pathname === "/api/auth/signup") return await handleSignup(request, response);
     if (request.method === 'POST' && ['/api/payment-quote', '/api/create-order', '/api/verify-payment'].includes(url.pathname)) return await handlePayment(request, response, url);

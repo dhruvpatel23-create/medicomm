@@ -34,6 +34,7 @@ import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
 import CountrySelect from "./components/CountrySelect";
 import AuthPracticePreview from "./components/AuthPracticePreview";
+import GoogleSignIn from "./components/GoogleSignIn";
 import { isValidSignupPhone } from "./lib/phoneNumber";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
@@ -681,6 +682,7 @@ function App() {
   const [authMode, setAuthMode] = useState("login");
   const [authBusy, setAuthBusy] = useState(false);
   const [emailChallenge, setEmailChallenge] = useState(null);
+  const [googleSignup, setGoogleSignup] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [user, setUser] = useState(null);
@@ -2871,6 +2873,7 @@ async function fetchPracticeLibrary() {
 
   async function finishAuthentication(data) {
     setEmailChallenge(null);
+    setGoogleSignup(null);
     localStorage.setItem(SESSION_TOKEN_KEY, "true");
     const mergedUser = mergeUserPerformance(data.user);
     setUser(mergedUser);
@@ -2907,7 +2910,7 @@ async function fetchPracticeLibrary() {
     setAuthBusy(true);
     setAuthMessage("");
 
-    const endpoint = authMode === "signup" ? "/api/auth/signup" : "/api/auth/login";
+    const endpoint = googleSignup && authMode === 'signup' ? '/api/auth/google' : authMode === "signup" ? "/api/auth/signup" : "/api/auth/login";
     const payload =
       authMode === "signup"
         ? {
@@ -2923,13 +2926,17 @@ async function fetchPracticeLibrary() {
     try {
       const data = await apiRequest(endpoint, {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(googleSignup && authMode === 'signup' ? { idToken: googleSignup.idToken, profile: payload } : payload),
         timeoutMs: 20000,
       });
 
       if (data.verificationRequired) {
         setEmailChallenge(data);
         setAuthForm(current => ({ ...current, password: "" }));
+        return;
+      }
+      if (data.linkRequired || data.profileRequired) {
+        setAuthMessage('Please continue with Google again to complete sign-in.');
         return;
       }
       await finishAuthentication(data);
@@ -3019,6 +3026,7 @@ async function fetchPracticeLibrary() {
 
   function renderAuthPage() {
     const isSignup = authMode === "signup";
+    const isGoogleSignup = isSignup && Boolean(googleSignup);
 
     return (
       <div className="mx-auto grid w-full max-w-6xl items-start gap-8 px-4 py-6 text-slate-900 sm:px-8 sm:py-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-16 dark:text-slate-100">
@@ -3040,9 +3048,11 @@ async function fetchPracticeLibrary() {
           {!emailChallenge && <div className="mb-7 grid grid-cols-2 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="group" aria-label="Authentication mode">
             <button
               aria-pressed={authMode === "login"} className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${authMode === "login" ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"}`}
+              disabled={authBusy}
               type="button"
               onClick={() => {
                 setAuthMode("login");
+                setGoogleSignup(null);
                 setAuthForm((current) => ({ ...current, email: "", password: "" }));
                 setPasswordVisible(false);
                 setAuthMessage("");
@@ -3052,9 +3062,11 @@ async function fetchPracticeLibrary() {
             </button>
             <button
               aria-pressed={authMode === "signup"} className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${authMode === "signup" ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"}`}
+              disabled={authBusy}
               type="button"
               onClick={() => {
                 setAuthMode("signup");
+                setGoogleSignup(null);
                 setAuthForm((current) => ({ ...current, email: "", password: "" }));
                 setPasswordVisible(false);
                 setAuthMessage("");
@@ -3064,6 +3076,16 @@ async function fetchPracticeLibrary() {
             </button>
           </div>}
 
+          {!emailChallenge && !googleSignup && <GoogleSignIn disabled={authBusy} onBusyChange={setAuthBusy} onVerified={finishAuthentication}
+            onProfileRequired={value => {
+              setGoogleSignup(value); setAuthMode('signup'); setAuthMessage('');
+              setAuthForm(current => ({ ...current, email: value.email, name: current.name || value.name.slice(0,40), password: '' }));
+            }} />}
+          {!emailChallenge && isGoogleSignup && <div className="mb-5 rounded-lg border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-900 dark:border-teal-900 dark:bg-teal-950 dark:text-teal-100">
+            <strong>Email verified with Google</strong><p className="mt-1 break-all">{googleSignup.email}</p>
+            <p className="mt-2 text-xs">Complete your medical profile to finish creating your account. No password is needed.</p>
+            <button type="button" disabled={authBusy} className="mt-2 text-xs underline" onClick={() => { setGoogleSignup(null); setAuthForm(current => ({ ...current, email: '', password: '' })); }}>Use another sign-in method</button>
+          </div>}
           {emailChallenge ? <EmailVerification key={emailChallenge.challengeId} challenge={emailChallenge} onVerified={finishAuthentication}
             onCancel={() => { setEmailChallenge(null); setAuthMessage(""); }} /> : <form key={authMode} className="grid gap-5 sm:grid-cols-2 [&_input]:!min-h-12 [&_select]:!min-h-12 [&_input]:!rounded-lg [&_select]:!rounded-lg [&_input]:!text-base [&_select]:!text-base [&_small]:text-xs [&_small]:leading-5 [&_small]:text-slate-500 [&_input:focus]:!border-teal-600 [&_select:focus]:!border-teal-600 [&_input:focus]:!ring-2 [&_input:focus]:!ring-teal-600/20" onSubmit={handleAuthSubmit} autoComplete="off">
             {isSignup ? (
@@ -3153,6 +3175,7 @@ async function fetchPracticeLibrary() {
               <input
                 type="email"
                 required
+                readOnly={isGoogleSignup}
                 name={isSignup ? "signup-email" : "login-email"}
                 autoComplete="email"
                 value={authForm.email}
@@ -3161,7 +3184,7 @@ async function fetchPracticeLibrary() {
               />
             </label>
 
-            <label className={`field ${!isSignup ? "sm:col-span-2" : ""}`}>
+            {!isGoogleSignup && <label className={`field ${!isSignup ? "sm:col-span-2" : ""}`}>
               <span>Password</span>
               <div className="password-input-wrap">
                 <input
@@ -3189,7 +3212,7 @@ async function fetchPracticeLibrary() {
                 </button>
               </div>
               {isSignup ? <small id="signup-password-requirements">8 to 128 characters, including at least one number and one special character.</small> : null}
-            </label>
+            </label>}
 
             {authMessage ? <p className="sm:col-span-2 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-900 dark:bg-rose-950 dark:text-rose-200" role="alert">{authMessage}</p> : null}
 
@@ -3198,7 +3221,7 @@ async function fetchPracticeLibrary() {
             </button>
           </form>}
           {!emailChallenge && <><div className="my-5 flex items-center justify-center text-xs text-slate-400"><span>or</span></div>
-          <button className="w-full min-h-12 rounded-lg border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800" type="button" onClick={handleGuestLogin}>
+          <button className="w-full min-h-12 rounded-lg border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800" type="button" disabled={authBusy} onClick={handleGuestLogin}>
             Explore as guest
           </button>
           <p className="mt-4 text-center text-xs leading-5 text-slate-500">Guest progress stays on this device. Create an account anytime to sync it.</p></>}

@@ -1,6 +1,7 @@
 import { applicationDefault, getApps, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
+import { getAuth } from 'firebase-admin/auth';
 import { readFileSync } from 'node:fs';
 
 export function firebaseServices(env = process.env) {
@@ -11,5 +12,5 @@ export function firebaseServices(env = process.env) {
   const app = getApps().find(a => a.name === name) || initializeApp({
     credential: applicationDefault(), projectId,
   }, name);
-  return { projectId, db: getFirestore(app), bucket: env.FIREBASE_STORAGE_BUCKET ? getStorage(app).bucket(env.FIREBASE_STORAGE_BUCKET) : null };
+  return { app, auth: getAuth(app), projectId, db: getFirestore(app), bucket: env.FIREBASE_STORAGE_BUCKET ? getStorage(app).bucket(env.FIREBASE_STORAGE_BUCKET) : null };
 }
