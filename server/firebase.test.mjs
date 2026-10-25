@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
-import { createFirebaseState, preserveMemberships } from './firebaseStore.mjs';
+import { createFirebaseState, preserveMemberships, fingerprint } from './firebaseStore.mjs';
 import { createFirebaseNotepad } from './firebaseNotepad.mjs';
 import { deploymentConfig } from './config.mjs';
 
@@ -113,4 +113,22 @@ test('production Firebase requires explicit provider, project and persistent/pri
   assert.throws(()=>deploymentConfig({...env,RUNTIME_DATA_DIR:''}),/RUNTIME_DATA_DIR/);
   assert.throws(()=>deploymentConfig({...env,FIREBASE_PROJECT_ID:''}),/FIREBASE_PROJECT_ID/);
   assert.throws(()=>deploymentConfig({...env,UPLOAD_STORAGE:'firebase'}),/FIREBASE_STORAGE_BUCKET/);
+});
+
+test('legacy reviews without IDs preserve exact source rows and duplicate occurrences on resume', async () => {
+  const db=memoryFirestore(), notes=createFirebaseNotepad({db});
+  const row={namespace:'medicomm',user_id:'u',question_id:'q',submitted_at:'2026-10-25T00:00:00Z',
+    review:{userId:'u',questionId:'q',submittedAt:'2026-10-25T00:00:00Z',score:2,answer:'Original answer'}};
+  const original=JSON.stringify(row);
+  for(const index of [0,1]) {
+    const id=`legacy-${fingerprint({row,index})}`;
+    await notes.importRow('reviews',row,id);await notes.importRow('reviews',row,id);
+    await notes.verifyRow('reviews',row,id);
+    assert.equal(await notes.hasReview('u',id),true);
+  }
+  const reviews=await notes.reviews('u');assert.equal(reviews.length,2);
+  assert.equal(new Set(reviews.map(r=>r.id)).size,2);
+  assert.ok(reviews.every(r=>r.answer==='Original answer'));
+  assert.equal(JSON.stringify(row),original);
+  await assert.rejects(notes.importRow('reviews',{...row,user_id:undefined},`legacy-${'a'.repeat(64)}`),/Invalid migrated/);
 });

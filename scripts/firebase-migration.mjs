@@ -137,9 +137,14 @@ async function transfer(command) {
       if (digest(await readFile(target)) !== digest(bytes)) throw new Error('Private upload verification failed.');
     }
   }
-  for (const [kind,rows] of [['drafts',drafts], ['reviews',reviews]]) for (const row of rows) {
-    if (command === 'import') await notes.importRow(kind,row);
-    await notes.verifyRow(kind,row);
+  let legacyReviewIds = 0;
+  for (const [kind,rows] of [['drafts',drafts], ['reviews',reviews]]) for (const [index,row] of rows.entries()) {
+    // The source array position distinguishes even identical legacy records.
+    // Keep the original row untouched so its backup hash still verifies exactly.
+    const legacyId = kind === 'reviews' && !row.id ? `legacy-${fingerprint({ row, index })}` : undefined;
+    if (legacyId) legacyReviewIds++;
+    if (command === 'import') await notes.importRow(kind,row,legacyId);
+    await notes.verifyRow(kind,row,legacyId);
   }
   if (command === 'import') await store.importState(state.data, ledger, migration);
   const saved = await store.load();
@@ -148,7 +153,7 @@ async function transfer(command) {
   if (fingerprint(await store.blobs.get(root.ledger)) !== fingerprint(ledger)) throw new Error('Membership-ledger verification failed.');
   if (root.revision !== 0 || root.migration?.fingerprint !== migration.fingerprint) throw new Error('Migration verification failed.');
   console.log(JSON.stringify({ verified: true, projectId: firebase.projectId, namespace, counts: counts(saved.data), memberships: ledger.length,
-    drafts: drafts.length, reviews: reviews.length, uploads: manifest.objects.length, uploadStorage: useCloud ? 'firebase' : 'private server files' }));
+    drafts: drafts.length, reviews: reviews.length, legacyReviewIds, uploads: manifest.objects.length, uploadStorage: useCloud ? 'firebase' : 'private server files' }));
 }
 
 async function main() {

@@ -84,6 +84,10 @@ same verified directory; it never overwrites different destination records. Blob
 uploads and notepad rows are staged first. The final app-state pointer is created
 only after those imports verify. `verify` compares the complete app state, ledger,
 each notepad row and each uploaded file; counts alone are not sufficient.
+Legacy reviews without IDs receive deterministic migration IDs derived from the
+original row and its backup array position. Original row payloads stay unchanged
+and verify against their backup hashes; even identical legacy occurrences remain
+separate. Ownership is never inferred or assigned to another account.
 
 The final backup must be copied outside the deployment and retained securely.
 It is needed to recover if the app host is lost while migration is in progress.

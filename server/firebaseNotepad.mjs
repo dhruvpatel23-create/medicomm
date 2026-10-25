@@ -11,12 +11,18 @@ export function createFirebaseNotepad({ db, namespace = 'medicomm' }) {
     const snaps = await records(user, 'reviews').get();
     return snaps.docs.sort((a,b) => Date.parse(b.data().submittedAt) - Date.parse(a.data().submittedAt) || b.data().id.localeCompare(a.data().id));
   }
-  async function importRow(kind, row) {
-    if (!['drafts', 'reviews'].includes(kind) || row.namespace !== namespace || !row.user_id || !(row.draft_id || row.id)) throw new Error('Invalid migrated notepad row.');
-    const id = kind === 'drafts' ? row.draft_id : row.id;
+  const identity = (kind, row, legacyId) => kind === 'drafts' ? row.draft_id : row.id || legacyId;
+  const reviewView = async snap => {
+    const row = await decode(snap);
+    return { ...row.review, id: row.review.id || snap.data().id };
+  };
+  async function importRow(kind, row, legacyId) {
+    const id = identity(kind, row, legacyId);
+    if (!['drafts', 'reviews'].includes(kind) || row.namespace !== namespace || !row.user_id ||
+        typeof id !== 'string' || !id || (legacyId && (kind !== 'reviews' || row.id || !/^legacy-[a-f0-9]{64}$/.test(legacyId)))) throw new Error('Invalid migrated notepad row.');
     const record = ref(row.user_id, kind, id), payload = await blobs.put(row);
     const meta = { payload, ...(kind === 'drafts' ? { revision: row.revision } : {
-      id: row.id, questionId: row.question_id, submittedAt: row.submitted_at,
+      id, questionId: row.question_id, submittedAt: row.submitted_at,
       imageNames: (row.review.answerPages ?? []).map(p => p.imagePath).filter(Boolean),
     }) };
     await db.runTransaction(async tx => {
@@ -44,7 +50,7 @@ export function createFirebaseNotepad({ db, namespace = 'medicomm' }) {
     async reviews(user, questionId = null, offset = 0, since = null) {
       const rows = (await list(user)).filter(s => (!questionId || s.data().questionId === questionId) &&
         (!since || Date.parse(s.data().submittedAt) >= Date.parse(since))).slice(offset, offset + 100);
-      return Promise.all(rows.map(async s => (await decode(s)).review));
+      return Promise.all(rows.map(reviewView));
     },
     async summaries(user, offset = 0) {
       const groups = new Map();
@@ -54,7 +60,7 @@ export function createFirebaseNotepad({ db, namespace = 'medicomm' }) {
         else groups.set(q, { snap, count: 1 });
       }
       return Promise.all([...groups.values()].slice(offset, offset + 100).map(async ({snap,count}) => {
-        const r = (await decode(snap)).review;
+        const r = await reviewView(snap);
         return { id: r.id, questionId: r.questionId, submittedAt: r.submittedAt, score: r.score, attemptCount: count };
       }));
     },
@@ -64,8 +70,8 @@ export function createFirebaseNotepad({ db, namespace = 'medicomm' }) {
     },
     async hasReview(user, id) { return (await ref(user, 'reviews', id).get()).exists; },
     async ownsImage(user, name) { return !(await records(user, 'reviews').where('imageNames', 'array-contains', name).limit(1).get()).empty; },
-    async verifyRow(kind, row) {
-      const snap = await ref(row.user_id, kind, kind === 'drafts' ? row.draft_id : row.id).get();
+    async verifyRow(kind, row, legacyId) {
+      const snap = await ref(row.user_id, kind, identity(kind, row, legacyId)).get();
       const saved = await decode(snap);
       if (!saved || fingerprint(saved) !== fingerprint(row)) throw new Error('Notepad verification failed.');
     },
