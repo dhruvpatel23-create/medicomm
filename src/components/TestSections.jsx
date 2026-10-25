@@ -1,25 +1,28 @@
 import * as Tabs from "@radix-ui/react-tabs";
 import FmgePracticeTests from './FmgePracticeTests';
+import { useCallback, useState } from 'react';
 
 const testTypes = [
   { id: "practice", title: "Practice Tests" },
   { id: "grand", title: "Grand Tests" },
 ];
 
-export default function TestSections({ title, onBack, exam }) {
+export default function TestSections({ title, onBack, exam, onSessionChange }) {
+  const [inSession, setInSession] = useState(false);
+  const sessionChanged = useCallback(value => { setInSession(value); onSessionChange?.(value); }, [onSessionChange]);
   return <section className="app-view" aria-labelledby="practice-tests-title">
-    <div className="view-header">
+    <div className="view-header" style={inSession ? { display: 'none' } : undefined}>
       <h2 id="practice-tests-title">{title}</h2>
       <button type="button" className="button button-secondary" onClick={onBack}>
         Back to Practice
       </button>
     </div>
     <Tabs.Root defaultValue="practice">
-      <Tabs.List className="test-section-tabs" aria-label={`${title} categories`}>
+      <Tabs.List className="test-section-tabs" style={inSession ? { display: 'none' } : undefined} aria-label={`${title} categories`}>
         {testTypes.map(type => <Tabs.Trigger key={type.id} value={type.id} className="test-section-tab">{type.title}</Tabs.Trigger>)}
       </Tabs.List>
       <Tabs.Content value="practice" className="test-section-content">
-        {exam === 'fmge' ? <FmgePracticeTests /> : <div className="test-card-stack">
+        {exam === 'fmge' ? <FmgePracticeTests onSessionChange={sessionChanged} /> : <div className="test-card-stack">
           {[1, 2, 3].map(number => <article className="exam-test-card" key={number}>
             <span className="exam-test-number" aria-hidden="true">0{number}</span>
             <div className="exam-test-copy">
@@ -39,7 +42,7 @@ export default function TestSections({ title, onBack, exam }) {
             </div>
             <div className="exam-test-date">
               <span>Scheduled date</span>
-              <time dateTime="2026-10-30">30/10/26</time>
+              <time dateTime="2026-10-27T14:00:00+05:30">27/10/2026 · 2:00 pm IST</time>
             </div>
           </article>
         </div>

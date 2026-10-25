@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { ArrowLeft, ArrowRight, Check, Clock3, Flag, Loader2, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { apiRequest } from '../lib/api';
+import { createTestAnswerQueue } from '../lib/testAnswerQueue';
 import './fmge-tests.css';
 
 const endpoint = '/api/practice/fmge-tests';
@@ -19,7 +20,7 @@ function ConfirmDialog({ open, onOpenChange, title, children, action, onConfirm,
   </Dialog.Root>;
 }
 
-export default function FmgePracticeTests() {
+export default function FmgePracticeTests({ onSessionChange }) {
   const [catalog, setCatalog] = useState(null);
   const [attempt, setAttempt] = useState(null);
   const [instructions, setInstructions] = useState(null);
@@ -27,6 +28,7 @@ export default function FmgePracticeTests() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [busy, setBusy] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [now, setNow] = useState(Date.now());
   const [offset, setOffset] = useState(0);
   const [reviewFilter, setReviewFilter] = useState('all');
@@ -34,6 +36,29 @@ export default function FmgePracticeTests() {
   const alive = useRef(true);
   const startKey = useRef(null);
   const questionTop = useRef(null);
+  const serverClock = useRef(null);
+  const answerQueue = useRef(null);
+  if (!answerQueue.current) answerQueue.current = createTestAnswerQueue({
+    send: async (base, change) => {
+      const data = await apiRequest(`${endpoint}/attempts/${base.id}`, { method: 'PATCH',
+        body: JSON.stringify({ ...change, revision: base.revision }), timeoutMs: 20000 });
+      if (data.message && alive.current) setNotice(data.message);
+      return data.attempt;
+    },
+    onChange: value => { if (alive.current) {
+      setAttempt(value);
+      if (value.serverNow !== serverClock.current) {
+        serverClock.current = value.serverNow; setOffset(value.serverNow - Date.now());
+      }
+    } },
+    onSaving: value => { if (alive.current) setSaving(value); },
+    onError: e => { if (alive.current) setError(`${e.message} Your latest changes are not confirmed saved. Reload your saved attempt to continue.`); },
+  });
+
+  useEffect(() => {
+    onSessionChange?.(attempt?.status === 'active' || attempt?.status === 'break');
+  }, [attempt?.status, onSessionChange]);
+  useEffect(() => () => onSessionChange?.(false), [onSessionChange]);
 
   useEffect(() => {
     alive.current = true;
@@ -45,9 +70,12 @@ export default function FmgePracticeTests() {
     if (busyRef.current) return;
     busyRef.current = true; setBusy(true); setError(''); setNotice('');
     try {
+      await answerQueue.current.flush();
       const data = await apiRequest(`${endpoint}${path}`, { ...options, timeoutMs: 20000 });
       if (!alive.current) return data;
       if (data.attempt) {
+        answerQueue.current.reset(data.attempt);
+        serverClock.current = data.attempt.serverNow;
         setAttempt(data.attempt); setOffset(data.attempt.serverNow - Date.now());
         setNow(Date.now());
         if (data.message) setNotice(data.message);
@@ -65,7 +93,7 @@ export default function FmgePracticeTests() {
   const remaining = attempt?.deadline ? Math.max(0, Math.ceil((attempt.deadline - now - offset) / 1000)) : 0;
   useEffect(() => {
     if (attempt?.status !== 'active') return;
-    const sync = () => { if (!busyRef.current) request(`/attempts/${attempt.id}`); };
+    const sync = () => { if (!busyRef.current && !answerQueue.current.pending) request(`/attempts/${attempt.id}`); };
     const interval = setInterval(sync, remaining === 0 ? 5000 : 30000);
     if (remaining === 0) sync();
     const visible = () => { if (document.visibilityState === 'visible') sync(); };
@@ -87,17 +115,22 @@ export default function FmgePracticeTests() {
     if (attempt?.status === 'active') questionTop.current?.focus({ preventScroll: true });
   }, [attempt?.id, attempt?.part, attempt?.status]);
 
-  const save = body => request(`/attempts/${attempt.id}`, { method: 'PATCH', body: JSON.stringify({ ...body, revision: attempt.revision }) });
+  const save = body => { setNotice(''); answerQueue.current.enqueue(body); };
   async function navigate(index) {
-    const data = await save({ currentIndex: index });
-    if (data) questionTop.current?.scrollIntoView({ behavior: 'auto', block: 'start' });
+    save({ currentIndex: index });
+    questionTop.current?.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
   async function leave() {
+    if (busyRef.current) return;
+    setBusy(true);
+    try { await answerQueue.current.flush(); }
+    catch { setBusy(false); return; }
     setAttempt(null); setReviewFilter('all'); setConfirmFinish(false);
+    setBusy(false);
     await request('');
   }
   const statusMessage = <>
-    {error && <div className="ft-error" role="alert"><p>{error}</p><button className="button button-secondary" disabled={busy} onClick={() => request(attempt ? `/attempts/${attempt.id}` : '')}>{attempt ? 'Reload saved attempt' : 'Retry'}</button></div>}
+    {error && <div className="ft-error" role="alert"><p>{error}</p><button className="button button-secondary" disabled={busy || saving} onClick={() => { answerQueue.current.reset(attempt); request(attempt ? `/attempts/${attempt.id}` : ''); }}>{attempt ? 'Reload saved attempt' : 'Retry'}</button></div>}
     {notice && <p className="ft-notice" role="status">{notice}</p>}
   </>;
 
@@ -161,7 +194,7 @@ export default function FmgePracticeTests() {
   return <div className="fmge-tests">
     {statusMessage}
     <div className="ft-runbar"><div><p className="eyebrow">{attempt.title} / Part {attempt.part} of 2</p><strong>{answered} of 150 answered</strong></div><div className={`ft-timer ${remaining < 300 ? 'ft-timer-urgent' : ''}`} role="timer" aria-label="Time remaining"><Clock3 size={18} />{clockText(remaining)}</div><button className="button button-secondary" disabled={busy} onClick={leave}>Save & exit</button></div>
-    <p className="ft-save-status" role="status">{busy ? <><Loader2 size={14} className="ft-spin" /> Saving / syncing…</> : error ? 'Connection or save problem — reload your saved attempt to continue.' : <><ShieldCheck size={14} /> Answers saved on server · Timer continues if you leave</>}</p>
+    <p className="ft-save-status" role="status">{busy || saving ? <><Loader2 size={14} className="ft-spin" /> Saving / syncing…</> : error ? 'Connection or save problem — reload your saved attempt to continue.' : <><ShieldCheck size={14} /> Answers saved on server · Timer continues if you leave</>}</p>
     <div className="ft-exam-layout"><div className="ft-question" ref={questionTop} tabIndex={-1} aria-label={`Question ${question.number}`}>
       <div className="ft-question-top"><span>QUESTION {question.number} / 300</span><span>+1 mark · No negative marking</span></div>
       <h3>{question.prompt}</h3>

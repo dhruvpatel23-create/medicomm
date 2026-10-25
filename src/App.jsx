@@ -565,6 +565,7 @@ function getInitialTheme() {
 function App() {
   const [theme, setTheme] = useState(getInitialTheme);
   const [activeView, updateActiveView] = useState("Home");
+  const [testMode, setTestMode] = useState(false);
   const [practicePathTitle, setPracticePathTitle] = useState("");
   const [lockedFeature, setLockedFeature] = useState(null);
   function requestFeature(feature) {
@@ -3316,6 +3317,7 @@ async function fetchPracticeLibrary() {
 
     if (["neetpg-tests", "fmge-tests"].includes(practiceStage)) {
       return <TestSections key={practiceStage}
+        onSessionChange={setTestMode}
         exam={practiceStage === "fmge-tests" ? "fmge" : "neetpg"}
         title={practiceStage === "neetpg-tests" ? "NEETPG Tests" : "FMGE Tests"}
         onBack={() => { setPracticeStage("selection"); scrollPracticeViewToTop(); }} />;
@@ -5266,6 +5268,7 @@ async function fetchPracticeLibrary() {
 
   return (
     <AppShell
+      testMode={testMode}
       activeView={activeView}
       isDarkMode={isDarkMode}
       navItems={navItems}
@@ -5280,8 +5283,8 @@ async function fetchPracticeLibrary() {
       onDeclineNotification={handleDeclineNotification}
     >
       {renderView()}
-      {friendDuelTarget && <FriendDuelSetup key={friendDuelTarget.id} opponent={friendDuelTarget} onClose={() => setFriendDuelTarget(null)} onSend={handleDirectChallenge} />}
-      <FeatureAccessDialog feature={lockedFeature} onClose={() => setLockedFeature(null)} onPlans={() => { setLockedFeature(null); setActiveView("Pricing"); }} />
+      {!testMode && friendDuelTarget && <FriendDuelSetup key={friendDuelTarget.id} opponent={friendDuelTarget} onClose={() => setFriendDuelTarget(null)} onSend={handleDirectChallenge} />}
+      {!testMode && <FeatureAccessDialog feature={lockedFeature} onClose={() => setLockedFeature(null)} onPlans={() => { setLockedFeature(null); setActiveView("Pricing"); }} />}
     </AppShell>
   );
 }

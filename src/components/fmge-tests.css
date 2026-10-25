@@ -26,6 +26,19 @@
 .ft-dialog-close { position: absolute; right: 14px; top: 14px; border: 0; background: transparent; color: inherit; cursor: pointer; }
 .ft-runbar { position: sticky; top: 76px; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; background: var(--ft-surface); border: 1px solid var(--ft-line); box-shadow: 0 8px 24px #0001; }
 .ft-runbar .eyebrow { margin: 0 0 4px; }
+.app-shell-v2.test-focus-mode { display: block; padding: 0; }
+.test-focus-mode > .app-sidebar,
+.test-focus-mode > .mobile-nav,
+.test-focus-mode > .skip-link,
+.test-focus-mode > .notification-toast-container,
+.test-focus-mode .shell-workspace > .topbar { display: none !important; }
+.test-focus-mode .shell-workspace { width: 100%; margin: 0 !important; padding: 0 !important; }
+.test-focus-mode #main-content { width: 100%; max-width: 1400px; margin: 0 auto; padding: 16px; }
+.test-focus-mode .ft-runbar { top: 0; }
+.test-focus-mode .ft-question { scroll-margin-top: 120px; }
+@media (max-width: 600px) {
+  .test-focus-mode #main-content { padding: 8px; }
+}
 .ft-runbar strong { font-size: 13px; }
 .ft-timer { display: flex; gap: 8px; align-items: center; font-variant-numeric: tabular-nums; color: var(--ft-accent); font-size: 21px; font-weight: 750; }
 .ft-timer-urgent { color: #ef4444; }

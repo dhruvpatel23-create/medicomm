@@ -106,7 +106,7 @@ function NotificationToast({ notification, onDismiss, onNavigate, onAccept, onDe
 
 export function AppShell({ activeView, children, isDarkMode, navItems, onNavigate, onToggleTheme,
   renderAvatar, user, userRating, directConversations = [], incomingFriendRequests = [],
-  onAcceptNotification, onDeclineNotification }) {
+  onAcceptNotification, onDeclineNotification, testMode = false }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
@@ -290,7 +290,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
     if (elapsedMinutes < 1440) return `${Math.floor(elapsedMinutes / 60)}h`;
     return `${Math.floor(elapsedMinutes / 1440)}d`;
   };
-  const navigate = (item) => { onNavigate(item); setMobileMenuOpen(false); setCommandOpen(false); setQuery(""); };
+  const navigate = (item) => { if (testMode) return; onNavigate(item); setMobileMenuOpen(false); setCommandOpen(false); setQuery(""); };
   const toggleSidebar = () => {
     if (window.matchMedia("(max-width: 820px)").matches) {
       setMobileMenuOpen(true);
@@ -301,7 +301,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
   const SidebarToggleIcon = sidebarCollapsed ? PanelLeftOpen : PanelLeftClose;
 
   return (
-    <div className={`page-shell app-shell-v2${sidebarCollapsed ? " app-shell-sidebar-collapsed" : ""}`}>
+    <div className={`page-shell app-shell-v2${testMode ? " test-focus-mode" : ""}${sidebarCollapsed ? " app-shell-sidebar-collapsed" : ""}`}>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <aside className={`app-sidebar${mobileMenuOpen ? " app-sidebar-open" : ""}${sidebarCollapsed ? " app-sidebar-collapsed" : ""}`} aria-label="Application navigation">
         <div className="sidebar-brand-row">
@@ -320,7 +320,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
           <span className="upgrade-icon"><Sparkles size={17} /></span><span><strong>Unlock Pro</strong><small>More analytics & practice</small></span><Zap size={16} />
         </button>
       </aside>
-      {mobileMenuOpen ? <button className="sidebar-scrim" aria-label="Close navigation" onClick={() => setMobileMenuOpen(false)} /> : null}
+      {mobileMenuOpen && !testMode ? <button className="sidebar-scrim" aria-label="Close navigation" onClick={() => setMobileMenuOpen(false)} /> : null}
 
       <div className="shell-workspace">
         <header className="topbar">
@@ -339,7 +339,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
           </div>
           <div className="topbar-actions">
             <Tooltip.Root><Tooltip.Trigger asChild><button className="icon-button" type="button" onClick={onToggleTheme} aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}>{isDarkMode ? <Sun size={19} /> : <Moon size={19} />}</button></Tooltip.Trigger><Tooltip.Portal><Tooltip.Content className="tooltip-content" sideOffset={8}>{isDarkMode ? "Light mode" : "Dark mode"}</Tooltip.Content></Tooltip.Portal></Tooltip.Root>
-            <DropdownMenu.Root modal={false} open={notificationMenuOpen} onOpenChange={handleNotificationMenuOpenChange}>
+            <DropdownMenu.Root modal={false} open={!testMode && notificationMenuOpen} onOpenChange={handleNotificationMenuOpenChange}>
               <DropdownMenu.Trigger asChild>
                 <button className="icon-button notification-button" type="button" aria-label={`Notifications${unreadNotificationCount ? `, ${unreadNotificationCount} unread` : ""}`}>
                   <Bell size={19} />
@@ -434,7 +434,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
         <button className={`shell-nav-link${mobileMenuOpen ? " shell-nav-link-active" : ""}`} type="button" onClick={() => setMobileMenuOpen(true)}><Menu size={18} /><span>More</span></button>
       </nav>
 
-      <Dialog.Root open={commandOpen} onOpenChange={setCommandOpen}><Dialog.Portal><Dialog.Overlay className="dialog-overlay" /><Dialog.Content className="command-dialog" aria-describedby={undefined}>
+      <Dialog.Root open={!testMode && commandOpen} onOpenChange={setCommandOpen}><Dialog.Portal><Dialog.Overlay className="dialog-overlay" /><Dialog.Content className="command-dialog" aria-describedby={undefined}>
         <Dialog.Title className="sr-only">Search Medulla</Dialog.Title>
         <div className="command-input-wrap"><Search size={20} /><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search pages, subjects, or actions…" aria-label="Search" /><kbd>Esc</kbd></div>
         <div className="command-results"><p>Quick navigation</p>{commandResults.length ? commandResults.map((item) => { const Icon = iconMap[item] ?? Command; return <button key={item} type="button" onClick={() => navigate(item)}><span><Icon size={18} />{item}</span><small>Open</small></button>; }) : <div className="command-empty">No matching destination. Try “Practice” or “Analytics”.</div>}</div>
@@ -442,7 +442,7 @@ export function AppShell({ activeView, children, isDarkMode, navItems, onNavigat
       {/* 4-Second Popup Toasts */}
       <aside aria-label="Notification alerts" className="notification-toast-container">
         <AnimatePresence>
-          {activeToasts.map((toast) => (
+          {(testMode ? [] : activeToasts).map((toast) => (
             <NotificationToast
               key={toast.id}
               notification={toast}
