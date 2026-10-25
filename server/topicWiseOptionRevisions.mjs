@@ -1,7 +1,9 @@
 import { readFileSync } from 'node:fs';
 
 const manifest = JSON.parse(readFileSync(new URL('../data/topic-wise-option-revisions.json', import.meta.url), 'utf8'));
-const revisions = new Map(manifest.questions.map(revision => [revision.id, revision]));
+const cleanup = JSON.parse(readFileSync(new URL('../data/topic-wise-correct-option-cleanup.json', import.meta.url), 'utf8'));
+const userEdits = JSON.parse(readFileSync(new URL('../data/topic-wise-user-option-edits.json', import.meta.url), 'utf8'));
+const revisions = new Map([...manifest.questions, ...cleanup.questions, ...userEdits.questions].map(revision => [revision.id, revision]));
 const sameOptions = (a, b) => Array.isArray(a) && a.length === b.length && a.every((option, i) => option === b[i]);
 
 // Apply reviewed wording to older stored copies without overwriting a question

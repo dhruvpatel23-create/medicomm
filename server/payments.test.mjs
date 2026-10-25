@@ -44,7 +44,8 @@ const order = { planId: 'lite', amount: 79900, currency: 'INR' };
 const rejects = (promise, status) => assert.rejects(promise, error => error.status === status);
 
 test('launch coupons charge the correct discounted amount for every plan and reject tampering', async () => {
-  for (const [coupon, prices] of [['FIRST50', [51935, 77935, 103935]], ['LAUNCH25', [59925, 89925, 119925]]]) {
+  for (const [coupon, prices] of [['FIRST50', [51935, 77935, 103935]], ['LAUNCH25', [59925, 89925, 119925]],
+    ['KT1980', [59925, 89925, 119925]], ['TEST2', [900, 900, 900]]]) {
     for (const [index, planId] of ['lite', 'ultra', 'premium'].entries()) {
       const f = fixture();
       const originalAmount = paymentQuote({ planId }).amount;
@@ -56,6 +57,7 @@ test('launch coupons charge the correct discounted amount for every plan and rej
       await rejects(f.call('/api/create-order', { ...payload, amount: originalAmount }), 400);
       await rejects(f.call('/api/create-order', { ...payload, coupon: '' }), 400);
       await rejects(f.call('/api/create-order', { ...payload, coupon: 'FIRST50,LAUNCH25' }), 400);
+      await rejects(f.call('/api/create-order', { ...payload, coupon: 'KT1980,TEST2' }), 400);
       assert.equal(f.creates(), 0);
       assert.equal((await f.call('/api/create-order', payload)).body.amount, amount);
       assert.equal(f.gatewayOrder().amount, amount);

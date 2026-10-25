@@ -13,4 +13,6 @@ For new or revised topic-wise questions:
 - Do not pad distractors, add random text, change the font or spacing to disguise length, or make the correct answer systematically shortest instead.
 - Check that exactly one option is best for the unchanged stem. Review aggregate longest/shortest-answer rates as well as individual outliers.
 
-The current editorial pass covers 60 extreme cases. This is not a completed bank-wide review. The rest of the bank remains in the review queue; no unreviewed question is silently rewritten or removed.
+The initial editorial pass covers 60 extreme cases. The subsequent correct-option-only cleanup scanned the remaining 7,522 flagged answers and shortened 710 using explicit approved removals in `data/topic-wise-correct-option-cleanup.json`. No distractor, stem, explanation, or answer index changes in this pass. The other 6,812 are unchanged, not certified bias-free.
+
+Validate this cleanup with `python scripts/clean_correct_options.py`; add `--apply` to apply it to local banks. This is an offline, idempotent operation. Original wording is preserved in the manifest. The server and import sync apply these same approved changes to matching older stored copies. The report is `output/topic-wise-option-audit/correct-option-cleanup-report.json`. No paid model calls are made.

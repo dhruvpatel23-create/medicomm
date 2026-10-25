@@ -924,7 +924,7 @@ export const medicalCollegesByState = {
 
 export const indianMedicalStates = Object.keys(medicalCollegesByState).sort((left, right) => left.localeCompare(right));
 
-export const signupStateOptions = [...indianMedicalStates, ABROAD_STATE];
+export const signupStateOptions = [ABROAD_STATE, ...indianMedicalStates];
 
 export const medicalCollegeSuggestions = Object.values(medicalCollegesByState)
   .flat()

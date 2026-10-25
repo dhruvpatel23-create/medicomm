@@ -33,13 +33,15 @@ import { useAccountOverview, usePracticeRecorder } from "./lib/useAccountOvervie
 import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
 import CountrySelect from "./components/CountrySelect";
+import AuthPracticePreview from "./components/AuthPracticePreview";
+import { isValidSignupPhone } from "./lib/phoneNumber";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 import { shuffleQuestionOptions } from "./lib/shuffleQuestionOptions";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261023-reviewed-options";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261025-user-option-edits";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -2891,6 +2893,10 @@ async function fetchPracticeLibrary() {
   async function handleAuthSubmit(event) {
     event.preventDefault();
     if (authMode === "signup") {
+      if (!isValidSignupPhone(authForm.contactNumber)) {
+        setAuthMessage("Enter exactly 10 digits for your contact number, without a country code.");
+        return;
+      }
       const usernameError = validateUsername(authForm.name);
       if (usernameError) {
         setAuthMessage(usernameError);
@@ -3014,35 +3020,25 @@ async function fetchPracticeLibrary() {
     const isSignup = authMode === "signup";
 
     return (
-      <div className="auth-shell">
-        <section className="auth-hero">
-          <div className="auth-brand"><span className="brand-mark" aria-hidden="true"><BrandMark title="" /></span><strong><span className="brand-medi">Med</span><span className="brand-comm">ulla</span></strong></div>
-          <p className="eyebrow">Built for serious medical preparation</p>
-          <h1>Study with clarity.<br /><span>Perform with confidence.</span></h1>
-          <p>
-            A focused workspace for PYQs, intelligent revision, performance analytics, and peer learning—designed around the way MBBS students actually study.
-          </p>
-          <div className="auth-proof-grid">
-            <div><strong>{formatStatValue(platformSummary.practiceQuestions) || "5,000+"}</strong><span>curated questions</span></div>
-            <div><strong>19</strong><span>medical subjects</span></div>
-            <div><strong>24/7</strong><span>focused practice</span></div>
-          </div>
-          <div className="auth-preview-card" aria-hidden="true">
-            <div className="auth-preview-header"><span>Today&apos;s focus</span><strong>72% complete</strong></div>
-            <div className="auth-preview-track"><span /></div>
-            <div className="auth-preview-row"><span>Pathology · PYQs</span><strong>Continue →</strong></div>
-          </div>
+      <div className="mx-auto grid w-full max-w-6xl items-start gap-8 px-4 py-6 text-slate-900 sm:px-8 sm:py-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-16 dark:text-slate-100">
+        <section className="order-2 lg:order-1 lg:sticky lg:top-12">
+          <div className="mb-8 hidden items-center gap-3 lg:flex"><span className="h-10 w-10" aria-hidden="true"><BrandMark title="" /></span><strong className="text-2xl tracking-tight">Medulla<span className="text-teal-600">.</span></strong></div>
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-teal-700 dark:text-teal-400">A little progress, every day</p>
+          <h1 className="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Your next chapter<br />starts here.</h1>
+          <p className="mt-5 max-w-sm text-sm leading-7 text-slate-600 dark:text-slate-400">One place to practise questions, revisit the essentials, and build a study routine that lasts.</p>
+          <div className="mt-6 flex gap-6 border-y border-slate-200 py-5 text-sm dark:border-slate-800"><div><strong className="block text-lg font-semibold">19</strong><span className="text-slate-500">medical subjects</span></div><div><strong className="block text-lg font-semibold">At your pace</strong><span className="text-slate-500">practice & revision</span></div></div>
+          <AuthPracticePreview onExplore={handleGuestLogin} />
         </section>
 
-        <section className="card auth-card">
-          <div className="auth-card-heading">
-            <p className="eyebrow">Welcome to Medulla</p>
-            <h2>{emailChallenge ? "Verify your email" : isSignup ? "Create your study account" : "Continue your learning"}</h2>
-            <p>{isSignup ? "Set up your profile in under a minute." : "Sign in to sync progress across devices."}</p>
+        <section className="order-1 min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8 lg:order-2 dark:border-slate-800 dark:bg-slate-900">
+          <div className="mb-6">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-teal-700 dark:text-teal-400">Medulla / Your study space</p>
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{emailChallenge ? "Check your inbox" : isSignup ? "Make yourself at home." : "Welcome back."}</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{emailChallenge ? "Enter your verification code to continue." : isSignup ? "Create your account, then find your next topic." : "Sign in to pick up where you left off."}</p>
           </div>
-          {!emailChallenge && <div className="auth-tabs" role="tablist" aria-label="Authentication mode">
+          {!emailChallenge && <div className="mb-7 grid grid-cols-2 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="group" aria-label="Authentication mode">
             <button
-              className={`auth-tab${authMode === "login" ? " auth-tab-active" : ""}`}
+              aria-pressed={authMode === "login"} className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${authMode === "login" ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"}`}
               type="button"
               onClick={() => {
                 setAuthMode("login");
@@ -3054,7 +3050,7 @@ async function fetchPracticeLibrary() {
               Login
             </button>
             <button
-              className={`auth-tab${authMode === "signup" ? " auth-tab-active" : ""}`}
+              aria-pressed={authMode === "signup"} className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${authMode === "signup" ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"}`}
               type="button"
               onClick={() => {
                 setAuthMode("signup");
@@ -3068,9 +3064,10 @@ async function fetchPracticeLibrary() {
           </div>}
 
           {emailChallenge ? <EmailVerification key={emailChallenge.challengeId} challenge={emailChallenge} onVerified={finishAuthentication}
-            onCancel={() => { setEmailChallenge(null); setAuthMessage(""); }} /> : <form key={authMode} className="auth-form" onSubmit={handleAuthSubmit} autoComplete="off">
+            onCancel={() => { setEmailChallenge(null); setAuthMessage(""); }} /> : <form key={authMode} className="grid gap-5 sm:grid-cols-2 [&_input]:!min-h-12 [&_select]:!min-h-12 [&_input]:!rounded-lg [&_select]:!rounded-lg [&_input]:!text-base [&_select]:!text-base [&_small]:text-xs [&_small]:leading-5 [&_small]:text-slate-500 [&_input:focus]:!border-teal-600 [&_select:focus]:!border-teal-600 [&_input:focus]:!ring-2 [&_input:focus]:!ring-teal-600/20" onSubmit={handleAuthSubmit} autoComplete="off">
             {isSignup ? (
               <>
+                <div className="sm:col-span-2 border-b border-slate-100 pb-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:border-slate-800">01 / Your medical profile</div>
                 <label className="field">
                   <span>Username</span>
                   <input
@@ -3088,7 +3085,7 @@ async function fetchPracticeLibrary() {
                     aria-describedby="signup-username-help"
                     placeholder="Choose a unique username"
                   />
-                  <small id="signup-username-help">Choose a readable, unique name or handle (2–40 characters, at least two letters). Avoid random letters and repeated characters. Capitalisation does not make it different.</small>
+                  <small id="signup-username-help">2–40 characters. Use a readable name with at least two letters.</small>
                 </label>
                 <label className="field">
                   <span>MBBS batch</span>
@@ -3097,11 +3094,11 @@ async function fetchPracticeLibrary() {
                     {[2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026].map(year => <option key={year} value={year}>{year} batch</option>)}
                   </select>
                 </label>
-                <div className="auth-location-fields">
+                <div className="grid gap-5 sm:col-span-2 sm:grid-cols-2">
                   <label className="field">
                     <span>State</span>
                     <select
-                      value={authForm.medicalState}
+                      required value={authForm.medicalState}
                       onChange={(event) => updateSignupState(event.target.value)}
                     >
                       <option value="">Select your state</option>
@@ -3114,7 +3111,7 @@ async function fetchPracticeLibrary() {
                     <label className="field">
                       <span>Medical college</span>
                       <select
-                        value={authForm.medicalCollege}
+                        required value={authForm.medicalCollege}
                         onChange={(event) => updateAuthField("medicalCollege", event.target.value)}
                       >
                         <option value="">Select from {signupCollegeOptions.length} colleges</option>
@@ -3132,28 +3129,38 @@ async function fetchPracticeLibrary() {
                   <span>Contact number</span>
                   <input
                     type="tel"
-                    autoComplete="off"
+                    autoComplete="tel-national"
+                    inputMode="numeric"
+                    required
+                    minLength={10}
+                    maxLength={10}
+                    pattern="[0-9]{10}"
+                    title="Enter exactly 10 digits, without a country code."
+                    aria-describedby="signup-phone-help"
                     value={authForm.contactNumber}
                     onChange={(event) => updateAuthField("contactNumber", event.target.value)}
-                    placeholder="Your contact number"
+                    placeholder="10-digit mobile number"
                   />
+                  <small id="signup-phone-help">10 digits, without spaces or a country code.</small>
                 </label>
               </>
             ) : null}
 
-            <label className="field">
+            {isSignup && <div className="sm:col-span-2 border-b border-slate-100 pb-3 pt-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:border-slate-800">02 / Account access</div>}
+            <label className={`field ${!isSignup ? "sm:col-span-2" : ""}`}>
               <span>Email</span>
               <input
                 type="email"
+                required
                 name={isSignup ? "signup-email" : "login-email"}
-                autoComplete="off"
+                autoComplete="email"
                 value={authForm.email}
                 onChange={(event) => updateAuthField("email", event.target.value)}
                 placeholder="Enter your email"
               />
             </label>
 
-            <label className="field">
+            <label className={`field ${!isSignup ? "sm:col-span-2" : ""}`}>
               <span>Password</span>
               <div className="password-input-wrap">
                 <input
@@ -3183,17 +3190,17 @@ async function fetchPracticeLibrary() {
               {isSignup ? <small id="signup-password-requirements">8 to 128 characters, including at least one number and one special character.</small> : null}
             </label>
 
-            {authMessage ? <p className="form-message" role="alert">{authMessage}</p> : null}
+            {authMessage ? <p className="sm:col-span-2 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-900 dark:bg-rose-950 dark:text-rose-200" role="alert">{authMessage}</p> : null}
 
-            <button className="button button-primary auth-submit" type="submit" disabled={authBusy}>
-              {authBusy ? "Please wait..." : isSignup ? "Create account" : "Login"}
+            <button className="sm:col-span-2 mt-1 min-h-12 rounded-lg bg-teal-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60" type="submit" disabled={authBusy}>
+              {authBusy ? "Please wait..." : isSignup ? "Create my account" : "Sign in"}
             </button>
           </form>}
-          {!emailChallenge && <><div className="auth-divider"><span>or</span></div>
-          <button className="button button-secondary guest-button" type="button" onClick={handleGuestLogin}>
+          {!emailChallenge && <><div className="my-5 flex items-center justify-center text-xs text-slate-400"><span>or</span></div>
+          <button className="w-full min-h-12 rounded-lg border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800" type="button" onClick={handleGuestLogin}>
             Explore as guest
           </button>
-          <p className="auth-fine-print">Guest progress stays on this device. Create an account anytime to sync it.</p></>}
+          <p className="mt-4 text-center text-xs leading-5 text-slate-500">Guest progress stays on this device. Create an account anytime to sync it.</p></>}
         </section>
       </div>
     );

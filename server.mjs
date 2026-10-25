@@ -36,6 +36,7 @@ import { canAccessFeature, filterLibraryByPlan } from "./src/data/planAccess.js"
 import { requireFeature, routeFeature, isTrialPracticeRoute } from "./server/planAccess.mjs";
 import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
 import { reconcileSubscriptions, subscriptionDetails } from "./server/subscriptions.mjs";
+import { isValidSignupPhone } from "./src/lib/phoneNumber.js";
 import { tokenStatus, requireTokens, chargeTokens, refundTokens, updateTokenState } from './server/tokens.mjs';
 import { cleanUsername, requireAvailableUsername, reconcileUsernames, assertUniqueUsernames } from "./server/usernames.mjs";
 import { reviseTopicWiseOptions } from "./server/topicWiseOptionRevisions.mjs";
@@ -2487,7 +2488,7 @@ function validateSignupPayload(payload) {
   if (!/^(2019|202[0-6])$/.test(String(payload.mbbsBatch ?? ""))) return "Select an MBBS batch from 2019 to 2026.";
 
   if (!/^\S+@\S+\.\S+$/.test(payload.email)) return "Enter a valid email address.";
-  if (normalizeContactNumber(payload.contactNumber).length < 8) return "Enter a valid mobile number.";
+  if (!isValidSignupPhone(payload.contactNumber)) return "Enter exactly 10 digits for your contact number, without a country code.";
   if (typeof payload.password !== "string" || payload.password.length < 8 || payload.password.length > 128) return "Password must contain 8 to 128 characters.";
   if (!/[0-9]/.test(payload.password)) return "Password must contain at least one number.";
   if (!/[^\p{L}\p{N}\s]/u.test(payload.password)) return "Password must contain at least one special character.";
