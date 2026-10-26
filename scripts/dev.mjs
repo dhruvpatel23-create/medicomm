@@ -1,4 +1,5 @@
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
+import { acquireDevLock } from './dev-lock.mjs';
 import net from "node:net";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -35,22 +36,41 @@ function spawnClient() {
 
 let serverProcess = null;
 let clientProcess = null;
+let shuttingDown = false;
+
+function stopChild(child) {
+  if (!child || child.exitCode !== null || child.killed) return;
+  if (process.platform === 'win32') {
+    // Killing only cmd.exe or the watch supervisor leaves its Node children
+    // listening on the same ports after Ctrl+C on Windows.
+    spawnSync('taskkill', ['/PID', String(child.pid), '/T', '/F'], { stdio: 'ignore', windowsHide: true });
+  } else child.kill();
+}
 
 function shutdown(exitCode = 0) {
-  if (serverProcess && !serverProcess.killed) serverProcess.kill();
-  if (clientProcess && !clientProcess.killed) clientProcess.kill();
+  if (shuttingDown) return;
+  shuttingDown = true;
+  stopChild(serverProcess);
+  stopChild(clientProcess);
   process.exit(exitCode);
 }
 
 async function main() {
+  const release = acquireDevLock(path.join(rootDir, '.tmp', 'medulla-dev.lock'));
+  if (!release) {
+    console.log('Medulla development is already running. Open http://127.0.0.1:4173, or stop the original terminal with Ctrl+C before restarting.');
+    return;
+  }
+  process.once('exit', release);
   const hasExistingServer = await isPortInUse(4174);
   const hasExistingClient = await isPortInUse(4173);
 
   if (!hasExistingServer) {
-    serverProcess = spawn("node", ["--watch", "server.mjs"], {
+    serverProcess = spawn(process.execPath, ["--watch", "server.mjs"], {
       cwd: rootDir,
       stdio: "inherit",
     });
+    serverProcess.on('error', error => { console.error('Could not start the API:', error.message); shutdown(1); });
 
     serverProcess.on("exit", (code) => {
       if (code && code !== 0) shutdown(code);
@@ -61,6 +81,7 @@ async function main() {
 
   if (!hasExistingClient) {
     clientProcess = spawnClient();
+    clientProcess.on('error', error => { console.error('Could not start Vite:', error.message); shutdown(1); });
     clientProcess.on("exit", (code) => {
       if (code && code !== 0) shutdown(code);
     });

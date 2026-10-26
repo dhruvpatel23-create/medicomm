@@ -1,4 +1,6 @@
 import EmailVerification from "./components/EmailVerification";
+import { usePushNotifications, detachPushDevice } from './lib/usePushNotifications';
+import { NotificationSettings, NotificationPrompt, ChallengeNotificationLanding, DailyQuestionGoal } from './components/NotificationSettings';
 import { validateUsername } from "./lib/usernames";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -700,6 +702,22 @@ function App() {
   const [authMessage, setAuthMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [user, setUser] = useState(null);
+  const notifications = usePushNotifications(authStatus === 'authenticated' ? user?.id : null);
+  const [pushChallengeId, setPushChallengeId] = useState(null);
+  useEffect(() => {
+    if (authStatus !== 'authenticated') return;
+    const params = new URLSearchParams(window.location.search);
+    const notification = params.get('notification');
+    if (!notification) return;
+    if (notification === 'practice') setActiveView('Practice');
+    if (notification === 'challenge') { setActiveView('Compete'); setPushChallengeId(params.get('challenge')); }
+    if (notification === 'inbox') {
+      setActiveView('Communities'); setCommunityStage('direct');
+      setSelectedDirectConversationId(params.get('conversation') || '');
+    }
+    params.delete('notification'); params.delete('conversation'); params.delete('challenge');
+    window.history.replaceState(null, '', `${window.location.pathname}${params.size ? `?${params}` : ''}${window.location.hash}`);
+  }, [authStatus]);
   const accountOverview = useAccountOverview(user?.id, activeView, `${user?.attemptedQuestions}:${user?.rating}:${user?.medicalCollege}`);
   const practiceSync = usePracticeRecorder(authStatus === "authenticated" ? user?.id : null, (savedUser, attempt, progress) => {
     setUser(current => current?.id === savedUser.id ? { ...current, ...savedUser } : current);
@@ -2986,7 +3004,8 @@ async function fetchPracticeLibrary() {
 
   async function handleLogout() {
     try {
-      await apiRequest("/api/auth/logout", { method: "POST" });
+      const endpoint = await detachPushDevice().catch(() => null);
+      await apiRequest("/api/auth/logout", { method: "POST", body: JSON.stringify({ pushEndpoint: endpoint }) });
     } catch {
       // Best-effort logout.
     } finally {
@@ -5244,8 +5263,8 @@ async function fetchPracticeLibrary() {
       <section className="app-view settings-page">
         <div className="view-header"><div><p className="eyebrow">Preferences</p><h2>Settings</h2><p className="view-subtitle">Tune your study environment, notifications, privacy, and accessibility.</p></div></div>
         <div className="settings-layout"><aside className="settings-index"><button className="active">Study preferences</button><button>Notifications</button><button>Appearance</button><button>Privacy & security</button><button>Billing</button></aside><div className="settings-content">
-          <article className="card panel"><div className="settings-heading"><h3>Study preferences</h3><p>Personalize recommendations and exam planning.</p></div><label className="setting-field"><span>Target exam<small>Used for relevant PYQs and countdowns.</small></span><select defaultValue="neet"><option value="neet">NEET PG</option><option value="ini">INI-CET</option><option value="fmge">FMGE</option></select></label><label className="setting-field"><span>Daily question goal<small>A gentle target, never a punishment.</small></span><select defaultValue="40"><option>20</option><option>40</option><option>60</option><option>100</option></select></label></article>
-          <article className="card panel"><div className="settings-heading"><h3>Notifications</h3><p>Choose the nudges that are genuinely useful.</p></div><label className="setting-toggle"><span>Daily study reminder<small>One reminder at your preferred time.</small></span><input type="checkbox" defaultChecked /></label><label className="setting-toggle"><span>Battle invitations<small>Know when a peer challenges you.</small></span><input type="checkbox" defaultChecked /></label><label className="setting-toggle"><span>Community replies<small>Mentions and replies to your discussions.</small></span><input type="checkbox" /></label></article>
+          <article className="card panel"><div className="settings-heading"><h3>Study preferences</h3><p>Personalize recommendations and exam planning.</p></div><label className="setting-field"><span>Target exam<small>Used for relevant PYQs and countdowns.</small></span><select defaultValue="neet"><option value="neet">NEET PG</option><option value="ini">INI-CET</option><option value="fmge">FMGE</option></select></label><DailyQuestionGoal notifications={notifications} /></article>
+          <NotificationSettings notifications={notifications} />
           <article className="card panel"><div className="settings-heading"><h3>Appearance & accessibility</h3><p>Comfortable in every study environment.</p></div><div className="theme-choice"><button className={!isDarkMode ? "active" : ""} onClick={() => isDarkMode && setTheme("light")}>Light</button><button className={isDarkMode ? "active" : ""} onClick={() => !isDarkMode && setTheme("dark")}>Dark</button><button onClick={() => setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")}>System</button></div><label className="setting-toggle"><span>Reduce motion<small>Minimize nonessential interface animation.</small></span><input type="checkbox" /></label></article>
           <article className="card panel danger-zone"><div><h3>Sign out of this device</h3><p className="panel-copy">Your synced progress remains safe in your account.</p></div><button className="button button-secondary" onClick={handleLogout}>Sign out</button></article>
         </div></div>
@@ -5332,6 +5351,8 @@ async function fetchPracticeLibrary() {
       onDeclineNotification={handleDeclineNotification}
     >
       {renderView()}
+      {!testMode && <NotificationPrompt notifications={notifications} />}
+      {!testMode && pushChallengeId && <ChallengeNotificationLanding key={pushChallengeId} challengeId={pushChallengeId} onAccept={handleAcceptNotification} onDecline={handleDeclineNotification} onClose={() => setPushChallengeId(null)} />}
       {!testMode && friendDuelTarget && <FriendDuelSetup key={friendDuelTarget.id} opponent={friendDuelTarget} onClose={() => setFriendDuelTarget(null)} onSend={handleDirectChallenge} />}
       {!testMode && <FeatureAccessDialog feature={lockedFeature} onClose={() => setLockedFeature(null)} onPlans={() => { setLockedFeature(null); setActiveView("Pricing"); }} />}
     </AppShell>

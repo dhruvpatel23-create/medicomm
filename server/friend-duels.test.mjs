@@ -5,6 +5,7 @@ import { randomBytes } from 'node:crypto';
 import { createMatch } from './duels.mjs';
 import { FRIEND_DUEL_COUNTS, duelSubjectCatalog, validateFriendDuelSettings } from './friendDuelSettings.mjs';
 import { shuffleQuestionOptions } from '../src/lib/shuffleQuestionOptions.js';
+import { queuePush } from './push.mjs';
 
 const pool = ['anatomy', 'pathology', 'ent'].flatMap(subjectId => Array.from({ length: 20 }, (_, i) => ({
   id: `${subjectId}-${i}`, subjectId, subjectTitle: subjectId, prompt: 'Question',
@@ -42,6 +43,7 @@ function fixture() {
   let database = {
     users: [{ id: 'alice', name: 'Alice', rating: 1500 }, { id: 'bob', name: 'Bob', rating: 1500 }],
     duels: [], directConversations: [{ id: 'chat', participantIds: ['alice', 'bob'], messages: [] }],
+    pushSubscriptions: [{ userId: 'bob' }],
   };
   let charges = 0;
   const dependencies = {
@@ -54,6 +56,7 @@ function fixture() {
     FRIEND_DUEL_COUNTS, duelSubjectCatalog, validateFriendDuelSettings, randomBytes, createMatch,
     sanitizeDuelOpponent: u => u, sanitizeDirectConversation: c => c,
     chargeTokens: () => { charges++; }, DEFAULT_USER_RATING: 1500,
+    queuePush, pushService: { tick: async () => {} },
   };
   const handlers = source.slice(source.indexOf('function handleDuelChallengeOptions('), source.indexOf('async function handleDeclineDuelChallenge('));
   const api = new Function(...Object.keys(dependencies), `${handlers}; return { handleCreateDuelChallenge, handleAcceptDuelChallenge };`)(...Object.values(dependencies));
@@ -68,6 +71,9 @@ test('friend request stores selection, describes it, and acceptance uses it for 
     const f = fixture();
     const created = await f.call('handleCreateDuelChallenge', 'alice', { opponentId: 'bob', questionCount, subjectIds: ['anatomy', 'ent'] });
     assert.equal(created.status, 201);
+    assert.equal(f.db().pushQueue.length, 1);
+    assert.equal(f.db().pushQueue[0].userId, 'bob');
+    assert.match(f.db().pushQueue[0].title, /Alice challenged you for 1v1/);
     assert.equal(created.body.challenge.questionCount, questionCount);
     assert.match(created.body.conversation.messages[0].text, new RegExp(`${questionCount} questions`));
     assert.match(created.body.conversation.messages[0].text, /anatomy, ent/);
@@ -91,4 +97,14 @@ test('invalid friend selections do not send a request', async () => {
   const result = await f.call('handleCreateDuelChallenge', 'alice', { opponentId: 'bob', questionCount: 15, subjectIds: [] });
   assert.equal(result.status, 400);
   assert.equal(f.db().directConversations[0].messages.length, 0);
+});
+
+test('notification invitations cannot start an expired challenge', async () => {
+  const f = fixture();
+  const created = await f.call('handleCreateDuelChallenge', 'alice', { opponentId: 'bob' });
+  f.db().challengeRooms[0].createdAtMs = Date.now() - 600001;
+  const accepted = await f.call('handleAcceptDuelChallenge', 'bob', { challengeId: created.body.challenge.id });
+  assert.equal(accepted.status, 410);
+  assert.match(accepted.body.message, /expired/);
+  assert.equal(f.charges(), 0);
 });

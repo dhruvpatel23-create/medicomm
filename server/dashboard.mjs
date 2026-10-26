@@ -1,3 +1,5 @@
+import { dailyQuestionGoal } from '../src/lib/studyGoal.js';
+
 const dayKey = value => new Date(new Date(value).getTime() + 330 * 60000).toISOString().slice(0, 10);
 const dayBefore = (day, offset) => new Date(Date.parse(`${day}T00:00:00Z`) - offset * 86400000).toISOString().slice(0, 10);
 
@@ -39,7 +41,7 @@ export function dashboardData(database, user, region, now = Date.now()) {
     recent: attempts.slice(0, 5).map(({ userId, selectedAnswer, ...item }) => item),
     resume: recent ? { subjectId: recent.subjectId, subject: recent.subject, mode: recent.mode, questionId: recent.questionId, year: recent.year, answeredAt: recent.answeredAt } : null,
     battles: battles.slice(0, 3).map(item => ({ id: item.duelId, mode: item.mode, verdict: item.verdict, userScore: item.userScore, opponentScore: item.opponentScore, ratingChange: item.delta, completedAt: item.completedAt })),
-    goal: user.studyGoal ?? null, todayDate: today,
+    goal: user.studyGoal ?? null, dailyQuestionGoal: dailyQuestionGoal(user), todayDate: today,
   };
 }
 

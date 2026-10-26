@@ -21,6 +21,14 @@ services:
         value: "false"
       - key: GEMINI_API_KEY
         sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        value: https://medullaprep.com
+      - key: PUSH_REMINDER_HOUR_IST
+        value: "18"
       - key: RAZORPAY_KEY_ID
         sync: false
       - key: RAZORPAY_KEY_SECRET

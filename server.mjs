@@ -8,6 +8,7 @@ import { createHash, randomBytes, pbkdf2, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import { HttpError, readJson, createLimiter, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
 import { createStateStore, validateSupabaseState } from './server/stateStore.mjs';
+import { createPushService, queuePush } from './server/push.mjs';
 import { createPracticeLive } from './server/practiceLive.mjs';
 import { createUploads } from './server/uploads.mjs';
 import { firebaseServices } from './server/firebaseAdmin.mjs';
@@ -226,6 +227,9 @@ function normalizeDatabase(parsed = {}) {
     passwordResetLimits: parsed.passwordResetLimits ?? {},
     communities,
     directConversations: Array.isArray(parsed.directConversations) ? parsed.directConversations : [],
+    pushSubscriptions: Array.isArray(parsed.pushSubscriptions) ? parsed.pushSubscriptions : [],
+    pushQueue: Array.isArray(parsed.pushQueue) ? parsed.pushQueue : [],
+    challengeRooms: Array.isArray(parsed.challengeRooms) ? parsed.challengeRooms : [],
     duelQueue: Array.isArray(parsed.duelQueue) ? parsed.duelQueue : [],
     duels: Array.isArray(parsed.duels) ? parsed.duels : [],
     duelResults: Array.isArray(parsed.duelResults) ? parsed.duelResults : [],
@@ -385,6 +389,8 @@ const emailVerification = createEmailVerification({ readDatabase, writeDatabase,
   },
 });
 const drainEmails = createEmailWorker({ mailer, readDatabase, writeDatabase });
+const pushService = createPushService({ read: readDatabase, write: writeDatabase,
+  getUser: requireSessionUser, parseBody: parseRequestBody, sendJson });
 const handlePayment = createPaymentHandler({ readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson,
   requireVerifiedEmail: Boolean(firebase) || emailVerification.enabled,
   enqueueThankYou: (order, user) => queueThankYou(order, user, mailer),
@@ -2298,7 +2304,7 @@ async function serveStaticFile(response, requestPath, privateResource = false) {
     const file = await fs.readFile(filePath);
     response.writeHead(200, {
       "Content-Type": getStaticMimeType(filePath),
-      "Cache-Control": privateResource ? "private, no-store" : filePath.endsWith("index.html") ? "no-cache" : "public, max-age=31536000, immutable",
+      "Cache-Control": privateResource ? "private, no-store" : /(?:index\.html|push-sw\.js|manifest\.webmanifest)$/.test(filePath) ? "no-cache" : "public, max-age=31536000, immutable",
     });
     response.end(file);
   } catch {
@@ -2711,11 +2717,17 @@ function handleSession(request, response) {
 async function handleLogout(request, response) {
   const database = readDatabase();
   const token = getTokenFromRequest(request);
+  const user = getSessionUser(request, database);
+  const payload = await parseRequestBody(request);
+  const before = (database.pushSubscriptions ?? []).length;
+  if (user && payload.pushEndpoint) database.pushSubscriptions = (database.pushSubscriptions ?? [])
+    .filter(device => device.userId !== user.id || device.subscription.endpoint !== payload.pushEndpoint);
 
-  if (token && database.sessions[sessionHash(token)]) {
+  const hadSession = token && database.sessions[sessionHash(token)];
+  if (hadSession) {
     delete database.sessions[sessionHash(token)];
-    await writeDatabase(database);
   }
+  if (hadSession || before !== (database.pushSubscriptions ?? []).length) await writeDatabase(database);
 
   return sendJson(response, 200, { success: true }, { "Set-Cookie": sessionCookie("", production, true) });
 }
@@ -3221,7 +3233,14 @@ async function handleSendDirectMessage(request, response, conversationId) {
   conversation.updatedAt = createdAt;
 
   database.directConversations[conversationIndex] = conversation;
+  for (const recipientId of conversation.participantIds ?? []) {
+    if (recipientId === currentUser.id) continue;
+    queuePush(database, { userId: recipientId, kind: 'messages', key: `message:${conversation.messages.at(-1).id}`,
+      group: `inbox:${conversation.id}:${recipientId}`, title: `${currentUser.name} sent you a message`,
+      body: 'You have a new message in your personal inbox.', url: `/?notification=inbox&conversation=${encodeURIComponent(conversation.id)}` });
+  }
   await writeDatabase(database);
+  void pushService.tick();
 
   return sendJson(response, 200, {
     conversation: sanitizeDirectConversation(conversation, database.users, currentUser.id),
@@ -3503,7 +3522,12 @@ async function handleCreateDuelChallenge(request, response) {
     conversation.updatedAt = createdAt;
   }
 
+  queuePush(database, { userId: opponent.id, kind: 'challenges', key: `challenge:${room.id}`,
+    group: `challenge:${currentUser.id}:${opponent.id}`, title: `${currentUser.name} challenged you for 1v1`,
+    body: `${settings.questionCount} questions · ${subjectTitles.join(', ')}. Open Medulla to accept.`,
+    url: `/?notification=challenge&challenge=${encodeURIComponent(room.id)}` });
   await writeDatabase(database);
+  void pushService.tick();
   return sendJson(response, 201, {
     challenge: {
       id: room.id,
@@ -3538,6 +3562,8 @@ async function handleGetDuelChallengeStatus(request, response, url) {
     id: room.id,
     status: room.status,
     duelId: room.duelId,
+    expiresAt: (room.createdAtMs || Date.parse(room.createdAt)) + 600000,
+    isRecipient: room.challengedId === currentUser.id,
     questionCount: room.questionCount ?? 5,
     subjectTitles: room.subjectTitles ?? ['All subjects'],
     opponent: opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : null,
@@ -3556,6 +3582,9 @@ async function handleAcceptDuelChallenge(request, response) {
 
   if (room.challengedId !== currentUser.id) {
     return sendJson(response, 403, { message: "Only the challenged player can accept this duel." });
+  }
+  if (Date.now() - (room.createdAtMs || Date.parse(room.createdAt)) >= 600000) {
+    return sendJson(response, 410, { message: 'This challenge has expired. Ask your friend to send a new invitation.' });
   }
 
   if (room.status === "cancelled") {
@@ -4151,6 +4180,7 @@ async function handleRequest(request, response) {
       if (!user) return;
       return sendJson(response, 200, { tokens: tokenStatus(database, user.id) });
     }
+    if (url.pathname === '/api/notifications') return await pushService.handle(request, response);
     if (request.method === "POST" && url.pathname === "/api/auth/logout") return await handleLogout(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile") return await handleProfileUpdate(request, response);
     if ((request.method === 'GET' && ['/api/dashboard', '/api/practice/progress', '/api/practice/live'].includes(url.pathname)) || (request.method === 'PATCH' && url.pathname === '/api/dashboard/goal') || (request.method === 'POST' && url.pathname === '/api/practice/attempts')) return await handleDashboard(request, response, url);
@@ -4256,6 +4286,9 @@ async function handleRequest(request, response) {
 }
 
 await initializeDatabaseStore();
+const pushTimer = pushService.configured ? setInterval(() => { void pushService.tick(); }, 60000) : null;
+pushTimer?.unref();
+if (pushService.configured) void pushService.tick();
 const emailTimer = mailer.configured ? setInterval(() => { void drainEmails(); }, 30000) : null;
 emailTimer?.unref();
 if (mailer.configured) void drainEmails();
@@ -4269,6 +4302,7 @@ server.listen(port, host, () => {
 for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => {
   stopping = true;
   if (emailTimer) clearInterval(emailTimer);
+  if (pushTimer) clearInterval(pushTimer);
   const deadline = setTimeout(() => process.exit(1), 30000);
   deadline.unref();
   server.close(async () => { await stateStore.drain(); clearTimeout(deadline); process.exit(0); });
