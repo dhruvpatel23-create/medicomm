@@ -3506,6 +3506,12 @@ async function handleCreateDuelChallenge(request, response) {
   );
 
   const createdAt = new Date().toISOString();
+  if (!conversation) {
+    conversation = { id: randomBytes(10).toString('hex'), participantIds: [currentUser.id, opponent.id],
+      createdAt, updatedAt: createdAt, messages: [] };
+    database.directConversations ??= [];
+    database.directConversations.unshift(conversation);
+  }
   const challengeMsg = {
     id: randomBytes(8).toString("hex"),
     userId: currentUser.id,
@@ -3522,11 +3528,12 @@ async function handleCreateDuelChallenge(request, response) {
     conversation.updatedAt = createdAt;
   }
 
-  queuePush(database, { userId: opponent.id, kind: 'challenges', key: `challenge:${room.id}`,
+  const notificationQueued = queuePush(database, { userId: opponent.id, kind: 'challenges', key: `challenge:${room.id}`,
     group: `challenge:${currentUser.id}:${opponent.id}`, title: `${currentUser.name} challenged you for 1v1`,
     body: `${settings.questionCount} questions · ${subjectTitles.join(', ')}. Open Medulla to accept.`,
     url: `/?notification=challenge&challenge=${encodeURIComponent(room.id)}` });
   await writeDatabase(database);
+  console.info('Challenge notification queued', { queued: notificationQueued });
   void pushService.tick();
   return sendJson(response, 201, {
     challenge: {

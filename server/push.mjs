@@ -32,7 +32,18 @@ export function queuePush(database, { userId, kind, key, title, body, url, group
   const devices = (database.pushSubscriptions ?? []).filter(device => device.userId === userId);
   if (!user || user.notificationPreferences?.[kind] === false || !devices.length) return false;
   const queue = database.pushQueue ??= [];
-  if (queue.some(job => job.key === key || (kind !== 'daily' && job.userId === userId && job.group === group && now - job.createdAt < 60000))) return false;
+  if (queue.some(job => job.key === key || (kind === 'messages' && job.userId === userId && job.group === group && now - job.createdAt < 60000))) return false;
+  if (kind === 'challenges') {
+    // A new invitation cancels the sender's previous room. Keep the latest
+    // actionable invitation instead of suppressing it behind a cancelled one.
+    // The stable OS notification tag and renotify:false replace earlier alerts.
+    for (const job of queue) {
+      if (job.kind === kind && job.userId === userId && job.group === group && !job.claimedAt) {
+        job.claimedAt = now;
+        job.deliveryStatus = 'superseded';
+      }
+    }
+  }
   queue.push({ id: randomUUID(), userId, kind, key, group, title, body, url, createdAt: now, expiresAt: now + ttl * 1000 });
   return true;
 }
@@ -116,7 +127,11 @@ export function createPushService({ read, write, getUser, parseBody, sendJson, e
           job.claimedAt = Date.now();
           const user = data.users.find(user => user.id === job.userId);
           const active = user && user.notificationPreferences?.[job.kind] !== false;
-          const validChallenge = job.kind !== 'challenges' || (data.challengeRooms ?? []).some(room => job.key === `challenge:${room.id}` && room.status === 'waiting' && Date.now() - room.createdAtMs < 600000);
+          const validChallenge = job.kind !== 'challenges' || (data.challengeRooms ?? []).some(room => {
+            const createdAt = Number(room.createdAtMs) || Date.parse(room.createdAt);
+            return job.key === `challenge:${room.id}` && room.challengedId === job.userId && room.status === 'waiting' &&
+              Number.isFinite(createdAt) && Date.now() - createdAt < 600000;
+          });
           let incomplete = true;
           if (job.kind === 'daily' && user) {
             const goal = dailyQuestionGoal(user), remaining = Math.max(0, goal - dashboardData(data, user, () => '').today.attempts);
@@ -124,11 +139,19 @@ export function createPushService({ read, write, getUser, parseBody, sendJson, e
             job.title = `Your daily ${goal} questions`;
             job.body = `${remaining} of your ${goal} questions today are still to be done. Keep your streak going!`;
           }
-          return { job, devices: active && validChallenge && incomplete ? (data.pushSubscriptions ?? []).filter(device => device.userId === job.userId) : [] };
+          const devices = active && validChallenge && incomplete ? (data.pushSubscriptions ?? []).filter(device => device.userId === job.userId) : [];
+          job.deliveryStatus = devices.length ? 'sending' : 'skipped';
+          if (!devices.length) job.skipReason = !active ? 'preference-disabled' : !validChallenge ? 'invitation-unavailable' : !incomplete ? 'goal-completed' : 'no-devices';
+          return { job, devices };
         });
         if (!delivery) break;
         const { job, devices } = delivery;
+        if (!devices.length) {
+          if (job.kind === 'challenges') console.info('Challenge push skipped', { reason: job.skipReason });
+          continue;
+        }
         const expired = [];
+        let accepted = 0;
         await Promise.all(devices.map(async device => {
           try {
             await transport(validateSubscription(device.subscription), JSON.stringify({ title: job.title, body: job.body, url: job.url, tag: job.group }), {
@@ -136,12 +159,18 @@ export function createPushService({ read, write, getUser, parseBody, sendJson, e
               agent: pushAgent,
               urgency: job.kind === 'daily' ? 'normal' : 'high',
             });
+            accepted++;
           } catch (error) {
             if ([404, 410].includes(error.statusCode)) expired.push(device.id);
             else console.warn('Push delivery failed', { kind: job.kind, status: error.statusCode || 'network' });
           }
         }));
-        if (expired.length) await change(data => { data.pushSubscriptions = (data.pushSubscriptions ?? []).filter(device => !expired.includes(device.id)); });
+        await change(data => {
+          const savedJob = (data.pushQueue ?? []).find(item => item.id === job.id);
+          if (savedJob) Object.assign(savedJob, { deliveryStatus: accepted === devices.length ? 'accepted' : accepted ? 'partial' : 'failed',
+            acceptedDevices: accepted, attemptedDevices: devices.length, processedAt: Date.now() });
+          if (expired.length) data.pushSubscriptions = (data.pushSubscriptions ?? []).filter(device => !expired.includes(device.id));
+        });
       }
     } catch (error) { console.warn('Push worker paused', { status: error.status || 'storage' }); }
     finally { running = false; }

@@ -5,7 +5,8 @@ import { randomBytes } from 'node:crypto';
 import { createMatch } from './duels.mjs';
 import { FRIEND_DUEL_COUNTS, duelSubjectCatalog, validateFriendDuelSettings } from './friendDuelSettings.mjs';
 import { shuffleQuestionOptions } from '../src/lib/shuffleQuestionOptions.js';
-import { queuePush } from './push.mjs';
+import { createPushService, queuePush } from './push.mjs';
+import webpush from 'web-push';
 
 const pool = ['anatomy', 'pathology', 'ent'].flatMap(subjectId => Array.from({ length: 20 }, (_, i) => ({
   id: `${subjectId}-${i}`, subjectId, subjectTitle: subjectId, prompt: 'Question',
@@ -39,10 +40,10 @@ test('actual picker returns exact counts without duplicates or unselected subjec
   assert.throws(() => pick(15, ['missing']));
 });
 
-function fixture() {
+function fixture({ conversation = true } = {}) {
   let database = {
     users: [{ id: 'alice', name: 'Alice', rating: 1500 }, { id: 'bob', name: 'Bob', rating: 1500 }],
-    duels: [], directConversations: [{ id: 'chat', participantIds: ['alice', 'bob'], messages: [] }],
+    duels: [], directConversations: conversation ? [{ id: 'chat', participantIds: ['alice', 'bob'], messages: [] }] : [],
     pushSubscriptions: [{ userId: 'bob' }],
   };
   let charges = 0;
@@ -63,6 +64,7 @@ function fixture() {
   return {
     call: (name, user, body) => api[name]({ user, body }, {}),
     db: () => database, charges: () => charges,
+    replace: data => { database = data; },
   };
 }
 
@@ -107,4 +109,70 @@ test('notification invitations cannot start an expired challenge', async () => {
   assert.equal(accepted.status, 410);
   assert.match(accepted.body.message, /expired/);
   assert.equal(f.charges(), 0);
+});
+
+const pushKeys = webpush.generateVAPIDKeys();
+function notificationFixture() {
+  const f = fixture({ conversation: false });
+  f.db().users[1].notificationPreferences = { daily: false };
+  f.db().pushSubscriptions = [{ id: 'phone', userId: 'bob', subscription: {
+    endpoint: 'https://fcm.googleapis.com/wp/test-friend-device', keys: {
+      p256dh: Buffer.concat([Buffer.from([4]), Buffer.alloc(64, 1)]).toString('base64url'),
+      auth: Buffer.alloc(16, 2).toString('base64url'),
+    },
+  } }];
+  const sent = [];
+  const worker = createPushService({ read: () => structuredClone(f.db()), write: async data => f.replace(JSON.parse(JSON.stringify(data))),
+    env: { VAPID_PUBLIC_KEY: pushKeys.publicKey, VAPID_PRIVATE_KEY: pushKeys.privateKey, VAPID_SUBJECT: 'https://medullaprep.com' },
+    transport: async (subscription, payload) => { sent.push({ endpoint: subscription.endpoint, ...JSON.parse(payload) }); } });
+  return { ...f, worker, sent, create: () => f.call('handleCreateDuelChallenge', 'alice', { opponentId: 'bob' }) };
+}
+
+test('a friend challenge with no prior chat creates an inbox event and reaches the device transport exactly once', async () => {
+  const f = notificationFixture();
+  const created = await f.create();
+  assert.equal(created.status, 201);
+  assert.deepEqual(created.body.conversation.participantIds, ['alice', 'bob']);
+  assert.equal(f.db().directConversations[0].messages[0].challengeId, created.body.challenge.id);
+  await f.worker.tick();
+  assert.equal(f.sent.length, 1);
+  assert.equal(f.sent[0].title, 'Alice challenged you for 1v1');
+  assert.equal(f.sent[0].url, `/?notification=challenge&challenge=${created.body.challenge.id}`);
+  assert.equal(f.db().pushQueue[0].deliveryStatus, 'accepted');
+  assert.equal(f.db().pushQueue[0].acceptedDevices, 1);
+  await f.worker.tick();
+  assert.equal(f.sent.length, 1);
+});
+
+test('a replacement challenge within one minute is delivered instead of being suppressed by a cancelled room', async () => {
+  const f = notificationFixture();
+  await f.create(); await f.worker.tick();
+  const replacement = await f.create();
+  assert.equal(f.db().challengeRooms[0].status, 'cancelled');
+  await f.worker.tick();
+  assert.equal(f.sent.length, 2);
+  assert.equal(f.sent[1].url, `/?notification=challenge&challenge=${replacement.body.challenge.id}`);
+  assert.equal(f.sent[1].tag, f.sent[0].tag, 'updates the existing OS notification');
+});
+
+test('queued replacement challenges coalesce to the latest actionable invitation', async () => {
+  const f = notificationFixture();
+  await f.create(); const replacement = await f.create();
+  assert.equal(f.db().pushQueue[0].deliveryStatus, 'superseded');
+  await f.worker.tick();
+  assert.equal(f.sent.length, 1);
+  assert.equal(f.sent[0].url, `/?notification=challenge&challenge=${replacement.body.challenge.id}`);
+});
+
+test('challenge delivery accepts the persisted ISO creation date when the numeric timestamp is missing', async () => {
+  const f = notificationFixture();
+  await f.create(); delete f.db().challengeRooms[0].createdAtMs;
+  await f.worker.tick(); assert.equal(f.sent.length, 1);
+});
+
+test('challenge preference disables device delivery without losing the inbox invitation', async () => {
+  const f = notificationFixture(); f.db().users[1].notificationPreferences.challenges = false;
+  await f.create(); await f.worker.tick();
+  assert.equal(f.sent.length, 0);
+  assert.equal(f.db().directConversations[0].messages[0].type, 'challenge');
 });
