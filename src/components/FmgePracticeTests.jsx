@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ArrowLeft, ArrowRight, Check, Clock3, Flag, Loader2, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Clock3, Flag, Loader2, LockKeyhole, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { apiRequest } from '../lib/api';
 import { createTestAnswerQueue } from '../lib/testAnswerQueue';
 import MassTestLeaderboard from './MassTestLeaderboard';
@@ -21,7 +21,7 @@ function ConfirmDialog({ open, onOpenChange, title, children, action, onConfirm,
   </Dialog.Root>;
 }
 
-export default function FmgePracticeTests({ onSessionChange, category = 'practice' }) {
+export default function FmgePracticeTests({ onSessionChange, category = 'practice', onUnlockPractice }) {
   const [catalog, setCatalog] = useState(null);
   const [waitingRoom, setWaitingRoom] = useState(null);
   const [attempt, setAttempt] = useState(null);
@@ -197,15 +197,16 @@ export default function FmgePracticeTests({ onSessionChange, category = 'practic
         : 'open';
       return <article className={`exam-test-card ft-test-card${category === 'grand' ? ' exam-test-card-grand' : ''}`} key={test.id}>
         <span className="exam-test-number" aria-hidden="true">0{index + 1}</span>
-        <div className="exam-test-copy"><p className="exam-test-label">{category === 'grand' ? 'Grand test' : 'Full syllabus • FMGE'}</p><h3>{test.title}</h3><p className="ft-card-meta">300 questions · 300 marks{active ? ` · ${active.status === 'break' ? 'Between parts' : `Part ${active.part} in progress`}` : latest ? ` · Last score ${latest.score}/300` : ''}</p></div>
+        <div className="exam-test-copy"><p className="exam-test-label">{category === 'grand' ? `Grand test${test.access === 'free' ? ' • Free' : ''}` : 'Full syllabus • FMGE'}</p><h3>{test.title}</h3><p className="ft-card-meta">300 questions · 300 marks{active ? ` · ${active.status === 'break' ? 'Between parts' : `Part ${active.part} in progress`}` : latest ? ` · Last score ${latest.score}/300` : ''}</p></div>
         {test.startsAt && <div className="exam-test-date"><span>Scheduled date</span><time dateTime={test.startsAt}>{new Date(test.startsAt).toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata' })} · {new Date(test.startsAt).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true })} IST</time></div>}
         <div className="ft-card-actions">{latest && <button className="ft-text-button" disabled={busy} onClick={() => request(`/attempts/${latest.id}`)}>View result</button>}
           {test.waitingRoomOpensAt && <p className="ft-muted">Waiting room: 1:00 pm IST · Test: 2:00 pm IST</p>}
           {!(test.singleAttempt && latest && !active) && <button className="button button-primary" disabled={busy || scheduledStage === 'locked'} onClick={() => {
+            if (test.locked) { onUnlockPractice?.(); return; }
             if (scheduledStage === 'waiting') { request(`/${test.id}/waiting-room`, { method: 'POST', body: '{}' }); return; }
             if (active) request(`/attempts/${active.id}`);
             else { startKey.current = crypto.randomUUID(); setInstructions(test); }
-          }}>{scheduledStage === 'locked' ? 'Waiting room opens at 1:00 pm IST' : scheduledStage === 'waiting' ? 'Enter waiting room' : active ? 'Resume' : latest ? 'Retake test' : 'Start test'} <ArrowRight size={16} /></button>}</div>
+          }}>{test.locked ? 'Unlock Practice Tests' : scheduledStage === 'locked' ? 'Waiting room opens at 1:00 pm IST' : scheduledStage === 'waiting' ? 'Enter waiting room' : active ? 'Resume' : latest ? 'Retake test' : 'Start test'} {test.locked ? <LockKeyhole size={16} /> : <ArrowRight size={16} />}</button>}</div>
       </article>;
     })}</div>
     {category === 'grand' && tests.filter(test => test.rankReleaseAt).map(test => <MassTestLeaderboard key={test.id} testId={test.id} releasesAt={test.rankReleaseAt} />)}

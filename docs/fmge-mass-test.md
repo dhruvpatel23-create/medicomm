@@ -11,7 +11,11 @@ The existing format remains two independently timed 150-minute parts, with an
 untimed break. Individual scores and answer reviews are available immediately on
 completion. Ranks and the leaderboard are hidden by the API until **27 October
 2026, 20:00 Asia/Kolkata**, and appear automatically on the result screen and the
-grand-test listing. Premium access requirements remain in force.
+grand-test listing. Grand Test 1 is free for every signed-in account, including
+free, lower-plan and expired-plan members. The FMGE Tests directory is open to
+these members; its Practice Tests tab and all practice-attempt API routes still
+require an active Premium plan. The free grand test retains its opening times,
+one-attempt rule, account ownership checks and rank publication time.
 
 Ranking uses completed attempts only, highest score first. Equal scores share
 competition ranks (1, 1, 3). No shared finishing time or entry cutoff has been set,

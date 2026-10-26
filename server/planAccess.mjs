@@ -15,7 +15,9 @@ export function requireFeature(database, userId, feature) {
 
 export function routeFeature(pathname, method, searchParams = new URLSearchParams()) {
   if (/^\/api\/(?:viva|clinical-cases|short-notes)\//.test(pathname) || /\/short-notes\.json$/i.test(pathname)) return 'theory';
-  if (/^\/api\/practice\/(?:fmge-tests|neetpg-tests)(?:\/|$)/.test(pathname)) return 'tests';
+  // FMGE mixes free scheduled tests with premium practice attempts. Its handler
+  // enforces access per test rather than locking the entire directory.
+  if (/^\/api\/practice\/neetpg-tests(?:\/|$)/.test(pathname)) return 'tests';
   if (/\/practice-question-bank\.json$/i.test(pathname)) return 'usmle';
   if (method !== 'GET' && method !== 'HEAD') {
     if (/^\/api\/communities(?:\/|$)/.test(pathname)) return 'community';

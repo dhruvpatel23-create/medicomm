@@ -1,13 +1,14 @@
 import * as Tabs from "@radix-ui/react-tabs";
 import FmgePracticeTests from './FmgePracticeTests';
 import { useCallback, useState } from 'react';
+import { LockKeyhole } from 'lucide-react';
 
 const testTypes = [
   { id: "practice", title: "Practice Tests" },
   { id: "grand", title: "Grand Tests" },
 ];
 
-export default function TestSections({ title, onBack, exam, onSessionChange }) {
+export default function TestSections({ title, onBack, exam, onSessionChange, canTakePractice = false, onUnlockPractice }) {
   const [inSession, setInSession] = useState(false);
   const sessionChanged = useCallback(value => { setInSession(value); onSessionChange?.(value); }, [onSessionChange]);
   return <section className="app-view" aria-labelledby="practice-tests-title">
@@ -17,12 +18,16 @@ export default function TestSections({ title, onBack, exam, onSessionChange }) {
         Back to Practice
       </button>
     </div>
-    <Tabs.Root defaultValue="practice">
+    <Tabs.Root defaultValue={exam === 'fmge' && !canTakePractice ? 'grand' : 'practice'}>
       <Tabs.List className="test-section-tabs" style={inSession ? { display: 'none' } : undefined} aria-label={`${title} categories`}>
-        {testTypes.map(type => <Tabs.Trigger key={type.id} value={type.id} className="test-section-tab">{type.title}</Tabs.Trigger>)}
+        {testTypes.map(type => <Tabs.Trigger key={type.id} value={type.id} className="test-section-tab">{type.title}{type.id === 'practice' && !canTakePractice && <LockKeyhole size={14} aria-label="Premium required" />}</Tabs.Trigger>)}
       </Tabs.List>
       <Tabs.Content value="practice" className="test-section-content">
-        {exam === 'fmge' ? <FmgePracticeTests onSessionChange={sessionChanged} /> : <div className="test-card-stack">
+        {!canTakePractice ? <div className="ft-practice-lock">
+          <LockKeyhole size={28} aria-hidden="true" /><h3>Premium Practice Tests</h3>
+          <p>Practice Tests require Premium. {exam === 'fmge' && 'Grand Test 1 is free for all signed-in members under Grand Tests.'}</p>
+          <button type="button" className="button button-primary" onClick={onUnlockPractice}>Unlock Practice Tests</button>
+        </div> : exam === 'fmge' ? <FmgePracticeTests onSessionChange={sessionChanged} onUnlockPractice={onUnlockPractice} /> : <div className="test-card-stack">
           {[1, 2, 3].map(number => <article className="exam-test-card" key={number}>
             <span className="exam-test-number" aria-hidden="true">0{number}</span>
             <div className="exam-test-copy">

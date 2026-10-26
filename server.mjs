@@ -376,7 +376,7 @@ const practiceLive = createPracticeLive({ readDatabase, getSessionUser, sanitize
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
 const massTestStore = createMassTestStore({ directory: path.join(runtimeDataDir, 'mass-tests'),
   db: firebase?.db, namespace: firebaseNamespace });
-const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess, parseRequestBody, sendJson,
+const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson,
   massStore: massTestStore, readAccess: readTestAccess });
 const handlePromotions = createPromotionsHandler({ readDatabase, writeDatabase, getSessionUser, sendJson });
 const mailer = createMailer();
@@ -4090,7 +4090,7 @@ async function handleRequest(request, response) {
       const database = accessDatabase();
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Sign in to unlock Practice.');
-      if (!isTrialPracticeRoute(url.pathname, request.method) && !hasPracticeAccess(database, user.id)) throw new HttpError(403, 'Practice unlocks after a verified payment. Choose a plan to continue.');
+      if (!testRoute && !isTrialPracticeRoute(url.pathname, request.method) && !hasPracticeAccess(database, user.id)) throw new HttpError(403, 'Practice unlocks after a verified payment. Choose a plan to continue.');
     }
     const restrictedFeature = routeFeature(path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/')), request.method, url.searchParams);
     if (restrictedFeature) {

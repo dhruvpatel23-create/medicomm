@@ -31,14 +31,15 @@ test('server rejects restricted features and allows subscribed features', () => 
 
 test('API and static paths require the correct package; directories remain browsable', () => {
   for (const path of ['/api/viva/sessions', '/api/clinical-cases/sessions', '/api/short-notes/reviews', '/short-notes.json']) assert.equal(routeFeature(path, 'GET'), 'theory');
-  assert.equal(routeFeature('/api/practice/fmge-tests/attempts/123', 'PATCH'), 'tests');
+  assert.equal(routeFeature('/api/practice/fmge-tests/attempts/123', 'PATCH'), null);
+  assert.equal(routeFeature('/api/practice/neetpg-tests/attempts/123', 'PATCH'), 'tests');
   assert.equal(routeFeature('/practice-question-bank.json', 'GET'), 'usmle');
   assert.equal(routeFeature('/api/practice', 'GET', new URLSearchParams('source=usmle')), null);
   assert.equal(routeFeature('/api/communities', 'GET'), null);
   assert.equal(routeFeature('/api/communities/room/messages', 'POST'), 'community');
   assert.equal(routeFeature('/api/direct-messages/open', 'POST'), 'inbox');
   assert.equal(practiceFeature('fmge'), 'fullPractice');
-  assert.equal(practiceFeature('fmge-tests'), 'tests');
+  assert.equal(practiceFeature('fmge-tests'), 'fmgeTests');
 });
 
 test('lower packages cannot receive USMLE content through the shared library or cache', () => {
@@ -65,6 +66,8 @@ test('trial access opens practice directories without granting paid features', (
   const free = { plan: 'free', hasPracticeAccess: false };
   assert.equal(canOpenFeature(free, 'practice'), true);
   assert.equal(canOpenFeature(free, 'usmle'), true);
+  assert.equal(canOpenFeature(free, 'fmgeTests'), true);
+  assert.equal(canOpenFeature({ ...free, subscriptionStatus: 'expired' }, 'fmgeTests'), true);
   for (const feature of ['theory', 'tests', 'community', 'inbox', 'fullPractice']) {
     assert.equal(canOpenFeature(free, feature), false);
   }

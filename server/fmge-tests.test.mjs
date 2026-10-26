@@ -15,9 +15,9 @@ function fixture() {
   const directory = mkdtempSync(path.join(tmpdir(), 'medulla-mass-test-'));
   directories.push(directory);
   const massStore = createMassTestStore({ directory });
-  const store = createStateStore({ initial: { users: [{ id: 'alice' }, { id: 'bob' }] }, persist: async () => {} });
+  const store = createStateStore({ initial: { users: [{ id: 'alice', plan: 'premium' }, { id: 'bob' }] }, persist: async () => {} });
   const handler = createFmgeTestsHandler({ readDatabase: () => store.read(), writeDatabase: d => store.write(d),
-    getSessionUser: (r,d) => d.users.find(u => u.id === r.user), hasPracticeAccess: (_,id) => id !== 'bob',
+    getSessionUser: (r,d) => d.users.find(u => u.id === r.user),
     parseRequestBody: async r => r.body ?? {}, sendJson: (_,status,body,headers) => ({ status, body, headers }), now: () => clock, massStore });
   const call = (suffix = '', method = 'GET', body = {}, user = 'alice') => handler({ method, body, user }, {}, new URL(`http://localhost/api/practice/fmge-tests${suffix}`));
   const start = async (key='start-key-123') => (await call('/fmge-practice-1/start','POST',{startKey:key})).body.attempt;
@@ -45,7 +45,8 @@ test('300-question tests match every subject quota and retain exam provenance', 
 test('authentication, payment, and ownership enforced; live APIs never expose answer keys', async () => {
   const f=fixture();
   await assert.rejects(f.call('','GET',{},'guest'), e=>e.status===401);
-  await assert.rejects(f.call('','GET',{},'bob'), e=>e.status===403);
+  assert.equal((await f.call('', 'GET', {}, 'bob')).status, 200);
+  await assert.rejects(f.call('/fmge-practice-1/start', 'POST', { startKey: 'unpaid-start-123' }, 'bob'), e => e.status === 403);
   const a=await f.start();
   assert.equal(a.questions.length,150);
   assert.doesNotMatch(JSON.stringify(a), /answerIndex|explanation|sourcePdf|subjectTitle/);
@@ -72,6 +73,50 @@ test('reviewed grand test has its own category and retains existing attempts', a
   assert.equal(grand[0].attempts[0].id, started.id);
   assert.deepEqual((await f.massStore.get(original, 'alice')).attempt.questions, original.questions);
   assert.equal(original.questions.filter(q => q.imageUrls?.length).length, 39);
+});
+
+test('free, lower-plan and expired members can take the grand test but cannot bypass Premium practice locks', async () => {
+  const f = fixture();
+  const test = readFmgeTests().tests.find(t => t.eventId);
+  const db = f.store.read();
+  db.users.push({ id: 'lite', plan: 'lite' }, { id: 'ultra', plan: 'ultra' }, {
+    id: 'expired', plan: 'premium', subscriptionPurchasedAt: '2020-01-01T00:00:00Z', subscriptionOrderId: 'expired-order',
+  });
+  await f.store.write(db);
+  f.setTime(Date.parse(test.waitingRoomOpensAt));
+  for (const user of ['bob', 'lite', 'ultra', 'expired']) {
+    const catalog = (await f.call('', 'GET', {}, user)).body.tests;
+    assert.ok(catalog.filter(t => t.category === 'practice').every(t => t.locked && t.access === 'premium'));
+    const grand = catalog.find(t => t.id === test.id);
+    assert.equal(grand.locked, false);
+    assert.equal(grand.access, 'free');
+    assert.equal((await f.call(`/${test.id}/waiting-room`, 'POST', {}, user)).status, 200);
+    await assert.rejects(f.call(`/${test.id}/start`, 'POST', { startKey: 'free-start-123' }, user), e => e.status === 403 && /2:00 pm/.test(e.message));
+    await assert.rejects(f.call('/fmge-practice-1/start', 'POST', { startKey: 'paid-start-123', access: 'free', hasPracticeAccess: true }, user), e => e.status === 403 && /Premium/.test(e.message));
+  }
+  f.setTime(Date.parse(test.startsAt));
+  const attempt = (await f.call(`/${test.id}/start`, 'POST', { startKey: 'free-start-123' }, 'bob')).body.attempt;
+  assert.equal(attempt.questions.length, 150);
+  await f.call(`/attempts/${attempt.id}`, 'PATCH', { revision: 0, questionId: attempt.questions[0].id, optionIndex: test.questions[0].answerIndex }, 'bob');
+  await f.call(`/attempts/${attempt.id}/finish-part`, 'POST', { part: 1 }, 'bob');
+  await f.call(`/attempts/${attempt.id}/next-part`, 'POST', {}, 'bob');
+  const result = (await f.call(`/attempts/${attempt.id}/finish-part`, 'POST', { part: 2 }, 'bob')).body.attempt;
+  assert.equal(result.result.score, 1);
+  assert.equal((await f.call(`/${test.id}/leaderboard`, 'GET', {}, 'bob')).body.leaderboard.released, false);
+  f.setTime(Date.parse(test.rankReleaseAt));
+  assert.equal((await f.call(`/${test.id}/leaderboard`, 'GET', {}, 'bob')).body.leaderboard.yourRank.rank, 1);
+  // A previously Premium member still cannot open or modify their own paid
+  // attempt after their plan expires or is removed.
+  const paid = await f.start();
+  const state = f.store.read();
+  const own = state.fmgeTestAttempts.find(a => a.id === paid.id);
+  own.userId = 'bob';
+  await f.store.write(state);
+  for (const [suffix, method, body] of [[`/attempts/${paid.id}`, 'GET'],
+    [`/attempts/${paid.id}`, 'PATCH', { revision: 0, questionId: paid.questions[0].id, optionIndex: 0 }],
+    [`/attempts/${paid.id}/finish-part`, 'POST', { part: 1 }], [`/attempts/${paid.id}/next-part`, 'POST']]) {
+    await assert.rejects(f.call(suffix, method, body, 'bob'), e => e.status === 403 && /Premium/.test(e.message));
+  }
 });
 
 test('waiting room and all question routes enforce exact IST boundaries with server time', async () => {
@@ -201,7 +246,7 @@ test('individual scores are immediate; ranks are private until exactly 8 pm IST 
   assert.doesNotMatch(JSON.stringify(hidden.body), /"rank"|"score"|"entries"|"yourRank"|Alice|Charlie/);
   assert.equal(scoreQueries, 0, 'scores must not even be read before publication');
   await assert.rejects(f.call(endpoint, 'GET', {}, 'guest'), e => e.status === 401);
-  await assert.rejects(f.call(endpoint, 'GET', {}, 'bob'), e => e.status === 403);
+  assert.equal((await f.call(endpoint, 'GET', {}, 'bob')).body.leaderboard.released, false);
   f.setTime(Date.parse(test.rankReleaseAt));
   const pages = await Promise.all(Array.from({ length: 10 }, () => f.call(`${endpoint}?limit=2`)));
   const board = pages[0].body.leaderboard;

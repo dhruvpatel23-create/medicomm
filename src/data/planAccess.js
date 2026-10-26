@@ -10,9 +10,10 @@ export function canAccessFeature(membership, feature) {
 }
 
 export function practiceFeature(id) {
+  if (id === 'fmge-tests') return 'fmgeTests';
   if (id === 'theory') return 'theory';
   if (id === 'usmle') return 'usmle';
-  if (id === 'neetpg-tests' || id === 'fmge-tests') return 'tests';
+  if (id === 'neetpg-tests') return 'tests';
   if (id === 'fmge' || id === 'custom-modules') return 'fullPractice';
   return 'practice';
 }
@@ -20,12 +21,13 @@ export function practiceFeature(id) {
 // Opening a trial directory is separate from entitlement to the full bank.
 export function canOpenFeature(membership, feature) {
   return canAccessFeature(membership, feature)
-    || Boolean(membership && (feature === 'practice' || feature === 'usmle'));
+    || Boolean(membership && ['practice', 'usmle', 'fmgeTests'].includes(feature));
 }
 
 export const FEATURE_NAMES = {
   practice: 'Practice Questions', theory: 'Theory Practice', usmle: 'USMLE Practice Questions',
   fullPractice: 'Practice Questions',
+  fmgeTests: 'FMGE Tests',
   tests: 'MEDULLA Practice Test', community: 'Community Access', inbox: 'Personal Inbox',
 };
 

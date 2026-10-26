@@ -18131,6 +18131,7 @@
       "title": "GRAND TEST 1",
       "category": "grand",
       "eventId": "fmge-grand-test-2026-10-27",
+      "access": "free",
       "waitingRoomOpensAt": "2026-10-27T13:00:00+05:30",
       "rankReleaseAt": "2026-10-27T20:00:00+05:30",
       "startsAt": "2026-10-27T14:00:00+05:30",

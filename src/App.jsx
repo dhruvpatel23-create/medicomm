@@ -3362,7 +3362,7 @@ async function fetchPracticeLibrary() {
     const isPyqOnly = practicePathTitle === "NEET PG / INICET";
     const isTopicWise = practicePathTitle === "TOPIC WISE questions";
     const catalogTitle = isTheory ? "Cases and short notes by subject" : isTopicWise ? "Topic-wise questions by subject" : `${practiceLibrary.exam.title} by year and subject`;
-    const feature = ["neetpg-tests", "fmge-tests"].includes(practiceStage) ? "tests"
+    const feature = practiceStage === "fmge-tests" ? "fmgeTests" : practiceStage === "neetpg-tests" ? "tests"
       : isTheory || /^(viva-|clinical-|mind-map-)/.test(practiceStage) ? "theory"
       : practicePathTitle.startsWith("USMLE") || (practiceStage !== "catalog" && selectedPracticeMode === "usmle") ? "usmle" : "practice";
     if (practiceStage === "selection" || !canOpenFeature(user, feature)) {
@@ -3376,6 +3376,8 @@ async function fetchPracticeLibrary() {
 
     if (["neetpg-tests", "fmge-tests"].includes(practiceStage)) {
       return <TestSections key={practiceStage}
+        canTakePractice={canAccessFeature(user, 'tests')}
+        onUnlockPractice={() => requestFeature('tests')}
         onSessionChange={setTestMode}
         exam={practiceStage === "fmge-tests" ? "fmge" : "neetpg"}
         title={practiceStage === "neetpg-tests" ? "NEETPG Tests" : "FMGE Tests"}

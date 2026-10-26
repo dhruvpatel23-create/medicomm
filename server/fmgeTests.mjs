@@ -3,6 +3,8 @@ import { randomUUID } from 'node:crypto';
 import { HttpError } from './security.mjs';
 import { cleanQuestionPrompt } from '../src/lib/questionText.js';
 import { massAttemptId } from './massTestStore.mjs';
+import { canAccessFeature } from '../src/data/planAccess.js';
+import { subscriptionDetails } from './subscriptions.mjs';
 
 let cachedDefinitions, definitionsMtime;
 export function readFmgeTests() {
@@ -116,7 +118,7 @@ export function fmgeAttemptView(attempt, now) {
         explanation: q.explanation, sourceExam: q.sourceExam, sourceBank: q.sourceBank } : {}) })), result };
 }
 
-export function createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess,
+export function createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser,
   parseRequestBody, sendJson, getDefinitions = readFmgeTests, now = Date.now, massStore, readAccess }) {
   const leaderboardCache = new Map();
   async function leaderboard(test) {
@@ -152,7 +154,7 @@ export function createFmgeTestsHandler({ readDatabase, writeDatabase, getSession
       let database = readAccess ? readAccess(request) : readDatabase();
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Sign in to take a test.');
-      if (!hasPracticeAccess(database, user.id)) throw new HttpError(403, 'An active Practice plan is required.');
+      const canTakePractice = canAccessFeature(subscriptionDetails(database, user.id), 'tests');
       database.fmgeTestAttempts ??= [];
       const clock = now();
       const definitions = getDefinitions();
@@ -162,6 +164,7 @@ export function createFmgeTestsHandler({ readDatabase, writeDatabase, getSession
       if (waiting && !massTest) throw new HttpError(404, 'Waiting room not found.');
       if (ranks && !massTest) throw new HttpError(404, 'Leaderboard not found.');
       if (massTest) {
+        if (massTest.access !== 'free' && !canTakePractice) throw new HttpError(403, 'This test requires an active Premium plan.');
         if (!massStore) throw new HttpError(503, 'Mass test storage is unavailable.');
         const schedule = massTestSchedule(massTest, clock);
         if (ranks) {
@@ -233,11 +236,11 @@ export function createFmgeTestsHandler({ readDatabase, writeDatabase, getSession
       let changed = false;
       let payload;
       if (isCatalog) {
-        const own = database.fmgeTestAttempts.filter(a => a.userId === user.id && !massTests.some(t => t.id === a.testId));
+        const own = canTakePractice ? database.fmgeTestAttempts.filter(a => a.userId === user.id && !massTests.some(t => t.id === a.testId)) : [];
         for (const a of own) changed = advanceFmgeAttempt(a, clock) || changed;
         if (massStore) for (const test of massTests) {
           // Do not expose an old attempt's metadata before the scheduled opening.
-          if (massTestSchedule(test, clock).stage === 'open') {
+          if ((test.access === 'free' || canTakePractice) && massTestSchedule(test, clock).stage === 'open') {
             const record = await massStore.get(test, user.id);
             if (record.attempt) own.push(record.attempt);
           }
@@ -245,11 +248,13 @@ export function createFmgeTestsHandler({ readDatabase, writeDatabase, getSession
         const defs = definitions;
         payload = { serverNow: clock, blueprint: defs.blueprint, questionsPerPart: 150, minutesPerPart: 150, passMark: 150,
           tests: defs.tests.map(test => ({ id: test.id, title: test.title, category: test.category ?? 'practice',
+            access: test.access === 'free' ? 'free' : 'premium', locked: !(test.access === 'free' || canTakePractice),
             startsAt: test.startsAt ?? null, ...massTestSchedule(test, clock), questionCount: 300,
             attempts: own.filter(a => a.testId === test.id).sort((a,b) => b.startedAt - a.startedAt).map(summary) })) };
       } else if (start) {
         const test = getDefinitions().tests.find(t => t.id === start[1]);
         if (!test) throw new HttpError(404, 'Test not found.');
+        if (!canTakePractice) throw new HttpError(403, 'Practice tests require an active Premium plan.');
         if (typeof body.startKey !== 'string' || !/^[a-zA-Z0-9-]{8,80}$/.test(body.startKey)) throw new HttpError(400, 'A valid start key is required.');
         let attempt = database.fmgeTestAttempts.find(a => a.userId === user.id && a.testId === test.id && (a.startKey === body.startKey || a.status !== 'completed'));
         if (!attempt) {
@@ -266,6 +271,7 @@ export function createFmgeTestsHandler({ readDatabase, writeDatabase, getSession
         const attempt = database.fmgeTestAttempts.find(a => a.id === route[1] && a.userId === user.id);
         if (!attempt) throw new HttpError(404, 'Attempt not found.');
         if (massTests.some(t => t.id === attempt.testId)) throw new HttpError(410, 'Previous preview attempts have been cleared. Open the scheduled grand test.');
+        if (!canTakePractice) throw new HttpError(403, 'Practice tests require an active Premium plan.');
         const result = changeFmgeAttempt(attempt, request.method, route[2], body, clock);
         changed = result.changed;
         payload = result.value;
