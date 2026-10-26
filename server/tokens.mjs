@@ -38,7 +38,7 @@ export function refundTokens(database, userId, key) {
 export async function updateTokenState(readDatabase, writeDatabase, update) {
   for (let attempt = 0; ; attempt++) {
     const database = readDatabase();
-    update(database);
+    await update(database);
     try { await writeDatabase(database); return; }
     catch (error) { if (error.status !== 409 || attempt >= 3) throw error; }
   }

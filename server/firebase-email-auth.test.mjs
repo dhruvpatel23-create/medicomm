@@ -35,7 +35,7 @@ function fixture(users = [old]) {
       deliveries.push(body); return Response.json({ email: body.email });
     },
   });
-  return { service, identities, created, proofs, deliveries, logs, db: () => db, advance: ms => { time += ms; },
+  return { service, auth, identities, created, proofs, deliveries, logs, db: () => db, advance: ms => { time += ms; },
     flush: () => new Promise(resolve => setImmediate(resolve)),
     session: async () => { const snapshot = readDatabase(); const token = issueSession(snapshot, snapshot.users[0].id, time); await writeDatabase(snapshot); return { headers: { cookie: `medicomm_session=${token}` } }; } };
 }
@@ -91,6 +91,59 @@ test('UID conflicts cannot join accounts', async () => {
   f.identities.set('other', { uid: 'other', email: old.email, password: 'Known1!', emailVerified: true });
   await assert.rejects(f.service.login(old.email, 'Known1!'), { status: 409 });
   assert.equal(f.db().users[0].firebaseAuthUid, 'expected');
+});
+
+function linkedGoogleFixture() {
+  const f = fixture([{ ...old, googleUid: 'google-1', firebaseAuthUid: 'google-1' }]);
+  f.identities.set('google-1', { uid: 'google-1', email: old.email, emailVerified: true,
+    providerData: [{ providerId: 'google.com', email: old.email }] });
+  return f;
+}
+
+test('Google-linked legacy accounts keep email/password login until a Firebase password is set', async () => {
+  const f = linkedGoogleFixture();
+  await assert.rejects(f.service.login(old.email, 'wrong'), { status: 401 });
+  assert.equal(Object.keys(f.db().sessions).length, 0);
+  const result = await f.service.login(' USER@EXAMPLE.COM ', 'Original1!');
+  assert.ok(result.token);
+  assert.equal(result.user.id, old.id);
+  assert.equal(result.user.subscription, old.subscription);
+  assert.deepEqual(result.user.progress, old.progress);
+  assert.equal(f.db().users[0].passwordHash, 'legacy');
+  assert.equal(f.created.length, 0);
+  const identity = f.identities.get('google-1');
+  identity.password = 'Reset2!';
+  identity.providerData.push({ providerId: 'password', email: old.email });
+  await assert.rejects(f.service.login(old.email, 'Original1!'), { status: 401 });
+  assert.ok((await f.service.login(old.email, 'Reset2!')).token);
+  assert.equal(f.db().users[0].passwordHash, undefined);
+});
+
+test('legacy Google login fails closed for missing metadata, unverified and disabled identities', async () => {
+  for (const change of [u => { delete u.providerData; }, u => { u.emailVerified = false; }, u => { u.disabled = true; }]) {
+    const f = linkedGoogleFixture(); change(f.identities.get('google-1'));
+    await assert.rejects(f.service.login(old.email, 'Original1!'));
+    assert.equal(Object.keys(f.db().sessions).length, 0);
+  }
+});
+
+test('Firebase reset during legacy password verification prevents a session', async () => {
+  const f = linkedGoogleFixture(), lookup = f.auth.getUserByEmail;
+  let calls = 0;
+  f.auth.getUserByEmail = async email => {
+    if (++calls === 2) f.identities.get('google-1').providerData.push({ providerId: 'password' });
+    return lookup(email);
+  };
+  await assert.rejects(f.service.login(old.email, 'Original1!'), { status: 401 });
+  assert.equal(Object.keys(f.db().sessions).length, 0);
+});
+
+test('Firebase infrastructure failures are not reported as incorrect passwords', async () => {
+  const f = fixture();
+  f.auth.verifyIdToken = async () => { throw Object.assign(Error('network failure'), { code: 'app/network-error' }); };
+  await assert.rejects(f.service.login(old.email, 'Original1!'), { status: 503 });
+  assert.equal(Object.keys(f.db().sessions).length, 0);
+  assert.deepEqual(f.logs, [{ event: 'firebase_password_identity_check_failed' }]);
 });
 test('Firebase password reset or account disable invalidates app cookies within ten seconds', async () => {
   const f = fixture(); await f.service.login(old.email, 'Original1!');

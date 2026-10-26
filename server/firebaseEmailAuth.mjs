@@ -5,8 +5,9 @@ const emailOf = value => String(value || '').trim().toLowerCase();
 const unavailable = () => new HttpError(503, 'Firebase authentication is temporarily unavailable. Please try again.');
 const invalid = () => new HttpError(401, 'Invalid email or password. If you requested recovery, finish resetting your password first.');
 
-// Firebase owns credentials once a UID is bound. Never fall back to an old
-// application hash after a Firebase password reset or a failed Firebase login.
+// Firebase password credentials are authoritative. Google linking can bind a UID
+// without migrating the application's password; retain that login until Firebase
+// has a password provider. Never fall back after a failed Firebase password login.
 export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDatabase, verifyPassword,
   fetchImpl = fetch, now = Date.now, log = () => {} }) {
   const cachedIdentities = new Map();
@@ -67,7 +68,11 @@ export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDa
     const result = await rest('signInWithPassword', { email, password, returnSecureToken: true });
     let claims, identity;
     try { claims = await auth.verifyIdToken(result.idToken, true); identity = await auth.getUser(claims.uid); }
-    catch { throw invalid(); }
+    catch (error) {
+      if (['auth/id-token-expired', 'auth/id-token-revoked', 'auth/invalid-id-token', 'auth/user-disabled', 'auth/user-not-found'].includes(error.code)) throw invalid();
+      log({ event: 'firebase_password_identity_check_failed' });
+      throw unavailable();
+    }
     if (emailOf(claims.email) !== email || emailOf(identity.email) !== email || identity.disabled ||
         claims.firebase?.sign_in_provider !== 'password') throw invalid();
     return { result, identity };
@@ -110,6 +115,29 @@ export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDa
       }
       if (!identity) throw invalid();
       checkIdentity(user, identity);
+      // Google linking preserves the legacy hash but does not create a Firebase
+      // password. Only an explicitly linked, verified Google identity qualifies;
+      // absent provider metadata must never enable this compatibility path.
+      const usesLinkedLegacyPassword = (current, record) => current.googleUid === record.uid &&
+        record.emailVerified && Array.isArray(record.providerData) &&
+        record.providerData.some(provider => provider.providerId === 'google.com') &&
+        !record.providerData.some(provider => provider.providerId === 'password') &&
+        current.passwordHash && current.passwordSalt;
+      if (usesLinkedLegacyPassword(user, identity)) {
+        if (!await verifyPassword(password, user.passwordSalt, user.passwordHash, user.passwordIterations)) throw invalid();
+        let result;
+        await updateTokenState(readDatabase, writeDatabase, async database => {
+          const current = account(database, email);
+          // Refresh after password verification (and on transaction retries), so
+          // a completed Firebase reset cannot revive the old password.
+          const fresh = await lookup(email);
+          checkIdentity(current, fresh, database);
+          if (!usesLinkedLegacyPassword(current, fresh) || current.passwordHash !== user.passwordHash ||
+              current.passwordSalt !== user.passwordSalt || current.passwordIterations !== user.passwordIterations) throw invalid();
+          result = { user: current, token: issueSession(database, current.id, now()) };
+        });
+        return result;
+      }
       const signed = await passwordSignIn(email, password);
       checkIdentity(user, signed.identity);
       await bind(user, signed.identity, { legacyHash });
