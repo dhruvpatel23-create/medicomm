@@ -33,6 +33,7 @@ import { isValidCountry } from "./src/data/countries.js";
 import { VIVA_CHAPTER_FALLBACKS } from "./src/data/vivaChapters.js";
 import { createReviewHandler } from "./server/reviews.mjs";
 import { createFmgeTestsHandler } from "./server/fmgeTests.mjs";
+import { createMassTestStore } from './server/massTestStore.mjs';
 import { createPromotionsHandler } from './server/promotions.mjs';
 import { readUsmleModules } from "./server/usmleModules.mjs";
 import { readFmgeSessions } from "./server/fmgeQuestions.mjs";
@@ -361,6 +362,10 @@ async function initializeDatabaseStore() {
 }
 
 function readDatabase() { return stateStore.read(); }
+function readTestAccess(request) {
+  const token = sessionToken(request);
+  return stateStore.accessSnapshot(token ? sessionHash(token) : null);
+}
 async function writeDatabase(data) {
   reconcileSubscriptions(data);
   await stateStore.write(data);
@@ -369,10 +374,14 @@ async function writeDatabase(data) {
 const practiceLive = createPracticeLive({ readDatabase, getSessionUser, sanitizeUser });
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
-const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess, parseRequestBody, sendJson });
+const massTestStore = createMassTestStore({ directory: path.join(runtimeDataDir, 'mass-tests'),
+  db: firebase?.db, namespace: firebaseNamespace });
+const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess, parseRequestBody, sendJson,
+  massStore: massTestStore, readAccess: readTestAccess });
 const handlePromotions = createPromotionsHandler({ readDatabase, writeDatabase, getSessionUser, sendJson });
 const mailer = createMailer();
 const firebaseEmailAuth = firebase ? createFirebaseEmailAuth({ auth: firebase.auth, readDatabase, writeDatabase, verifyPassword,
+  readAccess: readTestAccess,
   getConfig: () => {
     googleConfigPromise ||= discoverGoogleConfig(firebase).catch(error => { googleConfigPromise = null; throw error; });
     return googleConfigPromise;
@@ -4070,20 +4079,22 @@ async function handleRequest(request, response) {
     checkOrigin(request, response, allowedOrigins);
     if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
     if (stopping) throw new HttpError(503, 'Server is restarting.');
+    const testRoute = /^\/api\/practice\/fmge-tests(?:\/|$)/.test(url.pathname);
+    const accessDatabase = () => testRoute ? readTestAccess(request) : readDatabase();
     if (firebaseEmailAuth && (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/user-')) &&
         !url.pathname.startsWith('/api/auth/')) await firebaseEmailAuth.checkSession(request);
     if (firebaseEmailAuth && url.pathname === '/api/auth/session') await firebaseEmailAuth.checkSession(request);
     const practiceResource = /^\/api\/(?:practice(?:\/|$)|generate-questions?(?:\/|$)|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname)
       || /\/(?:practice-question-bank|topic-wise-question-bank|short-notes)\.json$/i.test(path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/')));
     if (practiceResource) {
-      const database = readDatabase();
+      const database = accessDatabase();
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Sign in to unlock Practice.');
       if (!isTrialPracticeRoute(url.pathname, request.method) && !hasPracticeAccess(database, user.id)) throw new HttpError(403, 'Practice unlocks after a verified payment. Choose a plan to continue.');
     }
     const restrictedFeature = routeFeature(path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/')), request.method, url.searchParams);
     if (restrictedFeature) {
-      const database = readDatabase();
+      const database = accessDatabase();
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Sign in to access this feature.');
       requireFeature(database, user.id, restrictedFeature);
@@ -4094,7 +4105,10 @@ async function handleRequest(request, response) {
       const peer = process.env.TRUST_PROXY === 'true'
         ? String(request.headers['x-forwarded-for'] || request.socket.remoteAddress).split(',').at(-1).trim()
         : request.socket.remoteAddress;
-      limitRequest(`api:${peer}`, 600, 60000);
+      const testUser = testRoute && getSessionUser(request, accessDatabase());
+      // Many candidates can share a college/campus IP; limit authenticated test
+      // traffic per account without weakening the IP limits on other routes.
+      limitRequest(testUser ? `test-api:${testUser.id}` : `api:${peer}`, testUser ? 240 : 600, 60000);
       if (['/api/auth/login', '/api/auth/signup', '/api/auth/google', '/api/auth/verify-email', '/api/auth/resend-email', '/api/auth/forgot-password', '/api/auth/reset-password', '/api/auth/firebase/resend-verification'].includes(url.pathname)) limitRequest(`auth:${peer}`, 20, 15 * 60000);
       const costly = request.method === 'POST' && /^\/api\/(?:generate-question|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname);
       if (costly) {
@@ -4124,8 +4138,8 @@ async function handleRequest(request, response) {
       response.end(request.method === 'HEAD' ? undefined : bytes);
       return;
     }
-    const requestedFile = /^\/uploads\/fmge\/[a-zA-Z0-9_-]+\.webp$/.test(url.pathname)
-      ? path.join("fmge", path.basename(url.pathname))
+    const requestedFile = /^\/uploads\/(?:fmge|grand_test)\/[a-zA-Z0-9_-]+\.(?:webp|jpg|jpeg|png)$/.test(url.pathname)
+      ? path.join(url.pathname.split("/")[2], path.basename(url.pathname))
       : path.basename(url.pathname);
     const uploadFileCandidates = [
       path.join(uploadsDir, requestedFile),

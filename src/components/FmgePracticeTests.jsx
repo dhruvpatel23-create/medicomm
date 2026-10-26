@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { ArrowLeft, ArrowRight, Check, Clock3, Flag, Loader2, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { apiRequest } from '../lib/api';
 import { createTestAnswerQueue } from '../lib/testAnswerQueue';
+import MassTestLeaderboard from './MassTestLeaderboard';
 import './fmge-tests.css';
 
 const endpoint = '/api/practice/fmge-tests';
@@ -20,8 +21,9 @@ function ConfirmDialog({ open, onOpenChange, title, children, action, onConfirm,
   </Dialog.Root>;
 }
 
-export default function FmgePracticeTests({ onSessionChange }) {
+export default function FmgePracticeTests({ onSessionChange, category = 'practice' }) {
   const [catalog, setCatalog] = useState(null);
+  const [waitingRoom, setWaitingRoom] = useState(null);
   const [attempt, setAttempt] = useState(null);
   const [instructions, setInstructions] = useState(null);
   const [confirmFinish, setConfirmFinish] = useState(false);
@@ -76,10 +78,17 @@ export default function FmgePracticeTests({ onSessionChange }) {
       if (data.attempt) {
         answerQueue.current.reset(data.attempt);
         serverClock.current = data.attempt.serverNow;
+        setWaitingRoom(null);
         setAttempt(data.attempt); setOffset(data.attempt.serverNow - Date.now());
         setNow(Date.now());
         if (data.message) setNotice(data.message);
-      } else setCatalog(data);
+      } else if (data.waitingRoom) {
+        setWaitingRoom(data.waitingRoom);
+        setOffset(data.waitingRoom.serverNow - Date.now());
+      } else {
+        setCatalog(data);
+        if (Number.isFinite(data.serverNow)) setOffset(data.serverNow - Date.now());
+      }
       return data;
     } catch (e) {
       if (alive.current) setError(`${e.message} ${options.method === 'PATCH' ? 'This change was not confirmed saved. Reload your saved attempt before continuing.' : ''}`);
@@ -89,6 +98,20 @@ export default function FmgePracticeTests({ onSessionChange }) {
     }
   }
   useEffect(() => { request(''); }, []);
+
+  useEffect(() => {
+    if (category !== 'grand' || attempt) return;
+    // Stagger requests so a waiting-room crowd does not poll in lockstep.
+    const refresh = () => {
+      if (!busyRef.current && document.visibilityState === 'visible') {
+        request(waitingRoom ? `/${waitingRoom.testId}/waiting-room` : '');
+      }
+    };
+    const timer = setInterval(refresh, waitingRoom ? 5000 + Math.random() * 2000 : 30000 + Math.random() * 5000);
+    document.addEventListener('visibilitychange', refresh);
+    window.addEventListener('online', refresh);
+    return () => { clearInterval(timer); document.removeEventListener('visibilitychange', refresh); window.removeEventListener('online', refresh); };
+  }, [category, attempt?.id, waitingRoom?.testId]);
 
   const remaining = attempt?.deadline ? Math.max(0, Math.ceil((attempt.deadline - now - offset) / 1000)) : 0;
   useEffect(() => {
@@ -134,31 +157,65 @@ export default function FmgePracticeTests({ onSessionChange }) {
     {notice && <p className="ft-notice" role="status">{notice}</p>}
   </>;
 
+  const tests = catalog?.tests.filter(test => (test.category ?? 'practice') === category) ?? [];
+
+  if (!attempt && waitingRoom) {
+    const untilStart = Math.max(0, Math.ceil((Date.parse(waitingRoom.startsAt) - now - offset) / 1000));
+    const unlocked = waitingRoom.stage === 'open';
+    return <div className="fmge-tests ft-waiting-room">
+      {statusMessage}
+      <p className="eyebrow">FMGE / Grand test waiting room</p>
+      <h3>{waitingRoom.title}</h3>
+      <p>Test opens on 27 October 2026 at 2:00 pm IST.</p>
+      <p className="ft-wait-countdown" role="timer" aria-label="Time until test opens">{clockText(untilStart)}</p>
+      <p>{unlocked ? 'The test is now open. Start Part 1 when you are ready.' : 'You are in the waiting room. Questions unlock at the scheduled start. Keep this page open; availability updates automatically.'}</p>
+      <p className="ft-muted">300 questions · Two parts of 150 questions · 150 minutes per part · One official attempt</p>
+      <div className="ft-break-actions">
+        <button className="button button-secondary" disabled={busy} onClick={() => { setWaitingRoom(null); request(''); }}>Back to tests</button>
+        <button className="button button-primary" disabled={busy || !unlocked} onClick={() => {
+          startKey.current = crypto.randomUUID();
+          setInstructions({ id: waitingRoom.testId, title: waitingRoom.title });
+        }}>{unlocked ? 'Start test' : 'Waiting for 2:00 pm IST'} <ArrowRight size={16} /></button>
+      </div>
+      <ConfirmDialog open={Boolean(instructions)} onOpenChange={open => !open && setInstructions(null)} title={`${waitingRoom.title} — ready to begin?`} busy={busy} error={error} action="Start Part 1" onConfirm={async () => {
+        const data = await request(`/${waitingRoom.testId}/start`, { method: 'POST', body: JSON.stringify({ startKey: startKey.current }) });
+        if (data) setInstructions(null);
+      }}>Each part contains 150 questions with 150 minutes. Your timer begins when you start each part and continues if you leave. Answers save as you select them. You have one official attempt; reopening the test resumes that attempt.</ConfirmDialog>
+    </div>;
+  }
+
   if (!attempt) return <div className="fmge-tests">
-    <div className="ft-intro"><div><p className="eyebrow">FMGE / Full-length practice</p><h3>One exam. Two parts. Your next milestone.</h3><p>300 questions across 20 subjects, following your FMGE subject-wise guide.</p></div><span className="ft-rule"><ShieldCheck size={17} /> No negative marking</span></div>
+    <div className="ft-intro"><div><p className="eyebrow">FMGE / {category === 'grand' ? 'Grand tests' : 'Full-length practice'}</p><h3>One exam. Two parts. Your next milestone.</h3><p>300 questions across 20 subjects, following your FMGE subject-wise guide.</p></div><span className="ft-rule"><ShieldCheck size={17} /> No negative marking</span></div>
     <div className="ft-metrics"><span><strong>300</strong> questions</span><span><strong>2 × 150 min</strong> timed parts</span><span><strong>150 / 300</strong> to pass</span></div>
     {statusMessage}
     {!catalog && <p role="status" className="ft-muted">{busy ? 'Loading your tests…' : 'Tests are unavailable. Please retry.'}</p>}
-    <div className="test-card-stack">{catalog?.tests.map((test, index) => {
+    <div className="test-card-stack">{tests.map((test, index) => {
       const active = test.attempts.find(a => a.status !== 'completed');
       const latest = test.attempts.find(a => a.status === 'completed');
-      return <article className="exam-test-card ft-test-card" key={test.id}>
+      const scheduledStage = test.waitingRoomOpensAt
+        ? now + offset < Date.parse(test.waitingRoomOpensAt) ? 'locked' : now + offset < Date.parse(test.startsAt) ? 'waiting' : 'open'
+        : 'open';
+      return <article className={`exam-test-card ft-test-card${category === 'grand' ? ' exam-test-card-grand' : ''}`} key={test.id}>
         <span className="exam-test-number" aria-hidden="true">0{index + 1}</span>
-        <div className="exam-test-copy"><p className="exam-test-label">Full syllabus • FMGE</p><h3>{test.title}</h3><p className="ft-card-meta">300 questions · 300 marks{active ? ` · ${active.status === 'break' ? 'Between parts' : `Part ${active.part} in progress`}` : latest ? ` · Last score ${latest.score}/300` : ''}</p></div>
+        <div className="exam-test-copy"><p className="exam-test-label">{category === 'grand' ? 'Grand test' : 'Full syllabus • FMGE'}</p><h3>{test.title}</h3><p className="ft-card-meta">300 questions · 300 marks{active ? ` · ${active.status === 'break' ? 'Between parts' : `Part ${active.part} in progress`}` : latest ? ` · Last score ${latest.score}/300` : ''}</p></div>
+        {test.startsAt && <div className="exam-test-date"><span>Scheduled date</span><time dateTime={test.startsAt}>{new Date(test.startsAt).toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata' })} · {new Date(test.startsAt).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true })} IST</time></div>}
         <div className="ft-card-actions">{latest && <button className="ft-text-button" disabled={busy} onClick={() => request(`/attempts/${latest.id}`)}>View result</button>}
-          <button className="button button-primary" disabled={busy} onClick={() => {
+          {test.waitingRoomOpensAt && <p className="ft-muted">Waiting room: 1:00 pm IST · Test: 2:00 pm IST</p>}
+          {!(test.singleAttempt && latest && !active) && <button className="button button-primary" disabled={busy || scheduledStage === 'locked'} onClick={() => {
+            if (scheduledStage === 'waiting') { request(`/${test.id}/waiting-room`, { method: 'POST', body: '{}' }); return; }
             if (active) request(`/attempts/${active.id}`);
             else { startKey.current = crypto.randomUUID(); setInstructions(test); }
-          }}>{active ? 'Resume' : latest ? 'Retake test' : 'Start test'} <ArrowRight size={16} /></button></div>
+          }}>{scheduledStage === 'locked' ? 'Waiting room opens at 1:00 pm IST' : scheduledStage === 'waiting' ? 'Enter waiting room' : active ? 'Resume' : latest ? 'Retake test' : 'Start test'} <ArrowRight size={16} /></button>}</div>
       </article>;
     })}</div>
+    {category === 'grand' && tests.filter(test => test.rankReleaseAt).map(test => <MassTestLeaderboard key={test.id} testId={test.id} releasesAt={test.rankReleaseAt} />)}
     {catalog && <details className="ft-blueprint"><summary>View the subject-wise blueprint</summary><div className="ft-blueprint-grid">{catalog.blueprint.map(s => <div key={s.id}><span>{s.title}</span><strong>{s.count}</strong></div>)}</div><p className="ft-muted">100 preclinical/paraclinical + 200 clinical questions. Subject counts apply to the full test, not separately to each part.</p></details>}
-    {catalog?.tests.some(t => t.attempts.some(a => a.status === 'completed')) && <details className="ft-blueprint"><summary>Previous attempts</summary>{catalog.tests.flatMap(t => t.attempts.filter(a => a.status === 'completed').map(a => <div className="ft-history" key={a.id}><span>{t.title} · {new Date(a.completedAt).toLocaleDateString('en-IN')} · {a.score}/300</span><button className="ft-text-button" disabled={busy} onClick={() => request(`/attempts/${a.id}`)}>Review attempt</button></div>))}</details>}
+    {tests.some(t => t.attempts.some(a => a.status === 'completed')) && <details className="ft-blueprint"><summary>Previous attempts</summary>{tests.flatMap(t => t.attempts.filter(a => a.status === 'completed').map(a => <div className="ft-history" key={a.id}><span>{t.title} · {new Date(a.completedAt).toLocaleDateString('en-IN')} · {a.score}/300</span><button className="ft-text-button" disabled={busy} onClick={() => request(`/attempts/${a.id}`)}>Review attempt</button></div>))}</details>}
     <ConfirmDialog open={Boolean(instructions)} onOpenChange={open => !open && setInstructions(null)} title={`${instructions?.title ?? ''} — ready to begin?`} busy={busy} error={error} action="Start Part 1" onConfirm={async () => {
       const data = await request(`/${instructions.id}/start`, { method: 'POST', body: JSON.stringify({ startKey: startKey.current }) });
       if (data) setInstructions(null);
     }}>
-      Each part has 150 questions and a 150-minute timer. Answers save as you select them. You may change answers and mark questions for review within the active part. Submitting a part locks its answers. The clock keeps running if you leave or close the page. Take a break after Part 1, then start Part 2 when ready. Each correct answer earns one mark; wrong and unanswered questions earn zero. Results unlock after both parts.
+      Each part has 150 questions and a 150-minute timer. Answers save as you select them. You may change answers and mark questions for review within the active part. Submitting a part locks its answers. The clock keeps running if you leave or close the page. Take a break after Part 1, then start Part 2 when ready. Each correct answer earns one mark; wrong and unanswered questions earn zero. Results unlock after both parts. {instructions?.singleAttempt && 'You have one official attempt; reopening resumes that attempt.'}
     </ConfirmDialog>
   </div>;
 
@@ -176,13 +233,14 @@ export default function FmgePracticeTests({ onSessionChange }) {
       {statusMessage}<button className="ft-text-button" disabled={busy} onClick={leave}><ArrowLeft size={16} /> All FMGE tests</button>
       <div className={`ft-result ${passed ? 'ft-result-pass' : ''}`}><div><p className="eyebrow">{attempt.title} / Test complete</p><h3>{passed ? 'Qualifying score achieved.' : 'Your next improvement starts here.'}</h3><p>{passed ? 'You met the practice-test qualifying score of 150.' : 'Review the gaps below and build towards 150.'}</p></div><div className="ft-score"><strong>{result.score}</strong><span>/ 300</span></div></div>
       <div className="ft-metrics"><span><strong>{result.correct}</strong> correct</span><span><strong>{result.incorrect}</strong> incorrect</span><span><strong>{result.unanswered}</strong> unanswered</span></div>
+      {attempt.rankReleaseAt && <MassTestLeaderboard testId={attempt.testId} releasesAt={attempt.rankReleaseAt} />}
       <h3 className="ft-subheading">Your subject breakdown</h3><div className="ft-subject-results">{result.subjects.map(s => <div key={s.id}><span>{s.title}</span><strong>{s.correct}/{s.total}</strong><progress value={s.correct} max={s.total} aria-label={`${s.title}: ${s.correct} out of ${s.total}`} /></div>)}</div>
       <div className="ft-review-heading"><h3>Review every answer</h3><label>Show <select value={reviewFilter} onChange={e => setReviewFilter(e.target.value)}><option value="all">All questions</option><option value="incorrect">Incorrect</option><option value="unanswered">Unanswered</option><option value="correct">Correct</option><option value="marked">Marked for review</option></select></label></div>
       {!review.length && <p className="ft-muted">No questions in this category.</p>}
       <div className="ft-review-list">{review.map(q => {
         const selected = attempt.answers[q.id];
         const state = selected == null ? 'unanswered' : selected === q.answerIndex ? 'correct' : 'incorrect';
-        return <details key={q.id} className="ft-review-item"><summary><span>Question {q.number} · {q.subjectTitle}</span><span className={`ft-verdict ft-${state}`}>{state}</span></summary><h4>{q.prompt}</h4><ol>{q.options.map((o,i) => <li key={i} className={i === q.answerIndex ? 'ft-correct-option' : i === selected ? 'ft-wrong-option' : ''}><b>{String.fromCharCode(65+i)}.</b> {o}{i === q.answerIndex && <small>Correct answer</small>}{i === selected && <small>Your answer</small>}</li>)}</ol><div className="ft-explanation"><strong>Explanation</strong><p>{q.explanation}</p></div><p className="ft-muted">Source: {q.sourceExam}</p></details>;
+        return <details key={q.id} className="ft-review-item"><summary><span>Question {q.number} · {q.subjectTitle}</span><span className={`ft-verdict ft-${state}`}>{state}</span></summary><h4>{q.prompt}</h4>{q.imageUrls?.map((url, i) => <div key={i} className="ft-image-wrap" style={{ margin: '10px 0' }}><img src={url} alt={`Visual ${i+1}`} style={{ maxWidth: '100%', maxHeight: '320px', borderRadius: '8px', objectFit: 'contain' }} /></div>)}<ol>{q.options.map((o,i) => <li key={i} className={i === q.answerIndex ? 'ft-correct-option' : i === selected ? 'ft-wrong-option' : ''}><b>{String.fromCharCode(65+i)}.</b> {o}{i === q.answerIndex && <small>Correct answer</small>}{i === selected && <small>Your answer</small>}</li>)}</ol><div className="ft-explanation"><strong>Explanation</strong><p>{q.explanation}</p></div><p className="ft-muted">Source: {q.sourceExam || 'FMGE Practice'}</p></details>;
       })}</div>
     </div>;
   }
@@ -198,6 +256,7 @@ export default function FmgePracticeTests({ onSessionChange }) {
     <div className="ft-exam-layout"><div className="ft-question" ref={questionTop} tabIndex={-1} aria-label={`Question ${question.number}`}>
       <div className="ft-question-top"><span>QUESTION {question.number} / 300</span><span>+1 mark · No negative marking</span></div>
       <h3>{question.prompt}</h3>
+      {question.imageUrls?.map((url, i) => <div key={i} className="ft-image-wrap" style={{ margin: '12px 0' }}><img src={url} alt={`Visual ${i+1}`} style={{ maxWidth: '100%', maxHeight: '360px', borderRadius: '8px', objectFit: 'contain' }} /></div>)}
       <div className="ft-options" role="group" aria-label="Answer options">{question.options.map((option, index) => <button type="button" key={index} disabled={blocked} aria-pressed={attempt.answers[question.id] === index} className={`ft-option ${attempt.answers[question.id] === index ? 'ft-option-selected' : ''}`} onClick={() => save({ questionId: question.id, optionIndex: index })}><span>{String.fromCharCode(65+index)}</span><span>{option}</span>{attempt.answers[question.id] === index && <Check size={18} />}</button>)}</div>
       <div className="ft-question-tools"><button className={`ft-text-button ${attempt.marked[question.id] ? 'ft-marked-text' : ''}`} disabled={blocked} aria-pressed={Boolean(attempt.marked[question.id])} onClick={() => save({ questionId: question.id, marked: !attempt.marked[question.id] })}><Flag size={16} /> {attempt.marked[question.id] ? 'Marked for review' : 'Mark for review'}</button><button className="ft-text-button" disabled={blocked || attempt.answers[question.id] == null} onClick={() => save({ questionId: question.id, optionIndex: null })}><RotateCcw size={15} /> Clear answer</button></div>
       <div className="ft-question-navigation"><button className="button button-secondary" disabled={blocked || attempt.currentIndex === 0} onClick={() => navigate(attempt.currentIndex-1)}><ArrowLeft size={16} /> Previous</button>{attempt.currentIndex < 149 ? <button className="button button-primary" disabled={blocked} onClick={() => navigate(attempt.currentIndex+1)}>Next question <ArrowRight size={16} /></button> : <button className="button button-primary" disabled={blocked} onClick={() => setConfirmFinish(true)}>Review & submit part</button>}</div>
