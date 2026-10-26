@@ -1,0 +1,43 @@
+.promotion-banner { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(270px, .85fr); gap: 40px; align-items: center; margin: 0 0 30px; padding: 36px 40px; overflow: hidden; border: 1px solid var(--ui-line); border-radius: 24px; background: radial-gradient(ellipse at 0 0, rgba(14,165,255,.13), transparent 65%), var(--ui-surface); color: var(--ui-ink); box-shadow: 0 12px 35px rgba(15,23,42,.04); animation: promotion-arrive .5s ease-out; }
+.promotion-copy, .promotion-action-panel { position: relative; z-index: 1; min-width: 0; }
+.promotion-topline { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 26px; }
+.promotion-tag { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid rgba(14,165,255,.22); border-radius: 7px; background: var(--ui-brand-soft); color: var(--ui-brand); font-size: 10px; font-weight: 800; letter-spacing: .09em; }
+.promotion-status { display: inline-flex; align-items: center; gap: 6px; color: var(--ui-muted); font-size: 11px; }
+.promotion-status i { width: 6px; height: 6px; border-radius: 50%; background: var(--ui-success); box-shadow: 0 0 0 4px rgba(19,138,91,.08); }
+.promotion-eyebrow { margin: 0 0 9px; color: var(--ui-muted); font-size: 10px; font-weight: 700; letter-spacing: .13em; }
+.promotion-banner h2 { margin: 0; color: var(--ui-ink); font-size: clamp(30px, 3.4vw, 46px); line-height: 1.12; letter-spacing: -.045em; }
+.promotion-banner h2 > span { display: block; margin-top: 10px; color: var(--ui-brand); font-size: clamp(14px, 1.4vw, 18px); font-weight: 550; letter-spacing: -.015em; }
+.promotion-description { max-width: 510px; margin: 16px 0 22px; color: var(--ui-muted); font-size: 13px; line-height: 1.75; }
+.promotion-meta { display: flex; flex-wrap: wrap; gap: 10px 20px; font-size: 12px; font-weight: 650; }
+.promotion-meta > span { display: inline-flex; align-items: center; gap: 8px; }
+.promotion-meta svg { color: var(--ui-brand); }
+.promotion-action-panel { padding: 25px; border: 1px solid var(--ui-line); border-radius: 18px; background: var(--ui-surface); text-align: center; box-shadow: 0 8px 24px rgba(15,23,42,.035); }
+.promotion-countdown-label { color: var(--ui-muted); font-size: 9px; font-weight: 750; letter-spacing: .16em; }
+.promotion-countdown { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; margin: 18px 0 23px; }
+.promotion-countdown > div { padding: 12px 3px; border: 1px solid var(--ui-line); border-radius: 10px; background: var(--ui-soft); }
+.promotion-countdown strong { display: block; font-size: clamp(22px, 2.4vw, 30px); font-weight: 700; line-height: 1.2; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.promotion-countdown div > span { display: block; margin-top: 5px; color: var(--ui-muted); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+.promotion-register { display: flex; justify-content: center; align-items: center; gap: 9px; width: 100%; min-height: 46px; padding: 12px 14px; border: 0; border-radius: 10px; background: #0284c7; color: #fff; font-size: 12px; font-weight: 750; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.promotion-register:not(:disabled):hover { transform: translateY(-2px); background: #0369a1; box-shadow: 0 8px 20px rgba(2,132,199,.22); }
+.promotion-register:disabled { cursor: default; background: var(--ui-soft); color: var(--ui-muted); }
+.promotion-register:focus-visible, .promotion-dialog-dismiss:focus-visible { outline: 3px solid var(--ui-brand); outline-offset: 4px; }
+.promotion-action-note { margin: 12px 0 0; color: var(--ui-muted); font-size: 10px; line-height: 1.6; }
+.promotion-error { margin: 12px 0 0; color: #dc2626; font-size: 12px; line-height: 1.5; }
+.promotion-orbit { position: absolute; z-index: 0; width: 360px; height: 360px; border: 1px solid rgba(14,165,255,.13); border-radius: 50%; pointer-events: none; animation: promotion-float 8s ease-in-out infinite alternate; }
+.promotion-orbit-one { right: -160px; top: -230px; }
+.promotion-orbit-two { left: -210px; bottom: -280px; width: 450px; height: 450px; animation-delay: -4s; }
+.promotion-loading { margin-bottom: 20px; padding: 16px; border: 1px solid var(--ui-line); border-radius: 12px; color: var(--ui-muted); font-size: 12px; }
+.promotion-loading button { color: var(--ui-brand); background: none; border: 0; cursor: pointer; text-decoration: underline; }
+.promotion-spinner { animation: promotion-spin 1s linear infinite; }
+.promotion-dialog-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(8,19,35,.6); backdrop-filter: blur(4px); }
+.promotion-dialog { position: fixed; top: 50%; left: 50%; z-index: 201; width: min(420px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; transform: translate(-50%, -50%); box-sizing: border-box; border: 1px solid var(--ui-line); border-radius: 22px; padding: 36px 28px 28px; background: var(--ui-surface); color: var(--ui-ink); text-align: center; box-shadow: 0 24px 80px rgba(0,0,0,.25); }
+.promotion-success-icon { display: inline-flex; padding: 15px; border-radius: 50%; background: var(--ui-brand-soft); color: var(--ui-brand); }
+.promotion-dialog h2 { margin: 20px 0 12px; font-size: 23px; letter-spacing: -.03em; }
+.promotion-dialog p { margin: 0 0 25px; color: var(--ui-muted); font-size: 13px; line-height: 1.8; }
+.promotion-dialog-dismiss { position: absolute; right: 14px; top: 14px; display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 8px; background: var(--ui-soft); color: var(--ui-muted); cursor: pointer; }
+@keyframes promotion-arrive { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes promotion-float { to { transform: translate(14px, 14px); } }
+@keyframes promotion-spin { to { transform: rotate(360deg); } }
+@media (max-width: 1000px) { .promotion-banner { gap: 24px; padding: 28px; } .promotion-action-panel { padding: 20px; } }
+@media (max-width: 700px) { .promotion-banner { grid-template-columns: minmax(0,1fr); gap: 24px; padding: 24px; border-radius: 18px; } .promotion-topline { margin-bottom: 22px; } .promotion-countdown { max-width: 300px; margin-inline: auto; } .promotion-action-panel { padding: 22px; } }
+@media (prefers-reduced-motion: reduce) { .promotion-banner, .promotion-orbit, .promotion-spinner { animation: none; } .promotion-register { transition: none; } .promotion-register:not(:disabled):hover { transform: none; } }

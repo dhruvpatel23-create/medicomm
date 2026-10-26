@@ -32,6 +32,7 @@ import { isValidCountry } from "./src/data/countries.js";
 import { VIVA_CHAPTER_FALLBACKS } from "./src/data/vivaChapters.js";
 import { createReviewHandler } from "./server/reviews.mjs";
 import { createFmgeTestsHandler } from "./server/fmgeTests.mjs";
+import { createPromotionsHandler } from './server/promotions.mjs';
 import { readUsmleModules } from "./server/usmleModules.mjs";
 import { readFmgeSessions } from "./server/fmgeQuestions.mjs";
 import { loadShortNotes, createShortNotesHandler, ownsTheoryAnswerImage } from "./server/shortNotes.mjs";
@@ -231,6 +232,7 @@ function normalizeDatabase(parsed = {}) {
     questions: Array.isArray(parsed.questions) ? parsed.questions : [],
     practiceResults: Array.isArray(parsed.practiceResults) ? parsed.practiceResults : [],
     fmgeTestAttempts: Array.isArray(parsed.fmgeTestAttempts) ? parsed.fmgeTestAttempts : [],
+    promotionRegistrations: Array.isArray(parsed.promotionRegistrations) ? parsed.promotionRegistrations : [],
     paymentOrders: Array.isArray(parsed.paymentOrders) ? parsed.paymentOrders : [],
     vivaSessions: Array.isArray(parsed.vivaSessions) ? parsed.vivaSessions : [],
     clinicalCaseSessions: Array.isArray(parsed.clinicalCaseSessions) ? parsed.clinicalCaseSessions : [],
@@ -364,6 +366,7 @@ const practiceLive = createPracticeLive({ readDatabase, getSessionUser, sanitize
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
 const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, hasPracticeAccess, parseRequestBody, sendJson });
+const handlePromotions = createPromotionsHandler({ readDatabase, writeDatabase, getSessionUser, sendJson });
 const mailer = createMailer();
 const firebaseEmailAuth = firebase ? createFirebaseEmailAuth({ auth: firebase.auth, readDatabase, writeDatabase, verifyPassword,
   getConfig: () => {
@@ -4099,6 +4102,7 @@ async function handleRequest(request, response) {
   }
 
     if (url.pathname === '/api/practice/fmge-tests' || url.pathname.startsWith('/api/practice/fmge-tests/')) return await handleFmgeTests(request, response, url);
+    if (url.pathname.startsWith('/api/promotions/')) return await handlePromotions(request, response, url);
     if (request.method === 'POST' && url.pathname === '/api/auth/forgot-password') {
       limitRequest('password-recovery-global', 100, 60000);
       const payload = await parseRequestBody(request);

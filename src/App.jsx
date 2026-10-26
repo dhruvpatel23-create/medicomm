@@ -10,6 +10,7 @@ import Leaderboard from "./components/Leaderboard";
 import CommunityHub from "./components/CommunityHub";
 import CommunityThreads from "./components/CommunityThreads";
 import HomeBattleSection from "./components/HomeBattleSection";
+import PromotionBanner from './components/PromotionBanner';
 import { socialPage, surface as socialSurface, primary as socialPrimary, secondary as socialSecondary, field as socialField, avatar as socialAvatar } from "./components/SocialUI";
 import PracticeSelection from "./components/PracticeSelection";
 import FeatureAccessDialog from "./components/FeatureAccessDialog";
@@ -2894,7 +2895,7 @@ async function fetchPracticeLibrary() {
     setUserRating(mergedUser.rating ?? 1480);
     setProfileState(createProfileState(mergedUser));
     setAuthStatus("authenticated");
-    setActiveView("Dashboard");
+    setActiveView("Home");
     await fetchLeaderboard();
     setAuthForm({
       name: "",
@@ -2979,7 +2980,7 @@ async function fetchPracticeLibrary() {
     setUserRating(1200);
     setProfileState(createProfileState(guestUser));
     setAuthStatus("guest");
-    setActiveView("Dashboard");
+    setActiveView("Home");
     setAuthMessage("");
   }
 
@@ -3248,6 +3249,7 @@ async function fetchPracticeLibrary() {
   function renderHome() {
     return (
       <>
+        <PromotionBanner key={user?.id || 'visitor'} userId={authStatus === 'authenticated' ? user?.id : null} onSignIn={handleLogout} />
         <section className="hero">
           <h1>
             Master Medical Concepts with
