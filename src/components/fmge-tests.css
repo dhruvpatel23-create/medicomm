@@ -101,3 +101,18 @@
 @media(max-width:1000px) { .ft-exam-layout { grid-template-columns: 1fr; }.ft-question-grid { grid-template-columns: repeat(10,1fr); max-height: 220px; }.ft-intro { flex-wrap: wrap; }.ft-card-actions { flex-wrap: wrap; } }
 @media(max-width:640px) { .ft-runbar { top:60px; padding:12px; gap:10px; flex-wrap:wrap; }.ft-timer { font-size:18px; margin-left:auto; }.ft-runbar > .button { min-height:32px; padding:6px 10px; font-size:11px; }.ft-question { padding:18px; }.ft-question h3 { font-size:17px; }.ft-question-grid { grid-template-columns:repeat(6,1fr); }.ft-metrics > span { padding:12px 10px; font-size:10px; }.ft-metrics strong { font-size:16px; }.ft-card-actions { width:100%; justify-content:flex-end; }.ft-blueprint-grid,.ft-subject-results { grid-template-columns:1fr; }.ft-result { flex-direction:column; align-items:flex-start; gap:8px; padding:22px; }.ft-score strong { font-size:48px; }.ft-review-item summary { flex-wrap:wrap; }.ft-question-navigation > .button { font-size:12px; padding:10px 12px; }.ft-break { padding:28px 8px; } }
 @media(prefers-reduced-motion:reduce) { .ft-spin { animation:none; }.ft-option { transition:none; } }
+.ft-waiting-room { max-width: 820px; margin: 24px auto; padding: 32px; border: 1px solid var(--ui-border); border-radius: 16px; }
+.ft-waiting-room h3 { font-size: 26px; margin: 12px 0; }
+.ft-waiting-room p { line-height: 1.6; }
+.ft-waiting-room .ft-wait-countdown { font-size: clamp(36px, 8vw, 64px); font-weight: 750; font-variant-numeric: tabular-nums; margin: 24px 0; }
+.ft-leaderboard { margin: 28px 0; padding: 22px; border: 1px solid var(--ft-line); background: var(--ft-surface); }
+.ft-leaderboard h3 { margin: 0 0 14px; }
+.ft-leaderboard p { line-height: 1.7; }
+.ft-rank-summary strong { color: var(--ft-accent); font-size: 22px; }
+.ft-leaderboard-scroll { overflow-x: auto; }
+.ft-leaderboard table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ft-leaderboard caption { text-align: left; padding: 12px 0; font-size: 12px; color: var(--ui-muted); }
+.ft-leaderboard th, .ft-leaderboard td { padding: 12px; border-bottom: 1px solid var(--ft-line); text-align: left; }
+.ft-leaderboard td:nth-child(2) { overflow-wrap: anywhere; }
+.ft-leaderboard-you { background: var(--ft-soft); }
+.ft-leaderboard-pages { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 16px; font-size: 12px; }

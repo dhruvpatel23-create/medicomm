@@ -8,7 +8,7 @@ const invalid = () => new HttpError(401, 'Invalid email or password. If you requ
 // Firebase password credentials are authoritative. Google linking can bind a UID
 // without migrating the application's password; retain that login until Firebase
 // has a password provider. Never fall back after a failed Firebase password login.
-export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDatabase, verifyPassword,
+export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDatabase, verifyPassword, readAccess,
   fetchImpl = fetch, now = Date.now, log = () => {} }) {
   const cachedIdentities = new Map();
   async function rest(method, body) {
@@ -198,7 +198,7 @@ export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDa
       return { message: 'If an account exists for this email, Firebase will send you a password-reset link. Check your inbox and spam folder.', resendAfter: 60 };
     },
     async checkSession(request) {
-      const database = readDatabase(), token = sessionToken(request);
+      const database = readAccess ? readAccess(request) : readDatabase(), token = sessionToken(request);
       const session = token && database.sessions[sessionHash(token)];
       const user = session && database.users.find(u => u.id === session.userId);
       const uid = user?.firebaseAuthUid || user?.googleUid;

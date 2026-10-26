@@ -33,6 +33,13 @@ export function createStateStore({ initial, revision = 0, persist, reload }) {
   const versions = new WeakMap();
   return {
     get healthy() { return healthy; },
+    accessSnapshot(key) {
+      if (!healthy) throw new HttpError(503, 'Storage is unavailable.');
+      const session = key && current.sessions?.[key];
+      const user = session && current.users.find(user => user.id === session.userId);
+      return structuredClone({ users: user ? [user] : [], sessions: session ? { [key]: session } : {},
+        paymentOrders: user ? (current.paymentOrders ?? []).filter(order => order.userId === user.id) : [] });
+    },
     isPrivateImage(name) {
       if (!healthy) throw new HttpError(503, 'Storage is unavailable.');
       return name.startsWith('user-') || privateImages.has(name);

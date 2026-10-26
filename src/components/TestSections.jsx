@@ -33,7 +33,7 @@ export default function TestSections({ title, onBack, exam, onSessionChange }) {
         </div>}
       </Tabs.Content>
       <Tabs.Content value="grand" className="test-section-content">
-        <div className="test-card-stack">
+        {exam === 'fmge' ? <FmgePracticeTests category="grand" onSessionChange={sessionChanged} /> : <div className="test-card-stack">
           <article className="exam-test-card exam-test-card-grand">
             <span className="exam-test-number" aria-hidden="true">01</span>
             <div className="exam-test-copy">
@@ -45,7 +45,7 @@ export default function TestSections({ title, onBack, exam, onSessionChange }) {
               <time dateTime="2026-10-27T14:00:00+05:30">27/10/2026 · 2:00 pm IST</time>
             </div>
           </article>
-        </div>
+        </div>}
       </Tabs.Content>
     </Tabs.Root>
   </section>;
