@@ -1,5 +1,7 @@
 import { HttpError, issueSession, sessionHash, sessionToken } from './security.mjs';
 import { updateTokenState } from './tokens.mjs';
+import { emailMessage } from './email.mjs';
+import { randomUUID } from 'node:crypto';
 
 const emailOf = value => String(value || '').trim().toLowerCase();
 const unavailable = () => new HttpError(503, 'Firebase authentication is temporarily unavailable. Please try again.');
@@ -9,7 +11,7 @@ const invalid = () => new HttpError(401, 'Invalid email or password. If you requ
 // without migrating the application's password; retain that login until Firebase
 // has a password provider. Never fall back after a failed Firebase password login.
 export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDatabase, verifyPassword, readAccess,
-  fetchImpl = fetch, now = Date.now, log = () => {} }) {
+  fetchImpl = fetch, now = Date.now, log = () => {}, mailer }) {
   const cachedIdentities = new Map();
   async function rest(method, body) {
     let response, data;
@@ -21,7 +23,10 @@ export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDa
       data = await response.json();
     } catch { throw unavailable(); }
     if (!response.ok) {
-      const code = data?.error?.message || '';
+      const code = String(data?.error?.message || '');
+      // Only log a bounded provider code; messages can contain personal data.
+      log({ event: 'firebase_auth_request_failed', operation: method, status: response.status,
+        code: /^[A-Z][A-Z0-9_]{0,79}$/.exec(code.split(' : ')[0])?.[0] || 'UNKNOWN' });
       if (/TOO_MANY_ATTEMPTS|QUOTA_EXCEEDED/.test(code)) throw new HttpError(429, 'Too many attempts. Please try again later.');
       if (/INVALID_PASSWORD|INVALID_LOGIN_CREDENTIALS|EMAIL_NOT_FOUND|USER_DISABLED/.test(code)) throw invalid();
       if (/PASSWORD_DOES_NOT_MEET_REQUIREMENTS|WEAK_PASSWORD/.test(code)) throw new HttpError(400, 'Your password needs updating. Use Forgot password to choose a password with at least eight characters, a number and a special character.');
@@ -77,11 +82,30 @@ export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDa
         claims.firebase?.sign_in_provider !== 'password') throw invalid();
     return { result, identity };
   }
+  async function sendVerification(idToken, email) {
+    if (mailer?.configured) {
+      try {
+        const link = await auth.generateEmailVerificationLink(email);
+        const message = emailMessage('Verify your email for Medulla', [
+          'Welcome to Medulla. Open the secure link below to verify your email address:', link,
+          'After verifying, return to Medulla and sign in. If you did not request this email, you can ignore it.',
+        ]);
+        const safeLink = link.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+        message.html = message.html.replace('</div>', `<p><a href="${safeLink}">Verify email address</a></p></div>`);
+        await mailer.send({ to: email, ...message }, `firebase-verification-${randomUUID()}`);
+        log({ event: 'firebase_verification_accepted', provider: 'resend' });
+        return;
+      } catch { log({ event: 'firebase_verification_delivery_failed', provider: 'resend' }); }
+    }
+    // Keep native delivery available if the custom sender is unavailable.
+    await rest('sendOobCode', { requestType: 'VERIFY_EMAIL', idToken });
+    log({ event: 'firebase_verification_accepted', provider: 'firebase' });
+  }
   async function verification(result, email) {
     let sent = true;
-    try { await rest('sendOobCode', { requestType: 'VERIFY_EMAIL', idToken: result.idToken }); }
-    catch { sent = false; log({ event: 'firebase_verification_delivery_failed' }); }
-    return { verificationRequired: true, firebase: true, email, idToken: result.idToken, resendAfter: 60, sent };
+    try { await sendVerification(result.idToken, email); }
+    catch { sent = false; log({ event: 'firebase_verification_delivery_failed', provider: 'firebase' }); }
+    return { verificationRequired: true, firebase: true, email, idToken: result.idToken, resendAfter: sent ? 60 : 0, sent };
   }
   return {
     async signup(user, password, validateNewUser) {
@@ -159,7 +183,11 @@ export function createFirebaseEmailAuth({ auth, getConfig, readDatabase, writeDa
       let claims;
       try { claims = await auth.verifyIdToken(idToken, true); } catch { throw new HttpError(401, 'Sign in again to request verification.'); }
       if (claims.firebase?.sign_in_provider !== 'password') throw invalid();
-      await rest('sendOobCode', { requestType: 'VERIFY_EMAIL', idToken });
+      const identity = await lookup(emailOf(claims.email));
+      const user = account(readDatabase(), emailOf(claims.email));
+      checkIdentity(user, identity);
+      if (identity.uid !== claims.uid) throw invalid();
+      await sendVerification(idToken, emailOf(identity.email));
       return { resendAfter: 60 };
     },
     async start(value) {

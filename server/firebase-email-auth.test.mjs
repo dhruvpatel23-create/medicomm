@@ -4,7 +4,7 @@ import { createFirebaseEmailAuth } from './firebaseEmailAuth.mjs';
 import { issueSession } from './security.mjs';
 
 const old = { id: 'app-1', email: 'user@example.com', name: 'Learner', passwordHash: 'legacy', passwordSalt: 'salt', passwordIterations: 220000, emailVerifiedAt: '2026-01-01', subscription: 'premium', progress: [1,2] };
-function fixture(users = [old]) {
+function fixture(users = [old], { mailer, deliveryError } = {}) {
   let db = { users: structuredClone(users), sessions: {}, passwordResets: [] }, revision = 0, time = 1800000000000;
   const revisions = new WeakMap(), identities = new Map(), deliveries = [], created = [], proofs = [], logs = [];
   const readDatabase = () => { const snapshot = structuredClone(db); revisions.set(snapshot, revision); return snapshot; };
@@ -24,6 +24,7 @@ function fixture(users = [old]) {
     },
   };
   const service = createFirebaseEmailAuth({ auth, getConfig: async () => ({ apiKey: 'public-test-key' }), readDatabase, writeDatabase,
+    mailer,
     verifyPassword: async (password, salt, hash) => { proofs.push(password); return password === 'Original1!' && hash === 'legacy'; },
     now: () => time, log: value => logs.push(value),
     fetchImpl: async (url, options) => {
@@ -32,7 +33,9 @@ function fixture(users = [old]) {
         const identity = [...identities.values()].find(u => u.email === body.email && u.password === body.password);
         return identity ? Response.json({ idToken: `token-${identity.uid}` }) : Response.json({ error: { message: 'INVALID_LOGIN_CREDENTIALS' } }, { status: 400 });
       }
-      deliveries.push(body); return Response.json({ email: body.email });
+      deliveries.push(body);
+      if (deliveryError) return Response.json({ error: { message: deliveryError } }, { status: 400 });
+      return Response.json({ email: body.email });
     },
   });
   return { service, auth, identities, created, proofs, deliveries, logs, db: () => db, advance: ms => { time += ms; },
@@ -77,6 +80,65 @@ test('new users must verify Firebase email before receiving an application sessi
   assert.equal(next.verificationRequired, true);
   f.identities.get('new').emailVerified = true;
   assert.ok((await f.service.login('new@example.com', 'Newpass1!')).token);
+});
+
+test('configured sender delivers Firebase links for signup, login and resend without issuing sessions', async () => {
+  const messages = [], links = [];
+  const f = fixture([], { mailer: { configured: true, send: async (message, key) => messages.push({ message, key }) } });
+  f.auth.generateEmailVerificationLink = async email => { links.push(email); return 'https://project.firebaseapp.com/__/auth/action?mode=verifyEmail&oobCode=secret'; };
+  const user = { id: 'new', email: 'new@example.com', name: 'New learner' };
+  const pending = await f.service.signup(user, 'Newpass1!', () => {});
+  assert.equal(pending.sent, true);
+  await f.service.login(user.email, 'Newpass1!');
+  await f.service.resend(pending.idToken);
+  assert.deepEqual(links, [user.email, user.email, user.email]);
+  assert.equal(messages.length, 3);
+  assert.equal(new Set(messages.map(m => m.key)).size, 3);
+  assert.equal(messages[0].message.to, user.email);
+  assert.match(messages[0].message.text, /oobCode=secret/);
+  assert.match(messages[0].message.html, /&amp;oobCode=secret/);
+  assert.match(messages[0].message.html, /<a href="https:\/\/project.firebaseapp.com\/__\/auth\/action\?mode=verifyEmail&amp;oobCode=secret">Verify email address<\/a>/);
+  assert.equal(f.deliveries.length, 0);
+  assert.equal(Object.keys(f.db().sessions).length, 0);
+  assert.ok(!JSON.stringify(f.logs).includes('secret'));
+  f.identities.get('new').emailVerified = true;
+  assert.ok((await f.service.login(user.email, 'Newpass1!')).token);
+});
+
+test('custom sender failure falls back to native Firebase delivery', async () => {
+  const f = fixture([], { mailer: { configured: true, send: async () => { throw Error('private provider details'); } } });
+  f.auth.generateEmailVerificationLink = async () => 'https://project.firebaseapp.com/secret';
+  const pending = await f.service.signup({ id: 'new', email: 'new@example.com', name: 'Learner' }, 'Newpass1!', () => {});
+  assert.equal(pending.sent, true);
+  assert.equal(f.deliveries[0].requestType, 'VERIFY_EMAIL');
+  assert.deepEqual(f.logs, [
+    { event: 'firebase_verification_delivery_failed', provider: 'resend' },
+    { event: 'firebase_verification_accepted', provider: 'firebase' },
+  ]);
+});
+
+test('failed verification delivery keeps the account recoverable with immediate retry and safe diagnostics', async () => {
+  const f = fixture([], { deliveryError: 'QUOTA_EXCEEDED : private user@example.com' });
+  const pending = await f.service.signup({ id: 'new', email: 'new@example.com', name: 'Learner' }, 'Newpass1!', () => {});
+  assert.equal(pending.sent, false);
+  assert.equal(pending.resendAfter, 0);
+  assert.equal(f.db().users.length, 1);
+  assert.equal(Object.keys(f.db().sessions).length, 0);
+  assert.deepEqual(f.logs, [
+    { event: 'firebase_auth_request_failed', operation: 'sendOobCode', status: 400, code: 'QUOTA_EXCEEDED' },
+    { event: 'firebase_verification_delivery_failed', provider: 'firebase' },
+  ]);
+  await assert.rejects(f.service.resend(pending.idToken), { status: 429 });
+});
+
+test('resend rejects invalid tokens and identities that do not match the saved account', async () => {
+  const f = fixture([]);
+  await assert.rejects(f.service.resend('invalid'), { status: 401 });
+  const pending = await f.service.signup({ id: 'new', email: 'new@example.com', name: 'Learner' }, 'Newpass1!', () => {});
+  const count = f.deliveries.length;
+  f.db().users[0].firebaseAuthUid = 'another-uid';
+  await assert.rejects(f.service.resend(pending.idToken), { status: 409 });
+  assert.equal(f.deliveries.length, count);
 });
 test('existing Firebase credentials never get replaced by a legacy password', async () => {
   const f = fixture();

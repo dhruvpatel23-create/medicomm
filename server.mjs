@@ -381,6 +381,7 @@ const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, ge
 const handlePromotions = createPromotionsHandler({ readDatabase, writeDatabase, getSessionUser, sendJson });
 const mailer = createMailer();
 const firebaseEmailAuth = firebase ? createFirebaseEmailAuth({ auth: firebase.auth, readDatabase, writeDatabase, verifyPassword,
+  mailer,
   readAccess: readTestAccess,
   getConfig: () => {
     googleConfigPromise ||= discoverGoogleConfig(firebase).catch(error => { googleConfigPromise = null; throw error; });

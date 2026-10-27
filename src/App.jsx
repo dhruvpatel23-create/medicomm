@@ -2960,7 +2960,7 @@ async function fetchPracticeLibrary() {
       const data = await apiRequest(endpoint, {
         method: "POST",
         body: JSON.stringify(googleSignup && authMode === 'signup' ? { idToken: googleSignup.idToken, profile: payload } : payload),
-        timeoutMs: 20000,
+        timeoutMs: 60000,
       });
 
       if (data.verificationRequired) {
