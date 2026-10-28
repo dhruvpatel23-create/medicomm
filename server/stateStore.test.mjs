@@ -25,6 +25,14 @@ test('valid state retains existing data and revision', () => {
   assert.equal(validate([row]), row);
 });
 
+test('100 queued account mutations read fresh committed state without lost sessions', async () => {
+  const store = createStateStore({ initial: { users: [], sessions: {} }, persist: async () => { await new Promise(resolve => setImmediate(resolve)); } });
+  await Promise.all(Array.from({ length: 100 }, (_, i) => store.transact(database => { database.sessions[`session-${i}`] = { userId: `candidate-${i}` }; })));
+  assert.equal(Object.keys(store.read().sessions).length, 100);
+  await assert.rejects(store.transact(database => { database.sessions = {}; throw new Error('invalid mutation'); }), /invalid mutation/);
+  assert.equal(Object.keys(store.read().sessions).length, 100);
+});
+
 test('test access snapshots isolate the session owner and cannot mutate stored accounts', () => {
   const store = createStateStore({ initial: {
     users: [{ id: 'alice', plan: 'premium' }, { id: 'bob' }],

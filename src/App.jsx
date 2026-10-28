@@ -3330,6 +3330,11 @@ async function fetchPracticeLibrary() {
             Get Started for Free
           </button>
         </section>
+
+        <footer className="home-contact-footer" aria-label="Contact and support">
+          <p>For any queries, contact us at Email: <a href="mailto:contact@medullaprep.com">contact@medullaprep.com</a>.</p>
+          <p>Support will be provided within 24 hours.</p>
+        </footer>
       </>
     );
   }

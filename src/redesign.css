@@ -1,3 +1,8 @@
+.home-contact-footer { margin-top: 28px; padding: 32px 20px; border-top: 1px solid var(--ui-line); color: var(--ui-ink); text-align: center; }
+.home-contact-footer p { margin: 8px 0; color: var(--ui-muted); font-size: 15px; line-height: 1.7; }
+.home-contact-footer a { color: var(--ui-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.home-contact-footer a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 3px; }
+
 .usmle-module-ready { color: var(--path-accent) !important; background: var(--path-tint); }
 .usmle-module-description { color: var(--ui-muted); font-size: 12px; line-height: 1.6; margin: -4px 0 16px; }
 .usmle-module-start { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; margin-top: 16px; padding: 11px 14px; border: 1px solid var(--path-accent); border-radius: 11px; color: var(--path-accent); background: var(--path-tint); font-weight: 700; cursor: pointer; }

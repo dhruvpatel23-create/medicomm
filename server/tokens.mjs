@@ -36,6 +36,10 @@ export function refundTokens(database, userId, key) {
 }
 
 export async function updateTokenState(readDatabase, writeDatabase, update) {
+  if (writeDatabase.transact) {
+    await writeDatabase.transact(update);
+    return;
+  }
   for (let attempt = 0; ; attempt++) {
     const database = readDatabase();
     await update(database);

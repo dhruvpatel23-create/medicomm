@@ -31,8 +31,36 @@ export function createStateStore({ initial, revision = 0, persist, reload }) {
   let healthy = true;
   let chain = Promise.resolve();
   const versions = new WeakMap();
+  async function commit(next, expected) {
+    if (!healthy) throw new HttpError(503, 'Storage is unavailable.');
+    if (expected !== version) throw new HttpError(409, 'Data changed during this request. Please try again.');
+    try {
+      await persist(next, version);
+      current = next;
+      privateImages = privateImageNames(current);
+      version++;
+    } catch (error) {
+      healthy = false;
+      if (reload) {
+        try {
+          const loaded = await reload();
+          current = loaded.data;
+          privateImages = privateImageNames(current);
+          version = loaded.revision;
+          healthy = true;
+        } catch { /* Remain unready until recovery. */ }
+      }
+      throw error.status === 409 ? error : new HttpError(503, 'Storage is unavailable. Please check before retrying.');
+    }
+  }
   return {
     get healthy() { return healthy; },
+    accountSnapshot(userId) {
+      if (!healthy) throw new HttpError(503, 'Storage is unavailable.');
+      const user = current.users.find(user => user.id === userId);
+      return structuredClone({ users: user ? [user] : [], sessions: {},
+        paymentOrders: user ? (current.paymentOrders ?? []).filter(order => order.userId === user.id) : [] });
+    },
     accessSnapshot(key) {
       if (!healthy) throw new HttpError(503, 'Storage is unavailable.');
       const session = key && current.sessions?.[key];
@@ -54,29 +82,21 @@ export function createStateStore({ initial, revision = 0, persist, reload }) {
       const expected = versions.get(snapshot);
       const next = structuredClone(snapshot);
       const operation = chain.then(async () => {
+        await commit(next, expected);
+        versions.set(snapshot, version);
+      });
+      chain = operation.catch(() => {});
+      return operation;
+    },
+    // Read inside the commit queue so concurrent account mutations do not all
+    // start from the same revision and exhaust optimistic retry allowances.
+    transact(update) {
+      const operation = chain.then(async () => {
         if (!healthy) throw new HttpError(503, 'Storage is unavailable.');
-        if (expected !== version) throw new HttpError(409, 'Data changed during this request. Please try again.');
-        try {
-          await persist(next, version);
-          current = next;
-          privateImages = privateImageNames(current);
-          version++;
-          versions.set(snapshot, version);
-        } catch (error) {
-          // An interrupted response may have committed remotely. Reload before
-          // allowing more traffic; never retry an uncertain write automatically.
-          healthy = false;
-          if (reload) {
-            try {
-              const loaded = await reload();
-              current = loaded.data;
-              privateImages = privateImageNames(current);
-              version = loaded.revision;
-              healthy = true;
-            } catch { /* Remain unready until restart/recovery. */ }
-          }
-          throw error.status === 409 ? error : new HttpError(503, 'Storage is unavailable. Please check before retrying.');
-        }
+        const next = structuredClone(current);
+        const result = await update(next);
+        await commit(structuredClone(next), version);
+        return result;
       });
       chain = operation.catch(() => {});
       return operation;

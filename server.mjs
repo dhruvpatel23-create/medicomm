@@ -6,8 +6,9 @@ import { createMatch, validDuelQuestion, lockAnswer, settleMatch, matchProgress 
 import { createServer } from "node:http";
 import { createHash, randomBytes, pbkdf2, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
-import { HttpError, readJson, createLimiter, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
+import { HttpError, readJson, createLimiter, limitAuthentication, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
 import { createStateStore, validateSupabaseState } from './server/stateStore.mjs';
+import { startRuntimeMetrics } from './server/runtimeMetrics.mjs';
 import { createPushService, queuePush } from './server/push.mjs';
 import { createPracticeLive } from './server/practiceLive.mjs';
 import { createUploads } from './server/uploads.mjs';
@@ -369,8 +370,17 @@ function readTestAccess(request) {
 async function writeDatabase(data) {
   reconcileSubscriptions(data);
   await stateStore.write(data);
-  practiceLive.publish(readDatabase());
+  practiceLive.publish(readDatabase);
 }
+writeDatabase.transact = async update => {
+  const result = await stateStore.transact(async database => {
+    const value = await update(database);
+    reconcileSubscriptions(database);
+    return value;
+  });
+  practiceLive.publish(readDatabase);
+  return result;
+};
 const practiceLive = createPracticeLive({ readDatabase, getSessionUser, sanitizeUser });
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
@@ -2335,11 +2345,12 @@ async function verifyPassword(password, salt, expectedHash, iterations = LEGACY_
 }
 
 function sanitizeUser(user) {
-  const membership = subscriptionDetails(readDatabase(), user.id);
+  const database = stateStore.accountSnapshot(user.id);
+  const membership = subscriptionDetails(database, user.id);
   const practiceAccess = membership.hasPracticeAccess;
   return {
     ...membership,
-    tokens: tokenStatus(readDatabase(), user.id),
+    tokens: tokenStatus(database, user.id),
     hasPracticeAccess: practiceAccess,
     isSubscribed: practiceAccess,
     plan: membership.plan || null,
@@ -2698,15 +2709,13 @@ async function handleLogin(request, response) {
     return sendJson(response, 202, await emailVerification.start({ user }));
   }
 
-  if (passwordIterations < PASSWORD_HASH_ITERATIONS) {
-    const { hash, salt, iterations } = await hashPassword(password);
-    user.passwordHash = hash;
-    user.passwordSalt = salt;
-    user.passwordIterations = iterations;
-  }
-
-  const token = issueSession(database, user.id);
-  await writeDatabase(database);
+  const upgraded = passwordIterations < PASSWORD_HASH_ITERATIONS ? await hashPassword(password) : null;
+  const token = await writeDatabase.transact(current => {
+    const fresh = current.users.find(entry => entry.id === user.id);
+    if (!fresh || fresh.passwordHash !== user.passwordHash || fresh.passwordSalt !== user.passwordSalt) throw new HttpError(409, 'Your credentials changed. Please sign in again.');
+    if (upgraded) Object.assign(fresh, { passwordHash: upgraded.hash, passwordSalt: upgraded.salt, passwordIterations: upgraded.iterations });
+    return issueSession(current, user.id);
+  });
 
   return sendJson(response, 200, {
     user: sanitizeUser(user),
@@ -2714,7 +2723,7 @@ async function handleLogin(request, response) {
 }
 
 function handleSession(request, response) {
-  const database = readDatabase();
+  const database = readTestAccess(request);
   const user = getSessionUser(request, database);
 
   if (!user) {
@@ -4068,7 +4077,10 @@ async function handleRequest(request, response) {
   response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   if (production) response.setHeader('Strict-Transport-Security', 'max-age=31536000');
   const started = Date.now();
-  response.once('finish', () => console.log(JSON.stringify({ event: 'request', requestId, method: request.method, status: response.statusCode, durationMs: Date.now() - started })));
+  response.once('finish', () => console.log(JSON.stringify({ event: 'request', requestId, method: request.method, path: request.url?.split('?')[0], status: response.statusCode, durationMs: Date.now() - started })));
+  response.once('close', () => {
+    if (!response.writableFinished) console.warn(JSON.stringify({ event: 'request_aborted', requestId, method: request.method, path: request.url?.split('?')[0], durationMs: Date.now() - started }));
+  });
   try {
     const url = new URL(request.url, 'http://localhost');
     if (url.pathname === '/health/live') return sendJson(response, stopping ? 503 : 200, { status: stopping ? 'stopping' : 'alive' });
@@ -4081,7 +4093,7 @@ async function handleRequest(request, response) {
     if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
     if (stopping) throw new HttpError(503, 'Server is restarting.');
     const testRoute = /^\/api\/practice\/fmge-tests(?:\/|$)/.test(url.pathname);
-    const accessDatabase = () => testRoute ? readTestAccess(request) : readDatabase();
+    const accessDatabase = () => readTestAccess(request);
     if (firebaseEmailAuth && (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/user-')) &&
         !url.pathname.startsWith('/api/auth/')) await firebaseEmailAuth.checkSession(request);
     if (firebaseEmailAuth && url.pathname === '/api/auth/session') await firebaseEmailAuth.checkSession(request);
@@ -4106,11 +4118,10 @@ async function handleRequest(request, response) {
       const peer = process.env.TRUST_PROXY === 'true'
         ? String(request.headers['x-forwarded-for'] || request.socket.remoteAddress).split(',').at(-1).trim()
         : request.socket.remoteAddress;
-      const testUser = testRoute && getSessionUser(request, accessDatabase());
+      const testUser = getSessionUser(request, readTestAccess(request));
       // Many candidates can share a college/campus IP; limit authenticated test
       // traffic per account without weakening the IP limits on other routes.
-      limitRequest(testUser ? `test-api:${testUser.id}` : `api:${peer}`, testUser ? 240 : 600, 60000);
-      if (['/api/auth/login', '/api/auth/signup', '/api/auth/google', '/api/auth/verify-email', '/api/auth/resend-email', '/api/auth/forgot-password', '/api/auth/reset-password', '/api/auth/firebase/resend-verification'].includes(url.pathname)) limitRequest(`auth:${peer}`, 20, 15 * 60000);
+      limitRequest(testUser ? `${testRoute ? 'test-api' : 'api-user'}:${testUser.id}` : `api:${peer}`, testUser ? (testRoute ? 240 : 600) : 1200, 60000);
       const costly = request.method === 'POST' && /^\/api\/(?:generate-question|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname);
       if (costly) {
         const user = getSessionUser(request, readDatabase());
@@ -4121,6 +4132,9 @@ async function handleRequest(request, response) {
       if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method)) {
         const imageRoute = url.pathname === '/api/profile' || /\/(?:messages|answers)$/.test(url.pathname) || url.pathname === '/api/short-notes/reviews' || url.pathname === '/api/notepad/draft';
         request.parsedBody = await readJson(request, imageRoute ? 8 * 1024 * 1024 : 256 * 1024);
+      }
+      if (['/api/auth/login', '/api/auth/signup', '/api/auth/google', '/api/auth/verify-email', '/api/auth/resend-email', '/api/auth/forgot-password', '/api/auth/reset-password', '/api/auth/firebase/resend-verification'].includes(url.pathname)) {
+        limitAuthentication(limitRequest, peer, url.pathname, request.parsedBody);
       }
     }
 
@@ -4308,6 +4322,7 @@ async function handleRequest(request, response) {
 }
 
 await initializeDatabaseStore();
+const stopRuntimeMetrics = production ? startRuntimeMetrics() : () => {};
 const pushTimer = pushService.configured ? setInterval(() => { void pushService.tick(); }, 60000) : null;
 pushTimer?.unref();
 if (pushService.configured) void pushService.tick();
@@ -4323,6 +4338,7 @@ server.listen(port, host, () => {
 
 for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => {
   stopping = true;
+  stopRuntimeMetrics();
   if (emailTimer) clearInterval(emailTimer);
   if (pushTimer) clearInterval(pushTimer);
   const deadline = setTimeout(() => process.exit(1), 30000);

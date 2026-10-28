@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
-import { readJson, createLimiter, issueSession, sessionUser, sessionHash, sessionCookie, checkOrigin } from './security.mjs';
+import { readJson, createLimiter, limitAuthentication, issueSession, sessionUser, sessionHash, sessionCookie, checkOrigin } from './security.mjs';
 import { createStateStore } from './stateStore.mjs';
 import { decodeImage, createUploads } from './uploads.mjs';
 
@@ -24,6 +24,15 @@ test('rate limits expire and stay bounded without evicting live limits', () => {
   assert.throws(() => limit('a', 1, 1000), { status: 429 });
   assert.throws(() => limit('b', 1, 1000), { status: 429 });
   now = 1001; limit('b', 1, 1000);
+});
+
+test('100 accounts sharing a proxy can log in while repeated account attempts stay limited', () => {
+  const limit = createLimiter();
+  for (let i = 0; i < 100; i++) limitAuthentication(limit, 'proxy', '/api/auth/login', { email: `candidate-${i}@example.test` });
+  for (let i = 0; i < 29; i++) limitAuthentication(limit, 'proxy', '/api/auth/login', { email: 'candidate-0@example.test' });
+  assert.throws(() => limitAuthentication(limit, 'other-ip', '/api/auth/login', { email: ' CANDIDATE-0@example.test ' }), { status: 429 });
+  assert.doesNotThrow(() => limitAuthentication(limit, 'proxy', '/api/auth/login', { email: 'new@example.test' }));
+  assert.doesNotThrow(() => limitAuthentication(limit, 'proxy', '/api/auth/forgot-password', { email: 'candidate-0@example.test' }));
 });
 test('sessions hash credentials, expire, revoke and reject legacy sessions', () => {
   const database = { users: [{ id: 'alice' }], sessions: { legacy: 'alice' } };

@@ -41,9 +41,18 @@ export default function FmgePracticeTests({ onSessionChange, category = 'practic
   const serverClock = useRef(null);
   const answerQueue = useRef(null);
   if (!answerQueue.current) answerQueue.current = createTestAnswerQueue({
-    send: async (base, change) => {
+    batchSize: 150,
+    debounceMs: 300,
+    storage: {
+      getItem: key => window.sessionStorage.getItem(key),
+      setItem: (key, value) => window.sessionStorage.setItem(key, value),
+      removeItem: key => window.sessionStorage.removeItem(key),
+    },
+    onStorageError: () => { if (alive.current) setNotice('Device backup is unavailable. Keep this tab open until answers are confirmed saved.'); },
+    recover: async base => (await apiRequest(`${endpoint}/attempts/${base.id}`, { timeoutMs: 20000 })).attempt,
+    send: async (base, changes, mutationId) => {
       const data = await apiRequest(`${endpoint}/attempts/${base.id}`, { method: 'PATCH',
-        body: JSON.stringify({ ...change, revision: base.revision }), timeoutMs: 20000 });
+        body: JSON.stringify({ changes: changes.map((change, index) => index === changes.length - 1 ? { ...change, currentIndex: base.currentIndex } : change), mutationId, revision: base.revision }), timeoutMs: 20000 });
       if (data.message && alive.current) setNotice(data.message);
       return data.attempt;
     },
@@ -54,7 +63,7 @@ export default function FmgePracticeTests({ onSessionChange, category = 'practic
       }
     } },
     onSaving: value => { if (alive.current) setSaving(value); },
-    onError: e => { if (alive.current) setError(`${e.message} Your latest changes are not confirmed saved. Reload your saved attempt to continue.`); },
+    onError: e => { if (alive.current) setError(`${e.message} Your latest changes are not confirmed saved. Retry syncing before submitting.`); },
   });
 
   useEffect(() => {
@@ -73,13 +82,22 @@ export default function FmgePracticeTests({ onSessionChange, category = 'practic
     busyRef.current = true; setBusy(true); setError(''); setNotice('');
     try {
       await answerQueue.current.flush();
-      const data = await apiRequest(`${endpoint}${path}`, { ...options, timeoutMs: 20000 });
+      let data;
+      try { data = await apiRequest(`${endpoint}${path}`, { ...options, timeoutMs: 20000 }); }
+      catch (error) {
+        if (path.endsWith('/finish-part') && (!error.status || error.status >= 500)) {
+          const fresh = await apiRequest(`${endpoint}/attempts/${attempt.id}`, { timeoutMs: 20000 });
+          const submittedPart = JSON.parse(options.body).part;
+          if (fresh.attempt.status !== 'active' || fresh.attempt.part > submittedPart) data = fresh;
+          else throw error;
+        } else throw error;
+      }
       if (!alive.current) return data;
       if (data.attempt) {
         answerQueue.current.reset(data.attempt);
         serverClock.current = data.attempt.serverNow;
         setWaitingRoom(null);
-        setAttempt(data.attempt); setOffset(data.attempt.serverNow - Date.now());
+        setOffset(data.attempt.serverNow - Date.now());
         setNow(Date.now());
         if (data.message) setNotice(data.message);
       } else if (data.waitingRoom) {
@@ -140,7 +158,7 @@ export default function FmgePracticeTests({ onSessionChange, category = 'practic
 
   const save = body => { setNotice(''); answerQueue.current.enqueue(body); };
   async function navigate(index) {
-    save({ currentIndex: index });
+    answerQueue.current.navigate(index);
     questionTop.current?.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
   async function leave() {
@@ -153,7 +171,7 @@ export default function FmgePracticeTests({ onSessionChange, category = 'practic
     await request('');
   }
   const statusMessage = <>
-    {error && <div className="ft-error" role="alert"><p>{error}</p><button className="button button-secondary" disabled={busy || saving} onClick={() => { answerQueue.current.reset(attempt); request(attempt ? `/attempts/${attempt.id}` : ''); }}>{attempt ? 'Reload saved attempt' : 'Retry'}</button></div>}
+    {error && <div className="ft-error" role="alert"><p>{error}</p><button className="button button-secondary" disabled={busy || saving} onClick={() => request(attempt ? `/attempts/${attempt.id}` : '')}>{attempt ? 'Retry syncing answers' : 'Retry'}</button></div>}
     {notice && <p className="ft-notice" role="status">{notice}</p>}
   </>;
 
@@ -253,7 +271,7 @@ export default function FmgePracticeTests({ onSessionChange, category = 'practic
   return <div className="fmge-tests">
     {statusMessage}
     <div className="ft-runbar"><div><p className="eyebrow">{attempt.title} / Part {attempt.part} of 2</p><strong>{answered} of 150 answered</strong></div><div className={`ft-timer ${remaining < 300 ? 'ft-timer-urgent' : ''}`} role="timer" aria-label="Time remaining"><Clock3 size={18} />{clockText(remaining)}</div><button className="button button-secondary" disabled={busy} onClick={leave}>Save & exit</button></div>
-    <p className="ft-save-status" role="status">{busy || saving ? <><Loader2 size={14} className="ft-spin" /> Saving / syncing…</> : error ? 'Connection or save problem — reload your saved attempt to continue.' : <><ShieldCheck size={14} /> Answers saved on server · Timer continues if you leave</>}</p>
+    <p className="ft-save-status" role="status">{error ? 'Connection or save problem — retry syncing to continue.' : busy || saving || answerQueue.current.pending ? <><Loader2 size={14} className="ft-spin" /> Saving / syncing…</> : <><ShieldCheck size={14} /> Answers saved on server · Timer continues if you leave</>}</p>
     <div className="ft-exam-layout"><div className="ft-question" ref={questionTop} tabIndex={-1} aria-label={`Question ${question.number}`}>
       <div className="ft-question-top"><span>QUESTION {question.number} / 300</span><span>+1 mark · No negative marking</span></div>
       <h3>{question.prompt}</h3>

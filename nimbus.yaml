@@ -41,8 +41,10 @@ env:
 pm2:
   name: medulla
   script: server.mjs
-  instances: max
-  exec_mode: cluster
+  # Shared application snapshots are process-local. Do not enable cluster mode
+  # until accounts/sessions and other shared mutations use independent records.
+  instances: 1
+  exec_mode: fork
   env:
     PORT: 3000
     NODE_ENV: production

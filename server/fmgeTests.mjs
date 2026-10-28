@@ -36,26 +36,39 @@ export function changeFmgeAttempt(attempt, method, action, body, clock) {
   let changed = expired;
   if (method !== 'GET' && !expired) {
     if (method === 'PATCH') {
+      if (body.mutationId && body.mutationId === attempt.lastMutationId) {
+        return { changed: false, value: { attempt: fmgeAttemptView(attempt, clock) } };
+      }
       if (attempt.status !== 'active') throw new HttpError(409, 'This part has ended. Refresh the attempt.');
       if (body.revision !== attempt.revision) throw new HttpError(409, 'This attempt changed in another tab. Reload to continue.');
-      if (Object.hasOwn(body, 'currentIndex')) {
-        if (!Number.isInteger(body.currentIndex) || body.currentIndex < 0 || body.currentIndex >= 150) throw new HttpError(400, 'Invalid question position.');
-        attempt.currentIndex = body.currentIndex;
+      if (body.mutationId !== undefined && (typeof body.mutationId !== 'string' || !/^[a-zA-Z0-9-]{8,80}$/.test(body.mutationId))) throw new HttpError(400, 'Invalid save identifier.');
+      const changes = body.changes === undefined ? [body] : body.changes;
+      if (!Array.isArray(changes) || changes.length < 1 || changes.length > 150) throw new HttpError(400, 'Invalid answer batch.');
+      // Validate the entire batch before mutating, including local in-memory adapters.
+      for (const change of changes) {
+        if (!change || typeof change !== 'object' || Array.isArray(change)) throw new HttpError(400, 'Invalid answer change.');
+        if (Object.hasOwn(change, 'currentIndex') && (!Number.isInteger(change.currentIndex) || change.currentIndex < 0 || change.currentIndex >= 150)) throw new HttpError(400, 'Invalid question position.');
+        if (Object.hasOwn(change, 'questionId')) {
+          if (!attempt.questions.slice((attempt.part - 1) * 150, attempt.part * 150).some(q => q.id === change.questionId)) throw new HttpError(400, 'Question is not in the active part.');
+          if (Object.hasOwn(change, 'optionIndex') && change.optionIndex !== null && (!Number.isInteger(change.optionIndex) || change.optionIndex < 0 || change.optionIndex > 3)) throw new HttpError(400, 'Choose a valid option.');
+          if (Object.hasOwn(change, 'marked') && typeof change.marked !== 'boolean') throw new HttpError(400, 'Invalid review flag.');
+        } else if (Object.hasOwn(change, 'optionIndex') || Object.hasOwn(change, 'marked')) throw new HttpError(400, 'Specify a question.');
       }
-      if (Object.hasOwn(body, 'questionId')) {
-        const q = attempt.questions.slice((attempt.part - 1) * 150, attempt.part * 150).find(q => q.id === body.questionId);
-        if (!q) throw new HttpError(400, 'Question is not in the active part.');
-        if (Object.hasOwn(body, 'optionIndex')) {
-          if (body.optionIndex !== null && (!Number.isInteger(body.optionIndex) || body.optionIndex < 0 || body.optionIndex > 3)) throw new HttpError(400, 'Choose a valid option.');
-          if (body.optionIndex === null) delete attempt.answers[q.id];
-          else attempt.answers[q.id] = body.optionIndex;
-        }
-        if (Object.hasOwn(body, 'marked')) {
-          if (typeof body.marked !== 'boolean') throw new HttpError(400, 'Invalid review flag.');
-          if (body.marked) attempt.marked[q.id] = true;
-          else delete attempt.marked[q.id];
+      for (const change of changes) {
+        if (Object.hasOwn(change, 'currentIndex')) attempt.currentIndex = change.currentIndex;
+        if (Object.hasOwn(change, 'questionId')) {
+          if (Object.hasOwn(change, 'optionIndex')) {
+            if (change.optionIndex === null) delete attempt.answers[change.questionId];
+            else attempt.answers[change.questionId] = change.optionIndex;
+          }
+          if (Object.hasOwn(change, 'marked')) {
+            if (change.marked) attempt.marked[change.questionId] = true;
+            else delete attempt.marked[change.questionId];
+          }
         }
       }
+      if (body.mutationId) attempt.lastMutationId = body.mutationId;
+      else delete attempt.lastMutationId;
       attempt.revision++;
       changed = true;
     } else if (action === 'finish-part') {
@@ -108,7 +121,7 @@ export function fmgeAttemptView(attempt, now) {
         answered: qs.filter(q => Object.hasOwn(attempt.answers, q.id)).length };
     }),
   } : null;
-  return { ...summary(attempt), revision: attempt.revision, title: attempt.title,
+  return { ...summary(attempt), revision: attempt.revision, lastMutationId: attempt.lastMutationId ?? null, title: attempt.title,
     ...(attempt.rankReleaseAt ? { rankReleaseAt: attempt.rankReleaseAt } : {}),
     deadline: attempt.status === 'active' ? attempt.deadline : null, serverNow: now,
     currentIndex: attempt.currentIndex, answers: attempt.answers, marked: attempt.marked,

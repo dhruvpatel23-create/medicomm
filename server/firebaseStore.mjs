@@ -1,10 +1,12 @@
 import { createHash } from 'node:crypto';
-import { gzipSync, gunzipSync } from 'node:zlib';
+import { gzip, gunzip } from 'node:zlib';
+import { promisify } from 'node:util';
 import { HttpError } from './security.mjs';
 import { paidOrderDates } from './subscriptions.mjs';
 import { liveStateStats, countNotepadRecords } from './firebaseStats.mjs';
 
 const CHUNK = 512 * 1024;
+const compress = promisify(gzip), decompress = promisify(gunzip);
 export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 export const jsonBytes = value => Buffer.from(JSON.stringify(value));
 export const fingerprint = value => digest(jsonBytes(value));
@@ -16,7 +18,7 @@ export function createFirebaseBlobs(root) {
   const known = new Set();
   return {
     async put(value) {
-      const raw = jsonBytes(value), compressed = gzipSync(raw);
+      const raw = jsonBytes(value), compressed = await compress(raw);
       const hashes = [];
       for (let offset = 0; offset < compressed.length; offset += CHUNK) {
         const payload = compressed.subarray(offset, offset + CHUNK), hash = digest(payload);
@@ -40,7 +42,7 @@ export function createFirebaseBlobs(root) {
         if (payload.length > CHUNK || digest(payload) !== hash) throw new Error('Firebase data integrity check failed.');
         chunks.push(payload); known.add(hash);
       }
-      const raw = gunzipSync(Buffer.concat(chunks), { maxOutputLength: Math.max(1, ref.bytes) });
+      const raw = await decompress(Buffer.concat(chunks), { maxOutputLength: Math.max(1, ref.bytes) });
       if (raw.length !== ref.bytes || digest(raw) !== ref.digest) throw new Error('Firebase data integrity check failed.');
       return JSON.parse(raw.toString('utf8'));
     },

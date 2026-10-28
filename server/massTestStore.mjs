@@ -87,6 +87,12 @@ export function createMassTestStore({ directory, db, namespace = 'medicomm' }) {
         await handle.writeFile(String(process.pid));
         return async () => { await handle.close(); await fs.unlink(name); };
       } catch (e) {
+        // Windows can report a delete-pending lock as EPERM rather than EEXIST.
+        // Wait without stealing it; genuine permission failures stay bounded.
+        if (process.platform === 'win32' && ['EPERM', 'EACCES', 'EBUSY'].includes(e.code)) {
+          await new Promise(resolve => setTimeout(resolve, 20));
+          continue;
+        }
         if (e.code !== 'EEXIST') throw e;
         // Recover locks abandoned by a crashed worker, never steal a live lock.
         try {

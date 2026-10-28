@@ -137,8 +137,14 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   assert.equal((await call('/api/auth/logout', 'POST', {})).status, 200);
   assert.equal((await call('/api/auth/session')).status, 401);
   assert.equal((await call('/api/auth/login', 'POST', { email: payload.email, password: payload.password })).status, 200);
-  for (let i = 0; i < 20; i++) await call('/api/auth/login', 'POST', {});
-  assert.equal((await call('/api/auth/login', 'POST', {})).status, 429);
+  // Malformed requests still consume the broad IP allowance, while account
+  // protection is enforced separately before expensive password verification.
+  const limited = { email: 'limited@example.test' };
+  for (let i = 0; i < 30; i++) assert.equal((await call('/api/auth/login', 'POST', limited)).status, 400);
+  const blocked = await call('/api/auth/login', 'POST', limited);
+  assert.equal(blocked.status, 429);
+  assert.ok(Number(blocked.headers.get('retry-after')) > 0);
+  assert.equal((await call('/api/auth/login', 'POST', { email: 'other@example.test' })).status, 400);
 });
 
 test('production refuses startup without required configuration', { timeout: 10000 }, async () => {

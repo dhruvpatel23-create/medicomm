@@ -5,9 +5,25 @@ import { rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { createMassTestStore, massAttemptId } from './massTestStore.mjs';
-import { createFmgeTestsHandler, readFmgeTests, PART_MS } from './fmgeTests.mjs';
+import { createFmgeTestsHandler, readFmgeTests, PART_MS, changeFmgeAttempt } from './fmgeTests.mjs';
 import { createStateStore } from './stateStore.mjs';
 const directories = [];
+
+test('answer batches commit once, retry idempotently and reject invalid batches atomically', () => {
+  const attempt = { id: 'batch', testId: 'test', status: 'active', part: 1, startedAt: 0, deadline: PART_MS,
+    questions: Array.from({ length: 300 }, (_, i) => ({ id: `q-${i}`, prompt: 'Question', options: ['A','B','C','D'] })), answers: {}, marked: {}, revision: 0 };
+  const body = { revision: 0, mutationId: 'batch-save-0001', changes: [{ questionId: 'q-0', optionIndex: 2 }, { questionId: 'q-1', marked: true, currentIndex: 1 }] };
+  assert.equal(changeFmgeAttempt(attempt, 'PATCH', null, body, 100).changed, true);
+  assert.equal(attempt.revision, 1);
+  assert.equal(attempt.answers['q-0'], 2);
+  assert.equal(attempt.marked['q-1'], true);
+  assert.equal(changeFmgeAttempt(attempt, 'PATCH', null, body, 101).changed, false);
+  assert.equal(attempt.revision, 1);
+  const before = structuredClone(attempt);
+  assert.throws(() => changeFmgeAttempt(attempt, 'PATCH', null, { revision: 1, mutationId: 'batch-save-0002', changes: [{ questionId: 'q-0', optionIndex: 1 }, { questionId: 'q-299', optionIndex: 3 }] }, 102), { status: 400 });
+  assert.deepEqual(attempt, before);
+  assert.throws(() => changeFmgeAttempt(attempt, 'PATCH', null, { revision: 1, changes: Array(151).fill({}) }, 102), { status: 400 });
+});
 after(async () => { for (const directory of directories) await rm(directory, { recursive: true, force: true }); });
 
 function fixture() {

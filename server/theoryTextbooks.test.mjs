@@ -22,7 +22,7 @@ test('references reject absent, invented, duplicate, or wrong-subject books', ()
 test('Gemini request requires sources and returns validated sources with the model answer', async () => {
   const source = readFileSync(new URL('../server.mjs', import.meta.url), 'utf8');
   const section = (start, end) => source.slice(source.indexOf(start), source.indexOf(end, source.indexOf(start)));
-  const code = section('function normalizeClinicalCaseEvaluation(', 'const handleShortNotes =') + '\n'
+  const code = section('function normalizeClinicalCaseEvaluation(', 'const notepadStore =') + '\n'
     + section('async function requestGeminiClinicalCaseEvaluation(', 'async function requestClinicalCaseEvaluation(');
   const reference = { book: theoryTextbooks('Anatomy')[0], topic: 'Triangles of the neck' };
   let requestBody;
@@ -68,7 +68,7 @@ test('Gemini request requires sources and returns validated sources with the mod
 
 test('theory answers preserve inline diagram markers and support full LAQ heading coverage', async () => {
   const source = readFileSync(new URL('../server.mjs', import.meta.url), 'utf8');
-  const code = source.slice(source.indexOf('function normalizeClinicalCaseEvaluation('), source.indexOf('const handleShortNotes ='));
+  const code = source.slice(source.indexOf('function normalizeClinicalCaseEvaluation('), source.indexOf('const notepadStore ='));
   const context = vm.createContext({ normalizeTextbookSources });
   vm.runInContext(code, context);
   const marker = '[DIAGRAM TO DRAW: Labelled anatomy of the heart]';

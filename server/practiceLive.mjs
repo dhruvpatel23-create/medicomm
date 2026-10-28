@@ -36,6 +36,10 @@ export function createPracticeLive({ readDatabase, getSessionUser, sanitizeUser,
       timer.unref?.();
       send(client, readDatabase());
     },
-    publish(database) { for (const client of clients) send(client, database); },
+    publish(database) {
+      if (!clients.size) return;
+      const snapshot = typeof database === 'function' ? database() : database;
+      for (const client of clients) send(client, snapshot);
+    },
   };
 }

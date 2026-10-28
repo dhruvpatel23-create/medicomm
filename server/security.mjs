@@ -50,6 +50,16 @@ export function createLimiter({ now = Date.now, maxKeys = 10000 } = {}) {
   };
 }
 
+// Keep account protection independent of campus NATs and reverse proxies.
+export function limitAuthentication(limit, peer, pathname, body = {}) {
+  limit(`auth-ip:${peer}`, 600, 15 * 60000);
+  const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
+  if (email && email.length <= 254) {
+    const recovery = /forgot-password|reset-password|resend|verify-email/.test(pathname);
+    limit(`auth-account:${recovery ? 'recovery' : 'login'}:${sessionHash(email)}`, recovery ? 10 : 30, 15 * 60000);
+  }
+}
+
 export const sessionHash = token => createHash('sha256').update(token).digest('hex');
 export const SESSION_SECONDS = 7 * 24 * 60 * 60;
 export function issueSession(database, userId, now = Date.now()) {
