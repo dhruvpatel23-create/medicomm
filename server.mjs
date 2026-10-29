@@ -344,8 +344,17 @@ async function initializeDatabaseStore() {
       else if (isSupabaseEnabled) await writeSupabaseDatabase(data, revision);
       else {
         const temporary = `${databasePath}.tmp`;
-        await fs.writeFile(temporary, JSON.stringify(data, null, 2), { mode: 0o600 });
-        await fs.rename(temporary, databasePath);
+        try {
+          await fs.writeFile(temporary, JSON.stringify(data, null, 2), { mode: 0o600 });
+          await fs.rename(temporary, databasePath);
+        } catch (error) {
+          console.error(JSON.stringify({
+            event: "local_database_write_failed",
+            code: error.code,
+            operation: error.syscall,
+          }));
+          throw error;
+        }
       }
     },
   });

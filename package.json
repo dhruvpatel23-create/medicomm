@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test:backend": "node --test server",
+    "test:client": "node --test src/lib",
     "test:duels": "node --test server/duels.test.mjs server/duels-api.test.mjs",
     "dev": "node scripts/dev.mjs",
     "client": "vite",

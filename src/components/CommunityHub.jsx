@@ -1,23 +1,100 @@
-import { useMemo, useRef, useState } from 'react';
-import { ArrowDown, ArrowDownUp, ArrowRight, ArrowUpRight, BookOpen, Brain, Check, ChevronDown, ChevronRight, Compass, FlaskConical, HeartPulse, Loader2, LockKeyhole, MessageCircle, MessagesSquare, Plus, RefreshCw, Search, Stethoscope, UserCheck, UserPlus, Users } from 'lucide-react';
-import { Avatar, EmptyState, SearchField, field, initials, number, socialPage } from './SocialUI';
-import { Button } from './ui/button';
-import { AddFriendDialog, FriendsPanel, RequestsPanel, useFriends } from './CommunityFriends';
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from './ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { useEffect, useMemo, useRef, useState } from "react";
+import "./community-hub.css";
+import CommunityInbox from "./CommunityInbox";
+import { useMobileViewport } from "../lib/useMobileViewport";
+import {
+  ArrowDown,
+  ArrowDownUp,
+  ArrowRight,
+  ArrowUpRight,
+  BookOpen,
+  Brain,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  Compass,
+  FlaskConical,
+  HeartPulse,
+  Loader2,
+  LockKeyhole,
+  MessageCircle,
+  MessagesSquare,
+  Plus,
+  RefreshCw,
+  Search,
+  Stethoscope,
+  UserCheck,
+  UserPlus,
+  Users,
+} from "lucide-react";
+import { EmptyState, SearchField, field, initials, number } from "./SocialUI";
+import { Button } from "./ui/button";
+import {
+  AddFriendDialog,
+  FriendsPanel,
+  RequestsPanel,
+  useFriends,
+} from "./CommunityFriends";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const palettes = [
-  { cover: 'bg-[#e0eeea] text-[#406e63] dark:bg-[#193d38] dark:text-teal-200', icon: Stethoscope, badge: 'bg-teal-50 text-teal-800 dark:bg-teal-900/40 dark:text-teal-200' },
-  { cover: 'bg-[#ebe6f3] text-[#80719e] dark:bg-[#352e48] dark:text-violet-200', icon: Brain, badge: 'bg-violet-50 text-violet-800 dark:bg-violet-900/40 dark:text-violet-200' },
-  { cover: 'bg-[#f4ead4] text-[#9e8450] dark:bg-[#413820] dark:text-amber-200', icon: BookOpen, badge: 'bg-amber-50 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200' },
-  { cover: 'bg-[#f2e3df] text-[#a57669] dark:bg-[#442f30] dark:text-rose-200', icon: HeartPulse, badge: 'bg-rose-50 text-rose-800 dark:bg-rose-900/40 dark:text-rose-200' },
-  { cover: 'bg-[#dfeaf3] text-[#597e9b] dark:bg-[#24374b] dark:text-sky-200', icon: FlaskConical, badge: 'bg-sky-50 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' },
+  {
+    cover: "bg-[#e0eeea] text-[#406e63] dark:bg-[#193d38] dark:text-teal-200",
+    icon: Stethoscope,
+    badge: "bg-teal-50 text-teal-800 dark:bg-teal-900/40 dark:text-teal-200",
+  },
+  {
+    cover: "bg-[#ebe6f3] text-[#80719e] dark:bg-[#352e48] dark:text-violet-200",
+    icon: Brain,
+    badge:
+      "bg-violet-50 text-violet-800 dark:bg-violet-900/40 dark:text-violet-200",
+  },
+  {
+    cover: "bg-[#f4ead4] text-[#9e8450] dark:bg-[#413820] dark:text-amber-200",
+    icon: BookOpen,
+    badge:
+      "bg-amber-50 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200",
+  },
+  {
+    cover: "bg-[#f2e3df] text-[#a57669] dark:bg-[#442f30] dark:text-rose-200",
+    icon: HeartPulse,
+    badge: "bg-rose-50 text-rose-800 dark:bg-rose-900/40 dark:text-rose-200",
+  },
+  {
+    cover: "bg-[#dfeaf3] text-[#597e9b] dark:bg-[#24374b] dark:text-sky-200",
+    icon: FlaskConical,
+    badge: "bg-sky-50 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200",
+  },
 ];
-const panel = 'min-w-0 rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black shadow-sm';
-const secondaryText = 'text-sm leading-relaxed text-slate-500 dark:text-slate-400';
-const sortLabels = { recent: 'Recent activity', members: 'Most members', name: 'Name A–Z' };
-const latestActivity = room => Math.max(new Date(room.createdAt || 0).getTime() || 0, ...(room.messages || []).map(message => new Date(message.createdAt).getTime() || 0));
+const panel =
+  "min-w-0 rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black shadow-sm";
+const secondaryText =
+  "text-sm leading-relaxed text-slate-500 dark:text-slate-400";
+const sortLabels = {
+  recent: "Recent activity",
+  members: "Most members",
+  name: "Name A–Z",
+};
+const latestActivity = (room) =>
+  (room.messages || []).reduce(
+    (latest, message) =>
+      Math.max(latest, new Date(message.createdAt).getTime() || 0),
+    new Date(room.createdAt || 0).getTime() || 0,
+  );
 
 function roomPalette(room) {
   const topic = `${room.name} ${room.topic}`.toLowerCase();
@@ -25,297 +102,942 @@ function roomPalette(room) {
   if (/anatomy|neuro|psych/.test(topic)) return palettes[1];
   if (/neet|exam|revision|pg/.test(topic)) return palettes[2];
   if (/physio|cardio|final/.test(topic)) return palettes[3];
-  return palettes[[...room.id].reduce((sum, char) => sum + char.charCodeAt(0), 0) % palettes.length];
+  return palettes[
+    [...room.id].reduce((sum, char) => sum + char.charCodeAt(0), 0) %
+      palettes.length
+  ];
 }
 
 function MemberStack({ members = [], count, dark = false }) {
-  return <div className="flex items-center gap-2.5">
-    <div className="flex -space-x-2" aria-hidden="true">
-      {members.slice(0, 3).map((member) => <span key={member.id} className={`flex h-7 w-7 items-center justify-center overflow-hidden rounded-full border-2 text-[9px] font-bold ${dark ? 'border-[#174b44] bg-teal-100 text-teal-900' : 'border-white bg-slate-100 text-slate-600 dark:border-neutral-900 dark:bg-neutral-800 dark:text-neutral-200'}`}>{member.profileImageUrl ? <img src={member.profileImageUrl} alt="" className="h-full w-full object-cover" /> : initials(member.name)}</span>)}
-      {!members.length && <Users size={15} className={dark ? 'text-teal-200' : 'text-slate-400'} />}
+  return (
+    <div className="flex items-center gap-2.5">
+      <div className="flex -space-x-2" aria-hidden="true">
+        {members.slice(0, 3).map((member) => (
+          <span
+            key={member.id}
+            className={`flex h-7 w-7 items-center justify-center overflow-hidden rounded-full border-2 text-[9px] font-bold ${dark ? "border-[#174b44] bg-teal-100 text-teal-900" : "border-white bg-slate-100 text-slate-600 dark:border-neutral-900 dark:bg-neutral-800 dark:text-neutral-200"}`}
+          >
+            {member.profileImageUrl ? (
+              <img
+                src={member.profileImageUrl}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              initials(member.name)
+            )}
+          </span>
+        ))}
+        {!members.length && (
+          <Users
+            size={15}
+            className={dark ? "text-teal-200" : "text-slate-400"}
+          />
+        )}
+      </div>
+      <span
+        className={`text-xs ${dark ? "text-teal-100/80" : "text-slate-500 dark:text-slate-400"}`}
+      >
+        {number(count)} members
+      </span>
     </div>
-    <span className={`text-xs ${dark ? 'text-teal-100/80' : 'text-slate-500 dark:text-slate-400'}`}>{number(count)} members</span>
-  </div>;
+  );
 }
 
 function CommunityIllustration() {
-  return <div aria-hidden="true" className="relative mx-auto hidden h-[290px] w-[350px] shrink-0 lg:block">
-    <div className="absolute inset-4 rounded-full border border-white/10" />
-    <div className="absolute inset-12 rounded-full border border-dashed border-white/15" />
-    <svg className="absolute inset-0 h-full w-full text-teal-200/30" viewBox="0 0 350 290" fill="none"><path d="M46 74C210 15 122 251 306 218M36 228C114 115 226 226 294 60" stroke="currentColor" strokeDasharray="4 6" /><circle cx="46" cy="74" r="5" fill="#d9e8bc" /><circle cx="306" cy="218" r="5" fill="#d9e8bc" /><circle cx="294" cy="60" r="4" fill="#b1d6ca" /></svg>
-    <div className="absolute left-14 top-14 h-44 w-56 -rotate-[9deg] rounded-2xl border border-white/20 bg-[#82a99b] shadow-xl" />
-    <div className="absolute left-16 top-12 w-56 rotate-[5deg] rounded-2xl bg-[#f8f5ec] p-5 text-[#214a42] shadow-2xl transition-transform duration-500 hover:rotate-0 motion-reduce:transition-none">
-      <div className="flex items-center justify-between"><span className="text-[9px] font-bold uppercase tracking-[0.2em]">The study circle</span><BookOpen size={16} /></div>
-      <div className="mt-5 text-[25px] font-semibold leading-[1.15] tracking-tight">Big questions.<br />Better answers.</div>
-      <div className="mt-4 flex gap-1.5"><span className="h-1.5 w-16 rounded-full bg-[#d5ded3]" /><span className="h-1.5 w-9 rounded-full bg-[#d5ded3]" /></div>
-      <div className="mt-5 flex items-center gap-2 border-t border-[#dfe3d7] pt-3 text-[10px] font-medium"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#dce6c4]"><Check size={11} /></span>Made for learning together</div>
+  return (
+    <div
+      aria-hidden="true"
+      className="relative mx-auto hidden h-[290px] w-[350px] shrink-0 lg:block"
+    >
+      <div className="absolute inset-4 rounded-full border border-white/10" />
+      <div className="absolute inset-12 rounded-full border border-dashed border-white/15" />
+      <svg
+        className="absolute inset-0 h-full w-full text-teal-200/30"
+        viewBox="0 0 350 290"
+        fill="none"
+      >
+        <path
+          d="M46 74C210 15 122 251 306 218M36 228C114 115 226 226 294 60"
+          stroke="currentColor"
+          strokeDasharray="4 6"
+        />
+        <circle cx="46" cy="74" r="5" fill="#d9e8bc" />
+        <circle cx="306" cy="218" r="5" fill="#d9e8bc" />
+        <circle cx="294" cy="60" r="4" fill="#b1d6ca" />
+      </svg>
+      <div className="absolute left-14 top-14 h-44 w-56 -rotate-[9deg] rounded-2xl border border-white/20 bg-[#82a99b] shadow-xl" />
+      <div className="absolute left-16 top-12 w-56 rotate-[5deg] rounded-2xl bg-[#f8f5ec] p-5 text-[#214a42] shadow-2xl transition-transform duration-500 hover:rotate-0 motion-reduce:transition-none">
+        <div className="flex items-center justify-between">
+          <span className="text-[9px] font-bold uppercase tracking-[0.2em]">
+            The study circle
+          </span>
+          <BookOpen size={16} />
+        </div>
+        <div className="mt-5 text-[25px] font-semibold leading-[1.15] tracking-tight">
+          Big questions.
+          <br />
+          Better answers.
+        </div>
+        <div className="mt-4 flex gap-1.5">
+          <span className="h-1.5 w-16 rounded-full bg-[#d5ded3]" />
+          <span className="h-1.5 w-9 rounded-full bg-[#d5ded3]" />
+        </div>
+        <div className="mt-5 flex items-center gap-2 border-t border-[#dfe3d7] pt-3 text-[10px] font-medium">
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#dce6c4]">
+            <Check size={11} />
+          </span>
+          Made for learning together
+        </div>
+      </div>
+      <div className="absolute -left-1 bottom-9 flex -rotate-[6deg] items-center gap-2 rounded-xl border border-white/20 bg-[#b6d4c7] px-4 py-3 text-[#214a42] shadow-lg">
+        <MessageCircle size={17} />
+        <span className="text-xs font-semibold">Ask. Discuss. Understand.</span>
+      </div>
+      <span className="absolute right-3 top-6 flex h-12 w-12 rotate-12 items-center justify-center rounded-2xl border border-white/20 bg-[#d9e8bc] text-[#34564a] shadow-lg motion-safe:animate-[arena-float_7s_ease-in-out_infinite]">
+        <Users size={23} />
+      </span>
     </div>
-    <div className="absolute -left-1 bottom-9 flex -rotate-[6deg] items-center gap-2 rounded-xl border border-white/20 bg-[#b6d4c7] px-4 py-3 text-[#214a42] shadow-lg"><MessageCircle size={17} /><span className="text-xs font-semibold">Ask. Discuss. Understand.</span></div>
-    <span className="absolute right-3 top-6 flex h-12 w-12 rotate-12 items-center justify-center rounded-2xl border border-white/20 bg-[#d9e8bc] text-[#34564a] shadow-lg motion-safe:animate-[arena-float_7s_ease-in-out_infinite]"><Users size={23} /></span>
-  </div>;
+  );
 }
 
-function RoomCard({ room, onOpen, onInvite, locked }) {
+function RoomCard({ room, onOpen, onInvite, locked, compact }) {
   const palette = roomPalette(room);
   const Icon = palette.icon;
-  return <article className={`${panel} group flex flex-col overflow-hidden transition duration-300 hover:border-slate-300 hover:shadow-[0_12px_28px_-12px_rgba(15,23,42,0.22)] dark:hover:border-slate-600 motion-safe:hover:-translate-y-1 motion-reduce:transition-none`}>
-    <div className={`relative h-[112px] overflow-hidden ${palette.cover}`} aria-hidden="true">
-      <div className="absolute -right-5 -top-14 h-52 w-52 rounded-full border-[22px] border-current opacity-[0.08]" />
-      <div className="absolute -right-1 -top-10 h-44 w-44 rounded-full border border-current opacity-20" />
-      <div className="absolute right-7 top-5 rotate-12 transition-transform duration-500 group-hover:rotate-0 motion-reduce:transition-none"><Icon size={76} strokeWidth={0.8} className="opacity-60" /></div>
-      <div className="absolute left-5 top-5 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.18em]"><span className="h-1 w-1 rounded-full bg-current" />Medulla circles</div>
-      <span className="absolute bottom-4 left-5 max-w-[65%] truncate text-sm font-semibold tracking-tight">{room.topic || 'General discussion'}</span>
-    </div>
-    <div className="flex flex-1 flex-col p-5">
-      <div className="mb-3 flex items-center justify-between gap-2"><span className={`rounded-md px-2 py-1 text-[10px] font-semibold ${palette.badge}`}>{room.isAdmin ? 'Your community' : room.isMember ? 'Your circle' : 'Open to everyone'}</span>{room.isMember && <span className="flex items-center gap-1 text-[10px] font-medium text-teal-700 dark:text-teal-300"><Check size={12} />Joined</span>}</div>
-      <h4 className="text-lg font-semibold leading-snug tracking-tight"><button className="text-left transition-colors hover:text-teal-700 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:text-teal-300" onClick={() => onOpen(room.id)}>{room.name}</button></h4>
-      <p className={`mb-5 mt-2 line-clamp-2 ${secondaryText}`}>{room.description}</p>
-      <div className="mt-auto"><MemberStack members={room.members} count={room.memberCount} /><div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-100 pt-3 dark:border-slate-800"><span className="flex items-center gap-1.5 text-xs text-slate-400"><MessageCircle size={13} />{number(room.messages?.length)} posts</span><div className="flex items-center gap-1">{room.isAdmin && <Button variant="ghost" size="sm" onClick={() => onInvite(room.id)}>Invite</Button>}<Button variant="ghost" size="sm" className="-mr-2 text-teal-800 hover:bg-teal-50 dark:text-teal-200 dark:hover:bg-teal-950" onClick={() => onOpen(room.id)}>{locked && <LockKeyhole size={14} aria-label="Plan required" />}{room.isMember ? 'Open room' : 'Explore room'}<ArrowUpRight size={15} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none" /></Button></div></div></div>
-    </div>
-  </article>;
+  if (compact)
+    return (
+      <article className="hub-room-row">
+        <button
+          type="button"
+          className="hub-room-open"
+          onClick={() => onOpen(room.id)}
+        >
+          <span className={`hub-room-icon ${palette.cover}`}>
+            <Icon size={23} strokeWidth={1.5} />
+          </span>
+          <span className="hub-room-copy">
+            <strong>{room.name}</strong>
+            <span>{room.description || room.topic}</span>
+            <small>
+              {number(room.memberCount)} members
+              <span aria-hidden="true"> · </span>
+              {room.isAdmin
+                ? "Your room"
+                : room.isMember
+                  ? "Joined"
+                  : room.topic || "Open room"}
+            </small>
+          </span>
+          {locked ? (
+            <LockKeyhole size={17} aria-label="Plan required" />
+          ) : (
+            <ChevronRight size={19} className="text-slate-400" />
+          )}
+        </button>
+        {room.isAdmin && (
+          <button
+            type="button"
+            className="hub-room-invite"
+            onClick={() => onInvite(room.id)}
+          >
+            Invite people
+            <ArrowUpRight size={13} />
+          </button>
+        )}
+      </article>
+    );
+  return (
+    <article
+      className={`${panel} group flex flex-col overflow-hidden transition duration-300 hover:border-slate-300 hover:shadow-[0_12px_28px_-12px_rgba(15,23,42,0.22)] dark:hover:border-slate-600 motion-safe:hover:-translate-y-1 motion-reduce:transition-none`}
+    >
+      <div
+        className={`relative h-[112px] overflow-hidden ${palette.cover}`}
+        aria-hidden="true"
+      >
+        <div className="absolute -right-5 -top-14 h-52 w-52 rounded-full border-[22px] border-current opacity-[0.08]" />
+        <div className="absolute -right-1 -top-10 h-44 w-44 rounded-full border border-current opacity-20" />
+        <div className="absolute right-7 top-5 rotate-12 transition-transform duration-500 group-hover:rotate-0 motion-reduce:transition-none">
+          <Icon size={76} strokeWidth={0.8} className="opacity-60" />
+        </div>
+        <div className="absolute left-5 top-5 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.18em]">
+          <span className="h-1 w-1 rounded-full bg-current" />
+          Medulla circles
+        </div>
+        <span className="absolute bottom-4 left-5 max-w-[65%] truncate text-sm font-semibold tracking-tight">
+          {room.topic || "General discussion"}
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col p-5">
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <span
+            className={`rounded-md px-2 py-1 text-[10px] font-semibold ${palette.badge}`}
+          >
+            {room.isAdmin
+              ? "Your community"
+              : room.isMember
+                ? "Your circle"
+                : "Open to everyone"}
+          </span>
+          {room.isMember && (
+            <span className="flex items-center gap-1 text-[10px] font-medium text-teal-700 dark:text-teal-300">
+              <Check size={12} />
+              Joined
+            </span>
+          )}
+        </div>
+        <h4 className="text-lg font-semibold leading-snug tracking-tight">
+          <button
+            className="text-left transition-colors hover:text-teal-700 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:text-teal-300"
+            onClick={() => onOpen(room.id)}
+          >
+            {room.name}
+          </button>
+        </h4>
+        <p className={`mb-5 mt-2 line-clamp-2 ${secondaryText}`}>
+          {room.description}
+        </p>
+        <div className="mt-auto">
+          <MemberStack members={room.members} count={room.memberCount} />
+          <div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-100 pt-3 dark:border-slate-800">
+            <span className="flex items-center gap-1.5 text-xs text-slate-400">
+              <MessageCircle size={13} />
+              {number(room.messages?.length)} posts
+            </span>
+            <div className="flex items-center gap-1">
+              {room.isAdmin && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onInvite(room.id)}
+                >
+                  Invite
+                </Button>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="-mr-2 text-teal-800 hover:bg-teal-50 dark:text-teal-200 dark:hover:bg-teal-950"
+                onClick={() => onOpen(room.id)}
+              >
+                {locked && <LockKeyhole size={14} aria-label="Plan required" />}
+                {room.isMember ? "Open room" : "Explore room"}
+                <ArrowUpRight
+                  size={15}
+                  className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none"
+                />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
 }
 
 export default function CommunityHub(p) {
-  const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState('all');
-  const [sort, setSort] = useState('recent');
+  const [query, setQuery] = useState("");
+  const mobile = useMobileViewport();
+  const [filter, setFilter] = useState(() => (mobile ? "inbox" : "all"));
+  useEffect(() => {
+    setFilter((current) =>
+      mobile ? "inbox" : current === "inbox" ? "all" : current,
+    );
+  }, [mobile]);
+  const [sort, setSort] = useState("recent");
   const [creating, setCreating] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [addFriendOpen, setAddFriendOpen] = useState(false);
   const friendsModel = useFriends();
   const directory = useRef(null);
-  const inboxSearch = useRef(null);
-  const joined = p.communities.filter(room => room.isMember);
-  const rooms = useMemo(() => p.communities.filter(room => (filter === 'all' || room.isMember) && `${room.name} ${room.topic} ${room.description}`.toLowerCase().includes(query.trim().toLowerCase())).sort((a, b) => sort === 'members' ? b.memberCount - a.memberCount : sort === 'name' ? a.name.localeCompare(b.name) : latestActivity(b) - latestActivity(a)), [p.communities, filter, query, sort]);
-  const discussions = useMemo(() => p.communities.flatMap(room => (room.messages || []).filter(message => !message.parentMessageId).map(message => ({ ...message, room }))).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3), [p.communities]);
-  const resumeRoom = [...joined].sort((a, b) => latestActivity(b) - latestActivity(a))[0];
-  const totalPosts = p.communities.reduce((sum, room) => sum + (room.messages?.length || 0), 0);
-  const submit = async event => { event.preventDefault(); if (creating) return; setCreating(true); try { await p.onCreate(event); } finally { setCreating(false); } };
-  const explore = () => { setFilter('all'); directory.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' }); };
+  const joined = useMemo(
+    () => p.communities.filter((room) => room.isMember),
+    [p.communities],
+  );
+  const activityByRoom = useMemo(
+    () => new Map(p.communities.map((room) => [room.id, latestActivity(room)])),
+    [p.communities],
+  );
+  const rooms = useMemo(
+    () =>
+      p.communities
+        .filter(
+          (room) =>
+            (filter === "all" || room.isMember) &&
+            `${room.name} ${room.topic} ${room.description}`
+              .toLowerCase()
+              .includes(query.trim().toLowerCase()),
+        )
+        .sort((a, b) =>
+          sort === "members"
+            ? b.memberCount - a.memberCount
+            : sort === "name"
+              ? a.name.localeCompare(b.name)
+              : activityByRoom.get(b.id) - activityByRoom.get(a.id),
+        ),
+    [p.communities, filter, query, sort, activityByRoom],
+  );
+  const discussions = useMemo(
+    () =>
+      mobile
+        ? []
+        : p.communities
+            .flatMap((room) =>
+              (room.messages || [])
+                .filter((message) => !message.parentMessageId)
+                .map((message) => ({ ...message, room })),
+            )
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .slice(0, 3),
+    [p.communities, mobile],
+  );
+  const resumeRoom = useMemo(
+    () =>
+      mobile
+        ? null
+        : [...joined].sort(
+            (a, b) => activityByRoom.get(b.id) - activityByRoom.get(a.id),
+          )[0],
+    [joined, activityByRoom, mobile],
+  );
+  const totalPosts = p.communities.reduce(
+    (sum, room) => sum + (room.messages?.length || 0),
+    0,
+  );
+  const submit = async (event) => {
+    event.preventDefault();
+    if (creating) return;
+    setCreating(true);
+    try {
+      await p.onCreate(event);
+    } finally {
+      setCreating(false);
+    }
+  };
+  const explore = () => {
+    setFilter("all");
+    directory.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+      block: "start",
+    });
+  };
 
-  return <section className={`${socialPage} !space-y-8`} aria-label="Communities">
-    <div className="flex items-center justify-between gap-3"><div className="flex items-center gap-2 text-sm"><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200"><MessagesSquare size={17} /></span><span className="font-semibold">Community</span><span className="hidden text-slate-300 sm:inline">/</span><span className="hidden text-slate-500 dark:text-slate-400 sm:inline">Your space to connect</span></div>
-      <Dialog open={createOpen} onOpenChange={open => { if (open && p.locked) { p.onUnlock("community"); return; } setCreateOpen(open); }}>
-        <DialogTrigger asChild><Button variant="outline"><Plus size={16} />Create a room</Button></DialogTrigger>
-        <DialogContent onInteractOutside={event => { if (creating) event.preventDefault(); }}>
-          <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-200"><Users size={23} /></div>
-          <DialogTitle>Start something good.</DialogTitle>
-          <DialogDescription>A study group, a shared goal, a space for questions. Make it yours.</DialogDescription>
-          <form className="mt-6 space-y-4" onSubmit={submit}>
-            {[['name', 'Room name', 'e.g. Final Year Surgery'], ['topic', 'Topic', 'e.g. Clinical case discussions'], ['description', 'Description', 'What will you study together?']].map(([key, label, placeholder]) => <label key={key} className="block space-y-2 text-xs font-semibold"><span>{label}</span>{key === 'description' ? <textarea required rows={3} className={`${field} resize-y`} value={p.form[key]} onChange={e => p.onField(key, e.target.value)} placeholder={placeholder} /> : <input required className={field} value={p.form[key]} onChange={e => p.onField(key, e.target.value)} placeholder={placeholder} />}</label>)}
-            {p.message && <p role="status" className="rounded-lg bg-slate-100 p-3 text-sm dark:bg-slate-800">{p.message}</p>}
-            <div className="flex items-center gap-2 rounded-xl bg-teal-50 px-3 py-3 text-xs text-teal-800 dark:bg-teal-950 dark:text-teal-200"><Check size={15} />You’ll be the admin. Invite your peers after creating.</div>
-            <Button className="w-full" disabled={creating || !p.form.name.trim() || !p.form.topic.trim() || !p.form.description.trim()} type="submit">{creating ? <Loader2 size={16} className="motion-safe:animate-spin" /> : <Plus size={16} />}{creating ? 'Creating room…' : 'Create room'}</Button>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
+  const personalInbox = (
+    <CommunityInbox
+      mobile={mobile}
+      locked={p.locked}
+      conversations={p.conversations}
+      directBusy={p.directBusy}
+      search={p.search}
+      onSearch={p.onSearch}
+      searchBusy={p.searchBusy}
+      results={p.results}
+      onUnlock={p.onUnlock}
+      onDirect={p.onDirect}
+      onConversation={p.onConversation}
+      timestamp={p.timestamp}
+    />
+  );
 
-    <header className="relative isolate overflow-hidden rounded-[28px] bg-[#174b44] text-white shadow-[0_12px_35px_-20px_rgba(23,75,68,0.45)] dark:bg-[#123d38]">
-      <div className="pointer-events-none absolute -right-24 -top-40 h-[580px] w-[580px] rounded-full border-[70px] border-white/[0.025]" aria-hidden="true" />
-      <div className="relative flex items-center justify-between gap-4 px-6 py-9 sm:px-9 lg:py-6">
-        <div className="max-w-lg"><p className="mb-5 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#c4dcae]"><span className="h-px w-6 bg-[#c4dcae]" />The Medulla community</p><h2 className="text-[36px] font-semibold leading-[1.08] tracking-[-0.045em] sm:text-5xl">Good company.<br /><span className="font-serif italic text-[#d9e8bc]">Better learning.</span></h2><p className="mt-5 max-w-sm text-sm leading-7 text-teal-50/75">Find your people. Talk through the tough questions. Turn a solo study session into a shared breakthrough.</p><div className="mt-6 flex flex-wrap items-center gap-4"><Button className="bg-[#d9e8bc] text-[#22483b] hover:bg-[#e8f1d6] dark:bg-[#d9e8bc] dark:text-[#22483b]" onClick={explore}>Find your circle<ArrowDown size={15} /></Button><span className="text-xs text-teal-100/65">A space for every stage of your journey.</span></div></div>
-        <CommunityIllustration />
-      </div>
-      <div className="relative flex flex-wrap items-center justify-between gap-4 border-t border-white/10 bg-black/10 px-6 py-4 sm:px-9"><div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-teal-100/65"><span><strong className="mr-1.5 text-sm font-semibold text-white">{number(p.communities.length)}</strong> study rooms</span><span><strong className="mr-1.5 text-sm font-semibold text-white">{number(totalPosts)}</strong> shared posts</span><span><strong className="mr-1.5 text-sm font-semibold text-white">{joined.length}</strong> circles joined</span></div><span className="hidden items-center gap-2 text-[10px] font-medium uppercase tracking-widest text-[#c4dcae] sm:flex"><BookOpen size={13} />Built around learning</span></div>
-    </header>
-
-    {(p.message || p.directMessage) && !createOpen && <div role="status" className="rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-900 dark:border-teal-900 dark:bg-teal-950 dark:text-teal-100">{p.message && <p>{p.message}</p>}{p.directMessage && <p>{p.directMessage}</p>}</div>}
-
-    <div className="grid items-start gap-7 xl:grid-cols-[minmax(0,1fr)_300px]">
-      <div ref={directory} className="min-w-0 scroll-mt-24">
-        <div className="mb-4 flex items-center justify-between gap-3"><div><p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-teal-700 dark:text-teal-300">A little curiosity goes a long way</p><h3 className="text-2xl font-semibold tracking-tight">Discover your next circle</h3></div><Button variant="ghost" size="icon" aria-label="Refresh study rooms" onClick={() => p.onRefresh()} disabled={p.busy}><RefreshCw size={16} className={p.busy ? 'motion-safe:animate-spin' : ''} /></Button></div>
-        <Tabs value={filter} onValueChange={setFilter}>
-          <div className="flex min-h-12 items-center justify-between gap-3 overflow-x-auto overflow-y-hidden border-b border-slate-200 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden dark:border-slate-800">
-            <TabsList aria-label="Community sections" className="shrink-0 gap-3 border-0 sm:gap-5">
-              <TabsTrigger value="all"><Compass size={15} />Explore<span className="rounded-md bg-slate-200/60 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">{p.communities.length}</span></TabsTrigger>
-              <TabsTrigger value="joined"><Users size={15} />My rooms<span className="rounded-md bg-slate-200/60 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">{joined.length}</span></TabsTrigger>
-              <TabsTrigger value="friends"><Users size={15} />Friends{friendsModel.friends.length > 0 && <span className="rounded-md bg-slate-200/60 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">{friendsModel.friends.length}</span>}</TabsTrigger>
-              <TabsTrigger value="requests">
-                <UserCheck size={15} />Requests
-                {friendsModel.incomingRequests.length > 0 && (
-                  <span className="rounded-md bg-teal-600 px-1.5 py-0.5 text-[10px] font-semibold text-white dark:bg-teal-500">
-                    {friendsModel.incomingRequests.length}
-                  </span>
-                )}
-              </TabsTrigger>
-            </TabsList>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => setAddFriendOpen(true)}
-              className="shrink-0 gap-1.5 text-xs font-semibold text-teal-700 hover:bg-teal-50 hover:text-teal-800 dark:text-teal-300 dark:hover:bg-teal-950 dark:hover:text-teal-200"
-            >
-              <UserPlus size={15} />
-              Add friend
-            </Button>
-          </div>
-          <AddFriendDialog model={friendsModel} open={addFriendOpen} onOpenChange={setAddFriendOpen} />
-          {filter !== 'friends' && filter !== 'requests' && <div className="mt-5 flex flex-wrap items-center gap-2"><div className="min-w-0 flex-1 basis-48"><SearchField value={query} onChange={setQuery} placeholder="Search rooms, subjects, or topics" /></div>
-            <DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" aria-label="Sort study rooms"><ArrowDownUp size={13} />{sortLabels[sort]}<ChevronDown size={13} /></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuRadioGroup value={sort} onValueChange={setSort}>{Object.entries(sortLabels).map(([value, label]) => <DropdownMenuRadioItem key={value} value={value}>{label}</DropdownMenuRadioItem>)}</DropdownMenuRadioGroup></DropdownMenuContent></DropdownMenu>
-          </div>}
-          <TabsContent value="friends"><FriendsPanel model={friendsModel} onAdd={() => setAddFriendOpen(true)} onMessage={p.onDirect} /></TabsContent>
-          <TabsContent value="requests"><RequestsPanel model={friendsModel} onAdd={() => setAddFriendOpen(true)} /></TabsContent>
-          {['all', 'joined'].map(tab => <TabsContent value={tab} key={tab}>
-            {p.busy && !p.communities.length ? <div role="status" className="grid grid-cols-1 gap-4 sm:grid-cols-2"><span className="sr-only">Loading study rooms</span>{[0, 1].map(item => <div key={item} className={`${panel} overflow-hidden`}><div className="h-28 bg-slate-200 dark:bg-slate-800 motion-safe:animate-pulse" /><div className="space-y-4 p-5"><div className="h-4 w-3/4 rounded bg-slate-100 dark:bg-slate-800" /><div className="h-16 rounded bg-slate-100 dark:bg-slate-800" /></div></div>)}</div> : rooms.length ? <div className="grid gap-5 sm:grid-cols-2">{rooms.map(room => <RoomCard key={room.id} room={room} onOpen={p.onOpen} onInvite={p.onInvite} locked={p.locked} />)}</div> : <div className={`${panel} border-dashed`}><EmptyState icon={query ? Search : Compass} title={query ? 'No matching rooms' : filter === 'joined' ? 'Your circle starts here' : 'Every great circle starts with someone.'}>{query ? 'Try a subject or a shorter search.' : filter === 'joined' ? 'Explore the rooms and join a discussion that interests you.' : 'Be the first to bring your study group together.'}<Button variant="ghost" className="mt-4" onClick={() => { if (query || filter === 'joined') { setQuery(''); setFilter('all'); } else if (p.locked) p.onUnlock("community"); else setCreateOpen(true); }}>{query ? 'Clear search' : filter === 'joined' ? 'Explore rooms' : 'Create a room'}<ArrowRight size={14} /></Button></EmptyState></div>}
-          </TabsContent>)}
-        </Tabs>
-        {filter !== 'friends' && filter !== 'requests' && <p role="status" className="mt-4 text-xs text-slate-400">{rooms.length} {rooms.length === 1 ? 'circle' : 'circles'}{query ? ` matching “${query}”` : filter === 'joined' ? ' you belong to' : ' to discover'}</p>}
-        <button onClick={() => p.locked ? p.onUnlock("community") : setCreateOpen(true)} className="mt-6 flex w-full items-center gap-4 rounded-2xl border border-dashed border-slate-300 dark:border-neutral-800 bg-slate-50/50 dark:bg-black p-5 text-left transition hover:border-teal-500/50 hover:bg-slate-50 dark:hover:bg-neutral-900/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 motion-reduce:transition-none"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-200/80 dark:bg-neutral-900 text-teal-600 dark:text-teal-400"><Plus size={22} strokeWidth={1.5} /></span><span className="min-w-0 flex-1"><strong className="block text-sm font-semibold text-slate-900 dark:text-white">Can’t find your people? Bring them together.</strong><span className="mt-1 block text-xs leading-relaxed text-slate-500 dark:text-neutral-400">Start a room for your subject, exam, or study group.</span></span><ArrowUpRight size={20} className="shrink-0 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400" /></button>
-      </div>
-
-      <aside className="min-w-0 space-y-5">
-        {resumeRoom && <button onClick={() => p.onOpen(resumeRoom.id)} className="group w-full rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black p-4 sm:p-5 text-left transition hover:border-slate-300 dark:hover:border-neutral-700 shadow-sm motion-reduce:transition-none"><span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-600 dark:text-teal-400"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-teal-50 dark:bg-teal-950/80"><ArrowRight size={11} /></span>Back to your circle</span><span className="mt-2.5 flex items-center justify-between gap-3"><strong className="text-sm sm:text-base font-bold leading-snug text-slate-900 dark:text-white">{resumeRoom.name}</strong><ArrowUpRight size={18} className="shrink-0 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-transform group-hover:-translate-y-0.5" /></span><span className="mt-2 block text-xs text-slate-500 dark:text-neutral-400">Pick up the conversation<ChevronRight size={12} className="ml-1 inline" /></span></button>}
-        
-        {/* PERSONAL INBOX - EXACT TWITTER / THREADS RESTYLE */}
-        <article className="min-w-0 rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black shadow-sm overflow-hidden">
-          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-neutral-800">
-            <h3 className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
-              <MessageCircle size={16} className="text-teal-600 dark:text-teal-400" />
-              <span>Personal inbox</span>{p.locked && <LockKeyhole size={14} aria-label="Plan required" />}
-              {p.conversations?.length > 0 && (
-                <span className="text-[11px] font-normal px-1.5 py-0.5 rounded-full bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300">
-                  {p.conversations.length}
-                </span>
-              )}
-            </h3>
-            <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8 text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white" aria-label="Find a study partner" onClick={() => p.locked ? p.onUnlock('inbox') : inboxSearch.current?.querySelector('input')?.focus()}>
+  return (
+    <section
+      className="community-hub mx-auto w-full max-w-[1200px]"
+      aria-label="Communities"
+    >
+      <div
+        hidden={mobile}
+        className="hub-page-heading flex items-center justify-between gap-3"
+      >
+        <div className="flex items-center gap-2 text-sm">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200">
+            <MessagesSquare size={17} />
+          </span>
+          <span className="font-semibold">Community</span>
+          <span className="hidden text-slate-300 sm:inline">/</span>
+          <span className="hidden text-slate-500 dark:text-slate-400 sm:inline">
+            Your space to connect
+          </span>
+        </div>
+        <Dialog
+          open={createOpen}
+          onOpenChange={(open) => {
+            if (open && p.locked) {
+              p.onUnlock("community");
+              return;
+            }
+            setCreateOpen(open);
+          }}
+        >
+          <DialogTrigger asChild>
+            <Button variant="outline">
               <Plus size={16} />
+              Create a room
+            </Button>
+          </DialogTrigger>
+          <DialogContent
+            onInteractOutside={(event) => {
+              if (creating) event.preventDefault();
+            }}
+          >
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-200">
+              <Users size={23} />
+            </div>
+            <DialogTitle>Start something good.</DialogTitle>
+            <DialogDescription>
+              A study group, a shared goal, a space for questions. Make it
+              yours.
+            </DialogDescription>
+            <form className="mt-6 space-y-4" onSubmit={submit}>
+              {[
+                ["name", "Room name", "e.g. Final Year Surgery"],
+                ["topic", "Topic", "e.g. Clinical case discussions"],
+                ["description", "Description", "What will you study together?"],
+              ].map(([key, label, placeholder]) => (
+                <label
+                  key={key}
+                  className="block space-y-2 text-xs font-semibold"
+                >
+                  <span>{label}</span>
+                  {key === "description" ? (
+                    <textarea
+                      required
+                      rows={3}
+                      className={`${field} resize-y`}
+                      value={p.form[key]}
+                      onChange={(e) => p.onField(key, e.target.value)}
+                      placeholder={placeholder}
+                    />
+                  ) : (
+                    <input
+                      required
+                      className={field}
+                      value={p.form[key]}
+                      onChange={(e) => p.onField(key, e.target.value)}
+                      placeholder={placeholder}
+                    />
+                  )}
+                </label>
+              ))}
+              {p.message && (
+                <p
+                  role="status"
+                  className="rounded-lg bg-slate-100 p-3 text-sm dark:bg-slate-800"
+                >
+                  {p.message}
+                </p>
+              )}
+              <div className="flex items-center gap-2 rounded-xl bg-teal-50 px-3 py-3 text-xs text-teal-800 dark:bg-teal-950 dark:text-teal-200">
+                <Check size={15} />
+                You’ll be the admin. Invite your peers after creating.
+              </div>
+              <Button
+                className="w-full"
+                disabled={
+                  creating ||
+                  !p.form.name.trim() ||
+                  !p.form.topic.trim() ||
+                  !p.form.description.trim()
+                }
+                type="submit"
+              >
+                {creating ? (
+                  <Loader2 size={16} className="motion-safe:animate-spin" />
+                ) : (
+                  <Plus size={16} />
+                )}
+                {creating ? "Creating room…" : "Create room"}
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      <header className="hub-hero relative isolate overflow-hidden rounded-[28px] bg-[#174b44] text-white shadow-[0_12px_35px_-20px_rgba(23,75,68,0.45)] dark:bg-[#123d38]">
+        <div
+          className="pointer-events-none absolute -right-24 -top-40 h-[580px] w-[580px] rounded-full border-[70px] border-white/[0.025]"
+          aria-hidden="true"
+        />
+        <div className="relative flex items-center justify-between gap-4 px-6 py-9 sm:px-9 lg:py-6">
+          <div className="max-w-lg">
+            <p className="mb-5 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#c4dcae]">
+              <span className="h-px w-6 bg-[#c4dcae]" />
+              The Medulla community
+            </p>
+            <h2 className="text-[36px] font-semibold leading-[1.08] tracking-[-0.045em] sm:text-5xl">
+              Good company.
+              <br />
+              <span className="font-serif italic text-[#d9e8bc]">
+                Better learning.
+              </span>
+            </h2>
+            <p className="mt-5 max-w-sm text-sm leading-7 text-teal-50/75">
+              Find your people. Talk through the tough questions. Turn a solo
+              study session into a shared breakthrough.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <Button
+                className="bg-[#d9e8bc] text-[#22483b] hover:bg-[#e8f1d6] dark:bg-[#d9e8bc] dark:text-[#22483b]"
+                onClick={explore}
+              >
+                Find your circle
+                <ArrowDown size={15} />
+              </Button>
+              <span className="text-xs text-teal-100/65">
+                A space for every stage of your journey.
+              </span>
+            </div>
+          </div>
+          <CommunityIllustration />
+        </div>
+        <div className="relative flex flex-wrap items-center justify-between gap-4 border-t border-white/10 bg-black/10 px-6 py-4 sm:px-9">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-teal-100/65">
+            <span>
+              <strong className="mr-1.5 text-sm font-semibold text-white">
+                {number(p.communities.length)}
+              </strong>{" "}
+              study rooms
+            </span>
+            <span>
+              <strong className="mr-1.5 text-sm font-semibold text-white">
+                {number(totalPosts)}
+              </strong>{" "}
+              shared posts
+            </span>
+            <span>
+              <strong className="mr-1.5 text-sm font-semibold text-white">
+                {joined.length}
+              </strong>{" "}
+              circles joined
+            </span>
+          </div>
+          <span className="hidden items-center gap-2 text-[10px] font-medium uppercase tracking-widest text-[#c4dcae] sm:flex">
+            <BookOpen size={13} />
+            Built around learning
+          </span>
+        </div>
+      </header>
+
+      {(p.message || p.directMessage) && !createOpen && (
+        <div
+          role="status"
+          className="rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-900 dark:border-teal-900 dark:bg-teal-950 dark:text-teal-100"
+        >
+          {p.message && <p>{p.message}</p>}
+          {p.directMessage && <p>{p.directMessage}</p>}
+        </div>
+      )}
+
+      <div className="hub-layout grid items-start gap-7 xl:grid-cols-[minmax(0,1fr)_300px]">
+        <div ref={directory} className="min-w-0 scroll-mt-24">
+          <div className="hub-directory-heading mb-4 flex items-center justify-between gap-3">
+            <div>
+              <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-teal-700 dark:text-teal-300">
+                A little curiosity goes a long way
+              </p>
+              <h3 className="text-2xl font-semibold tracking-tight">
+                Discover your next circle
+              </h3>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Refresh study rooms"
+              onClick={() => p.onRefresh()}
+              disabled={p.busy}
+            >
+              <RefreshCw
+                size={16}
+                className={p.busy ? "motion-safe:animate-spin" : ""}
+              />
             </Button>
           </div>
-          <div className="px-4 pb-3 pt-4">
-            {p.locked && <button type="button" className="mb-3 flex items-center gap-2 text-sm text-teal-700 dark:text-teal-300" onClick={() => p.onUnlock("inbox")}><LockKeyhole size={16} />Unlock Personal Inbox</button>}
-            <div ref={inboxSearch} className="relative min-w-0">
-              <Search size={14} className="pointer-events-none absolute left-3 top-3 text-slate-400" aria-hidden="true" />
-              <input
-                type="search"
-                aria-label="Find a study partner"
-                value={p.search}
-                onChange={e => p.onSearch(e.target.value)}
-                placeholder="Find a study partner…"
-                className="w-full bg-slate-100 dark:bg-neutral-900 border border-slate-200/80 dark:border-neutral-800 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-neutral-700"
-              />
-            </div>
-            {p.searchBusy ? (
-              <p role="status" className="px-1 py-3 text-xs text-slate-400">Searching learners…</p>
-            ) : p.search.trim().length === 1 ? (
-              <p className="px-1 py-3 text-xs text-slate-400">Type at least 2 characters to search.</p>
-            ) : p.search.trim().length >= 2 && !p.results.length ? (
-              <p role="status" className="px-1 py-3 text-xs text-slate-400">No learners found. Try another name.</p>
-            ) : null}
-            {p.results.length > 0 && (
-              <div className="mt-2 max-h-64 space-y-1 overflow-y-auto border-b border-slate-100 pb-3 dark:border-neutral-800">
-                {p.results.map(person => (
-                  <button
-                    key={person.id}
-                    className="flex w-full items-center gap-2.5 rounded-lg p-2 text-left hover:bg-slate-50 dark:hover:bg-neutral-900/60 transition"
-                    onClick={() => p.onDirect(person.id)}
-                  >
-                    <div className="w-8 h-8 shrink-0 rounded-full overflow-hidden bg-slate-200 dark:bg-neutral-800 flex items-center justify-center font-bold text-slate-700 dark:text-neutral-200 text-xs select-none">
-                      {person.profileImageUrl ? (
-                        <img src={person.profileImageUrl} alt="" className="h-full w-full object-cover" />
-                      ) : (
-                        initials(person.name)
-                      )}
-                    </div>
-                    <span className="min-w-0 flex-1">
-                      <strong className="block truncate text-xs font-semibold text-slate-900 dark:text-white">{person.name}</strong>
-                      <span className="block truncate text-[11px] text-slate-400">{person.medicalCollege || 'Medical Student'}</span>
+          <Tabs
+            value={mobile && filter === "joined" ? "all" : filter}
+            onValueChange={setFilter}
+          >
+            <div className="hub-tabs-bar flex min-h-12 items-center justify-between gap-3 overflow-x-auto overflow-y-hidden border-b border-slate-200 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden dark:border-slate-800">
+              <TabsList
+                aria-label="Community sections"
+                className="shrink-0 gap-3 border-0 sm:gap-5"
+              >
+                {mobile && (
+                  <TabsTrigger value="inbox">
+                    <MessageCircle size={16} />
+                    Inbox
+                  </TabsTrigger>
+                )}
+                <TabsTrigger value="all">
+                  <Compass size={15} />
+                  {mobile ? "Rooms" : "Explore"}
+                  <span className="rounded-md bg-slate-200/60 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">
+                    {p.communities.length}
+                  </span>
+                </TabsTrigger>
+                {!mobile && (
+                  <TabsTrigger value="joined">
+                    <Users size={15} />
+                    My rooms
+                    <span className="rounded-md bg-slate-200/60 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">
+                      {joined.length}
                     </span>
-                    <span className="text-xs font-semibold text-teal-600 dark:text-teal-400">Message</span>
-                  </button>
-                ))}
+                  </TabsTrigger>
+                )}
+                <TabsTrigger value="friends">
+                  <Users size={15} />
+                  Friends
+                  {friendsModel.friends.length > 0 && (
+                    <span className="rounded-md bg-slate-200/60 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">
+                      {friendsModel.friends.length}
+                    </span>
+                  )}
+                </TabsTrigger>
+                <TabsTrigger value="requests">
+                  <UserCheck size={15} />
+                  Requests
+                  {friendsModel.incomingRequests.length > 0 && (
+                    <span className="hub-request-count rounded-md bg-teal-600 px-1.5 py-0.5 text-[10px] font-semibold text-white dark:bg-teal-500">
+                      {friendsModel.incomingRequests.length}
+                    </span>
+                  )}
+                </TabsTrigger>
+              </TabsList>
+              {!mobile && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setAddFriendOpen(true)}
+                  className="shrink-0 gap-1.5 text-xs font-semibold text-teal-700 hover:bg-teal-50 hover:text-teal-800 dark:text-teal-300 dark:hover:bg-teal-950 dark:hover:text-teal-200"
+                >
+                  <UserPlus size={15} />
+                  Add friend
+                </Button>
+              )}
+            </div>
+            {mobile && <TabsContent value="inbox">{personalInbox}</TabsContent>}
+            {mobile && (filter === "friends" || filter === "requests") && (
+              <div className="hub-section-heading">
+                <h3>
+                  {filter === "friends" ? "Your friends" : "Friend requests"}
+                </h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setAddFriendOpen(true)}
+                >
+                  <UserPlus size={15} />
+                  Add friend
+                </Button>
               </div>
             )}
-            <div className="mt-2 max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-neutral-800/60">
-              {p.directBusy ? (
-                <p role="status" className="py-4 text-xs text-slate-400 text-center">Loading messages…</p>
-              ) : p.conversations.length ? (
-                p.conversations.map(conversation => {
-                  const person = conversation.otherParticipant;
-                  const latest = conversation.messages.at(-1);
-                  return (
+            <AddFriendDialog
+              model={friendsModel}
+              open={addFriendOpen}
+              onOpenChange={setAddFriendOpen}
+            />
+            {(filter === "all" || filter === "joined") && (
+              <div className="hub-room-tools mt-5 flex flex-wrap items-center gap-2">
+                {mobile && (
+                  <div className="hub-section-heading">
+                    <h3>Study rooms</h3>
+                    <div className="hub-room-heading-actions">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="Create a study room"
+                        onClick={() =>
+                          p.locked
+                            ? p.onUnlock("community")
+                            : setCreateOpen(true)
+                        }
+                      >
+                        <Plus size={18} />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="Refresh study rooms"
+                        disabled={p.busy}
+                        onClick={() => p.onRefresh()}
+                      >
+                        <RefreshCw
+                          size={16}
+                          className={p.busy ? "animate-spin" : ""}
+                        />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+                {mobile && (
+                  <div className="hub-room-filters" aria-label="Filter rooms">
                     <button
-                      key={conversation.id}
-                      className="group flex w-full items-center gap-2.5 py-2.5 px-1 text-left rounded-lg hover:bg-slate-50 dark:hover:bg-neutral-900/60 transition"
-                      onClick={() => p.onConversation(conversation.id)}
+                      type="button"
+                      aria-pressed={filter === "all"}
+                      onClick={() => setFilter("all")}
                     >
-                      <div className="w-9 h-9 shrink-0 rounded-full overflow-hidden bg-slate-200 dark:bg-neutral-800 flex items-center justify-center font-bold text-slate-700 dark:text-neutral-200 text-xs select-none">
-                        {person?.profileImageUrl ? (
-                          <img src={person.profileImageUrl} alt="" className="h-full w-full object-cover" />
-                        ) : (
-                          initials(person?.name)
-                        )}
-                      </div>
-                      <span className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-1">
-                          <strong className="block truncate text-xs font-semibold text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition">
-                            {person?.name || 'Private chat'}
-                          </strong>
-                          <time className="text-[10px] text-slate-400 shrink-0">
-                            {p.timestamp(latest?.createdAt)}
-                          </time>
-                        </div>
-                        <span className="mt-0.5 block truncate text-[11px] text-slate-500 dark:text-neutral-400">
-                          {latest?.text || 'Start the conversation'}
-                        </span>
-                      </span>
-                      <ChevronRight size={14} className="shrink-0 text-slate-300 group-hover:text-teal-600 transition" />
+                      All rooms
                     </button>
-                  );
-                })
+                    <button
+                      type="button"
+                      aria-pressed={filter === "joined"}
+                      onClick={() => setFilter("joined")}
+                    >
+                      Joined ({joined.length})
+                    </button>
+                  </div>
+                )}
+                <div className="min-w-0 flex-1 basis-48">
+                  <SearchField
+                    value={query}
+                    onChange={setQuery}
+                    placeholder="Search rooms, subjects, or topics"
+                  />
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      aria-label="Sort study rooms"
+                    >
+                      <ArrowDownUp size={13} />
+                      {!mobile && sortLabels[sort]}
+                      <ChevronDown size={13} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuRadioGroup
+                      value={sort}
+                      onValueChange={setSort}
+                    >
+                      {Object.entries(sortLabels).map(([value, label]) => (
+                        <DropdownMenuRadioItem key={value} value={value}>
+                          {label}
+                        </DropdownMenuRadioItem>
+                      ))}
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
+            <TabsContent value="friends">
+              <FriendsPanel
+                model={friendsModel}
+                onAdd={() => setAddFriendOpen(true)}
+                onMessage={p.onDirect}
+              />
+            </TabsContent>
+            <TabsContent value="requests">
+              <RequestsPanel
+                model={friendsModel}
+                onAdd={() => setAddFriendOpen(true)}
+              />
+            </TabsContent>
+            {(mobile ? ["all"] : ["all", "joined"]).map((tab) => (
+              <TabsContent value={tab} key={tab}>
+                {p.busy && !p.communities.length ? (
+                  <div
+                    role="status"
+                    className="grid grid-cols-1 gap-4 sm:grid-cols-2"
+                  >
+                    <span className="sr-only">Loading study rooms</span>
+                    {[0, 1].map((item) => (
+                      <div key={item} className={`${panel} overflow-hidden`}>
+                        <div className="h-28 bg-slate-200 dark:bg-slate-800 motion-safe:animate-pulse" />
+                        <div className="space-y-4 p-5">
+                          <div className="h-4 w-3/4 rounded bg-slate-100 dark:bg-slate-800" />
+                          <div className="h-16 rounded bg-slate-100 dark:bg-slate-800" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : rooms.length ? (
+                  <div className="hub-rooms grid gap-5 sm:grid-cols-2">
+                    {rooms.map((room) => (
+                      <RoomCard
+                        compact={mobile}
+                        key={room.id}
+                        room={room}
+                        onOpen={p.onOpen}
+                        onInvite={p.onInvite}
+                        locked={p.locked}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className={`${panel} border-dashed`}>
+                    <EmptyState
+                      icon={query ? Search : Compass}
+                      title={
+                        query
+                          ? "No matching rooms"
+                          : filter === "joined"
+                            ? "Your circle starts here"
+                            : "Every great circle starts with someone."
+                      }
+                    >
+                      {query
+                        ? "Try a subject or a shorter search."
+                        : filter === "joined"
+                          ? "Explore the rooms and join a discussion that interests you."
+                          : "Be the first to bring your study group together."}
+                      <Button
+                        variant="ghost"
+                        className="mt-4"
+                        onClick={() => {
+                          if (query || filter === "joined") {
+                            setQuery("");
+                            setFilter("all");
+                          } else if (p.locked) p.onUnlock("community");
+                          else setCreateOpen(true);
+                        }}
+                      >
+                        {query
+                          ? "Clear search"
+                          : filter === "joined"
+                            ? "Explore rooms"
+                            : "Create a room"}
+                        <ArrowRight size={14} />
+                      </Button>
+                    </EmptyState>
+                  </div>
+                )}
+              </TabsContent>
+            ))}
+          </Tabs>
+          {(filter === "all" || filter === "joined") && (
+            <p role="status" className="mt-4 text-xs text-slate-400">
+              {rooms.length} {rooms.length === 1 ? "circle" : "circles"}
+              {query
+                ? ` matching “${query}”`
+                : filter === "joined"
+                  ? " you belong to"
+                  : " to discover"}
+            </p>
+          )}
+          {(!mobile || filter === "all" || filter === "joined") && (
+            <button
+              onClick={() =>
+                p.locked ? p.onUnlock("community") : setCreateOpen(true)
+              }
+              className="hub-create-room mt-6 flex w-full items-center gap-4 rounded-2xl border border-dashed border-slate-300 dark:border-neutral-800 bg-slate-50/50 dark:bg-black p-5 text-left transition hover:border-teal-500/50 hover:bg-slate-50 dark:hover:bg-neutral-900/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 motion-reduce:transition-none"
+            >
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-200/80 dark:bg-neutral-900 text-teal-600 dark:text-teal-400">
+                <Plus size={22} strokeWidth={1.5} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <strong className="block text-sm font-semibold text-slate-900 dark:text-white">
+                  {mobile
+                    ? "Create a study room"
+                    : "Can’t find your people? Bring them together."}
+                </strong>
+                <span className="mt-1 block text-xs leading-relaxed text-slate-500 dark:text-neutral-400">
+                  {mobile
+                    ? "Bring your study group together."
+                    : "Start a room for your subject, exam, or study group."}
+                </span>
+              </span>
+              <ArrowUpRight
+                size={20}
+                className="shrink-0 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400"
+              />
+            </button>
+          )}
+        </div>
+
+        {!mobile && (
+          <aside className="min-w-0 space-y-5">
+            {resumeRoom && (
+              <button
+                onClick={() => p.onOpen(resumeRoom.id)}
+                className="group w-full rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black p-4 sm:p-5 text-left transition hover:border-slate-300 dark:hover:border-neutral-700 shadow-sm motion-reduce:transition-none"
+              >
+                <span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-600 dark:text-teal-400">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-teal-50 dark:bg-teal-950/80">
+                    <ArrowRight size={11} />
+                  </span>
+                  Back to your circle
+                </span>
+                <span className="mt-2.5 flex items-center justify-between gap-3">
+                  <strong className="text-sm sm:text-base font-bold leading-snug text-slate-900 dark:text-white">
+                    {resumeRoom.name}
+                  </strong>
+                  <ArrowUpRight
+                    size={18}
+                    className="shrink-0 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-transform group-hover:-translate-y-0.5"
+                  />
+                </span>
+                <span className="mt-2 block text-xs text-slate-500 dark:text-neutral-400">
+                  Pick up the conversation
+                  <ChevronRight size={12} className="ml-1 inline" />
+                </span>
+              </button>
+            )}
+
+            {/* Personal inbox on desktop; mobile uses the Inbox tab. */}
+            {personalInbox}
+
+            {/* AROUND THE COMMUNITY */}
+            <article className="min-w-0 rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black p-4 sm:p-5 shadow-sm">
+              <h3 className="mb-1 flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
+                <MessagesSquare
+                  size={16}
+                  className="text-teal-600 dark:text-teal-400"
+                />
+                Around the community
+              </h3>
+              <p className="mb-4 text-xs text-slate-400">
+                The latest thoughts and questions.
+              </p>
+              {discussions.length ? (
+                <div className="space-y-4">
+                  {discussions.map((message, index) => (
+                    <button
+                      key={`${message.room.id}-${message.id}`}
+                      onClick={() => p.onOpen(message.room.id)}
+                      className="group relative block w-full pl-4 text-left"
+                    >
+                      <span
+                        className={`absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full ${index === 0 ? "bg-teal-500" : "bg-slate-300 dark:bg-neutral-700"}`}
+                      />
+                      {index !== discussions.length - 1 && (
+                        <span className="absolute -bottom-4 left-[2.5px] top-4 w-px bg-slate-100 dark:bg-neutral-800" />
+                      )}
+                      <span className="block truncate text-[10px] font-semibold uppercase tracking-wide text-teal-600 dark:text-teal-400">
+                        {message.room.name}
+                      </span>
+                      <span className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-700 group-hover:text-teal-600 dark:text-neutral-200 dark:group-hover:text-teal-400 transition">
+                        {message.text ||
+                          (message.imageUrl
+                            ? "Shared an image with the circle."
+                            : "Started a discussion.")}
+                      </span>
+                      <span className="mt-1 block text-[10px] text-slate-400">
+                        {message.userName} · {p.timestamp(message.createdAt)}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               ) : (
-                <div className="px-2 py-6 text-center">
-                  <MessagesSquare size={22} className="mx-auto mb-2 text-slate-400 opacity-60" />
-                  <p className="text-xs leading-5 text-slate-500 dark:text-neutral-400">
-                    Great study partnerships start<br />with a simple hello.
-                  </p>
+                <div className="rounded-xl bg-slate-50 dark:bg-neutral-900 p-4 text-xs leading-relaxed text-slate-500 dark:text-neutral-400">
+                  Something on your mind? Open a room and start the first
+                  discussion.
                 </div>
               )}
+            </article>
+            <div className="px-3 py-2">
+              <p className="font-serif text-xl italic leading-relaxed text-slate-500 dark:text-slate-400">
+                A little help today.
+                <br />A better doctor tomorrow.
+              </p>
+              <p className="mt-3 text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                Learn generously. Grow together.
+              </p>
             </div>
-          </div>
-        </article>
-
-        {/* AROUND THE COMMUNITY */}
-        <article className="min-w-0 rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-black p-4 sm:p-5 shadow-sm">
-          <h3 className="mb-1 flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
-            <MessagesSquare size={16} className="text-teal-600 dark:text-teal-400" />
-            Around the community
-          </h3>
-          <p className="mb-4 text-xs text-slate-400">The latest thoughts and questions.</p>
-          {discussions.length ? (
-            <div className="space-y-4">
-              {discussions.map((message, index) => (
-                <button
-                  key={`${message.room.id}-${message.id}`}
-                  onClick={() => p.onOpen(message.room.id)}
-                  className="group relative block w-full pl-4 text-left"
-                >
-                  <span className={`absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full ${index === 0 ? 'bg-teal-500' : 'bg-slate-300 dark:bg-neutral-700'}`} />
-                  {index !== discussions.length - 1 && (
-                    <span className="absolute -bottom-4 left-[2.5px] top-4 w-px bg-slate-100 dark:bg-neutral-800" />
-                  )}
-                  <span className="block truncate text-[10px] font-semibold uppercase tracking-wide text-teal-600 dark:text-teal-400">
-                    {message.room.name}
-                  </span>
-                  <span className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-700 group-hover:text-teal-600 dark:text-neutral-200 dark:group-hover:text-teal-400 transition">
-                    {message.text || (message.imageUrl ? 'Shared an image with the circle.' : 'Started a discussion.')}
-                  </span>
-                  <span className="mt-1 block text-[10px] text-slate-400">
-                    {message.userName} · {p.timestamp(message.createdAt)}
-                  </span>
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div className="rounded-xl bg-slate-50 dark:bg-neutral-900 p-4 text-xs leading-relaxed text-slate-500 dark:text-neutral-400">
-              Something on your mind? Open a room and start the first discussion.
-            </div>
-          )}
-        </article>
-        <div className="px-3 py-2"><p className="font-serif text-xl italic leading-relaxed text-slate-500 dark:text-slate-400">A little help today.<br />A better doctor tomorrow.</p><p className="mt-3 text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">Learn generously. Grow together.</p></div>
-      </aside>
-    </div>
-  </section>;
+          </aside>
+        )}
+      </div>
+    </section>
+  );
 }

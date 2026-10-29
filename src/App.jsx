@@ -11,9 +11,9 @@ import FriendDuelSetup from "./components/FriendDuelSetup";
 import Leaderboard from "./components/Leaderboard";
 import CommunityHub from "./components/CommunityHub";
 import CommunityThreads from "./components/CommunityThreads";
+import DirectChat from "./components/DirectChat";
 import HomeBattleSection from "./components/HomeBattleSection";
 import PromotionBanner from './components/PromotionBanner';
-import { socialPage, surface as socialSurface, primary as socialPrimary, secondary as socialSecondary, field as socialField, avatar as socialAvatar } from "./components/SocialUI";
 import PracticeSelection from "./components/PracticeSelection";
 import FeatureAccessDialog from "./components/FeatureAccessDialog";
 import { LockKeyhole } from "lucide-react";
@@ -42,6 +42,7 @@ import PasswordRecovery from "./components/PasswordRecovery";
 import { isValidSignupPhone } from "./lib/phoneNumber";
 import { VIVA_CHAPTER_FALLBACKS } from "./data/vivaChapters";
 import { apiRequest } from "./lib/api";
+import { startVisiblePolling } from "./lib/visiblePolling";
 import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 import { shuffleQuestionOptions } from "./lib/shuffleQuestionOptions";
 
@@ -751,6 +752,7 @@ function App() {
   const [communityThreadImage, setCommunityThreadImage] = useState(null);
   const [communityReplyDrafts, setCommunityReplyDrafts] = useState({});
   const [expandedCommunityThreads, setExpandedCommunityThreads] = useState({});
+  const socialRequests = useRef({ communities: false, messages: false, friends: false });
   const [directConversations, setDirectConversations] = useState([]);
   const [incomingFriendRequests, setIncomingFriendRequests] = useState([]);
   const [directMessagesBusy, setDirectMessagesBusy] = useState(false);
@@ -1239,67 +1241,97 @@ async function fetchPracticeLibrary() {
   }, [activeView, currentPracticeQuestion, practiceStage, selectedOption, submitted]);
 
   async function fetchCommunities({ silent = false } = {}) {
-    if (authStatus !== "authenticated") return;
+    if (authStatus !== "authenticated" || socialRequests.current.communities)
+      return;
+    socialRequests.current.communities = true;
 
     try {
       if (!silent) setCommunitiesBusy(true);
       const data = await apiRequest("/api/communities");
       setCommunities(data.communities);
       setSelectedCommunityId((current) => {
-        if (current && data.communities.some((community) => community.id === current)) return current;
+        if (
+          current &&
+          data.communities.some((community) => community.id === current)
+        )
+          return current;
         return data.communities[0]?.id ?? "";
       });
       setCommunitiesMessage("");
-      await fetchPlatformSummary();
     } catch (error) {
-      setCommunitiesMessage(error instanceof Error ? error.message : "Could not load communities.");
+      setCommunitiesMessage(
+        error instanceof Error ? error.message : "Could not load communities.",
+      );
     } finally {
+      socialRequests.current.communities = false;
       if (!silent) setCommunitiesBusy(false);
     }
   }
 
   async function fetchDirectConversations({ silent = false } = {}) {
-    if (authStatus !== "authenticated") return;
+    if (
+      authStatus !== "authenticated" ||
+      socialRequests.current.messages ||
+      !canAccessFeature(user, "inbox")
+    )
+      return;
+    socialRequests.current.messages = true;
 
     try {
       if (!silent) setDirectMessagesBusy(true);
       const data = await apiRequest("/api/direct-messages");
       setDirectConversations(data.conversations ?? []);
       setSelectedDirectConversationId((current) => {
-        if (current && (data.conversations ?? []).some((conversation) => conversation.id === current)) return current;
+        if (
+          current &&
+          (data.conversations ?? []).some(
+            (conversation) => conversation.id === current,
+          )
+        )
+          return current;
         return data.conversations?.[0]?.id ?? "";
       });
       setDirectMessagesMessage("");
     } catch (error) {
-      setDirectMessagesMessage(error instanceof Error ? error.message : "Could not load messages.");
+      setDirectMessagesMessage(
+        error instanceof Error ? error.message : "Could not load messages.",
+      );
     } finally {
+      socialRequests.current.messages = false;
       if (!silent) setDirectMessagesBusy(false);
     }
   }
 
   async function fetchFriendRequests() {
-    if (authStatus !== "authenticated") return;
+    if (authStatus !== "authenticated" || socialRequests.current.friends) return;
+    socialRequests.current.friends = true;
     try {
       const data = await apiRequest("/api/friends");
       setIncomingFriendRequests(data.incomingRequests ?? []);
-    } catch {}
+    } catch {
+      // Keep the last confirmed request list during temporary network failures.
+    } finally {
+      socialRequests.current.friends = false;
+    }
   }
 
   useEffect(() => {
     if (authStatus !== "authenticated") return undefined;
-    fetchCommunities();
-    fetchDirectConversations();
-    fetchFriendRequests();
-    const messageInterval = window.setInterval(() => {
-      fetchDirectConversations({ silent: true });
-      fetchFriendRequests();
-    }, 8000);
-    return () => window.clearInterval(messageInterval);
-  }, [authStatus]);
+    return startVisiblePolling(
+      () =>
+        Promise.all([
+          fetchDirectConversations({ silent: true }),
+          fetchFriendRequests(),
+        ]),
+      8000,
+    );
+  }, [authStatus, user?.id, user?.plan]);
 
   useEffect(() => {
     if (authStatus !== "authenticated") return;
-    const communityId = new URLSearchParams(window.location.search).get("community");
+    const communityId = new URLSearchParams(window.location.search).get(
+      "community",
+    );
     if (!communityId) return;
     setSelectedCommunityId(communityId);
     setCommunityStage("detail");
@@ -1307,16 +1339,20 @@ async function fetchPracticeLibrary() {
   }, [authStatus]);
 
   useEffect(() => {
-    if (authStatus !== "authenticated" || activeView !== "Communities") return undefined;
-
-    fetchCommunities({ silent: true });
-
-    const interval = window.setInterval(() => {
-      fetchCommunities({ silent: true });
-    }, 5000);
-
-    return () => window.clearInterval(interval);
-  }, [authStatus, activeView]);
+    if (
+      authStatus !== "authenticated" ||
+      activeView !== "Communities" ||
+      communityStage === "direct"
+    )
+      return undefined;
+    const intervalMs = communityStage === "detail" ? 5000 : 30000;
+    let initialRefresh = communities.length === 0;
+    return startVisiblePolling(() => {
+      const silent = !initialRefresh;
+      initialRefresh = false;
+      return fetchCommunities({ silent });
+    }, intervalMs);
+  }, [authStatus, activeView, communityStage]);
 
   useEffect(() => {
     if (authStatus !== "authenticated" || activeView !== "Communities") return undefined;
@@ -4892,149 +4928,92 @@ async function fetchPracticeLibrary() {
 
   function renderCommunities() {
     const communityAccess = canAccessFeature(user, "community");
-    if (communityAccess && communityStage === "direct" && selectedDirectConversation) {
+    if (
+      communityAccess &&
+      communityStage === "direct" &&
+      selectedDirectConversation
+    ) {
       return (
-        <section className={socialPage}>
-          <div className="flex flex-wrap items-center justify-between gap-4 [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:tracking-tight">
-            <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-700 dark:text-cyan-300">Messages</p>
-              <h2>{selectedDirectConversation.otherParticipant?.name ?? "Direct chat"}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">Personal study chats, quick check-ins, and direct 1v1 challenges.</p>
-            </div>
-            <button className={socialSecondary} onClick={handleBackToCommunityHub}>
-              Back to community hub
-            </button>
-          </div>
-
-          {directMessagesMessage ? <p className="rounded-xl border border-cyan-200 bg-cyan-50 p-4 text-sm text-cyan-900 dark:border-cyan-900 dark:bg-cyan-950 dark:text-cyan-100">{directMessagesMessage}</p> : null}
-
-          <article className={`${socialSurface} overflow-hidden`}>
-            <div className="flex flex-wrap items-center justify-between gap-5 p-5 sm:p-6 [&_h3]:text-xl [&_h3]:font-semibold">
-              <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-700 dark:text-cyan-300">Message</p>
-                <h3>{selectedDirectConversation.otherParticipant?.name ?? "Conversation"}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{selectedDirectConversation.otherParticipant?.medicalCollege}</p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{selectedDirectConversation.otherParticipant?.rating ?? userRating} rating</span>
-                <button className={socialPrimary} onClick={() => setFriendDuelTarget(selectedDirectConversation.otherParticipant)}>
-                  Challenge to 1v1
-                </button>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-x-6 gap-y-2 border-y border-slate-100 bg-slate-50 px-5 py-3 text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-950/50 dark:text-slate-400">
-              <span>State: {selectedDirectConversation.otherParticipant?.state ?? "Registered users"}</span>
-              <span>Streak: {selectedDirectConversation.otherParticipant?.streak ?? 1} days</span>
-            </div>
-
-            <div className="grid items-start lg:grid-cols-[minmax(0,1fr)_280px]">
-              <div className="direct-chat-wallpaper min-w-0 p-5">
-                <div className="flex max-h-[60vh] min-h-64 flex-col gap-4 overflow-y-auto pb-5">
-                  {selectedDirectConversation.messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex ${message.isOwnMessage ? "justify-end" : "justify-start"}`}
-                    >
-                      <div className={`max-w-[90%] space-y-2 rounded-2xl p-4 text-sm [&_p]:whitespace-pre-wrap [&_p]:break-words [&>span]:block [&>span]:text-[10px] ${message.isOwnMessage ? "bg-slate-900 text-white dark:bg-neutral-800 dark:text-white [&>span]:text-slate-300 dark:[&>span]:text-neutral-400" : "bg-slate-100 text-slate-900 dark:bg-neutral-900 dark:text-neutral-100 border border-slate-200/60 dark:border-neutral-800 [&>span]:text-slate-500 dark:[&>span]:text-neutral-400"} ${message.type === "challenge" ? "border-2 border-amber-500" : ""}`}>
-                        {message.userId ? (
-                          <button
-                            type="button"
-                            className={`text-xs font-semibold hover:underline ${message.isOwnMessage ? "text-teal-200" : "text-teal-600 dark:text-teal-400"}`}
-                            onClick={() => openPublicProfile(message.userId, "Communities")}
-                          >
-                            {message.userName}
-                          </button>
-                        ) : (
-                          <strong>{message.userName}</strong>
-                        )}
-                        <p>{message.text}</p>
-                        <span>{formatCommunityTimestamp(message.createdAt)}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <form className="flex items-center gap-3 border-t border-slate-100 pt-4 dark:border-slate-800" onSubmit={handleSendDirectMessage}>
-                  <input
-                    type="text" className={socialField} aria-label="Message"
-                    value={directMessageDraft}
-                    onChange={(event) => setDirectMessageDraft(event.target.value)}
-                    placeholder="Write a message..."
-                  />
-                  <button className={socialPrimary} type="submit" disabled={!directMessageDraft.trim()}>
-                    Send
-                  </button>
-                </form>
-              </div>
-
-              <aside className="min-w-0 border-t border-slate-100 bg-slate-50/60 p-5 lg:border-l lg:border-t-0 dark:border-slate-800 dark:bg-slate-950/30">
-                <div className="flex items-center justify-between gap-3 [&_h4]:font-semibold">
-                  <div>
-                    <h4>Profile snapshot</h4>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">Jump to profile details or launch a duel directly from here.</p>
-                  </div>
-                </div>
-                <div className="mt-5 max-h-[600px] space-y-4 overflow-y-auto">
-                  <div className="space-y-2">
-                    <button
-                      type="button"
-                      className="w-full rounded-xl p-1 text-left transition hover:bg-slate-100 dark:hover:bg-slate-800 motion-reduce:transition-none"
-                      onClick={() => openPublicProfile(selectedDirectConversation.otherParticipant?.id, "Communities")}
-                    >
-                      <div className="flex min-w-0 items-center gap-3 [&>div:last-child]:min-w-0 [&_strong]:block [&_strong]:text-sm [&_p]:mt-1 [&_p]:truncate [&_p]:text-xs [&_p]:text-slate-500 dark:[&_p]:text-slate-400">
-                        <div className={socialAvatar}>
-                          {selectedDirectConversation.otherParticipant?.profileImageUrl ? (
-                            <img
-                              className="h-full w-full object-cover"
-                              src={selectedDirectConversation.otherParticipant.profileImageUrl}
-                              alt={`${selectedDirectConversation.otherParticipant.name} profile`}
-                            />
-                          ) : (
-                            <span>{getInitials(selectedDirectConversation.otherParticipant?.name)}</span>
-                          )}
-                        </div>
-                        <div>
-                          <strong>{selectedDirectConversation.otherParticipant?.name}</strong>
-                          <p>{selectedDirectConversation.otherParticipant?.medicalCollege}</p>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </aside>
-            </div>
-          </article>
-        </section>
+        <DirectChat
+          key={selectedDirectConversation.id}
+          conversation={selectedDirectConversation}
+          draft={directMessageDraft}
+          onDraft={setDirectMessageDraft}
+          onSend={handleSendDirectMessage}
+          onBack={handleBackToCommunityHub}
+          onChallenge={setFriendDuelTarget}
+          onProfile={(id) => openPublicProfile(id, "Communities")}
+          message={directMessagesMessage}
+          timestamp={formatCommunityTimestamp}
+        />
       );
     }
 
     if (communityAccess && communityStage === "detail" && selectedCommunity) {
-      return <CommunityThreads key={selectedCommunity.id} room={selectedCommunity} user={user}
-        message={communitiesMessage} timestamp={formatCommunityTimestamp} limit={COMMUNITY_THREAD_WORD_LIMIT}
-        draft={communityMessageDraft} onDraft={setCommunityMessageDraft}
-        image={communityThreadImage} onImage={handleCommunityThreadImageChange} onRemoveImage={() => setCommunityThreadImage(null)}
-        replyDrafts={communityReplyDrafts} onReplyDraft={(id, value) => setCommunityReplyDrafts(current => ({ ...current, [id]: value }))}
-        expanded={expandedCommunityThreads} onToggle={toggleCommunityThread} onSend={handleSendCommunityMessage}
-        onBack={handleBackToCommunityHub} onJoin={handleJoinCommunity} onInvite={handleCopyCommunityInvite}
-        onProfile={id => openPublicProfile(id, "Communities")} onDirect={handleOpenDirectChat}
-        onRemoveMember={handleRemoveCommunityMember}
-        conversations={directConversations} directBusy={directMessagesBusy}
-        directSearch={directSearchTerm} onDirectSearch={setDirectSearchTerm}
-        directSearchBusy={directSearchBusy} directResults={directSearchResults}
-        onConversation={openDirectConversation}
-        communities={communities} onOpenRoom={openCommunityChat} />;
+      return (
+        <CommunityThreads
+          key={selectedCommunity.id}
+          room={selectedCommunity}
+          user={user}
+          message={communitiesMessage}
+          timestamp={formatCommunityTimestamp}
+          limit={COMMUNITY_THREAD_WORD_LIMIT}
+          draft={communityMessageDraft}
+          onDraft={setCommunityMessageDraft}
+          image={communityThreadImage}
+          onImage={handleCommunityThreadImageChange}
+          onRemoveImage={() => setCommunityThreadImage(null)}
+          replyDrafts={communityReplyDrafts}
+          onReplyDraft={(id, value) =>
+            setCommunityReplyDrafts((current) => ({ ...current, [id]: value }))
+          }
+          expanded={expandedCommunityThreads}
+          onToggle={toggleCommunityThread}
+          onSend={handleSendCommunityMessage}
+          onBack={handleBackToCommunityHub}
+          onJoin={handleJoinCommunity}
+          onInvite={handleCopyCommunityInvite}
+          onProfile={(id) => openPublicProfile(id, "Communities")}
+          onDirect={handleOpenDirectChat}
+          onRemoveMember={handleRemoveCommunityMember}
+          conversations={directConversations}
+          directBusy={directMessagesBusy}
+          directSearch={directSearchTerm}
+          onDirectSearch={setDirectSearchTerm}
+          directSearchBusy={directSearchBusy}
+          directResults={directSearchResults}
+          onConversation={openDirectConversation}
+          communities={communities}
+          onOpenRoom={openCommunityChat}
+        />
+      );
     }
 
-    return <CommunityHub communities={communities} busy={communitiesBusy}
-      locked={!communityAccess} onUnlock={requestFeature}
-      message={communitiesMessage} directMessage={directMessagesMessage}
-      onRefresh={fetchCommunities} onOpen={openCommunityChat} onInvite={handleCopyCommunityInvite}
-      conversations={directConversations} directBusy={directMessagesBusy}
-      search={directSearchTerm} onSearch={setDirectSearchTerm} searchBusy={directSearchBusy}
-      results={directSearchResults} onDirect={handleOpenDirectChat} onConversation={openDirectConversation}
-      timestamp={formatCommunityTimestamp} form={createCommunityForm}
-      onField={updateCreateCommunityField} onCreate={handleCreateCommunity} />;
+    return (
+      <CommunityHub
+        communities={communities}
+        busy={communitiesBusy}
+        locked={!communityAccess}
+        onUnlock={requestFeature}
+        message={communitiesMessage}
+        directMessage={directMessagesMessage}
+        onRefresh={fetchCommunities}
+        onOpen={openCommunityChat}
+        onInvite={handleCopyCommunityInvite}
+        conversations={directConversations}
+        directBusy={directMessagesBusy}
+        search={directSearchTerm}
+        onSearch={setDirectSearchTerm}
+        searchBusy={directSearchBusy}
+        results={directSearchResults}
+        onDirect={handleOpenDirectChat}
+        onConversation={openDirectConversation}
+        timestamp={formatCommunityTimestamp}
+        form={createCommunityForm}
+        onField={updateCreateCommunityField}
+        onCreate={handleCreateCommunity}
+      />
+    );
   }
 
   function renderCompete() {

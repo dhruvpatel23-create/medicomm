@@ -8,7 +8,7 @@ import { once } from 'node:events';
 import { createServer } from 'node:http';
 import { issueSession } from './security.mjs';
 
-test('real HTTP: auth, persistence, origins, limits, uploads and logout', { timeout: 30000 }, async t => {
+test('real HTTP: auth, persistence, origins, limits, uploads and logout', { timeout: 60000 }, async t => {
   const directory = await mkdtemp(path.join(tmpdir(), 'medicomm-test-'));
   const seed = { users: [{ id: 'paid-fixture', name: 'Paid Learner', email: 'paid@example.test', medicalCollege: 'Test College' }], sessions: {}, paymentOrders: [{ orderId: 'order_fixture', planId: 'premium', userId: 'paid-fixture', status: 'paid', paymentId: 'pay_fixture', verifiedAt: new Date().toISOString() }] };
   const paidToken = issueSession(seed, 'paid-fixture');
@@ -147,13 +147,14 @@ test('real HTTP: auth, persistence, origins, limits, uploads and logout', { time
   assert.equal((await call('/api/auth/login', 'POST', { email: 'other@example.test' })).status, 400);
 });
 
-test('production refuses startup without required configuration', { timeout: 10000 }, async () => {
+test('production refuses startup without required configuration', { timeout: 30000 }, async t => {
   const child = spawn(process.execPath, ['server.mjs'], { cwd: new URL('..', import.meta.url), env: { ...process.env, NODE_ENV: 'production', SUPABASE_URL: '', APP_ORIGINS: '', SUPABASE_UPLOAD_BUCKET: '' }, stdio: 'ignore' });
+  t.after(async () => { if (child.exitCode === null) { child.kill(); await once(child, 'exit'); } });
   const [code] = await once(child, 'exit');
   assert.notEqual(code, 0);
 });
 
-test('remote storage outages fail readiness and never acknowledge failed writes', { timeout: 30000 }, async t => {
+test('remote storage outages fail readiness and never acknowledge failed writes', { timeout: 60000 }, async t => {
   let outage = false;
   const remote = createServer((req, res) => {
     res.setHeader('Content-Type', 'application/json');

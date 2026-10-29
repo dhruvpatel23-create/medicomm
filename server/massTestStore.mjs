@@ -101,7 +101,12 @@ export function createMassTestStore({ directory, db, namespace = 'medicomm' }) {
             try { process.kill(owner, 0); }
             catch (error) { if (error.code === 'ESRCH') await fs.unlink(name); }
           }
-        } catch (error) { if (error.code !== 'ENOENT') throw error; }
+        } catch (error) {
+          // The owner can release its lock between open and readFile. Treat a
+          // Windows delete-pending read like contention, just as open does.
+          const deletePending = process.platform === 'win32' && ['EPERM', 'EACCES', 'EBUSY'].includes(error.code);
+          if (error.code !== 'ENOENT' && !deletePending) throw error;
+        }
         await new Promise(resolve => setTimeout(resolve, 20));
       }
     }
