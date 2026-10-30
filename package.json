@@ -7,8 +7,8 @@
     "node": "22.x"
   },
   "scripts": {
-    "test:backend": "node --test server",
-    "test:client": "node --test src/lib",
+    "test:backend": "node --test --test-concurrency=1 \"server/*.test.mjs\"",
+    "test:client": "node --test \"src/lib/*.test.mjs\"",
     "test:duels": "node --test server/duels.test.mjs server/duels-api.test.mjs",
     "dev": "node scripts/dev.mjs",
     "client": "vite",
@@ -59,14 +59,17 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^6.0.3",
     "web-push": "^3.6.7",
-    "zod": "^4.4.3"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^5.4.10"
+    "vite": "^6.4.5"
   },
   "overrides": {
     "@firebase/app": "0.16.2",
-    "@firebase/app-compat": "0.5.18"
+    "@firebase/app-compat": "0.5.18",
+    "firebase-admin": {
+      "uuid": "^11.1.1"
+    }
   }
 }

@@ -3,10 +3,21 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    entries: ["index.html"],
+  },
   server: {
     host: "127.0.0.1",
     port: 4173,
     strictPort: true,
+    watch: {
+      ignored: [
+        "**/.tmp/**",
+        "**/output/**",
+        "**/scratch/**",
+        "**/runtime-data/**",
+      ],
+    },
     proxy: {
       "/api": "http://127.0.0.1:4174",
       "/uploads": "http://127.0.0.1:4174",
