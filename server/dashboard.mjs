@@ -85,3 +85,110 @@ export function recordPracticeAttempt(database, userId, payload, subject, questi
   user.lastPracticeDate = today;
   return { user, attempt, progress: practiceProgressData(database, userId)[question.id] };
 }
+
+export function analyticsEventsData(database, userId) {
+  const attempts = (database.practiceResults ?? [])
+    .filter(item => item.userId === userId && item.answeredAt)
+    .map(item => ({
+      id: item.id,
+      questionId: item.questionId,
+      answeredAt: item.answeredAt,
+      correct: item.correct === true,
+      subjectId: item.subjectId || 'unknown',
+      subject: item.subject || 'Other',
+      topic: item.topic || 'General review',
+      mode: item.mode || 'pyq',
+      activity: item.mode === 'usmle' ? 'usmle' : item.mode === 'ai' ? 'revision' : 'pyq',
+      durationSeconds: Number(item.durationSeconds) || 0,
+    }));
+
+  const battles = (database.duels ?? [])
+    .flatMap(match => (match.results?.[userId] ? [{ ...match.results[userId], duelId: match.id, completedAt: match.completedAt || match.results[userId].completedAt }] : []))
+    .flatMap(battle =>
+      (battle.review ?? [])
+        .filter(item => item.selectedIndex !== null)
+        .map(item => ({
+          id: `${battle.duelId}-${item.id}`,
+          questionId: item.id,
+          answeredAt: battle.completedAt,
+          correct: item.status === 'correct',
+          subjectId: item.subjectId || 'mixed-duel',
+          subject: item.subjectTitle || 'Mixed battle',
+          topic: item.topic || 'Medical Knowledge',
+          activity: 'battle',
+          mode: 'battle',
+          durationSeconds: 0,
+        }))
+    );
+
+  const seen = new Set();
+  const deduped = [];
+  for (const event of [...attempts, ...battles]) {
+    const key = event.id || `${event.questionId}:${event.answeredAt}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      deduped.push(event);
+    }
+  }
+
+  return deduped.sort((a, b) => new Date(b.answeredAt) - new Date(a.answeredAt));
+}
+
+export function syncAnalyticsEvents(database, userId, clientEvents = []) {
+  if (!Array.isArray(clientEvents) || !clientEvents.length) {
+    return analyticsEventsData(database, userId);
+  }
+  const user = database.users.find(item => item.id === userId);
+  if (!user) return analyticsEventsData(database, userId);
+
+  database.practiceResults ??= [];
+  const existingAttemptIds = new Set(
+    database.practiceResults.filter(item => item.userId === userId).map(item => item.id)
+  );
+  const existingQuestionTimestamps = new Set(
+    database.practiceResults.filter(item => item.userId === userId).map(item => `${item.questionId}:${item.answeredAt}`)
+  );
+
+  let addedCount = 0;
+  for (const event of clientEvents) {
+    if (!event || typeof event !== 'object' || !event.questionId || !event.answeredAt) continue;
+    if (event.activity === 'battle') continue;
+    if (event.id && existingAttemptIds.has(event.id)) continue;
+    if (existingQuestionTimestamps.has(`${event.questionId}:${event.answeredAt}`)) continue;
+
+    const id = (typeof event.id === 'string' && event.id.length >= 8 && event.id.length <= 120)
+      ? event.id
+      : `migrated-${event.questionId}-${Date.parse(event.answeredAt) || Date.now()}`;
+    if (existingAttemptIds.has(id)) continue;
+
+    const attempt = {
+      id,
+      userId,
+      questionId: String(event.questionId),
+      subjectId: String(event.subjectId || 'unknown'),
+      subject: String(event.subject || 'Other'),
+      mode: String(event.mode || (event.activity === 'revision' ? 'ai' : event.activity === 'usmle' ? 'usmle' : 'pyq')),
+      firstAttemptCorrect: event.correct === true,
+      ratingDelta: 0,
+      topic: String(event.topic || 'General review'),
+      year: event.year ?? null,
+      correct: event.correct === true,
+      selectedAnswer: event.selectedAnswer || '',
+      answeredAt: new Date(event.answeredAt).toISOString(),
+      durationSeconds: Math.max(0, Math.min(1800, Number(event.durationSeconds) || 0)),
+    };
+
+    database.practiceResults.push(attempt);
+    existingAttemptIds.add(id);
+    existingQuestionTimestamps.add(`${attempt.questionId}:${attempt.answeredAt}`);
+    addedCount++;
+  }
+
+  if (addedCount > 0) {
+    const userAttempts = database.practiceResults.filter(item => item.userId === userId);
+    user.attemptedQuestions = Math.max(user.attemptedQuestions ?? 0, userAttempts.length);
+    user.correctAnswers = Math.max(user.correctAnswers ?? 0, userAttempts.filter(item => item.correct).length);
+  }
+
+  return analyticsEventsData(database, userId);
+}

@@ -8,6 +8,7 @@ import { createHash, randomBytes, pbkdf2, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import { HttpError, readJson, createLimiter, limitAuthentication, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
 import { createStateStore, validateSupabaseState } from './server/stateStore.mjs';
+import { createLocalState } from './server/localState.mjs';
 import { startRuntimeMetrics } from './server/runtimeMetrics.mjs';
 import { createPushService, queuePush } from './server/push.mjs';
 import { createPracticeLive } from './server/practiceLive.mjs';
@@ -42,7 +43,7 @@ import { loadShortNotes, createShortNotesHandler, ownsTheoryAnswerImage } from "
 import { buildShortNoteReviewInstructions } from "./server/shortNotesPrompt.mjs";
 import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from "./server/theoryTextbooks.mjs";
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
-import { dashboardData, practiceProgressData, recordPracticeAttempt, validateStudyGoal } from "./server/dashboard.mjs";
+import { dashboardData, practiceProgressData, recordPracticeAttempt, validateStudyGoal, analyticsEventsData, syncAnalyticsEvents } from "./server/dashboard.mjs";
 import { canAccessFeature, filterLibraryByPlan } from "./src/data/planAccess.js";
 import { requireFeature, routeFeature, isTrialPracticeRoute } from "./server/planAccess.mjs";
 import { createPaymentHandler, hasPracticeAccess } from "./server/payments.mjs";
@@ -332,21 +333,20 @@ async function writeSupabaseDatabase(data, revision) {
 }
 
 async function initializeDatabaseStore() {
-  const loaded = isFirebaseEnabled ? await firebaseState.load() : isSupabaseEnabled ? await readSupabaseDatabase() : { data: readLocalDatabaseFile(), revision: 0 };
+  const localState = !isFirebaseEnabled && !isSupabaseEnabled ? createLocalState({ file: databasePath, normalize: normalizeDatabase }) : null;
+  const loaded = isFirebaseEnabled ? await firebaseState.load() : isSupabaseEnabled ? await readSupabaseDatabase() : await localState.load();
   if (isFirebaseEnabled) loaded.data = normalizeDatabase(loaded.data);
   stateStore = createStateStore({
     initial: loaded.data,
     revision: loaded.revision,
-    reload: isFirebaseEnabled ? async () => { const loaded = await firebaseState.load(); return { ...loaded, data: normalizeDatabase(loaded.data) }; } : isSupabaseEnabled ? readSupabaseDatabase : undefined,
+    reload: isFirebaseEnabled ? async () => { const loaded = await firebaseState.load(); return { ...loaded, data: normalizeDatabase(loaded.data) }; } : isSupabaseEnabled ? readSupabaseDatabase : () => localState.load(),
     persist: async (data, revision) => {
       assertUniqueUsernames(data);
       if (isFirebaseEnabled) await firebaseState.save(data, revision);
       else if (isSupabaseEnabled) await writeSupabaseDatabase(data, revision);
       else {
-        const temporary = `${databasePath}.tmp`;
         try {
-          await fs.writeFile(temporary, JSON.stringify(data, null, 2), { mode: 0o600 });
-          await fs.rename(temporary, databasePath);
+          await localState.save(data, revision);
         } catch (error) {
           console.error(JSON.stringify({
             event: "local_database_write_failed",
@@ -2838,6 +2838,14 @@ async function handleDashboard(request, response, url) {
   const initial = readDatabase();
   const signedIn = requireSessionUser(request, response, initial);
   if (!signedIn) return;
+  if (url.pathname === '/api/analytics') {
+    if (request.method === 'GET') return sendJson(response, 200, { events: analyticsEventsData(initial, signedIn.id) });
+    const payload = await parseRequestBody(request);
+    const database = readDatabase();
+    const events = syncAnalyticsEvents(database, signedIn.id, payload.events);
+    await writeDatabase(database);
+    return sendJson(response, 200, { events });
+  }
   if (request.method === 'GET' && url.pathname === '/api/practice/live') return practiceLive.connect(request, response, signedIn);
   if (request.method === 'GET' && url.pathname === '/api/practice/progress') return sendJson(response, 200, { user: sanitizeUser(signedIn), progress: practiceProgressData(initial, signedIn.id) });
   if (request.method === 'GET') return sendJson(response, 200, dashboardData(initial, signedIn, getLeaderboardRegion));
@@ -3760,6 +3768,7 @@ function handleSummary(response) {
 }
 
 async function handleStorageStatus(response) {
+  if (!isFirebaseEnabled && !isSupabaseEnabled && !stateStore.healthy) await stateStore.recover();
   let ready = !stopping && stateStore.healthy;
   if (ready && isFirebaseEnabled) {
     try { await firebaseState.check(); } catch { ready = false; }
@@ -4101,6 +4110,7 @@ async function handleRequest(request, response) {
     checkOrigin(request, response, allowedOrigins);
     if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
     if (stopping) throw new HttpError(503, 'Server is restarting.');
+    if (!isFirebaseEnabled && !isSupabaseEnabled && !stateStore.healthy && url.pathname.startsWith('/api/')) await stateStore.recover();
     const testRoute = /^\/api\/practice\/fmge-tests(?:\/|$)/.test(url.pathname);
     const accessDatabase = () => readTestAccess(request);
     if (firebaseEmailAuth && (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/user-')) &&
@@ -4228,7 +4238,7 @@ async function handleRequest(request, response) {
     if (url.pathname === '/api/notifications') return await pushService.handle(request, response);
     if (request.method === "POST" && url.pathname === "/api/auth/logout") return await handleLogout(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile") return await handleProfileUpdate(request, response);
-    if ((request.method === 'GET' && ['/api/dashboard', '/api/practice/progress', '/api/practice/live'].includes(url.pathname)) || (request.method === 'PATCH' && url.pathname === '/api/dashboard/goal') || (request.method === 'POST' && url.pathname === '/api/practice/attempts')) return await handleDashboard(request, response, url);
+    if ((request.method === 'GET' && ['/api/dashboard', '/api/practice/progress', '/api/practice/live', '/api/analytics'].includes(url.pathname)) || (request.method === 'POST' && ['/api/practice/attempts', '/api/analytics'].includes(url.pathname)) || (request.method === 'PATCH' && url.pathname === '/api/dashboard/goal')) return await handleDashboard(request, response, url);
     if (request.method === "PATCH" && url.pathname === "/api/profile/stats") return await handleProfileStatsUpdate(request, response);
     if (request.method === "PATCH" && url.pathname === "/api/profile/question-bookmarks")
       return await handleQuestionBookmarkUpdate(request, response);

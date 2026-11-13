@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { dashboardData, practiceProgressData, recordPracticeAttempt, validateStudyGoal } from './dashboard.mjs';
+import { dashboardData, practiceProgressData, recordPracticeAttempt, validateStudyGoal, analyticsEventsData, syncAnalyticsEvents } from './dashboard.mjs';
 
 const now = Date.parse('2026-10-08T03:00:00Z');
 const learner = () => ({ id: 'one', name: 'Learner', medicalCollege: 'Kerala', rating: 1500, attemptedQuestions: 0, correctAnswers: 0 });
@@ -98,4 +98,40 @@ test('lost commit response followed by retry never awards twice', async () => {
   recordPracticeAttempt(retry, 'one', payload, subject, question, now);
   assert.equal(retry.users[0].rating, 1501);
   assert.equal(retry.practiceResults.length, 1);
+});
+
+test('analytics events sync database attempts and battles across multiple devices', () => {
+  const user = learner();
+  const db = {
+    users: [user],
+    practiceResults: [
+      { id: 'att-1', userId: 'one', questionId: 'q1', subjectId: 'anatomy', subject: 'Anatomy', topic: 'Neck', mode: 'pyq', correct: true, answeredAt: new Date(now - 3600000).toISOString(), durationSeconds: 45 },
+    ],
+    duels: [
+      { id: 'duel-1', completedAt: new Date(now - 1800000).toISOString(), results: { one: { userScore: 1, opponentScore: 0, review: [{ id: 'dq-1', status: 'correct', selectedIndex: 0, subjectId: 'pathology', subjectTitle: 'Pathology', topic: 'General' }] } } }
+    ]
+  };
+  const events = analyticsEventsData(db, 'one');
+  assert.equal(events.length, 2);
+  assert.equal(events[0].id, 'duel-1-dq-1');
+  assert.equal(events[0].activity, 'battle');
+  assert.equal(events[1].id, 'att-1');
+  assert.equal(events[1].activity, 'pyq');
+  assert.equal(events[1].durationSeconds, 45);
+
+  // Syncing new client event from device A
+  const clientEvent = { id: 'deviceA-att-2', questionId: 'q2', subjectId: 'physiology', subject: 'Physiology', topic: 'Nerve', mode: 'pyq', correct: true, answeredAt: new Date(now).toISOString(), durationSeconds: 60 };
+  const synced = syncAnalyticsEvents(db, 'one', [clientEvent]);
+  assert.equal(synced.length, 3);
+  assert.equal(db.practiceResults.length, 2);
+  assert.equal(db.users[0].attemptedQuestions, 2);
+
+  // Device B reads and gets identical events
+  const deviceBEvents = analyticsEventsData(db, 'one');
+  assert.deepEqual(deviceBEvents, synced);
+
+  // Repeated sync is idempotent
+  const syncedAgain = syncAnalyticsEvents(db, 'one', [clientEvent]);
+  assert.equal(syncedAgain.length, 3);
+  assert.equal(db.practiceResults.length, 2);
 });

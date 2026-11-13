@@ -702,6 +702,8 @@ function App() {
   const [analyticsEvents, setAnalyticsEvents] = useState([]);
   const [analyticsPeriod, setAnalyticsPeriod] = useState(30);
   const [analyticsShowAll, setAnalyticsShowAll] = useState(false);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  const analyticsSyncingRef = useRef(false);
   const [practiceQuestionStartedAt, setPracticeQuestionStartedAt] = useState(Date.now());
   const [userRating, setUserRating] = useState(1480);
   const [profilePhotoPreparing, setProfilePhotoPreparing] = useState(false);
@@ -749,6 +751,27 @@ function App() {
   const [authMessage, setAuthMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [user, setUser] = useState(null);
+
+  const syncAnalyticsWithServer = useCallback(async (currentUser = user) => {
+    if (!currentUser?.id || currentUser.id === "guest" || analyticsSyncingRef.current) return;
+    analyticsSyncingRef.current = true;
+    setAnalyticsLoading(true);
+    try {
+      const localEvents = readAnalyticsEvents(currentUser);
+      const method = localEvents.length ? "POST" : "GET";
+      const body = localEvents.length ? JSON.stringify({ events: localEvents }) : undefined;
+      const res = await apiRequest("/api/analytics", { method, body });
+      if (res?.events && Array.isArray(res.events)) {
+        setAnalyticsEvents(res.events);
+        writeAnalyticsEvents(currentUser, res.events);
+      }
+    } catch {
+      // Offline fallback: keep local cache
+    } finally {
+      analyticsSyncingRef.current = false;
+      setAnalyticsLoading(false);
+    }
+  }, [user]);
   const notifications = usePushNotifications(authStatus === 'authenticated' ? user?.id : null);
   const [pushChallengeId, setPushChallengeId] = useState(null);
   useEffect(() => {
@@ -772,6 +795,7 @@ function App() {
     if (attempt && progress) setPracticeProgress(current => ({ ...current, [attempt.questionId]: progress }));
     if (attempt) setPracticeAward({ userId: savedUser.id, questionId: attempt.questionId, points: attempt.ratingDelta ?? 0 });
     accountOverview.reload();
+    void syncAnalyticsWithServer(savedUser);
   }, setPracticeProgress);
   const [profileState, setProfileState] = useState(createProfileState(null));
   const [profileBusy, setProfileBusy] = useState(false);
@@ -1235,8 +1259,29 @@ async function fetchPracticeLibrary() {
   useEffect(() => {
     const nextProgress = readPracticeProgress(user);
     setPracticeProgress(user?.id && user.id !== "guest" ? {} : nextProgress);
-    setAnalyticsEvents(readAnalyticsEvents(user, nextProgress));
-  }, [user?.id, user?.email]);
+    const initialEvents = readAnalyticsEvents(user, nextProgress);
+    setAnalyticsEvents(initialEvents);
+    if (user?.id && user.id !== "guest") {
+      void syncAnalyticsWithServer(user);
+    }
+  }, [user?.id, user?.email, syncAnalyticsWithServer]);
+
+  useEffect(() => {
+    if (activeView === "Analytics" && user?.id && user.id !== "guest") {
+      void syncAnalyticsWithServer(user);
+    }
+  }, [activeView, user?.id, syncAnalyticsWithServer]);
+
+  useEffect(() => {
+    if (!user?.id || user.id === "guest") return;
+    const handleFocus = () => void syncAnalyticsWithServer(user);
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("online", handleFocus);
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("online", handleFocus);
+    };
+  }, [user?.id, syncAnalyticsWithServer]);
 
   useEffect(() => {
     fetchLeaderboard();
@@ -1688,9 +1733,9 @@ async function fetchPracticeLibrary() {
       return nextProgress;
     });
     practiceSync.record({
-      id: crypto.randomUUID(), questionId: currentPracticeQuestion.id, subjectId: currentPracticeSubject.id,
+      id: attemptId, questionId: currentPracticeQuestion.id, subjectId: currentPracticeSubject.id,
       mode: selectedPracticeMode, selectedAnswer: option,
-      durationSeconds: Math.max(1, Math.min(1800, Math.round((Date.now() - practiceQuestionStartedAt) / 1000))),
+      durationSeconds,
     });
   }
 
@@ -5281,9 +5326,9 @@ async function fetchPracticeLibrary() {
       }
     };
     return <section className="app-view">
-      <div className="view-header"><div><p className="eyebrow">Learning intelligence</p><h2>Performance analytics</h2><p className="view-subtitle">Live insights from your completed practice.</p></div><button className="button button-primary" onClick={() => attention[0] ? review(attention[0]) : setActiveView("Practice")}>Practice weak topics</button></div>
+      <div className="view-header"><div><p className="eyebrow">Learning intelligence</p><h2>Performance analytics</h2><p className="view-subtitle">{analyticsLoading && !events.length ? "Syncing data from server..." : "Live insights from your completed practice."}</p></div><button className="button button-primary" onClick={() => attention[0] ? review(attention[0]) : setActiveView("Practice")}>Practice weak topics</button></div>
       <div className="analytics-kpi-grid"><article className="card panel"><span>Accuracy</span><strong>{periodAccuracy}%</strong><small>{correct} correct in this period</small></article><article className="card panel"><span>Questions solved</span><strong>{events.length}</strong><small>In the selected period</small></article><article className="card panel"><span>Average pace</span><strong>{pace < 60 ? `${pace}s` : `${Math.floor(pace / 60)}m ${pace % 60}s`}</strong><small>Per question</small></article><article className="card panel"><span>Study time</span><strong>{timeLabel}</strong><small>Measured active time</small></article></div>
-      <div className="analytics-main-grid"><article className="card panel accuracy-trend-card"><div className="panel-heading-split"><div><h3>Accuracy trend</h3></div><select aria-label="Analytics period" value={analyticsPeriod} onChange={(event) => setAnalyticsPeriod(Number(event.target.value))}><option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></div>{days.length ? <div className="line-chart"><div className="chart-summary"><span><strong>{periodAccuracy}%</strong> average accuracy</span><span>{events.length} questions</span></div><svg viewBox="0 0 600 205" role="img" aria-label="Accuracy trend"><defs><linearGradient id="analyticsArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2563eb" stopOpacity=".22"/><stop offset="100%" stopColor="#2563eb" stopOpacity=".01"/></linearGradient></defs>{[25, 50, 75, 100].map((value) => { const y = 165 - value * 1.35; return <g key={value}><line className="chart-gridline" x1="50" x2="580" y1={y} y2={y}/><text className="chart-y-label" x="42" y={y + 4} textAnchor="end">{value}%</text></g>; })}<polygon className="chart-area" points={areaPoints}/><polyline className="chart-line" points={points}/>{chartData.map((day) => <g className="chart-marker" key={day.key}><circle className="chart-point-halo" cx={day.x} cy={day.y} r="9"/><circle className="chart-point" cx={day.x} cy={day.y} r="5"/><text className="chart-value" x={day.x} y={day.y - 14} textAnchor="middle">{day.accuracy}%</text><title>{day.accuracy}% · {day.attempts} questions · {day.key}</title></g>)}</svg><div className="chart-axis">{chartData.map((day) => <span key={day.key}>{new Date(`${day.key}T00:00:00`).toLocaleDateString([], { month: "short", day: "numeric" })}</span>)}</div></div> : <div className="analytics-empty"><span className="analytics-empty-icon">↗</span><strong>Your progress graph starts here</strong><small>Complete a practice question to plot your first result.</small><button className="text-button" onClick={() => setActiveView("Practice")}>Start practice</button></div>}</article>
+      <div className="analytics-main-grid"><article className="card panel accuracy-trend-card"><div className="panel-heading-split"><div><h3>Accuracy trend</h3></div><select aria-label="Analytics period" value={analyticsPeriod} onChange={(event) => setAnalyticsPeriod(Number(event.target.value))}><option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></div>{days.length ? <div className="line-chart"><div className="chart-summary"><span><strong>{periodAccuracy}%</strong> average accuracy</span><span>{events.length} questions</span></div><svg viewBox="0 0 600 205" role="img" aria-label="Accuracy trend"><defs><linearGradient id="analyticsArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2563eb" stopOpacity=".22"/><stop offset="100%" stopColor="#2563eb" stopOpacity=".01"/></linearGradient></defs>{[25, 50, 75, 100].map((value) => { const y = 165 - value * 1.35; return <g key={value}><line className="chart-gridline" x1="50" x2="580" y1={y} y2={y}/><text className="chart-y-label" x="42" y={y + 4} textAnchor="end">{value}%</text></g>; })}<polygon className="chart-area" points={areaPoints}/><polyline className="chart-line" points={points}/>{chartData.map((day) => <g className="chart-marker" key={day.key}><circle className="chart-point-halo" cx={day.x} cy={day.y} r="9"/><circle className="chart-point" cx={day.x} cy={day.y} r="5"/><text className="chart-value" x={day.x} y={day.y - 14} textAnchor="middle">{day.accuracy}%</text><title>{day.accuracy}% · {day.attempts} questions · {day.key}</title></g>)}</svg><div className="chart-axis">{chartData.map((day) => <span key={day.key}>{new Date(`${day.key}T00:00:00`).toLocaleDateString([], { month: "short", day: "numeric" })}</span>)}</div></div> : analyticsLoading ? <div className="analytics-empty"><span className="analytics-empty-icon">⏳</span><strong>Syncing performance analytics…</strong><small>Loading your learning intelligence from the server.</small></div> : <div className="analytics-empty"><span className="analytics-empty-icon">↗</span><strong>Your progress graph starts here</strong><small>Complete a practice question to plot your first result.</small><button className="text-button" onClick={() => setActiveView("Practice")}>Start practice</button></div>}</article>
       <article className="card panel mastery-card"><div className="panel-heading-split"><div><h3>Subject mastery</h3><p className="panel-copy">Accuracy in this period</p></div><button className="text-button" aria-expanded={analyticsShowAll} onClick={() => setAnalyticsShowAll(value => !value)}>{analyticsShowAll ? "Show less" : "View all"}</button></div>{subjects.length ? <div className="mastery-list">{(analyticsShowAll ? subjects : subjects.slice(0, 5)).map((subject) => <div key={subject.id}><span><strong>{subject.name}</strong><small>{subject.accuracy}% · {subject.attempts} attempted</small></span><div><i style={{ width: `${subject.accuracy}%` }}/></div></div>)}</div> : <p className="analytics-empty">No subject activity in this period.</p>}</article></div>
       <div className="analytics-bottom-grid"><article className="card panel"><h3>Time by activity</h3><div className="donut-layout"><div className="donut-chart" style={{ background: seconds ? `conic-gradient(var(--ui-brand) 0 ${pyqShare}%,#10b981 ${pyqShare}% ${pyqShare + revisionShare}%,#8b5cf6 ${pyqShare + revisionShare}% ${pyqShare + revisionShare + battleShare}%,#f59e0b ${pyqShare + revisionShare + battleShare}% 100%)` : "var(--ui-border, #334155)" }}><span>{timeLabel}<small>total</small></span></div><div className="donut-legend"><span><i className="dot-blue"/>PYQs <strong>{pyqShare}%</strong></span><span><i className="dot-emerald"/>AI revision <strong>{revisionShare}%</strong></span><span><i className="dot-violet"/>Battles <strong>{battleShare}%</strong></span><span><i style={{ background: "#f59e0b" }}/>USMLE <strong>{usmleShare}%</strong></span></div></div><p className="panel-copy">{seconds ? "Recorded question time only. Battle duration is not tracked." : "No study time recorded in this period yet."}</p></article><article className="card panel"><h3>Needs attention</h3>{attention.length ? <div className="attention-list">{attention.map((item) => <button key={`${item.id}-${item.topic}`} onClick={() => review(item)}><span>{item.topic}<small>{item.count} incorrect · {item.name}</small></span><strong>Review →</strong></button>)}</div> : <p className="analytics-empty">Incorrect answers will appear here for targeted review.</p>}</article></div>
     </section>;
