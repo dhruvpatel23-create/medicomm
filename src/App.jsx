@@ -795,7 +795,6 @@ function App() {
     if (attempt && progress) setPracticeProgress(current => ({ ...current, [attempt.questionId]: progress }));
     if (attempt) setPracticeAward({ userId: savedUser.id, questionId: attempt.questionId, points: attempt.ratingDelta ?? 0 });
     accountOverview.reload();
-    void syncAnalyticsWithServer(savedUser);
   }, setPracticeProgress);
   const [profileState, setProfileState] = useState(createProfileState(null));
   const [profileBusy, setProfileBusy] = useState(false);
@@ -1689,6 +1688,9 @@ async function fetchPracticeLibrary() {
     setSelectedOption(option);
 
     const wasCorrect = option === currentPracticeQuestion.answer;
+    const durationSeconds = Math.max(1, Math.min(1800, Math.round((Date.now() - practiceQuestionStartedAt) / 1000)));
+    const attemptId = crypto.randomUUID();
+    const answeredAt = new Date().toISOString();
     const nextCorrectAnswers = (user.correctAnswers ?? 0) + (wasCorrect ? 1 : 0);
     const nextAttemptedQuestions = (user.attemptedQuestions ?? 0) + 1;
 
@@ -1704,16 +1706,16 @@ async function fetchPracticeLibrary() {
     setSubmitted(true);
     setAnalyticsEvents((current) => {
       const nextEvents = [...current, {
-        id: `${Date.now()}-${currentPracticeQuestion.id}`,
+        id: attemptId,
         questionId: currentPracticeQuestion.id,
-        answeredAt: new Date().toISOString(),
+        answeredAt,
         correct: wasCorrect,
         subjectId: currentPracticeQuestion.subjectId || currentPracticeSubject?.id || "unknown",
         subject: currentPracticeSubject?.title || "Other",
         topic: currentPracticeQuestion.topic || currentPracticeQuestion.subtopic || "General review",
         mode: selectedPracticeMode,
         activity: selectedPracticeMode === "usmle" ? "usmle" : selectedPracticeMode === "ai" ? "revision" : "pyq",
-        durationSeconds: Math.max(1, Math.min(1800, Math.round((Date.now() - practiceQuestionStartedAt) / 1000))),
+        durationSeconds,
       }];
       writeAnalyticsEvents(user, nextEvents);
       return nextEvents;
@@ -1723,7 +1725,7 @@ async function fetchPracticeLibrary() {
       const nextProgress = {
         ...current,
         [currentPracticeQuestion.id]: {
-          answeredAt: new Date().toISOString(),
+          answeredAt,
           correct: wasCorrect,
           subjectId: currentPracticeQuestion.subjectId,
           year: currentPracticeQuestion.year,
