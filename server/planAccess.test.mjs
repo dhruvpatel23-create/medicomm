@@ -6,14 +6,14 @@ import { requireFeature, routeFeature, isTrialPracticeRoute } from './planAccess
 test('plan access matches pricing, including free and expired memberships', () => {
   const features = ['practice', 'community', 'inbox', 'theory', 'usmle', 'tests'];
   for (const [plan, expected] of [
-    ['free', [false, false, false, false, false, false]],
-    ['lite', [true, true, true, false, false, false]],
+    ['free', [false, false, false, true, false, false]],
+    ['lite', [true, true, true, true, false, false]],
     ['ultra', [true, true, true, true, false, false]],
     ['premium', [true, true, true, true, true, true]],
   ]) {
     const membership = { plan, hasPracticeAccess: plan !== 'free' };
     assert.deepEqual(features.map(feature => canAccessFeature(membership, feature)), expected, plan);
-    assert.ok(features.every(feature => !canAccessFeature({ ...membership, subscriptionStatus: 'expired' }, feature)));
+    assert.ok(features.filter(f => f !== 'theory').every(feature => !canAccessFeature({ ...membership, subscriptionStatus: 'expired' }, feature)));
   }
   assert.equal(canAccessFeature(null, 'practice'), false);
   assert.equal(canAccessFeature({ hasPracticeAccess: true }, 'practice'), true);
@@ -23,7 +23,8 @@ test('plan access matches pricing, including free and expired memberships', () =
 test('server rejects restricted features and allows subscribed features', () => {
   const database = { users: [{ id: 'lite', plan: 'lite' }, { id: 'ultra', plan: 'ultra' }, { id: 'premium', plan: 'premium' }, { id: 'free' }], paymentOrders: [] };
   assert.throws(() => requireFeature(database, 'free', 'inbox'), { status: 403 });
-  assert.throws(() => requireFeature(database, 'lite', 'theory'), { status: 403 });
+  assert.doesNotThrow(() => requireFeature(database, 'lite', 'theory'));
+  assert.doesNotThrow(() => requireFeature(database, 'free', 'theory'));
   assert.throws(() => requireFeature(database, 'ultra', 'tests'), { status: 403 });
   assert.doesNotThrow(() => requireFeature(database, 'ultra', 'theory'));
   assert.doesNotThrow(() => requireFeature(database, 'premium', 'tests'));
@@ -68,7 +69,9 @@ test('trial access opens practice directories without granting paid features', (
   assert.equal(canOpenFeature(free, 'usmle'), true);
   assert.equal(canOpenFeature(free, 'fmgeTests'), true);
   assert.equal(canOpenFeature({ ...free, subscriptionStatus: 'expired' }, 'fmgeTests'), true);
-  for (const feature of ['theory', 'tests', 'community', 'inbox', 'fullPractice']) {
+  assert.equal(canOpenFeature(free, 'theory'), true);
+  assert.equal(canOpenFeature({ ...free, subscriptionStatus: 'expired' }, 'theory'), true);
+  for (const feature of ['tests', 'community', 'inbox', 'fullPractice']) {
     assert.equal(canOpenFeature(free, feature), false);
   }
   assert.equal(canOpenFeature(null, 'practice'), false);

@@ -2,7 +2,7 @@ import EmailVerification from "./components/EmailVerification";
 import { usePushNotifications, detachPushDevice } from './lib/usePushNotifications';
 import { NotificationSettings, NotificationPrompt, ChallengeNotificationLanding, DailyQuestionGoal } from './components/NotificationSettings';
 import { validateUsername } from "./lib/usernames";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AppShell } from "./components/AppShellV2";
 import WebsiteReviews from "./components/WebsiteReviews";
@@ -47,7 +47,7 @@ import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 import { shuffleQuestionOptions } from "./lib/shuffleQuestionOptions";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261025-user-option-edits";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261102-medicine-batch04";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";
@@ -572,6 +572,52 @@ function App() {
   const [theme, setTheme] = useState(getInitialTheme);
   const [activeView, updateActiveView] = useState("Home");
   const [testMode, setTestMode] = useState(false);
+
+  /* -- PWA "Add Web App" install prompt -- */
+  const deferredInstallPrompt = useRef(null);
+  const [canInstallPwa, setCanInstallPwa] = useState(false);
+  const [showPwaIOSGuide, setShowPwaIOSGuide] = useState(false);
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      deferredInstallPrompt.current = e;
+      setCanInstallPwa(true);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+
+    // Hide button once the app is installed
+    const installed = () => { setCanInstallPwa(false); setShowPwaIOSGuide(false); };
+    window.addEventListener("appinstalled", installed);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handler);
+      window.removeEventListener("appinstalled", installed);
+    };
+  }, []);
+
+  // Detect if already running as standalone PWA
+  const isStandalone =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+  const handleAddWebApp = useCallback(() => {
+    if (deferredInstallPrompt.current) {
+      deferredInstallPrompt.current.prompt();
+      deferredInstallPrompt.current.userChoice.then((choice) => {
+        if (choice.outcome === "accepted") setCanInstallPwa(false);
+        deferredInstallPrompt.current = null;
+      });
+    } else if (isIOS) {
+      setShowPwaIOSGuide(true);
+    } else {
+      // Fallback - browsers that don't fire beforeinstallprompt (Firefox, Safari desktop)
+      setShowPwaIOSGuide(true);
+    }
+  }, [isIOS]);
+
   const [practicePathTitle, setPracticePathTitle] = useState("");
   const [lockedFeature, setLockedFeature] = useState(null);
   function requestFeature(feature) {
@@ -3321,7 +3367,36 @@ async function fetchPracticeLibrary() {
             <button className="button button-secondary" onClick={() => setActiveView("Profile")}>
               Open Profile
             </button>
+            {!isStandalone && (
+              <button className="button button-install" onClick={handleAddWebApp} title="Install Medulla as an app on your device">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginRight: 6, verticalAlign: -2}}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Add Web App
+              </button>
+            )}
           </div>
+
+          {showPwaIOSGuide && (
+            <div className="pwa-ios-guide-overlay" onClick={() => setShowPwaIOSGuide(false)}>
+              <div className="pwa-ios-guide" onClick={(e) => e.stopPropagation()}>
+                <button className="pwa-ios-close" onClick={() => setShowPwaIOSGuide(false)}>&times;</button>
+                <h3>Install Medulla as a Web App</h3>
+                {isIOS ? (
+                  <ol>
+                    <li>Tap the <strong>Share</strong> button <span style={{fontSize: 18}}>&#xFEFF;&#x2191;&#xFE0E;</span> at the bottom of Safari</li>
+                    <li>Scroll down and tap <strong>"Add to Home Screen"</strong></li>
+                    <li>Tap <strong>"Add"</strong> in the top-right corner</li>
+                  </ol>
+                ) : (
+                  <ol>
+                    <li>Open the <strong>browser menu</strong> (three dots &#x22EE; or &#x2630;)</li>
+                    <li>Look for <strong>"Install app"</strong> or <strong>"Add to Home Screen"</strong></li>
+                    <li>Follow the prompts to install</li>
+                  </ol>
+                )}
+                <p className="pwa-ios-hint">Once installed, Medulla will open like a native app — full screen, faster, and always one tap away.</p>
+              </div>
+            </div>
+          )}
         </section>
 
         <section className="stats">
@@ -4601,7 +4676,7 @@ async function fetchPracticeLibrary() {
           <div>
             <p className="eyebrow">{isTheory ? "Theory" : "Practice"}</p>
             <h2>{catalogTitle}</h2>
-            {!canAccessFeature(user, "practice") && <p className="view-subtitle">Free trial: practise the first chapter of each subject and NEET PG 2020 questions for first- and second-year subjects. Subscribe to unlock the full question bank.</p>}
+            {!isTheory && !canAccessFeature(user, "practice") && <p className="view-subtitle">Free trial: practise the first chapter of each subject and NEET PG 2020 questions for first- and second-year subjects. Subscribe to unlock the full question bank.</p>}
             {isTopicWise && <p className="view-subtitle">Many more questions coming soon</p>}
             {isTopicWise && <p className="view-subtitle">Choose a subject, then a chapter and topic to practise prepared questions.</p>}
           </div>
@@ -5227,7 +5302,7 @@ async function fetchPracticeLibrary() {
       { label: "MEDULLA Practice Test", included: usmle },
     ];
     const plans = [
-      { name: "Lite", price: "₹799", cadence: "/ year", copy: "Perfect for students who want daily practice without spending much.", features: planFeatures(100, false, false), action: "Get Lite" },
+      { name: "Lite", price: "₹799", cadence: "/ year", copy: "Perfect for students who want daily practice without spending much.", features: planFeatures(100, true, false), action: "Get Lite" },
       { name: "Ultra", price: "₹1199", cadence: "/ year", copy: "For MBBS students preparing consistently throughout the year.", features: planFeatures(200, true, false), action: "Choose Ultra", featured: true },
       { name: "Premium", price: "₹1599", cadence: "/ year", copy: "Built for serious NEET PG aspirants.", features: planFeatures(300, true, true), action: "Go Premium" },
     ];

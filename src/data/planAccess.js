@@ -1,9 +1,9 @@
 const PAID_PLANS = ['lite', 'ultra', 'premium'];
 
 export function canAccessFeature(membership, feature) {
+  if (feature === 'theory') return Boolean(membership);
   if (!membership?.hasPracticeAccess || membership.subscriptionStatus === 'expired') return false;
   const plan = String(membership.plan || membership.subscription || '').toLowerCase();
-  if (feature === 'theory') return ['ultra', 'premium'].includes(plan);
   if (feature === 'usmle' || feature === 'tests') return plan === 'premium';
   // Legacy paid accounts retain basic practice while their plan is reconciled.
   return PAID_PLANS.includes(plan) || !plan;
@@ -21,7 +21,7 @@ export function practiceFeature(id) {
 // Opening a trial directory is separate from entitlement to the full bank.
 export function canOpenFeature(membership, feature) {
   return canAccessFeature(membership, feature)
-    || Boolean(membership && ['practice', 'usmle', 'fmgeTests'].includes(feature));
+    || Boolean(membership && ['practice', 'usmle', 'fmgeTests', 'theory'].includes(feature));
 }
 
 export const FEATURE_NAMES = {
@@ -32,7 +32,7 @@ export const FEATURE_NAMES = {
 };
 
 export function requiredPlans(feature) {
-  if (feature === 'theory') return 'Ultra or Premium';
+  if (feature === 'theory') return 'Free, Lite, Ultra, or Premium';
   if (feature === 'usmle' || feature === 'tests') return 'Premium';
   return 'Lite, Ultra, or Premium';
 }

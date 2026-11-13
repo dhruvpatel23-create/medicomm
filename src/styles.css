@@ -462,6 +462,7 @@ main {
 
 .hero-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
   margin-top: 28px;
@@ -498,6 +499,105 @@ main {
   color: #374151;
   border-color: #dbe3f0;
 }
+
+/* ── Add Web App / PWA install button ── */
+.button-install {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 12px 24px rgba(16, 185, 129, 0.22);
+}
+.button-install:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 16px 30px rgba(5, 150, 105, 0.28);
+}
+
+/* iOS / fallback install guide overlay */
+.pwa-ios-guide-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  animation: fadeInOverlay 0.2s ease;
+}
+@keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+
+.pwa-ios-guide {
+  position: relative;
+  max-width: 380px;
+  width: 90%;
+  padding: 28px 24px 24px;
+  border-radius: 18px;
+  background: #fff;
+  color: #1f2937;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  animation: slideUpGuide 0.25s ease;
+}
+@keyframes slideUpGuide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.pwa-ios-guide h3 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+.pwa-ios-guide ol {
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+.pwa-ios-guide li {
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #374151;
+}
+.pwa-ios-hint {
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+.pwa-ios-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: #6b7280;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.pwa-ios-close:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Dark theme overrides */
+:root[data-theme="dark"] .pwa-ios-guide {
+  background: #1e293b;
+  color: #e2e8f0;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+:root[data-theme="dark"] .pwa-ios-guide h3 { color: #f1f5f9; }
+:root[data-theme="dark"] .pwa-ios-guide li { color: #cbd5e1; }
+:root[data-theme="dark"] .pwa-ios-hint { border-color: #334155; color: #94a3b8; }
+:root[data-theme="dark"] .pwa-ios-close { background: #334155; color: #94a3b8; }
+:root[data-theme="dark"] .pwa-ios-close:hover { background: #475569; color: #e2e8f0; }
 
 .button-ghost {
   padding: 0;

@@ -4,7 +4,9 @@ import { HttpError } from './security.mjs';
 
 export function isTrialPracticeRoute(pathname, method) {
   return (pathname === '/api/practice' && method === 'GET')
-    || (pathname === '/api/practice/attempts' && method === 'POST');
+    || (pathname === '/api/practice/attempts' && method === 'POST')
+    || /^\/api\/(?:viva|clinical-cases|short-notes)\//.test(pathname)
+    || /\/short-notes\.json$/i.test(pathname);
 }
 
 export function requireFeature(database, userId, feature) {
