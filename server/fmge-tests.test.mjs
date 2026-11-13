@@ -28,16 +28,19 @@ after(async () => { for (const directory of directories) await rm(directory, { r
 
 function fixture() {
   let clock = 100000;
+  // Historical event tests exercise the original sitting before it was archived.
+  let liveEvent = true;
   const directory = mkdtempSync(path.join(tmpdir(), 'medulla-mass-test-'));
   directories.push(directory);
   const massStore = createMassTestStore({ directory });
   const store = createStateStore({ initial: { users: [{ id: 'alice', plan: 'premium' }, { id: 'bob' }] }, persist: async () => {} });
   const handler = createFmgeTestsHandler({ readDatabase: () => store.read(), writeDatabase: d => store.write(d),
+    getDefinitions: () => ({ ...readFmgeTests(), tests: readFmgeTests().tests.map(t => liveEvent && t.eventId ? { ...t, status: undefined } : t) }),
     getSessionUser: (r,d) => d.users.find(u => u.id === r.user),
     parseRequestBody: async r => r.body ?? {}, sendJson: (_,status,body,headers) => ({ status, body, headers }), now: () => clock, massStore });
   const call = (suffix = '', method = 'GET', body = {}, user = 'alice') => handler({ method, body, user }, {}, new URL(`http://localhost/api/practice/fmge-tests${suffix}`));
   const start = async (key='start-key-123') => (await call('/fmge-practice-1/start','POST',{startKey:key})).body.attempt;
-  return { store, massStore, directory, call, start, setTime: t => { clock=t; }, time: () => clock };
+  return { store, massStore, directory, call, start, closeEvent: () => { liveEvent = false; }, setTime: t => { clock=t; }, time: () => clock };
 }
 
 test('300-question tests match every subject quota and retain exam provenance', () => {
@@ -81,14 +84,72 @@ test('reviewed grand test has its own category and retains existing attempts', a
   const started = (await f.call('/fmge-grand-test-1/start', 'POST', { startKey: 'grand-start-123' })).body.attempt;
   const catalog = (await f.call()).body.tests;
   assert.deepEqual(catalog.filter(t => t.category === 'practice').map(t => t.id),
-    ['fmge-practice-1', 'fmge-practice-2', 'fmge-practice-3']);
+    ['fmge-practice-1', 'fmge-practice-2', 'fmge-practice-3', 'fmge-practice-4']);
   const grand = catalog.filter(t => t.category === 'grand');
   assert.equal(grand.length, 1);
-  assert.equal(grand[0].title, 'GRAND TEST 1');
+  assert.equal(grand[0].title, 'GRAND TEST 1 - DONE');
   assert.equal(grand[0].startsAt, '2026-10-27T14:00:00+05:30');
   assert.equal(grand[0].attempts[0].id, started.id);
   assert.deepEqual((await f.massStore.get(original, 'alice')).attempt.questions, original.questions);
   assert.equal(original.questions.filter(q => q.imageUrls?.length).length, 39);
+});
+
+test('archived grand test preserves official results and ranks; Practice Test 4 contains the entire paper with independent retakes', async () => {
+  const f = fixture();
+  const grand = readFmgeTests().tests.find(t => t.id === 'fmge-grand-test-1');
+  const practice = readFmgeTests().tests.find(t => t.id === 'fmge-practice-4');
+  assert.equal(grand.status, 'done');
+  assert.deepEqual(practice.questions, grand.questions, 'includes question order, options, keys, explanations, images and provenance');
+  assert.equal(practice.eventId, undefined);
+  assert.equal(practice.startsAt, undefined);
+  assert.equal(practice.status, undefined);
+  for (const q of practice.questions) for (const url of q.imageUrls ?? []) {
+    assert.ok(statSync(path.join('public', url)).isFile(), `Missing image: ${url}`);
+  }
+  f.setTime(Date.parse(grand.rankReleaseAt));
+  const a = (await f.call(`/${grand.id}/start`, 'POST', { startKey: 'archive-official-123' }, 'bob')).body.attempt;
+  await f.call(`/attempts/${a.id}`, 'PATCH', { revision: 0, questionId: a.questions[0].id, optionIndex: grand.questions[0].answerIndex }, 'bob');
+  await f.call(`/attempts/${a.id}/finish-part`, 'POST', { part: 1 }, 'bob');
+  await f.call(`/attempts/${a.id}/next-part`, 'POST', {}, 'bob');
+  const completed = (await f.call(`/attempts/${a.id}/finish-part`, 'POST', { part: 2 }, 'bob')).body.attempt;
+  const unfinished = (await f.call(`/${grand.id}/start`, 'POST', { startKey: 'archive-unfinished-123' })).body.attempt;
+  const before = await f.massStore.get(grand, 'bob');
+  f.closeEvent();
+  const catalog = (await f.call('', 'GET', {}, 'bob')).body.tests;
+  const archived = catalog.find(t => t.id === grand.id);
+  assert.equal(archived.stage, 'done');
+  assert.equal(archived.status, 'done');
+  assert.equal(archived.title, 'GRAND TEST 1 - DONE');
+  assert.equal(archived.locked, false);
+  assert.equal(archived.attempts[0].id, a.id);
+  assert.equal(catalog.find(t => t.id === practice.id).locked, true);
+  assert.deepEqual((await f.call(`/attempts/${a.id}`, 'GET', {}, 'bob')).body.attempt, completed);
+  const board = (await f.call(`/${grand.id}/leaderboard`, 'GET', {}, 'bob')).body.leaderboard;
+  assert.equal(board.completedCount, 1);
+  assert.equal(board.yourRank.score, 1);
+  for (const user of ['alice', 'bob']) {
+    await assert.rejects(f.call(`/${grand.id}/start`, 'POST', { startKey: 'archive-blocked-123' }, user), e => e.status === 410);
+    for (const method of ['GET', 'POST']) await assert.rejects(f.call(`/${grand.id}/waiting-room`, method, {}, user), e => e.status === 410);
+  }
+  assert.deepEqual((await f.call()).body.tests.find(t => t.id === grand.id).attempts, []);
+  await assert.rejects(f.call(`/attempts/${unfinished.id}`), e => e.status === 404);
+  await assert.rejects(f.call(`/attempts/${unfinished.id}/next-part`, 'POST'), e => e.status === 410);
+  await assert.rejects(f.call(`/attempts/${a.id}`, 'PATCH', { revision: completed.revision }, 'bob'), e => e.status === 410);
+  await assert.rejects(f.call(`/attempts/${a.id}/finish-part`, 'POST', { part: 2 }, 'bob'), e => e.status === 410);
+  const p = (await f.call(`/${practice.id}/start`, 'POST', { startKey: 'practice-four-123' })).body.attempt;
+  assert.notEqual(p.id, a.id);
+  assert.equal(p.testId, practice.id);
+  assert.equal(p.rankReleaseAt, undefined);
+  assert.deepEqual(f.store.read().fmgeTestAttempts.find(t => t.id === p.id).questions, grand.questions);
+  await f.call(`/attempts/${p.id}/finish-part`, 'POST', { part: 1 });
+  await f.call(`/attempts/${p.id}/next-part`, 'POST');
+  await f.call(`/attempts/${p.id}/finish-part`, 'POST', { part: 2 });
+  const retake = (await f.call(`/${practice.id}/start`, 'POST', { startKey: 'practice-four-retake-123' })).body.attempt;
+  assert.notEqual(retake.id, p.id);
+  assert.deepEqual(await f.massStore.get(grand, 'bob'), before, 'official records remain unchanged');
+  const restarted = createMassTestStore({ directory: f.directory });
+  assert.equal((await restarted.get(grand, 'bob')).attempt.id, a.id);
+  assert.equal((await restarted.completedRows(grand)).length, 1, 'practice scores do not join the official leaderboard');
 });
 
 test('free, lower-plan and expired members can take the grand test but cannot bypass Premium practice locks', async () => {

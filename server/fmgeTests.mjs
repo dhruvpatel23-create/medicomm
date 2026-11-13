@@ -20,6 +20,7 @@ export const PART_MS = 150 * 60 * 1000;
 
 export function massTestSchedule(test, clock) {
   if (!test.eventId) return {};
+  if (test.status === 'done') return { stage: 'done', singleAttempt: true, rankReleaseAt: test.rankReleaseAt };
   const opens = Date.parse(test.waitingRoomOpensAt), starts = Date.parse(test.startsAt), ranks = Date.parse(test.rankReleaseAt);
   if (!Number.isFinite(opens) || !Number.isFinite(starts) || opens >= starts || !Number.isFinite(ranks) || ranks <= starts) throw new HttpError(503, 'The test schedule is unavailable.');
   return { waitingRoomOpensAt: test.waitingRoomOpensAt, startsAt: test.startsAt,
@@ -198,6 +199,12 @@ export function createFmgeTestsHandler({ readDatabase, writeDatabase, getSession
             completedCount: snapshot.rows.length, yourRank: own ? view(own) : null, offset, limit,
             entries: snapshot.rows.slice(offset, offset + limit).map(view), hasMore: offset + limit < snapshot.rows.length } }, headers);
         }
+        if (schedule.stage === 'done') {
+          if (request.method !== 'GET' || waiting || start) throw new HttpError(410, 'Grand Test 1 is DONE. Take Practice Test 4 to practise this paper.');
+          const record = await massStore.get(massTest, user.id);
+          if (!record.attempt || record.attempt.status !== 'completed') throw new HttpError(404, 'Completed result not found.');
+          return sendJson(response, 200, { attempt: fmgeAttemptView(record.attempt, clock) }, { 'Cache-Control': 'private, no-store' });
+        }
         if (waiting) {
           if (schedule.stage === 'locked') throw new HttpError(403, 'The waiting room opens on 27 October 2026 at 1:00 pm IST.');
           const view = record => ({ waitingRoom: { testId: massTest.id, title: massTest.title, ...schedule,
@@ -253,14 +260,16 @@ export function createFmgeTestsHandler({ readDatabase, writeDatabase, getSession
         for (const a of own) changed = advanceFmgeAttempt(a, clock) || changed;
         if (massStore) for (const test of massTests) {
           // Do not expose an old attempt's metadata before the scheduled opening.
-          if ((test.access === 'free' || canTakePractice) && massTestSchedule(test, clock).stage === 'open') {
+          const stage = massTestSchedule(test, clock).stage;
+          if ((test.access === 'free' || canTakePractice) && ['open', 'done'].includes(stage)) {
             const record = await massStore.get(test, user.id);
-            if (record.attempt) own.push(record.attempt);
+            if (record.attempt && (stage !== 'done' || record.attempt.status === 'completed')) own.push(record.attempt);
           }
         }
         const defs = definitions;
         payload = { serverNow: clock, blueprint: defs.blueprint, questionsPerPart: 150, minutesPerPart: 150, passMark: 150,
           tests: defs.tests.map(test => ({ id: test.id, title: test.title, category: test.category ?? 'practice',
+            status: test.status ?? null,
             access: test.access === 'free' ? 'free' : 'premium', locked: !(test.access === 'free' || canTakePractice),
             startsAt: test.startsAt ?? null, ...massTestSchedule(test, clock), questionCount: 300,
             attempts: own.filter(a => a.testId === test.id).sort((a,b) => b.startedAt - a.startedAt).map(summary) })) };

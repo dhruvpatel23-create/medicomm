@@ -208,7 +208,8 @@ export default function FmgePracticeTests({ onSessionChange, category = 'practic
     {statusMessage}
     {!catalog && <p role="status" className="ft-muted">{busy ? 'Loading your tests…' : 'Tests are unavailable. Please retry.'}</p>}
     <div className="test-card-stack">{tests.map((test, index) => {
-      const active = test.attempts.find(a => a.status !== 'completed');
+      const done = test.status === 'done';
+      const active = !done && test.attempts.find(a => a.status !== 'completed');
       const latest = test.attempts.find(a => a.status === 'completed');
       const scheduledStage = test.waitingRoomOpensAt
         ? now + offset < Date.parse(test.waitingRoomOpensAt) ? 'locked' : now + offset < Date.parse(test.startsAt) ? 'waiting' : 'open'
@@ -218,8 +219,9 @@ export default function FmgePracticeTests({ onSessionChange, category = 'practic
         <div className="exam-test-copy"><p className="exam-test-label">{category === 'grand' ? `Grand test${test.access === 'free' ? ' • Free' : ''}` : 'Full syllabus • FMGE'}</p><h3>{test.title}</h3><p className="ft-card-meta">300 questions · 300 marks{active ? ` · ${active.status === 'break' ? 'Between parts' : `Part ${active.part} in progress`}` : latest ? ` · Last score ${latest.score}/300` : ''}</p></div>
         {test.startsAt && <div className="exam-test-date"><span>Scheduled date</span><time dateTime={test.startsAt}>{new Date(test.startsAt).toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata' })} · {new Date(test.startsAt).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true })} IST</time></div>}
         <div className="ft-card-actions">{latest && <button className="ft-text-button" disabled={busy} onClick={() => request(`/attempts/${latest.id}`)}>View result</button>}
-          {test.waitingRoomOpensAt && <p className="ft-muted">Waiting room: 1:00 pm IST · Test: 2:00 pm IST</p>}
-          {!(test.singleAttempt && latest && !active) && <button className="button button-primary" disabled={busy || scheduledStage === 'locked'} onClick={() => {
+          {done && <p className="ft-muted">Test completed. Results and leaderboard are available. Practise this paper in Practice Test 4.</p>}
+          {!done && test.waitingRoomOpensAt && <p className="ft-muted">Waiting room: 1:00 pm IST · Test: 2:00 pm IST</p>}
+          {!done && !(test.singleAttempt && latest && !active) && <button className="button button-primary" disabled={busy || scheduledStage === 'locked'} onClick={() => {
             if (test.locked) { onUnlockPractice?.(); return; }
             if (scheduledStage === 'waiting') { request(`/${test.id}/waiting-room`, { method: 'POST', body: '{}' }); return; }
             if (active) request(`/attempts/${active.id}`);
