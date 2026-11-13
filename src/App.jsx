@@ -751,8 +751,10 @@ function App() {
   const [authMessage, setAuthMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [user, setUser] = useState(null);
+  const userRef = useRef(user);
+  userRef.current = user;
 
-  const syncAnalyticsWithServer = useCallback(async (currentUser = user) => {
+  const syncAnalyticsWithServer = useCallback(async (currentUser = userRef.current) => {
     if (!currentUser?.id || currentUser.id === "guest" || analyticsSyncingRef.current) return;
     analyticsSyncingRef.current = true;
     setAnalyticsLoading(true);
@@ -771,7 +773,7 @@ function App() {
       analyticsSyncingRef.current = false;
       setAnalyticsLoading(false);
     }
-  }, [user]);
+  }, []);
   const notifications = usePushNotifications(authStatus === 'authenticated' ? user?.id : null);
   const [pushChallengeId, setPushChallengeId] = useState(null);
   useEffect(() => {
@@ -792,10 +794,22 @@ function App() {
   const practiceSync = usePracticeRecorder(authStatus === "authenticated" ? user?.id : null, (savedUser, attempt, progress) => {
     setUser(current => current?.id === savedUser.id ? { ...current, ...savedUser } : current);
     setUserRating(savedUser.rating);
-    if (attempt && progress) setPracticeProgress(current => ({ ...current, [attempt.questionId]: progress }));
+    if (attempt && progress) setPracticeProgress(current => {
+      const next = { ...current, [attempt.questionId]: progress };
+      writePracticeProgress(savedUser, next);
+      return next;
+    });
     if (attempt) setPracticeAward({ userId: savedUser.id, questionId: attempt.questionId, points: attempt.ratingDelta ?? 0 });
     accountOverview.reload();
-  }, setPracticeProgress);
+  }, (progress) => {
+    if (progress && typeof progress === "object") {
+      setPracticeProgress(current => {
+        const next = { ...current, ...progress };
+        writePracticeProgress(userRef.current, next);
+        return next;
+      });
+    }
+  });
   const [profileState, setProfileState] = useState(createProfileState(null));
   const [profileBusy, setProfileBusy] = useState(false);
   const [profileMessage, setProfileMessage] = useState("");
@@ -1257,13 +1271,13 @@ async function fetchPracticeLibrary() {
 
   useEffect(() => {
     const nextProgress = readPracticeProgress(user);
-    setPracticeProgress(user?.id && user.id !== "guest" ? {} : nextProgress);
+    setPracticeProgress(nextProgress);
     const initialEvents = readAnalyticsEvents(user, nextProgress);
     setAnalyticsEvents(initialEvents);
     if (user?.id && user.id !== "guest") {
       void syncAnalyticsWithServer(user);
     }
-  }, [user?.id, user?.email, syncAnalyticsWithServer]);
+  }, [user?.id, user?.email]);
 
   useEffect(() => {
     if (activeView === "Analytics" && user?.id && user.id !== "guest") {
@@ -1720,14 +1734,14 @@ async function fetchPracticeLibrary() {
       writeAnalyticsEvents(user, nextEvents);
       return nextEvents;
     });
-    if (!user?.id || user.id === "guest") setPracticeProgress((current) => {
+    setPracticeProgress((current) => {
       if (current[currentPracticeQuestion.id]) return current;
       const nextProgress = {
         ...current,
         [currentPracticeQuestion.id]: {
           answeredAt,
           correct: wasCorrect,
-          subjectId: currentPracticeQuestion.subjectId,
+          subjectId: currentPracticeQuestion.subjectId || currentPracticeSubject?.id,
           year: currentPracticeQuestion.year,
         },
       };
@@ -1735,8 +1749,11 @@ async function fetchPracticeLibrary() {
       return nextProgress;
     });
     practiceSync.record({
-      id: attemptId, questionId: currentPracticeQuestion.id, subjectId: currentPracticeSubject.id,
-      mode: selectedPracticeMode, selectedAnswer: option,
+      id: attemptId,
+      questionId: currentPracticeQuestion.id,
+      subjectId: currentPracticeQuestion.subjectId || currentPracticeSubject?.id || "unknown",
+      mode: selectedPracticeMode,
+      selectedAnswer: option,
       durationSeconds,
     });
   }
@@ -1764,7 +1781,7 @@ async function fetchPracticeLibrary() {
       writeAnalyticsEvents(user, next);
       return next;
     });
-    if (!user?.id || user.id === "guest") setPracticeProgress(current => {
+    setPracticeProgress(current => {
       const next = { ...current };
       for (const event of events) if (!next[event.questionId]) next[event.questionId] = { answeredAt, correct: event.correct, subjectId: event.subjectId };
       writePracticeProgress(user, next);
