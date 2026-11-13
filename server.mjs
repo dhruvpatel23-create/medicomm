@@ -8,7 +8,6 @@ import { createHash, randomBytes, pbkdf2, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import { HttpError, readJson, createLimiter, limitAuthentication, sessionHash, issueSession, sessionToken, sessionUser, sessionCookie, checkOrigin } from './server/security.mjs';
 import { createStateStore, validateSupabaseState } from './server/stateStore.mjs';
-import { createLocalState } from './server/localState.mjs';
 import { startRuntimeMetrics } from './server/runtimeMetrics.mjs';
 import { createPushService, queuePush } from './server/push.mjs';
 import { createPracticeLive } from './server/practiceLive.mjs';
@@ -333,20 +332,21 @@ async function writeSupabaseDatabase(data, revision) {
 }
 
 async function initializeDatabaseStore() {
-  const localState = !isFirebaseEnabled && !isSupabaseEnabled ? createLocalState({ file: databasePath, normalize: normalizeDatabase }) : null;
-  const loaded = isFirebaseEnabled ? await firebaseState.load() : isSupabaseEnabled ? await readSupabaseDatabase() : await localState.load();
+  const loaded = isFirebaseEnabled ? await firebaseState.load() : isSupabaseEnabled ? await readSupabaseDatabase() : { data: readLocalDatabaseFile(), revision: 0 };
   if (isFirebaseEnabled) loaded.data = normalizeDatabase(loaded.data);
   stateStore = createStateStore({
     initial: loaded.data,
     revision: loaded.revision,
-    reload: isFirebaseEnabled ? async () => { const loaded = await firebaseState.load(); return { ...loaded, data: normalizeDatabase(loaded.data) }; } : isSupabaseEnabled ? readSupabaseDatabase : () => localState.load(),
+    reload: isFirebaseEnabled ? async () => { const loaded = await firebaseState.load(); return { ...loaded, data: normalizeDatabase(loaded.data) }; } : isSupabaseEnabled ? readSupabaseDatabase : undefined,
     persist: async (data, revision) => {
       assertUniqueUsernames(data);
       if (isFirebaseEnabled) await firebaseState.save(data, revision);
       else if (isSupabaseEnabled) await writeSupabaseDatabase(data, revision);
       else {
+        const temporary = `${databasePath}.tmp`;
         try {
-          await localState.save(data, revision);
+          await fs.writeFile(temporary, JSON.stringify(data, null, 2), { mode: 0o600 });
+          await fs.rename(temporary, databasePath);
         } catch (error) {
           console.error(JSON.stringify({
             event: "local_database_write_failed",
@@ -3768,7 +3768,6 @@ function handleSummary(response) {
 }
 
 async function handleStorageStatus(response) {
-  if (!isFirebaseEnabled && !isSupabaseEnabled && !stateStore.healthy) await stateStore.recover();
   let ready = !stopping && stateStore.healthy;
   if (ready && isFirebaseEnabled) {
     try { await firebaseState.check(); } catch { ready = false; }
@@ -4110,7 +4109,6 @@ async function handleRequest(request, response) {
     checkOrigin(request, response, allowedOrigins);
     if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
     if (stopping) throw new HttpError(503, 'Server is restarting.');
-    if (!isFirebaseEnabled && !isSupabaseEnabled && !stateStore.healthy && url.pathname.startsWith('/api/')) await stateStore.recover();
     const testRoute = /^\/api\/practice\/fmge-tests(?:\/|$)/.test(url.pathname);
     const accessDatabase = () => readTestAccess(request);
     if (firebaseEmailAuth && (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/user-')) &&
