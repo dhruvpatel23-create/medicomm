@@ -47,7 +47,7 @@ import { SESSION_TOKEN_KEY, THEME_STORAGE_KEY } from "./lib/clientStorage";
 import { shuffleQuestionOptions } from "./lib/shuffleQuestionOptions";
 
 const PRACTICE_LIBRARY_URL = "/api/practice";
-const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261102-medicine-batch04";
+const PRACTICE_LIBRARY_CACHE_KEY = "medicomm-practice-library-cache-v20261115-radiology-medicine";
 const PRACTICE_PROGRESS_STORAGE_KEY = "medicomm-practice-progress";
 const ANALYTICS_EVENTS_STORAGE_KEY = "medicomm-analytics-events";
 const QUESTION_BOOKMARKS_STORAGE_KEY = "medicomm-question-bookmarks";

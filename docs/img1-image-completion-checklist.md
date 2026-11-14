@@ -2,6 +2,61 @@
 
 Tracker for PYQ image batches completed using the new copyright-safe Medulla `/img1` style.
 
+## Radiology and General Medicine complete — 15 November 2026
+
+- Radiology: 80 source groups linked to 81 questions.
+- General Medicine: 80 source groups linked to 81 questions. The final 20 groups used 16 new images and four reviewed reuses. The final review galleries and installation manifests are in `output/imagegen/general-medicine-img1/batch-05/` and `batch-06/`.
+- Verified the image references in the data, public, and dist question banks and compared SHA-256 hashes across all four upload directories. The isolated frontend build passed. The local API returned 503 during the final live check.
+- NEET PG 2024 General Medicine Q009 still has unreadable imported answer choices. Its four-panel ECG image was replaced.
+
+## General Medicine batch 04 — 2 November 2026
+
+- Source groups 46–60 reviewed and installed: 14 new built-in image_gen PNGs, one source-compared batch01 ECG reuse, and one lateral-sole stimulus correction (15 generation calls total).
+- All four upload locations and three practice banks synchronized with backups; non-image content preserved. 30 live image hashes,60 asset copies,45 saved question references verified; readiness200/session401. Practice API requires authentication; no real-user login used.
+- Plan,prompts,correction,source-comparison gallery,installation hashes and verification: `output/imagegen/general-medicine-img1/batch-04/`.
+- Total completed:60 groups. Remaining:20. Next batch:61–75.
+
+## General Medicine batch 03 — 1 November 2026
+
+- Source groups 31–45 completed across 16 questions: 13 new built-in image_gen PNGs and two source-compared reuses (batch 01 ECG and batch 02 pleural-effusion image).
+- 15 generation calls including two targeted corrections: inferior-lead P-wave amplitude and normal spirometry FEV1 endpoint/curve agreement.
+- Source-versus-generated review completed for all images, including reflex instrument contact, abnormal clock numbers, ECG timing, graph values/axes, realistic CSF cytology and scan laterality.
+- Four upload directories and all three practice banks synchronized with timestamped backups. Non-image content preserved; account storage untouched.
+- Live verification: 30 image hashes, 60 asset-copy hashes, 48 question references; readiness 200 and unauthenticated sessions 401. Practice API requires authentication; saved bank references verified without real-user login.
+- Plan, prompts, corrections, source-comparison gallery, installation hashes and verification: `output/imagegen/general-medicine-img1/batch-03/`.
+- Total completed: 45 source groups. Remaining: 35. Next batch: indices 46–60.
+
+## General Medicine batch 02 — 1 November 2026
+
+- Next 15 source groups (indices 16–30) visually compared and installed: 14 new built-in image_gen PNGs and one reviewed reuse from batch 01.
+- 16 generation calls: 14 initial images plus two corrections for timeline row alignment and realistic urinary-crystal microscopy.
+- Removed the unrelated hypokalemia ECG from NEET PG 2019 General Medicine Q010 (Bundle of Kent); attached the reviewed replacement to Q011. All non-image content preserved.
+- Assets synchronized and hash-verified in four upload directories and three practice banks, with timestamped backups. Live checks: 30 image hashes, readiness 200 and unauthenticated sessions 401; authenticated practice API returned 401, so 45 saved bank references verified directly.
+- Review gallery, prompts, source plan, corrections, installation hashes and verification: `output/imagegen/general-medicine-img1/batch-02/`.
+- Total completed: 30 source groups. Remaining: 50. Next batch: indices 31–45.
+
+## General Medicine batch 01 — 1 November 2026
+
+- 15 source groups (AIIMS 2017–2019 and NEET PG 2018) replaced with 15 original built-in image_gen PNGs; source-versus-output review completed.
+- 17 tool calls total: 15 initial images and two ECG lead-label corrections. Repeated ECGs have different arrow information and were kept separate.
+- Removed the unrelated adjacent-question ECG from AIIMS 2018 General Medicine Q001; clinical content preserved.
+- Four upload directories and all three question banks synchronized, with timestamped backups and SHA-256 verification. Account storage untouched.
+- Plan, prompts, corrections, visual reviews, source comparisons and installation manifest: `output/imagegen/general-medicine-img1/batch-01/`.
+- Live images verified on both ports; readiness 200 and unauthenticated sessions 401. Practice API requires authentication; bank references verified directly without a real-user login.
+- 65 source groups remain; next batch starts at indices 16–30.
+
+## Radiology batch 01 — 30 October 2026
+
+- 15 original PNG images generated with the built-in image tool and visually compared with source references.
+- Scope: next 15 pending NEET-PG Radiology source groups (2018–2019); previously saved images were retained.
+- Preserved projection, laterality, modality, findings and exact pointer targets. No watermarks or added answer labels; original matching-question terms and scan order retained.
+- One IVP image corrected before installation to restore the bilateral intravesical cobra-head sacs and radiolucent halos.
+- Installed and hash-verified in all four upload directories and linked in all three question banks. Non-image question fields preserved; original sources and timestamped bank backups retained.
+- Removed an incorrect chest-radiograph attachment from `neet-pg-2019-radiology-q004` (cerebral infarct). Its source belongs to `neet-pg-2019-radiology-q005`, which received the replacement.
+- Prompts and visual review: `output/imagegen/radiology-img1/batch-01/review-manifest.json`.
+- Installation, hashes and backups: `output/imagegen/radiology-img1/batch-01/installed-manifest.json`.
+- Root Radiology review manifest and source-group registry updated so the next batch can resume without regenerating these assets.
+
 ## Pathology 2020 installation (Batch 1 of 5) — 2026-09-26
 
 - Installed 14 reviewed assets: 14 original SVG vector atlas medical illustrations & diagrams.
