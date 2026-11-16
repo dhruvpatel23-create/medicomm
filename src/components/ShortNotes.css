@@ -722,3 +722,12 @@
     margin-right: 8px;
   }
 }
+.sn-answer-document { margin: 24px 0; border: 1px solid var(--ui-border, #dedee7); border-radius: 20px; overflow: hidden; }
+.sn-answer-document-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px; background: var(--sn-tint); flex-wrap: wrap; }
+.sn-answer-document-header h3 { margin: 6px 0; }
+.sn-answer-document-header p { margin: 4px 0; }
+.sn-answer-document-pages { padding: clamp(8px, 2vw, 24px); background: rgba(120, 110, 90, .08); }
+.sn-answer-document-pages figure { max-width: 900px; margin: 0 auto 24px; }
+.sn-answer-document-pages figure:last-child { margin-bottom: 0; }
+.sn-answer-document-pages img { width: 100%; height: auto; display: block; box-shadow: 0 4px 18px rgba(25, 20, 10, .12); }
+.sn-answer-document-pages figcaption { text-align: center; font-size: 12px; padding: 10px; opacity: .75; }

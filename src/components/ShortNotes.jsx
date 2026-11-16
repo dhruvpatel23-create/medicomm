@@ -6,6 +6,7 @@ import "./ShortNotes.css";
 import AnswerNotepad from "./AnswerNotepad";
 import TextbookSources from "./TextbookSources";
 import SavedTheoryAnswer from "./SavedTheoryAnswer";
+import TheoryAnswerDocument from "./TheoryAnswerDocument";
 
 async function loadReviewPages(path, active) {
   const reviews = new Map();
@@ -435,7 +436,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
         {review.hasImage && !review.answerPages?.length && <AnswerNotepad key={question.id} draftId={`short-notes:${userId || "guest"}:${question.id}`} prompt={question.prompt} />}
         <div className="sn-review-top"><div className="sn-score"><strong>{review.score}</strong><span>/ 10</span></div><div><p className="sn-eyebrow"><Sparkles size={14} /> AI theory review</p><h3>{review.feedback}</h3></div></div>
         <div className="sn-feedback-grid"><section><h4><CheckCircle2 size={17} /> What you did well</h4>{review.strengths?.length ? <ul>{review.strengths.map((point, i) => <li key={i}>{point}</li>)}</ul> : <p>Use the suggestions alongside to build a stronger answer.</p>}</section><section><h4>How to improve</h4><ul>{review.improvements?.map((point, i) => <li key={i}>{point}</li>)}</ul></section></div>
-        <section className="sn-model-answer">
+        {question.answerDocument ? <TheoryAnswerDocument document={question.answerDocument} /> : <section className="sn-model-answer">
           <div className="sn-model-answer-header">
             <div>
               <p className="sn-eyebrow"><Sparkles size={14} /> Learn from your answer</p>
@@ -463,7 +464,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
             ))}
           </div>
           <small>AI-generated study feedback strictly based on standard MBBS textbooks. Check important details against your textbook.</small>
-        </section>
+        </section>}
         <TextbookSources sources={review.textbookSources} />
         <div className="sn-review-actions"><span><CheckCircle2 size={15} /> Answer and review saved</span><button className="button button-secondary" type="button" onClick={() => { setEditing(true); setDrafts(current => ({ ...current, [question.id]: current[question.id] || "" })); setPrivacyAccepted(false); }}>Practise again</button></div>
       </article> : <form className="sn-writing-layout" onSubmit={submitAnswer}>
