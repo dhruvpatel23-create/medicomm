@@ -1,12 +1,13 @@
 import { prepareTheoryImage, imageBytes } from "../lib/theoryImages";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, BookOpen, Camera, Check, CheckCircle2, ChevronRight, FileText, GitFork, Layers3, Loader2, PenSquare, PenTool, Plus, Search, Sparkles, Star, Trash2, Upload, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Camera, Check, CheckCircle2, ChevronRight, Clock, Eye, FileText, GitFork, Highlighter, Layers3, Loader2, PenSquare, PenTool, Plus, Search, Sparkles, Star, Trash2, Upload, X } from "lucide-react";
 import { apiRequest } from "../lib/api";
 import "./ShortNotes.css";
 import AnswerNotepad from "./AnswerNotepad";
 import TextbookSources from "./TextbookSources";
 import SavedTheoryAnswer from "./SavedTheoryAnswer";
 import TheoryAnswerDocument from "./TheoryAnswerDocument";
+import TheoryAnswerNotepad from "./TheoryAnswerNotepad";
 
 async function loadReviewPages(path, active) {
   const reviews = new Map();
@@ -98,6 +99,8 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
   const [editing, setEditing] = useState(false);
   const [attempts, setAttempts] = useState([]);
   const [attemptIndex, setAttemptIndex] = useState(0);
+  const [activeModalAnswer, setActiveModalAnswer] = useState(null);
+  const [questionTab, setQuestionTab] = useState("practice");
   const [historyError, setHistoryError] = useState("");
   const [historyLoading, setHistoryLoading] = useState(false);
   const [historyReload, setHistoryReload] = useState(0);
@@ -121,6 +124,15 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
   const [createError, setCreateError] = useState("");
 
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
+
+  useEffect(() => {
+    if (!activeModalAnswer) return;
+    function handleKeyDown(e) {
+      if (e.key === "Escape") setActiveModalAnswer(null);
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeModalAnswer]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -238,13 +250,19 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
   const visibleTopics = subject?.topics.filter(item => item.title.toLowerCase().includes(normalizedSearch)
     || item.questions.some(q => q.prompt.toLowerCase().includes(normalizedSearch))) ?? [];
 
-  function openQuestion(id) {
+  function openQuestion(id, initialTab = "practice") {
     if (locked) return;
-    setQuestionId(id); setAnswerImages([]); setMessage(""); setPrivacyAccepted(false); setEditing(false); setAttempts([]); setAttemptIndex(0);
+    setQuestionId(id); setQuestionTab(initialTab); setAnswerImages([]); setMessage(""); setPrivacyAccepted(false); setEditing(false); setAttempts([]); setAttemptIndex(0);
+  }
+
+  function openAnswerModal(item) {
+    if (item?.answerDocument) {
+      setActiveModalAnswer(item);
+    }
   }
 
   function backToList() {
-    if (!locked) { setQuestionId(""); setAnswerImages([]); setMessage(""); setEditing(false); }
+    if (!locked) { setQuestionId(""); setQuestionTab("practice"); setAnswerImages([]); setMessage(""); setEditing(false); }
   }
 
   async function pickImage(event) {
@@ -428,7 +446,88 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
         <h2 ref={titleRef} tabIndex={-1}>{question.prompt}</h2>
         <div className="sn-source"><span>AI practice review / 10</span></div>
       </article>
-      {historyLoading && !review && !editing ? <p className="sn-notice" role="status">Opening your saved answer...</p> : review ? <article className="card panel sn-review" aria-live="polite">
+
+      {/* Mode switcher tabs: Write & Practise vs Model Answer */}
+      <div className="sn-mode-tabs" role="tablist" aria-label="Question mode">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={questionTab === "practice"}
+          className={`sn-mode-tab ${questionTab === "practice" ? "is-active" : ""}`}
+          onClick={() => setQuestionTab("practice")}
+        >
+          <PenSquare size={14} />
+          <span>Write & Practise</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={questionTab === "answer"}
+          className={`sn-mode-tab ${questionTab === "answer" ? "is-active" : ""}`}
+          onClick={() => setQuestionTab("answer")}
+        >
+          <BookOpen size={14} />
+          <span>Model Answer</span>
+          {question.answerDocument ? (
+            <span className="sn-tab-ready-badge">Loaded</span>
+          ) : (
+            <span className="sn-tab-coming-soon-badge">Coming soon</span>
+          )}
+        </button>
+      </div>
+
+      {questionTab === "answer" ? (
+        question.answerDocument ? (
+          <div className="sn-direct-answer-view">
+            <div className="sn-notepad-banner-card">
+              <div className="sn-notepad-banner-left">
+                <div className="sn-notepad-banner-icon">
+                  <Highlighter size={22} />
+                </div>
+                <div>
+                  <strong>Interactive Model Answer Notepad</strong>
+                  <p>Study, highlight text, and add your own handwritten margin notes with our full notepad suite.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="button button-primary sn-notepad-launch-btn"
+                onClick={() => setActiveModalAnswer(question)}
+              >
+                <Highlighter size={15} />
+                <span>Open in Study Notepad</span>
+              </button>
+            </div>
+            <TheoryAnswerDocument document={question.answerDocument} />
+            <div className="sn-answer-cta-bar">
+              <div>
+                <strong>Ready to test yourself?</strong>
+                <p>Practise writing this answer under exam conditions and get instant AI scoring.</p>
+              </div>
+              <button
+                type="button"
+                className="button button-primary"
+                onClick={() => setQuestionTab("practice")}
+              >
+                <PenSquare size={15} /> Practise writing this answer
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="sn-empty sn-answer-coming-soon">
+            <Clock size={32} />
+            <h3>Model Answer Coming Soon</h3>
+            <p>Our medical faculty is currently illustrating and hand-drafting this model answer based on standard MBBS textbooks.</p>
+            <button
+              type="button"
+              className="button button-primary"
+              onClick={() => setQuestionTab("practice")}
+            >
+              <PenSquare size={15} /> Write your answer & get AI review
+            </button>
+          </div>
+        )
+      ) : historyLoading && !review && !editing ? <p className="sn-notice" role="status">Opening your saved answer...</p> : review ? <article className="card panel sn-review" aria-live="polite">
         {attempts.length > 1 && <label className="sn-attempt-picker">Saved attempts<select aria-label="Saved attempt" value={attemptIndex} onChange={event => setAttemptIndex(Number(event.target.value))}>{attempts.map((item, index) => <option key={item.id || item.submittedAt || index} value={index}>{index === 0 ? "Latest" : `Attempt ${attempts.length - index}`} · {item.submittedAt ? new Date(item.submittedAt).toLocaleDateString() : "Saved"} · {item.score}/10</option>)}</select></label>}
         {historyLoading && <p role="status">Loading saved attempts...</p>}
         {historyError && <p className="sn-notice" role="status">{historyError} <button type="button" onClick={() => setHistoryReload(value => value + 1)}>Retry</button></p>}
@@ -564,11 +663,36 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
                 </span>
                 <strong>{item.prompt}</strong>
               </span>
-              <span className="sn-row-action">
+            </button>
+            <div className="sn-row-actions">
+              {item.answerDocument ? (
+                <button
+                  type="button"
+                  className="sn-see-answer-btn"
+                  title="See loaded exam-ready handwritten model answer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openAnswerModal(item);
+                  }}
+                >
+                  <BookOpen size={13} className="sn-btn-icon" />
+                  <span>See answer</span>
+                </button>
+              ) : (
+                <span className="sn-coming-soon-tag" title="Model answer coming soon">
+                  <Clock size={11} className="sn-tag-icon" />
+                  <span>Coming soon</span>
+                </span>
+              )}
+              <button
+                type="button"
+                className="sn-row-action"
+                onClick={() => openQuestion(item.id)}
+              >
                 {reviews[item.id] ? <span>{reviews[item.id].score}/10</span> : <span>{drafts[item.id] ? "Continue" : "Write answer"}</span>}
                 <ArrowRight size={18} />
-              </span>
-            </button>
+              </button>
+            </div>
             <button type="button" className="sn-delete-btn" title="Delete custom note" aria-label="Delete custom note" onClick={(e) => handleDeleteCustomNote(item.id, e)}>
               <Trash2 size={16} />
             </button>
@@ -654,20 +778,65 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
         </div>
         <div className="sn-question-list">
           {visibleQuestions.map(item => (
-            <button className={`sn-question-row ${reviews[item.id] ? "is-reviewed" : ""}`} type="button" key={item.id} onClick={() => openQuestion(item.id)}>
-              <span className="sn-row-number">{reviews[item.id] ? <Check size={19} /> : String(topic.questions.indexOf(item) + 1).padStart(2, "0")}</span>
-              <span className="sn-row-body">
-                <span className="sn-row-meta">
-                  <span>{typeLabel(item.kind)}</span>
-                  {item.emphasis > 0 && <span className="sn-star-label" title={`${item.emphasis} stars`}><Star size={12} /> {item.emphasis > 1 ? `${item.emphasis} stars` : "Starred"}</span>}
+            <div className={`sn-question-row ${reviews[item.id] ? "is-reviewed" : ""}`} key={item.id}>
+              <button
+                type="button"
+                className="sn-row-main"
+                onClick={() => openQuestion(item.id)}
+              >
+                <span className="sn-row-number">
+                  {reviews[item.id] ? <Check size={19} /> : String(topic.questions.indexOf(item) + 1).padStart(2, "0")}
                 </span>
-                <strong>{item.prompt}</strong>
-              </span>
-              <span className="sn-row-action">
-                {reviews[item.id] ? <span>{reviews[item.id].score}/10</span> : <span>{drafts[item.id] ? "Continue" : "Write answer"}</span>}
-                <ArrowRight size={18} />
-              </span>
-            </button>
+                <span className="sn-row-body">
+                  <span className="sn-row-meta">
+                    <span>{typeLabel(item.kind)}</span>
+                    {item.emphasis > 0 && (
+                      <span className="sn-star-label" title={`${item.emphasis} stars`}>
+                        <Star size={12} /> {item.emphasis > 1 ? `${item.emphasis} stars` : "Starred"}
+                      </span>
+                    )}
+                  </span>
+                  <strong>{item.prompt}</strong>
+                </span>
+              </button>
+
+              <div className="sn-row-actions">
+                {item.answerDocument ? (
+                  <button
+                    type="button"
+                    className="sn-see-answer-btn"
+                    title="See loaded exam-ready handwritten model answer"
+                    aria-label={`See answer for ${item.prompt}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openAnswerModal(item);
+                    }}
+                  >
+                    <BookOpen size={13} className="sn-btn-icon" />
+                    <span>See answer</span>
+                  </button>
+                ) : (
+                  <span className="sn-coming-soon-tag" title="Exam model answer coming soon">
+                    <Clock size={11} className="sn-tag-icon" />
+                    <span>Coming soon</span>
+                  </span>
+                )}
+
+                <button
+                  type="button"
+                  className="sn-row-action"
+                  onClick={() => openQuestion(item.id)}
+                  aria-label={`Write answer for ${item.prompt}`}
+                >
+                  {reviews[item.id] ? (
+                    <span>{reviews[item.id].score}/10</span>
+                  ) : (
+                    <span>{drafts[item.id] ? "Continue" : "Write answer"}</span>
+                  )}
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+            </div>
           ))}
         </div>
         {!visibleQuestions.length && (
@@ -709,6 +878,23 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
         {!visibleTopics.length && <div className="sn-empty"><h3>No matching topics</h3><p>Try another topic or question keyword.</p></div>}
       </div>}
     </>}
+
+    {/* Full Theory Answer Notepad Section */}
+    {activeModalAnswer && (
+      <TheoryAnswerNotepad
+        question={activeModalAnswer}
+        document={activeModalAnswer.answerDocument}
+        topicTitle={topic?.title}
+        userId={userId}
+        isOpen={Boolean(activeModalAnswer)}
+        onClose={() => setActiveModalAnswer(null)}
+        onPractice={() => {
+          const qId = activeModalAnswer.id;
+          setActiveModalAnswer(null);
+          openQuestion(qId, "practice");
+        }}
+      />
+    )}
 
     {/* New Short Note Modal */}
     {showCreateModal && (
