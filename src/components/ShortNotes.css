@@ -733,6 +733,40 @@
 .sn-answer-document-pages img { width: 100%; height: auto; display: block; box-shadow: 0 4px 18px rgba(25, 20, 10, .12); }
 .sn-answer-document-pages figcaption { text-align: center; font-size: 12px; padding: 10px; opacity: .75; }
 
+/* Answer Document: Header actions row */
+.sn-doc-header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* View mode toggle (Swipe / Scroll) */
+.sn-view-toggle { display: inline-flex; border: 1px solid var(--ui-border, #dedee7); border-radius: 10px; overflow: hidden; background: var(--ui-bg-muted, #f4f4f7); }
+.sn-view-toggle-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border: none; background: transparent; cursor: pointer; font-size: 11.5px; font-weight: 600; color: var(--ui-muted, #72758a); transition: all 180ms ease; font-family: inherit; }
+.sn-view-toggle-btn:hover { background: rgba(120, 86, 180, .08); }
+.sn-view-toggle-btn.is-active { background: var(--ui-bg, #fff); color: var(--sn-accent, #7956b4); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+[data-theme="dark"] .sn-view-toggle { border-color: #3d384d; background: #2d293d; }
+[data-theme="dark"] .sn-view-toggle-btn { color: #b9b2c9; }
+[data-theme="dark"] .sn-view-toggle-btn:hover { background: rgba(192, 132, 252, .1); }
+[data-theme="dark"] .sn-view-toggle-btn.is-active { background: #352b48; color: #c084fc; box-shadow: 0 1px 6px rgba(0,0,0,.2); }
+
+/* Swipe / Paginated view */
+.sn-answer-document-swipe { padding: clamp(8px, 2vw, 24px); background: rgba(120, 110, 90, .08); touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.sn-swipe-page { max-width: 900px; margin: 0 auto; animation: sn-swipe-enter 240ms cubic-bezier(.22, 1, .36, 1); }
+.sn-swipe-page img { width: 100%; height: auto; display: block; box-shadow: 0 4px 18px rgba(25, 20, 10, .12); }
+.sn-swipe-page figcaption { text-align: center; font-size: 12px; padding: 10px; opacity: .75; }
+
+/* Swipe navigation bar */
+.sn-swipe-nav { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 12px 0 4px; }
+.sn-swipe-arrow { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--ui-border, #dedee7); border-radius: 50%; background: var(--ui-bg, #fff); color: var(--ui-fg, #333); cursor: pointer; transition: all 160ms ease; font-family: inherit; }
+.sn-swipe-arrow:hover:not(:disabled) { background: var(--sn-accent, #7956b4); color: #fff; border-color: var(--sn-accent, #7956b4); }
+.sn-swipe-arrow:disabled { opacity: .3; cursor: not-allowed; }
+.sn-swipe-counter { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ui-fg, #555); min-width: 48px; text-align: center; }
+[data-theme="dark"] .sn-swipe-arrow { border-color: #3d384d; background: #2d293d; color: #d0cbe0; }
+[data-theme="dark"] .sn-swipe-arrow:hover:not(:disabled) { background: #c084fc; color: #1a1a2e; border-color: #c084fc; }
+[data-theme="dark"] .sn-swipe-counter { color: #d0cbe0; }
+
+/* Vertical scroll view has natural page stacking */
+.sn-answer-scroll-view { max-height: 85vh; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+
+@keyframes sn-swipe-enter { from { opacity: .3; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+
 
 /* ==========================================================================
    Theory Practice: See Answer Button & Coming Soon Tag (Minimalist UI/UX)

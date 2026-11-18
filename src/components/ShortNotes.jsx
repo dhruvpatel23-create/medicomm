@@ -100,7 +100,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
   const [attempts, setAttempts] = useState([]);
   const [attemptIndex, setAttemptIndex] = useState(0);
   const [activeModalAnswer, setActiveModalAnswer] = useState(null);
-  const [questionTab, setQuestionTab] = useState("practice");
+  const [questionTab, setQuestionTab] = useState("answer");
   const [historyError, setHistoryError] = useState("");
   const [historyLoading, setHistoryLoading] = useState(false);
   const [historyReload, setHistoryReload] = useState(0);
@@ -250,19 +250,19 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
   const visibleTopics = subject?.topics.filter(item => item.title.toLowerCase().includes(normalizedSearch)
     || item.questions.some(q => q.prompt.toLowerCase().includes(normalizedSearch))) ?? [];
 
-  function openQuestion(id, initialTab = "practice") {
+  function openQuestion(id, initialTab = "answer") {
     if (locked) return;
     setQuestionId(id); setQuestionTab(initialTab); setAnswerImages([]); setMessage(""); setPrivacyAccepted(false); setEditing(false); setAttempts([]); setAttemptIndex(0);
   }
 
   function openAnswerModal(item) {
-    if (item?.answerDocument) {
+    if (item?.answerDocument && !item.answerDocument.afterReviewOnly) {
       setActiveModalAnswer(item);
     }
   }
 
   function backToList() {
-    if (!locked) { setQuestionId(""); setQuestionTab("practice"); setAnswerImages([]); setMessage(""); setEditing(false); }
+    if (!locked) { setQuestionId(""); setQuestionTab("answer"); setAnswerImages([]); setMessage(""); setEditing(false); }
   }
 
   async function pickImage(event) {
@@ -448,7 +448,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
       </article>
 
       {/* Mode switcher tabs: Write & Practise vs Model Answer */}
-      <div className="sn-mode-tabs" role="tablist" aria-label="Question mode">
+      {!question.answerDocument?.afterReviewOnly && <div className="sn-mode-tabs" role="tablist" aria-label="Question mode">
         <button
           type="button"
           role="tab"
@@ -474,9 +474,9 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
             <span className="sn-tab-coming-soon-badge">Coming soon</span>
           )}
         </button>
-      </div>
+      </div>}
 
-      {questionTab === "answer" ? (
+      {questionTab === "answer" && !question.answerDocument?.afterReviewOnly ? (
         question.answerDocument ? (
           <div className="sn-direct-answer-view">
             <div className="sn-notepad-banner-card">
@@ -665,7 +665,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
               </span>
             </button>
             <div className="sn-row-actions">
-              {item.answerDocument ? (
+              {item.answerDocument?.afterReviewOnly ? null : item.answerDocument ? (
                 <button
                   type="button"
                   className="sn-see-answer-btn"
@@ -801,7 +801,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
               </button>
 
               <div className="sn-row-actions">
-                {item.answerDocument ? (
+                {item.answerDocument?.afterReviewOnly ? null : item.answerDocument ? (
                   <button
                     type="button"
                     className="sn-see-answer-btn"

@@ -113,6 +113,10 @@
   .an-dialog, .an-dialog *, .an-overlay, .an-launch { animation: none !important; transition: none !important; }
 }
 
+/* Compact controls: 0.3x smaller (70% scale) for undo/redo/clear — except stylus checkbox */
+.an-tool-compact { min-width: 31px; min-height: 31px; padding: 5px; border-radius: 7px; }
+.an-compact-controls { gap: 4px; }
+
 
 /* ==========================================================================
    Theory Answer Notepad: Enhanced Pen, Highlighter & Eraser Tool Dock
@@ -264,4 +268,176 @@
   .tan-tool-btn-sub, .tan-tool-btn-indicator {
     display: none;
   }
+}
+
+/* ==========================================================================
+   Compact Controls: 0.3x smaller for Theory Answer Notepad Controls
+   (Pen, Highlighter, Eraser, Swatches, Select, Slider, Zoom, Undo/Redo/Reset)
+   EXCEPT for the Stylus Only button which remains full size.
+   ========================================================================== */
+
+#an-theory-controls .tan-tools-dock {
+  gap: 5px;
+  padding: 4px;
+  border-radius: 10px;
+}
+
+#an-theory-controls .tan-tool-btn {
+  padding: 6px 8px;
+  gap: 7px;
+  border-radius: 8px;
+}
+
+#an-theory-controls .tan-tool-btn-icon-box {
+  width: 25px;
+  height: 25px;
+  border-radius: 6px;
+}
+
+#an-theory-controls .tan-tool-btn-icon-box svg {
+  width: 14px;
+  height: 14px;
+}
+
+#an-theory-controls .tan-tool-btn-label {
+  font-size: 11.5px;
+}
+
+#an-theory-controls .tan-tool-btn-sub {
+  font-size: 8.5px;
+  margin-top: 1px;
+}
+
+#an-theory-controls .tan-tool-btn-indicator {
+  width: 7px;
+  height: 7px;
+}
+
+#an-theory-controls .an-swatch {
+  width: 26px;
+  height: 30px;
+}
+
+#an-theory-controls .an-swatch > span {
+  width: 17px;
+  height: 17px;
+}
+
+#an-theory-controls .an-select-label select {
+  min-height: 28px;
+  padding: 3px 6px;
+  font-size: 11px;
+  border-radius: 6px;
+}
+
+#an-theory-controls .an-ink-preview {
+  border-radius: 7px;
+}
+
+#an-theory-controls .an-ink-preview svg {
+  height: 28px;
+}
+
+#an-theory-controls .an-thickness {
+  font-size: 10.5px;
+  gap: 5px;
+}
+
+#an-theory-controls .an-thickness input {
+  min-height: 22px;
+}
+
+#an-theory-controls .an-tool {
+  min-width: 31px;
+  min-height: 31px;
+  padding: 5px;
+  font-size: 11px !important;
+  border-radius: 7px;
+}
+
+#an-theory-controls .an-zoom .an-tool {
+  min-width: 28px;
+  min-height: 28px;
+  padding: 3px;
+  font-size: 10.5px !important;
+}
+
+#an-theory-controls .an-compact-controls .an-tool {
+  min-width: 28px;
+  min-height: 28px;
+  padding: 4px;
+}
+
+/* Stylus Only button: kept 100% full-size, unscaled, prominent */
+#an-theory-controls .an-stylus-only-label {
+  font-size: 12px !important;
+  font-weight: 550 !important;
+  padding: 8px 2px !important;
+  cursor: pointer;
+}
+
+#an-theory-controls .an-stylus-only-label input[type="checkbox"] {
+  width: 16px !important;
+  height: 16px !important;
+  accent-color: #7956b4;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Page View Mode Toggle (Swipe vs Vertical Scroll) */
+.an-view-toggle {
+  display: inline-flex;
+  border: 1px solid #e3deec;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f7f5fa;
+}
+
+.an-view-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: #666c80;
+  cursor: pointer;
+  transition: all 160ms ease;
+  font-family: inherit;
+}
+
+.an-view-toggle-btn:hover {
+  background: rgba(120, 86, 180, 0.08);
+}
+
+.an-view-toggle-btn.is-active {
+  background: #ffffff;
+  color: #7956b4;
+  box-shadow: 0 1px 4px rgba(120, 86, 180, 0.15);
+}
+
+[data-theme="dark"] .an-view-toggle {
+  border-color: #3d384d;
+  background: #2d293d;
+}
+
+[data-theme="dark"] .an-view-toggle-btn {
+  color: #c7bfd5;
+}
+
+[data-theme="dark"] .an-view-toggle-btn:hover {
+  background: rgba(192, 132, 252, 0.12);
+}
+
+[data-theme="dark"] .an-view-toggle-btn.is-active {
+  background: #352b48;
+  color: #f3e8ff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Vertical scroll of pages container */
+.an-page-scroll-container {
+  max-width: 100%;
 }

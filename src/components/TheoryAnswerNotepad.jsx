@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ArrowLeft, ArrowRight, BookOpen, Check, Eraser, Hand, Highlighter, Minus, PenLine, Plus, Redo2, RotateCcw, Undo2, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Check, Columns3, Eraser, Hand, Highlighter, Minus, PenLine, Plus, Redo2, RotateCcw, Rows3, Undo2, X } from "lucide-react";
 import "./AnswerNotepad.css";
 import { drawSmoothStroke } from "./notepadInk.js";
 
@@ -109,6 +109,21 @@ function redraw(canvas, strokes) {
   }
 }
 
+function StaticPageCanvas({ strokes, width, height }) {
+  const canvasRef = useRef(null);
+  useLayoutEffect(() => {
+    if (canvasRef.current) redraw(canvasRef.current, strokes);
+  }, [strokes]);
+  return (
+    <canvas
+      ref={canvasRef}
+      width={width}
+      height={height}
+      className="an-canvas relative block w-full h-full pointer-events-none"
+    />
+  );
+}
+
 export default function TheoryAnswerNotepad({
   question,
   document: doc,
@@ -132,10 +147,11 @@ export default function TheoryAnswerNotepad({
   const [highlighterSize, setHighlighterSize] = useState(10);
   const [eraserSize, setEraserSize] = useState(42);
   const [zoom, setZoom] = useState(1);
-  const [pencilOnly, setPencilOnly] = useState(false);
+  const [pencilOnly, setPencilOnly] = useState(true);
   const [confirmClear, setConfirmClear] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(true);
+  const [viewMode, setViewMode] = useState("swipe"); // "swipe" | "scroll"
 
   const canvasRef = useRef(null);
   const inkFrameRef = useRef(null);
@@ -413,15 +429,21 @@ export default function TheoryAnswerNotepad({
 
   function finish(event) {
     const swipe = swipeRef.current;
-    if (!event || swipe?.id === event.pointerId) swipeRef.current = null;
-    if (swipe && event?.pointerId === swipe.id && event.type === "pointerup" && !pinchRef.current) {
+    if (viewMode === "swipe" && swipe && event?.pointerId === swipe.id && event.type === "pointerup" && !pinchRef.current) {
       const dx = event.clientX - swipe.x;
       const dy = event.clientY - swipe.y;
-      if (Math.abs(dx) >= 80 && Math.abs(dx) > Math.abs(dy) * 2) {
-        changePage(dataRef.current.pageIndex + (dx > 0 ? -1 : 1));
-        return;
+      if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy)) {
+        swipeRef.current = null;
+        if (dx < 0 && dataRef.current.pageIndex < pageCount - 1) {
+          changePage(dataRef.current.pageIndex + 1);
+          return;
+        } else if (dx > 0 && dataRef.current.pageIndex > 0) {
+          changePage(dataRef.current.pageIndex - 1);
+          return;
+        }
       }
     }
+    if (!event || swipe?.id === event.pointerId) swipeRef.current = null;
     if (event) {
       touchesRef.current.delete(event.pointerId);
       if (!touchesRef.current.size) pinchRef.current = null;
@@ -794,44 +816,44 @@ export default function TheoryAnswerNotepad({
                 </div>
               </div>
 
-              {/* Undo / Redo / Clear */}
-              <div className="flex items-center justify-between pt-2 border-t border-slate-200 dark:border-slate-800">
+              {/* Undo / Redo / Clear — scaled down */}
+              <div className="an-compact-controls flex items-center justify-between pt-2 border-t border-slate-200 dark:border-slate-800">
                 <div className="flex gap-1">
                   <button
                     type="button"
-                    className="an-tool"
+                    className="an-tool an-tool-compact"
                     aria-label="Undo"
                     disabled={!currentPage.strokes.length}
                     onClick={undoStroke}
                     title="Undo stroke (Ctrl+Z)"
                   >
-                    <Undo2 size={18} />
+                    <Undo2 size={13} />
                   </button>
                   <button
                     type="button"
-                    className="an-tool"
+                    className="an-tool an-tool-compact"
                     aria-label="Redo"
                     disabled={!redo.length}
                     onClick={redoStroke}
                     title="Redo stroke (Ctrl+Y)"
                   >
-                    <Redo2 size={18} />
+                    <Redo2 size={13} />
                   </button>
                 </div>
                 <button
                   type="button"
-                  className="an-tool text-red-600 dark:text-red-400"
+                  className="an-tool an-tool-compact text-red-600 dark:text-red-400"
                   aria-label="Clear page annotations"
                   disabled={!currentPage.strokes.length}
                   onClick={() => setConfirmClear(true)}
                   title="Clear annotations on this page"
                 >
-                  <RotateCcw size={16} />
+                  <RotateCcw size={11} />
                 </button>
               </div>
 
-              {/* Stylus / Pencil option */}
-              <label className="flex items-center gap-2 pt-2 text-[11px] text-slate-600 dark:text-slate-400 cursor-pointer">
+              {/* Stylus / Pencil option - kept full size */}
+              <label className="an-stylus-only-label flex items-center gap-2 pt-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={pencilOnly}
@@ -875,75 +897,158 @@ export default function TheoryAnswerNotepad({
             onPointerCancel={finish}
             onLostPointerCapture={finish}
           >
-            <div className="an-page-scale" ref={pageScaleRef} style={{ width: `${zoom * 100}%` }}>
-              <div
-                className="an-paper relative mx-auto shadow-2xl rounded-sm overflow-hidden"
-                style={{
-                  width: "100%",
-                  maxWidth: "960px",
-                  aspectRatio: "1200 / 1700",
-                  backgroundColor: "#ffffff",
-                  position: "relative",
-                }}
-              >
-                {/* Underlying loaded theory answer page */}
-                {currentImgUrl && (
-                  <img
-                    src={currentImgUrl}
-                    alt={`Handwritten model answer: ${doc?.title || question?.prompt || "Theory Answer"}, page ${
-                      currentPageIndex + 1
-                    } of ${pageCount}`}
-                    className="pointer-events-none absolute inset-0 h-full w-full object-contain select-none"
-                    style={{ userSelect: "none", WebkitUserSelect: "none" }}
-                    draggable={false}
-                    onLoad={() => setImageLoaded(true)}
-                  />
-                )}
-
-                {/* Annotation Canvas Layer */}
-                <canvas
-                  ref={attachCanvas}
-                  width={WIDTH * displayScale}
-                  height={HEIGHT * displayScale}
-                  className="an-canvas relative block w-full h-full"
-                  aria-label="Handwritten answer annotation canvas"
-                  onContextMenu={(event) => event.preventDefault()}
-                />
+            {viewMode === "scroll" ? (
+              <div className="an-page-scroll-container flex flex-col items-center gap-6 py-4 w-full" style={{ width: `${zoom * 100}%`, margin: '0 auto' }}>
+                {pages.map((imgSrc, pIdx) => (
+                  <div
+                    key={pIdx}
+                    className={`an-paper relative mx-auto shadow-2xl rounded-sm overflow-hidden ${
+                      pIdx === currentPageIndex ? "ring-2 ring-purple-600 shadow-purple-900/20" : "opacity-95"
+                    }`}
+                    style={{
+                      width: "100%",
+                      maxWidth: "960px",
+                      aspectRatio: "1200 / 1700",
+                      backgroundColor: "#ffffff",
+                      position: "relative",
+                    }}
+                    onClick={() => {
+                      if (pIdx !== currentPageIndex) changePage(pIdx);
+                    }}
+                  >
+                    <img
+                      src={imgSrc}
+                      alt={`Model answer page ${pIdx + 1} of ${pageCount}`}
+                      className="pointer-events-none absolute inset-0 h-full w-full object-contain select-none"
+                      style={{ userSelect: "none", WebkitUserSelect: "none" }}
+                      draggable={false}
+                    />
+                    {pIdx === currentPageIndex ? (
+                      <canvas
+                        ref={attachCanvas}
+                        width={WIDTH * displayScale}
+                        height={HEIGHT * displayScale}
+                        className="an-canvas relative block w-full h-full"
+                        aria-label={`Annotation canvas for page ${pIdx + 1}`}
+                        onContextMenu={(event) => event.preventDefault()}
+                      />
+                    ) : (
+                      <StaticPageCanvas
+                        strokes={data.pages[pIdx]?.strokes || []}
+                        width={WIDTH * displayScale}
+                        height={HEIGHT * displayScale}
+                      />
+                    )}
+                    <div className="absolute top-3 right-3 px-2.5 py-1 bg-slate-900/75 backdrop-blur-sm text-white text-[11px] font-bold rounded-md pointer-events-none shadow-md">
+                      Page {pIdx + 1} / {pageCount}
+                    </div>
+                  </div>
+                ))}
               </div>
+            ) : (
+              <div className="an-page-scale" ref={pageScaleRef} style={{ width: `${zoom * 100}%` }}>
+                <div
+                  className="an-paper relative mx-auto shadow-2xl rounded-sm overflow-hidden"
+                  style={{
+                    width: "100%",
+                    maxWidth: "960px",
+                    aspectRatio: "1200 / 1700",
+                    backgroundColor: "#ffffff",
+                    position: "relative",
+                  }}
+                >
+                  {/* Underlying loaded theory answer page */}
+                  {currentImgUrl && (
+                    <img
+                      src={currentImgUrl}
+                      alt={`Handwritten model answer: ${doc?.title || question?.prompt || "Theory Answer"}, page ${
+                        currentPageIndex + 1
+                      } of ${pageCount}`}
+                      className="pointer-events-none absolute inset-0 h-full w-full object-contain select-none"
+                      style={{ userSelect: "none", WebkitUserSelect: "none" }}
+                      draggable={false}
+                      onLoad={() => setImageLoaded(true)}
+                    />
+                  )}
 
-              <p className="an-sheet-caption mt-4 text-center text-xs">
-                Page {currentPageIndex + 1} of {pageCount} · Tap with stylus or mouse to highlight and annotate · Pinch
-                or use zoom controls
-              </p>
-            </div>
+                  {/* Annotation Canvas Layer */}
+                  <canvas
+                    ref={attachCanvas}
+                    width={WIDTH * displayScale}
+                    height={HEIGHT * displayScale}
+                    className="an-canvas relative block w-full h-full"
+                    aria-label="Handwritten answer annotation canvas"
+                    onContextMenu={(event) => event.preventDefault()}
+                  />
+                </div>
+
+                <p className="an-sheet-caption mt-4 text-center text-xs">
+                  Page {currentPageIndex + 1} of {pageCount} · Swipe left for next page · Tap with stylus to highlight and annotate
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Bottom Footer */}
           <footer className="an-footer">
             <div className="flex flex-wrap items-center justify-between gap-3 w-full">
-              {/* Multi-page Navigation */}
-              <div className="an-page-navigation">
-                <button
-                  className="an-tool"
-                  type="button"
-                  aria-label="Previous page"
-                  disabled={currentPageIndex === 0}
-                  onClick={() => changePage(currentPageIndex - 1)}
-                >
-                  &lsaquo;
-                </button>
-                <span className="font-semibold px-1">
-                  Page {currentPageIndex + 1} / {pageCount}
-                </span>
-                <button
-                  className="an-tool"
-                  type="button"
-                  aria-label="Next page"
-                  disabled={currentPageIndex >= pageCount - 1}
-                  onClick={() => changePage(currentPageIndex + 1)}
-                >
-                  &rsaquo;
-                </button>
+              {/* Multi-page Navigation & View Toggle */}
+              <div className="flex items-center gap-3">
+                {viewMode === "swipe" && (
+                  <div className="an-page-navigation">
+                    <button
+                      className="an-tool"
+                      type="button"
+                      aria-label="Previous page"
+                      disabled={currentPageIndex === 0}
+                      onClick={() => changePage(currentPageIndex - 1)}
+                    >
+                      &lsaquo;
+                    </button>
+                    <span className="font-semibold px-1 text-xs">
+                      Page {currentPageIndex + 1} / {pageCount}
+                    </span>
+                    <button
+                      className="an-tool"
+                      type="button"
+                      aria-label="Next page"
+                      disabled={currentPageIndex >= pageCount - 1}
+                      onClick={() => changePage(currentPageIndex + 1)}
+                    >
+                      &rsaquo;
+                    </button>
+                  </div>
+                )}
+
+                {/* View Mode Toggle: Swipe vs Vertical Scroll */}
+                <div className="an-view-toggle" role="radiogroup" aria-label="Page display mode">
+                  <button
+                    type="button"
+                    className={`an-view-toggle-btn ${viewMode === "swipe" ? "is-active" : ""}`}
+                    aria-pressed={viewMode === "swipe"}
+                    onClick={() => {
+                      finish();
+                      setViewMode("swipe");
+                    }}
+                    title="Swipe through pages (one at a time)"
+                  >
+                    <Columns3 size={13} />
+                    <span>Swipe</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`an-view-toggle-btn ${viewMode === "scroll" ? "is-active" : ""}`}
+                    aria-pressed={viewMode === "scroll"}
+                    onClick={() => {
+                      finish();
+                      setViewMode("scroll");
+                    }}
+                    title="Vertical scroll through all pages"
+                  >
+                    <Rows3 size={13} />
+                    <span>Vertical scroll</span>
+                  </button>
+                </div>
               </div>
 
               {/* Status */}
