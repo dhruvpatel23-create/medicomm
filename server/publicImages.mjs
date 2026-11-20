@@ -2,8 +2,9 @@ import { open } from 'node:fs/promises';
 import { pipeline } from 'node:stream/promises';
 
 // Open asynchronously and stream with backpressure instead of blocking all
-// requests while reading a multi-megabyte image into memory.
-export async function servePublicImage(request, response, candidates, mimeType) {
+// requests while reading a multi-megabyte asset into memory. Filenames can be
+// reused when an illustration is corrected, so cache them for only an hour.
+export async function serveFile(request, response, candidates, mimeType, cacheControl = 'public, max-age=3600, must-revalidate') {
   let file;
   let filePath;
   for (const candidate of candidates) {
@@ -25,8 +26,7 @@ export async function servePublicImage(request, response, candidates, mimeType) 
     const etag = `W/"${stat.size.toString(16)}-${stat.mtimeMs.toString(16)}"`;
     const headers = {
       'Content-Type': mimeType(filePath),
-      // Filenames can be reused when an illustration is corrected.
-      'Cache-Control': 'public, max-age=3600, must-revalidate',
+      'Cache-Control': cacheControl,
       'ETag': etag,
       'Last-Modified': stat.mtime.toUTCString(),
     };

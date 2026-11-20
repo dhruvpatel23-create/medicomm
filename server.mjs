@@ -18,7 +18,7 @@ import { createFirebaseNotepad } from './server/firebaseNotepad.mjs';
 import { createFirebaseUploads } from './server/firebaseUploads.mjs';
 import { discoverGoogleConfig } from './server/googleConfig.mjs';
 import { createGoogleAuth } from './server/googleAuth.mjs';
-import { servePublicImage } from './server/publicImages.mjs';
+import { serveFile } from './server/publicImages.mjs';
 import { getDuelImageUrls } from './src/lib/duelImages.js';
 import { isDuelQuestionEligible } from './server/duelEligibility.mjs';
 import { FRIEND_DUEL_COUNTS, duelSubjectCatalog, validateFriendDuelSettings } from './server/friendDuelSettings.mjs';
@@ -68,6 +68,8 @@ for (const envFileName of (process.env.NODE_ENV === 'production' || process.env.
 }
 
 const dataDir = path.join(__dirname, "data");
+const publicDir = path.join(__dirname, "public");
+const shortNotesPath = path.join(publicDir, "short-notes.json");
 const runtimeDataDir = process.env.RUNTIME_DATA_DIR ? path.resolve(process.env.RUNTIME_DATA_DIR) : path.join(__dirname, "runtime-data");
 const legacyUploadsDir = path.join(dataDir, "uploads");
 const uploadsDir = path.join(runtimeDataDir, "uploads");
@@ -1890,7 +1892,7 @@ const rowNotepadStorage = isFirebaseEnabled || process.env.NOTEPAD_ROW_STORAGE =
 const handleNotepadDraft = createDraftHandler({ store: notepadStore, readDatabase, requireSessionUser, parseRequestBody, sendJson });
 const handleShortNotes = createShortNotesHandler({
   reviewStore: rowNotepadStorage ? notepadStore : null,
-  questions: loadShortNotes(path.join(__dirname, "public", "short-notes.json")),
+  questions: loadShortNotes(shortNotesPath),
   readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson,
   parseAnswerImage: parseVivaAnswerImage, evaluate: requestClinicalCaseEvaluation,
   saveAnswerImage: dataUrl => uploads.save(dataUrl), removeAnswerImage: name => uploads.remove(name),
@@ -2305,6 +2307,7 @@ const staticMimeTypes = {
   ".jpeg": "image/jpeg",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".pdf": "application/pdf",
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".txt": "text/plain; charset=utf-8",
@@ -4179,7 +4182,7 @@ async function handleRequest(request, response) {
       path.join(publicUploadsDir, requestedFile),
       path.join(legacyUploadsDir, requestedFile),
     ];
-    await servePublicImage(request, response, uploadFileCandidates, getStaticMimeType);
+    await serveFile(request, response, uploadFileCandidates, getStaticMimeType);
     return;
   }
 
@@ -4326,6 +4329,15 @@ async function handleRequest(request, response) {
     }
 
     if (request.method === "GET" || request.method === "HEAD") {
+      // Use the same catalog as grading, even when a deployed dist copy is stale.
+      if (url.pathname === "/short-notes.json") {
+        return await serveFile(request, response, [shortNotesPath], getStaticMimeType, "private, no-store");
+      }
+      if (url.pathname.startsWith("/theory-answers/")) {
+        const assetPath = decodeURIComponent(url.pathname);
+        const validAsset = /^\/theory-answers\/(?:[a-z0-9_-]+\/)*[a-z0-9_-][a-z0-9_. -]*\.(?:pdf|webp|jpe?g|png)$/i.test(assetPath);
+        return await serveFile(request, response, validAsset ? [path.join(publicDir, assetPath)] : [], getStaticMimeType);
+      }
       return await serveStaticFile(response, url.pathname === "/" ? "/index.html" : url.pathname, practiceResource);
     }
 

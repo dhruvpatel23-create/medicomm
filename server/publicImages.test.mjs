@@ -4,7 +4,7 @@ import { createServer } from 'node:http';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { servePublicImage } from './publicImages.mjs';
+import { serveFile } from './publicImages.mjs';
 import { createStateStore } from './stateStore.mjs';
 
 test('public images stream, cache, revalidate, and retain source precedence', async t => {
@@ -15,7 +15,7 @@ test('public images stream, cache, revalidate, and retain source precedence', as
   await writeFile(fallback, 'old image');
   const server = createServer((req, res) => {
     const candidates = req.url === '/missing' ? [path.join(directory, 'missing.png')] : [primary, fallback];
-    servePublicImage(req, res, candidates, () => 'image/png').catch(error => res.destroy(error));
+    serveFile(req, res, candidates, () => 'image/png').catch(error => res.destroy(error));
   });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   t.after(async () => {
