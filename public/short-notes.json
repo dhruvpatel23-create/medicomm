@@ -51402,7 +51402,19 @@
               "sourceText": "Microcephaly (S-20) (Pg. 36)",
               "prompt": "Microcephaly (S-20)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-2-growth-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-2-growth-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Microcephaly",
+                "description": "Handwritten MBBS exam answer and final summary for Microcephaly.",
+                "pdf": "/theory-answers/pediatrics/growth/01-microcephaly/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/growth/01-microcephaly/page-1.webp",
+                  "/theory-answers/pediatrics/growth/01-microcephaly/page-2.webp",
+                  "/theory-answers/pediatrics/growth/01-microcephaly/page-3.webp",
+                  "/theory-answers/pediatrics/growth/01-microcephaly/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -51420,7 +51432,19 @@
               "sourceText": "Normal Motor Development in First Year of life (W-08) (Pg. 40)",
               "prompt": "Normal Motor Development in First Year of life (W-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-3-development-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-3-development-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Normal Motor Development in First Year of life",
+                "description": "Handwritten MBBS exam answer and final summary for Normal Motor Development in First Year of life.",
+                "pdf": "/theory-answers/pediatrics/development/01-normal-motor-development-in-first-year-of-life/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/development/01-normal-motor-development-in-first-year-of-life/page-1.webp",
+                  "/theory-answers/pediatrics/development/01-normal-motor-development-in-first-year-of-life/page-2.webp",
+                  "/theory-answers/pediatrics/development/01-normal-motor-development-in-first-year-of-life/page-3.webp",
+                  "/theory-answers/pediatrics/development/01-normal-motor-development-in-first-year-of-life/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -51438,7 +51462,19 @@
               "sourceText": "Pica (W-11) (Pg. 57)",
               "prompt": "Pica (W-11)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-4-developmental-and-behavioural-disorders-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-4-developmental-and-behavioural-disorders-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Pica",
+                "description": "Handwritten MBBS exam answer and final summary for Pica.",
+                "pdf": "/theory-answers/pediatrics/developmental-and-behavioural-disorders/01-pica/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/developmental-and-behavioural-disorders/01-pica/page-1.webp",
+                  "/theory-answers/pediatrics/developmental-and-behavioural-disorders/01-pica/page-2.webp",
+                  "/theory-answers/pediatrics/developmental-and-behavioural-disorders/01-pica/page-3.webp",
+                  "/theory-answers/pediatrics/developmental-and-behavioural-disorders/01-pica/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -51448,7 +51484,19 @@
               "sourceText": "Thumb Sucking (S-05) (Pg. 57)",
               "prompt": "Thumb Sucking (S-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-4-developmental-and-behavioural-disorders-002"
+              "id": "bhalani-final-year-pediatrics-paediatrics-4-developmental-and-behavioural-disorders-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Thumb Sucking",
+                "description": "Handwritten MBBS exam answer and final summary for Thumb Sucking.",
+                "pdf": "/theory-answers/pediatrics/developmental-and-behavioural-disorders/02-thumb-sucking/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/developmental-and-behavioural-disorders/02-thumb-sucking/page-1.webp",
+                  "/theory-answers/pediatrics/developmental-and-behavioural-disorders/02-thumb-sucking/page-2.webp",
+                  "/theory-answers/pediatrics/developmental-and-behavioural-disorders/02-thumb-sucking/page-3.webp",
+                  "/theory-answers/pediatrics/developmental-and-behavioural-disorders/02-thumb-sucking/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -51466,7 +51514,19 @@
               "sourceText": "Physiology of Puberty (S-19) (Pg. 61)",
               "prompt": "Physiology of Puberty (S-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-5-adolescent-health-development-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-5-adolescent-health-development-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Physiology of Puberty",
+                "description": "Handwritten MBBS exam answer and final summary for Physiology of Puberty.",
+                "pdf": "/theory-answers/pediatrics/adolescent-health-development/01-physiology-of-puberty/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/adolescent-health-development/01-physiology-of-puberty/page-1.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/01-physiology-of-puberty/page-2.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/01-physiology-of-puberty/page-3.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/01-physiology-of-puberty/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -51476,7 +51536,19 @@
               "sourceText": "Sexual Maturity Rating for Adolescents (W-16) (Pg. 60)",
               "prompt": "Sexual Maturity Rating for Adolescents (W-16)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-5-adolescent-health-development-002"
+              "id": "bhalani-final-year-pediatrics-paediatrics-5-adolescent-health-development-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Sexual Maturity Rating for Adolescents",
+                "description": "Handwritten MBBS exam answer and final summary for Sexual Maturity Rating for Adolescents.",
+                "pdf": "/theory-answers/pediatrics/adolescent-health-development/02-sexual-maturity-rating-for-adolescents/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/adolescent-health-development/02-sexual-maturity-rating-for-adolescents/page-1.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/02-sexual-maturity-rating-for-adolescents/page-2.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/02-sexual-maturity-rating-for-adolescents/page-3.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/02-sexual-maturity-rating-for-adolescents/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -51486,7 +51558,19 @@
               "sourceText": "Psychological Problems during Adolescence (W-06) (Pg. 62)",
               "prompt": "Psychological Problems during Adolescence (W-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-5-adolescent-health-development-003"
+              "id": "bhalani-final-year-pediatrics-paediatrics-5-adolescent-health-development-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Psychological Problems during Adolescence",
+                "description": "Handwritten MBBS exam answer and final summary for Psychological Problems during Adolescence.",
+                "pdf": "/theory-answers/pediatrics/adolescent-health-development/03-psychological-problems-during-adolescence/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/adolescent-health-development/03-psychological-problems-during-adolescence/page-1.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/03-psychological-problems-during-adolescence/page-2.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/03-psychological-problems-during-adolescence/page-3.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/03-psychological-problems-during-adolescence/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -51496,7 +51580,20 @@
               "sourceText": "Stages of Adolescence; Health Problems of Adolescents (S-17) (Pg. 60)",
               "prompt": "Stages of Adolescence; Health Problems of Adolescents (S-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-5-adolescent-health-development-004"
+              "id": "bhalani-final-year-pediatrics-paediatrics-5-adolescent-health-development-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Stages of Adolescence; Health Problems of Adolescents",
+                "description": "Handwritten MBBS exam answer and final summary for Stages of Adolescence; Health Problems of Adolescents.",
+                "pdf": "/theory-answers/pediatrics/adolescent-health-development/04-stages-of-adolescence-health-problems-of-adolescents/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/adolescent-health-development/04-stages-of-adolescence-health-problems-of-adolescents/page-1.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/04-stages-of-adolescence-health-problems-of-adolescents/page-2.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/04-stages-of-adolescence-health-problems-of-adolescents/page-3.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/04-stages-of-adolescence-health-problems-of-adolescents/page-4.webp",
+                  "/theory-answers/pediatrics/adolescent-health-development/04-stages-of-adolescence-health-problems-of-adolescents/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -51514,7 +51611,19 @@
               "sourceText": "Metabolic Acidosis* in children (S-18)(S-04) (Pg. 83)",
               "prompt": "Metabolic Acidosis in children (S-18)(S-04)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-6-fluid-electrolyte-disturbances-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-6-fluid-electrolyte-disturbances-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Metabolic Acidosis in children",
+                "description": "Handwritten MBBS exam answer and final summary for Metabolic Acidosis in children.",
+                "pdf": "/theory-answers/pediatrics/fluid-electrolyte-disturbances/01-metabolic-acidosis-in-children/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/fluid-electrolyte-disturbances/01-metabolic-acidosis-in-children/page-1.webp",
+                  "/theory-answers/pediatrics/fluid-electrolyte-disturbances/01-metabolic-acidosis-in-children/page-2.webp",
+                  "/theory-answers/pediatrics/fluid-electrolyte-disturbances/01-metabolic-acidosis-in-children/page-3.webp",
+                  "/theory-answers/pediatrics/fluid-electrolyte-disturbances/01-metabolic-acidosis-in-children/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -51532,7 +51641,19 @@
               "sourceText": "Complementary Feeding* for an infant (S-20)(W-16) (Pg. 91)",
               "prompt": "Complementary Feeding for an infant (S-20)(W-16)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Complementary Feeding for an infant",
+                "description": "Handwritten MBBS exam answer and final summary for Complementary Feeding for an infant.",
+                "pdf": "/theory-answers/pediatrics/nutrition/01-complementary-feeding-for-an-infant/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/nutrition/01-complementary-feeding-for-an-infant/page-1.webp",
+                  "/theory-answers/pediatrics/nutrition/01-complementary-feeding-for-an-infant/page-2.webp",
+                  "/theory-answers/pediatrics/nutrition/01-complementary-feeding-for-an-infant/page-3.webp",
+                  "/theory-answers/pediatrics/nutrition/01-complementary-feeding-for-an-infant/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -51542,7 +51663,19 @@
               "sourceText": "Sever Acute Malnutrition** (SAM) - nutritional [management]*; complications (S-17)(W-15)(S-08) (Pg. 97)",
               "prompt": "Sever Acute Malnutrition (SAM) - nutritional [management]; complications (S-17)(W-15)(S-08)",
               "emphasis": 2,
-              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-002"
+              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Sever Acute Malnutrition (SAM) - nutritional [management]; complications",
+                "description": "Handwritten MBBS exam answer and final summary for Sever Acute Malnutrition (SAM) - nutritional [management]; complications.",
+                "pdf": "/theory-answers/pediatrics/nutrition/02-sever-acute-malnutrition-sam-nutritional-management-complicati/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/nutrition/02-sever-acute-malnutrition-sam-nutritional-management-complicati/page-1.webp",
+                  "/theory-answers/pediatrics/nutrition/02-sever-acute-malnutrition-sam-nutritional-management-complicati/page-2.webp",
+                  "/theory-answers/pediatrics/nutrition/02-sever-acute-malnutrition-sam-nutritional-management-complicati/page-3.webp",
+                  "/theory-answers/pediatrics/nutrition/02-sever-acute-malnutrition-sam-nutritional-management-complicati/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -51552,7 +51685,19 @@
               "sourceText": "PEM - classification (W-04) (Pg. 94)",
               "prompt": "PEM - classification (W-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-003"
+              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "PEM - classification",
+                "description": "Handwritten MBBS exam answer and final summary for PEM - classification.",
+                "pdf": "/theory-answers/pediatrics/nutrition/03-pem-classification/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/nutrition/03-pem-classification/page-1.webp",
+                  "/theory-answers/pediatrics/nutrition/03-pem-classification/page-2.webp",
+                  "/theory-answers/pediatrics/nutrition/03-pem-classification/page-3.webp",
+                  "/theory-answers/pediatrics/nutrition/03-pem-classification/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -51562,7 +51707,19 @@
               "sourceText": "Nutritional Rehabilitation Center (S-03) (Pg. 99)",
               "prompt": "Nutritional Rehabilitation Center (S-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-004"
+              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Nutritional Rehabilitation Center",
+                "description": "Handwritten MBBS exam answer and final summary for Nutritional Rehabilitation Center.",
+                "pdf": "/theory-answers/pediatrics/nutrition/04-nutritional-rehabilitation-center/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/nutrition/04-nutritional-rehabilitation-center/page-1.webp",
+                  "/theory-answers/pediatrics/nutrition/04-nutritional-rehabilitation-center/page-2.webp",
+                  "/theory-answers/pediatrics/nutrition/04-nutritional-rehabilitation-center/page-3.webp",
+                  "/theory-answers/pediatrics/nutrition/04-nutritional-rehabilitation-center/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -51572,7 +51729,20 @@
               "sourceText": "Severe Acute Malnutrition (SAM) - define; 18 m/o with SAM - c/f, investigations, management, potential complications (W-14) (Pg. 97)",
               "prompt": "Severe Acute Malnutrition (SAM) - define; 18 m/o with SAM - c/f, investigations, management, potential complications (W-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-005"
+              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Severe Acute Malnutrition (SAM) - define; 18 m/o with SAM - c/f, investigations, management, potential complications",
+                "description": "Handwritten MBBS exam answer and final summary for Severe Acute Malnutrition (SAM) - define; 18 m/o with SAM - c/f, investigations, management, potential complications.",
+                "pdf": "/theory-answers/pediatrics/nutrition/05-severe-acute-malnutrition-sam-define-18-m-o-with-sam-c-f-inves/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/nutrition/05-severe-acute-malnutrition-sam-define-18-m-o-with-sam-c-f-inves/page-1.webp",
+                  "/theory-answers/pediatrics/nutrition/05-severe-acute-malnutrition-sam-define-18-m-o-with-sam-c-f-inves/page-2.webp",
+                  "/theory-answers/pediatrics/nutrition/05-severe-acute-malnutrition-sam-define-18-m-o-with-sam-c-f-inves/page-3.webp",
+                  "/theory-answers/pediatrics/nutrition/05-severe-acute-malnutrition-sam-define-18-m-o-with-sam-c-f-inves/page-4.webp",
+                  "/theory-answers/pediatrics/nutrition/05-severe-acute-malnutrition-sam-define-18-m-o-with-sam-c-f-inves/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -51582,7 +51752,20 @@
               "sourceText": "Kwashiorkor - etiopathogenesis, c/f, diagnosis, management (W-11) (Pg. 96)",
               "prompt": "Kwashiorkor - etiopathogenesis, c/f, diagnosis, management (W-11)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-006"
+              "id": "bhalani-final-year-pediatrics-paediatrics-7-nutrition-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Kwashiorkor - etiopathogenesis, c/f, diagnosis, management",
+                "description": "Handwritten MBBS exam answer and final summary for Kwashiorkor - etiopathogenesis, c/f, diagnosis, management.",
+                "pdf": "/theory-answers/pediatrics/nutrition/06-kwashiorkor-etiopathogenesis-c-f-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/nutrition/06-kwashiorkor-etiopathogenesis-c-f-diagnosis-management/page-1.webp",
+                  "/theory-answers/pediatrics/nutrition/06-kwashiorkor-etiopathogenesis-c-f-diagnosis-management/page-2.webp",
+                  "/theory-answers/pediatrics/nutrition/06-kwashiorkor-etiopathogenesis-c-f-diagnosis-management/page-3.webp",
+                  "/theory-answers/pediatrics/nutrition/06-kwashiorkor-etiopathogenesis-c-f-diagnosis-management/page-4.webp",
+                  "/theory-answers/pediatrics/nutrition/06-kwashiorkor-etiopathogenesis-c-f-diagnosis-management/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -51600,7 +51783,19 @@
               "sourceText": "Vitamin B12 (S-19) (Pg. 119)",
               "prompt": "Vitamin B12 (S-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Vitamin B12",
+                "description": "Handwritten MBBS exam answer and final summary for Vitamin B12.",
+                "pdf": "/theory-answers/pediatrics/micronutrients-in-health-disease/01-vitamin-b12/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/01-vitamin-b12/page-1.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/01-vitamin-b12/page-2.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/01-vitamin-b12/page-3.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/01-vitamin-b12/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -51610,7 +51805,19 @@
               "sourceText": "Vitamin D Deficiency (W-17) (Pg. 112)",
               "prompt": "Vitamin D Deficiency (W-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-002"
+              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Vitamin D Deficiency",
+                "description": "Handwritten MBBS exam answer and final summary for Vitamin D Deficiency.",
+                "pdf": "/theory-answers/pediatrics/micronutrients-in-health-disease/02-vitamin-d-deficiency/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/02-vitamin-d-deficiency/page-1.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/02-vitamin-d-deficiency/page-2.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/02-vitamin-d-deficiency/page-3.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/02-vitamin-d-deficiency/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -51620,7 +51827,19 @@
               "sourceText": "Nutritional Rickets** - management (W-11)(S-06)(W-05) (Pg. 112)",
               "prompt": "Nutritional Rickets - management (W-11)(S-06)(W-05)",
               "emphasis": 2,
-              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-003"
+              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Nutritional Rickets - management",
+                "description": "Handwritten MBBS exam answer and final summary for Nutritional Rickets - management.",
+                "pdf": "/theory-answers/pediatrics/micronutrients-in-health-disease/03-nutritional-rickets-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/03-nutritional-rickets-management/page-1.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/03-nutritional-rickets-management/page-2.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/03-nutritional-rickets-management/page-3.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/03-nutritional-rickets-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -51630,7 +51849,19 @@
               "sourceText": "Scurvy* (W-10)(W-03) (Pg. 121)",
               "prompt": "Scurvy (W-10)(W-03)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-004"
+              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Scurvy",
+                "description": "Handwritten MBBS exam answer and final summary for Scurvy.",
+                "pdf": "/theory-answers/pediatrics/micronutrients-in-health-disease/04-scurvy/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/04-scurvy/page-1.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/04-scurvy/page-2.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/04-scurvy/page-3.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/04-scurvy/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -51640,7 +51871,19 @@
               "sourceText": "Xerophthalmia (W-09) (Pg. 110)",
               "prompt": "Xerophthalmia (W-09)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-005"
+              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Xerophthalmia",
+                "description": "Handwritten MBBS exam answer and final summary for Xerophthalmia.",
+                "pdf": "/theory-answers/pediatrics/micronutrients-in-health-disease/05-xerophthalmia/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/05-xerophthalmia/page-1.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/05-xerophthalmia/page-2.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/05-xerophthalmia/page-3.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/05-xerophthalmia/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -51650,7 +51893,19 @@
               "sourceText": "Vitamin A Deficiency (W-06) (Pg. 110)",
               "prompt": "Vitamin A Deficiency (W-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-006"
+              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Vitamin A Deficiency",
+                "description": "Handwritten MBBS exam answer and final summary for Vitamin A Deficiency.",
+                "pdf": "/theory-answers/pediatrics/micronutrients-in-health-disease/06-vitamin-a-deficiency/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/06-vitamin-a-deficiency/page-1.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/06-vitamin-a-deficiency/page-2.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/06-vitamin-a-deficiency/page-3.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/06-vitamin-a-deficiency/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -51660,7 +51915,19 @@
               "sourceText": "Trace Elements (S-03) (Pg. 122)",
               "prompt": "Trace Elements (S-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-007"
+              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Trace Elements",
+                "description": "Handwritten MBBS exam answer and final summary for Trace Elements.",
+                "pdf": "/theory-answers/pediatrics/micronutrients-in-health-disease/07-trace-elements/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/07-trace-elements/page-1.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/07-trace-elements/page-2.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/07-trace-elements/page-3.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/07-trace-elements/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -51670,7 +51937,20 @@
               "sourceText": "Vitamin A Deficiency - WHO classification, management in children (S-20) (Pg. 110)",
               "prompt": "Vitamin A Deficiency - WHO classification, management in children (S-20)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-008"
+              "id": "bhalani-final-year-pediatrics-paediatrics-8-micronutrients-in-health-disease-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Vitamin A Deficiency - WHO classification, management in children",
+                "description": "Handwritten MBBS exam answer and final summary for Vitamin A Deficiency - WHO classification, management in children.",
+                "pdf": "/theory-answers/pediatrics/micronutrients-in-health-disease/08-vitamin-a-deficiency-who-classification-management-in-children/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/08-vitamin-a-deficiency-who-classification-management-in-children/page-1.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/08-vitamin-a-deficiency-who-classification-management-in-children/page-2.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/08-vitamin-a-deficiency-who-classification-management-in-children/page-3.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/08-vitamin-a-deficiency-who-classification-management-in-children/page-4.webp",
+                  "/theory-answers/pediatrics/micronutrients-in-health-disease/08-vitamin-a-deficiency-who-classification-management-in-children/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -51688,7 +51968,19 @@
               "sourceText": "Unconjugated Hyperbilirubinemia in a Neonate (S-20) (Pg. 168)",
               "prompt": "Unconjugated Hyperbilirubinemia in a Neonate (S-20)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Unconjugated Hyperbilirubinemia in a Neonate",
+                "description": "Handwritten MBBS exam answer and final summary for Unconjugated Hyperbilirubinemia in a Neonate.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/01-unconjugated-hyperbilirubinemia-in-a-neonate/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/01-unconjugated-hyperbilirubinemia-in-a-neonate/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/01-unconjugated-hyperbilirubinemia-in-a-neonate/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/01-unconjugated-hyperbilirubinemia-in-a-neonate/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/01-unconjugated-hyperbilirubinemia-in-a-neonate/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -51698,7 +51990,19 @@
               "sourceText": "New Ballard Score Maturational Assessment of Gestational Age (W-19) (Pg. 138)",
               "prompt": "New Ballard Score Maturational Assessment of Gestational Age (W-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-002"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "New Ballard Score Maturational Assessment of Gestational Age",
+                "description": "Handwritten MBBS exam answer and final summary for New Ballard Score Maturational Assessment of Gestational Age.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/02-new-ballard-score-maturational-assessment-of-gestational-age/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/02-new-ballard-score-maturational-assessment-of-gestational-age/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/02-new-ballard-score-maturational-assessment-of-gestational-age/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/02-new-ballard-score-maturational-assessment-of-gestational-age/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/02-new-ballard-score-maturational-assessment-of-gestational-age/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -51708,7 +52012,19 @@
               "sourceText": "Exclusive Breast Feeding; Breast Feeding - advantages (S-19)(S-12) (Pg. 145)",
               "prompt": "Exclusive Breast Feeding; Breast Feeding - advantages (S-19)(S-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-003"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Exclusive Breast Feeding; Breast Feeding - advantages",
+                "description": "Handwritten MBBS exam answer and final summary for Exclusive Breast Feeding; Breast Feeding - advantages.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/03-exclusive-breast-feeding-breast-feeding-advantages/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/03-exclusive-breast-feeding-breast-feeding-advantages/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/03-exclusive-breast-feeding-breast-feeding-advantages/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/03-exclusive-breast-feeding-breast-feeding-advantages/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/03-exclusive-breast-feeding-breast-feeding-advantages/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -51718,7 +52034,19 @@
               "sourceText": "Neonatal Jaundice*; Neonatal Physiological Jaundice** - treatment* (W-18)(W-14)(W-09)(W-05)(S-03) (Pg. 169; 168)",
               "prompt": "Neonatal Jaundice; Neonatal Physiological Jaundice - treatment (W-18)(W-14)(W-09)(W-05)(S-03)",
               "emphasis": 2,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-004"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Neonatal Jaundice; Neonatal Physiological Jaundice - treatment",
+                "description": "Handwritten MBBS exam answer and final summary for Neonatal Jaundice; Neonatal Physiological Jaundice - treatment.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/04-neonatal-jaundice-neonatal-physiological-jaundice-treatment/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/04-neonatal-jaundice-neonatal-physiological-jaundice-treatment/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/04-neonatal-jaundice-neonatal-physiological-jaundice-treatment/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/04-neonatal-jaundice-neonatal-physiological-jaundice-treatment/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/04-neonatal-jaundice-neonatal-physiological-jaundice-treatment/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -51728,7 +52056,19 @@
               "sourceText": "Warm Chain* (W-17)(S-07) (Pg. 143/145 - Ghai 8th Edition)",
               "prompt": "Warm Chain (W-17)(S-07)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-005"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Warm Chain",
+                "description": "Handwritten MBBS exam answer and final summary for Warm Chain.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/05-warm-chain/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/05-warm-chain/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/05-warm-chain/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/05-warm-chain/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/05-warm-chain/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -51738,7 +52078,19 @@
               "sourceText": "Neonatal Reflexes (S-17) (Pg. 141)",
               "prompt": "Neonatal Reflexes (S-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-006"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Neonatal Reflexes",
+                "description": "Handwritten MBBS exam answer and final summary for Neonatal Reflexes.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/06-neonatal-reflexes/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/06-neonatal-reflexes/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/06-neonatal-reflexes/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/06-neonatal-reflexes/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/06-neonatal-reflexes/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -51748,7 +52100,19 @@
               "sourceText": "Hypothermia in Neonates/Neonatal Hypothermia (W-16)(S-15) (Pg. 143)",
               "prompt": "Hypothermia in Neonates/Neonatal Hypothermia (W-16)(S-15)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-007"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hypothermia in Neonates/Neonatal Hypothermia",
+                "description": "Handwritten MBBS exam answer and final summary for Hypothermia in Neonates/Neonatal Hypothermia.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/07-hypothermia-in-neonates-neonatal-hypothermia/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/07-hypothermia-in-neonates-neonatal-hypothermia/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/07-hypothermia-in-neonates-neonatal-hypothermia/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/07-hypothermia-in-neonates-neonatal-hypothermia/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/07-hypothermia-in-neonates-neonatal-hypothermia/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "8",
@@ -51758,7 +52122,19 @@
               "sourceText": "Neonatal Sepsis* - investigations, treatment (S-14)(S-09) (Pg. 160)",
               "prompt": "Neonatal Sepsis - investigations, treatment (S-14)(S-09)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-008"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Neonatal Sepsis - investigations, treatment",
+                "description": "Handwritten MBBS exam answer and final summary for Neonatal Sepsis - investigations, treatment.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/08-neonatal-sepsis-investigations-treatment/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/08-neonatal-sepsis-investigations-treatment/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/08-neonatal-sepsis-investigations-treatment/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/08-neonatal-sepsis-investigations-treatment/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/08-neonatal-sepsis-investigations-treatment/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "9",
@@ -51768,7 +52144,19 @@
               "sourceText": "Neonatal Resuscitation Protocol (S-13) (Pg. 128)",
               "prompt": "Neonatal Resuscitation Protocol (S-13)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-009"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-009",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Neonatal Resuscitation Protocol",
+                "description": "Handwritten MBBS exam answer and final summary for Neonatal Resuscitation Protocol.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/09-neonatal-resuscitation-protocol/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/09-neonatal-resuscitation-protocol/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/09-neonatal-resuscitation-protocol/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/09-neonatal-resuscitation-protocol/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/09-neonatal-resuscitation-protocol/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "10",
@@ -51778,7 +52166,19 @@
               "sourceText": "Low Birth Weight Baby - complications (S-13) (Pg. 150)",
               "prompt": "Low Birth Weight Baby - complications (S-13)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-010"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-010",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Low Birth Weight Baby - complications",
+                "description": "Handwritten MBBS exam answer and final summary for Low Birth Weight Baby - complications.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/10-low-birth-weight-baby-complications/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/10-low-birth-weight-baby-complications/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/10-low-birth-weight-baby-complications/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/10-low-birth-weight-baby-complications/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/10-low-birth-weight-baby-complications/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "11",
@@ -51788,7 +52188,19 @@
               "sourceText": "Newborn with APGAR Score less than 3 - delivery room resuscitation (W-12) (Pg. 127)",
               "prompt": "Newborn with APGAR Score less than 3 - delivery room resuscitation (W-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-011"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-011",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Newborn with APGAR Score less than 3 - delivery room resuscitation",
+                "description": "Handwritten MBBS exam answer and final summary for Newborn with APGAR Score less than 3 - delivery room resuscitation.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/11-newborn-with-apgar-score-less-than-3-delivery-room-resuscitati/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/11-newborn-with-apgar-score-less-than-3-delivery-room-resuscitati/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/11-newborn-with-apgar-score-less-than-3-delivery-room-resuscitati/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/11-newborn-with-apgar-score-less-than-3-delivery-room-resuscitati/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/11-newborn-with-apgar-score-less-than-3-delivery-room-resuscitati/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "12",
@@ -51798,7 +52210,19 @@
               "sourceText": "Hypoglycemia (W-07) (Pg. 175)",
               "prompt": "Hypoglycemia (W-07)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-012"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-012",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hypoglycemia",
+                "description": "Handwritten MBBS exam answer and final summary for Hypoglycemia.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/12-hypoglycemia/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/12-hypoglycemia/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/12-hypoglycemia/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/12-hypoglycemia/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/12-hypoglycemia/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "13",
@@ -51808,7 +52232,19 @@
               "sourceText": "Weaning (S-05)",
               "prompt": "Weaning (S-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-013"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-013",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Weaning",
+                "description": "Handwritten MBBS exam answer and final summary for Weaning.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/13-weaning/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/13-weaning/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/13-weaning/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/13-weaning/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/13-weaning/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "14",
@@ -51818,7 +52254,19 @@
               "sourceText": "Diaper Rash - define, presentation, treatment (W-04) (Pg. 136)",
               "prompt": "Diaper Rash - define, presentation, treatment (W-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-014"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-014",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Diaper Rash - define, presentation, treatment",
+                "description": "Handwritten MBBS exam answer and final summary for Diaper Rash - define, presentation, treatment.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/14-diaper-rash-define-presentation-treatment/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/14-diaper-rash-define-presentation-treatment/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/14-diaper-rash-define-presentation-treatment/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/14-diaper-rash-define-presentation-treatment/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/14-diaper-rash-define-presentation-treatment/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "15",
@@ -51828,7 +52276,19 @@
               "sourceText": "Micronutrient Supplementation of Breast Milk for LBW Babies (S-04)",
               "prompt": "Micronutrient Supplementation of Breast Milk for LBW Babies (S-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-015"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-015",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Micronutrient Supplementation of Breast Milk for LBW Babies",
+                "description": "Handwritten MBBS exam answer and final summary for Micronutrient Supplementation of Breast Milk for LBW Babies.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/15-micronutrient-supplementation-of-breast-milk-for-lbw-babies/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/15-micronutrient-supplementation-of-breast-milk-for-lbw-babies/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/15-micronutrient-supplementation-of-breast-milk-for-lbw-babies/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/15-micronutrient-supplementation-of-breast-milk-for-lbw-babies/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/15-micronutrient-supplementation-of-breast-milk-for-lbw-babies/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "16",
@@ -51838,7 +52298,19 @@
               "sourceText": "Breast Milk - immunological factors (W-02) (Pg. 145)",
               "prompt": "Breast Milk - immunological factors (W-02)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-016"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-016",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Breast Milk - immunological factors",
+                "description": "Handwritten MBBS exam answer and final summary for Breast Milk - immunological factors.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/16-breast-milk-immunological-factors/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/16-breast-milk-immunological-factors/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/16-breast-milk-immunological-factors/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/16-breast-milk-immunological-factors/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/16-breast-milk-immunological-factors/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -51848,7 +52320,20 @@
               "sourceText": "Low Birth Weight Baby - define, complications; Respiratory Distress Syndrome - management (S-18) (Pg. 149,165)",
               "prompt": "Low Birth Weight Baby - define, complications; Respiratory Distress Syndrome - management (S-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-017"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-017",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Low Birth Weight Baby - define, complications; Respiratory Distress Syndrome - management",
+                "description": "Handwritten MBBS exam answer and final summary for Low Birth Weight Baby - define, complications; Respiratory Distress Syndrome - management.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/17-low-birth-weight-baby-define-complications-respiratory-distres/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/17-low-birth-weight-baby-define-complications-respiratory-distres/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/17-low-birth-weight-baby-define-complications-respiratory-distres/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/17-low-birth-weight-baby-define-complications-respiratory-distres/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/17-low-birth-weight-baby-define-complications-respiratory-distres/page-4.webp",
+                  "/theory-answers/pediatrics/newborn-infants/17-low-birth-weight-baby-define-complications-respiratory-distres/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -51858,7 +52343,20 @@
               "sourceText": "Preterm Baby - complications; Preterm Baby with Hyaline Membrane Disease (Respiratory Distress Syndrome*) - c/f*, diagnosis, treatment; management (S-16)(S-12) (Pg. 165, 150)",
               "prompt": "Preterm Baby - complications; Preterm Baby with Hyaline Membrane Disease (Respiratory Distress Syndrome) - c/f, diagnosis, treatment; management (S-16)(S-12)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-018"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-018",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Preterm Baby - complications; Preterm Baby with Hyaline Membrane Disease (Respiratory Distress Syndrome) - c/f, diagnosis, treatment; management",
+                "description": "Handwritten MBBS exam answer and final summary for Preterm Baby - complications; Preterm Baby with Hyaline Membrane Disease (Respiratory Distress Syndrome) - c/f, diagnosis, treatment; management.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/18-preterm-baby-complications-preterm-baby-with-hyaline-membrane/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/18-preterm-baby-complications-preterm-baby-with-hyaline-membrane/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/18-preterm-baby-complications-preterm-baby-with-hyaline-membrane/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/18-preterm-baby-complications-preterm-baby-with-hyaline-membrane/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/18-preterm-baby-complications-preterm-baby-with-hyaline-membrane/page-4.webp",
+                  "/theory-answers/pediatrics/newborn-infants/18-preterm-baby-complications-preterm-baby-with-hyaline-membrane/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -51868,7 +52366,20 @@
               "sourceText": "Respiratory Distress* in a Newborn* - causes; D/D, management; etiology, c/f(part) (S-12)(W-08)(W- 04)",
               "prompt": "Respiratory Distress in a Newborn - causes; D/D, management; etiology, c/f(part) (S-12)(W-08)(W-04)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-019"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-019",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Respiratory Distress in a Newborn - causes; D/D, management; etiology, c/f(part)",
+                "description": "Handwritten MBBS exam answer and final summary for Respiratory Distress in a Newborn - causes; D/D, management; etiology, c/f(part).",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/19-respiratory-distress-in-a-newborn-causes-d-d-management-etiolo/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/19-respiratory-distress-in-a-newborn-causes-d-d-management-etiolo/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/19-respiratory-distress-in-a-newborn-causes-d-d-management-etiolo/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/19-respiratory-distress-in-a-newborn-causes-d-d-management-etiolo/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/19-respiratory-distress-in-a-newborn-causes-d-d-management-etiolo/page-4.webp",
+                  "/theory-answers/pediatrics/newborn-infants/19-respiratory-distress-in-a-newborn-causes-d-d-management-etiolo/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -51878,7 +52389,20 @@
               "sourceText": "28 hour old Newborn - delivered at home - presents with Severe Jaundice - c/f, D/D, management (S- 10) (Pg. 168)",
               "prompt": "28 hour old Newborn - delivered at home - presents with Severe Jaundice - c/f, D/D, management (S-10)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-020"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-020",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "28 hour old Newborn - delivered at home - presents with Severe Jaundice - c/f, D/D, management",
+                "description": "Handwritten MBBS exam answer and final summary for 28 hour old Newborn - delivered at home - presents with Severe Jaundice - c/f, D/D, management.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/20-28-hour-old-newborn-delivered-at-home-presents-with-severe-jau/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/20-28-hour-old-newborn-delivered-at-home-presents-with-severe-jau/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/20-28-hour-old-newborn-delivered-at-home-presents-with-severe-jau/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/20-28-hour-old-newborn-delivered-at-home-presents-with-severe-jau/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/20-28-hour-old-newborn-delivered-at-home-presents-with-severe-jau/page-4.webp",
+                  "/theory-answers/pediatrics/newborn-infants/20-28-hour-old-newborn-delivered-at-home-presents-with-severe-jau/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -51888,7 +52412,20 @@
               "sourceText": "Neonatal Resuscitation* - equipment, steps* (W-07)(W-02) (Pg. 126)",
               "prompt": "Neonatal Resuscitation - equipment, steps (W-07)(W-02)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-021"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-021",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Neonatal Resuscitation - equipment, steps",
+                "description": "Handwritten MBBS exam answer and final summary for Neonatal Resuscitation - equipment, steps.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/21-neonatal-resuscitation-equipment-steps/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/21-neonatal-resuscitation-equipment-steps/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/21-neonatal-resuscitation-equipment-steps/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/21-neonatal-resuscitation-equipment-steps/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/21-neonatal-resuscitation-equipment-steps/page-4.webp",
+                  "/theory-answers/pediatrics/newborn-infants/21-neonatal-resuscitation-equipment-steps/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -51898,7 +52435,20 @@
               "sourceText": "Normal Newborn Baby - routine care (S-07) (Pg. 133)",
               "prompt": "Normal Newborn Baby - routine care (S-07)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-022"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-022",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Normal Newborn Baby - routine care",
+                "description": "Handwritten MBBS exam answer and final summary for Normal Newborn Baby - routine care.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/22-normal-newborn-baby-routine-care/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/22-normal-newborn-baby-routine-care/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/22-normal-newborn-baby-routine-care/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/22-normal-newborn-baby-routine-care/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/22-normal-newborn-baby-routine-care/page-4.webp",
+                  "/theory-answers/pediatrics/newborn-infants/22-normal-newborn-baby-routine-care/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -51908,7 +52458,20 @@
               "sourceText": "Breast Feeding - techniques, advantages, contraindications, common problems (W-06) (Pg. 147)",
               "prompt": "Breast Feeding - techniques, advantages, contraindications, common problems (W-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-023"
+              "id": "bhalani-final-year-pediatrics-paediatrics-9-newborn-infants-023",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Breast Feeding - techniques, advantages, contraindications, common problems",
+                "description": "Handwritten MBBS exam answer and final summary for Breast Feeding - techniques, advantages, contraindications, common problems.",
+                "pdf": "/theory-answers/pediatrics/newborn-infants/23-breast-feeding-techniques-advantages-contraindications-common/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/newborn-infants/23-breast-feeding-techniques-advantages-contraindications-common/page-1.webp",
+                  "/theory-answers/pediatrics/newborn-infants/23-breast-feeding-techniques-advantages-contraindications-common/page-2.webp",
+                  "/theory-answers/pediatrics/newborn-infants/23-breast-feeding-techniques-advantages-contraindications-common/page-3.webp",
+                  "/theory-answers/pediatrics/newborn-infants/23-breast-feeding-techniques-advantages-contraindications-common/page-4.webp",
+                  "/theory-answers/pediatrics/newborn-infants/23-breast-feeding-techniques-advantages-contraindications-common/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -51926,7 +52489,19 @@
               "sourceText": "Injectable Polio Vaccine*; Inactivated Polio Vaccine (IPV) (W-15)(W-13)(W-09) (Pg. 188)",
               "prompt": "Injectable Polio Vaccine; Inactivated Polio Vaccine (IPV) (W-15)(W-13)(W-09)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Injectable Polio Vaccine; Inactivated Polio Vaccine (IPV)",
+                "description": "Handwritten MBBS exam answer and final summary for Injectable Polio Vaccine; Inactivated Polio Vaccine (IPV).",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/01-injectable-polio-vaccine-inactivated-polio-vaccine-ipv/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/01-injectable-polio-vaccine-inactivated-polio-vaccine-ipv/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/01-injectable-polio-vaccine-inactivated-polio-vaccine-ipv/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/01-injectable-polio-vaccine-inactivated-polio-vaccine-ipv/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/01-injectable-polio-vaccine-inactivated-polio-vaccine-ipv/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -51936,7 +52511,19 @@
               "sourceText": "Child with Bite by Rabid Dog - management (W-14) (Pg. 198)",
               "prompt": "Child with Bite by Rabid Dog - management (W-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-002"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Child with Bite by Rabid Dog - management",
+                "description": "Handwritten MBBS exam answer and final summary for Child with Bite by Rabid Dog - management.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/02-child-with-bite-by-rabid-dog-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/02-child-with-bite-by-rabid-dog-management/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/02-child-with-bite-by-rabid-dog-management/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/02-child-with-bite-by-rabid-dog-management/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/02-child-with-bite-by-rabid-dog-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -51946,7 +52533,19 @@
               "sourceText": "DPT Vaccine* - adverse effects (S-14)(S-13) (Pg. 189)",
               "prompt": "DPT Vaccine - adverse effects (S-14)(S-13)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-003"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "DPT Vaccine - adverse effects",
+                "description": "Handwritten MBBS exam answer and final summary for DPT Vaccine - adverse effects.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/03-dpt-vaccine-adverse-effects/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/03-dpt-vaccine-adverse-effects/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/03-dpt-vaccine-adverse-effects/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/03-dpt-vaccine-adverse-effects/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/03-dpt-vaccine-adverse-effects/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -51956,7 +52555,19 @@
               "sourceText": "Pulse Polio Program (S-12) (Pg. 184)",
               "prompt": "Pulse Polio Program (S-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-004"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Pulse Polio Program",
+                "description": "Handwritten MBBS exam answer and final summary for Pulse Polio Program.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/04-pulse-polio-program/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/04-pulse-polio-program/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/04-pulse-polio-program/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/04-pulse-polio-program/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/04-pulse-polio-program/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -51966,7 +52577,19 @@
               "sourceText": "Measles Vaccine (W-08) (Pg. 191)",
               "prompt": "Measles Vaccine (W-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-005"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Measles Vaccine",
+                "description": "Handwritten MBBS exam answer and final summary for Measles Vaccine.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/05-measles-vaccine/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/05-measles-vaccine/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/05-measles-vaccine/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/05-measles-vaccine/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/05-measles-vaccine/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -51976,7 +52599,19 @@
               "sourceText": "Oral Polio Vaccine (S-08) (Pg. 186)",
               "prompt": "Oral Polio Vaccine (S-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-006"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Oral Polio Vaccine",
+                "description": "Handwritten MBBS exam answer and final summary for Oral Polio Vaccine.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/06-oral-polio-vaccine/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/06-oral-polio-vaccine/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/06-oral-polio-vaccine/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/06-oral-polio-vaccine/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/06-oral-polio-vaccine/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -51986,7 +52621,19 @@
               "sourceText": "BCG Vaccine (S-06) (Pg. 185)",
               "prompt": "BCG Vaccine (S-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-007"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "BCG Vaccine",
+                "description": "Handwritten MBBS exam answer and final summary for BCG Vaccine.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/07-bcg-vaccine/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/07-bcg-vaccine/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/07-bcg-vaccine/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/07-bcg-vaccine/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/07-bcg-vaccine/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "8",
@@ -51996,7 +52643,19 @@
               "sourceText": "Hepatitis B Vaccine (W-05) (Pg. 192)",
               "prompt": "Hepatitis B Vaccine (W-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-008"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hepatitis B Vaccine",
+                "description": "Handwritten MBBS exam answer and final summary for Hepatitis B Vaccine.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/08-hepatitis-b-vaccine/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/08-hepatitis-b-vaccine/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/08-hepatitis-b-vaccine/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/08-hepatitis-b-vaccine/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/08-hepatitis-b-vaccine/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "9",
@@ -52006,7 +52665,19 @@
               "sourceText": "MMR Vaccine (S-05) (Pg. 192)",
               "prompt": "MMR Vaccine (S-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-009"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-009",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "MMR Vaccine",
+                "description": "Handwritten MBBS exam answer and final summary for MMR Vaccine.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/09-mmr-vaccine/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/09-mmr-vaccine/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/09-mmr-vaccine/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/09-mmr-vaccine/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/09-mmr-vaccine/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "10",
@@ -52016,7 +52687,19 @@
               "sourceText": "Typhoid Vaccine (W-04) (Pg. 195)",
               "prompt": "Typhoid Vaccine (W-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-010"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-010",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Typhoid Vaccine",
+                "description": "Handwritten MBBS exam answer and final summary for Typhoid Vaccine.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/10-typhoid-vaccine/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/10-typhoid-vaccine/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/10-typhoid-vaccine/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/10-typhoid-vaccine/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/10-typhoid-vaccine/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "11",
@@ -52026,7 +52709,19 @@
               "sourceText": "Immunization Schedule for Newborn Baby (S-04) (Pg. 186)",
               "prompt": "Immunization Schedule for Newborn Baby (S-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-011"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-011",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Immunization Schedule for Newborn Baby",
+                "description": "Handwritten MBBS exam answer and final summary for Immunization Schedule for Newborn Baby.",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/11-immunization-schedule-for-newborn-baby/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/11-immunization-schedule-for-newborn-baby/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/11-immunization-schedule-for-newborn-baby/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/11-immunization-schedule-for-newborn-baby/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/11-immunization-schedule-for-newborn-baby/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "12",
@@ -52036,7 +52731,19 @@
               "sourceText": "Universal Immunization Program (UIP) (W-03) (Pg. 187)",
               "prompt": "Universal Immunization Program (UIP) (W-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-012"
+              "id": "bhalani-final-year-pediatrics-paediatrics-10-immunization-immunodeficiency-012",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Universal Immunization Program (UIP)",
+                "description": "Handwritten MBBS exam answer and final summary for Universal Immunization Program (UIP).",
+                "pdf": "/theory-answers/pediatrics/immunization-immunodeficiency/12-universal-immunization-program-uip/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/12-universal-immunization-program-uip/page-1.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/12-universal-immunization-program-uip/page-2.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/12-universal-immunization-program-uip/page-3.webp",
+                  "/theory-answers/pediatrics/immunization-immunodeficiency/12-universal-immunization-program-uip/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -52054,7 +52761,19 @@
               "sourceText": "Dengue Shock Syndrome* - management (W-19)(W-15) (Pg. 222)",
               "prompt": "Dengue Shock Syndrome - management (W-19)(W-15)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Dengue Shock Syndrome - management",
+                "description": "Handwritten MBBS exam answer and final summary for Dengue Shock Syndrome - management.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/01-dengue-shock-syndrome-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/01-dengue-shock-syndrome-management/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/01-dengue-shock-syndrome-management/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/01-dengue-shock-syndrome-management/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/01-dengue-shock-syndrome-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -52064,7 +52783,19 @@
               "sourceText": "Malaria* - laboratory diagnosis; complications, treatment (S-16)(S-14) (Pg. 256)",
               "prompt": "Malaria - laboratory diagnosis; complications, treatment (S-16)(S-14)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-002"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Malaria - laboratory diagnosis; complications, treatment",
+                "description": "Handwritten MBBS exam answer and final summary for Malaria - laboratory diagnosis; complications, treatment.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/02-malaria-laboratory-diagnosis-complications-treatment/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/02-malaria-laboratory-diagnosis-complications-treatment/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/02-malaria-laboratory-diagnosis-complications-treatment/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/02-malaria-laboratory-diagnosis-complications-treatment/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/02-malaria-laboratory-diagnosis-complications-treatment/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -52074,7 +52805,19 @@
               "sourceText": "Measles*** - complications*** (S-16)(W-14)(W-11)(S-07) (Pg. 211)",
               "prompt": "Measles - complications (S-16)(W-14)(W-11)(S-07)",
               "emphasis": 3,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-003"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Measles - complications",
+                "description": "Handwritten MBBS exam answer and final summary for Measles - complications.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/03-measles-complications/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/03-measles-complications/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/03-measles-complications/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/03-measles-complications/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/03-measles-complications/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -52084,7 +52827,19 @@
               "sourceText": "Fever* in a 3 y/o - classify as per IMNCI guidelines; management (W-15)(S-07) (Pg. 206, 782)",
               "prompt": "Fever in a 3 y/o - classify as per IMNCI guidelines; management (W-15)(S-07)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-004"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Fever in a 3 y/o - classify as per IMNCI guidelines; management",
+                "description": "Handwritten MBBS exam answer and final summary for Fever in a 3 y/o - classify as per IMNCI guidelines; management.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/04-fever-in-a-3-y-o-classify-as-per-imnci-guidelines-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/04-fever-in-a-3-y-o-classify-as-per-imnci-guidelines-management/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/04-fever-in-a-3-y-o-classify-as-per-imnci-guidelines-management/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/04-fever-in-a-3-y-o-classify-as-per-imnci-guidelines-management/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/04-fever-in-a-3-y-o-classify-as-per-imnci-guidelines-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -52094,7 +52849,19 @@
               "sourceText": "HIV in children - prevention (S-15) (Pg. 230)",
               "prompt": "HIV in children - prevention (S-15)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-005"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "HIV in children - prevention",
+                "description": "Handwritten MBBS exam answer and final summary for HIV in children - prevention.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/05-hiv-in-children-prevention/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/05-hiv-in-children-prevention/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/05-hiv-in-children-prevention/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/05-hiv-in-children-prevention/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/05-hiv-in-children-prevention/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -52104,7 +52871,19 @@
               "sourceText": "Mantoux Test* (W-14)(S-10) (Pg. 246)",
               "prompt": "Mantoux Test (W-14)(S-10)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-006"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Mantoux Test",
+                "description": "Handwritten MBBS exam answer and final summary for Mantoux Test.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/06-mantoux-test/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/06-mantoux-test/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/06-mantoux-test/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/06-mantoux-test/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/06-mantoux-test/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -52114,7 +52893,19 @@
               "sourceText": "Parent to Child Transmission of HIV - prevention (W-08) (Pg. 230)",
               "prompt": "Parent to Child Transmission of HIV - prevention (W-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-007"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Parent to Child Transmission of HIV - prevention",
+                "description": "Handwritten MBBS exam answer and final summary for Parent to Child Transmission of HIV - prevention.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/07-parent-to-child-transmission-of-hiv-prevention/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/07-parent-to-child-transmission-of-hiv-prevention/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/07-parent-to-child-transmission-of-hiv-prevention/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/07-parent-to-child-transmission-of-hiv-prevention/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/07-parent-to-child-transmission-of-hiv-prevention/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "8",
@@ -52124,7 +52915,19 @@
               "sourceText": "Directly Observed Short Term Chemotherapy Strategy (S-08) (Pg. 248)",
               "prompt": "Directly Observed Short Term Chemotherapy Strategy (S-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-008"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Directly Observed Short Term Chemotherapy Strategy",
+                "description": "Handwritten MBBS exam answer and final summary for Directly Observed Short Term Chemotherapy Strategy.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/08-directly-observed-short-term-chemotherapy-strategy/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/08-directly-observed-short-term-chemotherapy-strategy/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/08-directly-observed-short-term-chemotherapy-strategy/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/08-directly-observed-short-term-chemotherapy-strategy/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/08-directly-observed-short-term-chemotherapy-strategy/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "9",
@@ -52134,7 +52937,19 @@
               "sourceText": "Enterobius Vermicularis Infection (W-05) (Pg. 265)",
               "prompt": "Enterobius Vermicularis Infection (W-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-009"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-009",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Enterobius Vermicularis Infection",
+                "description": "Handwritten MBBS exam answer and final summary for Enterobius Vermicularis Infection.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/09-enterobius-vermicularis-infection/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/09-enterobius-vermicularis-infection/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/09-enterobius-vermicularis-infection/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/09-enterobius-vermicularis-infection/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/09-enterobius-vermicularis-infection/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "10",
@@ -52144,7 +52959,19 @@
               "sourceText": "Oral Thrush (S-05) (Pg. 253)",
               "prompt": "Oral Thrush (S-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-010"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-010",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Oral Thrush",
+                "description": "Handwritten MBBS exam answer and final summary for Oral Thrush.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/10-oral-thrush/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/10-oral-thrush/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/10-oral-thrush/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/10-oral-thrush/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/10-oral-thrush/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "11",
@@ -52154,7 +52981,19 @@
               "sourceText": "Newer Antimalarials (S-03) (Pg. 258)",
               "prompt": "Newer Antimalarials (S-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-011"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-011",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Newer Antimalarials",
+                "description": "Handwritten MBBS exam answer and final summary for Newer Antimalarials.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/11-newer-antimalarials/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/11-newer-antimalarials/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/11-newer-antimalarials/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/11-newer-antimalarials/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/11-newer-antimalarials/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "12",
@@ -52164,7 +53003,19 @@
               "sourceText": "Artemisinin Derivatives (W-02) (Pg. 257)",
               "prompt": "Artemisinin Derivatives (W-02)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-012"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-012",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Artemisinin Derivatives",
+                "description": "Handwritten MBBS exam answer and final summary for Artemisinin Derivatives.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/12-artemisinin-derivatives/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/12-artemisinin-derivatives/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/12-artemisinin-derivatives/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/12-artemisinin-derivatives/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/12-artemisinin-derivatives/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -52174,7 +53025,20 @@
               "sourceText": "Fever with Rash* since 4 days in a 3 y/o child - causes*; Measles* - c/f*, complications*, prevention* (S-18) (Pg. 208)",
               "prompt": "Fever with Rash since 4 days in a 3 y/o child - causes; Measles - c/f, complications, prevention (S-18)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-013"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-013",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Fever with Rash since 4 days in a 3 y/o child - causes; Measles - c/f, complications, prevention",
+                "description": "Handwritten MBBS exam answer and final summary for Fever with Rash since 4 days in a 3 y/o child - causes; Measles - c/f, complications, prevention.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/13-fever-with-rash-since-4-days-in-a-3-y-o-child-causes-measles-c/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/13-fever-with-rash-since-4-days-in-a-3-y-o-child-causes-measles-c/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/13-fever-with-rash-since-4-days-in-a-3-y-o-child-causes-measles-c/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/13-fever-with-rash-since-4-days-in-a-3-y-o-child-causes-measles-c/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/13-fever-with-rash-since-4-days-in-a-3-y-o-child-causes-measles-c/page-4.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/13-fever-with-rash-since-4-days-in-a-3-y-o-child-causes-measles-c/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -52184,7 +53048,20 @@
               "sourceText": "Primary Complex - define, natural course, investigation, management in a child (S-15) (Pg. 244)",
               "prompt": "Primary Complex - define, natural course, investigation, management in a child (S-15)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-014"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-014",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Primary Complex - define, natural course, investigation, management in a child",
+                "description": "Handwritten MBBS exam answer and final summary for Primary Complex - define, natural course, investigation, management in a child.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/14-primary-complex-define-natural-course-investigation-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/14-primary-complex-define-natural-course-investigation-management/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/14-primary-complex-define-natural-course-investigation-management/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/14-primary-complex-define-natural-course-investigation-management/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/14-primary-complex-define-natural-course-investigation-management/page-4.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/14-primary-complex-define-natural-course-investigation-management/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -52194,7 +53071,20 @@
               "sourceText": "Dengue Fever - etiopathogenesis, c/f, diagnosis, management (W-09) (Pg. 219)",
               "prompt": "Dengue Fever - etiopathogenesis, c/f, diagnosis, management (W-09)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-015"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-015",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Dengue Fever - etiopathogenesis, c/f, diagnosis, management",
+                "description": "Handwritten MBBS exam answer and final summary for Dengue Fever - etiopathogenesis, c/f, diagnosis, management.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/15-dengue-fever-etiopathogenesis-c-f-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/15-dengue-fever-etiopathogenesis-c-f-diagnosis-management/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/15-dengue-fever-etiopathogenesis-c-f-diagnosis-management/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/15-dengue-fever-etiopathogenesis-c-f-diagnosis-management/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/15-dengue-fever-etiopathogenesis-c-f-diagnosis-management/page-4.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/15-dengue-fever-etiopathogenesis-c-f-diagnosis-management/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -52204,7 +53094,20 @@
               "sourceText": "Childhood Tuberculosis (S-04) (Pg. 243)",
               "prompt": "Childhood Tuberculosis (S-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-016"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-016",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Childhood Tuberculosis",
+                "description": "Handwritten MBBS exam answer and final summary for Childhood Tuberculosis.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/16-childhood-tuberculosis/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/16-childhood-tuberculosis/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/16-childhood-tuberculosis/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/16-childhood-tuberculosis/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/16-childhood-tuberculosis/page-4.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/16-childhood-tuberculosis/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -52214,7 +53117,20 @@
               "sourceText": "Enteric Fever - pathology, c/f, complications, management (S-03) (Pg. 238)",
               "prompt": "Enteric Fever - pathology, c/f, complications, management (S-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-017"
+              "id": "bhalani-final-year-pediatrics-paediatrics-11-infections-and-infestations-017",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Enteric Fever - pathology, c/f, complications, management",
+                "description": "Handwritten MBBS exam answer and final summary for Enteric Fever - pathology, c/f, complications, management.",
+                "pdf": "/theory-answers/pediatrics/infections-and-infestations/17-enteric-fever-pathology-c-f-complications-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/infections-and-infestations/17-enteric-fever-pathology-c-f-complications-management/page-1.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/17-enteric-fever-pathology-c-f-complications-management/page-2.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/17-enteric-fever-pathology-c-f-complications-management/page-3.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/17-enteric-fever-pathology-c-f-complications-management/page-4.webp",
+                  "/theory-answers/pediatrics/infections-and-infestations/17-enteric-fever-pathology-c-f-complications-management/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -52232,7 +53148,19 @@
               "sourceText": "[Assessment of a Sick Infant with Diarrhoea as per IMNCI Syndromic Approach]* (W-19)(S-13) (Pg. 288, 781)",
               "prompt": "[Assessment of a Sick Infant with Diarrhoea as per IMNCI Syndromic Approach] (W-19)(S-13)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "[Assessment of a Sick Infant with Diarrhoea as per IMNCI Syndromic Approach]",
+                "description": "Handwritten MBBS exam answer and final summary for [Assessment of a Sick Infant with Diarrhoea as per IMNCI Syndromic Approach].",
+                "pdf": "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/01-assessment-of-a-sick-infant-with-diarrhoea-as-per-imnci-syndro/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/01-assessment-of-a-sick-infant-with-diarrhoea-as-per-imnci-syndro/page-1.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/01-assessment-of-a-sick-infant-with-diarrhoea-as-per-imnci-syndro/page-2.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/01-assessment-of-a-sick-infant-with-diarrhoea-as-per-imnci-syndro/page-3.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/01-assessment-of-a-sick-infant-with-diarrhoea-as-per-imnci-syndro/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -52242,7 +53170,19 @@
               "sourceText": "Acute Liver Failure - management (W-18) (Pg. 312)",
               "prompt": "Acute Liver Failure - management (W-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-002"
+              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Acute Liver Failure - management",
+                "description": "Handwritten MBBS exam answer and final summary for Acute Liver Failure - management.",
+                "pdf": "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/02-acute-liver-failure-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/02-acute-liver-failure-management/page-1.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/02-acute-liver-failure-management/page-2.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/02-acute-liver-failure-management/page-3.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/02-acute-liver-failure-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -52252,7 +53192,19 @@
               "sourceText": "Viral Hepatitis (W-17) (Pg. 310)",
               "prompt": "Viral Hepatitis (W-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-003"
+              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Viral Hepatitis",
+                "description": "Handwritten MBBS exam answer and final summary for Viral Hepatitis.",
+                "pdf": "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/03-viral-hepatitis/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/03-viral-hepatitis/page-1.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/03-viral-hepatitis/page-2.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/03-viral-hepatitis/page-3.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/03-viral-hepatitis/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -52262,7 +53214,19 @@
               "sourceText": "Revised WHO [Oral Rehydration Solution]***** (W-11)(S-10)(S-09)(S-08)(W-06)(W-03) (Pg. 289)",
               "prompt": "Revised WHO [Oral Rehydration Solution] (W-11)(S-10)(S-09)(S-08)(W-06)(W-03)",
               "emphasis": 5,
-              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-004"
+              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Revised WHO [Oral Rehydration Solution]",
+                "description": "Handwritten MBBS exam answer and final summary for Revised WHO [Oral Rehydration Solution].",
+                "pdf": "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/04-revised-who-oral-rehydration-solution/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/04-revised-who-oral-rehydration-solution/page-1.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/04-revised-who-oral-rehydration-solution/page-2.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/04-revised-who-oral-rehydration-solution/page-3.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/04-revised-who-oral-rehydration-solution/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -52272,7 +53236,19 @@
               "sourceText": "Hirschsprung Disease (S-10) (Pg. 280)",
               "prompt": "Hirschsprung Disease (S-10)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-005"
+              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hirschsprung Disease",
+                "description": "Handwritten MBBS exam answer and final summary for Hirschsprung Disease.",
+                "pdf": "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/05-hirschsprung-disease/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/05-hirschsprung-disease/page-1.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/05-hirschsprung-disease/page-2.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/05-hirschsprung-disease/page-3.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/05-hirschsprung-disease/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -52282,7 +53258,19 @@
               "sourceText": "Management of Diarrhoea - Plan C (W-07) (Pg. 290)",
               "prompt": "Management of Diarrhoea - Plan C (W-07)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-006"
+              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Management of Diarrhoea - Plan C",
+                "description": "Handwritten MBBS exam answer and final summary for Management of Diarrhoea - Plan C.",
+                "pdf": "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/06-management-of-diarrhoea-plan-c/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/06-management-of-diarrhoea-plan-c/page-1.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/06-management-of-diarrhoea-plan-c/page-2.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/06-management-of-diarrhoea-plan-c/page-3.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/06-management-of-diarrhoea-plan-c/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -52292,7 +53280,19 @@
               "sourceText": "Lactose Intolerance (W-02) (Pg. 294)",
               "prompt": "Lactose Intolerance (W-02)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-007"
+              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Lactose Intolerance",
+                "description": "Handwritten MBBS exam answer and final summary for Lactose Intolerance.",
+                "pdf": "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/07-lactose-intolerance/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/07-lactose-intolerance/page-1.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/07-lactose-intolerance/page-2.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/07-lactose-intolerance/page-3.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/07-lactose-intolerance/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -52302,7 +53302,20 @@
               "sourceText": "Dehydration - four signs; Hypovolumic Shock - management; Oral Rehydration Therapy - advantages, limitations (S-06) (Pg. 287)",
               "prompt": "Dehydration - four signs; Hypovolumic Shock - management; Oral Rehydration Therapy - advantages, limitations (S-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-008"
+              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Dehydration - four signs; Hypovolumic Shock - management; Oral Rehydration Therapy - advantages, limitations",
+                "description": "Handwritten MBBS exam answer and final summary for Dehydration - four signs; Hypovolumic Shock - management; Oral Rehydration Therapy - advantages, limitations.",
+                "pdf": "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/08-dehydration-four-signs-hypovolumic-shock-management-oral-rehyd/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/08-dehydration-four-signs-hypovolumic-shock-management-oral-rehyd/page-1.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/08-dehydration-four-signs-hypovolumic-shock-management-oral-rehyd/page-2.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/08-dehydration-four-signs-hypovolumic-shock-management-oral-rehyd/page-3.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/08-dehydration-four-signs-hypovolumic-shock-management-oral-rehyd/page-4.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/08-dehydration-four-signs-hypovolumic-shock-management-oral-rehyd/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -52312,7 +53325,20 @@
               "sourceText": "Acute Diarrhoea in children - causes*, management*; c/f, complications (W-05)(S-05) (Pg. 287)",
               "prompt": "Acute Diarrhoea in children - causes, management; c/f, complications (W-05)(S-05)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-009"
+              "id": "bhalani-final-year-pediatrics-paediatrics-12-disorders-gastrointestinal-system-liver-009",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Acute Diarrhoea in children - causes, management; c/f, complications",
+                "description": "Handwritten MBBS exam answer and final summary for Acute Diarrhoea in children - causes, management; c/f, complications.",
+                "pdf": "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/09-acute-diarrhoea-in-children-causes-management-c-f-complication/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/09-acute-diarrhoea-in-children-causes-management-c-f-complication/page-1.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/09-acute-diarrhoea-in-children-causes-management-c-f-complication/page-2.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/09-acute-diarrhoea-in-children-causes-management-c-f-complication/page-3.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/09-acute-diarrhoea-in-children-causes-management-c-f-complication/page-4.webp",
+                  "/theory-answers/pediatrics/disorders-gastrointestinal-system-liver/09-acute-diarrhoea-in-children-causes-management-c-f-complication/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -52330,7 +53356,19 @@
               "sourceText": "Thalassemia** Major* - recent advances in management*; treatment; chelation therapy* (W-19) (W-13)(W-12)(S-12)(W-08) (Pg. 340)",
               "prompt": "Thalassemia Major - recent advances in management; treatment; chelation therapy (W-19) (W-13)(W-12)(S-12)(W-08)",
               "emphasis": 2,
-              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-001"
+              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Thalassemia Major - recent advances in management; treatment; chelation therapy",
+                "description": "Handwritten MBBS exam answer and final summary for Thalassemia Major - recent advances in management; treatment; chelation therapy.",
+                "pdf": "/theory-answers/pediatrics/hematological-disorders/01-thalassemia-major-recent-advances-in-management-treatment-chel/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/hematological-disorders/01-thalassemia-major-recent-advances-in-management-treatment-chel/page-1.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/01-thalassemia-major-recent-advances-in-management-treatment-chel/page-2.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/01-thalassemia-major-recent-advances-in-management-treatment-chel/page-3.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/01-thalassemia-major-recent-advances-in-management-treatment-chel/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -52340,7 +53378,19 @@
               "sourceText": "Sickle Cell Crisis (S-19) (Pg. 342)",
               "prompt": "Sickle Cell Crisis (S-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-002"
+              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Sickle Cell Crisis",
+                "description": "Handwritten MBBS exam answer and final summary for Sickle Cell Crisis.",
+                "pdf": "/theory-answers/pediatrics/hematological-disorders/02-sickle-cell-crisis/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/hematological-disorders/02-sickle-cell-crisis/page-1.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/02-sickle-cell-crisis/page-2.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/02-sickle-cell-crisis/page-3.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/02-sickle-cell-crisis/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -52350,7 +53400,19 @@
               "sourceText": "Nutrional Anemias - treatment (S-18) (Pg. 335)",
               "prompt": "Nutrional Anemias - treatment (S-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-003"
+              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Nutrional Anemias - treatment",
+                "description": "Handwritten MBBS exam answer and final summary for Nutrional Anemias - treatment.",
+                "pdf": "/theory-answers/pediatrics/hematological-disorders/03-nutrional-anemias-treatment/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/hematological-disorders/03-nutrional-anemias-treatment/page-1.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/03-nutrional-anemias-treatment/page-2.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/03-nutrional-anemias-treatment/page-3.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/03-nutrional-anemias-treatment/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -52360,7 +53422,19 @@
               "sourceText": "Hemophilia (S-17) (Pg. 351)",
               "prompt": "Hemophilia (S-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-004"
+              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hemophilia",
+                "description": "Handwritten MBBS exam answer and final summary for Hemophilia.",
+                "pdf": "/theory-answers/pediatrics/hematological-disorders/04-hemophilia/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/hematological-disorders/04-hemophilia/page-1.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/04-hemophilia/page-2.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/04-hemophilia/page-3.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/04-hemophilia/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -52370,7 +53444,19 @@
               "sourceText": "Iron Deficiency Anemia* - treatment; management (S-16)(S-12) (Pg. 333)",
               "prompt": "Iron Deficiency Anemia - treatment; management (S-16)(S-12)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-005"
+              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Iron Deficiency Anemia - treatment; management",
+                "description": "Handwritten MBBS exam answer and final summary for Iron Deficiency Anemia - treatment; management.",
+                "pdf": "/theory-answers/pediatrics/hematological-disorders/05-iron-deficiency-anemia-treatment-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/hematological-disorders/05-iron-deficiency-anemia-treatment-management/page-1.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/05-iron-deficiency-anemia-treatment-management/page-2.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/05-iron-deficiency-anemia-treatment-management/page-3.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/05-iron-deficiency-anemia-treatment-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -52380,7 +53466,19 @@
               "sourceText": "Haemorrhagic Disease in Newborn* (W-13)(W-04) (Pg. 351, 117)",
               "prompt": "Haemorrhagic Disease in Newborn (W-13)(W-04)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-006"
+              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Haemorrhagic Disease in Newborn",
+                "description": "Handwritten MBBS exam answer and final summary for Haemorrhagic Disease in Newborn.",
+                "pdf": "/theory-answers/pediatrics/hematological-disorders/06-haemorrhagic-disease-in-newborn/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/hematological-disorders/06-haemorrhagic-disease-in-newborn/page-1.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/06-haemorrhagic-disease-in-newborn/page-2.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/06-haemorrhagic-disease-in-newborn/page-3.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/06-haemorrhagic-disease-in-newborn/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -52390,7 +53488,19 @@
               "sourceText": "Megaloblastic Anemia of Infancy (W-07) (Pg. 334)",
               "prompt": "Megaloblastic Anemia of Infancy (W-07)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-007"
+              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Megaloblastic Anemia of Infancy",
+                "description": "Handwritten MBBS exam answer and final summary for Megaloblastic Anemia of Infancy.",
+                "pdf": "/theory-answers/pediatrics/hematological-disorders/07-megaloblastic-anemia-of-infancy/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/hematological-disorders/07-megaloblastic-anemia-of-infancy/page-1.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/07-megaloblastic-anemia-of-infancy/page-2.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/07-megaloblastic-anemia-of-infancy/page-3.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/07-megaloblastic-anemia-of-infancy/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -52400,7 +53510,20 @@
               "sourceText": "Idiopathic Thrombocytopenic Purpura - c/f, investigations, treatment (W-18) (Pg. 349)",
               "prompt": "Idiopathic Thrombocytopenic Purpura - c/f, investigations, treatment (W-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-008"
+              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Idiopathic Thrombocytopenic Purpura - c/f, investigations, treatment",
+                "description": "Handwritten MBBS exam answer and final summary for Idiopathic Thrombocytopenic Purpura - c/f, investigations, treatment.",
+                "pdf": "/theory-answers/pediatrics/hematological-disorders/08-idiopathic-thrombocytopenic-purpura-c-f-investigations-treatme/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/hematological-disorders/08-idiopathic-thrombocytopenic-purpura-c-f-investigations-treatme/page-1.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/08-idiopathic-thrombocytopenic-purpura-c-f-investigations-treatme/page-2.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/08-idiopathic-thrombocytopenic-purpura-c-f-investigations-treatme/page-3.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/08-idiopathic-thrombocytopenic-purpura-c-f-investigations-treatme/page-4.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/08-idiopathic-thrombocytopenic-purpura-c-f-investigations-treatme/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -52410,7 +53533,20 @@
               "sourceText": "Sickle Cell Disease* - enumerate all crises; c/f, management; Vaso-occlusive Crisis - management (W-17)(W-06) (Pg. 342)",
               "prompt": "Sickle Cell Disease - enumerate all crises; c/f, management; Vaso-occlusive Crisis - management (W-17)(W-06)",
               "emphasis": 1,
-              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-009"
+              "id": "bhalani-final-year-pediatrics-paediatrics-13-hematological-disorders-009",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Sickle Cell Disease - enumerate all crises; c/f, management; Vaso-occlusive Crisis - management",
+                "description": "Handwritten MBBS exam answer and final summary for Sickle Cell Disease - enumerate all crises; c/f, management; Vaso-occlusive Crisis - management.",
+                "pdf": "/theory-answers/pediatrics/hematological-disorders/09-sickle-cell-disease-enumerate-all-crises-c-f-management-vaso-o/answer.pdf",
+                "pages": [
+                  "/theory-answers/pediatrics/hematological-disorders/09-sickle-cell-disease-enumerate-all-crises-c-f-management-vaso-o/page-1.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/09-sickle-cell-disease-enumerate-all-crises-c-f-management-vaso-o/page-2.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/09-sickle-cell-disease-enumerate-all-crises-c-f-management-vaso-o/page-3.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/09-sickle-cell-disease-enumerate-all-crises-c-f-management-vaso-o/page-4.webp",
+                  "/theory-answers/pediatrics/hematological-disorders/09-sickle-cell-disease-enumerate-all-crises-c-f-management-vaso-o/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
