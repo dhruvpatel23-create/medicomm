@@ -49886,7 +49886,19 @@
               "sourceText": "HPV Vaccine* (S-19)(W-13) (Pg. 268, 272, 285)",
               "prompt": "HPV Vaccine (S-19)(W-13)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "HPV Vaccine",
+                "description": "Handwritten MBBS exam answer and final summary for HPV Vaccine.",
+                "pdf": "/theory-answers/obgyn/premalignant-lesions/01-hpv-vaccine/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/premalignant-lesions/01-hpv-vaccine/page-1.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/01-hpv-vaccine/page-2.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/01-hpv-vaccine/page-3.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/01-hpv-vaccine/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -49896,7 +49908,19 @@
               "sourceText": "Loop Electrosurgical Excision Procedure (LEEP) (S-18) (Pg. 269, 273)",
               "prompt": "Loop Electrosurgical Excision Procedure (LEEP) (S-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Loop Electrosurgical Excision Procedure (LEEP)",
+                "description": "Handwritten MBBS exam answer and final summary for Loop Electrosurgical Excision Procedure (LEEP).",
+                "pdf": "/theory-answers/obgyn/premalignant-lesions/02-loop-electrosurgical-excision-procedure-leep/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/premalignant-lesions/02-loop-electrosurgical-excision-procedure-leep/page-1.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/02-loop-electrosurgical-excision-procedure-leep/page-2.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/02-loop-electrosurgical-excision-procedure-leep/page-3.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/02-loop-electrosurgical-excision-procedure-leep/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -49906,7 +49930,19 @@
               "sourceText": "Paget's Disease (S-12) (Pg. 261)",
               "prompt": "Paget's Disease (S-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-003"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Paget's Disease",
+                "description": "Handwritten MBBS exam answer and final summary for Paget's Disease.",
+                "pdf": "/theory-answers/obgyn/premalignant-lesions/03-paget-s-disease/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/premalignant-lesions/03-paget-s-disease/page-1.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/03-paget-s-disease/page-2.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/03-paget-s-disease/page-3.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/03-paget-s-disease/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -49916,7 +49952,19 @@
               "sourceText": "Cervical Cancer Screening - methods (W-03) (Pg. 265, 90)",
               "prompt": "Cervical Cancer Screening - methods (W-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-004"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Cervical Cancer Screening - methods",
+                "description": "Handwritten MBBS exam answer and final summary for Cervical Cancer Screening - methods.",
+                "pdf": "/theory-answers/obgyn/premalignant-lesions/04-cervical-cancer-screening-methods/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/premalignant-lesions/04-cervical-cancer-screening-methods/page-1.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/04-cervical-cancer-screening-methods/page-2.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/04-cervical-cancer-screening-methods/page-3.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/04-cervical-cancer-screening-methods/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -49926,7 +49974,20 @@
               "sourceText": "Cervical Intraepithelial Neoplasia - diagnosis, management (S-15) (Pg. 265)",
               "prompt": "Cervical Intraepithelial Neoplasia - diagnosis, management (S-15)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-005"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-23-premalignant-lesions-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Cervical Intraepithelial Neoplasia - diagnosis, management",
+                "description": "Handwritten MBBS exam answer and final summary for Cervical Intraepithelial Neoplasia - diagnosis, management.",
+                "pdf": "/theory-answers/obgyn/premalignant-lesions/05-cervical-intraepithelial-neoplasia-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/premalignant-lesions/05-cervical-intraepithelial-neoplasia-diagnosis-management/page-1.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/05-cervical-intraepithelial-neoplasia-diagnosis-management/page-2.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/05-cervical-intraepithelial-neoplasia-diagnosis-management/page-3.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/05-cervical-intraepithelial-neoplasia-diagnosis-management/page-4.webp",
+                  "/theory-answers/obgyn/premalignant-lesions/05-cervical-intraepithelial-neoplasia-diagnosis-management/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -49944,7 +50005,19 @@
               "sourceText": "Krukenberg Tumor (S-18) (Pg. 319, 546)",
               "prompt": "Krukenberg Tumor (S-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Krukenberg Tumor",
+                "description": "Handwritten MBBS exam answer and final summary for Krukenberg Tumor.",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/01-krukenberg-tumor/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/01-krukenberg-tumor/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/01-krukenberg-tumor/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/01-krukenberg-tumor/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/01-krukenberg-tumor/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -49954,7 +50027,19 @@
               "sourceText": "Vescicular Mole - follow up after evacuation (S-14) (Pg. 302)",
               "prompt": "Vescicular Mole - follow up after evacuation (S-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Vescicular Mole - follow up after evacuation",
+                "description": "Handwritten MBBS exam answer and final summary for Vescicular Mole - follow up after evacuation.",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/02-vescicular-mole-follow-up-after-evacuation/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/02-vescicular-mole-follow-up-after-evacuation/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/02-vescicular-mole-follow-up-after-evacuation/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/02-vescicular-mole-follow-up-after-evacuation/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/02-vescicular-mole-follow-up-after-evacuation/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -49964,7 +50049,19 @@
               "sourceText": "Carcinoma Cervix*** - FIGO Staging**; predisposing factors (W-08)(S-07)(W-06)(S-03) (Pg. 282)",
               "prompt": "Carcinoma Cervix - FIGO Staging; predisposing factors (W-08)(S-07)(W-06)(S-03)",
               "emphasis": 3,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-003"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Carcinoma Cervix - FIGO Staging; predisposing factors",
+                "description": "Handwritten MBBS exam answer and final summary for Carcinoma Cervix - FIGO Staging; predisposing factors.",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/03-carcinoma-cervix-figo-staging-predisposing-factors/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/03-carcinoma-cervix-figo-staging-predisposing-factors/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/03-carcinoma-cervix-figo-staging-predisposing-factors/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/03-carcinoma-cervix-figo-staging-predisposing-factors/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/03-carcinoma-cervix-figo-staging-predisposing-factors/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -49974,7 +50071,20 @@
               "sourceText": "Malignant Ovarian Tumor - ultrasonography features (S-20) (Pg. 309)",
               "prompt": "Malignant Ovarian Tumor - ultrasonography features (S-20)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-004"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Malignant Ovarian Tumor - ultrasonography features",
+                "description": "Handwritten MBBS exam answer and final summary for Malignant Ovarian Tumor - ultrasonography features.",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/04-malignant-ovarian-tumor-ultrasonography-features/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/04-malignant-ovarian-tumor-ultrasonography-features/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/04-malignant-ovarian-tumor-ultrasonography-features/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/04-malignant-ovarian-tumor-ultrasonography-features/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/04-malignant-ovarian-tumor-ultrasonography-features/page-4.webp",
+                  "/theory-answers/obgyn/genital-malignancy/04-malignant-ovarian-tumor-ultrasonography-features/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -49984,7 +50094,20 @@
               "sourceText": "Ca Endometrium**** - diagnosis, management**; etiology; FIGO staging; Stage IB Ca Endometrium - management; Stage I Ca Endometrium - c/f, investigations, management (W-17)(W-15)(W-10)(W- 08)(S-08) (Pg. 292)",
               "prompt": "Ca Endometrium - diagnosis, management; etiology; FIGO staging; Stage IB Ca Endometrium - management; Stage I Ca Endometrium - c/f, investigations, management (W-17)(W-15)(W-10)(W-08)(S-08)",
               "emphasis": 4,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-005"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Ca Endometrium - diagnosis, management; etiology; FIGO staging; Stage IB Ca Endometrium - management; Stage I Ca Endometrium - c/f, investigations, management",
+                "description": "Handwritten MBBS exam answer and final summary for Ca Endometrium - diagnosis, management; etiology; FIGO staging; Stage IB Ca Endometrium - management; Stage I Ca Endometrium - c/f, investigations, management.",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/05-ca-endometrium-diagnosis-management-etiology-figo-staging-stag/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/05-ca-endometrium-diagnosis-management-etiology-figo-staging-stag/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/05-ca-endometrium-diagnosis-management-etiology-figo-staging-stag/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/05-ca-endometrium-diagnosis-management-etiology-figo-staging-stag/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/05-ca-endometrium-diagnosis-management-etiology-figo-staging-stag/page-4.webp",
+                  "/theory-answers/obgyn/genital-malignancy/05-ca-endometrium-diagnosis-management-etiology-figo-staging-stag/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -49994,7 +50117,20 @@
               "sourceText": "Corpus Cancer Syndrome - define (part) (W-17) (Pg. 292)",
               "prompt": "Corpus Cancer Syndrome - define (part) (W-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-006"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Corpus Cancer Syndrome - define (part)",
+                "description": "Handwritten MBBS exam answer and final summary for Corpus Cancer Syndrome - define (part).",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/06-corpus-cancer-syndrome-define-part/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/06-corpus-cancer-syndrome-define-part/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/06-corpus-cancer-syndrome-define-part/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/06-corpus-cancer-syndrome-define-part/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/06-corpus-cancer-syndrome-define-part/page-4.webp",
+                  "/theory-answers/obgyn/genital-malignancy/06-corpus-cancer-syndrome-define-part/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -50004,7 +50140,20 @@
               "sourceText": "Carcinoma Body of Uterus - diagnosis, management (S-16)",
               "prompt": "Carcinoma Body of Uterus - diagnosis, management (S-16)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-007"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Carcinoma Body of Uterus - diagnosis, management",
+                "description": "Handwritten MBBS exam answer and final summary for Carcinoma Body of Uterus - diagnosis, management.",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/07-carcinoma-body-of-uterus-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/07-carcinoma-body-of-uterus-diagnosis-management/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/07-carcinoma-body-of-uterus-diagnosis-management/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/07-carcinoma-body-of-uterus-diagnosis-management/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/07-carcinoma-body-of-uterus-diagnosis-management/page-4.webp",
+                  "/theory-answers/obgyn/genital-malignancy/07-carcinoma-body-of-uterus-diagnosis-management/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -50014,7 +50163,20 @@
               "sourceText": "Carcinoma Cervix*** - etiology, c/f, management; clinical staging**; methods for early detection; Ca Cervix Stage IB*; IIIB - evaluation, management**; c/f (S-14)(W-12)(S-09)(W-07) (Pg. 280)",
               "prompt": "Carcinoma Cervix - etiology, c/f, management; clinical staging; methods for early detection; Ca Cervix Stage IB; IIIB - evaluation, management; c/f (S-14)(W-12)(S-09)(W-07)",
               "emphasis": 3,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-008"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Carcinoma Cervix - etiology, c/f, management; clinical staging; methods for early detection; Ca Cervix Stage IB; IIIB - evaluation, management; c/f",
+                "description": "Handwritten MBBS exam answer and final summary for Carcinoma Cervix - etiology, c/f, management; clinical staging; methods for early detection; Ca Cervix Stage IB; IIIB - evaluation, management; c/f.",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/08-carcinoma-cervix-etiology-c-f-management-clinical-staging-meth/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/08-carcinoma-cervix-etiology-c-f-management-clinical-staging-meth/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/08-carcinoma-cervix-etiology-c-f-management-clinical-staging-meth/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/08-carcinoma-cervix-etiology-c-f-management-clinical-staging-meth/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/08-carcinoma-cervix-etiology-c-f-management-clinical-staging-meth/page-4.webp",
+                  "/theory-answers/obgyn/genital-malignancy/08-carcinoma-cervix-etiology-c-f-management-clinical-staging-meth/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -50024,7 +50186,20 @@
               "sourceText": "Hydatidiform Mole - define; Choriocarcinoma - signs, symptoms, management (S-12) (Pg. 298)",
               "prompt": "Hydatidiform Mole - define; Choriocarcinoma - signs, symptoms, management (S-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-009"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-009",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hydatidiform Mole - define; Choriocarcinoma - signs, symptoms, management",
+                "description": "Handwritten MBBS exam answer and final summary for Hydatidiform Mole - define; Choriocarcinoma - signs, symptoms, management.",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/09-hydatidiform-mole-define-choriocarcinoma-signs-symptoms-manage/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/09-hydatidiform-mole-define-choriocarcinoma-signs-symptoms-manage/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/09-hydatidiform-mole-define-choriocarcinoma-signs-symptoms-manage/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/09-hydatidiform-mole-define-choriocarcinoma-signs-symptoms-manage/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/09-hydatidiform-mole-define-choriocarcinoma-signs-symptoms-manage/page-4.webp",
+                  "/theory-answers/obgyn/genital-malignancy/09-hydatidiform-mole-define-choriocarcinoma-signs-symptoms-manage/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -50034,7 +50209,20 @@
               "sourceText": "Ovarian Malignancy/Carcinoma - c/f*, management; Epithelial Ovarian Cancer - diagnosis, management (W-11)(S-06) (Pg. 304)",
               "prompt": "Ovarian Malignancy/Carcinoma - c/f, management; Epithelial Ovarian Cancer - diagnosis, management (W-11)(S-06)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-010"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-010",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Ovarian Malignancy/Carcinoma - c/f, management; Epithelial Ovarian Cancer - diagnosis, management",
+                "description": "Handwritten MBBS exam answer and final summary for Ovarian Malignancy/Carcinoma - c/f, management; Epithelial Ovarian Cancer - diagnosis, management.",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/10-ovarian-malignancy-carcinoma-c-f-management-epithelial-ovarian/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/10-ovarian-malignancy-carcinoma-c-f-management-epithelial-ovarian/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/10-ovarian-malignancy-carcinoma-c-f-management-epithelial-ovarian/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/10-ovarian-malignancy-carcinoma-c-f-management-epithelial-ovarian/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/10-ovarian-malignancy-carcinoma-c-f-management-epithelial-ovarian/page-4.webp",
+                  "/theory-answers/obgyn/genital-malignancy/10-ovarian-malignancy-carcinoma-c-f-management-epithelial-ovarian/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "8",
@@ -50044,7 +50232,20 @@
               "sourceText": "Fractional Curettage - add a note (part) (W-03)",
               "prompt": "Fractional Curettage - add a note (part) (W-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-011"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-24-genital-malignancy-011",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Fractional Curettage - add a note (part)",
+                "description": "Handwritten MBBS exam answer and final summary for Fractional Curettage - add a note (part).",
+                "pdf": "/theory-answers/obgyn/genital-malignancy/11-fractional-curettage-add-a-note-part/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genital-malignancy/11-fractional-curettage-add-a-note-part/page-1.webp",
+                  "/theory-answers/obgyn/genital-malignancy/11-fractional-curettage-add-a-note-part/page-2.webp",
+                  "/theory-answers/obgyn/genital-malignancy/11-fractional-curettage-add-a-note-part/page-3.webp",
+                  "/theory-answers/obgyn/genital-malignancy/11-fractional-curettage-add-a-note-part/page-4.webp",
+                  "/theory-answers/obgyn/genital-malignancy/11-fractional-curettage-add-a-note-part/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -50062,7 +50263,19 @@
               "sourceText": "Stress Urinary Incontinence - define, tests, management (W-18) (Pg. 328)",
               "prompt": "Stress Urinary Incontinence - define, tests, management (W-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-25-urinary-problems-in-gynecology-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-25-urinary-problems-in-gynecology-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Stress Urinary Incontinence - define, tests, management",
+                "description": "Handwritten MBBS exam answer and final summary for Stress Urinary Incontinence - define, tests, management.",
+                "pdf": "/theory-answers/obgyn/urinary-problems-in-gynecology/01-stress-urinary-incontinence-define-tests-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/urinary-problems-in-gynecology/01-stress-urinary-incontinence-define-tests-management/page-1.webp",
+                  "/theory-answers/obgyn/urinary-problems-in-gynecology/01-stress-urinary-incontinence-define-tests-management/page-2.webp",
+                  "/theory-answers/obgyn/urinary-problems-in-gynecology/01-stress-urinary-incontinence-define-tests-management/page-3.webp",
+                  "/theory-answers/obgyn/urinary-problems-in-gynecology/01-stress-urinary-incontinence-define-tests-management/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -50080,7 +50293,19 @@
               "sourceText": "Three Swab Test (W-12) (Pg. 345)",
               "prompt": "Three Swab Test (W-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-26-genitourinary-fistula-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-26-genitourinary-fistula-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Three Swab Test",
+                "description": "Handwritten MBBS exam answer and final summary for Three Swab Test.",
+                "pdf": "/theory-answers/obgyn/genitourinary-fistula/01-three-swab-test/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/genitourinary-fistula/01-three-swab-test/page-1.webp",
+                  "/theory-answers/obgyn/genitourinary-fistula/01-three-swab-test/page-2.webp",
+                  "/theory-answers/obgyn/genitourinary-fistula/01-three-swab-test/page-3.webp",
+                  "/theory-answers/obgyn/genitourinary-fistula/01-three-swab-test/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -50098,7 +50323,19 @@
               "sourceText": "Turner's Syndrome** (W-15)(S-07)(W-02) (Pg. 363)",
               "prompt": "Turner's Syndrome (W-15)(S-07)(W-02)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-28-disorders-of-sexual-development-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-28-disorders-of-sexual-development-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Turner's Syndrome",
+                "description": "Handwritten MBBS exam answer and final summary for Turner's Syndrome.",
+                "pdf": "/theory-answers/obgyn/disorders-of-sexual-development/01-turner-s-syndrome/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/disorders-of-sexual-development/01-turner-s-syndrome/page-1.webp",
+                  "/theory-answers/obgyn/disorders-of-sexual-development/01-turner-s-syndrome/page-2.webp",
+                  "/theory-answers/obgyn/disorders-of-sexual-development/01-turner-s-syndrome/page-3.webp",
+                  "/theory-answers/obgyn/disorders-of-sexual-development/01-turner-s-syndrome/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50108,7 +50345,19 @@
               "sourceText": "Testicular Feminization Syndrome (S-15) (Pg. 364)",
               "prompt": "Testicular Feminization Syndrome (S-15)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-28-disorders-of-sexual-development-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-28-disorders-of-sexual-development-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Testicular Feminization Syndrome",
+                "description": "Handwritten MBBS exam answer and final summary for Testicular Feminization Syndrome.",
+                "pdf": "/theory-answers/obgyn/disorders-of-sexual-development/02-testicular-feminization-syndrome/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/disorders-of-sexual-development/02-testicular-feminization-syndrome/page-1.webp",
+                  "/theory-answers/obgyn/disorders-of-sexual-development/02-testicular-feminization-syndrome/page-2.webp",
+                  "/theory-answers/obgyn/disorders-of-sexual-development/02-testicular-feminization-syndrome/page-3.webp",
+                  "/theory-answers/obgyn/disorders-of-sexual-development/02-testicular-feminization-syndrome/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -50118,7 +50367,19 @@
               "sourceText": "Klinefelter's Syndrome (W-09) (Pg. 365)",
               "prompt": "Klinefelter's Syndrome (W-09)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-28-disorders-of-sexual-development-003"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-28-disorders-of-sexual-development-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Klinefelter's Syndrome",
+                "description": "Handwritten MBBS exam answer and final summary for Klinefelter's Syndrome.",
+                "pdf": "/theory-answers/obgyn/disorders-of-sexual-development/03-klinefelter-s-syndrome/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/disorders-of-sexual-development/03-klinefelter-s-syndrome/page-1.webp",
+                  "/theory-answers/obgyn/disorders-of-sexual-development/03-klinefelter-s-syndrome/page-2.webp",
+                  "/theory-answers/obgyn/disorders-of-sexual-development/03-klinefelter-s-syndrome/page-3.webp",
+                  "/theory-answers/obgyn/disorders-of-sexual-development/03-klinefelter-s-syndrome/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -50136,7 +50397,19 @@
               "sourceText": "Cryptomenorrhea** (S-18)(S-12)(W-05) (Pg. 371)",
               "prompt": "Cryptomenorrhea (S-18)(S-12)(W-05)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-29-amenorrhea-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-29-amenorrhea-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Cryptomenorrhea",
+                "description": "Handwritten MBBS exam answer and final summary for Cryptomenorrhea.",
+                "pdf": "/theory-answers/obgyn/amenorrhea/01-cryptomenorrhea/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/amenorrhea/01-cryptomenorrhea/page-1.webp",
+                  "/theory-answers/obgyn/amenorrhea/01-cryptomenorrhea/page-2.webp",
+                  "/theory-answers/obgyn/amenorrhea/01-cryptomenorrhea/page-3.webp",
+                  "/theory-answers/obgyn/amenorrhea/01-cryptomenorrhea/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50146,7 +50419,19 @@
               "sourceText": "Asherman's Syndrome (S-03) (Pg. 378, 551)",
               "prompt": "Asherman's Syndrome (S-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-29-amenorrhea-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-29-amenorrhea-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Asherman's Syndrome",
+                "description": "Handwritten MBBS exam answer and final summary for Asherman's Syndrome.",
+                "pdf": "/theory-answers/obgyn/amenorrhea/02-asherman-s-syndrome/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/amenorrhea/02-asherman-s-syndrome/page-1.webp",
+                  "/theory-answers/obgyn/amenorrhea/02-asherman-s-syndrome/page-2.webp",
+                  "/theory-answers/obgyn/amenorrhea/02-asherman-s-syndrome/page-3.webp",
+                  "/theory-answers/obgyn/amenorrhea/02-asherman-s-syndrome/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -50156,7 +50441,20 @@
               "sourceText": "Polycystic Ovarian Syndrome - management (W-13) (Pg. 378)",
               "prompt": "Polycystic Ovarian Syndrome - management (W-13)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-29-amenorrhea-003"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-29-amenorrhea-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Polycystic Ovarian Syndrome - management",
+                "description": "Handwritten MBBS exam answer and final summary for Polycystic Ovarian Syndrome - management.",
+                "pdf": "/theory-answers/obgyn/amenorrhea/03-polycystic-ovarian-syndrome-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/amenorrhea/03-polycystic-ovarian-syndrome-management/page-1.webp",
+                  "/theory-answers/obgyn/amenorrhea/03-polycystic-ovarian-syndrome-management/page-2.webp",
+                  "/theory-answers/obgyn/amenorrhea/03-polycystic-ovarian-syndrome-management/page-3.webp",
+                  "/theory-answers/obgyn/amenorrhea/03-polycystic-ovarian-syndrome-management/page-4.webp",
+                  "/theory-answers/obgyn/amenorrhea/03-polycystic-ovarian-syndrome-management/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -50174,7 +50472,19 @@
               "sourceText": "Emergency Contraception****** (S-20)(S-19)(W-17)(W-14)(W-10)(S-10)(W-06) (Pg. 404)",
               "prompt": "Emergency Contraception (S-20)(S-19)(W-17)(W-14)(W-10)(S-10)(W-06)",
               "emphasis": 6,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Emergency Contraception",
+                "description": "Handwritten MBBS exam answer and final summary for Emergency Contraception.",
+                "pdf": "/theory-answers/obgyn/contraception/01-emergency-contraception/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/01-emergency-contraception/page-1.webp",
+                  "/theory-answers/obgyn/contraception/01-emergency-contraception/page-2.webp",
+                  "/theory-answers/obgyn/contraception/01-emergency-contraception/page-3.webp",
+                  "/theory-answers/obgyn/contraception/01-emergency-contraception/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50184,7 +50494,19 @@
               "sourceText": "Combined OC Pills* (W-19)(W-15) (Pg. 398)",
               "prompt": "Combined OC Pills (W-19)(W-15)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Combined OC Pills",
+                "description": "Handwritten MBBS exam answer and final summary for Combined OC Pills.",
+                "pdf": "/theory-answers/obgyn/contraception/02-combined-oc-pills/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/02-combined-oc-pills/page-1.webp",
+                  "/theory-answers/obgyn/contraception/02-combined-oc-pills/page-2.webp",
+                  "/theory-answers/obgyn/contraception/02-combined-oc-pills/page-3.webp",
+                  "/theory-answers/obgyn/contraception/02-combined-oc-pills/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -50194,7 +50516,19 @@
               "sourceText": "Mirena*/Levonorgestrel-Intrauterine System (S-18)(S-14)(S-12) (Pg. 393)",
               "prompt": "Mirena/Levonorgestrel-Intrauterine System (S-18)(S-14)(S-12)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-003"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Mirena/Levonorgestrel-Intrauterine System",
+                "description": "Handwritten MBBS exam answer and final summary for Mirena/Levonorgestrel-Intrauterine System.",
+                "pdf": "/theory-answers/obgyn/contraception/03-mirena-levonorgestrel-intrauterine-system/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/03-mirena-levonorgestrel-intrauterine-system/page-1.webp",
+                  "/theory-answers/obgyn/contraception/03-mirena-levonorgestrel-intrauterine-system/page-2.webp",
+                  "/theory-answers/obgyn/contraception/03-mirena-levonorgestrel-intrauterine-system/page-3.webp",
+                  "/theory-answers/obgyn/contraception/03-mirena-levonorgestrel-intrauterine-system/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -50204,7 +50538,19 @@
               "sourceText": "Laparoscopic Tubal Sterilization*; Minilap Tubal Ligation (S-16)(S-13)(S-06) (Pg. 410)",
               "prompt": "Laparoscopic Tubal Sterilization; Minilap Tubal Ligation (S-16)(S-13)(S-06)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-004"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Laparoscopic Tubal Sterilization; Minilap Tubal Ligation",
+                "description": "Handwritten MBBS exam answer and final summary for Laparoscopic Tubal Sterilization; Minilap Tubal Ligation.",
+                "pdf": "/theory-answers/obgyn/contraception/04-laparoscopic-tubal-sterilization-minilap-tubal-ligation/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/04-laparoscopic-tubal-sterilization-minilap-tubal-ligation/page-1.webp",
+                  "/theory-answers/obgyn/contraception/04-laparoscopic-tubal-sterilization-minilap-tubal-ligation/page-2.webp",
+                  "/theory-answers/obgyn/contraception/04-laparoscopic-tubal-sterilization-minilap-tubal-ligation/page-3.webp",
+                  "/theory-answers/obgyn/contraception/04-laparoscopic-tubal-sterilization-minilap-tubal-ligation/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -50214,7 +50560,19 @@
               "sourceText": "IUCD* - contraindications; complications (W-13)(W-12) (Pg. 393)",
               "prompt": "IUCD - contraindications; complications (W-13)(W-12)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-005"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "IUCD - contraindications; complications",
+                "description": "Handwritten MBBS exam answer and final summary for IUCD - contraindications; complications.",
+                "pdf": "/theory-answers/obgyn/contraception/05-iucd-contraindications-complications/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/05-iucd-contraindications-complications/page-1.webp",
+                  "/theory-answers/obgyn/contraception/05-iucd-contraindications-complications/page-2.webp",
+                  "/theory-answers/obgyn/contraception/05-iucd-contraindications-complications/page-3.webp",
+                  "/theory-answers/obgyn/contraception/05-iucd-contraindications-complications/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -50224,7 +50582,19 @@
               "sourceText": "Progesterone as contraceptive (S-13) (Pg. 403)",
               "prompt": "Progesterone as contraceptive (S-13)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-006"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Progesterone as contraceptive",
+                "description": "Handwritten MBBS exam answer and final summary for Progesterone as contraceptive.",
+                "pdf": "/theory-answers/obgyn/contraception/06-progesterone-as-contraceptive/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/06-progesterone-as-contraceptive/page-1.webp",
+                  "/theory-answers/obgyn/contraception/06-progesterone-as-contraceptive/page-2.webp",
+                  "/theory-answers/obgyn/contraception/06-progesterone-as-contraceptive/page-3.webp",
+                  "/theory-answers/obgyn/contraception/06-progesterone-as-contraceptive/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -50234,7 +50604,19 @@
               "sourceText": "Female Condom (W-12) (Pg. 412)",
               "prompt": "Female Condom (W-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-007"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Female Condom",
+                "description": "Handwritten MBBS exam answer and final summary for Female Condom.",
+                "pdf": "/theory-answers/obgyn/contraception/07-female-condom/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/07-female-condom/page-1.webp",
+                  "/theory-answers/obgyn/contraception/07-female-condom/page-2.webp",
+                  "/theory-answers/obgyn/contraception/07-female-condom/page-3.webp",
+                  "/theory-answers/obgyn/contraception/07-female-condom/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "8",
@@ -50244,7 +50626,19 @@
               "sourceText": "Contraception for Breast Feeding Woman (W-12) (Pg. 403)",
               "prompt": "Contraception for Breast Feeding Woman (W-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-008"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Contraception for Breast Feeding Woman",
+                "description": "Handwritten MBBS exam answer and final summary for Contraception for Breast Feeding Woman.",
+                "pdf": "/theory-answers/obgyn/contraception/08-contraception-for-breast-feeding-woman/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/08-contraception-for-breast-feeding-woman/page-1.webp",
+                  "/theory-answers/obgyn/contraception/08-contraception-for-breast-feeding-woman/page-2.webp",
+                  "/theory-answers/obgyn/contraception/08-contraception-for-breast-feeding-woman/page-3.webp",
+                  "/theory-answers/obgyn/contraception/08-contraception-for-breast-feeding-woman/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "9",
@@ -50254,7 +50648,19 @@
               "sourceText": "Injectable Contraceptives (S-08)",
               "prompt": "Injectable Contraceptives (S-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-009"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-009",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Injectable Contraceptives",
+                "description": "Handwritten MBBS exam answer and final summary for Injectable Contraceptives.",
+                "pdf": "/theory-answers/obgyn/contraception/09-injectable-contraceptives/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/09-injectable-contraceptives/page-1.webp",
+                  "/theory-answers/obgyn/contraception/09-injectable-contraceptives/page-2.webp",
+                  "/theory-answers/obgyn/contraception/09-injectable-contraceptives/page-3.webp",
+                  "/theory-answers/obgyn/contraception/09-injectable-contraceptives/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "10",
@@ -50264,7 +50670,19 @@
               "sourceText": "Copper-T (W-07)",
               "prompt": "Copper-T (W-07)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-010"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-010",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Copper-T",
+                "description": "Handwritten MBBS exam answer and final summary for Copper-T.",
+                "pdf": "/theory-answers/obgyn/contraception/10-copper-t/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/10-copper-t/page-1.webp",
+                  "/theory-answers/obgyn/contraception/10-copper-t/page-2.webp",
+                  "/theory-answers/obgyn/contraception/10-copper-t/page-3.webp",
+                  "/theory-answers/obgyn/contraception/10-copper-t/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "11",
@@ -50274,7 +50692,19 @@
               "sourceText": "Benefits of Oral Contraceptives (S-06) (Pg. 401)",
               "prompt": "Benefits of Oral Contraceptives (S-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-011"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-011",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Benefits of Oral Contraceptives",
+                "description": "Handwritten MBBS exam answer and final summary for Benefits of Oral Contraceptives.",
+                "pdf": "/theory-answers/obgyn/contraception/11-benefits-of-oral-contraceptives/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/11-benefits-of-oral-contraceptives/page-1.webp",
+                  "/theory-answers/obgyn/contraception/11-benefits-of-oral-contraceptives/page-2.webp",
+                  "/theory-answers/obgyn/contraception/11-benefits-of-oral-contraceptives/page-3.webp",
+                  "/theory-answers/obgyn/contraception/11-benefits-of-oral-contraceptives/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "12",
@@ -50284,7 +50714,19 @@
               "sourceText": "Condom (W-05) (Pg. 412)",
               "prompt": "Condom (W-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-012"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-012",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Condom",
+                "description": "Handwritten MBBS exam answer and final summary for Condom.",
+                "pdf": "/theory-answers/obgyn/contraception/12-condom/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/12-condom/page-1.webp",
+                  "/theory-answers/obgyn/contraception/12-condom/page-2.webp",
+                  "/theory-answers/obgyn/contraception/12-condom/page-3.webp",
+                  "/theory-answers/obgyn/contraception/12-condom/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "13",
@@ -50294,7 +50736,19 @@
               "sourceText": "Missing Threads of IUCD (S-05) (Pg. 396)",
               "prompt": "Missing Threads of IUCD (S-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-013"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-013",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Missing Threads of IUCD",
+                "description": "Handwritten MBBS exam answer and final summary for Missing Threads of IUCD.",
+                "pdf": "/theory-answers/obgyn/contraception/13-missing-threads-of-iucd/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/13-missing-threads-of-iucd/page-1.webp",
+                  "/theory-answers/obgyn/contraception/13-missing-threads-of-iucd/page-2.webp",
+                  "/theory-answers/obgyn/contraception/13-missing-threads-of-iucd/page-3.webp",
+                  "/theory-answers/obgyn/contraception/13-missing-threads-of-iucd/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "14",
@@ -50304,7 +50758,19 @@
               "sourceText": "Barrier Contraception (W-02) (Pg. 412)",
               "prompt": "Barrier Contraception (W-02)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-014"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-014",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Barrier Contraception",
+                "description": "Handwritten MBBS exam answer and final summary for Barrier Contraception.",
+                "pdf": "/theory-answers/obgyn/contraception/14-barrier-contraception/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/14-barrier-contraception/page-1.webp",
+                  "/theory-answers/obgyn/contraception/14-barrier-contraception/page-2.webp",
+                  "/theory-answers/obgyn/contraception/14-barrier-contraception/page-3.webp",
+                  "/theory-answers/obgyn/contraception/14-barrier-contraception/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -50314,7 +50780,20 @@
               "sourceText": "Temporary Contraception - methods; IUCD - indications, contraindications (S-08)",
               "prompt": "Temporary Contraception - methods; IUCD - indications, contraindications (S-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-015"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-015",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Temporary Contraception - methods; IUCD - indications, contraindications",
+                "description": "Handwritten MBBS exam answer and final summary for Temporary Contraception - methods; IUCD - indications, contraindications.",
+                "pdf": "/theory-answers/obgyn/contraception/15-temporary-contraception-methods-iucd-indications-contraindicat/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/15-temporary-contraception-methods-iucd-indications-contraindicat/page-1.webp",
+                  "/theory-answers/obgyn/contraception/15-temporary-contraception-methods-iucd-indications-contraindicat/page-2.webp",
+                  "/theory-answers/obgyn/contraception/15-temporary-contraception-methods-iucd-indications-contraindicat/page-3.webp",
+                  "/theory-answers/obgyn/contraception/15-temporary-contraception-methods-iucd-indications-contraindicat/page-4.webp",
+                  "/theory-answers/obgyn/contraception/15-temporary-contraception-methods-iucd-indications-contraindicat/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50324,7 +50803,20 @@
               "sourceText": "Couple who have completed family size - list of sterilization methods; Explain the Consent to the couple; No-Scalpel Vasectomy - write in brief (W-02) (Pg. 406)",
               "prompt": "Couple who have completed family size - list of sterilization methods; Explain the Consent to the couple; No-Scalpel Vasectomy - write in brief (W-02)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-016"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-30-contraception-016",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Couple who have completed family size - list of sterilization methods; Explain the Consent to the couple; No-Scalpel Vasectomy - write in brief",
+                "description": "Handwritten MBBS exam answer and final summary for Couple who have completed family size - list of sterilization methods; Explain the Consent to the couple; No-Scalpel Vasectomy - write in brief.",
+                "pdf": "/theory-answers/obgyn/contraception/16-couple-who-have-completed-family-size-list-of-sterilization-me/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/contraception/16-couple-who-have-completed-family-size-list-of-sterilization-me/page-1.webp",
+                  "/theory-answers/obgyn/contraception/16-couple-who-have-completed-family-size-list-of-sterilization-me/page-2.webp",
+                  "/theory-answers/obgyn/contraception/16-couple-who-have-completed-family-size-list-of-sterilization-me/page-3.webp",
+                  "/theory-answers/obgyn/contraception/16-couple-who-have-completed-family-size-list-of-sterilization-me/page-4.webp",
+                  "/theory-answers/obgyn/contraception/16-couple-who-have-completed-family-size-list-of-sterilization-me/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -50342,7 +50834,19 @@
               "sourceText": "Tumor Markers* in Gynaecology (W-19)(S-09) (Pg. 431, 311)",
               "prompt": "Tumor Markers in Gynaecology (W-19)(S-09)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-31-radiotherapy-chemotherapy-immunotherapy-and-gene-therapy-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-31-radiotherapy-chemotherapy-immunotherapy-and-gene-therapy-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Tumor Markers in Gynaecology",
+                "description": "Handwritten MBBS exam answer and final summary for Tumor Markers in Gynaecology.",
+                "pdf": "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/01-tumor-markers-in-gynaecology/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/01-tumor-markers-in-gynaecology/page-1.webp",
+                  "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/01-tumor-markers-in-gynaecology/page-2.webp",
+                  "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/01-tumor-markers-in-gynaecology/page-3.webp",
+                  "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/01-tumor-markers-in-gynaecology/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50352,7 +50856,19 @@
               "sourceText": "Methotrexate (S-10) (Pg. 427)",
               "prompt": "Methotrexate (S-10)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-31-radiotherapy-chemotherapy-immunotherapy-and-gene-therapy-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-31-radiotherapy-chemotherapy-immunotherapy-and-gene-therapy-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Methotrexate",
+                "description": "Handwritten MBBS exam answer and final summary for Methotrexate.",
+                "pdf": "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/02-methotrexate/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/02-methotrexate/page-1.webp",
+                  "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/02-methotrexate/page-2.webp",
+                  "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/02-methotrexate/page-3.webp",
+                  "/theory-answers/obgyn/radiotherapy-chemotherapy-immunotherapy-and-gene-therapy/02-methotrexate/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -50370,7 +50886,19 @@
               "sourceText": "Clomiphene Citrate (S-17) (Pg. 440, 199)",
               "prompt": "Clomiphene Citrate (S-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-32-hormones-in-gynecological-practice-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-32-hormones-in-gynecological-practice-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Clomiphene Citrate",
+                "description": "Handwritten MBBS exam answer and final summary for Clomiphene Citrate.",
+                "pdf": "/theory-answers/obgyn/hormones-in-gynecological-practice/01-clomiphene-citrate/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hormones-in-gynecological-practice/01-clomiphene-citrate/page-1.webp",
+                  "/theory-answers/obgyn/hormones-in-gynecological-practice/01-clomiphene-citrate/page-2.webp",
+                  "/theory-answers/obgyn/hormones-in-gynecological-practice/01-clomiphene-citrate/page-3.webp",
+                  "/theory-answers/obgyn/hormones-in-gynecological-practice/01-clomiphene-citrate/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50380,7 +50908,19 @@
               "sourceText": "Danazol (S-09) (Pg. 438, 254)",
               "prompt": "Danazol (S-09)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-32-hormones-in-gynecological-practice-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-32-hormones-in-gynecological-practice-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Danazol",
+                "description": "Handwritten MBBS exam answer and final summary for Danazol.",
+                "pdf": "/theory-answers/obgyn/hormones-in-gynecological-practice/02-danazol/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hormones-in-gynecological-practice/02-danazol/page-1.webp",
+                  "/theory-answers/obgyn/hormones-in-gynecological-practice/02-danazol/page-2.webp",
+                  "/theory-answers/obgyn/hormones-in-gynecological-practice/02-danazol/page-3.webp",
+                  "/theory-answers/obgyn/hormones-in-gynecological-practice/02-danazol/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -50398,7 +50938,19 @@
               "sourceText": "Hirsutism* (W-18)(W-09) (Pg. 473)",
               "prompt": "Hirsutism (W-18)(W-09)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hirsutism",
+                "description": "Handwritten MBBS exam answer and final summary for Hirsutism.",
+                "pdf": "/theory-answers/obgyn/special-topics/01-hirsutism/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/special-topics/01-hirsutism/page-1.webp",
+                  "/theory-answers/obgyn/special-topics/01-hirsutism/page-2.webp",
+                  "/theory-answers/obgyn/special-topics/01-hirsutism/page-3.webp",
+                  "/theory-answers/obgyn/special-topics/01-hirsutism/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50408,7 +50960,19 @@
               "sourceText": "Post-Menopausal Bleeding** - evaluation; causes (S-18)(W-13)(S-05) (Pg. 462)",
               "prompt": "Post-Menopausal Bleeding - evaluation; causes (S-18)(W-13)(S-05)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Post-Menopausal Bleeding - evaluation; causes",
+                "description": "Handwritten MBBS exam answer and final summary for Post-Menopausal Bleeding - evaluation; causes.",
+                "pdf": "/theory-answers/obgyn/special-topics/02-post-menopausal-bleeding-evaluation-causes/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/special-topics/02-post-menopausal-bleeding-evaluation-causes/page-1.webp",
+                  "/theory-answers/obgyn/special-topics/02-post-menopausal-bleeding-evaluation-causes/page-2.webp",
+                  "/theory-answers/obgyn/special-topics/02-post-menopausal-bleeding-evaluation-causes/page-3.webp",
+                  "/theory-answers/obgyn/special-topics/02-post-menopausal-bleeding-evaluation-causes/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -50418,7 +50982,19 @@
               "sourceText": "Leucorrhea (W-17) (Pg. 456)",
               "prompt": "Leucorrhea (W-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-003"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Leucorrhea",
+                "description": "Handwritten MBBS exam answer and final summary for Leucorrhea.",
+                "pdf": "/theory-answers/obgyn/special-topics/03-leucorrhea/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/special-topics/03-leucorrhea/page-1.webp",
+                  "/theory-answers/obgyn/special-topics/03-leucorrhea/page-2.webp",
+                  "/theory-answers/obgyn/special-topics/03-leucorrhea/page-3.webp",
+                  "/theory-answers/obgyn/special-topics/03-leucorrhea/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -50428,7 +51004,20 @@
               "sourceText": "Lump in Lower Abdomen*; 18 weeks Lump in Abdomen arising from pelvis in 40 y/o woman - D/D**; management (S-18)(W-07)(S-05) (Pg. 470)",
               "prompt": "Lump in Lower Abdomen; 18 weeks Lump in Abdomen arising from pelvis in 40 y/o woman - D/D; management (S-18)(W-07)(S-05)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-004"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Lump in Lower Abdomen; 18 weeks Lump in Abdomen arising from pelvis in 40 y/o woman - D/D; management",
+                "description": "Handwritten MBBS exam answer and final summary for Lump in Lower Abdomen; 18 weeks Lump in Abdomen arising from pelvis in 40 y/o woman - D/D; management.",
+                "pdf": "/theory-answers/obgyn/special-topics/04-lump-in-lower-abdomen-18-weeks-lump-in-abdomen-arising-from-pe/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/special-topics/04-lump-in-lower-abdomen-18-weeks-lump-in-abdomen-arising-from-pe/page-1.webp",
+                  "/theory-answers/obgyn/special-topics/04-lump-in-lower-abdomen-18-weeks-lump-in-abdomen-arising-from-pe/page-2.webp",
+                  "/theory-answers/obgyn/special-topics/04-lump-in-lower-abdomen-18-weeks-lump-in-abdomen-arising-from-pe/page-3.webp",
+                  "/theory-answers/obgyn/special-topics/04-lump-in-lower-abdomen-18-weeks-lump-in-abdomen-arising-from-pe/page-4.webp",
+                  "/theory-answers/obgyn/special-topics/04-lump-in-lower-abdomen-18-weeks-lump-in-abdomen-arising-from-pe/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50438,7 +51027,20 @@
               "sourceText": "Post-Menopausal Bleeding**** PV - causes***; investigations* (part) (S-16)(W-15)(W-10)(S-08)(W-03) (Pg. 462)",
               "prompt": "Post-Menopausal Bleeding PV - causes; investigations (part) (S-16)(W-15)(W-10)(S-08)(W-03)",
               "emphasis": 4,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-005"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Post-Menopausal Bleeding PV - causes; investigations (part)",
+                "description": "Handwritten MBBS exam answer and final summary for Post-Menopausal Bleeding PV - causes; investigations (part).",
+                "pdf": "/theory-answers/obgyn/special-topics/05-post-menopausal-bleeding-pv-causes-investigations-part/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/special-topics/05-post-menopausal-bleeding-pv-causes-investigations-part/page-1.webp",
+                  "/theory-answers/obgyn/special-topics/05-post-menopausal-bleeding-pv-causes-investigations-part/page-2.webp",
+                  "/theory-answers/obgyn/special-topics/05-post-menopausal-bleeding-pv-causes-investigations-part/page-3.webp",
+                  "/theory-answers/obgyn/special-topics/05-post-menopausal-bleeding-pv-causes-investigations-part/page-4.webp",
+                  "/theory-answers/obgyn/special-topics/05-post-menopausal-bleeding-pv-causes-investigations-part/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -50448,7 +51050,20 @@
               "sourceText": "38 y/o woman - h/o Chronic Pelvic Pain - evaluation, management (S-14) (Pg. 460)",
               "prompt": "38 y/o woman - h/o Chronic Pelvic Pain - evaluation, management (S-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-006"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "38 y/o woman - h/o Chronic Pelvic Pain - evaluation, management",
+                "description": "Handwritten MBBS exam answer and final summary for 38 y/o woman - h/o Chronic Pelvic Pain - evaluation, management.",
+                "pdf": "/theory-answers/obgyn/special-topics/06-38-y-o-woman-h-o-chronic-pelvic-pain-evaluation-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/special-topics/06-38-y-o-woman-h-o-chronic-pelvic-pain-evaluation-management/page-1.webp",
+                  "/theory-answers/obgyn/special-topics/06-38-y-o-woman-h-o-chronic-pelvic-pain-evaluation-management/page-2.webp",
+                  "/theory-answers/obgyn/special-topics/06-38-y-o-woman-h-o-chronic-pelvic-pain-evaluation-management/page-3.webp",
+                  "/theory-answers/obgyn/special-topics/06-38-y-o-woman-h-o-chronic-pelvic-pain-evaluation-management/page-4.webp",
+                  "/theory-answers/obgyn/special-topics/06-38-y-o-woman-h-o-chronic-pelvic-pain-evaluation-management/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -50458,7 +51073,20 @@
               "sourceText": "Excessive Vaginal Discharge - clinical evaluation (W-02) (Pg. 456)",
               "prompt": "Excessive Vaginal Discharge - clinical evaluation (W-02)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-007"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-34-special-topics-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Excessive Vaginal Discharge - clinical evaluation",
+                "description": "Handwritten MBBS exam answer and final summary for Excessive Vaginal Discharge - clinical evaluation.",
+                "pdf": "/theory-answers/obgyn/special-topics/07-excessive-vaginal-discharge-clinical-evaluation/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/special-topics/07-excessive-vaginal-discharge-clinical-evaluation/page-1.webp",
+                  "/theory-answers/obgyn/special-topics/07-excessive-vaginal-discharge-clinical-evaluation/page-2.webp",
+                  "/theory-answers/obgyn/special-topics/07-excessive-vaginal-discharge-clinical-evaluation/page-3.webp",
+                  "/theory-answers/obgyn/special-topics/07-excessive-vaginal-discharge-clinical-evaluation/page-4.webp",
+                  "/theory-answers/obgyn/special-topics/07-excessive-vaginal-discharge-clinical-evaluation/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -50476,7 +51104,19 @@
               "sourceText": "Hysterosalphingography (W-08) (Pg. 487, 194)",
               "prompt": "Hysterosalpingography (W-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-35-operative-gynecology-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-35-operative-gynecology-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hysterosalpingography",
+                "description": "Handwritten MBBS exam answer and final summary for Hysterosalpingography.",
+                "pdf": "/theory-answers/obgyn/operative-gynecology/01-hysterosalpingography/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/operative-gynecology/01-hysterosalpingography/page-1.webp",
+                  "/theory-answers/obgyn/operative-gynecology/01-hysterosalpingography/page-2.webp",
+                  "/theory-answers/obgyn/operative-gynecology/01-hysterosalpingography/page-3.webp",
+                  "/theory-answers/obgyn/operative-gynecology/01-hysterosalpingography/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50486,7 +51126,19 @@
               "sourceText": "Laparoscopy in Gynaecology (W-05) (Pg. 506, 101)",
               "prompt": "Laparoscopy in Gynaecology (W-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-35-operative-gynecology-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-35-operative-gynecology-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Laparoscopy in Gynaecology",
+                "description": "Handwritten MBBS exam answer and final summary for Laparoscopy in Gynaecology.",
+                "pdf": "/theory-answers/obgyn/operative-gynecology/02-laparoscopy-in-gynaecology/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/operative-gynecology/02-laparoscopy-in-gynaecology/page-1.webp",
+                  "/theory-answers/obgyn/operative-gynecology/02-laparoscopy-in-gynaecology/page-2.webp",
+                  "/theory-answers/obgyn/operative-gynecology/02-laparoscopy-in-gynaecology/page-3.webp",
+                  "/theory-answers/obgyn/operative-gynecology/02-laparoscopy-in-gynaecology/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -50496,7 +51148,20 @@
               "sourceText": "Laparoscopy in Gynaecology - indications (S-05) (Pg. 506, 102)",
               "prompt": "Laparoscopy in Gynaecology - indications (S-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-35-operative-gynecology-003"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-chapter-35-operative-gynecology-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Laparoscopy in Gynaecology - indications",
+                "description": "Handwritten MBBS exam answer and final summary for Laparoscopy in Gynaecology - indications.",
+                "pdf": "/theory-answers/obgyn/operative-gynecology/03-laparoscopy-in-gynaecology-indications/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/operative-gynecology/03-laparoscopy-in-gynaecology-indications/page-1.webp",
+                  "/theory-answers/obgyn/operative-gynecology/03-laparoscopy-in-gynaecology-indications/page-2.webp",
+                  "/theory-answers/obgyn/operative-gynecology/03-laparoscopy-in-gynaecology-indications/page-3.webp",
+                  "/theory-answers/obgyn/operative-gynecology/03-laparoscopy-in-gynaecology-indications/page-4.webp",
+                  "/theory-answers/obgyn/operative-gynecology/03-laparoscopy-in-gynaecology-indications/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -50514,7 +51179,19 @@
               "sourceText": "Forniceal Mass in young patient - D/D (W-04)",
               "prompt": "Forniceal Mass in young patient - D/D (W-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-untitled-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-untitled-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Forniceal Mass in young patient - D/D",
+                "description": "Handwritten MBBS exam answer and final summary for Forniceal Mass in young patient - D/D.",
+                "pdf": "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/01-forniceal-mass-in-young-patient-d-d/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/01-forniceal-mass-in-young-patient-d-d/page-1.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/01-forniceal-mass-in-young-patient-d-d/page-2.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/01-forniceal-mass-in-young-patient-d-d/page-3.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/01-forniceal-mass-in-young-patient-d-d/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50524,7 +51201,19 @@
               "sourceText": "Carcinoma-In-Situ (W-02)",
               "prompt": "Carcinoma-In-Situ (W-02)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-untitled-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-untitled-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Carcinoma-In-Situ",
+                "description": "Handwritten MBBS exam answer and final summary for Carcinoma-In-Situ.",
+                "pdf": "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/02-carcinoma-in-situ/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/02-carcinoma-in-situ/page-1.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/02-carcinoma-in-situ/page-2.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/02-carcinoma-in-situ/page-3.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-untitled/02-carcinoma-in-situ/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -50542,7 +51231,19 @@
               "sourceText": "Ectopic Pregnancy - medical management (S-20)",
               "prompt": "Ectopic Pregnancy - medical management (S-20)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-001"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Ectopic Pregnancy - medical management",
+                "description": "Handwritten MBBS exam answer and final summary for Ectopic Pregnancy - medical management.",
+                "pdf": "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/01-ectopic-pregnancy-medical-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/01-ectopic-pregnancy-medical-management/page-1.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/01-ectopic-pregnancy-medical-management/page-2.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/01-ectopic-pregnancy-medical-management/page-3.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/01-ectopic-pregnancy-medical-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50552,7 +51253,19 @@
               "sourceText": "Medical Abortion (W-16)",
               "prompt": "Medical Abortion (W-16)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-002"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Medical Abortion",
+                "description": "Handwritten MBBS exam answer and final summary for Medical Abortion.",
+                "pdf": "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/02-medical-abortion/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/02-medical-abortion/page-1.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/02-medical-abortion/page-2.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/02-medical-abortion/page-3.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/02-medical-abortion/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -50562,7 +51275,19 @@
               "sourceText": "MTP Act**; First Trimester MTP - methods (W-12)(W-10)(W-07)(S-03)",
               "prompt": "MTP Act; First Trimester MTP - methods (W-12)(W-10)(W-07)(S-03)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-003"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "MTP Act; First Trimester MTP - methods",
+                "description": "Handwritten MBBS exam answer and final summary for MTP Act; First Trimester MTP - methods.",
+                "pdf": "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/03-mtp-act-first-trimester-mtp-methods/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/03-mtp-act-first-trimester-mtp-methods/page-1.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/03-mtp-act-first-trimester-mtp-methods/page-2.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/03-mtp-act-first-trimester-mtp-methods/page-3.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/03-mtp-act-first-trimester-mtp-methods/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -50572,7 +51297,19 @@
               "sourceText": "Manual Vacuum Aspiration (W-09)",
               "prompt": "Manual Vacuum Aspiration (W-09)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-004"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Manual Vacuum Aspiration",
+                "description": "Handwritten MBBS exam answer and final summary for Manual Vacuum Aspiration.",
+                "pdf": "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/04-manual-vacuum-aspiration/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/04-manual-vacuum-aspiration/page-1.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/04-manual-vacuum-aspiration/page-2.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/04-manual-vacuum-aspiration/page-3.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/04-manual-vacuum-aspiration/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -50582,7 +51319,19 @@
               "sourceText": "Ruptured Tubal Ectopic Pregnancy - diagnosis, management (S-04)",
               "prompt": "Ruptured Tubal Ectopic Pregnancy - diagnosis, management (S-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-005"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Ruptured Tubal Ectopic Pregnancy - diagnosis, management",
+                "description": "Handwritten MBBS exam answer and final summary for Ruptured Tubal Ectopic Pregnancy - diagnosis, management.",
+                "pdf": "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/05-ruptured-tubal-ectopic-pregnancy-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/05-ruptured-tubal-ectopic-pregnancy-diagnosis-management/page-1.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/05-ruptured-tubal-ectopic-pregnancy-diagnosis-management/page-2.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/05-ruptured-tubal-ectopic-pregnancy-diagnosis-management/page-3.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/05-ruptured-tubal-ectopic-pregnancy-diagnosis-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -50592,7 +51341,20 @@
               "sourceText": "1st Trimester MTP - enumerate methods, describe any one in detail (W-06)",
               "prompt": "1st Trimester MTP - enumerate methods, describe any one in detail (W-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-006"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "1st Trimester MTP - enumerate methods, describe any one in detail",
+                "description": "Handwritten MBBS exam answer and final summary for 1st Trimester MTP - enumerate methods, describe any one in detail.",
+                "pdf": "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/06-1st-trimester-mtp-enumerate-methods-describe-any-one-in-detail/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/06-1st-trimester-mtp-enumerate-methods-describe-any-one-in-detail/page-1.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/06-1st-trimester-mtp-enumerate-methods-describe-any-one-in-detail/page-2.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/06-1st-trimester-mtp-enumerate-methods-describe-any-one-in-detail/page-3.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/06-1st-trimester-mtp-enumerate-methods-describe-any-one-in-detail/page-4.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/06-1st-trimester-mtp-enumerate-methods-describe-any-one-in-detail/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -50602,7 +51364,20 @@
               "sourceText": "Woman having 8 weeks Amenorrhea - Abdominal Pain with Vaginal Bleeding - causes; Ruptured Ectopic Pregnancy - confirmation (W-03)",
               "prompt": "Woman having 8 weeks Amenorrhea - Abdominal Pain with Vaginal Bleeding - causes; Ruptured Ectopic Pregnancy - confirmation (W-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-007"
+              "id": "bhalani-final-year-obgyn-obgy-ii-gynaecology-obstetrics-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Woman having 8 weeks Amenorrhea - Abdominal Pain with Vaginal Bleeding - causes; Ruptured Ectopic Pregnancy - confirmation",
+                "description": "Handwritten MBBS exam answer and final summary for Woman having 8 weeks Amenorrhea - Abdominal Pain with Vaginal Bleeding - causes; Ruptured Ectopic Pregnancy - confirmation.",
+                "pdf": "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/07-woman-having-8-weeks-amenorrhea-abdominal-pain-with-vaginal-bl/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/07-woman-having-8-weeks-amenorrhea-abdominal-pain-with-vaginal-bl/page-1.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/07-woman-having-8-weeks-amenorrhea-abdominal-pain-with-vaginal-bl/page-2.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/07-woman-having-8-weeks-amenorrhea-abdominal-pain-with-vaginal-bl/page-3.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/07-woman-having-8-weeks-amenorrhea-abdominal-pain-with-vaginal-bl/page-4.webp",
+                  "/theory-answers/obgyn/obgy-ii-gynaecology-obstetrics/07-woman-having-8-weeks-amenorrhea-abdominal-pain-with-vaginal-bl/page-5.webp"
+                ]
+              }
             }
           ]
         }
