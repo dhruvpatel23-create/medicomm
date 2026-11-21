@@ -44105,7 +44105,18 @@
               "sourceText": "Amniotic Fluid - functions (S-19) (Pg. 34)",
               "prompt": "Amniotic Fluid - functions (S-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-3-placenta-and-fetal-membranes-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-3-placenta-and-fetal-membranes-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Amniotic Fluid - functions",
+                "description": "Illustrated MBBS answer for Amniotic Fluid - functions.",
+                "pdf": "/theory-answers/obgyn/placenta-and-fetal-membranes/01-amniotic-fluid-functions/01-amniotic-fluid-functions.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/01-amniotic-fluid-functions/page-1.webp",
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/01-amniotic-fluid-functions/page-2.webp",
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/01-amniotic-fluid-functions/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44115,7 +44126,18 @@
               "sourceText": "Placenta* - functions* (S-14)(S-10) (Pg. 31)",
               "prompt": "Placenta - functions (S-14)(S-10)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-3-placenta-and-fetal-membranes-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-3-placenta-and-fetal-membranes-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Placenta - functions",
+                "description": "Illustrated MBBS answer for Placenta - functions.",
+                "pdf": "/theory-answers/obgyn/placenta-and-fetal-membranes/02-placenta-functions/02-placenta-functions.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/02-placenta-functions/page-1.webp",
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/02-placenta-functions/page-2.webp",
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/02-placenta-functions/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44125,7 +44147,18 @@
               "sourceText": "Amniotic Fluid Index (W-13) (Pg. 35)",
               "prompt": "Amniotic Fluid Index (W-13)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-3-placenta-and-fetal-membranes-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-3-placenta-and-fetal-membranes-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Amniotic Fluid Index",
+                "description": "Illustrated MBBS answer for Amniotic Fluid Index.",
+                "pdf": "/theory-answers/obgyn/placenta-and-fetal-membranes/03-amniotic-fluid-index/03-amniotic-fluid-index.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/03-amniotic-fluid-index/page-1.webp",
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/03-amniotic-fluid-index/page-2.webp",
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/03-amniotic-fluid-index/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44135,7 +44168,19 @@
               "sourceText": "Placenta - gross structure, functions (W-03) (Pg. 31)",
               "prompt": "Placenta - gross structure, functions (W-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-3-placenta-and-fetal-membranes-004"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-3-placenta-and-fetal-membranes-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Placenta - gross structure, functions",
+                "description": "Illustrated MBBS answer for Placenta - gross structure, functions.",
+                "pdf": "/theory-answers/obgyn/placenta-and-fetal-membranes/04-placenta-gross-structure-functions/04-placenta-gross-structure-functions.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/04-placenta-gross-structure-functions/page-1.webp",
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/04-placenta-gross-structure-functions/page-2.webp",
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/04-placenta-gross-structure-functions/page-3.webp",
+                  "/theory-answers/obgyn/placenta-and-fetal-membranes/04-placenta-gross-structure-functions/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -44153,7 +44198,18 @@
               "sourceText": "Haemodynamic Changes in Normal Pregnancy; Heart Disease in Pregnancy - criteria for diagnosis (S-04) (Pg. 48)",
               "prompt": "Haemodynamic Changes in Normal Pregnancy; Heart Disease in Pregnancy - criteria for diagnosis (S-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-5-physiological-changes-during-pregnancy-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-5-physiological-changes-during-pregnancy-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Haemodynamic Changes in Normal Pregnancy; Heart Disease in Pregnancy - criteria for diagnosis",
+                "description": "Illustrated MBBS answer for Haemodynamic Changes in Normal Pregnancy; Heart Disease in Pregnancy - criteria for diagnosis.",
+                "pdf": "/theory-answers/obgyn/physiological-changes-during-pregnancy/01-haemodynamic-changes-in-normal-pregnancy-heart-disease-in-pregnancy-criteria-for-diagnosis/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/physiological-changes-during-pregnancy/01-haemodynamic-changes-in-normal-pregnancy-heart-disease-in-pregnancy-criteria-for-diagnosis/page-1.webp",
+                  "/theory-answers/obgyn/physiological-changes-during-pregnancy/01-haemodynamic-changes-in-normal-pregnancy-heart-disease-in-pregnancy-criteria-for-diagnosis/page-2.webp",
+                  "/theory-answers/obgyn/physiological-changes-during-pregnancy/01-haemodynamic-changes-in-normal-pregnancy-heart-disease-in-pregnancy-criteria-for-diagnosis/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44163,7 +44219,19 @@
               "sourceText": "Physiological Changes in Cardiovascular System in Pregnancy* (part) (W-10)(W-09) (Pg. 48)",
               "prompt": "Physiological Changes in Cardiovascular System in Pregnancy (part) (W-10)(W-09)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-5-physiological-changes-during-pregnancy-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-5-physiological-changes-during-pregnancy-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Physiological Changes in Cardiovascular System in Pregnancy (part)",
+                "description": "Illustrated MBBS answer for Physiological Changes in Cardiovascular System in Pregnancy (part).",
+                "pdf": "/theory-answers/obgyn/physiological-changes-during-pregnancy/02-physiological-changes-in-cardiovascular-system-in-pregnancy-part/02-physiological-changes-in-cardiovascular-system-in-pregnancy-part.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/physiological-changes-during-pregnancy/02-physiological-changes-in-cardiovascular-system-in-pregnancy-part/page-1.webp",
+                  "/theory-answers/obgyn/physiological-changes-during-pregnancy/02-physiological-changes-in-cardiovascular-system-in-pregnancy-part/page-2.webp",
+                  "/theory-answers/obgyn/physiological-changes-during-pregnancy/02-physiological-changes-in-cardiovascular-system-in-pregnancy-part/page-3.webp",
+                  "/theory-answers/obgyn/physiological-changes-during-pregnancy/02-physiological-changes-in-cardiovascular-system-in-pregnancy-part/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -44181,7 +44249,18 @@
               "sourceText": "Positive or Absolute Signs of Pregnancy (S-06) (Pg. 60)",
               "prompt": "Positive or Absolute Signs of Pregnancy (S-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-7-diagnosis-of-pregnancy-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-7-diagnosis-of-pregnancy-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Positive or Absolute Signs of Pregnancy",
+                "description": "Illustrated MBBS answer for Positive or Absolute Signs of Pregnancy.",
+                "pdf": "/theory-answers/obgyn/diagnosis-of-pregnancy/01-positive-or-absolute-signs-of-pregnancy/01-positive-or-absolute-signs-of-pregnancy.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/diagnosis-of-pregnancy/01-positive-or-absolute-signs-of-pregnancy/page-1.webp",
+                  "/theory-answers/obgyn/diagnosis-of-pregnancy/01-positive-or-absolute-signs-of-pregnancy/page-2.webp",
+                  "/theory-answers/obgyn/diagnosis-of-pregnancy/01-positive-or-absolute-signs-of-pregnancy/page-3.webp"
+                ]
+              }
             }
           ]
         },
@@ -44199,7 +44278,18 @@
               "sourceText": "Caput Succedaneum (S-06) (Pg. 78)",
               "prompt": "Caput Succedaneum (S-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-9-fetal-skull-and-maternal-pelvis-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-9-fetal-skull-and-maternal-pelvis-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Caput Succedaneum",
+                "description": "Illustrated MBBS answer for Caput Succedaneum.",
+                "pdf": "/theory-answers/obgyn/fetal-skull-and-maternal-pelvis/01-caput-succedaneum/01-caput-succedaneum.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/fetal-skull-and-maternal-pelvis/01-caput-succedaneum/page-1.webp",
+                  "/theory-answers/obgyn/fetal-skull-and-maternal-pelvis/01-caput-succedaneum/page-2.webp",
+                  "/theory-answers/obgyn/fetal-skull-and-maternal-pelvis/01-caput-succedaneum/page-3.webp"
+                ]
+              }
             }
           ]
         },
@@ -44217,7 +44307,18 @@
               "sourceText": "Oedema in Pregnancy (S-18) (Pg. 88)",
               "prompt": "Oedema in Pregnancy (S-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-10-antenatal-care-preconceptional-counseling-and-care-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-10-antenatal-care-preconceptional-counseling-and-care-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Oedema in Pregnancy",
+                "description": "Illustrated MBBS answer for Oedema in Pregnancy.",
+                "pdf": "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/01-oedema-in-pregnancy/01-oedema-in-pregnancy.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/01-oedema-in-pregnancy/page-1.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/01-oedema-in-pregnancy/page-2.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/01-oedema-in-pregnancy/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44227,7 +44328,18 @@
               "sourceText": "Routine Antenatal Care (W-15)",
               "prompt": "Routine Antenatal Care (W-15)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-10-antenatal-care-preconceptional-counseling-and-care-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-10-antenatal-care-preconceptional-counseling-and-care-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Routine Antenatal Care",
+                "description": "Illustrated MBBS answer for Routine Antenatal Care.",
+                "pdf": "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/02-routine-antenatal-care/02-routine-antenatal-care.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/02-routine-antenatal-care/page-1.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/02-routine-antenatal-care/page-2.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/02-routine-antenatal-care/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44237,7 +44349,19 @@
               "sourceText": "20 y/o primigravida - missed her period - comes to you for check-up for the first time - how will you proceed (S-15)",
               "prompt": "20 y/o primigravida - missed her period - comes to you for check-up for the first time - how will you proceed (S-15)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-10-antenatal-care-preconceptional-counseling-and-care-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-10-antenatal-care-preconceptional-counseling-and-care-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "20 y/o primigravida - missed her period - comes to you for check-up for the first time - how will you proceed",
+                "description": "Illustrated MBBS answer for 20 y/o primigravida - missed her period - comes to you for check-up for the first time - how will you proceed.",
+                "pdf": "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/03-20-y-o-primigravida-missed-her-period-comes-to-you-for-check-up-for-the-first-time-how-wil/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/03-20-y-o-primigravida-missed-her-period-comes-to-you-for-check-up-for-the-first-time-how-wil/page-1.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/03-20-y-o-primigravida-missed-her-period-comes-to-you-for-check-up-for-the-first-time-how-wil/page-2.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/03-20-y-o-primigravida-missed-her-period-comes-to-you-for-check-up-for-the-first-time-how-wil/page-3.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/03-20-y-o-primigravida-missed-her-period-comes-to-you-for-check-up-for-the-first-time-how-wil/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44247,7 +44371,19 @@
               "sourceText": "Antenatal Care* - important components; define, components at first visit, time schedule for subsequent visits in uncomplicated pregnancy (S-05)(S-03)",
               "prompt": "Antenatal Care - important components; define, components at first visit, time schedule for subsequent visits in uncomplicated pregnancy (S-05)(S-03)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-10-antenatal-care-preconceptional-counseling-and-care-004"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-10-antenatal-care-preconceptional-counseling-and-care-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Antenatal Care - important components; define, components at first visit, time schedule for subsequent visits in uncomplicated pregnancy",
+                "description": "Illustrated MBBS answer for Antenatal Care - important components; define, components at first visit, time schedule for subsequent visits in uncomplicated pregnancy.",
+                "pdf": "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/04-antenatal-care-important-components-define-components-at-first-visit-time-schedule-for-sub/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/04-antenatal-care-important-components-define-components-at-first-visit-time-schedule-for-sub/page-1.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/04-antenatal-care-important-components-define-components-at-first-visit-time-schedule-for-sub/page-2.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/04-antenatal-care-important-components-define-components-at-first-visit-time-schedule-for-sub/page-3.webp",
+                  "/theory-answers/obgyn/antenatal-care-preconceptional-counseling-and-care/04-antenatal-care-important-components-define-components-at-first-visit-time-schedule-for-sub/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -44265,7 +44401,18 @@
               "sourceText": "Antenatal Assessment of Fetal Well-Being - tests (S-19) (Pg. 96)",
               "prompt": "Antenatal Assessment of Fetal Well-Being - tests (S-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Antenatal Assessment of Fetal Well-Being - tests",
+                "description": "Illustrated MBBS answer for Antenatal Assessment of Fetal Well-Being - tests.",
+                "pdf": "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/01-antenatal-assessment-of-fetal-well-being-tests/01-antenatal-assessment-of-fetal-well-being-tests.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/01-antenatal-assessment-of-fetal-well-being-tests/page-1.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/01-antenatal-assessment-of-fetal-well-being-tests/page-2.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/01-antenatal-assessment-of-fetal-well-being-tests/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44275,7 +44422,18 @@
               "sourceText": "Non-Stress Test*** (W-16)(S-15)(W-11)(S-07) (Pg. 98)",
               "prompt": "Non-Stress Test (W-16)(S-15)(W-11)(S-07)",
               "emphasis": 3,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Non-Stress Test",
+                "description": "Illustrated MBBS answer for Non-Stress Test.",
+                "pdf": "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/02-non-stress-test/02-non-stress-test.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/02-non-stress-test/page-1.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/02-non-stress-test/page-2.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/02-non-stress-test/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44285,7 +44443,18 @@
               "sourceText": "[Biophysical Profile]** Score (S-11)(W-09)(S-08)(S-06) (Pg. 98)",
               "prompt": "[Biophysical Profile] Score (S-11)(W-09)(S-08)(S-06)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "[Biophysical Profile] Score",
+                "description": "Illustrated MBBS answer for [Biophysical Profile] Score.",
+                "pdf": "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/03-biophysical-profile-score/03-biophysical-profile-score.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/03-biophysical-profile-score/page-1.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/03-biophysical-profile-score/page-2.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/03-biophysical-profile-score/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -44295,7 +44464,18 @@
               "sourceText": "Antepartum Fetal Surveillance - methods (W-02) (Pg. 97)",
               "prompt": "Antepartum Fetal Surveillance - methods (W-02)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-004"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Antepartum Fetal Surveillance - methods",
+                "description": "Illustrated MBBS answer for Antepartum Fetal Surveillance - methods.",
+                "pdf": "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/04-antepartum-fetal-surveillance-methods/04-antepartum-fetal-surveillance-methods.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/04-antepartum-fetal-surveillance-methods/page-1.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/04-antepartum-fetal-surveillance-methods/page-2.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/04-antepartum-fetal-surveillance-methods/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44305,7 +44485,19 @@
               "sourceText": "Assessment of Fetal Well-Being at 34 weeks of gestation - tests (W-14)",
               "prompt": "Assessment of Fetal Well-Being at 34 weeks of gestation - tests (W-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-005"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-11-antenatal-assessment-of-fetal-well-being-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Assessment of Fetal Well-Being at 34 weeks of gestation - tests",
+                "description": "Illustrated MBBS answer for Assessment of Fetal Well-Being at 34 weeks of gestation - tests.",
+                "pdf": "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/05-assessment-of-fetal-well-being-at-34-weeks-of-gestation-tests/05-assessment-of-fetal-well-being-at-34-weeks-of-gestation-tests.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/05-assessment-of-fetal-well-being-at-34-weeks-of-gestation-tests/page-1.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/05-assessment-of-fetal-well-being-at-34-weeks-of-gestation-tests/page-2.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/05-assessment-of-fetal-well-being-at-34-weeks-of-gestation-tests/page-3.webp",
+                  "/theory-answers/obgyn/antenatal-assessment-of-fetal-well-being/05-assessment-of-fetal-well-being-at-34-weeks-of-gestation-tests/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -44323,7 +44515,18 @@
               "sourceText": "Triple Markers in Pregnancy; Triple Marker Test (S-13)(W-12) (Pg. 103)",
               "prompt": "Triple Markers in Pregnancy; Triple Marker Test (S-13)(W-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-12-prenatal-genetic-counseling-screening-and-diagnosis-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-12-prenatal-genetic-counseling-screening-and-diagnosis-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Triple Markers in Pregnancy; Triple Marker Test",
+                "description": "Illustrated MBBS answer for Triple Markers in Pregnancy; Triple Marker Test.",
+                "pdf": "/theory-answers/obgyn/prenatal-genetic-counseling-screening-and-diagnosis/01-triple-markers-in-pregnancy-triple-marker-test/01-triple-markers-in-pregnancy-triple-marker-test.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/prenatal-genetic-counseling-screening-and-diagnosis/01-triple-markers-in-pregnancy-triple-marker-test/page-1.webp",
+                  "/theory-answers/obgyn/prenatal-genetic-counseling-screening-and-diagnosis/01-triple-markers-in-pregnancy-triple-marker-test/page-2.webp",
+                  "/theory-answers/obgyn/prenatal-genetic-counseling-screening-and-diagnosis/01-triple-markers-in-pregnancy-triple-marker-test/page-3.webp"
+                ]
+              }
             }
           ]
         },
@@ -44341,7 +44544,18 @@
               "sourceText": "Third Stage of Labour*** - active management*; physiology*, management (S-20)(W-16)(S-11)(W-05) (Pg. 133)",
               "prompt": "Third Stage of Labour - active management; physiology, management (S-20)(W-16)(S-11)(W-05)",
               "emphasis": 3,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Third Stage of Labour - active management; physiology, management",
+                "description": "Illustrated MBBS answer for Third Stage of Labour - active management; physiology, management.",
+                "pdf": "/theory-answers/obgyn/normal-labour/01-third-stage-of-labour-active-management-physiology-management/01-third-stage-of-labour-active-management-physiology-management.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/normal-labour/01-third-stage-of-labour-active-management-physiology-management/page-1.webp",
+                  "/theory-answers/obgyn/normal-labour/01-third-stage-of-labour-active-management-physiology-management/page-2.webp",
+                  "/theory-answers/obgyn/normal-labour/01-third-stage-of-labour-active-management-physiology-management/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44351,7 +44565,18 @@
               "sourceText": "Latent Phase of Labour (W-08) (Pg. 123)",
               "prompt": "Latent Phase of Labour (W-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Latent Phase of Labour",
+                "description": "Illustrated MBBS answer for Latent Phase of Labour.",
+                "pdf": "/theory-answers/obgyn/normal-labour/02-latent-phase-of-labour/02-latent-phase-of-labour.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/normal-labour/02-latent-phase-of-labour/page-1.webp",
+                  "/theory-answers/obgyn/normal-labour/02-latent-phase-of-labour/page-2.webp",
+                  "/theory-answers/obgyn/normal-labour/02-latent-phase-of-labour/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44361,7 +44586,18 @@
               "sourceText": "Separation of Placenta - signs; Brandt-Andrew's Method - describe (S-03) (Pg. 133)",
               "prompt": "Separation of Placenta - signs; Brandt-Andrew's Method - describe (S-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Separation of Placenta - signs; Brandt-Andrew's Method - describe",
+                "description": "Illustrated MBBS answer for Separation of Placenta - signs; Brandt-Andrew's Method - describe.",
+                "pdf": "/theory-answers/obgyn/normal-labour/03-separation-of-placenta-signs-brandt-andrew-s-method-describe/03-separation-of-placenta-signs-brandt-andrew-s-method-describe.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/normal-labour/03-separation-of-placenta-signs-brandt-andrew-s-method-describe/page-1.webp",
+                  "/theory-answers/obgyn/normal-labour/03-separation-of-placenta-signs-brandt-andrew-s-method-describe/page-2.webp",
+                  "/theory-answers/obgyn/normal-labour/03-separation-of-placenta-signs-brandt-andrew-s-method-describe/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44371,7 +44607,19 @@
               "sourceText": "Normal Delivery/Labour - define* (S-18)(S-04)",
               "prompt": "Normal Delivery/Labour - define (S-18)(S-04)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-004"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Normal Delivery/Labour - define",
+                "description": "Illustrated MBBS answer for Normal Delivery/Labour - define.",
+                "pdf": "/theory-answers/obgyn/normal-labour/04-normal-delivery-labour-define/04-normal-delivery-labour-define.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/normal-labour/04-normal-delivery-labour-define/page-1.webp",
+                  "/theory-answers/obgyn/normal-labour/04-normal-delivery-labour-define/page-2.webp",
+                  "/theory-answers/obgyn/normal-labour/04-normal-delivery-labour-define/page-3.webp",
+                  "/theory-answers/obgyn/normal-labour/04-normal-delivery-labour-define/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44381,7 +44629,19 @@
               "sourceText": "Third Stage of Labour* - active [management]* (part) (S-18)(W-10) (Pg. 132, 134)",
               "prompt": "Third Stage of Labour - active [management] (part) (S-18)(W-10)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-005"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Third Stage of Labour - active [management] (part)",
+                "description": "Illustrated MBBS answer for Third Stage of Labour - active [management] (part).",
+                "pdf": "/theory-answers/obgyn/normal-labour/05-third-stage-of-labour-active-management-part/05-third-stage-of-labour-active-management-part.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/normal-labour/05-third-stage-of-labour-active-management-part/page-1.webp",
+                  "/theory-answers/obgyn/normal-labour/05-third-stage-of-labour-active-management-part/page-2.webp",
+                  "/theory-answers/obgyn/normal-labour/05-third-stage-of-labour-active-management-part/page-3.webp",
+                  "/theory-answers/obgyn/normal-labour/05-third-stage-of-labour-active-management-part/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44391,7 +44651,19 @@
               "sourceText": "First Stage of Labour - physiology, clinical course (S-04) (Pg. 113, 121)",
               "prompt": "First Stage of Labour - physiology, clinical course (S-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-006"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-13-normal-labour-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "First Stage of Labour - physiology, clinical course",
+                "description": "Illustrated MBBS answer for First Stage of Labour - physiology, clinical course.",
+                "pdf": "/theory-answers/obgyn/normal-labour/06-first-stage-of-labour-physiology-clinical-course/06-first-stage-of-labour-physiology-clinical-course.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/normal-labour/06-first-stage-of-labour-physiology-clinical-course/page-1.webp",
+                  "/theory-answers/obgyn/normal-labour/06-first-stage-of-labour-physiology-clinical-course/page-2.webp",
+                  "/theory-answers/obgyn/normal-labour/06-first-stage-of-labour-physiology-clinical-course/page-3.webp",
+                  "/theory-answers/obgyn/normal-labour/06-first-stage-of-labour-physiology-clinical-course/page-4.webp"
+                ]
+              }
             }
           ]
         },
@@ -44409,7 +44681,18 @@
               "sourceText": "Lochia* (S-17)(S-15) (Pg. 138)",
               "prompt": "Lochia (S-17)(S-15)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-14-normal-puerperium-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-14-normal-puerperium-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Lochia",
+                "description": "Illustrated MBBS answer for Lochia.",
+                "pdf": "/theory-answers/obgyn/normal-puerperium/01-lochia/01-lochia.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/normal-puerperium/01-lochia/page-1.webp",
+                  "/theory-answers/obgyn/normal-puerperium/01-lochia/page-2.webp",
+                  "/theory-answers/obgyn/normal-puerperium/01-lochia/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44419,7 +44702,18 @@
               "sourceText": "Suppression of Lactation (W-14) (Pg. 142)",
               "prompt": "Suppression of Lactation (W-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-14-normal-puerperium-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-14-normal-puerperium-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Suppression of Lactation",
+                "description": "Illustrated MBBS answer for Suppression of Lactation.",
+                "pdf": "/theory-answers/obgyn/normal-puerperium/02-suppression-of-lactation/02-suppression-of-lactation.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/normal-puerperium/02-suppression-of-lactation/page-1.webp",
+                  "/theory-answers/obgyn/normal-puerperium/02-suppression-of-lactation/page-2.webp",
+                  "/theory-answers/obgyn/normal-puerperium/02-suppression-of-lactation/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44429,7 +44723,18 @@
               "sourceText": "Postnatal Care (W-08) (Pg. 145)",
               "prompt": "Postnatal Care (W-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-14-normal-puerperium-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-14-normal-puerperium-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Postnatal Care",
+                "description": "Illustrated MBBS answer for Postnatal Care.",
+                "pdf": "/theory-answers/obgyn/normal-puerperium/03-postnatal-care/03-postnatal-care.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/normal-puerperium/03-postnatal-care/page-1.webp",
+                  "/theory-answers/obgyn/normal-puerperium/03-postnatal-care/page-2.webp",
+                  "/theory-answers/obgyn/normal-puerperium/03-postnatal-care/page-3.webp"
+                ]
+              }
             }
           ]
         },
@@ -44447,7 +44752,18 @@
               "sourceText": "Hyperemesis Gravidarum*** (W-18)(W-16)(W-15)(S-12) (Pg. 146)",
               "prompt": "Hyperemesis Gravidarum (W-18)(W-16)(W-15)(S-12)",
               "emphasis": 3,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-15-vomiting-in-pregnancy-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-15-vomiting-in-pregnancy-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hyperemesis Gravidarum",
+                "description": "Illustrated MBBS answer for Hyperemesis Gravidarum.",
+                "pdf": "/theory-answers/obgyn/vomiting-in-pregnancy/01-hyperemesis-gravidarum/01-hyperemesis-gravidarum.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/vomiting-in-pregnancy/01-hyperemesis-gravidarum/page-1.webp",
+                  "/theory-answers/obgyn/vomiting-in-pregnancy/01-hyperemesis-gravidarum/page-2.webp",
+                  "/theory-answers/obgyn/vomiting-in-pregnancy/01-hyperemesis-gravidarum/page-3.webp"
+                ]
+              }
             }
           ]
         },
@@ -44465,7 +44781,19 @@
               "sourceText": "Cervical Incompetence* - diagnosis, management (S-20)(W-16) (Pg. 161)",
               "prompt": "Cervical Incompetence - diagnosis, management (S-20)(W-16)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Cervical Incompetence - diagnosis, management",
+                "description": "Illustrated MBBS answer for Cervical Incompetence - diagnosis, management.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/01-cervical-incompetence-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/01-cervical-incompetence-diagnosis-management/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/01-cervical-incompetence-diagnosis-management/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/01-cervical-incompetence-diagnosis-management/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/01-cervical-incompetence-diagnosis-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44475,7 +44803,19 @@
               "sourceText": "Ectopic Pregnancy - diagnosis (W-19) (Pg. 172)",
               "prompt": "Ectopic Pregnancy - diagnosis (W-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Ectopic Pregnancy - diagnosis",
+                "description": "Illustrated MBBS answer for Ectopic Pregnancy - diagnosis.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/02-ectopic-pregnancy-diagnosis/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/02-ectopic-pregnancy-diagnosis/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/02-ectopic-pregnancy-diagnosis/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/02-ectopic-pregnancy-diagnosis/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/02-ectopic-pregnancy-diagnosis/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44485,7 +44825,19 @@
               "sourceText": "MTP - complications (S-16) (Pg. 167)",
               "prompt": "MTP - complications (S-16)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "MTP - complications",
+                "description": "Illustrated MBBS answer for MTP - complications.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/03-mtp-complications/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/03-mtp-complications/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/03-mtp-complications/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/03-mtp-complications/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/03-mtp-complications/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -44495,7 +44847,19 @@
               "sourceText": "MTP Act (W-14) (Pg. 164)",
               "prompt": "MTP Act (W-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-004"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "MTP Act",
+                "description": "Illustrated MBBS answer for MTP Act.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/04-mtp-act/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/04-mtp-act/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/04-mtp-act/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/04-mtp-act/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/04-mtp-act/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -44505,7 +44869,19 @@
               "sourceText": "Threatened Abortion* - diagnosis, management (W-13)(S-05) (Pg. 153)",
               "prompt": "Threatened Abortion - diagnosis, management (W-13)(S-05)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-005"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Threatened Abortion - diagnosis, management",
+                "description": "Illustrated MBBS answer for Threatened Abortion - diagnosis, management.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/05-threatened-abortion-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/05-threatened-abortion-diagnosis-management/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/05-threatened-abortion-diagnosis-management/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/05-threatened-abortion-diagnosis-management/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/05-threatened-abortion-diagnosis-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -44515,7 +44891,19 @@
               "sourceText": "Missed Abortion** (S-11)(S-08)(W-04) (Pg. 155)",
               "prompt": "Missed Abortion (S-11)(S-08)(W-04)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-006"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Missed Abortion",
+                "description": "Illustrated MBBS answer for Missed Abortion.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/06-missed-abortion/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/06-missed-abortion/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/06-missed-abortion/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/06-missed-abortion/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/06-missed-abortion/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -44525,7 +44913,19 @@
               "sourceText": "Ruptured Tubal Ectopic Pregnancy* - management; diagnosis (S-10)(W-08)",
               "prompt": "Ruptured Tubal Ectopic Pregnancy - management; diagnosis (S-10)(W-08)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-007"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Ruptured Tubal Ectopic Pregnancy - management; diagnosis",
+                "description": "Illustrated MBBS answer for Ruptured Tubal Ectopic Pregnancy - management; diagnosis.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/07-ruptured-tubal-ectopic-pregnancy-management-diagnosis/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/07-ruptured-tubal-ectopic-pregnancy-management-diagnosis/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/07-ruptured-tubal-ectopic-pregnancy-management-diagnosis/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/07-ruptured-tubal-ectopic-pregnancy-management-diagnosis/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/07-ruptured-tubal-ectopic-pregnancy-management-diagnosis/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "8",
@@ -44535,7 +44935,19 @@
               "sourceText": "Os-Tightening (Cervical Encirclage) (W-09) (Pg. 163)",
               "prompt": "Os-Tightening (Cervical Encirclage) (W-09)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-008"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Os-Tightening (Cervical Encirclage)",
+                "description": "Illustrated MBBS answer for Os-Tightening (Cervical Encirclage).",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/08-os-tightening-cervical-encirclage/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/08-os-tightening-cervical-encirclage/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/08-os-tightening-cervical-encirclage/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/08-os-tightening-cervical-encirclage/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/08-os-tightening-cervical-encirclage/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "9",
@@ -44545,7 +44957,19 @@
               "sourceText": "Inevitable Abortion (W-06) (Pg. 154)",
               "prompt": "Inevitable Abortion (W-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-009"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-009",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Inevitable Abortion",
+                "description": "Illustrated MBBS answer for Inevitable Abortion.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/09-inevitable-abortion/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/09-inevitable-abortion/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/09-inevitable-abortion/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/09-inevitable-abortion/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/09-inevitable-abortion/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "10",
@@ -44555,7 +44979,19 @@
               "sourceText": "Hydatidiform Mole - diagnosis, management (W-02) (Pg. 180)",
               "prompt": "Hydatidiform Mole - diagnosis, management (W-02)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-010"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-010",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hydatidiform Mole - diagnosis, management",
+                "description": "Illustrated MBBS answer for Hydatidiform Mole - diagnosis, management.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/10-hydatidiform-mole-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/10-hydatidiform-mole-diagnosis-management/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/10-hydatidiform-mole-diagnosis-management/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/10-hydatidiform-mole-diagnosis-management/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/10-hydatidiform-mole-diagnosis-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44565,7 +45001,20 @@
               "sourceText": "Abortion - define; First Trimester Abortion - etiology; Incomplete Abortion - management (S-14)",
               "prompt": "Abortion - define; First Trimester Abortion - etiology; Incomplete Abortion - management (S-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-011"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-011",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Abortion - define; First Trimester Abortion - etiology; Incomplete Abortion - management",
+                "description": "Illustrated MBBS answer for Abortion - define; First Trimester Abortion - etiology; Incomplete Abortion - management.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/11-abortion-define-first-trimester-abortion-etiology-incomplete-abort/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/11-abortion-define-first-trimester-abortion-etiology-incomplete-abort/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/11-abortion-define-first-trimester-abortion-etiology-incomplete-abort/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/11-abortion-define-first-trimester-abortion-etiology-incomplete-abort/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/11-abortion-define-first-trimester-abortion-etiology-incomplete-abort/page-4.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/11-abortion-define-first-trimester-abortion-etiology-incomplete-abort/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44575,7 +45024,20 @@
               "sourceText": "Recurrent 2nd Trimester Abortions - causes; Cervical Incompetence in Pregnancy - management (W- 12) (Pg. 161)",
               "prompt": "Recurrent 2nd Trimester Abortions - causes; Cervical Incompetence in Pregnancy - management (W-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-012"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-012",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Recurrent 2nd Trimester Abortions - causes; Cervical Incompetence in Pregnancy - management",
+                "description": "Illustrated MBBS answer for Recurrent 2nd Trimester Abortions - causes; Cervical Incompetence in Pregnancy - management.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/12-recurrent-2nd-trimester-abortions-causes-cervical-incompetence-in/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/12-recurrent-2nd-trimester-abortions-causes-cervical-incompetence-in/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/12-recurrent-2nd-trimester-abortions-causes-cervical-incompetence-in/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/12-recurrent-2nd-trimester-abortions-causes-cervical-incompetence-in/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/12-recurrent-2nd-trimester-abortions-causes-cervical-incompetence-in/page-4.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/12-recurrent-2nd-trimester-abortions-causes-cervical-incompetence-in/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44585,7 +45047,20 @@
               "sourceText": "Tubal Ectopic Pregnancy - etiology, c/f, diagnosis, conservative management (W-11) (Pg. 168)",
               "prompt": "Tubal Ectopic Pregnancy - etiology, c/f, diagnosis, conservative management (W-11)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-013"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-013",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Tubal Ectopic Pregnancy - etiology, c/f, diagnosis, conservative management",
+                "description": "Illustrated MBBS answer for Tubal Ectopic Pregnancy - etiology, c/f, diagnosis, conservative management.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/13-tubal-ectopic-pregnancy-etiology-c-f-diagnosis-conservative-manage/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/13-tubal-ectopic-pregnancy-etiology-c-f-diagnosis-conservative-manage/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/13-tubal-ectopic-pregnancy-etiology-c-f-diagnosis-conservative-manage/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/13-tubal-ectopic-pregnancy-etiology-c-f-diagnosis-conservative-manage/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/13-tubal-ectopic-pregnancy-etiology-c-f-diagnosis-conservative-manage/page-4.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/13-tubal-ectopic-pregnancy-etiology-c-f-diagnosis-conservative-manage/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -44595,7 +45070,20 @@
               "sourceText": "Habitual Abortion - define; Incompetent Os - diagnosis, management (S-04) (Pg. 159)",
               "prompt": "Habitual Abortion - define; Incompetent Os - diagnosis, management (S-04)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-014"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-16-haemorrhage-in-early-pregnancy-014",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Habitual Abortion - define; Incompetent Os - diagnosis, management",
+                "description": "Illustrated MBBS answer for Habitual Abortion - define; Incompetent Os - diagnosis, management.",
+                "pdf": "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/14-habitual-abortion-define-incompetent-os-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/14-habitual-abortion-define-incompetent-os-diagnosis-management/page-1.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/14-habitual-abortion-define-incompetent-os-diagnosis-management/page-2.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/14-habitual-abortion-define-incompetent-os-diagnosis-management/page-3.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/14-habitual-abortion-define-incompetent-os-diagnosis-management/page-4.webp",
+                  "/theory-answers/obgyn/haemorrhage-in-early-pregnancy/14-habitual-abortion-define-incompetent-os-diagnosis-management/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -44613,7 +45101,19 @@
               "sourceText": "Oligohydramnios* - etiology, complications (W-17)(S-16) (Pg. 203)",
               "prompt": "Oligohydramnios - etiology, complications (W-17)(S-16)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Oligohydramnios - etiology, complications",
+                "description": "Illustrated MBBS answer for Oligohydramnios - etiology, complications.",
+                "pdf": "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/01-oligohydramnios-etiology-complications/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/01-oligohydramnios-etiology-complications/page-1.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/01-oligohydramnios-etiology-complications/page-2.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/01-oligohydramnios-etiology-complications/page-3.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/01-oligohydramnios-etiology-complications/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44623,7 +45123,19 @@
               "sourceText": "Acute Polyhydramnios (S-17) (Pg. 200)",
               "prompt": "Acute Polyhydramnios (S-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Acute Polyhydramnios",
+                "description": "Illustrated MBBS answer for Acute Polyhydramnios.",
+                "pdf": "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/02-acute-polyhydramnios/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/02-acute-polyhydramnios/page-1.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/02-acute-polyhydramnios/page-2.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/02-acute-polyhydramnios/page-3.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/02-acute-polyhydramnios/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44633,7 +45145,20 @@
               "sourceText": "Twin Pregnancy* - etiology*, diagnosis, management (W-13)(S-10) (Pg. 189)",
               "prompt": "Twin Pregnancy - etiology, diagnosis, management (W-13)(S-10)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Twin Pregnancy - etiology, diagnosis, management",
+                "description": "Illustrated MBBS answer for Twin Pregnancy - etiology, diagnosis, management.",
+                "pdf": "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/03-twin-pregnancy-etiology-diagnosis-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/03-twin-pregnancy-etiology-diagnosis-management/page-1.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/03-twin-pregnancy-etiology-diagnosis-management/page-2.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/03-twin-pregnancy-etiology-diagnosis-management/page-3.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/03-twin-pregnancy-etiology-diagnosis-management/page-4.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/03-twin-pregnancy-etiology-diagnosis-management/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44643,7 +45168,20 @@
               "sourceText": "Primigravida with Twin Gestation at 38 weeks of pregnancy - management (part) (S-10)",
               "prompt": "Primigravida with Twin Gestation at 38 weeks of pregnancy - management (part) (S-10)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-004"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Primigravida with Twin Gestation at 38 weeks of pregnancy - management (part)",
+                "description": "Illustrated MBBS answer for Primigravida with Twin Gestation at 38 weeks of pregnancy - management (part).",
+                "pdf": "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/04-primigravida-with-twin-gestation-at-38-weeks-of-pregnancy-manageme/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/04-primigravida-with-twin-gestation-at-38-weeks-of-pregnancy-manageme/page-1.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/04-primigravida-with-twin-gestation-at-38-weeks-of-pregnancy-manageme/page-2.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/04-primigravida-with-twin-gestation-at-38-weeks-of-pregnancy-manageme/page-3.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/04-primigravida-with-twin-gestation-at-38-weeks-of-pregnancy-manageme/page-4.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/04-primigravida-with-twin-gestation-at-38-weeks-of-pregnancy-manageme/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44653,7 +45191,20 @@
               "sourceText": "Multiple Pregnancy - diagnosis in detail; Labour in a Primigravida with Twin Pregnancy - management (W-05)",
               "prompt": "Multiple Pregnancy - diagnosis in detail; Labour in a Primigravida with Twin Pregnancy - management (W-05)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-005"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-17-multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Multiple Pregnancy - diagnosis in detail; Labour in a Primigravida with Twin Pregnancy - management",
+                "description": "Illustrated MBBS answer for Multiple Pregnancy - diagnosis in detail; Labour in a Primigravida with Twin Pregnancy - management.",
+                "pdf": "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/05-multiple-pregnancy-diagnosis-in-detail-labour-in-a-primigravida-wi/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/05-multiple-pregnancy-diagnosis-in-detail-labour-in-a-primigravida-wi/page-1.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/05-multiple-pregnancy-diagnosis-in-detail-labour-in-a-primigravida-wi/page-2.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/05-multiple-pregnancy-diagnosis-in-detail-labour-in-a-primigravida-wi/page-3.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/05-multiple-pregnancy-diagnosis-in-detail-labour-in-a-primigravida-wi/page-4.webp",
+                  "/theory-answers/obgyn/multiple-pregnancy-amniotic-fluid-disorders-abnormalities-of-placenta-and-cord/05-multiple-pregnancy-diagnosis-in-detail-labour-in-a-primigravida-wi/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -44671,7 +45222,19 @@
               "sourceText": "Pre-Eclampsia - serious complications (W-19) (Pg. 213)",
               "prompt": "Pre-Eclampsia - serious complications (W-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Pre-Eclampsia - serious complications",
+                "description": "Illustrated MBBS answer for Pre-Eclampsia - serious complications.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/01-pre-eclampsia-serious-complications/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/01-pre-eclampsia-serious-complications/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/01-pre-eclampsia-serious-complications/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/01-pre-eclampsia-serious-complications/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/01-pre-eclampsia-serious-complications/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44681,7 +45244,19 @@
               "sourceText": "Impending Eclampsia (S-18)",
               "prompt": "Impending Eclampsia (S-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Impending Eclampsia",
+                "description": "Illustrated MBBS answer for Impending Eclampsia.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/02-impending-eclampsia/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/02-impending-eclampsia/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/02-impending-eclampsia/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/02-impending-eclampsia/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/02-impending-eclampsia/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44691,7 +45266,19 @@
               "sourceText": "Prevention of Pre-Eclampsia - prophylactic measures (W-17) (Pg. 214)",
               "prompt": "Prevention of Pre-Eclampsia - prophylactic measures (W-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Prevention of Pre-Eclampsia - prophylactic measures",
+                "description": "Illustrated MBBS answer for Prevention of Pre-Eclampsia - prophylactic measures.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/03-prevention-of-pre-eclampsia-prophylactic-measures/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/03-prevention-of-pre-eclampsia-prophylactic-measures/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/03-prevention-of-pre-eclampsia-prophylactic-measures/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/03-prevention-of-pre-eclampsia-prophylactic-measures/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/03-prevention-of-pre-eclampsia-prophylactic-measures/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -44701,7 +45288,19 @@
               "sourceText": "HELLP Syndrome (W-16) (Pg. 209)",
               "prompt": "HELLP Syndrome (W-16)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-004"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "HELLP Syndrome",
+                "description": "Illustrated MBBS answer for HELLP Syndrome.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/04-hellp-syndrome/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/04-hellp-syndrome/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/04-hellp-syndrome/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/04-hellp-syndrome/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/04-hellp-syndrome/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -44711,7 +45310,19 @@
               "sourceText": "Magnesium Sulfate* (S-15)(W-09) (Pg. 221)",
               "prompt": "Magnesium Sulfate (S-15)(W-09)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-005"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Magnesium Sulfate",
+                "description": "Illustrated MBBS answer for Magnesium Sulfate.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/05-magnesium-sulfate/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/05-magnesium-sulfate/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/05-magnesium-sulfate/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/05-magnesium-sulfate/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/05-magnesium-sulfate/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -44721,7 +45332,19 @@
               "sourceText": "Eclampsia* - management* (W-12)(S-12) (Pg. 217)",
               "prompt": "Eclampsia - management (W-12)(S-12)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-006"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Eclampsia - management",
+                "description": "Illustrated MBBS answer for Eclampsia - management.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/06-eclampsia-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/06-eclampsia-management/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/06-eclampsia-management/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/06-eclampsia-management/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/06-eclampsia-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44731,7 +45354,20 @@
               "sourceText": "Convulsions in Pregnancy - D/D; Eclampsia in labour - management (S-20) (Pg. 217)",
               "prompt": "Convulsions in Pregnancy - D/D; Eclampsia in labour - management (S-20)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-007"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Convulsions in Pregnancy - D/D; Eclampsia in labour - management",
+                "description": "Illustrated MBBS answer for Convulsions in Pregnancy - D/D; Eclampsia in labour - management.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/07-convulsions-in-pregnancy-d-d-eclampsia-in-labour-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/07-convulsions-in-pregnancy-d-d-eclampsia-in-labour-management/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/07-convulsions-in-pregnancy-d-d-eclampsia-in-labour-management/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/07-convulsions-in-pregnancy-d-d-eclampsia-in-labour-management/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/07-convulsions-in-pregnancy-d-d-eclampsia-in-labour-management/page-4.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/07-convulsions-in-pregnancy-d-d-eclampsia-in-labour-management/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44741,7 +45377,20 @@
               "sourceText": "Pre-Eclampsia* - etiopathogenesis, c/f*, management; define; maternal & fetal risks; Imminent/Impending Eclampsia - symptoms (S-16)(W-15)(S-03) (Pg. 207)",
               "prompt": "Pre-Eclampsia - etiopathogenesis, c/f, management; define; maternal & fetal risks; Imminent/Impending Eclampsia - symptoms (S-16)(W-15)(S-03)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-008"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Pre-Eclampsia - etiopathogenesis, c/f, management; define; maternal & fetal risks; Imminent/Impending Eclampsia - symptoms",
+                "description": "Illustrated MBBS answer for Pre-Eclampsia - etiopathogenesis, c/f, management; define; maternal & fetal risks; Imminent/Impending Eclampsia - symptoms.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/08-pre-eclampsia-etiopathogenesis-c-f-management-define-maternal-feta/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/08-pre-eclampsia-etiopathogenesis-c-f-management-define-maternal-feta/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/08-pre-eclampsia-etiopathogenesis-c-f-management-define-maternal-feta/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/08-pre-eclampsia-etiopathogenesis-c-f-management-define-maternal-feta/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/08-pre-eclampsia-etiopathogenesis-c-f-management-define-maternal-feta/page-4.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/08-pre-eclampsia-etiopathogenesis-c-f-management-define-maternal-feta/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44751,7 +45400,20 @@
               "sourceText": "Severe Pre-Eclampsia in 34 weeks pregnancy - management (W-15) (Pg. 214)",
               "prompt": "Severe Pre-Eclampsia in 34 weeks pregnancy - management (W-15)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-009"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-009",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Severe Pre-Eclampsia in 34 weeks pregnancy - management",
+                "description": "Illustrated MBBS answer for Severe Pre-Eclampsia in 34 weeks pregnancy - management.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/09-severe-pre-eclampsia-in-34-weeks-pregnancy-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/09-severe-pre-eclampsia-in-34-weeks-pregnancy-management/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/09-severe-pre-eclampsia-in-34-weeks-pregnancy-management/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/09-severe-pre-eclampsia-in-34-weeks-pregnancy-management/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/09-severe-pre-eclampsia-in-34-weeks-pregnancy-management/page-4.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/09-severe-pre-eclampsia-in-34-weeks-pregnancy-management/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -44761,7 +45423,20 @@
               "sourceText": "Hypertensive Disorders of Pregnancy - enumerate; Eclampsia at 29 weeks of gestation - management; Antepartum Eclampsia - c/f, management (W-14)(S-08) (Pg. 217)",
               "prompt": "Hypertensive Disorders of Pregnancy - enumerate; Eclampsia at 29 weeks of gestation - management; Antepartum Eclampsia - c/f, management (W-14)(S-08)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-010"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-010",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hypertensive Disorders of Pregnancy - enumerate; Eclampsia at 29 weeks of gestation - management; Antepartum Eclampsia - c/f, management",
+                "description": "Illustrated MBBS answer for Hypertensive Disorders of Pregnancy - enumerate; Eclampsia at 29 weeks of gestation - management; Antepartum Eclampsia - c/f, management.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/10-hypertensive-disorders-of-pregnancy-enumerate-eclampsia-at-29-week/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/10-hypertensive-disorders-of-pregnancy-enumerate-eclampsia-at-29-week/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/10-hypertensive-disorders-of-pregnancy-enumerate-eclampsia-at-29-week/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/10-hypertensive-disorders-of-pregnancy-enumerate-eclampsia-at-29-week/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/10-hypertensive-disorders-of-pregnancy-enumerate-eclampsia-at-29-week/page-4.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/10-hypertensive-disorders-of-pregnancy-enumerate-eclampsia-at-29-week/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -44771,7 +45446,20 @@
               "sourceText": "Hypertension in Pregnancy - define, classify; 32 weeks pregnancy with Mild Pre-Eclamptic Toxaemia - investigation, management (S-14)",
               "prompt": "Hypertension in Pregnancy - define, classify; 32 weeks pregnancy with Mild Pre-Eclamptic Toxaemia - investigation, management (S-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-011"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-011",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Hypertension in Pregnancy - define, classify; 32 weeks pregnancy with Mild Pre-Eclamptic Toxaemia - investigation, management",
+                "description": "Illustrated MBBS answer for Hypertension in Pregnancy - define, classify; 32 weeks pregnancy with Mild Pre-Eclamptic Toxaemia - investigation, management.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/11-hypertension-in-pregnancy-define-classify-32-weeks-pregnancy-with/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/11-hypertension-in-pregnancy-define-classify-32-weeks-pregnancy-with/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/11-hypertension-in-pregnancy-define-classify-32-weeks-pregnancy-with/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/11-hypertension-in-pregnancy-define-classify-32-weeks-pregnancy-with/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/11-hypertension-in-pregnancy-define-classify-32-weeks-pregnancy-with/page-4.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/11-hypertension-in-pregnancy-define-classify-32-weeks-pregnancy-with/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -44781,7 +45469,20 @@
               "sourceText": "Eclampsia** at full term - c/f, management**, complications**; define* (S-09)(W-04)(W-03) (Pg. 217)",
               "prompt": "Eclampsia at full term - c/f, management, complications; define (S-09)(W-04)(W-03)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-012"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-012",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Eclampsia at full term - c/f, management, complications; define",
+                "description": "Illustrated MBBS answer for Eclampsia at full term - c/f, management, complications; define.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/12-eclampsia-at-full-term-c-f-management-complications-define/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/12-eclampsia-at-full-term-c-f-management-complications-define/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/12-eclampsia-at-full-term-c-f-management-complications-define/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/12-eclampsia-at-full-term-c-f-management-complications-define/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/12-eclampsia-at-full-term-c-f-management-complications-define/page-4.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/12-eclampsia-at-full-term-c-f-management-complications-define/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -44791,7 +45492,20 @@
               "sourceText": "Pregnancy Induced Hypertension (PIH) - define, complications; Severe PIH at 32 weeks gestation - management (W-07)",
               "prompt": "Pregnancy Induced Hypertension (PIH) - define, complications; Severe PIH at 32 weeks gestation - management (W-07)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-013"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-013",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Pregnancy Induced Hypertension (PIH) - define, complications; Severe PIH at 32 weeks gestation - management",
+                "description": "Illustrated MBBS answer for Pregnancy Induced Hypertension (PIH) - define, complications; Severe PIH at 32 weeks gestation - management.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/13-pregnancy-induced-hypertension-pih-define-complications-severe-pih/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/13-pregnancy-induced-hypertension-pih-define-complications-severe-pih/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/13-pregnancy-induced-hypertension-pih-define-complications-severe-pih/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/13-pregnancy-induced-hypertension-pih-define-complications-severe-pih/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/13-pregnancy-induced-hypertension-pih-define-complications-severe-pih/page-4.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/13-pregnancy-induced-hypertension-pih-define-complications-severe-pih/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "8",
@@ -44801,7 +45515,20 @@
               "sourceText": "Primigravida - 30 weeks gestation - BP = 150/100 mm Hg - management (S-07)",
               "prompt": "Primigravida - 30 weeks gestation - BP = 150/100 mm Hg - management (S-07)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-014"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-18-hypertensive-disorders-in-pregnancy-014",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Primigravida - 30 weeks gestation - BP = 150/100 mm Hg - management",
+                "description": "Illustrated MBBS answer for Primigravida - 30 weeks gestation - BP = 150/100 mm Hg - management.",
+                "pdf": "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/14-primigravida-30-weeks-gestation-bp-150-100-mm-hg-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/14-primigravida-30-weeks-gestation-bp-150-100-mm-hg-management/page-1.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/14-primigravida-30-weeks-gestation-bp-150-100-mm-hg-management/page-2.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/14-primigravida-30-weeks-gestation-bp-150-100-mm-hg-management/page-3.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/14-primigravida-30-weeks-gestation-bp-150-100-mm-hg-management/page-4.webp",
+                  "/theory-answers/obgyn/hypertensive-disorders-in-pregnancy/14-primigravida-30-weeks-gestation-bp-150-100-mm-hg-management/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -44819,7 +45546,19 @@
               "sourceText": "Placenta Previa - management (W-19) (Pg. 233)",
               "prompt": "Placenta Previa - management (W-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Placenta Previa - management",
+                "description": "Illustrated MBBS answer for Placenta Previa - management.",
+                "pdf": "/theory-answers/obgyn/antepartum-haemorrhage/01-placenta-previa-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antepartum-haemorrhage/01-placenta-previa-management/page-1.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/01-placenta-previa-management/page-2.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/01-placenta-previa-management/page-3.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/01-placenta-previa-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44829,7 +45568,19 @@
               "sourceText": "Central Placenta Previa in Labour - management (S-14) (Pg. 228)",
               "prompt": "Central Placenta Previa in Labour - management (S-14)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Central Placenta Previa in Labour - management",
+                "description": "Illustrated MBBS answer for Central Placenta Previa in Labour - management.",
+                "pdf": "/theory-answers/obgyn/antepartum-haemorrhage/02-central-placenta-previa-in-labour-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antepartum-haemorrhage/02-central-placenta-previa-in-labour-management/page-1.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/02-central-placenta-previa-in-labour-management/page-2.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/02-central-placenta-previa-in-labour-management/page-3.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/02-central-placenta-previa-in-labour-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44839,7 +45590,19 @@
               "sourceText": "Abruptio Placentae* - complications; management (S-04)(S-03) (Pg. 241)",
               "prompt": "Abruptio Placentae - complications; management (S-04)(S-03)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Abruptio Placentae - complications; management",
+                "description": "Illustrated MBBS answer for Abruptio Placentae - complications; management.",
+                "pdf": "/theory-answers/obgyn/antepartum-haemorrhage/03-abruptio-placentae-complications-management/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antepartum-haemorrhage/03-abruptio-placentae-complications-management/page-1.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/03-abruptio-placentae-complications-management/page-2.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/03-abruptio-placentae-complications-management/page-3.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/03-abruptio-placentae-complications-management/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44849,7 +45612,20 @@
               "sourceText": "Bleeding per vaginum at 34 weeks - D/D; Concealed [Abruptio Placentae]** at 34 weeks* of Gestation - management**; diagnosis (W-18)(W-17)(W-09) (Pg. 237)",
               "prompt": "Bleeding per vaginum at 34 weeks - D/D; Concealed [Abruptio Placentae] at 34 weeks of Gestation - management; diagnosis (W-18)(W-17)(W-09)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-004"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Bleeding per vaginum at 34 weeks - D/D; Concealed [Abruptio Placentae] at 34 weeks of Gestation - management; diagnosis",
+                "description": "Illustrated MBBS answer for Bleeding per vaginum at 34 weeks - D/D; Concealed [Abruptio Placentae] at 34 weeks of Gestation - management; diagnosis.",
+                "pdf": "/theory-answers/obgyn/antepartum-haemorrhage/04-bleeding-per-vaginum-at-34-weeks-d-d-concealed-abruptio-placentae/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antepartum-haemorrhage/04-bleeding-per-vaginum-at-34-weeks-d-d-concealed-abruptio-placentae/page-1.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/04-bleeding-per-vaginum-at-34-weeks-d-d-concealed-abruptio-placentae/page-2.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/04-bleeding-per-vaginum-at-34-weeks-d-d-concealed-abruptio-placentae/page-3.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/04-bleeding-per-vaginum-at-34-weeks-d-d-concealed-abruptio-placentae/page-4.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/04-bleeding-per-vaginum-at-34-weeks-d-d-concealed-abruptio-placentae/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44859,7 +45635,20 @@
               "sourceText": "Antepartum Haemorrhage* - define*, causes (part) (W-17)(W-09) (Pg. 228)",
               "prompt": "Antepartum Haemorrhage - define, causes (part) (W-17)(W-09)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-005"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Antepartum Haemorrhage - define, causes (part)",
+                "description": "Illustrated MBBS answer for Antepartum Haemorrhage - define, causes (part).",
+                "pdf": "/theory-answers/obgyn/antepartum-haemorrhage/05-antepartum-haemorrhage-define-causes-part/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antepartum-haemorrhage/05-antepartum-haemorrhage-define-causes-part/page-1.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/05-antepartum-haemorrhage-define-causes-part/page-2.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/05-antepartum-haemorrhage-define-causes-part/page-3.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/05-antepartum-haemorrhage-define-causes-part/page-4.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/05-antepartum-haemorrhage-define-causes-part/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44869,7 +45658,20 @@
               "sourceText": "G2 with 32 weeks pregnancy presents with Bleeding Per Vaginum - D/D, investigations, management (S-12)",
               "prompt": "G2 with 32 weeks pregnancy presents with Bleeding Per Vaginum - D/D, investigations, management (S-12)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-006"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "G2 with 32 weeks pregnancy presents with Bleeding Per Vaginum - D/D, investigations, management",
+                "description": "Illustrated MBBS answer for G2 with 32 weeks pregnancy presents with Bleeding Per Vaginum - D/D, investigations, management.",
+                "pdf": "/theory-answers/obgyn/antepartum-haemorrhage/06-g2-with-32-weeks-pregnancy-presents-with-bleeding-per-vaginum-d-d/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antepartum-haemorrhage/06-g2-with-32-weeks-pregnancy-presents-with-bleeding-per-vaginum-d-d/page-1.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/06-g2-with-32-weeks-pregnancy-presents-with-bleeding-per-vaginum-d-d/page-2.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/06-g2-with-32-weeks-pregnancy-presents-with-bleeding-per-vaginum-d-d/page-3.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/06-g2-with-32-weeks-pregnancy-presents-with-bleeding-per-vaginum-d-d/page-4.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/06-g2-with-32-weeks-pregnancy-presents-with-bleeding-per-vaginum-d-d/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -44879,7 +45681,20 @@
               "sourceText": "Placenta Previa - c/f, diagnosis, treatment (S-09) (Pg. 228)",
               "prompt": "Placenta Previa - c/f, diagnosis, treatment (S-09)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-007"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Placenta Previa - c/f, diagnosis, treatment",
+                "description": "Illustrated MBBS answer for Placenta Previa - c/f, diagnosis, treatment.",
+                "pdf": "/theory-answers/obgyn/antepartum-haemorrhage/07-placenta-previa-c-f-diagnosis-treatment/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antepartum-haemorrhage/07-placenta-previa-c-f-diagnosis-treatment/page-1.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/07-placenta-previa-c-f-diagnosis-treatment/page-2.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/07-placenta-previa-c-f-diagnosis-treatment/page-3.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/07-placenta-previa-c-f-diagnosis-treatment/page-4.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/07-placenta-previa-c-f-diagnosis-treatment/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -44889,7 +45704,20 @@
               "sourceText": "Accidental Haemorrhage - define; Concealed Accidental Haemorrhage - c/f, management (S-06) (Pg. 237)",
               "prompt": "Accidental Haemorrhage - define; Concealed Accidental Haemorrhage - c/f, management (S-06)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-008"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-19-antepartum-haemorrhage-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Accidental Haemorrhage - define; Concealed Accidental Haemorrhage - c/f, management",
+                "description": "Illustrated MBBS answer for Accidental Haemorrhage - define; Concealed Accidental Haemorrhage - c/f, management.",
+                "pdf": "/theory-answers/obgyn/antepartum-haemorrhage/08-accidental-haemorrhage-define-concealed-accidental-haemorrhage-c-f/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/antepartum-haemorrhage/08-accidental-haemorrhage-define-concealed-accidental-haemorrhage-c-f/page-1.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/08-accidental-haemorrhage-define-concealed-accidental-haemorrhage-c-f/page-2.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/08-accidental-haemorrhage-define-concealed-accidental-haemorrhage-c-f/page-3.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/08-accidental-haemorrhage-define-concealed-accidental-haemorrhage-c-f/page-4.webp",
+                  "/theory-answers/obgyn/antepartum-haemorrhage/08-accidental-haemorrhage-define-concealed-accidental-haemorrhage-c-f/page-5.webp"
+                ]
+              }
             }
           ]
         },
@@ -44907,7 +45735,19 @@
               "sourceText": "Perinatal Transmission of HIV Infection* - prevention*; Vertical Transmission of HIV Infection from Mother to Child* - measures to decrease; prevention (W-18)(S-07)(W-05)(S-05) (Pg. 283)",
               "prompt": "Perinatal Transmission of HIV Infection - prevention; Vertical Transmission of HIV Infection from Mother to Child - measures to decrease; prevention (W-18)(S-07)(W-05)(S-05)",
               "emphasis": 1,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-001"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-001",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Perinatal Transmission of HIV Infection - prevention; Vertical Transmission of HIV Infection from Mother to Child - measures to decrease; prevention",
+                "description": "Illustrated MBBS answer for Perinatal Transmission of HIV Infection - prevention; Vertical Transmission of HIV Infection from Mother to Child - measures to decrease; prevention.",
+                "pdf": "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/01-perinatal-transmission-of-hiv-infection-prevention-vertical-transm/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/01-perinatal-transmission-of-hiv-infection-prevention-vertical-transm/page-1.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/01-perinatal-transmission-of-hiv-infection-prevention-vertical-transm/page-2.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/01-perinatal-transmission-of-hiv-infection-prevention-vertical-transm/page-3.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/01-perinatal-transmission-of-hiv-infection-prevention-vertical-transm/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -44917,7 +45757,19 @@
               "sourceText": "HIV Testing in Pregnancy (S-18) (Pg. 283)",
               "prompt": "HIV Testing in Pregnancy (S-18)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-002"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-002",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "HIV Testing in Pregnancy",
+                "description": "Illustrated MBBS answer for HIV Testing in Pregnancy.",
+                "pdf": "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/02-hiv-testing-in-pregnancy/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/02-hiv-testing-in-pregnancy/page-1.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/02-hiv-testing-in-pregnancy/page-2.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/02-hiv-testing-in-pregnancy/page-3.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/02-hiv-testing-in-pregnancy/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -44927,7 +45779,19 @@
               "sourceText": "Severe Iron Deficiency Anemia - treatment (S-17) (Pg. 247)",
               "prompt": "Severe Iron Deficiency Anemia - treatment (S-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-003"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-003",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Severe Iron Deficiency Anemia - treatment",
+                "description": "Illustrated MBBS answer for Severe Iron Deficiency Anemia - treatment.",
+                "pdf": "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/03-severe-iron-deficiency-anemia-treatment/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/03-severe-iron-deficiency-anemia-treatment/page-1.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/03-severe-iron-deficiency-anemia-treatment/page-2.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/03-severe-iron-deficiency-anemia-treatment/page-3.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/03-severe-iron-deficiency-anemia-treatment/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -44937,7 +45801,19 @@
               "sourceText": "PPTCT Programme (S-17)",
               "prompt": "PPTCT Programme (S-17)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-004"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-004",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "PPTCT Programme",
+                "description": "Illustrated MBBS answer for PPTCT Programme.",
+                "pdf": "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/04-pptct-programme/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/04-pptct-programme/page-1.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/04-pptct-programme/page-2.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/04-pptct-programme/page-3.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/04-pptct-programme/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -44947,7 +45823,19 @@
               "sourceText": "Parental Iron Therapy** (W-15)(W-11)(S-10) (Pg. 249)",
               "prompt": "Parental Iron Therapy (W-15)(W-11)(S-10)",
               "emphasis": 2,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-005"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-005",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Parental Iron Therapy",
+                "description": "Illustrated MBBS answer for Parental Iron Therapy.",
+                "pdf": "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/05-parental-iron-therapy/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/05-parental-iron-therapy/page-1.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/05-parental-iron-therapy/page-2.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/05-parental-iron-therapy/page-3.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/05-parental-iron-therapy/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -44957,7 +45845,19 @@
               "sourceText": "Sickle Cell Crisis in Pregnancy (W-13) (Pg. 255)",
               "prompt": "Sickle Cell Crisis in Pregnancy (W-13)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-006"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-006",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Sickle Cell Crisis in Pregnancy",
+                "description": "Illustrated MBBS answer for Sickle Cell Crisis in Pregnancy.",
+                "pdf": "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/06-sickle-cell-crisis-in-pregnancy/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/06-sickle-cell-crisis-in-pregnancy/page-1.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/06-sickle-cell-crisis-in-pregnancy/page-2.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/06-sickle-cell-crisis-in-pregnancy/page-3.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/06-sickle-cell-crisis-in-pregnancy/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -44967,7 +45867,19 @@
               "sourceText": "Social Factors for High Incidence of Anemia during Pregnancy (W-03)",
               "prompt": "Social Factors for High Incidence of Anemia during Pregnancy (W-03)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-007"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-007",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Social Factors for High Incidence of Anemia during Pregnancy",
+                "description": "Illustrated MBBS answer for Social Factors for High Incidence of Anemia during Pregnancy.",
+                "pdf": "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/07-social-factors-for-high-incidence-of-anemia-during-pregnancy/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/07-social-factors-for-high-incidence-of-anemia-during-pregnancy/page-1.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/07-social-factors-for-high-incidence-of-anemia-during-pregnancy/page-2.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/07-social-factors-for-high-incidence-of-anemia-during-pregnancy/page-3.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/07-social-factors-for-high-incidence-of-anemia-during-pregnancy/page-4.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -44977,7 +45889,20 @@
               "sourceText": "Anemia in Pregnancy - definition, etiology, grades of severity, evaluation, management (W-19) (Pg. 245)",
               "prompt": "Anemia in Pregnancy - definition, etiology, grades of severity, evaluation, management (W-19)",
               "emphasis": 0,
-              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-008"
+              "id": "bhalani-final-year-obgyn-obgy-i-obstetrics-chapter-20-medical-and-surgical-illnesses-complicating-pregnancy-008",
+              "answerDocument": {
+                "afterReviewOnly": true,
+                "title": "Anemia in Pregnancy - definition, etiology, grades of severity, evaluation, management",
+                "description": "Illustrated MBBS answer for Anemia in Pregnancy - definition, etiology, grades of severity, evaluation, management.",
+                "pdf": "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/08-anemia-in-pregnancy-definition-etiology-grades-of-severity-evaluat/answer.pdf",
+                "pages": [
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/08-anemia-in-pregnancy-definition-etiology-grades-of-severity-evaluat/page-1.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/08-anemia-in-pregnancy-definition-etiology-grades-of-severity-evaluat/page-2.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/08-anemia-in-pregnancy-definition-etiology-grades-of-severity-evaluat/page-3.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/08-anemia-in-pregnancy-definition-etiology-grades-of-severity-evaluat/page-4.webp",
+                  "/theory-answers/obgyn/medical-and-surgical-illnesses-complicating-pregnancy/08-anemia-in-pregnancy-definition-etiology-grades-of-severity-evaluat/page-5.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
