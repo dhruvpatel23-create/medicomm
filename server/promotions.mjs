@@ -9,7 +9,7 @@ export const HOME_PROMOTION = {
   eyebrow: 'THE NEXT STEP IN YOUR NEET-PG PREP',
   title: 'NEET-PG Grand Test',
   description: 'Put your preparation into perspective. Register for the upcoming grand test and take your next step with confidence.',
-  startsAt: '2026-11-22T14:00:00+05:30',
+  startsAt: '2026-11-29T14:00:00+05:30',
   timeZone: 'Asia/Kolkata',
 };
 

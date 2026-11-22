@@ -22,7 +22,7 @@ test('promotion dates use IST and public status never exposes learner details', 
   f.setTime('2026-11-16T10:00:00+05:30');
   const response = await f.call('GET', 'visitor');
   assert.equal(response.status, 200);
-  assert.equal(response.body.promotion.startsAt, '2026-11-22T14:00:00+05:30');
+  assert.equal(response.body.promotion.startsAt, '2026-11-29T14:00:00+05:30');
   assert.equal(response.body.promotion.title, 'NEET-PG Grand Test');
   assert.equal(response.body.promotion.id, 'neet-pg-grand-test-2026-11-15');
   assert.equal(response.body.registrationOpen, true);
