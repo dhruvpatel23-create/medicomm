@@ -75,9 +75,24 @@ test('previous FMGE registrations are preserved and do not register users for th
   assert.equal(saved[1].promotionId, HOME_PROMOTION.id);
 });
 
-test('registration closes at the scheduled start, while existing confirmation is retained', async () => {
+test('rescheduling keeps existing registrations and extends registration to the new start', async () => {
   const f = fixture();
-  await f.call('POST');
+  const oldStart = '2026-11-22T14:00:00+05:30';
+  const database = f.store.read();
+  database.promotionRegistrations = [{
+    promotionId: HOME_PROMOTION.id,
+    userId: 'alice',
+    startsAt: oldStart,
+    registeredAt: '2026-11-20T10:00:00+05:30',
+  }];
+  await f.store.write(database);
+
+  f.setTime(oldStart);
+  const status = await f.call();
+  assert.equal(status.body.registrationOpen, true);
+  assert.equal(status.body.registered, true);
+  assert.equal(status.body.promotion.startsAt, '2026-11-29T14:00:00+05:30');
+
   f.setTime(HOME_PROMOTION.startsAt);
   assert.equal((await f.call()).body.registrationOpen, false);
   assert.equal((await f.call('POST')).body.registered, true);
