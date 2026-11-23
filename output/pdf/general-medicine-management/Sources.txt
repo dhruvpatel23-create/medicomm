@@ -1,0 +1,218 @@
+General Medicine management continuation pages
+
+Topics 1–5. Consulted the existing Medulla manuscripts for original
+question coverage. The continuation pages concentrate on treatment
+selection, initial dosing, adequacy of response, escalation and follow-up.
+
+Clinical sources
+- Resuscitation Council UK, emergency treatment of anaphylaxis.
+  https://www.resus.org.uk/library/additional-guidance/guidance-anaphylaxis
+- Australian Department of Health, clinical guideline for chemical
+  exposures, organophosphate section.
+  https://www.health.gov.au/sites/default/files/documents/2022/07/australian-clinical-guidelines-for-acute-exposures-to-chemical-agents-of-health-concern.pdf
+- DailyMed fomepizole prescribing information and EXTRIP methanol and
+  barbiturate recommendations.
+  https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=6fed6052-f159-46d6-8be1-31e18a7ba918
+  https://www.extrip-workgroup.org/methanol
+  https://pubmed.ncbi.nlm.nih.gov/24998037/
+- EPA medical management of pesticide poisoning, rodenticide chapter,
+  and ATSDR phosphine medical management guideline.
+  https://19january2017snapshot.epa.gov/sites/production/files/documents/rmpp_6thed_ch18_rodenticides.pdf
+  https://wwwn.cdc.gov/TSp/MMG/MMGDetails.aspx?mmgid=1013&toxid=214
+- India NCDC, National Programme for Prevention and Control of Fluorosis.
+  https://www.ncdc.mohfw.gov.in/wp-content/uploads/2024/05/1-NPPCFnewguidelinebyGOI.pdf
+- India Ministry of Health and Family Welfare snakebite treatment
+  guideline and the Bawaskar trial in Indian red scorpion envenomation.
+  https://clinicalestablishments.mohfw.gov.in/sites/default/files/standard-treatment-guidelines/3941.pdf
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC3016167/
+- Wilderness Medical Society, heat illness guideline, 2024 update.
+  European Resuscitation Council guidance on accidental hypothermia,
+  2025, and MHAUS crisis treatment recommendations.
+  https://journals.sagepub.com/doi/full/10.1177/10806032241227924
+  https://www.resus.org.uk/professional-library/2025-resuscitation-guidelines/special-circumstances-guidelines
+  https://www.mhaus.org/healthcare-professionals/managing-a-crisis/
+- ACC, Evaluation and Management of Cardiogenic Shock, 2025. ATS,
+  adult ARDS management guideline and mechanical ventilation guideline.
+  https://www.jacc.org/doi/10.1016/j.jacc.2025.02.018
+  https://pmc.ncbi.nlm.nih.gov/articles/10870893/
+  https://academic.oup.com/ajrccm/article/195/9/1253/8500154
+
+Topics 6–10. Additional clinical references
+
+- WHO malaria guidelines, 2025, and CDC travel chemoprophylaxis.
+  https://iris.who.int/bitstream/handle/10665/382254/B09514-eng.pdf
+  https://www.cdc.gov/yellow-book/hcp/travel-associated-infections-diseases/malaria.html
+- CDC clinical care of dengue, typhoid and leptospirosis, WHO diphtheria
+  management, and MSF enteric fever dosing guidance.
+  https://www.cdc.gov/dengue/hcp/clinical-care/
+  https://www.cdc.gov/typhoid-fever/hcp/clinical-guidance/index.html
+  https://www.cdc.gov/leptospirosis/hcp/clinical-overview/index.html
+  https://www.who.int/publications/i/item/WHO-DIPH-Clinical-2024.1
+  https://medicalguidelines.msf.org/en/viewport/CG/english/enteric-typhoid-and-paratyphoid-fevers-16689926.html
+- GTFCC cholera treatment, CDC Yellow Book traveller’s diarrhoea,
+  FDA metronidazole labelling, and NHS paromomycin guidance.
+  https://www.choleraoutbreak.org/book-page/section-7-case-management-treatment-facilities
+  https://www.ncbi.nlm.nih.gov/books/NBK620898/?report=printable
+  https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/018930s016%2C018845s017lbl.pdf
+  https://ouh.quris.com/hospital-guidelines/adult-antimicrobial-guide/adult-antimicrobial-drug-monographs/paromomycin/
+- Indian visceral leishmaniasis study, India NLEP multidrug therapy and
+  management of lepra reactions, and CDC helminth treatment guidance.
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC6779195/
+  https://dghs.mohfw.gov.in/nlep.php
+  https://www.clinicalestablishments.mohfw.gov.in/sites/default/files/standard-treatment-guidelines/50.pdf
+  https://www.cdc.gov/sth/hcp/clinical-care/index.html
+  https://www.cdc.gov/filarial-worms/hcp/clinical-care/index.html
+- FDA ansuvimab and valaciclovir prescribing information; NIH varicella
+  and zoster guidelines for HIV; CDC clinical care of measles.
+  https://www.accessdata.fda.gov/drugsatfda_docs/label/2026/761172s011lbl.pdf
+  https://dailymed.nlm.nih.gov/dailymed/search.cfm?query=VALTREX
+  https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/varicella-zoster
+  https://www.cdc.gov/measles/hcp/clinical-care/index.html
+- CDC 2025 nPEP, NIH ART and opportunistic infection management, and
+  WHO cryptococcal disease guidance.
+  https://www.cdc.gov/mmwr/volumes/74/rr/rr7401a1.htm
+  https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-arv/initiation-antiretroviral-therapy
+  https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections
+  https://iris.who.int/bitstream/handle/10665/357088/9789240052178-eng.pdf
+- CDC STI Treatment Guidelines. The cited doses are protocol examples,
+  with local adaptation for resistance and national practice.
+  https://www.cdc.gov/mmwr/volumes/70/rr/rr7004a1.htm
+- UK Kidney Association acute hyperkalaemia and European hyponatraemia
+  guidance. Potassium chloride oral product prescribing information.
+  https://guidelines.ukkidney.org/hyperkalaemia/6-summary-of-clinical-practice-guideline-for-hyperkalaemia/6-2-section-ii-hospital/
+  https://academic.oup.com/ndt/article/39/10/1583/7713921
+  https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=a64d7151-09a6-474c-83fc-36c7cf582d32
+- ACC/AHA acute coronary syndromes, atrial fibrillation, aortic disease,
+  heart failure and hypertension guidelines. AHA adult ALS algorithm.
+  https://www.ahajournals.org/doi/10.1161/CIR.0000000000001309
+  https://www.jacc.org/doi/10.1016/j.jacc.2023.08.017
+  https://www.ahajournals.org/doi/10.1161/CIR.0000000000001106
+  https://professional.heart.org/en/guidelines-and-statements/2022-guideline-for-the-management-of-heart-failure
+  https://professional.heart.org/en/guidelines-and-statements/high-blood-pressure-guideline
+  https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support
+- ESC guideline series on valvular disease, endocarditis, ventricular
+  arrhythmias, pericarditis and pulmonary hypertension; ICMR and NSW
+  Health guidance for acute rheumatic fever.
+  https://academic.oup.com/eurheartj/article/46/44/4635/8234481
+  https://www.escardio.org/guidelines/clinical-practice-guidelines/endocarditis-guidelines/
+  https://www.escardio.org/guidelines/clinical-practice-guidelines/ventricular-arrhythmias-and-the-prevention-of-sudden-cardiac-death/
+  https://www.escardio.org/guidelines/clinical-practice-guidelines/pocket-guidelines/pericardial-diseases/
+  https://www.escardio.org/guidelines/clinical-practice-guidelines/pulmonary-hypertension-guidelines/
+  https://amrtg.icmr.org.in/section-info/1/4
+  https://www.health.nsw.gov.au/Infectious/controlguideline/Pages/Rheumatic-heart-disease.aspx
+
+Topics 11–12. Nutrition and Haematology
+- NICE nutrition support and vitamin B12 deficiency guidance; UK acute-hospital alcohol guidance; WHO nutrition resources.
+  https://www.nice.org.uk/guidance/cg32/chapter/recommendations
+  https://www.nice.org.uk/guidance/ng239/chapter/recommendations
+  https://www.gov.uk/guidance/clinical-guidelines-for-alcohol-treatment/16-alcohol-care-in-acute-hospitals
+  https://www.who.int/tools/elena/interventions/transition-feeding-sam
+  https://iris.who.int/bitstream/handle/10665/66704/WHO_NHD_00.10.pdf?sequence=1
+- ASMBS/IFSO bariatric indications; BSG iron deficiency; ASH ITP and sickle-cell guidance.
+  https://asmbs.org/resources/2022-asmbs-and-ifso-indications-for-metabolic-and-bariatric-surgery/
+  https://doi.org/10.1136/GUTJNL-2021-325210
+  https://ashpublications.org/bloodadvances/article/3/23/3829/429213
+  https://www.hematology.org/-/media/hematology/files/education/clinicians/guidelines-quality/documents/sickle-cell-hydroxyurea.pdf
+- BSH transfusion reactions; WFH haemophilia; TIF thalassaemia; ELN CML; NCI professional treatment summaries.
+  https://doi.org/10.1111/bjh.18789
+  https://doi.org/10.1111/hae.14046
+  https://www.ncbi.nlm.nih.gov/books/NBK614240/
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC12310532/
+  https://www.cancer.gov/publications/pdq/information-summaries/adult-treatment
+
+Topics 13–14. Pharmacology and clinical topics
+- WHO tuberculosis handbook, ACR gout, NHS methotrexate, AASLD ascites, Michigan Medicine VTE, and AHA resuscitation guidance.
+  https://tbksp.who.int/en/node/3033
+  https://doi.org/10.1002/acr.24180
+  https://www.nhs.uk/medicines/methotrexate/how-and-when-to-take-methotrexate/
+  https://sps.nhs.uk/articles/using-folic-acid-with-methotrexate-in-rheumatoid-arthritis/
+  https://doi.org/10.1002/hep.31884
+  https://www.ncbi.nlm.nih.gov/books/NBK611959/table/fm.s1.t1/
+  https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation/
+
+Topics 15–16. Endocrinology and Diabetes
+- ATA thyroid, Endocrine Society adrenal and hypercalcaemia, Society for Endocrinology acute calcium and water-balance guidance.
+  https://doi.org/10.1089/thy.2016.0229
+  https://www.endocrinology.org/clinical-practice/clinical-guidance/adrenal-crisis/
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC4880116/
+  https://doi.org/10.1210/clinem/dgaf284
+  https://www.endocrine.org/clinical-practice-guidelines/hypercalcemia
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC5314808/
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC6013691/
+- ADA adult hyperglycaemic crises consensus and Standards of Care in Diabetes 2026.
+  https://doi.org/10.2337/dci24-0032
+  https://diabetesjournals.org/care/issue/49/Supplement_1
+  https://doi.org/10.2337/dc26-s011
+
+Topics 17–18. Gastroenterology and Hepatology
+- ACG peptic ulcer bleeding, H. pylori, pancreatitis and ulcerative colitis guidance.
+  https://pubmed.ncbi.nlm.nih.gov/33929377/
+  https://gi.org/guideline/treatment-of-helicobacter-pylori-infection/
+  https://gi.org/guideline/management-of-acute-pancreatitis/
+  https://gi.org/journals-publications/ebgi/alkazzi_aug2025/
+- Baveno VII and AASLD portal hypertension, ascites and alcohol-associated liver disease. WHO chronic HBV guidance.
+  https://doi.org/10.1016/j.jhep.2021.12.022
+  https://doi.org/10.1002/hep.31884
+  https://www.aasld.org/practice-guidelines/alcohol-associated-liver-disease
+  https://www.who.int/publications/i/item/9789240090903
+
+Topics 19–21. Nephrology, Respiratory Medicine and Tuberculosis
+- KDIGO CKD, ADPKD, glomerular disease and IgA nephropathy. UKKA acute hyperkalaemia. IDSA UTI and asymptomatic bacteriuria.
+  https://kdigo.org/guidelines/ckd-evaluation-and-management/
+  https://kdigo.org/guidelines/autosomal-dominant-polycystic-kidney-disease-adpkd/
+  https://kdigo.org/guidelines/gd/
+  https://kdigo.org/kdigo-announces-publication-of-igan-v-guideline/
+  https://guidelines.ukkidney.org/hyperkalaemia/6-summary-of-clinical-practice-guideline-for-hyperkalaemia/6-2-section-ii-hospital/
+  https://www.idsociety.org/practice-guideline/complicated-urinary-tract-infections/
+  https://www.idsociety.org/practice-guideline/asymptomatic-bacteriuria/
+- GINA asthma, GOLD COPD, BTS pleural disease, ERS bronchiectasis, ATS/IDSA pneumonia, and NIH Pneumocystis guidance.
+  https://ginasthma.org/2026-gina-summary-guide/
+  https://goldcopd.org/2026-gold-report-and-pocket-guide/
+  https://www.brit-thoracic.org.uk/document-library/guidelines/pleural-disease/bts-guideline-for-pleural-disease/
+  https://doi.org/10.1183/13993003.01126-2025
+  https://doi.org/10.1164/rccm.201908-1581ST
+  https://clinicalinfo.hiv.gov/en/guidelines/hiv-clinical-guidelines-adult-and-adolescent-opportunistic-infections/pneumocystis-pneumonia
+- WHO TB Knowledge Sharing and India NTEP drug-susceptible and drug-resistant TB.
+  https://tbksp.who.int/en/node/3033
+  https://tbksp.who.int/en/node/2067
+  https://tbcindia.mohfw.gov.in/pmdt/
+  https://tbcindia.mohfw.gov.in/wp-content/uploads/2025/03/National-Guidelines-for-Management-of-DR-TB_27-3-2025.pdf
+
+Topics 22–24. Rheumatology, Neurology and Stroke
+- ACR rheumatoid arthritis, gout and vasculitis guidance; EULAR SLE recommendations.
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC9273041/
+  https://doi.org/10.1002/acr.24180
+  https://rheumatology.org/vasculitis-guideline
+  https://doi.org/10.1136/ard-2023-224762
+- EAN/PNS Guillain–Barré guidance, NICE multiple sclerosis, international myasthenia guidance, and the ESETT trial.
+  https://doi.org/10.1111/ene.16073
+  https://www.nice.org.uk/guidance/ng220/chapter/Recommendations
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC7884987/
+  https://doi.org/10.1056/NEJMoa1905795
+- AHA/ASA ischaemic stroke, TIA and aneurysmal subarachnoid haemorrhage; CDC neurosyphilis and rabies PEP.
+  https://doi.org/10.1161/STR.0000000000000513
+  https://doi.org/10.1161/STR.0000000000000418
+  https://doi.org/10.1161/STR.0000000000000436
+  https://www.cdc.gov/std/treatment-guidelines/neurosyphilis.htm
+  https://www.cdc.gov/rabies/hcp/clinical-care/post-exposure-prophylaxis.html
+
+Topics 25–28. Psychiatry, Dermatology, Pharmacology and Clinical Topics
+- NICE depression, bipolar disorder, eating disorders, and anxiety; UK acute-hospital guidance for alcohol withdrawal and Wernicke encephalopathy.
+  https://www.nice.org.uk/guidance/ng222/chapter/recommendations
+  https://www.nice.org.uk/guidance/cg185/chapter/recommendations
+  https://www.nice.org.uk/guidance/ng69/chapter/recommendations
+  https://www.nice.org.uk/guidance/cg113/chapter/recommendations
+  https://www.gov.uk/guidance/clinical-guidelines-for-alcohol-treatment/16-alcohol-care-in-acute-hospitals
+- CDC scabies, anogenital warts and influenza; AAD acne, psoriasis and atopic dermatitis; Indian pemphigus guidance.
+  https://www.cdc.gov/scabies/hcp/clinical-care/
+  https://www.cdc.gov/std/treatment-guidelines/anogenital-warts.htm
+  https://www.cdc.gov/flu/hcp/antivirals/summary-clinicians.html
+  https://www.aad.org/member/clinical-quality/guidelines/acne
+  https://www.aad.org/member/clinical-quality/guidelines/psoriasis
+  https://www.aad.org/member/clinical-quality/guidelines/atopic-dermatitis
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC11753534/
+- WHO second-line leprosy regimens; KDIGO CKD anaemia; ATS obesity hypoventilation; Wilderness Medical Society heat illness.
+  https://extranet.who.int/prequal/sites/default/files/document_files/9-day4_ntdguidelines_update.pdf
+  https://kdigo.org/wp-content/uploads/2026/04/KDIGO-2026-Anemia-in-CKD-Guideline.pdf
+  https://doi.org/10.1164/rccm.201905-1071ST
+  https://doi.org/10.1177/10806032241227924

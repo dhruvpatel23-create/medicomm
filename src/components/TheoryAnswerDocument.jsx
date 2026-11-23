@@ -78,7 +78,12 @@ export default function TheoryAnswerDocument({ document }) {
           </div>
           {document.pdf && (
             <a className="button button-secondary" href={document.pdf} target="_blank" rel="noreferrer">
-              Open PDF
+              {document.managementPdf ? "Open original PDF" : "Open PDF"}
+            </a>
+          )}
+          {document.managementPdf && (
+            <a className="button button-secondary" href={document.managementPdf} target="_blank" rel="noreferrer">
+              Open management PDF
             </a>
           )}
         </div>
