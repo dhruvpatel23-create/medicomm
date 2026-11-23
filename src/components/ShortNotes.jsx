@@ -256,7 +256,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
   }
 
   function openAnswerModal(item) {
-    if (item?.answerDocument && !item.answerDocument.afterReviewOnly) {
+    if (item?.answerDocument) {
       setActiveModalAnswer(item);
     }
   }
@@ -448,7 +448,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
       </article>
 
       {/* Mode switcher tabs: Write & Practise vs Model Answer */}
-      {!question.answerDocument?.afterReviewOnly && <div className="sn-mode-tabs" role="tablist" aria-label="Question mode">
+      <div className="sn-mode-tabs" role="tablist" aria-label="Question mode">
         <button
           type="button"
           role="tab"
@@ -474,9 +474,9 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
             <span className="sn-tab-coming-soon-badge">Coming soon</span>
           )}
         </button>
-      </div>}
+      </div>
 
-      {questionTab === "answer" && !question.answerDocument?.afterReviewOnly ? (
+      {questionTab === "answer" ? (
         question.answerDocument ? (
           <div className="sn-direct-answer-view">
             <div className="sn-notepad-banner-card">
@@ -665,7 +665,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
               </span>
             </button>
             <div className="sn-row-actions">
-              {item.answerDocument?.afterReviewOnly ? null : item.answerDocument ? (
+              {item.answerDocument ? (
                 <button
                   type="button"
                   className="sn-see-answer-btn"
@@ -801,7 +801,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
               </button>
 
               <div className="sn-row-actions">
-                {item.answerDocument?.afterReviewOnly ? null : item.answerDocument ? (
+                {item.answerDocument ? (
                   <button
                     type="button"
                     className="sn-see-answer-btn"
