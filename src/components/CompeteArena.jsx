@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import DuelOpponentCard from './DuelOpponentCard';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, Award, Bot, Check, ChevronRight, Clock3, Crosshair, Flag, Flame, Layers3, Loader2, LockKeyhole, ShieldCheck, Swords, Target, Trophy, Users, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Award, Bot, Check, ChevronRight, Clock3, Copy, Crosshair, Flag, Flame, Layers3, Link2, Loader2, LockKeyhole, Share2, ShieldCheck, Swords, Target, Trophy, Users, X } from 'lucide-react';
 
 const surface = 'rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900';
 const muted = 'text-slate-500 dark:text-slate-400';
@@ -36,6 +36,38 @@ function Stat({ icon: Icon, label, value, accent = false }) {
   return <div className="flex items-center gap-3"><span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${accent ? 'bg-amber-50 text-amber-600 dark:bg-amber-400/10 dark:text-amber-300' : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'}`}><Icon size={18} /></span><div><p className={`text-[11px] font-medium ${muted}`}>{label}</p><p className="mt-0.5 text-lg font-bold tabular-nums tracking-tight">{value}</p></div></div>;
 }
 
+function ChallengeLink({ url }) {
+  const input = useRef(null);
+  const [message, setMessage] = useState('');
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(url);
+      setMessage('Room link copied.');
+    } catch {
+      input.current?.focus();
+      input.current?.select();
+      setMessage('Link selected. Copy it to share with your friend.');
+    }
+  }
+  async function shareLink() {
+    try { await navigator.share({ title: 'Medulla friend challenge', url }); }
+    catch (error) {
+      if (error.name !== 'AbortError') setMessage('Use Copy link to share this room.');
+    }
+  }
+  return <div className="mx-auto mb-5 max-w-lg rounded-2xl border border-amber-200/80 bg-white/80 p-4 text-left dark:border-white/10 dark:bg-slate-950/50">
+    <label htmlFor="challenge-room-link" className="flex items-center gap-2 text-sm font-semibold"><Link2 size={16} />Room link</label>
+    <input ref={input} id="challenge-room-link" type="url" readOnly value={url}
+      onFocus={event => event.target.select()}
+      className="mt-2 min-h-11 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" />
+    <div className="mt-3 flex flex-wrap gap-2">
+      <button type="button" className={primary} onClick={copyLink}><Copy size={16} />Copy link</button>
+      {typeof navigator.share === 'function' && <button type="button" className={secondary} onClick={shareLink}><Share2 size={16} />Share link</button>}
+    </div>
+    {message && <p className={`mt-2 text-xs ${muted}`} role="status">{message}</p>}
+  </div>;
+}
+
 export default function CompeteArena(p) {
   const reduced = useReducedMotion();
   const [starting, setStarting] = useState(null);
@@ -44,12 +76,19 @@ export default function CompeteArena(p) {
   const total = p.questions.length;
   const win = p.result?.verdict === 'win' && !p.result?.forfeited;
   const question = p.questions[p.index];
+  const modeLabel = p.mode === 'bot' ? 'Bot practice · Unrated' : p.mode === 'link' ? 'Friend challenge · Unrated'
+    : p.mode === 'challenge' ? '1v1 Challenge · Private' : 'Rated duel';
+  const scores = [['Your score', p.result ? `${p.result.userScore} / ${total}` : '—'], ['Opponent score', p.result ? `${p.result.opponentScore} / ${total}` : '—']];
+  if (p.mode !== 'link') scores.push(['Your rating', number(p.result?.nextRating ?? p.rating)]);
 
   return <section className="mx-auto w-full max-w-[1180px] space-y-6 pb-8 pt-5 text-slate-900 dark:text-slate-100" aria-label="Compete arena">
-    <header className="flex flex-wrap items-center justify-between gap-4">
+    {p.guestInvite ? <header className="flex flex-wrap items-center justify-between gap-3">
+      <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Friend challenge</h1>
+      <span className="rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800 dark:border-cyan-500/30 dark:bg-cyan-400/10 dark:text-cyan-200">Playing as Guest</span>
+    </header> : <header className="flex flex-wrap items-center justify-between gap-4">
       <div><div className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300"><span className="h-1.5 w-1.5 rounded-full bg-cyan-500" />The Medulla arena</div><h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">A little rivalry.<br className="sm:hidden" /> A lot of growth.</h2></div>
       <button className={secondary} onClick={p.onLeaderboard}><Trophy size={16} />Leaderboard<ArrowUpRight size={15} /></button>
-    </header>
+    </header>}
 
     <AnimatePresence mode="wait" initial={false}><motion.div key={p.status} {...enter} className="space-y-5">
       {p.status === 'idle' && <>
@@ -60,7 +99,10 @@ export default function CompeteArena(p) {
               <div className="relative z-10"><span className="inline-flex items-center gap-2 rounded-full border border-cyan-600/20 dark:border-cyan-300/20 bg-cyan-600/5 dark:bg-cyan-300/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-700 dark:text-cyan-200"><Swords size={13} />The 1v1 challenge</span>
                 <h3 className="mt-6 text-4xl font-extrabold leading-[1.12] tracking-[-0.045em] sm:text-5xl">Think fast.<br />Rise <span className="text-cyan-700 dark:text-cyan-300">together.</span></h3>
                 <p className="mt-4 max-w-sm text-sm leading-7 text-slate-600 dark:text-slate-300">Turn what you know into your next win. Take on a fellow medic in a focused, three-minute duel.</p>
-                <button className={`${primary} mt-6 w-full sm:w-auto`} disabled={Boolean(starting)} onClick={() => launch('rated', p.onStart)}>{starting === 'rated' ? <Loader2 size={18} className="motion-safe:animate-spin" /> : <Swords size={18} />}Start rated duel (5 tokens)<ArrowRight size={17} /></button>
+                <div className="mt-6 flex flex-wrap gap-2.5">
+                  <button className={`${primary} w-full sm:w-auto`} disabled={Boolean(starting)} onClick={() => launch('rated', p.onStart)}>{starting === 'rated' ? <Loader2 size={18} className="motion-safe:animate-spin" /> : <Swords size={18} />}Start rated duel (5 tokens)<ArrowRight size={17} /></button>
+                  <button type="button" className={`${secondary} min-h-12 w-full sm:w-auto`} disabled={Boolean(starting)} onClick={p.onChallengeFriend}><Link2 size={17} />Challenge friend</button>
+                </div>
                 <p className="mt-3 flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400"><ShieldCheck size={13} />Same questions. One shared clock. Fair play.</p>
               </div><ArenaArt />
             </div>
@@ -95,15 +137,17 @@ export default function CompeteArena(p) {
       {p.status === 'challenge_waiting' && <article className="relative overflow-hidden rounded-[24px] border border-amber-300 dark:border-amber-600/40 bg-gradient-to-br from-white via-amber-50/60 to-orange-100/60 dark:bg-[#0b162b] dark:from-transparent dark:via-transparent dark:to-transparent px-5 py-8 text-center text-slate-900 dark:text-white sm:py-10">
         <span className="inline-flex items-center gap-2 rounded-full border border-amber-600/20 dark:border-amber-300/20 bg-amber-600/10 dark:bg-amber-300/10 px-3 py-1.5 text-xs font-bold text-amber-700 dark:text-amber-200"><span className="h-1.5 w-1.5 rounded-full bg-amber-500 motion-safe:animate-pulse" />Private 1v1 Room</span>
         <div className="mx-auto max-w-[270px]"><ArenaArt searching /></div>
-        <h3 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">Waiting for {p.challengeOpponent?.name ?? 'your opponent'}…</h3>
+        <h3 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">Waiting for {p.challengeLink ? 'your friend' : p.challengeOpponent?.name ?? 'your opponent'}…</h3>
         <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600 dark:text-slate-300" role="status">
-          Invitation sent! As soon as they accept the notification or popup, your private 1v1 match will begin immediately.
+          {p.challengeLink ? 'Send this link to one friend. The duel starts when they open it as Guest. The link is open for 10 minutes.'
+            : 'Invitation sent! As soon as they accept the notification or popup, your private 1v1 match will begin immediately.'}
         </p>
         <div className="mx-auto my-7 grid max-w-lg grid-cols-2 divide-x divide-amber-200/70 dark:divide-white/10 rounded-2xl border border-amber-200/70 dark:border-white/10 bg-white/70 dark:bg-white/5 py-4">
-          <div><p className="text-[10px] text-slate-500 dark:text-slate-400">Opponent</p><p className="mt-1 text-lg font-bold truncate px-2">{p.challengeOpponent?.name ?? 'Challenger'}</p></div>
+          <div><p className="text-[10px] text-slate-500 dark:text-slate-400">Opponent</p><p className="mt-1 text-lg font-bold truncate px-2">{p.challengeLink ? 'Guest' : p.challengeOpponent?.name ?? 'Challenger'}</p></div>
           <div><p className="text-[10px] text-slate-500 dark:text-slate-400">Match format</p><p className="mt-1 text-lg font-bold tabular-nums">{p.challengeQuestionCount ?? 5} questions</p></div>
         </div>
         <p className="mb-4 text-sm text-slate-600 dark:text-slate-300">{p.challengeSubjects?.join(", ")}</p>
+        {p.challengeLink && <ChallengeLink url={p.challengeLink} />}
         <button className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-rose-300 dark:border-rose-700/60 bg-white/80 dark:bg-rose-950/20 px-5 py-2 text-sm font-semibold text-rose-700 dark:text-rose-300 transition hover:bg-rose-50 dark:hover:bg-rose-900/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-400" onClick={p.onCancelChallenge}>
           <X size={15} />Cancel challenge
         </button>
@@ -111,12 +155,12 @@ export default function CompeteArena(p) {
 
       {p.status === 'live' && question && <>
         <div className="relative overflow-hidden rounded-2xl border border-cyan-200 dark:border-slate-700 bg-gradient-to-br from-white via-cyan-50/70 to-sky-100/70 dark:bg-[#0b162b] dark:from-transparent dark:via-transparent dark:to-transparent p-4 text-slate-900 dark:text-white sm:p-6"><div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-6">
-          <Player name={p.name} label="YOU" answered={p.answered} total={total} />
+          <Player name={p.name} label={p.guestInvite ? 'YOU · GUEST' : 'YOU'} answered={p.answered} total={total} />
           <div className={`flex h-20 w-20 flex-col items-center justify-center rounded-full border-[3px] sm:h-24 sm:w-24 ${p.timeLeft <= 30 ? 'border-amber-400 bg-amber-400/10 text-amber-800 dark:text-amber-200' : 'border-cyan-600/50 dark:border-cyan-300/60 bg-white/70 dark:bg-cyan-300/5 text-cyan-800 dark:text-cyan-100'}`}><span className="text-[8px] font-semibold uppercase tracking-widest">Time left</span><span role="timer" aria-label={`${duration(p.timeLeft)} remaining`} className="mt-1 text-2xl font-bold tabular-nums sm:text-3xl">{duration(p.timeLeft)}</span></div>
-          <Player name={p.opponent?.name ?? 'Opponent'} label={p.mode === 'bot' ? 'CLINICAL BOT' : 'OPPONENT'} answered={p.opponentAnswered} total={total} opponent />
+          <Player name={p.opponent?.name ?? 'Opponent'} label={p.mode === 'bot' ? 'CLINICAL BOT' : p.guestInvite ? 'HOST' : 'OPPONENT'} answered={p.opponentAnswered} total={total} opponent />
         </div><div className="mt-5 h-0.5 overflow-hidden rounded-full bg-slate-200 dark:bg-white/10"><div className="h-full bg-cyan-600 dark:bg-cyan-300 transition-[width] duration-1000 motion-reduce:transition-none" style={{ width: `${Math.max(0, Math.min(100, p.timeLeft / (p.minutes * 60) * 100))}%` }} /></div></div>
         <article className={`${surface} p-5 sm:p-8`}>
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3"><span className="text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">Question {p.index + 1} <span className="text-slate-500 dark:text-slate-400">/ {total}</span></span><div className="flex max-w-full flex-wrap gap-1.5" aria-label={`Question ${p.index + 1} of ${total}`}>{p.questions.map((q, i) => <span key={q.id ?? i} className={`h-1.5 w-5 rounded-full sm:w-8 ${i === p.index ? 'bg-cyan-500' : p.submitted[i] ? 'bg-emerald-400' : 'bg-slate-200 dark:bg-slate-700'}`} />)}</div><span className={`rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold dark:bg-slate-800 ${muted}`}>{p.mode === 'bot' ? 'Bot practice · Unrated' : p.mode === 'challenge' ? '1v1 Challenge · Private' : 'Rated duel'}</span></div>
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3"><span className="text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">Question {p.index + 1} <span className="text-slate-500 dark:text-slate-400">/ {total}</span></span><div className="flex max-w-full flex-wrap gap-1.5" aria-label={`Question ${p.index + 1} of ${total}`}>{p.questions.map((q, i) => <span key={q.id ?? i} className={`h-1.5 w-5 rounded-full sm:w-8 ${i === p.index ? 'bg-cyan-500' : p.submitted[i] ? 'bg-emerald-400' : 'bg-slate-200 dark:bg-slate-700'}`} />)}</div><span className={`rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold dark:bg-slate-800 ${muted}`}>{modeLabel}</span></div>
           <AnimatePresence mode="wait" initial={false}><motion.div key={question.id} {...enter}><h3 className="text-lg font-semibold leading-relaxed tracking-tight sm:text-xl">{question.prompt}</h3>{p.renderDetails(question)}{question.leadIn && <p className="mt-4 font-semibold leading-7">{question.leadIn}</p>}
           <div className="mt-6 grid gap-3 sm:grid-cols-2">{question.options.map((option, i) => {
             const selected = p.selection === option;
@@ -132,10 +176,10 @@ export default function CompeteArena(p) {
           {win && <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">{Array.from({ length: 12 }, (_, i) => <span key={i} className={`absolute h-2 w-1 rounded-sm ${i % 2 ? 'bg-cyan-600 dark:bg-cyan-300' : 'bg-amber-500 dark:bg-amber-300'} motion-safe:animate-[arena-float_4s_ease-in-out_infinite]`} style={{ left: `${8 + i * 7.5}%`, top: `${15 + (i * 17) % 65}%`, transform: `rotate(${i * 31}deg)`, animationDelay: `${i * 0.12}s` }} />)}</div>}
           <span className="relative mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-amber-300 dark:border-amber-200/30 bg-amber-100/80 dark:bg-amber-300/10 text-amber-700 dark:text-amber-300">{!p.result ? <Loader2 size={34} className="motion-safe:animate-spin" /> : win ? <Trophy size={38} strokeWidth={1.5} /> : <Swords size={36} strokeWidth={1.5} />}</span><p className="relative mt-5 text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-200">{!p.result ? 'Match in progress' : 'Round complete'}</p><h3 aria-live="polite" className="relative mt-2 text-3xl font-extrabold tracking-tight">{!p.result ? 'Waiting for the final whistle…' : p.result.forfeited ? 'You left the match.' : win ? 'That’s a well-earned win.' : p.result.verdict === 'loss' ? 'A lesson. Then a comeback.' : 'Evenly matched. Well played.'}</h3><p className="relative mx-auto mt-3 max-w-md text-sm leading-6 text-slate-500 dark:text-slate-400">{!p.result ? 'Your result will appear when both players finish or the clock runs out.' : 'Every round is another chance to sharpen what you know.'}</p>
         </div>
-        <div className="p-5 sm:p-8"><div className="grid grid-cols-3 gap-2 text-center sm:gap-5">{[['Your score', p.result ? `${p.result.userScore} / ${total}` : '—'], ['Opponent score', p.result ? `${p.result.opponentScore} / ${total}` : '—'], ['Your rating', number(p.result?.nextRating ?? p.rating)]].map(([label, value]) => <div key={label} className="rounded-xl bg-slate-50 px-2 py-5 dark:bg-slate-800/60"><p className={`text-[10px] sm:text-xs ${muted}`}>{label}</p><p className="mt-2 text-xl font-bold tabular-nums tracking-tight sm:text-3xl">{value}</p></div>)}</div>
-          <p className={`mt-4 text-center text-xs ${muted}`}>{p.result?.ratingAffected === false ? 'Training match · Your rating is unchanged' : p.result ? `${p.result.delta > 0 ? '+' : ''}${p.result.delta} Elo this round` : 'Rating update pending'}</p>
-          {p.result && p.mode !== 'bot' && p.opponent?.id && !p.opponent.isCurrentUser && <DuelOpponentCard key={p.opponent.id} opponent={p.opponent} />}
-          <div className="mt-6 flex flex-wrap justify-center gap-3"><button className={primary} disabled={!p.result} onClick={p.onAgain}><Swords size={16} />Back to arena</button><button className={secondary} onClick={p.onLeaderboard}><Trophy size={16} />View leaderboard</button></div>
+        <div className="p-5 sm:p-8"><div className={`grid gap-2 text-center sm:gap-5 ${p.mode === 'link' ? 'grid-cols-2' : 'grid-cols-3'}`}>{scores.map(([label, value]) => <div key={label} className="rounded-xl bg-slate-50 px-2 py-5 dark:bg-slate-800/60"><p className={`text-[10px] sm:text-xs ${muted}`}>{label}</p><p className="mt-2 text-xl font-bold tabular-nums tracking-tight sm:text-3xl">{value}</p></div>)}</div>
+          <p className={`mt-4 text-center text-xs ${muted}`}>{p.mode === 'link' ? modeLabel : p.result?.ratingAffected === false ? 'Training match · Your rating is unchanged' : p.result ? `${p.result.delta > 0 ? '+' : ''}${p.result.delta} Elo this round` : 'Rating update pending'}</p>
+          {p.result && p.mode !== 'bot' && p.mode !== 'link' && p.opponent?.id && !p.opponent.isCurrentUser && <DuelOpponentCard key={p.opponent.id} opponent={p.opponent} />}
+          <div className="mt-6 flex flex-wrap justify-center gap-3"><button className={primary} disabled={!p.result} onClick={p.onAgain}><Swords size={16} />{p.guestInvite ? 'Back to Medulla' : 'Back to arena'}</button>{!p.guestInvite && <button className={secondary} onClick={p.onLeaderboard}><Trophy size={16} />View leaderboard</button>}</div>
           {p.result?.review?.length > 0 && <div className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-700"><button className={`${secondary} w-full`} onClick={p.onToggleReview} aria-expanded={p.showReview}>{p.showReview ? 'Hide answer review' : 'Learn from this round'}<ChevronRight size={16} className={p.showReview ? 'rotate-90' : ''} /></button>{p.showReview && <div className="mt-5 space-y-4">{p.result.review.map((q, i) => <article key={q.id} className="rounded-xl border border-slate-200 p-4 dark:border-slate-700 sm:p-5"><p className={`mb-3 flex items-center gap-2 text-xs font-bold ${q.status === 'correct' ? 'text-emerald-600 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300'}`}><Target size={15} />Question {i + 1} · {q.status === 'correct' ? 'Correct' : q.status === 'incorrect' ? 'Incorrect' : 'Unanswered'}</p><h4 className="text-sm font-semibold leading-6">{q.prompt}</h4>{p.renderDetails(q)}{q.leadIn && <p className="mt-3 text-sm">{q.leadIn}</p>}<ol className="mt-4 space-y-2">{q.options.map((option, index) => <li key={index} className={`rounded-lg border px-3 py-2 text-sm ${index === q.correctIndex ? 'border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-200' : index === q.selectedIndex ? 'border-amber-300 bg-amber-50 text-amber-900 dark:border-amber-800 dark:bg-amber-500/10 dark:text-amber-200' : 'border-slate-100 text-slate-500 dark:border-slate-800 dark:text-slate-400'}`}>{String.fromCharCode(65 + index)}. {option}{index === q.correctIndex ? ' · Correct answer' : ''}{index === q.selectedIndex ? ' · Your answer' : ''}</li>)}</ol>{q.explanation && <p className={`mt-4 text-sm leading-7 ${muted}`}><strong className="text-slate-800 dark:text-slate-200">Why: </strong>{q.explanation}</p>}</article>)}</div>}</div>}
         </div>
       </article>}

@@ -1,6 +1,6 @@
 import { prepareTheoryImage, imageBytes } from "../lib/theoryImages";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, BookOpen, Camera, Check, CheckCircle2, ChevronRight, Clock, Eye, FileText, GitFork, Highlighter, Layers3, Loader2, PenSquare, PenTool, Plus, Search, Sparkles, Star, Trash2, Upload, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Camera, Check, CheckCircle2, ChevronRight, Clock, Eye, FileText, GitFork, Highlighter, Layers3, Loader2, LockKeyhole, PenSquare, PenTool, Plus, Search, Sparkles, Star, Trash2, Upload, X } from "lucide-react";
 import { apiRequest } from "../lib/api";
 import "./ShortNotes.css";
 import AnswerNotepad from "./AnswerNotepad";
@@ -80,7 +80,7 @@ function renderModelAnswerPoint(point, index) {
   );
 }
 
-export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, onNavigate }) {
+export default function ShortNotes({ subjectId, subjectTitle, userId, backLabel = "Theory", onBack, onUnlock, onNavigate }) {
   const [bank, setBank] = useState(null);
   const [loadError, setLoadError] = useState("");
   const [reload, setReload] = useState(0);
@@ -137,7 +137,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
   useEffect(() => {
     const controller = new AbortController();
     setLoadError("");
-    fetch("/short-notes.json", { signal: controller.signal }).then(response => {
+    fetch(`/short-notes.json?subjectId=${encodeURIComponent(subjectId)}`, { signal: controller.signal }).then(response => {
       if (!response.ok) throw new Error("The question library could not be loaded.");
       return response.json();
     }).then(data => {
@@ -145,7 +145,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
       setBank(data);
     }).catch(error => { if (error.name !== "AbortError") setLoadError(error.message); });
     return () => controller.abort();
-  }, [reload]);
+  }, [reload, subjectId, userId]);
 
   useEffect(() => {
     let active = true;
@@ -233,6 +233,9 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
   const question = topic?.questions.find(item => item.id === questionId) || subjectCustomQuestions.find(item => item.id === questionId);
 
   const allQuestions = subject?.topics.flatMap(item => item.questions) ?? [];
+  const samples = subject?.topics.flatMap(item => item.questions
+    .filter(question => question.isSample)
+    .map(question => ({ question, topicId: item.id }))) ?? [];
   const totalReviewed = allQuestions.filter(item => reviews[item.id]).length;
   const topicReviewed = topic?.isCustom ? customReviewed : (topic?.questions.filter(item => reviews[item.id]).length ?? 0);
 
@@ -250,8 +253,13 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
   const visibleTopics = subject?.topics.filter(item => item.title.toLowerCase().includes(normalizedSearch)
     || item.questions.some(q => q.prompt.toLowerCase().includes(normalizedSearch))) ?? [];
 
-  function openQuestion(id, initialTab = "answer") {
+  function openQuestion(id, initialTab = "answer", nextTopicId = topicId) {
     if (locked) return;
+    if (allQuestions.some(question => question.id === id && question.locked)) { onUnlock(); return; }
+    if (nextTopicId !== topicId) {
+      setTopicId(nextTopicId);
+      setSearch(""); setFilter("all"); setStarred(false);
+    }
     setQuestionId(id); setQuestionTab(initialTab); setAnswerImages([]); setMessage(""); setPrivacyAccepted(false); setEditing(false); setAttempts([]); setAttemptIndex(0);
   }
 
@@ -416,7 +424,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
     }
   }
 
-  const backButton = <button className="sn-back" type="button" onClick={onBack} disabled={locked}><ArrowLeft size={16} /> Back to subjects</button>;
+  const backButton = <button className="sn-back" type="button" onClick={onBack} disabled={locked}><ArrowLeft size={16} /> Back to {backLabel === "Theory" ? "subjects" : backLabel}</button>;
   if (!bank) return <section className="app-view short-notes-view">{backButton}<div className="sn-empty" role={loadError ? "alert" : "status"}>
     {loadError ? <><h2>Questions couldn't load</h2><p>{loadError}</p><button className="button button-primary" onClick={() => setReload(value => value + 1)}>Try again</button></> : <><Loader2 className="sn-spin" /><p>Opening your theory library...</p></>}
   </div></section>;
@@ -424,7 +432,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
 
   return <section className="app-view short-notes-view">
     <nav className="sn-breadcrumbs" aria-label="Short notes navigation">
-      <button type="button" onClick={onBack} disabled={locked}>Theory</button><ChevronRight size={14} />
+      <button type="button" onClick={onBack} disabled={locked}>{backLabel}</button><ChevronRight size={14} />
       <button type="button" disabled={locked} onClick={() => { setTopicId(""); setQuestionId(""); setSearch(""); setAnswerImages([]); setEditing(false); }}>{subject.title}</button>
       <ChevronRight size={14} /><span>Short Notes</span>
       {topic && <><ChevronRight size={14} /><button type="button" onClick={backToList} disabled={locked}>{topic.isCustom ? "Custom Notes" : topic.title}</button></>}
@@ -713,9 +721,9 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
     </> : <>
       <header className="sn-hero">
         <div className="sn-hero-copy">
-          <p className="sn-eyebrow"><BookOpen size={15} /> Theory / Short Notes</p>
+          <p className="sn-eyebrow"><BookOpen size={15} /> {backLabel} / Short Notes</p>
           <h2 ref={titleRef} tabIndex={-1}>{topic ? topic.title : <>{subject.title}<span>One concept at a time.</span></>}</h2>
-          <p>{topic ? "Choose a question. Write your answer. Get feedback that helps it stick." : "Build answers worth remembering. Choose a topic or create custom notes to begin your theory practice."}</p>
+          <p>{topic ? "Choose a question to read the model answer or write your own." : "Browse theory questions and handwritten model answers by topic."}</p>
         </div>
         <div className="sn-progress-summary">
           <span className="sn-progress-icon"><Layers3 size={24} /></span>
@@ -726,6 +734,29 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
           </div>
         </div>
       </header>
+
+      {!topic && samples.length > 0 && (
+        <section className="sn-sample-panel" aria-labelledby="sn-sample-title">
+          <div className="sn-sample-heading">
+            <div>
+              <h3 id="sn-sample-title">Free samples</h3>
+              <p>Open any of these {samples.length} short notes with a model answer.</p>
+            </div>
+            <button className="button button-secondary" type="button" onClick={onUnlock}><LockKeyhole size={15} aria-hidden="true" /> Unlock all notes</button>
+          </div>
+          <ul className="sn-sample-list">
+            {samples.map(({ question: sample, topicId: sampleTopicId }) => (
+              <li key={sample.id}>
+                <button type="button" onClick={() => openQuestion(sample.id, "answer", sampleTopicId)}>
+                  <BookOpen size={16} aria-hidden="true" />
+                  <span>{sample.answerDocument.title || sample.prompt}</span>
+                  <ArrowRight size={16} aria-hidden="true" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Featured Custom Notes Banner on Subject Page */}
       {!topic && (
@@ -757,7 +788,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
           <p>{topic ? `${visibleQuestions.length} of ${topic.questions.length} questions` : `${subject.topics.length + 1} topics · ${allQuestions.length + subjectCustomQuestions.length} questions`}</p>
         </div>
         <button className="sn-back" type="button" onClick={topic ? () => { setTopicId(""); setSearch(""); setFilter("all"); setStarred(false); } : onBack}>
-          <ArrowLeft size={15} /> {topic ? "All topics" : "Subjects"}
+          <ArrowLeft size={15} /> {topic ? "All topics" : backLabel === "Theory" ? "Subjects" : backLabel}
         </button>
       </div>
 
@@ -778,18 +809,20 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
         </div>
         <div className="sn-question-list">
           {visibleQuestions.map(item => (
-            <div className={`sn-question-row ${reviews[item.id] ? "is-reviewed" : ""}`} key={item.id}>
+            <div className={`sn-question-row ${item.locked ? "is-locked" : reviews[item.id] ? "is-reviewed" : ""}`} key={item.id}>
               <button
                 type="button"
                 className="sn-row-main"
                 onClick={() => openQuestion(item.id)}
+                aria-label={item.locked ? `Unlock ${item.prompt}` : undefined}
               >
                 <span className="sn-row-number">
-                  {reviews[item.id] ? <Check size={19} /> : String(topic.questions.indexOf(item) + 1).padStart(2, "0")}
+                  {item.locked ? <LockKeyhole size={16} aria-hidden="true" /> : reviews[item.id] ? <Check size={19} /> : String(topic.questions.indexOf(item) + 1).padStart(2, "0")}
                 </span>
                 <span className="sn-row-body">
                   <span className="sn-row-meta">
                     <span>{typeLabel(item.kind)}</span>
+                    {item.isSample && <span className="sn-sample-tag">Free sample</span>}
                     {item.emphasis > 0 && (
                       <span className="sn-star-label" title={`${item.emphasis} stars`}>
                         <Star size={12} /> {item.emphasis > 1 ? `${item.emphasis} stars` : "Starred"}
@@ -800,7 +833,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
                 </span>
               </button>
 
-              <div className="sn-row-actions">
+              {item.locked ? <span className="sn-row-lock" aria-hidden="true">Subscription</span> : <div className="sn-row-actions">
                 {item.answerDocument ? (
                   <button
                     type="button"
@@ -835,7 +868,7 @@ export default function ShortNotes({ subjectId, subjectTitle, userId, onBack, on
                   )}
                   <ArrowRight size={18} />
                 </button>
-              </div>
+              </div>}
             </div>
           ))}
         </div>

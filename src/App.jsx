@@ -14,6 +14,7 @@ import CommunityThreads from "./components/CommunityThreads";
 import DirectChat from "./components/DirectChat";
 import HomeBattleSection from "./components/HomeBattleSection";
 import PromotionBanner from './components/PromotionBanner';
+import UniversityPrep from "./components/UniversityPrep";
 import PracticeSelection from "./components/PracticeSelection";
 import FeatureAccessDialog from "./components/FeatureAccessDialog";
 import { LockKeyhole } from "lucide-react";
@@ -32,6 +33,7 @@ import RazorpayCheckout from "./components/RazorpayCheckout";
 import { PAYMENT_PLANS } from "./data/paymentPlans";
 import { filterPracticeLibraryForUi } from "./lib/practiceImageVisibility";
 import { getDuelImageUrls } from "./lib/duelImages";
+import { duelGuestHeaders, duelInviteUrl, guestKeyForInvite, readDuelInvite } from "./lib/linkDuel";
 import { useAccountOverview, usePracticeRecorder } from "./lib/useAccountOverview";
 import { BrandMark } from "./components/BrandMark";
 import { ABROAD_STATE, medicalCollegesByState, signupStateOptions } from "./data/medicalColleges";
@@ -619,6 +621,7 @@ function App() {
   }, [isIOS]);
 
   const [practicePathTitle, setPracticePathTitle] = useState("");
+  const [universitySubject, setUniversitySubject] = useState(null);
   const [lockedFeature, setLockedFeature] = useState(null);
   function requestFeature(feature) {
     if (canOpenFeature(user, feature)) return true;
@@ -727,8 +730,12 @@ function App() {
   const [duelQueueInfo, setDuelQueueInfo] = useState(null);
   const [duelMessage, setDuelMessage] = useState("");
   const [duelForfeited, setDuelForfeited] = useState(false);
-  const [activeChallenge, setActiveChallenge] = useState(null); // { id, opponent, role: 'host' | 'guest' }
+  const [activeChallenge, setActiveChallenge] = useState(null);
   const [friendDuelTarget, setFriendDuelTarget] = useState(null);
+  const [showLinkDuelSetup, setShowLinkDuelSetup] = useState(false);
+  const [duelInvite, setDuelInvite] = useState(readDuelInvite);
+  const [duelInviteError, setDuelInviteError] = useState("");
+  const [duelInviteRetry, setDuelInviteRetry] = useState(0);
   const [selectedLeaderboardState, setSelectedLeaderboardState] = useState("");
   const [selectedLeaderboardCollege, setSelectedLeaderboardCollege] = useState("");
   const [authStatus, setAuthStatus] = useState("loading");
@@ -747,6 +754,11 @@ function App() {
     capture();
     window.addEventListener('hashchange', capture);
     return () => window.removeEventListener('hashchange', capture);
+  }, []);
+  useEffect(() => {
+    const capture = () => setDuelInvite(readDuelInvite());
+    window.addEventListener("hashchange", capture);
+    return () => window.removeEventListener("hashchange", capture);
   }, []);
   const [authMessage, setAuthMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -1202,7 +1214,7 @@ async function fetchPracticeLibrary() {
   useEffect(() => {
     let isActive = true;
 
-    if (recovery) return;
+    if (recovery || duelInvite) return;
     apiRequest("/api/auth/session", { timeoutMs: 3000 })
       .then((data) => {
         if (!isActive) return;
@@ -1222,7 +1234,7 @@ async function fetchPracticeLibrary() {
     return () => {
       isActive = false;
     };
-  }, [Boolean(recovery)]);
+  }, [Boolean(recovery), Boolean(duelInvite)]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -1297,9 +1309,10 @@ async function fetchPracticeLibrary() {
   }, [user?.id, syncAnalyticsWithServer]);
 
   useEffect(() => {
+    if (duelInvite) return;
     fetchLeaderboard();
     fetchPlatformSummary();
-  }, [authStatus]);
+  }, [authStatus, Boolean(duelInvite)]);
 
   useEffect(() => {
     practiceLibraryRequestRef.current += 1;
@@ -1513,8 +1526,17 @@ async function fetchPracticeLibrary() {
   }, [selectedLeaderboardCollege, selectedLeaderboardCollegeOptions]);
 
   useEffect(() => {
-    if (!user?.id) return;
+    if (!user?.id || duelInvite) return;
     let cancelled = false;
+    const waitingLink = sessionStorage.getItem(`medicomm-link-room:${user.id}`);
+    if (waitingLink) {
+      try {
+        setActiveChallenge(JSON.parse(waitingLink));
+        setDuelStatus("challenge_waiting");
+        setActiveView("Compete");
+        return;
+      } catch { sessionStorage.removeItem(`medicomm-link-room:${user.id}`); }
+    }
     const saved = localStorage.getItem(`medicomm-duel:${user.id}`);
     if (saved) void loadDuelQuestions(saved).then(questions => {
       if (cancelled) return;
@@ -1522,7 +1544,30 @@ async function fetchPracticeLibrary() {
       beginLiveDuel(data.opponent, { sessionId: saved, questions, mode: data.mode });
     }).catch(error => { if (!cancelled) setDuelMessage(`Could not restore the previous match: ${error.message}`); });
     return () => { cancelled = true; };
-  }, [user?.id]);
+  }, [user?.id, Boolean(duelInvite)]);
+
+  useEffect(() => {
+    if (!duelInvite) return;
+    let cancelled = false;
+    setDuelInviteError("");
+    setDuelStatus("idle");
+    setDuelSessionId("");
+    async function joinFromLink() {
+      try {
+        const guestKey = guestKeyForInvite(duelInvite);
+        const { sessionId } = await apiRequest("/api/duels/link/join", {
+          method: "POST", body: JSON.stringify({ invite: duelInvite, guestKey }),
+        });
+        if (cancelled) return;
+        const questions = await loadDuelQuestions(sessionId, guestKey);
+        if (!cancelled) beginLiveDuel(loadedDuelRef.current.opponent, { mode: "link", questions, sessionId, guestKey });
+      } catch (error) {
+        if (!cancelled) setDuelInviteError(error.message);
+      }
+    }
+    void joinFromLink();
+    return () => { cancelled = true; };
+  }, [duelInvite, duelInviteRetry]);
 
   useEffect(() => {
     if (duelStatus !== "live") return undefined;
@@ -1583,9 +1628,15 @@ async function fetchPracticeLibrary() {
   }, [duelQueueInfo?.ticketId, duelQuestions, duelStatus]);
 
   useEffect(() => {
-    if (duelStatus !== "challenge_waiting" || !activeChallenge?.id) return undefined;
+    if (duelInvite || duelStatus !== "challenge_waiting" || !activeChallenge?.id) return undefined;
 
     let cancelled = false;
+    function stopWaiting(message) {
+      if (activeChallenge.linkUrl) sessionStorage.removeItem(`medicomm-link-room:${user.id}`);
+      setDuelStatus("idle");
+      setActiveChallenge(null);
+      setDuelMessage(message);
+    }
     const pollChallenge = async () => {
       try {
         const data = await apiRequest(`/api/duels/challenge/status?id=${encodeURIComponent(activeChallenge.id)}`);
@@ -1593,8 +1644,9 @@ async function fetchPracticeLibrary() {
 
         if (data.status === "matched" && data.duelId) {
           const questions = await loadDuelQuestions(data.duelId);
-          beginLiveDuel(data.opponent ?? activeChallenge.opponent, {
-            mode: "challenge",
+          if (cancelled) return;
+          beginLiveDuel(loadedDuelRef.current.opponent ?? data.opponent ?? activeChallenge.opponent, {
+            mode: data.mode ?? "challenge",
             questions,
             sessionId: data.duelId,
           });
@@ -1602,34 +1654,33 @@ async function fetchPracticeLibrary() {
         }
 
         if (data.status === "declined") {
-          setDuelStatus("idle");
-          setActiveChallenge(null);
-          setDuelMessage(`${activeChallenge.opponent?.name || "The opponent"} declined your 1v1 challenge.`);
+          stopWaiting(`${activeChallenge.opponent?.name || "The opponent"} declined your 1v1 challenge.`);
           return;
         }
 
         if (data.status === "cancelled") {
-          setDuelStatus("idle");
-          setActiveChallenge(null);
-          setDuelMessage("This 1v1 challenge was cancelled.");
-          return;
+          stopWaiting("This 1v1 challenge was cancelled.");
+        } else if (data.status === "expired") {
+          stopWaiting("This room link expired. Create a new link to challenge your friend.");
         }
       } catch (error) {
         if (!cancelled) {
-          setDuelMessage(error instanceof Error ? error.message : "Could not check challenge status.");
+          if (activeChallenge.linkUrl && error.status === 404) stopWaiting(error.message);
+          else setDuelMessage(error.message || "Could not check challenge status.");
         }
       }
     };
 
-    const intervalId = window.setInterval(pollChallenge, 1500);
+    const stopPolling = startVisiblePolling(pollChallenge, 1500);
     return () => {
       cancelled = true;
-      window.clearInterval(intervalId);
+      stopPolling();
     };
-  }, [activeChallenge, duelStatus]);
+  }, [activeChallenge, duelStatus, Boolean(duelInvite)]);
 
   useEffect(() => {
     if (!duelSessionId || !["live", "finished"].includes(duelStatus) || duelResult) return;
+    const headers = duelGuestHeaders(duelAnswerPendingRef.current?.guestKey);
     let cancelled = false;
     let timer;
     const syncMatch = async () => {
@@ -1639,8 +1690,8 @@ async function fetchPracticeLibrary() {
           if (cancelled) return;
         }
         const data = duelStatus === "finished"
-          ? await apiRequest("/api/duels/complete", { method: "POST", body: JSON.stringify({ sessionId: duelSessionId, forfeit: duelForfeited }) })
-          : await apiRequest(`/api/duels/status?session=${encodeURIComponent(duelSessionId)}`);
+          ? await apiRequest("/api/duels/complete", { method: "POST", headers, body: JSON.stringify({ sessionId: duelSessionId, forfeit: duelForfeited }) })
+          : await apiRequest(`/api/duels/status?session=${encodeURIComponent(duelSessionId)}`, { headers });
         if (cancelled) return;
         duelDeadlineRef.current = Date.now() + Math.max(0, data.expiresAt - data.serverNow);
         setDuelOpponentProgress({ answered: data.opponentAnswered, correct: 0 });
@@ -1665,6 +1716,7 @@ async function fetchPracticeLibrary() {
           setDuelResult(data.result);
           setDuelStatus("finished");
           setDuelMessage("");
+          if (data.result.mode === "link") return;
           const mergedUser = mergeUserPerformance(data.user);
           setUser(mergedUser);
           setUserRating(data.user.rating);
@@ -2591,6 +2643,28 @@ async function fetchPracticeLibrary() {
     }
   }
 
+  function openLinkDuelSetup() {
+    if (authStatus !== "authenticated") {
+      setAuthMessage("Sign in to create a challenge room. Your friend can join as a guest.");
+      setAuthMode("login");
+      setAuthStatus("unauthenticated");
+      return;
+    }
+    setDuelMessage("");
+    setShowLinkDuelSetup(true);
+  }
+
+  async function createLinkDuel(settings) {
+    const { invite, ...room } = await apiRequest("/api/duels/link/create", {
+      method: "POST", body: JSON.stringify(settings),
+    });
+    const challenge = { ...room, linkUrl: duelInviteUrl(invite) };
+    sessionStorage.setItem(`medicomm-link-room:${user.id}`, JSON.stringify(challenge));
+    setActiveChallenge(challenge);
+    setDuelStatus("challenge_waiting");
+    setShowLinkDuelSetup(false);
+  }
+
   function createDuelSessionId(prefix = "duel") {
     const randomId =
       typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
@@ -2599,8 +2673,10 @@ async function fetchPracticeLibrary() {
     return `${prefix}-${randomId}`;
   }
 
-  async function loadDuelQuestions(sessionId) {
-    const data = await apiRequest(`/api/duels/questions?session=${encodeURIComponent(sessionId)}`, { cache: "no-store" });
+  async function loadDuelQuestions(sessionId, guestKey) {
+    const data = await apiRequest(`/api/duels/questions?session=${encodeURIComponent(sessionId)}`, {
+      cache: "no-store", headers: duelGuestHeaders(guestKey),
+    });
     if (!Array.isArray(data.questions) || !data.questions.length) throw new Error("Could not load match questions.");
     duelDeadlineRef.current = Date.now() + Math.max(0, data.expiresAt - data.serverNow);
     loadedDuelRef.current = data;
@@ -2608,7 +2684,7 @@ async function fetchPracticeLibrary() {
   }
 
   function beginLiveDuel(opponent, options = {}) {
-    duelAnswerPendingRef.current = { sessionId: options.sessionId ?? "", tail: Promise.resolve(), locked: new Set(), confirmed: new Set(), failed: new Set(), pending: 0 };
+    duelAnswerPendingRef.current = { sessionId: options.sessionId ?? "", guestKey: options.guestKey, tail: Promise.resolve(), locked: new Set(), confirmed: new Set(), failed: new Set(), pending: 0 };
     setDuelAnswerBusy(false);
     const questions = Array.isArray(options.questions) && options.questions.length ? options.questions : fallbackDuelQuestions;
     setActiveView("Compete");
@@ -2638,7 +2714,14 @@ async function fetchPracticeLibrary() {
       const nextIndex = questions.findIndex((q, index) => !locked[index]);
       setDuelIndex(nextIndex < 0 ? questions.length - 1 : nextIndex);
     }
-    localStorage.setItem(`medicomm-duel:${user.id}`, options.sessionId);
+    if (!options.guestKey && user?.id) {
+      localStorage.setItem(`medicomm-duel:${user.id}`, options.sessionId);
+      if (options.mode === "link") {
+        sessionStorage.removeItem(`medicomm-link-room:${user.id}`);
+        window.dispatchEvent(new Event("tokens-changed"));
+      }
+    }
+    setActiveChallenge(null);
     setDuelStatus(saved?.finished || saved?.result ? "finished" : "live");
   }
 
@@ -2733,7 +2816,7 @@ async function fetchPracticeLibrary() {
 
   function submitDuelAnswer(selection) {
     const queue = duelAnswerPendingRef.current;
-    if (currentDuelSubmitted || !currentDuelQuestion || !user || !queue || queue.sessionId !== duelSessionId || queue.locked.has(currentDuelQuestion.id) || !currentDuelQuestion.options.includes(selection)) return;
+    if (currentDuelSubmitted || !currentDuelQuestion || !queue || (!user && !queue.guestKey) || queue.sessionId !== duelSessionId || queue.locked.has(currentDuelQuestion.id) || !currentDuelQuestion.options.includes(selection)) return;
     const index = duelIndex;
     const questionId = currentDuelQuestion.id;
     const optionIndex = currentDuelQuestion.options.indexOf(selection);
@@ -2745,7 +2828,7 @@ async function fetchPracticeLibrary() {
     setDuelAnswerBusy(true);
     setDuelMessage("");
     queue.tail = queue.tail.then(async () => {
-      await apiRequest("/api/duels/answer", { method: "POST", body: JSON.stringify({
+      await apiRequest("/api/duels/answer", { method: "POST", headers: duelGuestHeaders(queue.guestKey), body: JSON.stringify({
         sessionId: queue.sessionId, questionId, optionIndex,
       }) });
       queue.confirmed.add(questionId);
@@ -2784,11 +2867,17 @@ async function fetchPracticeLibrary() {
   async function cancelDuelChallenge() {
     if (activeChallenge?.id) {
       try {
-        await apiRequest("/api/duels/challenge/cancel", {
+        await apiRequest(activeChallenge.linkUrl ? "/api/duels/link/cancel" : "/api/duels/challenge/cancel", {
           method: "POST",
           body: JSON.stringify({ challengeId: activeChallenge.id }),
         });
-      } catch {}
+      } catch (error) {
+        if (activeChallenge.linkUrl && error.status !== 404) {
+          setDuelMessage(error.message);
+          return;
+        }
+      }
+      if (activeChallenge.linkUrl) sessionStorage.removeItem(`medicomm-link-room:${user.id}`);
     }
     setActiveChallenge(null);
     setDuelStatus("idle");
@@ -2868,12 +2957,12 @@ async function fetchPracticeLibrary() {
     localStorage.removeItem(`medicomm-duel:${user?.id}`);
     loadedDuelRef.current = null;
     if (syncServer && activeChallenge?.id && duelStatus === "challenge_waiting") {
-      void apiRequest("/api/duels/challenge/cancel", {
+      void apiRequest(activeChallenge.linkUrl ? "/api/duels/link/cancel" : "/api/duels/challenge/cancel", {
         method: "POST",
         body: JSON.stringify({ challengeId: activeChallenge.id }),
       }).catch(() => undefined);
     }
-    if (syncServer && (duelStatus === "matchmaking" || duelStatus === "live" || duelStatus === "finished")) {
+    if (syncServer && duelMode !== "link" && (duelStatus === "matchmaking" || duelStatus === "live" || duelStatus === "finished")) {
       void apiRequest("/api/duels/rated/queue", {
         method: "DELETE",
       }).catch(() => undefined);
@@ -3415,6 +3504,10 @@ async function fetchPracticeLibrary() {
     return (
       <>
         <PromotionBanner key={user?.id || 'visitor'} userId={authStatus === 'authenticated' ? user?.id : null} onSignIn={handleLogout} />
+        <UniversityPrep subscribed={canAccessFeature(user, "practice")} onSelectSubject={subject => {
+          setUniversitySubject(subject);
+          setActiveView("University Prep");
+        }} />
         <section className="hero">
           <h1>
             Master Medical Concepts with
@@ -3654,8 +3747,9 @@ async function fetchPracticeLibrary() {
         key={`${user?.id || "guest"}-${selectedPracticeSubjectId}`}
         subjectId={selectedPracticeSubjectId}
         subjectTitle={currentPracticeSubject?.title}
-        userId={user?.id}
+        userId={authStatus === "authenticated" ? user?.id : null}
         onBack={handleBackToPracticeDirectory}
+        onUnlock={() => setLockedFeature("universityPrep")}
         prepareImage={prepareVivaAnswerImage}
         onNavigate={scrollPracticeViewToTop}
       />;
@@ -5155,9 +5249,14 @@ async function fetchPracticeLibrary() {
     );
   }
 
-  function renderCompete() {
+  function leaveGuestDuel() {
+    window.history.replaceState(null, "", window.location.pathname);
+    window.location.reload();
+  }
+
+  function renderCompete(asGuest = false) {
     return <CompeteArena
-      status={duelStatus} name={user?.name ?? "Challenger"} rating={userRating}
+      status={duelStatus} name={asGuest ? "Guest" : user?.name ?? "Challenger"} rating={userRating} guestInvite={asGuest}
       learners={platformSummary.users} attempts={platformSummary.attemptedQuestions}
       questions={duelQuestions} minutes={DUEL_DURATION_SECONDS / 60}
       queue={duelQueueInfo} message={duelMessage} mode={duelMode}
@@ -5169,12 +5268,13 @@ async function fetchPracticeLibrary() {
       challengeOpponent={activeChallenge?.opponent ?? duelOpponent}
       challengeQuestionCount={activeChallenge?.questionCount ?? 5}
       challengeSubjects={activeChallenge?.subjectTitles ?? ["All subjects"]}
+      challengeLink={activeChallenge?.linkUrl}
       onCancelChallenge={cancelDuelChallenge}
-      onStart={() => startDuel()} onBot={startBotDuel} onLeave={leaveDuelQueue}
+      onStart={() => startDuel()} onChallengeFriend={openLinkDuelSetup} onBot={startBotDuel} onLeave={leaveDuelQueue}
       onPractice={() => setActiveView("Practice")}
       onLeaderboard={() => setActiveView("Leaderboard")}
       onNext={nextDuelQuestion} onForfeit={forfeitDuel}
-      onAgain={() => resetDuel()} onToggleReview={() => setShowDuelReview(value => !value)}
+      onAgain={asGuest ? leaveGuestDuel : () => resetDuel()} onToggleReview={() => setShowDuelReview(value => !value)}
       onSelect={submitDuelAnswer}
       renderDetails={question => <>
         <QuestionLaboratoryTable findings={question.laboratoryFindings} compact />
@@ -5362,6 +5462,7 @@ async function fetchPracticeLibrary() {
       { label: "FMGE Questions", included: true },
       { label: "Topic-Wise Questions", included: true },
       { label: "Theory Practice", included: theory },
+      { label: "Full University Prep Short Notes", included: theory },
       { label: "USMLE Practice Questions", included: usmle },
       { label: "MEDULLA Practice Test", included: usmle },
     ];
@@ -5399,6 +5500,17 @@ async function fetchPracticeLibrary() {
 
   function renderView() {
     switch (activeView) {
+      case "University Prep":
+        return universitySubject && <ShortNotes
+          key={`${user?.id || "guest"}-${universitySubject.id}`}
+          subjectId={universitySubject.id}
+          subjectTitle={universitySubject.title}
+          userId={authStatus === "authenticated" ? user?.id : null}
+          backLabel="University Prep"
+          onBack={() => setActiveView("Home")}
+          onUnlock={() => setLockedFeature("universityPrep")}
+          onNavigate={scrollPracticeViewToTop}
+        />;
       case "Dashboard":
         return renderDashboard();
       case "Reviews":
@@ -5433,6 +5545,19 @@ async function fetchPracticeLibrary() {
         return renderHome();
     }
   }
+
+  if (duelInvite) return <main className="mx-auto w-full max-w-5xl px-4 py-4 sm:px-6">
+    {["live", "finished"].includes(duelStatus) ? renderCompete(true) : <section className="mx-auto my-10 max-w-lg rounded-3xl border border-slate-200 bg-white p-6 text-slate-900 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 sm:p-8">
+      <h1 className="text-2xl font-bold tracking-tight">Friend challenge</h1>
+      <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300" role={duelInviteError ? "alert" : "status"}>
+        {duelInviteError || "Joining the duel as Guest…"}
+      </p>
+      {duelInviteError && <div className="mt-5 flex flex-wrap gap-3">
+        <button type="button" className="button button-primary" onClick={() => setDuelInviteRetry(count => count + 1)}>Try again</button>
+        <button type="button" className="button button-secondary" onClick={leaveGuestDuel}>Back to Medulla</button>
+      </div>}
+    </section>}
+  </main>;
 
   if (recovery) return <div className="mx-auto w-full max-w-lg px-4 py-10 text-slate-900 dark:text-slate-100">
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900">
@@ -5479,6 +5604,7 @@ async function fetchPracticeLibrary() {
       {!testMode && <NotificationPrompt notifications={notifications} />}
       {!testMode && pushChallengeId && <ChallengeNotificationLanding key={pushChallengeId} challengeId={pushChallengeId} onAccept={handleAcceptNotification} onDecline={handleDeclineNotification} onClose={() => setPushChallengeId(null)} />}
       {!testMode && friendDuelTarget && <FriendDuelSetup key={friendDuelTarget.id} opponent={friendDuelTarget} onClose={() => setFriendDuelTarget(null)} onSend={handleDirectChallenge} />}
+      {!testMode && showLinkDuelSetup && <FriendDuelSetup onClose={() => setShowLinkDuelSetup(false)} onSend={createLinkDuel} />}
       {!testMode && <FeatureAccessDialog feature={lockedFeature} onClose={() => setLockedFeature(null)} onPlans={() => { setLockedFeature(null); setActiveView("Pricing"); }} />}
     </AppShell>
   );

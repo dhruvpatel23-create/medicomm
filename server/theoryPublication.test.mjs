@@ -6,19 +6,26 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { issueSession } from './security.mjs';
+import { UNIVERSITY_PREP_SAMPLE_LIMIT, UNIVERSITY_PREP_SUBJECTS } from '../src/data/universityPrep.js';
 
-test('theory routes serve the source catalog and answer assets even with a stale frontend build', { timeout: 180000 }, async t => {
+test('theory routes serve the source library with University Prep access enforced on notes and assets', { timeout: 180000 }, async t => {
   const directory = await mkdtemp(path.join(tmpdir(), 'medulla-theory-publication-'));
   const seed = {
-    users: [{ id: 'subscriber', name: 'Subscriber', plan: 'premium' }, { id: 'free', name: 'Trial Learner' }],
+    users: [
+      { id: 'subscriber', name: 'Subscriber', plan: 'lite' },
+      { id: 'free', name: 'Trial Learner', plan: 'free' },
+      { id: 'expired', name: 'Expired Subscriber', plan: 'premium', subscriptionPurchasedAt: '2020-01-01', subscriptionOrderId: 'test-order' },
+    ],
     sessions: {},
   };
   const subscriberToken = issueSession(seed, 'subscriber');
   const freeToken = issueSession(seed, 'free');
+  const expiredToken = issueSession(seed, 'expired');
+  const origin = 'http://127.0.0.1:4173';
   await writeFile(path.join(directory, 'users.json'), JSON.stringify(seed));
   const child = spawn(process.execPath, ['server.mjs'], {
     cwd: new URL('..', import.meta.url),
-    env: { ...process.env, NODE_ENV: 'test', LOAD_ENV_FILES: 'false', DATABASE_PROVIDER: 'local', UPLOAD_STORAGE: 'local', RUNTIME_DATA_DIR: directory, HOST: '127.0.0.1', PORT: '0' },
+    env: { ...process.env, NODE_ENV: 'test', LOAD_ENV_FILES: 'false', DATABASE_PROVIDER: 'local', UPLOAD_STORAGE: 'local', RUNTIME_DATA_DIR: directory, HOST: '127.0.0.1', PORT: '0', APP_ORIGINS: origin },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   t.after(async () => {
@@ -41,20 +48,60 @@ test('theory routes serve the source catalog and answer assets even with a stale
   });
   const get = (route, token) => fetch(base + route, { headers: token ? { Cookie: `medicomm_session=${token}` } : {} });
   assert.equal((await get('/short-notes.json')).status, 401);
-  const source = await readFile(new URL('../public/short-notes.json', import.meta.url), 'utf8');
-  for (const token of [freeToken, subscriberToken]) {
-    const response = await get('/short-notes.json', token);
+  assert.equal((await get('/short-notes.json?subjectId=pathology')).status, 401);
+  const source = JSON.parse((await readFile(new URL('../public/short-notes.json', import.meta.url), 'utf8')).replace(/^\uFEFF/, ''));
+  const fullResponse = await get('/short-notes.json', subscriberToken);
+  assert.equal(fullResponse.status, 200);
+  assert.equal(fullResponse.headers.get('cache-control'), 'private, no-store');
+  assert.deepEqual(await fullResponse.json(), source);
+
+  const freeCatalog = await (await get('/short-notes.json', freeToken)).json();
+  const expiredCatalog = await (await get('/short-notes.json', expiredToken)).json();
+  assert.deepEqual(expiredCatalog, freeCatalog);
+  for (const { id } of UNIVERSITY_PREP_SUBJECTS) {
+    const response = await get(`/short-notes.json?subjectId=${id}`);
     assert.equal(response.status, 200);
     assert.equal(response.headers.get('cache-control'), 'private, no-store');
-    assert.equal(await response.text(), source.replace(/^\uFEFF/, ''));
+    const guest = await response.json();
+    assert.deepEqual(guest.subjects, [freeCatalog.subjects.find(subject => subject.id === id)]);
+    const questions = guest.subjects[0].topics.flatMap(topic => topic.questions);
+    const samples = questions.filter(question => question.isSample);
+    assert.equal(samples.length, UNIVERSITY_PREP_SAMPLE_LIMIT, id);
+    assert.ok(samples.every(question => !question.locked && question.answerDocument?.pages?.length));
+    assert.ok(questions.filter(question => !question.isSample).every(question => question.locked && !question.answerDocument));
+    const samplePage = await get(samples[0].answerDocument.pages[0]);
+    assert.equal(samplePage.status, 200, id);
+    await samplePage.body.cancel();
   }
+  assert.deepEqual(freeCatalog.subjects.find(subject => subject.id === 'pathology'), source.subjects.find(subject => subject.id === 'pathology'));
+
+  const medicineQuestions = source.subjects.find(subject => subject.id === 'general-medicine').topics.flatMap(topic => topic.questions);
+  const trialMedicine = freeCatalog.subjects.find(subject => subject.id === 'general-medicine').topics.flatMap(topic => topic.questions);
+  const locked = medicineQuestions.find(question => question.answerDocument?.pdf && trialMedicine.find(item => item.id === question.id)?.locked);
+  for (const asset of [locked.answerDocument.pdf, locked.answerDocument.pages[0]]) {
+    for (const token of [undefined, freeToken, expiredToken]) {
+      const response = await get(asset, token);
+      assert.equal(response.status, 403, asset);
+      assert.match((await response.json()).message, /buy a subscription/i);
+    }
+    const response = await get(asset, subscriberToken);
+    assert.equal(response.status, 200, asset);
+    assert.equal(response.headers.get('cache-control'), 'private, no-store');
+    await response.body.cancel();
+  }
+  const review = await fetch(base + '/api/short-notes/reviews', {
+    method: 'POST',
+    headers: { Cookie: `medicomm_session=${freeToken}`, 'Content-Type': 'application/json', Origin: origin },
+    body: JSON.stringify({ questionId: locked.id }),
+  });
+  assert.equal(review.status, 403);
+  assert.match((await review.json()).message, /buy a subscription/i);
 
   for (const [asset, type] of [
-    ['/theory-answers/medicine/anaphylactic-shock/page-1.webp', 'image/webp'],
+    ['/%74heory-answers/medicine/anaphylactic-shock/page-1.webp', 'image/webp'],
     ['/theory-answers/general-surgery/wounds-and-wound-healing/factors-delaying-wound-healing/factors-delaying-wound-healing.pdf', 'application/pdf'],
-    ['/theory-answers/general-anatomy-01-synovial-joint/01%20-%20Synovial%20joint.pdf', 'application/pdf'],
   ]) {
-    const file = await get(asset);
+    const file = await get(asset, subscriberToken);
     assert.equal(file.status, 200, asset);
     assert.equal(file.headers.get('content-type'), type, asset);
     assert.deepEqual(Buffer.from(await file.arrayBuffer()), await readFile(new URL(`../public${asset}`, import.meta.url)));

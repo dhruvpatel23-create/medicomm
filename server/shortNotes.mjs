@@ -14,8 +14,15 @@ function publicReview({ userId, answerPages = [], ...review }, attemptCount) {
     answerPages: answerPages.map(({ imagePath, ...page }) => ({ ...page, imageUrl: `/uploads/${imagePath}` })) };
 }
 
+export function loadShortNoteBank(file) {
+  return JSON.parse(readFileSync(file, 'utf8').replace(/^\uFEFF/, ''));
+}
+
 export function loadShortNotes(file) {
-  const bank = JSON.parse(readFileSync(file, 'utf8').replace(/^\uFEFF/, ''));
+  return indexShortNoteQuestions(loadShortNoteBank(file));
+}
+
+export function indexShortNoteQuestions(bank) {
   const questions = new Map();
   for (const subject of bank.subjects) for (const topic of subject.topics) for (const question of topic.questions) {
     if (questions.has(question.id)) throw new Error('Duplicate short-note question ID.');
@@ -24,7 +31,7 @@ export function loadShortNotes(file) {
   return questions;
 }
 
-export function createShortNotesHandler({ reviewStore = null, questions, readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson, parseAnswerImage, evaluate, saveAnswerImage, removeAnswerImage, generatePrompt }) {
+export function createShortNotesHandler({ reviewStore = null, questions, readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson, parseAnswerImage, evaluate, saveAnswerImage, removeAnswerImage, generatePrompt, reviewAccessError = () => null }) {
   const pending = new Set();
   return async function handleShortNotes(request, response) {
     const database = readDatabase();
@@ -123,6 +130,10 @@ export function createShortNotesHandler({ reviewStore = null, questions, readDat
     }
     const payload = await parseRequestBody(request);
     let question = questions.get(String(payload.questionId ?? ''));
+    if (question) {
+      const accessError = reviewAccessError(database, user.id, question);
+      if (accessError) return sendJson(response, 403, { message: accessError });
+    }
     if (!question) {
       const customList = database.customShortNotes ?? [];
       const custom = customList.find(q => q.id === payload.questionId && (q.userId === user.id || !q.userId));

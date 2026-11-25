@@ -53,24 +53,27 @@ export function settleMatch(match, users, now = Date.now()) {
   const botScore = match.botTimeline.filter(step => step.at <= now && step.correct).length;
   for (const id of match.playerIds) {
     const user = users.find(u => u.id === id);
-    if (!user) throw new Error('Match participant is missing.');
+    const isLink = match.type === 'link';
+    if (!user && (!isLink || id !== match.guestId)) throw new Error('Match participant is missing.');
     const opponentId = match.playerIds.find(other => other !== id);
     const opponentScore = opponentId ? scores[opponentId] : botScore;
     const verdict = match.forfeits[id] ? 'loss' : match.forfeits[opponentId] ? 'win' :
       scores[id] > opponentScore ? 'win' : scores[id] < opponentScore ? 'loss' : 'draw';
     const actual = verdict === 'win' ? 1 : verdict === 'loss' ? 0 : 0.5;
     const expected = 1 / (1 + 10 ** (((match.ratings[opponentId] ?? match.ratings[id]) - match.ratings[id]) / 400));
-    const previousRating = user.rating ?? 1480;
-    const delta = match.type === 'bot' ? 0 : Math.round(32 * (actual - expected));
+    const previousRating = user?.rating ?? 1480;
+    const delta = match.type === 'bot' || isLink ? 0 : Math.round(32 * (actual - expected));
     const attempted = reviews[id].filter(q => q.selectedIndex !== null).length;
     const nextRating = Math.max(0, previousRating + delta);
     match.results[id] = { duelId: match.id, mode: match.type, verdict, delta: nextRating - previousRating,
       previousRating, nextRating, userScore: scores[id], opponentScore, attemptedQuestions: attempted,
       correctAnswers: scores[id], ratingAffected: match.type === 'rated', forfeited: Boolean(match.forfeits[id]),
       completedAt: new Date(now).toISOString(), review: reviews[id] };
-    user.rating = nextRating;
-    user.correctAnswers = (user.correctAnswers ?? 0) + scores[id];
-    user.attemptedQuestions = (user.attemptedQuestions ?? 0) + attempted;
+    if (!isLink) {
+      user.rating = nextRating;
+      user.correctAnswers = (user.correctAnswers ?? 0) + scores[id];
+      user.attemptedQuestions = (user.attemptedQuestions ?? 0) + attempted;
+    }
   }
   match.status = 'completed';
   return true;

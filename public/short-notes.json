@@ -1340,7 +1340,17 @@
               "prompt": "Sartorius",
               "sourceText": "Sartorius*",
               "emphasis": 1,
-              "id": "bhalani-anatomy-lower-limb-001"
+              "id": "bhalani-anatomy-lower-limb-001",
+              "answerDocument": {
+                "title": "Sartorius",
+                "description": "Attachments, femoral innervation, actions and pes anserinus",
+                "pdf": "/theory-answers/lower-limb-01-sartorius/answer.pdf",
+                "pages": [
+                  "/theory-answers/lower-limb-01-sartorius/page-1.webp",
+                  "/theory-answers/lower-limb-01-sartorius/page-2.webp",
+                  "/theory-answers/lower-limb-01-sartorius/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -1625,7 +1635,17 @@
               "prompt": "Pivot Joint",
               "sourceText": "Pivot Joint",
               "emphasis": 0,
-              "id": "bhalani-anatomy-general-anatomy-007"
+              "id": "bhalani-anatomy-general-anatomy-007",
+              "answerDocument": {
+                "title": "Pivot joint",
+                "description": "Radioulnar and median atlantoaxial examples, rotational axis and applied anatomy",
+                "pdf": "/theory-answers/general-anatomy-07-pivot-joint/07 - Pivot joint.pdf",
+                "pages": [
+                  "/theory-answers/general-anatomy-07-pivot-joint/page-1.webp",
+                  "/theory-answers/general-anatomy-07-pivot-joint/page-2.webp",
+                  "/theory-answers/general-anatomy-07-pivot-joint/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "8",
@@ -1739,7 +1759,17 @@
               "prompt": "Draw a labelled diagram: Compact Bone",
               "sourceText": "Compact Bone",
               "emphasis": 0,
-              "id": "bhalani-anatomy-histology-009"
+              "id": "bhalani-anatomy-histology-009",
+              "answerDocument": {
+                "title": "Compact Bone",
+                "description": "Osteon, lamellae, lacunae, canaliculi and perforating canals",
+                "pdf": "/theory-answers/histology-09-compact-bone/Compact Bone.pdf",
+                "pages": [
+                  "/theory-answers/histology-09-compact-bone/page-1.webp",
+                  "/theory-answers/histology-09-compact-bone/page-2.webp",
+                  "/theory-answers/histology-09-compact-bone/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "7",
@@ -1817,7 +1847,17 @@
               "prompt": "Phases of Fertilisation",
               "sourceText": "Phases of Fertilisation",
               "emphasis": 0,
-              "id": "bhalani-anatomy-embryology-004"
+              "id": "bhalani-anatomy-embryology-004",
+              "answerDocument": {
+                "title": "Phases of Fertilisation",
+                "description": "Capacitation, egg investments, membrane fusion and oocyte activation",
+                "pdf": "/theory-answers/embryology-04-phases-of-fertilisation/Phases of Fertilisation.pdf",
+                "pages": [
+                  "/theory-answers/embryology-04-phases-of-fertilisation/page-1.webp",
+                  "/theory-answers/embryology-04-phases-of-fertilisation/page-2.webp",
+                  "/theory-answers/embryology-04-phases-of-fertilisation/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -2003,7 +2043,17 @@
               "prompt": "Barr Body",
               "sourceText": "Barr Body*",
               "emphasis": 1,
-              "id": "bhalani-anatomy-genetics-001"
+              "id": "bhalani-anatomy-genetics-001",
+              "answerDocument": {
+                "title": "Barr Body",
+                "description": "Appearance, X-chromosome dosage and expected counts",
+                "pdf": "/theory-answers/genetics-01-barr-body/Barr Body.pdf",
+                "pages": [
+                  "/theory-answers/genetics-01-barr-body/page-1.webp",
+                  "/theory-answers/genetics-01-barr-body/page-2.webp",
+                  "/theory-answers/genetics-01-barr-body/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -2096,7 +2146,17 @@
               "prompt": "Circulatory Shock - define, classify, stages, physiological principles of management",
               "sourceText": "Circulatory Shock - define, classify, stages, physiological principles of management",
               "emphasis": 0,
-              "id": "bhalani-physiology-cardiovascular-system-001"
+              "id": "bhalani-physiology-cardiovascular-system-001",
+              "answerDocument": {
+                "title": "Circulatory Shock",
+                "description": "Definition and classification · Stages of shock · Physiological principles of management",
+                "pdf": "/theory-answers/physiology-cardiovascular/01/answer.pdf",
+                "pages": [
+                  "/theory-answers/physiology-cardiovascular/01/page-1.webp",
+                  "/theory-answers/physiology-cardiovascular/01/page-2.webp",
+                  "/theory-answers/physiology-cardiovascular/01/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -2105,7 +2165,17 @@
               "prompt": "Connections of Unipolar and Bipolar Limb Leads while regarding ECG",
               "sourceText": "Connections of Unipolar and Bipolar Limb Leads while regarding ECG",
               "emphasis": 0,
-              "id": "bhalani-physiology-cardiovascular-system-002"
+              "id": "bhalani-physiology-cardiovascular-system-002",
+              "answerDocument": {
+                "title": "ECG Limb Lead Connections",
+                "description": "Bipolar limb leads · Augmented unipolar limb leads · Frontal-plane interpretation",
+                "pdf": "/theory-answers/physiology-cardiovascular/02/answer.pdf",
+                "pages": [
+                  "/theory-answers/physiology-cardiovascular/02/page-1.webp",
+                  "/theory-answers/physiology-cardiovascular/02/page-2.webp",
+                  "/theory-answers/physiology-cardiovascular/02/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -2114,7 +2184,17 @@
               "prompt": "ECG Trace in Lead II - draw, label, mark intervals",
               "sourceText": "ECG Trace in Lead II* - draw, label, mark intervals",
               "emphasis": 1,
-              "id": "bhalani-physiology-cardiovascular-system-003"
+              "id": "bhalani-physiology-cardiovascular-system-003",
+              "answerDocument": {
+                "title": "ECG Trace in Lead II",
+                "description": "Draw and label one sinus beat · Intervals and calibration · Worked reading and exam drawing",
+                "pdf": "/theory-answers/physiology-cardiovascular/03/answer.pdf",
+                "pages": [
+                  "/theory-answers/physiology-cardiovascular/03/page-1.webp",
+                  "/theory-answers/physiology-cardiovascular/03/page-2.webp",
+                  "/theory-answers/physiology-cardiovascular/03/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -2123,7 +2203,17 @@
               "prompt": "CNS Ischemic Response",
               "sourceText": "CNS Ischemic Response",
               "emphasis": 0,
-              "id": "bhalani-physiology-cardiovascular-system-004"
+              "id": "bhalani-physiology-cardiovascular-system-004",
+              "answerDocument": {
+                "title": "CNS Ischaemic Response",
+                "description": "Trigger and centre · Cushing response · Distinguish pressure-control responses",
+                "pdf": "/theory-answers/physiology-cardiovascular/04/answer.pdf",
+                "pages": [
+                  "/theory-answers/physiology-cardiovascular/04/page-1.webp",
+                  "/theory-answers/physiology-cardiovascular/04/page-2.webp",
+                  "/theory-answers/physiology-cardiovascular/04/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "5",
@@ -2132,7 +2222,17 @@
               "prompt": "Baroreceptor Reflex Mechanism",
               "sourceText": "Baroreceptor Reflex Mechanism",
               "emphasis": 0,
-              "id": "bhalani-physiology-cardiovascular-system-005"
+              "id": "bhalani-physiology-cardiovascular-system-005",
+              "answerDocument": {
+                "title": "Baroreceptor Reflex",
+                "description": "Receptors and central pathway · Response to a pressure change · Applied physiology",
+                "pdf": "/theory-answers/physiology-cardiovascular/05/answer.pdf",
+                "pages": [
+                  "/theory-answers/physiology-cardiovascular/05/page-1.webp",
+                  "/theory-answers/physiology-cardiovascular/05/page-2.webp",
+                  "/theory-answers/physiology-cardiovascular/05/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "6",
@@ -3905,7 +4005,17 @@
               "prompt": "Metabolism of Tyrosine",
               "sourceText": "Metabolism of Tyrosine (pg 345)",
               "emphasis": 0,
-              "id": "bhalani-biochemistry-protein-metabolism-001"
+              "id": "bhalani-biochemistry-protein-metabolism-001",
+              "answerDocument": {
+                "title": "Metabolism of Tyrosine",
+                "description": "Formation, degradation and specialized products",
+                "pdf": "/theory-answers/biochemistry/protein-metabolism/tyrosine-metabolism/answer.pdf",
+                "pages": [
+                  "/theory-answers/biochemistry/protein-metabolism/tyrosine-metabolism/page-1.webp",
+                  "/theory-answers/biochemistry/protein-metabolism/tyrosine-metabolism/page-2.webp",
+                  "/theory-answers/biochemistry/protein-metabolism/tyrosine-metabolism/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",
@@ -3914,7 +4024,17 @@
               "prompt": "Biogenic Amines",
               "sourceText": "Biogenic Amines (pg 375)",
               "emphasis": 0,
-              "id": "bhalani-biochemistry-protein-metabolism-002"
+              "id": "bhalani-biochemistry-protein-metabolism-002",
+              "answerDocument": {
+                "title": "Biogenic Amines",
+                "description": "Amino acid precursors, neurotransmission and degradation",
+                "pdf": "/theory-answers/biochemistry/protein-metabolism/biogenic-amines/answer.pdf",
+                "pages": [
+                  "/theory-answers/biochemistry/protein-metabolism/biogenic-amines/page-1.webp",
+                  "/theory-answers/biochemistry/protein-metabolism/biogenic-amines/page-2.webp",
+                  "/theory-answers/biochemistry/protein-metabolism/biogenic-amines/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "3",
@@ -3923,7 +4043,17 @@
               "prompt": "Metabolism of Glycine",
               "sourceText": "Metabolism of Glycine (pg 341)",
               "emphasis": 0,
-              "id": "bhalani-biochemistry-protein-metabolism-003"
+              "id": "bhalani-biochemistry-protein-metabolism-003",
+              "answerDocument": {
+                "title": "Metabolism of Glycine",
+                "description": "Synthesis, cleavage and specialized products",
+                "pdf": "/theory-answers/biochemistry/protein-metabolism/glycine-metabolism/answer.pdf",
+                "pages": [
+                  "/theory-answers/biochemistry/protein-metabolism/glycine-metabolism/page-1.webp",
+                  "/theory-answers/biochemistry/protein-metabolism/glycine-metabolism/page-2.webp",
+                  "/theory-answers/biochemistry/protein-metabolism/glycine-metabolism/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "4",
@@ -3932,7 +4062,17 @@
               "prompt": "Alkaptonuria",
               "sourceText": "Alkaptonuria (pg 352)",
               "emphasis": 0,
-              "id": "bhalani-biochemistry-protein-metabolism-004"
+              "id": "bhalani-biochemistry-protein-metabolism-004",
+              "answerDocument": {
+                "title": "Alkaptonuria",
+                "description": "Homogentisate accumulation, ochronosis and laboratory diagnosis",
+                "pdf": "/theory-answers/biochemistry/protein-metabolism/alkaptonuria/answer.pdf",
+                "pages": [
+                  "/theory-answers/biochemistry/protein-metabolism/alkaptonuria/page-1.webp",
+                  "/theory-answers/biochemistry/protein-metabolism/alkaptonuria/page-2.webp",
+                  "/theory-answers/biochemistry/protein-metabolism/alkaptonuria/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "1",
@@ -4001,7 +4141,17 @@
               "prompt": "Purine Salvage Pathway",
               "sourceText": "Purine Salvage Pathway** (pg 391)",
               "emphasis": 2,
-              "id": "bhalani-biochemistry-nucleotide-metabolism-001"
+              "id": "bhalani-biochemistry-nucleotide-metabolism-001",
+              "answerDocument": {
+                "title": "Purine Salvage Pathway",
+                "description": "Recycling of purine bases, regulation and HGPRT deficiency",
+                "pdf": "/theory-answers/biochemistry/nucleotide-metabolism/purine-salvage-pathway/answer.pdf",
+                "pages": [
+                  "/theory-answers/biochemistry/nucleotide-metabolism/purine-salvage-pathway/page-1.webp",
+                  "/theory-answers/biochemistry/nucleotide-metabolism/purine-salvage-pathway/page-2.webp",
+                  "/theory-answers/biochemistry/nucleotide-metabolism/purine-salvage-pathway/page-3.webp"
+                ]
+              }
             },
             {
               "sourceNumber": "2",

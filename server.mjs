@@ -3,6 +3,7 @@ import { createEmailVerification } from './server/emailVerification.mjs';
 import { createFirebaseEmailAuth } from './server/firebaseEmailAuth.mjs';
 import { createNotepadStore, createDraftHandler } from './server/notepadStore.mjs';
 import { createMatch, validDuelQuestion, lockAnswer, settleMatch, matchProgress } from "./server/duels.mjs";
+import { challengeExpiry, createLinkDuelHandlers, getLinkDuelGuest, linkDuelGuest } from "./server/linkDuels.mjs";
 import { createServer } from "node:http";
 import { createHash, randomBytes, pbkdf2, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
@@ -38,7 +39,8 @@ import { createMassTestStore } from './server/massTestStore.mjs';
 import { createPromotionsHandler } from './server/promotions.mjs';
 import { readUsmleModules } from "./server/usmleModules.mjs";
 import { readFmgeSessions } from "./server/fmgeQuestions.mjs";
-import { loadShortNotes, createShortNotesHandler, ownsTheoryAnswerImage } from "./server/shortNotes.mjs";
+import { loadShortNoteBank, indexShortNoteQuestions, createShortNotesHandler, ownsTheoryAnswerImage } from "./server/shortNotes.mjs";
+import { createShortNoteAccess, UNIVERSITY_PREP_UPGRADE_MESSAGE } from "./server/universityPrep.mjs";
 import { buildShortNoteReviewInstructions } from "./server/shortNotesPrompt.mjs";
 import { buildTheoryTextbookInstructions, textbookSourceSchema, normalizeTextbookSources } from "./server/theoryTextbooks.mjs";
 import { fetchGeminiReviewWithFallback } from "./server/geminiReviewTransport.mjs";
@@ -395,6 +397,10 @@ writeDatabase.transact = async update => {
 const practiceLive = createPracticeLive({ readDatabase, getSessionUser, sanitizeUser });
 
 const handleWebsiteReviews = createReviewHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson });
+const linkDuelHandlers = createLinkDuelHandlers({
+  readDatabase, transact: writeDatabase.transact, requireSessionUser, getSessionUser,
+  parseRequestBody, sendJson, getQuestionPool: getDuelQuestionPool, pickQuestions: pickDuelQuestions, expireDuels,
+});
 const massTestStore = createMassTestStore({ directory: path.join(runtimeDataDir, 'mass-tests'),
   db: firebase?.db, namespace: firebaseNamespace });
 const handleFmgeTests = createFmgeTestsHandler({ readDatabase, writeDatabase, getSessionUser, parseRequestBody, sendJson,
@@ -1890,10 +1896,15 @@ const notepadStore = isFirebaseEnabled ? createFirebaseNotepad({ db: firebase.db
   : createNotepadStore({ url: supabaseUrl, key: supabaseServiceRoleKey, namespace: supabaseStateKey });
 const rowNotepadStorage = isFirebaseEnabled || process.env.NOTEPAD_ROW_STORAGE === 'true';
 const handleNotepadDraft = createDraftHandler({ store: notepadStore, readDatabase, requireSessionUser, parseRequestBody, sendJson });
+const shortNoteBank = loadShortNoteBank(shortNotesPath);
+const shortNoteAccess = createShortNoteAccess(shortNoteBank);
+const canReadFullShortNotes = (database, userId) => canAccessFeature(subscriptionDetails(database, userId), 'practice');
 const handleShortNotes = createShortNotesHandler({
   reviewStore: rowNotepadStorage ? notepadStore : null,
-  questions: loadShortNotes(shortNotesPath),
+  questions: indexShortNoteQuestions(shortNoteBank),
   readDatabase, writeDatabase, requireSessionUser, parseRequestBody, sendJson,
+  reviewAccessError: (database, userId, question) => shortNoteAccess.isUniversityPrepSubject(question.subjectId)
+    && !shortNoteAccess.isSample(question) && !canReadFullShortNotes(database, userId) ? UNIVERSITY_PREP_UPGRADE_MESSAGE : null,
   parseAnswerImage: parseVivaAnswerImage, evaluate: requestClinicalCaseEvaluation,
   saveAnswerImage: dataUrl => uploads.save(dataUrl), removeAnswerImage: name => uploads.remove(name),
   generatePrompt: requestGeminiShortNotePrompt,
@@ -3335,12 +3346,14 @@ function expireDuels(database) {
 
 async function handleDuelQuestions(request, response, url) {
   const database = readDatabase();
-  const currentUser = requireSessionUser(request, response, database);
-  if (!currentUser) return;
-  let dirty = expireDuels(database);
   const id = String(url.searchParams.get("session") ?? "");
-  if (!/^[a-zA-Z0-9-]{1,100}$/.test(id)) return sendJson(response, 422, { message: "A valid match session is required." });
+  const guestKey = request.headers?.["x-duel-guest"];
   let duel = database.duels.find(d => d.id === id);
+  const currentUser = guestKey ? getLinkDuelGuest(duel, guestKey) : requireSessionUser(request, response, database);
+  if (!currentUser) return guestKey ? sendJson(response, 401, { message: "Open your original challenge link to reconnect as Guest." }) : undefined;
+  if (!/^[a-zA-Z0-9-]{1,100}$/.test(id)) return sendJson(response, 422, { message: "A valid match session is required." });
+  let dirty = expireDuels(database);
+  duel = database.duels.find(d => d.id === id);
   if (!duel) {
     if (!id.startsWith("bot-")) return sendJson(response, 404, { message: "Rated match not found. Join the rated queue." });
     const active = database.duels.find(d => d.status === "matched" && d.playerIds.includes(currentUser.id));
@@ -3354,8 +3367,11 @@ async function handleDuelQuestions(request, response, url) {
   if (!duel.questions) return sendJson(response, 409, { message: "This older match has expired. Start a new match." });
   if (dirty) await writeDatabase(database);
   const opponent = database.users.find(u => u.id !== currentUser.id && duel.playerIds.includes(u.id));
+  const opponentDetails = duel.type === "link"
+    ? currentUser.guest ? { id: opponent?.id, name: opponent?.name ?? "Host" } : linkDuelGuest(duel.guestId)
+    : opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : { id: "medicomm-clinical-bot", name: "Clinical Bot", rating: currentUser.rating, ratingless: true };
   return sendJson(response, 200, { ...matchProgress(duel, currentUser.id), mode: duel.type,
-    opponent: opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : { id: "medicomm-clinical-bot", name: "Clinical Bot", rating: currentUser.rating, ratingless: true }, durationSeconds: DUEL_DURATION_SECONDS,
+    opponent: opponentDetails, durationSeconds: DUEL_DURATION_SECONDS,
     questions: duel.questions.map(sanitizeDuelQuestionForClient) });
 }
 
@@ -3364,27 +3380,44 @@ async function handleDuelAction(request, response, url, action) {
   const payload = request.method === "POST" ? await parseRequestBody(request) : {};
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) return sendJson(response, 422, { message: "A JSON object is required." });
   const database = readDatabase();
-  const currentUser = requireSessionUser(request, response, database);
-  if (!currentUser) return;
   const id = String(payload.sessionId || payload.duelId || url.searchParams.get("session") || "");
-  const duel = database.duels.find(d => d.id === id && d.playerIds.includes(currentUser.id));
-  if (!duel?.questions) return sendJson(response, 404, { message: "Match not found." });
-  let changed = settleMatch(duel, database.users);
-  if (action === "answer") {
-    try { lockAnswer(duel, currentUser.id, payload.questionId, payload.optionIndex); changed = true; }
-    catch (error) {
-      if (changed) await writeDatabase(database);
-      return sendJson(response, 409, { message: error.message });
+  const duel = database.duels.find(d => d.id === id);
+  const guestKey = request.headers?.["x-duel-guest"];
+  const currentUser = guestKey ? getLinkDuelGuest(duel, guestKey) : requireSessionUser(request, response, database);
+  if (!currentUser) return guestKey ? sendJson(response, 401, { message: "Open your original challenge link to reconnect as Guest." }) : undefined;
+  if (!duel?.questions || !duel.playerIds.includes(currentUser.id)) return sendJson(response, 404, { message: "Match not found." });
+  const playerId = currentUser.id;
+  const shouldFinish = match => action === "complete" && match.status === "matched"
+    && (!match.finished[playerId] || (payload.forfeit === true && !match.forfeits[playerId]));
+
+  function progress(snapshot, match) {
+    let changed = settleMatch(match, snapshot.users);
+    if (action === "answer") {
+      try { lockAnswer(match, playerId, payload.questionId, payload.optionIndex); changed = true; }
+      catch (error) { return { changed, status: 409, body: { message: error.message } }; }
     }
+    if (shouldFinish(match)) {
+      match.finished[playerId] = true;
+      match.forfeits[playerId] = match.forfeits[playerId] || payload.forfeit === true;
+      changed = true;
+    }
+    changed = settleMatch(match, snapshot.users) || changed;
+    return { changed, status: 200, body: { ...matchProgress(match, playerId),
+      user: match.type === "link" ? null : sanitizeUser(snapshot.users.find(user => user.id === playerId)) } };
   }
-  if (action === "complete" && duel.status !== "completed" && (!duel.finished[currentUser.id] || (payload.forfeit === true && !duel.forfeits[currentUser.id]))) {
-    duel.finished[currentUser.id] = true;
-    duel.forfeits[currentUser.id] = duel.forfeits[currentUser.id] || payload.forfeit === true;
-    changed = true;
+
+  if (duel.type === "link" && duel.status === "matched" &&
+    (action === "answer" || shouldFinish(duel) || Date.now() >= duel.expiresAt)) {
+    const result = await writeDatabase.transact(latest => {
+      const match = latest.duels.find(item => item.id === id);
+      if (!match) throw new HttpError(404, "Match not found.");
+      return progress(latest, match);
+    });
+    return sendJson(response, result.status, result.body);
   }
-  changed = settleMatch(duel, database.users) || changed;
-  if (changed) await writeDatabase(database);
-  return sendJson(response, 200, { ...matchProgress(duel, currentUser.id), user: sanitizeUser(database.users.find(u => u.id === currentUser.id)) });
+  const result = progress(database, duel);
+  if (result.changed) await writeDatabase(database);
+  return sendJson(response, result.status, result.body);
 }
 
 async function handleJoinRatedDuelQueue(request, response) {
@@ -3518,7 +3551,8 @@ async function handleCreateDuelChallenge(request, response) {
   if (!Array.isArray(database.challengeRooms)) database.challengeRooms = [];
 
   const now = Date.now();
-  database.challengeRooms = database.challengeRooms.filter((r) => now - (r.createdAtMs || 0) < 600000);
+  database.challengeRooms = database.challengeRooms.filter(room => room.kind === "link"
+    ? challengeExpiry(room) > now : now - (room.createdAtMs || 0) < 600000);
 
   database.challengeRooms.forEach((r) => {
     if (r.challengerId === currentUser.id && r.status === "waiting") {
@@ -3606,13 +3640,14 @@ async function handleGetDuelChallengeStatus(request, response, url) {
 
   return sendJson(response, 200, {
     id: room.id,
-    status: room.status,
+    status: room.kind === "link" && room.status === "waiting" && challengeExpiry(room) <= Date.now() ? "expired" : room.status,
+    mode: room.kind === "link" ? "link" : "challenge",
     duelId: room.duelId,
-    expiresAt: (room.createdAtMs || Date.parse(room.createdAt)) + 600000,
+    expiresAt: room.kind === "link" ? challengeExpiry(room) : (room.createdAtMs || Date.parse(room.createdAt)) + 600000,
     isRecipient: room.challengedId === currentUser.id,
     questionCount: room.questionCount ?? 5,
     subjectTitles: room.subjectTitles ?? ['All subjects'],
-    opponent: opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : null,
+    opponent: room.kind === "link" ? linkDuelGuest(null) : opponent ? sanitizeDuelOpponent(opponent, currentUser.id) : null,
   });
 }
 
@@ -3737,7 +3772,7 @@ async function handleCancelDuelChallenge(request, response) {
 
   const challengeId = String(payload.challengeId ?? "").trim();
   const room = (database.challengeRooms ?? []).find((r) => r.id === challengeId);
-  if (!room) return sendJson(response, 404, { message: "Challenge not found." });
+  if (!room || room.kind === "link") return sendJson(response, 404, { message: "Challenge not found." });
 
   if (room.challengerId !== currentUser.id) {
     return sendJson(response, 403, { message: "Only the host who initiated the challenge can cancel it." });
@@ -4112,20 +4147,44 @@ async function handleRequest(request, response) {
     checkOrigin(request, response, allowedOrigins);
     if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
     if (stopping) throw new HttpError(503, 'Server is restarting.');
+    const normalizedPath = path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/'));
+    const isShortNoteCatalog = normalizedPath.toLowerCase() === '/short-notes.json';
+    const isTheoryAnswerAsset = normalizedPath.toLowerCase().startsWith('/theory-answers/');
     const testRoute = /^\/api\/practice\/fmge-tests(?:\/|$)/.test(url.pathname);
     const accessDatabase = () => readTestAccess(request);
     if (firebaseEmailAuth && (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/user-')) &&
         !url.pathname.startsWith('/api/auth/')) await firebaseEmailAuth.checkSession(request);
     if (firebaseEmailAuth && url.pathname === '/api/auth/session') await firebaseEmailAuth.checkSession(request);
+    if (['GET', 'HEAD'].includes(request.method) && (isShortNoteCatalog || isTheoryAnswerAsset)) {
+      const asset = normalizedPath;
+      if (isTheoryAnswerAsset) {
+        const validAsset = /^\/theory-answers\/(?:[a-z0-9_-]+\/)*[a-z0-9_-][a-z0-9_. -]*\.(?:pdf|webp|jpe?g|png)$/i.test(asset);
+        if (!validAsset) return await serveFile(request, response, [], getStaticMimeType);
+        if (shortNoteAccess.isFreeAsset(asset)) {
+          return await serveFile(request, response, [path.join(publicDir, asset)], getStaticMimeType, 'private, no-store');
+        }
+      }
+      if (firebaseEmailAuth && sessionToken(request)) await firebaseEmailAuth.checkSession(request);
+      const database = accessDatabase();
+      const user = getSessionUser(request, database);
+      const subscribed = Boolean(user && canReadFullShortNotes(database, user.id));
+      if (isTheoryAnswerAsset) {
+        if (!subscribed && shortNoteAccess.isListedAsset(asset)) throw new HttpError(403, UNIVERSITY_PREP_UPGRADE_MESSAGE);
+        return await serveFile(request, response, subscribed ? [path.join(publicDir, asset)] : [], getStaticMimeType, 'private, no-store');
+      }
+      const subjectId = url.searchParams.get('subjectId');
+      if (!user && !shortNoteAccess.isUniversityPrepSubject(subjectId)) throw new HttpError(401, 'Sign in to unlock Short Notes.');
+      return sendJson(response, 200, shortNoteAccess.catalog(subjectId, subscribed), { 'Cache-Control': 'private, no-store' });
+    }
     const practiceResource = /^\/api\/(?:practice(?:\/|$)|generate-questions?(?:\/|$)|viva\/|clinical-cases\/|short-notes\/)/.test(url.pathname)
-      || /\/(?:practice-question-bank|topic-wise-question-bank|short-notes)\.json$/i.test(path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/')));
+      || /\/(?:practice-question-bank|topic-wise-question-bank|short-notes)\.json$/i.test(normalizedPath);
     if (practiceResource) {
       const database = accessDatabase();
       const user = getSessionUser(request, database);
       if (!user) throw new HttpError(401, 'Sign in to unlock Practice.');
       if (!testRoute && !isTrialPracticeRoute(url.pathname, request.method) && !hasPracticeAccess(database, user.id)) throw new HttpError(403, 'Practice unlocks after a verified payment. Choose a plan to continue.');
     }
-    const restrictedFeature = routeFeature(path.posix.normalize(decodeURIComponent(url.pathname).replaceAll('\\', '/')), request.method, url.searchParams);
+    const restrictedFeature = routeFeature(normalizedPath, request.method, url.searchParams);
     if (restrictedFeature) {
       const database = accessDatabase();
       const user = getSessionUser(request, database);
@@ -4249,6 +4308,9 @@ async function handleRequest(request, response) {
     if (request.method === "GET" && url.pathname === "/api/duels/status") return await handleDuelAction(request, response, url, "status");
     if (request.method === "POST" && url.pathname === "/api/duels/complete") return await handleDuelAction(request, response, url, "complete");
     if (request.method === "GET" && url.pathname === "/api/duels/challenge/options") return handleDuelChallengeOptions(request, response);
+    if (request.method === "POST" && url.pathname === "/api/duels/link/create") return await linkDuelHandlers.create(request, response);
+    if (request.method === "POST" && url.pathname === "/api/duels/link/join") return await linkDuelHandlers.join(request, response);
+    if (request.method === "POST" && url.pathname === "/api/duels/link/cancel") return await linkDuelHandlers.cancel(request, response);
     if (request.method === "POST" && url.pathname === "/api/duels/challenge/create") return await handleCreateDuelChallenge(request, response);
     if (request.method === "GET" && url.pathname === "/api/duels/challenge/status") return await handleGetDuelChallengeStatus(request, response, url);
     if (request.method === "POST" && url.pathname === "/api/duels/challenge/accept") return await handleAcceptDuelChallenge(request, response);
@@ -4329,15 +4391,6 @@ async function handleRequest(request, response) {
     }
 
     if (request.method === "GET" || request.method === "HEAD") {
-      // Use the same catalog as grading, even when a deployed dist copy is stale.
-      if (url.pathname === "/short-notes.json") {
-        return await serveFile(request, response, [shortNotesPath], getStaticMimeType, "private, no-store");
-      }
-      if (url.pathname.startsWith("/theory-answers/")) {
-        const assetPath = decodeURIComponent(url.pathname);
-        const validAsset = /^\/theory-answers\/(?:[a-z0-9_-]+\/)*[a-z0-9_-][a-z0-9_. -]*\.(?:pdf|webp|jpe?g|png)$/i.test(assetPath);
-        return await serveFile(request, response, validAsset ? [path.join(publicDir, assetPath)] : [], getStaticMimeType);
-      }
       return await serveStaticFile(response, url.pathname === "/" ? "/index.html" : url.pathname, practiceResource);
     }
 

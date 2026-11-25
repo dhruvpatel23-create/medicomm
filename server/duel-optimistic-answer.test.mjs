@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
+import { duelGuestHeaders } from '../src/lib/linkDuel.js';
 
 const source = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8');
 const handler = source.slice(source.indexOf('  function submitDuelAnswer('), source.indexOf('  function forfeitDuel('));
@@ -12,7 +13,7 @@ function fixture(save) {
   const context = vm.createContext({
     duelAnswerPendingRef: { current: queue }, currentDuelSubmitted: false,
     currentDuelQuestion: { id: 'q1', options: ['A', 'B'] }, user: { id: 'user' },
-    duelSessionId: 'match', duelIndex: 0, duelQuestions: [{ id: 'q1' }], apiRequest: save,
+    duelSessionId: 'match', duelIndex: 0, duelQuestions: [{ id: 'q1' }], apiRequest: save, duelGuestHeaders,
     setDuelSelections: setter('selections'), setDuelSubmitted: setter('submitted'),
     setDuelAnswerBusy: setter('busy'), setDuelMessage: setter('message'),
     setDuelIndex: setter('index'), setDuelStatus: setter('status'),
@@ -20,6 +21,18 @@ function fixture(save) {
   vm.runInContext(handler, context);
   return { context, state, queue };
 }
+
+test('a guest can lock an answer with a room-scoped credential and no account', async () => {
+  let request;
+  const f = fixture(async (route, options) => { request = { route, options }; });
+  f.context.user = null;
+  f.queue.guestKey = 'room-key';
+  f.context.submitDuelAnswer('A');
+  await f.queue.tail;
+  assert.equal(f.state.submitted[0], true);
+  assert.equal(request.route, '/api/duels/answer');
+  assert.equal(request.options.headers['X-Duel-Guest'], 'room-key');
+});
 
 test('locks immediately, suppresses duplicate clicks, and waits for saving before finishing', async () => {
   let release;

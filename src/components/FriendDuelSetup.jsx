@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "./ui/dial
 import { apiRequest } from "../lib/api";
 
 export default function FriendDuelSetup({ opponent, onClose, onSend }) {
+  const shareByLink = !opponent;
   const [subjects, setSubjects] = useState([]);
   const [questionCount, setQuestionCount] = useState(5);
   const [subjectIds, setSubjectIds] = useState(null);
@@ -33,15 +34,11 @@ export default function FriendDuelSetup({ opponent, onClose, onSend }) {
   }
   return <Dialog open onOpenChange={open => { if (!open && !sending) onClose(); }}>
     <DialogContent>
-      <DialogTitle>Challenge {opponent.name}</DialogTitle>
-      <DialogDescription>Choose your questions and subjects, then send the 1v1 request. The match timer remains 3 minutes.</DialogDescription>
+      <DialogTitle>{shareByLink ? "Challenge a friend" : `Challenge ${opponent.name}`}</DialogTitle>
+      <DialogDescription>{shareByLink
+        ? "Choose the subjects for a 3-minute, unrated duel. Creating the link is free. It costs 5 tokens when your friend joins as a guest."
+        : "Choose your subjects and question count, then send the 1v1 request. The match timer remains 3 minutes."}</DialogDescription>
       <form onSubmit={send} className="mt-5 space-y-5">
-        <fieldset disabled={sending}>
-          <legend className="mb-2 text-sm font-semibold">Number of questions</legend>
-          <div className="flex gap-3">{[5, 10, 15].map(count => <label key={count} className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-300 p-3 dark:border-slate-700">
-            <input type="radio" name="duel-question-count" value={count} checked={questionCount === count} onChange={() => setQuestionCount(count)} />{count}
-          </label>)}</div>
-        </fieldset>
         <fieldset disabled={loading || sending}>
           <legend className="mb-2 text-sm font-semibold">Subjects</legend>
           <label className="mb-3 flex items-center gap-2 font-medium">
@@ -54,13 +51,21 @@ export default function FriendDuelSetup({ opponent, onClose, onSend }) {
             }} />{subject.title}
           </label>)}</div>
         </fieldset>
+        <fieldset disabled={sending}>
+          <legend className="mb-2 text-sm font-semibold">Number of questions</legend>
+          <div className="flex gap-3">{[5, 10, 15].map(count => <label key={count} className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-300 p-3 dark:border-slate-700">
+            <input type="radio" name="duel-question-count" value={count} checked={questionCount === count} onChange={() => setQuestionCount(count)} />{count}
+          </label>)}</div>
+        </fieldset>
         {loading && <p role="status">Loading subjects…</p>}
         {!loading && available < questionCount && <p className="text-sm text-amber-700 dark:text-amber-300">Select enough subjects for {questionCount} questions.</p>}
         {error && <p role="alert" className="text-sm text-red-600 dark:text-red-300">{error}</p>}
         {!loading && !subjects.length && <button type="button" className="button button-secondary" onClick={() => setRetry(value => value + 1)}>Retry</button>}
         <div className="flex gap-3">
           <button type="button" className="button button-secondary" disabled={sending} onClick={onClose}>Cancel</button>
-          <button type="submit" className="button button-primary" disabled={loading || sending || available < questionCount}>{sending ? "Sending…" : "Send request"}</button>
+          <button type="submit" className="button button-primary" disabled={loading || sending || available < questionCount}>
+            {shareByLink ? (sending ? "Creating room…" : "Create room link") : (sending ? "Sending…" : "Send request")}
+          </button>
         </div>
       </form>
     </DialogContent>
